@@ -44,6 +44,7 @@ class Juego(Partida):
         super().__init__(datos or rom(), msx2=False)
         self.inmortal = False
         self.dispara = False
+        self.barre = 0
         self.arranca_cartucho(0x409D)
 
     def paso(self):
@@ -65,10 +66,19 @@ class Juego(Partida):
 
     def juega(self, n, cada=None):
         """n cuadros; con `dispara`, el espacio pulsado un cuadro de cada
-        cuatro (la pulsacion cuenta al cambiar)."""
+        cuatro (la pulsacion cuenta al cambiar); con `barre`, ademas, la nave
+        sube y baja (cursores, fila 8: 0x20 arriba, 0x40 abajo) en ciclos de
+        `barre` cuadros, y cada 90 cuadros pulsa M (fila 4, 0x04: el boton 2,
+        que compra el arma marcada)."""
         for _ in range(n):
-            if self.dispara:
-                self.tecla(ESPACIO, self.cuadro % 4 < 2)
+            fila8 = 0xFF
+            if self.dispara and self.cuadro % 4 < 2:
+                fila8 &= 0xFE
+            if self.barre:
+                fase = self.cuadro % (2 * self.barre)
+                fila8 &= 0xDF if fase < self.barre else 0xBF
+                self.teclas[4] = 0xFB if self.cuadro % 90 < 3 else 0xFF
+            self.teclas[8] = fila8
             self.cuadros(1)
             if cada:
                 cada(self)

@@ -10,13 +10,11 @@
 
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_9FBB_cola: graficos comprimidos a la VRAM (p00:4B3C): 0
-;   acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva,
-;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
-;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0
-;   (sigue del banco 21); lo leen p00:4B3C (85 bytes)
+; DATOS rle_9FBB_cola: los dibujos de una entrada de la lista de graficos de
+;   20:6D7C, en RLE (p00:4B3C) (sigue del banco 21); se solapan 2 bloques:
+;   (rle_vram_9FBB_cola A000-A055); lo leen p00:4CFF, p00:4B3C (85 bytes)
 ;   0xa000..0xa055  (85 bytes)
-DATA_rle_vram_9FBB_cola:
+DATA_rle_9FBB_cola:
 	defb 0fah,0fah,01ah,06ah,06bh,003h,0f5h,083h,0ffh,0afh,001h,003h,07fh,09bh,0ffh,0bfh	; a000  ...jk...........
 	defb 0f0h,0c7h,0ddh,0dfh,0dfh,07fh,07fh,07ch,007h,0f7h,0b0h,0b7h,0b7h,0d0h,0d5h,0d5h	; a010  .......|........
 	defb 015h,0d6h,0d7h,0d3h,092h,001h,0e9h,097h,0e0h,004h,06bh,0a8h,0c0h,0ddh,0ffh,000h	; a020  ..........k.....
@@ -25,13 +23,11 @@ DATA_rle_vram_9FBB_cola:
 	defb 0dah,0a2h,04eh,08ah,000h	; a050
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_A055: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (161
-;   bytes)
+; DATOS rle_A055: los colores de una entrada de la lista de graficos de
+;   20:6D7C, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A055
+;   A055-A0F6); lo leen p00:4D11, p00:4B3C (161 bytes)
 ;   0xa055..0xa0f6  (161 bytes)
-DATA_rle_vram_A055:
+DATA_rle_A055:
 	defb 081h,0e0h,003h,040h,089h,050h,0e0h,0e0h,0f0h,040h,040h,050h,0e0h,0f0h,003h,0e0h	; a055  ...@.P...@@P....
 	defb 084h,040h,050h,0e0h,0f0h,004h,0e0h,084h,040h,050h,0e0h,0f0h,005h,0e0h,084h,040h	; a065  .@P.....@P.....@
 	defb 050h,0e0h,0f0h,004h,0e0h,08ch,040h,050h,0e0h,0e0h,0f0h,0f0h,0e0h,040h,050h,0e0h	; a075  P.....@P.....@P.
@@ -45,35 +41,29 @@ DATA_rle_vram_A055:
 	defb 000h	; a0f5
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_A0F6: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (28
-;   bytes)
+; DATOS rle_A0F6: los dibujos de una entrada de la lista de graficos de
+;   20:6D7C, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A0F6
+;   A0F6-A112); lo leen p00:4CFF, p00:4B3C (28 bytes)
 ;   0xa0f6..0xa112  (28 bytes)
-DATA_rle_vram_A0F6:
+DATA_rle_A0F6:
 	defb 002h,003h,002h,007h,008h,00fh,002h,007h,002h,003h,090h,083h,00fh,03fh,07fh,07fh	; a0f6  .............?..
 	defb 040h,0d3h,0ebh,0ebh,0c3h,040h,07fh,07fh,03fh,00fh,083h,000h	; a106  @....@..?...
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_A112: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (19
-;   bytes)
+; DATOS rle_A112: los colores de una entrada de la lista de graficos de
+;   20:6D7C, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A112
+;   A112-A125); lo leen p00:4D11, p00:4B3C (19 bytes)
 ;   0xa112..0xa125  (19 bytes)
-DATA_rle_vram_A112:
+DATA_rle_A112:
 	defb 083h,080h,0a0h,090h,00ah,060h,083h,080h,090h,080h,005h,086h,081h,0a8h,005h,098h	; a112  .....`..........
 	defb 005h,086h,000h	; a122
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_A125: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (113
-;   bytes)
+; DATOS rle_A125: los dibujos de una entrada de la lista de graficos de
+;   20:6D7C, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A125
+;   A125-A196); lo leen p00:4CFF, p00:4B3C (113 bytes)
 ;   0xa125..0xa196  (113 bytes)
-DATA_rle_vram_A125:
+DATA_rle_A125:
 	defb 08ch,0f3h,0f9h,0feh,0ffh,03ch,0feh,07ch,02bh,0c0h,0c0h,0e0h,0e0h,004h,0f0h,09ah	; a125  .....<.|+.......
 	defb 0ffh,0fch,0f8h,0f0h,0e0h,0c0h,080h,001h,0eah,00ah,000h,000h,00fh,03fh,078h,0c0h	; a135  .............?x.
 	defb 0aeh,0a0h,000h,000h,0f0h,0fch,01eh,007h,0ffh,00fh,003h,003h,0a7h,001h,000h,080h	; a145  ................
@@ -84,13 +74,11 @@ DATA_rle_vram_A125:
 	defb 000h	; a195
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_A196: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (105
-;   bytes)
+; DATOS rle_A196: los colores de una entrada de la lista de graficos de
+;   20:6D7C, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A196
+;   A196-A1FF); lo leen p00:4D11, p00:4B3C (105 bytes)
 ;   0xa196..0xa1ff  (105 bytes)
-DATA_rle_vram_A196:
+DATA_rle_A196:
 	defb 003h,086h,085h,080h,098h,098h,0a9h,0fah,008h,080h,004h,0e0h,08eh,0f0h,0e0h,040h	; a196  ...............@
 	defb 080h,050h,040h,000h,000h,080h,080h,086h,086h,050h,040h,004h,080h,002h,086h,002h	; a1a6  .P@......P@.....
 	defb 050h,082h,040h,0f0h,003h,040h,089h,080h,0f0h,0e0h,050h,040h,060h,060h,080h,080h	; a1b6  P.@..@....P@``..
@@ -100,39 +88,33 @@ DATA_rle_vram_A196:
 	defb 0c0h,020h,030h,0a0h,090h,080h,060h,060h,000h	; a1f6  . 0...``.
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_A1FF: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (64
-;   bytes)
+; DATOS rle_A1FF: los dibujos de una entrada de la lista de graficos de
+;   20:6D7C, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A1FF
+;   A1FF-A23F); lo leen p00:4CFF, p00:4B3C (64 bytes)
 ;   0xa1ff..0xa23f  (64 bytes)
-DATA_rle_vram_A1FF:
+DATA_rle_A1FF:
 	defb 098h,043h,050h,053h,050h,053h,000h,055h,0aah,0c2h,00ah,0cah,00ah,0cah,000h,0aah	; a1ff  .CPSPS.U........
 	defb 055h,000h,040h,0e0h,073h,03bh,013h,000h,018h,003h,000h,085h,0c0h,0f0h,0f8h,03ch	; a20f  U.@.s..........<
 	defb 010h,004h,001h,084h,00dh,01dh,03ch,008h,004h,080h,084h,0b0h,0b8h,03ch,010h,003h	; a21f  ......<......<..
 	defb 000h,08dh,003h,00fh,01fh,03ch,008h,000h,002h,007h,0ceh,0dch,0c8h,000h,018h,000h	; a22f  .....<..........
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_A23F: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (60
-;   bytes)
+; DATOS rle_A23F: los colores de una entrada de la lista de graficos de
+;   20:6D7C, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A23F
+;   A23F-A27B); lo leen p00:4D11, p00:4B3C (60 bytes)
 ;   0xa23f..0xa27b  (60 bytes)
-DATA_rle_vram_A23F:
+DATA_rle_A23F:
 	defb 089h,0f0h,0b0h,090h,090h,080h,0f0h,0f6h,0d9h,080h,004h,060h,083h,0f0h,0e6h,0d6h	; a23f  ...........`....
 	defb 004h,0f0h,084h,0b0h,090h,0f0h,080h,003h,0f0h,085h,0b0h,090h,080h,060h,060h,005h	; a24f  .............``.
 	defb 0f0h,083h,0b0h,090h,090h,003h,0b0h,002h,090h,083h,080h,060h,060h,005h,0f0h,083h	; a25f  ...........``...
 	defb 0b0h,090h,080h,003h,0f0h,085h,0b0h,090h,080h,0f0h,060h,000h	; a26f  ..........`.
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_A27B: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (365
-;   bytes)
+; DATOS rle_A27B: los dibujos de una entrada de la lista de graficos de
+;   20:6DC2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A27B
+;   A27B-A3E8); lo leen p00:4CFF, p00:4B3C (365 bytes)
 ;   0xa27b..0xa3e8  (365 bytes)
-DATA_rle_vram_A27B:
+DATA_rle_A27B:
 	defb 008h,0ffh,002h,000h,003h,001h,0ffh,000h,0c0h,0f4h,004h,006h,007h,087h,043h,053h	; a27b  ..............CS
 	defb 08ch,03eh,000h,000h,080h,080h,081h,0cbh,0b2h,0b1h,000h,085h,030h,090h,064h,079h	; a28b  .>..........0.dy
 	defb 0cbh,0ffh,078h,00ch,002h,087h,043h,03bh,060h,03fh,04ch,023h,095h,0b2h,052h,0f4h	; a29b  ..x...C.`?L#..R.
@@ -158,13 +140,11 @@ DATA_rle_vram_A27B:
 	defb 030h,000h,040h,000h,0feh,014h,03fh,0b0h,0b4h,07eh,01eh,000h,000h	; a3db  0.@...?..~...
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_A3E8: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (228
-;   bytes)
+; DATOS rle_A3E8: los colores de una entrada de la lista de graficos de
+;   20:6DC2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A3E8
+;   A3E8-A4CC); lo leen p00:4D11, p00:4B3C (228 bytes)
 ;   0xa3e8..0xa4cc  (228 bytes)
-DATA_rle_vram_A3E8:
+DATA_rle_A3E8:
 	defb 008h,0b0h,006h,090h,086h,0b0h,0a0h,0b0h,0b0h,0a0h,0a0h,01ah,090h,082h,0a9h,0a6h	; a3e8  ................
 	defb 003h,090h,004h,096h,084h,0a6h,090h,090h,0b9h,005h,0a9h,004h,090h,089h,0b9h,0bah	; a3f8  ................
 	defb 0b9h,0bah,090h,060h,060h,090h,090h,00ah,060h,082h,090h,0a6h,007h,096h,005h,090h	; a408  ...``...`.......
@@ -182,13 +162,11 @@ DATA_rle_vram_A3E8:
 	defb 0a0h,0b0h,0b0h,000h	; a4c8
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_A4CC: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (307
-;   bytes)
+; DATOS rle_A4CC: los dibujos de una entrada de la lista de graficos de
+;   20:6DC2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A4CC
+;   A4CC-A5FF); lo leen p00:4CFF, p00:4B3C (307 bytes)
 ;   0xa4cc..0xa5ff  (307 bytes)
-DATA_rle_vram_A4CC:
+DATA_rle_A4CC:
 	defb 0ffh,05eh,007h,07eh,01fh,03fh,0cfh,06ah,014h,0fch,03fh,03fh,078h,0feh,0ffh,0a6h	; a4cc  .^.~.?.j..??x...
 	defb 040h,0f8h,0f9h,0fbh,0f8h,0f3h,0f7h,0ffh,0f0h,0fah,0c0h,0e0h,0e0h,070h,0f7h,0f8h	; a4dc  @............p..
 	defb 0fah,0feh,0dah,07eh,02ah,055h,055h,0aah,0feh,0fbh,080h,0fdh,0fch,0c0h,0e0h,0c0h	; a4ec  ...~*UU.........
@@ -211,13 +189,11 @@ DATA_rle_vram_A4CC:
 	defb 001h,00dh,000h	; a5fc
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_A5FF: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (176
-;   bytes)
+; DATOS rle_A5FF: los colores de una entrada de la lista de graficos de
+;   20:6DC2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A5FF
+;   A5FF-A6AF); lo leen p00:4D11, p00:4B3C (176 bytes)
 ;   0xa5ff..0xa6af  (176 bytes)
-DATA_rle_vram_A5FF:
+DATA_rle_A5FF:
 	defb 099h,096h,0a6h,096h,0a6h,0b9h,0bah,0a9h,0a9h,0bah,0a9h,0bah,0a9h,0b6h,090h,096h	; a5ff  ................
 	defb 096h,0a9h,0a9h,0a6h,0b6h,096h,0a9h,0a0h,0bah,096h,004h,0a9h,002h,0a6h,085h,0b6h	; a60f  ................
 	defb 0a6h,0bah,0a9h,0b9h,003h,0bah,085h,0a9h,060h,096h,060h,060h,004h,096h,084h,0b9h	; a61f  ........`.``....
@@ -231,13 +207,11 @@ DATA_rle_vram_A5FF:
 	defb 0a9h,0b6h,0a6h,090h,096h,096h,010h,060h,081h,096h,005h,060h,082h,090h,060h,000h	; a69f  .......`...`..`.
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_A6AF: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (82
-;   bytes)
+; DATOS rle_A6AF: los dibujos de una entrada de la lista de graficos de
+;   20:6DC2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A6AF
+;   A6AF-A701); lo leen p00:4CFF, p00:4B3C (82 bytes)
 ;   0xa6af..0xa701  (82 bytes)
-DATA_rle_vram_A6AF:
+DATA_rle_A6AF:
 	defb 0b6h,002h,02dh,047h,05fh,03fh,07fh,04ah,03fh,03dh,068h,07ah,0f9h,0fch,00eh,0f8h	; a6af  ..-G_?.J?=hz....
 	defb 0f0h,000h,060h,030h,0c4h,0ech,0f2h,0e8h,02dh,0afh,0f6h,06fh,027h,07fh,02fh,087h	; a6bf  ..`0....-..o'./.
 	defb 0b0h,054h,0aah,076h,038h,010h,08bh,035h,087h,010h,032h,031h,021h,074h,039h,060h	; a6cf  .T.v8..5..21!t9`
@@ -246,13 +220,11 @@ DATA_rle_vram_A6AF:
 	defb 000h,000h	; a6ff
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_A701: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (54
-;   bytes)
+; DATOS rle_A701: los colores de una entrada de la lista de graficos de
+;   20:6DC2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A701
+;   A701-A737); lo leen p00:4D11, p00:4B3C (54 bytes)
 ;   0xa701..0xa737  (54 bytes)
-DATA_rle_vram_A701:
+DATA_rle_A701:
 	defb 083h,090h,060h,080h,003h,090h,084h,0a9h,0a8h,090h,090h,003h,098h,083h,0a9h,096h	; a701  ..`.............
 	defb 0a6h,003h,060h,005h,090h,084h,0a9h,0a6h,0b6h,0b6h,004h,060h,004h,080h,00ah,060h	; a711  ..`........`...`
 	defb 00bh,080h,081h,060h,003h,080h,002h,060h,086h,090h,098h,096h,098h,080h,080h,004h	; a721  ...`...`........

@@ -1,12 +1,12 @@
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
-D 0x8000 0x802E rle_vram_7FED_cola  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0 (sigue del banco 14); lo leen p00:4B3C (46 bytes)
+D 0x8000 0x802E rle_7FED_cola  dibujos de sprite en RLE (p00:4B3C) de la fase 3 de p00:50C2 (14:6F1C) (sigue del banco 14); se solapan 2 bloques: (rle_vram_7FED_cola 8000-802E); lo leen p00:50D5, p00:4B3C (46 bytes)
 F 0x8000 16
-D 0x802E 0x8070 rle_vram_802E  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (66 bytes)
+D 0x802E 0x8070 rle_802E  dibujos de sprite en RLE (p00:4B3C) de la fase 8 de p00:50C2 (14:6F72); se solapan 2 bloques: (rle_vram_802E 802E-8070); lo leen p00:50D5, p00:4B3C (66 bytes)
 F 0x802E 16
-D 0x8070 0x80B0 rle_vram_8070  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (64 bytes)
+D 0x8070 0x80B0 rle_8070  dibujos de sprite en RLE (p00:4B3C) de una lista de p00:50C2 (14:6ED4); se solapan 2 bloques: (rle_vram_8070 8070-80B0); lo leen p00:50D5, p00:4B3C (64 bytes)
 F 0x8070 16
-D 0x80B0 0x80F2 rle_vram_80B0  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (66 bytes)
+D 0x80B0 0x80F2 rle_80B0  dibujos de sprite en RLE (p00:4B3C) de una lista de p00:50C2 (14:6ED4); se solapan 2 bloques: (rle_vram_80B0 80B0-80F2); lo leen p00:50D5, p00:4B3C (66 bytes)
 F 0x80B0 16
 D 0x8100 0x81BE rle_8100  los dibujos de una entrada de la lista de graficos de 16:66D2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_8100 8100-81BE); lo leen p00:4CFF, p00:4B3C (190 bytes)
 F 0x8100 16

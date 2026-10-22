@@ -185,3 +185,56 @@ F 0xBE7D 16
 D 0xBEBD 0xBEC8 resto_BEBD  lo apuntan con el banco puesto p01:7805 (0xBEBE); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p01:7805 (11 bytes)
 F 0xBEBD 16
 # --- fin de los bloques de bloques.py ---
+
+# --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+C 0xA08E lee_palabra: HL = la palabra A de la tabla HL
+C 0xA09E lee_palabra: HL = la palabra A de la tabla HL
+C 0xA0E8 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xA12B lee la cuenta de cuadros del juego
+C 0xA155 lee la cuenta de cuadros del juego
+C 0xA27A lee la posicion del scroll (16 bits)
+C 0xA2C1 lee_palabra: HL = la palabra A de la tabla HL
+C 0xA2E3 lee_palabra: HL = la palabra A de la tabla HL
+C 0xA321 lee_palabra: HL = la palabra A de la tabla HL
+C 0xA36E despacha: salta a la palabra A de la tabla que va detras del call
+C 0xA4DA despacha: salta a la palabra A de la tabla que va detras del call
+C 0xA540 sonido_30: pide el sonido 0x30
+C 0xA547 lee_palabra: HL = la palabra A de la tabla HL
+C 0xA5EA lee_palabra: HL = la palabra A de la tabla HL
+C 0xA6FE lee_palabra: HL = la palabra A de la tabla HL
+C 0xA704 rle_a_ram: descomprime a la RAM de DE el RLE de HL
+C 0xA834 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xA870 suma_a_hl: HL = HL + A
+C 0xA8D2 suma_a_hl: HL = HL + A
+C 0xA8EE suma_a_hl: HL = HL + A
+C 0xA947 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xAA94 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xAB27 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xABC7 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xAC1B suma_a_hl: HL = HL + A
+C 0xAC5D sonido_26: pide el sonido 0x26
+C 0xAD06 lee_palabra: HL = la palabra A de la tabla HL
+C 0xAE9E lee_palabra: HL = la palabra A de la tabla HL
+C 0xAEA1 lee la posicion del scroll (16 bits)
+C 0xB0DE sonido_33: pide el sonido 0x33
+C 0xB107 suma_a_de: DE = DE + A
+C 0xB156 suma_a_hl: HL = HL + A
+C 0xB27A suma_a_hl: HL = HL + A
+C 0xB2B6 lee la cuenta de cuadros del juego
+C 0xB3B2 lee la cuenta de cuadros del juego
+C 0xB43D lee la cuenta de cuadros del juego
+C 0xB482 lee_palabra: HL = la palabra A de la tabla HL
+C 0xB4DA lee la cuenta de cuadros del juego
+C 0xB559 lee la cuenta de cuadros del juego
+C 0xB5AE lee la posicion del scroll (16 bits)
+C 0xB64F lee la cuenta de cuadros del juego
+C 0xB7DD lee_palabra: HL = la palabra A de la tabla HL
+C 0xB80D sonido_2D: pide el sonido 0x2D
+C 0xB84A despacha: salta a la palabra A de la tabla que va detras del call
+C 0xBA26 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xBD6C lee_palabra: HL = la palabra A de la tabla HL
+C 0xBDBC lee la posicion del scroll (16 bits)
+C 0xBDE2 pantalla_en_blanco: borra la tabla de nombres (0x3800)
+C 0xBDE5 carga_fuente: carga la fuente en los tres tercios (bancos 20-22)
+C 0xBDEB escribe_texto: escribe en la VRAM el texto de DE (direccion y letras)
+# --- fin de las anotaciones de anota.py ---

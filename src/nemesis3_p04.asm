@@ -34,7 +34,7 @@ L_800A:
 	ld (0e60eh),hl		;800d
 	ld hl,0e60dh		;8010
 	inc (hl)			;8013
-	jp 05938h		;8014
+	jp 05938h		;8014   ; orden_83_y_sonido_50: manda la orden 0x83 al motor y pide el sonido 0x50
 L_8017:
 	ld hl,(0e60eh)		;8017
 	ld de,00030h		;801a
@@ -56,7 +56,7 @@ L_8036:
 	ld a,(0e60dh)		;8036
 	or a			;8039
 	jr nz,L_8032		;803a
-	ld a,(0e600h)		;803c
+	ld a,(0e600h)		;803c   ; lee el estado de la nave (0xFF: estalla)
 	or a			;803f
 	jp m,L_845D		;8040
 	ret z			;8043
@@ -70,7 +70,7 @@ L_8036:
 	ret			;8059
 L_805A:
 	call L_8091		;805a
-	ld bc,0e309h		;805d
+	ld bc,0e309h		;805d   ; apunta a lo pulsado (mando y cursores)
 	call L_8064		;8060
 	ret			;8063
 L_8064:
@@ -105,7 +105,7 @@ L_807E:
 	ldi		;808e
 	ret			;8090
 L_8091:
-	ld a,(0e600h)		;8091
+	ld a,(0e600h)		;8091   ; lee el estado de la nave (0xFF: estalla)
 	dec a			;8094
 	jr z,L_80DC		;8095
 	dec a			;8097
@@ -114,14 +114,14 @@ L_8091:
 	cp 002h		;809d
 	jr c,L_80AE		;809f
 	ld hl,08158h		;80a1
-	ld a,(0e303h)		;80a4
+	ld a,(0e303h)		;80a4   ; lee la cuenta de cuadros del juego
 	bit 2,a		;80a7
 	ret z			;80a9
 	ld hl,08170h		;80aa
 	ret			;80ad
 L_80AE:
 	ld hl,08188h		;80ae
-	ld a,(0e303h)		;80b1
+	ld a,(0e303h)		;80b1   ; lee la cuenta de cuadros del juego
 	bit 2,a		;80b4
 	ret z			;80b6
 	ld hl,081a0h		;80b7
@@ -131,14 +131,14 @@ L_80BB:
 	cp 002h		;80be
 	jr c,L_80CF		;80c0
 	ld hl,080f8h		;80c2
-	ld a,(0e303h)		;80c5
+	ld a,(0e303h)		;80c5   ; lee la cuenta de cuadros del juego
 	bit 2,a		;80c8
 	ret z			;80ca
 	ld hl,08110h		;80cb
 	ret			;80ce
 L_80CF:
 	ld hl,08128h		;80cf
-	ld a,(0e303h)		;80d2
+	ld a,(0e303h)		;80d2   ; lee la cuenta de cuadros del juego
 	bit 2,a		;80d5
 	ret z			;80d7
 	ld hl,08140h		;80d8
@@ -218,7 +218,7 @@ L_81E9:
 	ld (hl),a			;81e9
 	ret			;81ea
 L_81EB:
-	ld a,(0e309h)		;81eb
+	ld a,(0e309h)		;81eb   ; lee lo pulsado (mando y cursores)
 	and 00fh		;81ee
 	add a,a			;81f0
 	add a,a			;81f1
@@ -265,10 +265,10 @@ L_8228:
 	ld (0e605h),hl		;8233
 	ret			;8236
 L_8237:
-	ld a,(0e361h)		;8237
+	ld a,(0e361h)		;8237   ; lee la fase (1 a 11)
 	cp 003h		;823a
 	ret nz			;823c
-	ld de,(0e363h)		;823d
+	ld de,(0e363h)		;823d   ; lee la posicion del scroll (16 bits)
 	ld hl,0007fh		;8241
 	or a			;8244
 	sbc hl,de		;8245
@@ -323,18 +323,18 @@ L_828F:
 	cp 004h		;8292
 	ret			;8294
 L_8295:
-	ld a,(0e303h)		;8295
+	ld a,(0e303h)		;8295   ; lee la cuenta de cuadros del juego
 	and 00fh		;8298
-	call z,058f9h		;829a
+	call z,058f9h		;829a   ; sonido_36: pide el sonido 0x36
 	ret			;829d
 L_829E:
-	ld a,(0e361h)		;829e
+	ld a,(0e361h)		;829e   ; lee la fase (1 a 11)
 	cp 003h		;82a1
 	ret nz			;82a3
 	ld a,(0e60dh)		;82a4
 	or a			;82a7
 	ret nz			;82a8
-	ld hl,(0e363h)		;82a9
+	ld hl,(0e363h)		;82a9   ; lee la posicion del scroll (16 bits)
 	ld de,00180h		;82ac
 	rst 20h			;82af
 	ret c			;82b0
@@ -551,12 +551,12 @@ DATA_83F7:
 
 L_8433:
 	ld b,0e0h		;8433
-	call 04c40h		;8435
+	call 04c40h		;8435   ; color_del_borde: B al registro 7 del VDP
 	xor a			;8438
-	ld (0e31ah),a		;8439
+	ld (0e31ah),a		;8439   ; guarda 1 mientras la nave esta en la fase
 	ret			;843c
-L_843D:
-	ld hl,0e600h		;843d
+mata_la_nave:		; la nave estalla: 0xFF en 0xE600
+	ld hl,0e600h		;843d   ; apunta a el estado de la nave (0xFF: estalla)
 	ld a,(hl)			;8440
 	or a			;8441
 	ret m			;8442
@@ -569,8 +569,8 @@ L_843D:
 	xor a			;844f
 	call L_8469		;8450
 	call 0504eh		;8453
-	call 0594dh		;8456
-	call 05863h		;8459
+	call 0594dh		;8456   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
+	call 05863h		;8459   ; orden_83_y_sonido_4B: manda la orden 0x83 al motor y pide el sonido 0x4B
 	ret			;845c
 L_845D:
 	ld hl,0e641h		;845d
@@ -583,7 +583,7 @@ L_845D:
 	jr nc,L_8433		;8467
 L_8469:
 	ld hl,084b9h		;8469
-	call 04a5ah		;846c
+	call 04a5ah		;846c   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld a,(hl)			;846f
 	ld (0e641h),a		;8470
 	inc hl			;8473
@@ -629,7 +629,7 @@ L_84AC:
 	add a,004h		;84b0
 	ld e,a			;84b2
 	ld a,004h		;84b3
-	call 04089h		;84b5
+	call 04089h		;84b5   ; suma_a_hl: HL = HL + A
 	ret			;84b8
 
 ; ----------------------------------------------------------------------
@@ -669,7 +669,7 @@ DATA_8502:
 
 
 L_8516:
-	ld a,(0e600h)		;8516
+	ld a,(0e600h)		;8516   ; lee el estado de la nave (0xFF: estalla)
 	dec a			;8519
 	ret m			;851a
 	call L_858C		;851b
@@ -703,11 +703,11 @@ L_8549:
 	add a,a			;854d
 	add a,a			;854e
 	ld hl,0856ch		;854f
-	call 04089h		;8552
+	call 04089h		;8552   ; suma_a_hl: HL = HL + A
 	ld a,(0e60ah)		;8555
 	and 003h		;8558
 	add a,a			;855a
-	call 04089h		;855b
+	call 04089h		;855b   ; suma_a_hl: HL = HL + A
 	ldi		;855e
 	ldi		;8560
 	ld a,(0e49ah)		;8562
@@ -744,7 +744,7 @@ L_858C:
 	ld a,(0e60dh)		;8597
 	or a			;859a
 	jr nz,L_85AC		;859b
-	ld a,(0e309h)		;859d
+	ld a,(0e309h)		;859d   ; lee lo pulsado (mando y cursores)
 	and 00fh		;85a0
 	ret z			;85a2
 	cp 003h		;85a3
@@ -804,13 +804,13 @@ L_85F8:
 	exx			;85f8
 	ld hl,0e624h		;85f9
 	exx			;85fc
-	ld a,(0e303h)		;85fd
+	ld a,(0e303h)		;85fd   ; lee la cuenta de cuadros del juego
 	and 00fh		;8600
 	call L_8619		;8602
 	exx			;8605
 	ld hl,0e614h		;8606
 	exx			;8609
-	ld a,(0e303h)		;860a
+	ld a,(0e303h)		;860a   ; lee la cuenta de cuadros del juego
 	and 00fh		;860d
 	sub 008h		;860f
 	jr nc,L_8615		;8611
@@ -822,7 +822,7 @@ L_8619:
 	ld hl,0e604h		;8619
 	ld de,08647h		;861c
 	add a,a			;861f
-	call 0408eh		;8620
+	call 0408eh		;8620   ; suma_a_de: DE = DE + A
 	ld a,(de)			;8623
 	add a,(hl)			;8624
 	inc l			;8625
@@ -879,7 +879,7 @@ L_8676:
 	or a			;8679
 	ret z			;867a
 	ld hl,08686h		;867b
-	call 04a5ah		;867e
+	call 04a5ah		;867e   ; lee_palabra: HL = la palabra A de la tabla HL
 	call L_868C		;8681
 	call L_86A4		;8684
 	ret			;8687
@@ -966,7 +966,7 @@ L_86FF:
 	ret nc			;8707
 	ld a,(iy+000h)		;8708
 	dec a			;870b
-	call 04093h		;870c
+	call 04093h		;870c   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_870F: 24 destinos del despachador p00:4093 (call en p04:870C, el
@@ -1004,16 +1004,16 @@ L_8756:
 	ret			;875a
 L_875B:
 	ld b,000h		;875b
-	ld a,(0e600h)		;875d
+	ld a,(0e600h)		;875d   ; lee el estado de la nave (0xFF: estalla)
 	dec a			;8760
 	ret m			;8761
 	inc b			;8762
 	ret			;8763
 L_8764:
-	ld a,(0e361h)		;8764
+	ld a,(0e361h)		;8764   ; lee la fase (1 a 11)
 	cp 003h		;8767
 	jr nz,L_877F		;8769
-	ld hl,(0e363h)		;876b
+	ld hl,(0e363h)		;876b   ; lee la posicion del scroll (16 bits)
 	ld de,00100h		;876e
 	rst 20h			;8771
 	jr c,L_877F		;8772
@@ -1030,10 +1030,10 @@ L_8781:
 	call L_875B		;8781
 	dec b			;8784
 	ret nz			;8785
-	ld a,(0e308h)		;8786
+	ld a,(0e308h)		;8786   ; lee lo recien pulsado (mando y cursores)
 	and 010h		;8789
 	jr nz,L_87A4		;878b
-	ld a,(0e309h)		;878d
+	ld a,(0e309h)		;878d   ; lee lo pulsado (mando y cursores)
 	and 010h		;8790
 	jr z,L_8756		;8792
 	ld hl,0e638h		;8794
@@ -1050,7 +1050,7 @@ L_87A4:
 	call L_8756		;87a4
 	call L_8764		;87a7
 	ret nz			;87aa
-	ld ix,0e600h		;87ab
+	ld ix,0e600h		;87ab   ; apunta a el estado de la nave (0xFF: estalla)
 	ld a,003h		;87af
 	ld (0e633h),a		;87b1
 	ld hl,00000h		;87b4
@@ -1099,7 +1099,7 @@ L_8800:
 	ret z			;8802
 	ld (0e642h),a		;8803
 	dec a			;8806
-	call 04093h		;8807
+	call 04093h		;8807   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_880A: 24 destinos del despachador p00:4093 (call en p04:8807, el
@@ -1183,7 +1183,7 @@ L_889B:
 	call L_8E08		;88a8
 	ld (iy+00ch),008h		;88ab
 	ld (iy+00dh),002h		;88af
-	call 0582bh		;88b3
+	call 0582bh		;88b3   ; sonido_0F: pide el sonido 0x0F
 	ret			;88b6
 L_88B7:
 	ld a,(iy+005h)		;88b7
@@ -1223,7 +1223,7 @@ L_88FD:
 	ld (iy+007h),007h		;88fd
 	ld (iy+00ch),008h		;8901
 	ld (iy+00dh),002h		;8905
-	call 0582fh		;8909
+	call 0582fh		;8909   ; sonido_10: pide el sonido 0x10
 	ret			;890c
 L_890D:
 	ld a,(iy+003h)		;890d
@@ -1262,7 +1262,7 @@ L_8935:
 	ld (iy+00bh),01ch		;8958
 	ld (iy+00ch),000h		;895c
 	ld (iy+00dh),002h		;8960
-	call 05833h		;8964
+	call 05833h		;8964   ; sonido_11: pide el sonido 0x11
 	ret			;8967
 L_8968:
 	push ix		;8968
@@ -1276,7 +1276,7 @@ L_8972:
 	ld a,008h		;8976
 	call L_8994		;8978
 	ld (iy+006h),00ch		;897b
-	call 05843h		;897f
+	call 05843h		;897f   ; sonido_15: pide el sonido 0x15
 	ret			;8982
 L_8983:
 	call L_8DC9		;8983
@@ -1284,7 +1284,7 @@ L_8983:
 	ld a,006h		;8987
 	call L_8994		;8989
 	ld (iy+006h),009h		;898c
-	call 0583bh		;8990
+	call 0583bh		;8990   ; sonido_13: pide el sonido 0x13
 	ret			;8993
 L_8994:
 	ld (hl),a			;8994
@@ -1322,7 +1322,7 @@ L_89C0:
 	ld (iy+00bh),01ch		;89e2
 	ld (iy+00ch),000h		;89e6
 	ld (iy+00dh),010h		;89ea
-	call 0583fh		;89ee
+	call 0583fh		;89ee   ; sonido_14: pide el sonido 0x14
 	ret			;89f1
 L_89F2:
 	call L_8DC3		;89f2
@@ -1342,7 +1342,7 @@ L_89F8:
 	ld (iy+00ah),002h		;8a0f
 	ld (iy+00ch),010h		;8a13
 	ld (iy+00dh),008h		;8a17
-	call 05837h		;8a1b
+	call 05837h		;8a1b   ; sonido_12: pide el sonido 0x12
 	ret			;8a1e
 L_8A1F:
 	call L_8DC3		;8a1f
@@ -1379,7 +1379,7 @@ L_8A53:
 	ld (iy+001h),001h		;8a65
 	jp L_8A77		;8a69
 L_8A6C:
-	ld a,(0e309h)		;8a6c
+	ld a,(0e309h)		;8a6c   ; lee lo pulsado (mando y cursores)
 	and 010h		;8a6f
 	jr nz,L_8A77		;8a71
 	ld (iy+001h),001h		;8a73
@@ -1499,7 +1499,7 @@ L_8B39:
 	ld (iy+00ch),010h		;8b58
 	ld (iy+00dh),010h		;8b5c
 	ld (iy+010h),000h		;8b60
-	call 05847h		;8b64
+	call 05847h		;8b64   ; sonido_16: pide el sonido 0x16
 	ret			;8b67
 L_8B68:
 	ld a,(iy+010h)		;8b68
@@ -1562,7 +1562,7 @@ L_8BC0:
 	ld (iy+00ch),010h		;8be3
 	ld (iy+00dh),010h		;8be7
 	ld (iy+010h),000h		;8beb
-	call 0584fh		;8bef
+	call 0584fh		;8bef   ; sonido_18: pide el sonido 0x18
 	ret			;8bf2
 L_8BF3:
 	ld a,(iy+010h)		;8bf3
@@ -1632,7 +1632,7 @@ L_8C5F:
 	ld (iy+00bh),a		;8c76
 	ld (iy+00ch),a		;8c79
 	ld (iy+00dh),008h		;8c7c
-	jp 0584bh		;8c80
+	jp 0584bh		;8c80   ; sonido_17: pide el sonido 0x17
 L_8C83:
 	ld c,(iy+008h)		;8c83
 	ld b,(iy+009h)		;8c86
@@ -1675,12 +1675,12 @@ L_8CC3:
 	call L_875B		;8cd3
 	dec b			;8cd6
 	jr nz,L_8CA5		;8cd7
-	ld a,(0e308h)		;8cd9
+	ld a,(0e308h)		;8cd9   ; lee lo recien pulsado (mando y cursores)
 	and 010h		;8cdc
 	jr z,L_8CA5		;8cde
 	ld (iy+001h),000h		;8ce0
 	call L_8CA5		;8ce4
-	jp 0584bh		;8ce7
+	jp 0584bh		;8ce7   ; sonido_17: pide el sonido 0x17
 L_8CEA:
 	ld c,(iy+008h)		;8cea
 	ld b,(iy+009h)		;8ced
@@ -1757,7 +1757,7 @@ L_8D55:
 	ld (iy+002h),000h		;8d78
 	ld (iy+004h),000h		;8d7c
 	call L_8968		;8d80
-	call 05853h		;8d83
+	call 05853h		;8d83   ; sonido_19: pide el sonido 0x19
 	ret			;8d86
 L_8D87:
 	ld a,(iy+001h)		;8d87
@@ -1928,7 +1928,7 @@ L_8EAA:
 L_8EAE:
 	ld a,(0e642h)		;8eae
 	ld hl,08ebfh		;8eb1
-	call 04a5ah		;8eb4
+	call 04a5ah		;8eb4   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld (iy+000h),l		;8eb7
 	ld (iy+007h),h		;8eba
 	call L_8E50		;8ebd
@@ -2291,7 +2291,7 @@ L_9178:
 	jr nz,L_91CC		;9189
 	bit 6,(ix+012h)		;918b
 	jr nz,L_91CC		;918f
-	ld a,(0e303h)		;9191
+	ld a,(0e303h)		;9191   ; lee la cuenta de cuadros del juego
 	inc a			;9194
 	and 003h		;9195
 	call z,L_91E5		;9197
@@ -2361,11 +2361,11 @@ L_9209:
 	ld (iy+013h),h		;922c
 	ret			;922f
 L_9230:
-	call 04150h		;9230
+	call 04150h		;9230   ; bancos_3: pone el 3 (y sus copias en 0xF0F1-3)
 	add a,a			;9233
 	add a,a			;9234
 	ld hl,0be18h		;9235
-	call 04089h		;9238
+	call 04089h		;9238   ; suma_a_hl: HL = HL + A
 	ld a,(hl)			;923b
 	add a,(ix+004h)		;923c
 	ld e,a			;923f
@@ -2383,7 +2383,7 @@ L_9230:
 	srl a		;924e
 	add a,d			;9250
 	ld d,a			;9251
-	call 0415bh		;9252
+	call 0415bh		;9252   ; bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
 	jr L_9209		;9255
 L_9257:
 	ld (iy+000h),00fh		;9257
@@ -2417,7 +2417,7 @@ L_928B:
 L_929C:
 	ld a,(iy+001h)		;929c
 	ld hl,092b4h		;929f
-	call 04a5ah		;92a2
+	call 04a5ah		;92a2   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld a,(iy+003h)		;92a5
 	add a,l			;92a8
 	ld (iy+008h),a		;92a9
@@ -2459,10 +2459,10 @@ L_92D4:
 	ld (iy+001h),a		;92d4
 	ret			;92d7
 L_92D8:
-	ld a,(0e600h)		;92d8
+	ld a,(0e600h)		;92d8   ; lee el estado de la nave (0xFF: estalla)
 	dec a			;92db
 	ret m			;92dc
-	ld a,(0e308h)		;92dd
+	ld a,(0e308h)		;92dd   ; lee lo recien pulsado (mando y cursores)
 	and 020h		;92e0
 	ret z			;92e2
 	ld hl,0e430h		;92e3
@@ -2485,11 +2485,11 @@ L_92D8:
 L_9302:
 	ld a,(0e380h)		;9302
 	ld hl,09316h		;9305
-	call 04a5ah		;9308
+	call 04a5ah		;9308   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld a,(0e43dh)		;930b
 	dec a			;930e
 	call 04094h		;930f
-	call 0585fh		;9312
+	call 0585fh		;9312   ; sonido_1C: pide el sonido 0x1C
 	ret			;9315
 
 ; ----------------------------------------------------------------------
@@ -2606,13 +2606,13 @@ L_9553:
 	ld a,0a0h		;955d
 	call 00056h		;955f   ; BIOS FILVRM - Fills VRAM with value
 	ld a,007h		;9562
-	call 04089h		;9564
+	call 04089h		;9564   ; suma_a_hl: HL = HL + A
 	pop bc			;9567
 	djnz L_9553		;9568
 	ret			;956a
 L_956B:
 	ld hl,03ad4h		;956b
-	call 04ab6h		;956e
+	call 04ab6h		;956e   ; vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
 	ld b,009h		;9571
 	ld a,04fh		;9573
 L_9575:
@@ -2624,7 +2624,7 @@ L_9575:
 	ret			;957c
 L_957D:
 	ld hl,03ac2h		;957d
-	call 04ab6h		;9580
+	call 04ab6h		;9580   ; vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
 	ld hl,0e434h		;9583
 	ld bc,00801h		;9586
 L_9589:
@@ -2674,9 +2674,9 @@ L_95B6:
 	jr z,L_95E4		;95ca
 	ld a,(0e380h)		;95cc
 	ld hl,095f9h		;95cf
-	call 04a5ah		;95d2
+	call 04a5ah		;95d2   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld a,b			;95d5
-	call 04a5ah		;95d6
+	call 04a5ah		;95d6   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld b,000h		;95d9
 	add hl,bc			;95db
 	ld a,(hl)			;95dc
@@ -2774,7 +2774,7 @@ L_969D:
 	ld a,(iy+000h)		;969d
 	dec a			;96a0
 	ret m			;96a1
-	call 04093h		;96a2
+	call 04093h		;96a2   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_96A5: 24 destinos del despachador p00:4093 (call en p04:96A2, el
@@ -2923,7 +2923,7 @@ L_97AF:
 	exx			;97c3
 L_97C4:
 	ld a,040h		;97c4
-	call 04089h		;97c6
+	call 04089h		;97c6   ; suma_a_hl: HL = HL + A
 	djnz L_97AF		;97c9
 	ld a,(iy+000h)		;97cb
 	cp 00ah		;97ce
@@ -2956,7 +2956,7 @@ L_97EA:
 	exx			;97fe
 L_97FF:
 	ld a,040h		;97ff
-	call 04089h		;9801
+	call 04089h		;9801   ; suma_a_hl: HL = HL + A
 	djnz L_97EA		;9804
 	ld a,(iy+000h)		;9806
 	cp 00ah		;9809
@@ -2985,7 +2985,7 @@ L_982B:
 	ld a,(0e440h)		;982b
 	or a			;982e
 	jp nz,L_986B		;982f
-	ld a,(0e361h)		;9832
+	ld a,(0e361h)		;9832   ; lee la fase (1 a 11)
 	dec a			;9835
 	jr z,L_9864		;9836
 	cp 006h		;9838
@@ -3016,7 +3016,7 @@ L_9857:
 L_9864:
 	call L_9881		;9864
 	ret nc			;9867
-	jp 058ddh		;9868
+	jp 058ddh		;9868   ; sonido_2F: pide el sonido 0x2F
 L_986B:
 	ld a,(0e440h)		;986b
 	or a			;986e
@@ -3144,7 +3144,7 @@ DATA_leido_9909:
 
 
 L_990B:
-	ld a,(0e600h)		;990b
+	ld a,(0e600h)		;990b   ; lee el estado de la nave (0xFF: estalla)
 	dec a			;990e
 	ret m			;990f
 	ld a,(0e405h)		;9910
@@ -3176,7 +3176,7 @@ L_9939:
 	ccf			;993b
 	ret			;993c
 L_993D:
-	ld a,(0e361h)		;993d
+	ld a,(0e361h)		;993d   ; lee la fase (1 a 11)
 	cp 002h		;9940
 	jr z,L_994A		;9942
 	cp 008h		;9944
@@ -3185,7 +3185,7 @@ L_993D:
 	ret			;9949
 L_994A:
 	exx			;994a
-	ld hl,(0e363h)		;994b
+	ld hl,(0e363h)		;994b   ; lee la posicion del scroll (16 bits)
 	ld de,00120h		;994e
 	rst 20h			;9951
 	exx			;9952
@@ -3203,7 +3203,7 @@ L_995E:
 	jr L_9982		;9965
 L_9967:
 	exx			;9967
-	ld hl,(0e363h)		;9968
+	ld hl,(0e363h)		;9968   ; lee la posicion del scroll (16 bits)
 	ld de,00130h		;996b
 	rst 20h			;996e
 	exx			;996f
@@ -3236,7 +3236,7 @@ L_998D:
 	exx			;9996
 	ld a,b			;9997
 	exx			;9998
-	call 0589ah		;9999
+	call 0589ah		;9999   ; pide_sonido: pide al motor (p10:6003) el sonido A
 	ret			;999c
 L_999D:
 	ld a,(0e409h)		;999d
@@ -3247,7 +3247,7 @@ L_999D:
 	ld a,(0ec12h)		;99a6
 	rla			;99a9
 	ret c			;99aa
-	call 05890h		;99ab
+	call 05890h		;99ab   ; sonido_28: pide el sonido 0x28
 	scf			;99ae
 	ret			;99af
 L_99B0:
@@ -3259,7 +3259,7 @@ L_99B5:
 	ret			;99bb
 L_99BC:
 	ld de,0ef00h		;99bc
-	ld a,(0e600h)		;99bf
+	ld a,(0e600h)		;99bf   ; lee el estado de la nave (0xFF: estalla)
 	or a			;99c2
 	jr z,L_99E0		;99c3
 	jp m,L_99E8		;99c5
@@ -3289,7 +3289,7 @@ L_99E8:
 	call L_99CF		;99f1
 	ret			;99f4
 L_99F5:
-	ld a,(0e600h)		;99f5
+	ld a,(0e600h)		;99f5   ; lee el estado de la nave (0xFF: estalla)
 	or a			;99f8
 	ret z			;99f9
 	inc a			;99fa
@@ -3333,7 +3333,7 @@ L_9A29:
 	ld (de),a			;9a3b
 	inc de			;9a3c
 	ld hl,0e64bh		;9a3d
-	ld a,(0e303h)		;9a40
+	ld a,(0e303h)		;9a40   ; lee la cuenta de cuadros del juego
 	and 003h		;9a43
 	jr nz,L_9A4F		;9a45
 	ld a,(hl)			;9a47
@@ -3443,7 +3443,7 @@ L_9ACA:
 	ld a,(ix+000h)		;9aca
 	dec a			;9acd
 	ret m			;9ace
-	call 04093h		;9acf
+	call 04093h		;9acf   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_9AD2: 24 destinos del despachador p00:4093 (call en p04:9ACF, el
@@ -3525,7 +3525,7 @@ L_9B6B:
 	ld a,(ix+000h)		;9b6b
 	dec a			;9b6e
 	ret m			;9b6f
-	call 04093h		;9b70
+	call 04093h		;9b70   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_9B73: 24 destinos del despachador p00:4093 (call en p04:9B70, el
@@ -3635,7 +3635,7 @@ L_9C2D:
 	ld a,(ix+000h)		;9c2d
 	dec a			;9c30
 	ret m			;9c31
-	call 04093h		;9c32
+	call 04093h		;9c32   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_9C35: 24 destinos del despachador p00:4093 (call en p04:9C32, el
@@ -3790,10 +3790,10 @@ L_9D2B:
 	djnz L_9D26		;9d32
 	ret			;9d34
 L_9D35:
-	call 041f7h		;9d35
-	call 041ach		;9d38
+	call 041f7h		;9d35   ; guarda_reparto: guarda las tres copias del mapper en la pila de 0xF0D0
+	call 041ach		;9d38   ; bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
 	call L_9D41		;9d3b
-	jp 04213h		;9d3e
+	jp 04213h		;9d3e   ; devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
 L_9D41:
 	ld c,000h		;9d41
 	ld a,h			;9d43
@@ -3858,7 +3858,7 @@ L_9D54:
 	ret			;9d96
 L_9D97:
 	ld ix,0ec00h		;9d97
-	call 04093h		;9d9b
+	call 04093h		;9d9b   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_9D9E: 17 destinos del despachador p00:4093 (call en p04:9D9B, el
@@ -3941,7 +3941,7 @@ L_9E0B:
 L_9E21:
 	call 06de6h		;9e21
 	ret nz			;9e24
-	ld a,(0e600h)		;9e25
+	ld a,(0e600h)		;9e25   ; lee el estado de la nave (0xFF: estalla)
 	or a			;9e28
 	ret m			;9e29
 L_9E2A:
@@ -4031,7 +4031,7 @@ L_9EC4:
 	ld a,(0e440h)		;9ec4
 	dec a			;9ec7
 	ld hl,09f0dh		;9ec8
-	call 04089h		;9ecb
+	call 04089h		;9ecb   ; suma_a_hl: HL = HL + A
 	ld c,(hl)			;9ece
 	ld a,(ix+003h)		;9ecf
 	add a,c			;9ed2

@@ -257,3 +257,135 @@ F 0x6F9B 16
 D 0x7073 0x7199 resto_7073  lo apuntan con el banco puesto p26:706C (0x7073); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p26:706C (294 bytes)
 F 0x7073 16
 # --- fin de los bloques de bloques.py ---
+
+# --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+C 0x6064 lee_palabra: HL = la palabra A de la tabla HL
+C 0x6099 suma_a_hl: HL = HL + A
+C 0x60A7 suma_a_hl: HL = HL + A
+C 0x60AD rle_a_ram: descomprime a la RAM de DE el RLE de HL
+C 0x60B6 suma_a_hl: HL = HL + A
+C 0x60BC rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x6117 lee_palabra: HL = la palabra A de la tabla HL
+C 0x613D lee una cuenta de cuadros (16 bits)
+C 0x6151 suma_a_hl: HL = HL + A
+C 0x616B guarda una cuenta de cuadros (16 bits)
+C 0x618F borra_texto_ram: borra en la RAM el texto de HL
+C 0x62BC texto_a_ram: copia a la RAM el texto de HL
+C 0x6494 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x64A2 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x64AF pantalla_en_blanco: borra la tabla de nombres (0x3800)
+C 0x64D0 carga_fuente: carga la fuente en los tres tercios (bancos 20-22)
+C 0x64D6 texto_a_ram: copia a la RAM el texto de HL
+C 0x6542 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x6551 lee lo recien pulsado (mando y cursores)
+C 0x65CF suma_a_hl: HL = HL + A
+C 0x65DB suma_a_hl: HL = HL + A
+C 0x6600 lee lo recien pulsado (mando y cursores)
+C 0x662F despacha: salta a la palabra A de la tabla que va detras del call
+C 0x6661 lee lo recien pulsado (mando y cursores)
+C 0x66AD suma_a_hl: HL = HL + A
+C 0x66C6 suma_a_hl: HL = HL + A
+C 0x66F5 lee lo recien pulsado (mando y cursores)
+C 0x6701 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x6734 lee lo recien pulsado (mando y cursores)
+C 0x6743 lee la cuenta de cuadros del juego
+C 0x677C suma_a_hl: HL = HL + A
+C 0x6795 suma_a_hl: HL = HL + A
+C 0x67AC lee lo recien pulsado (mando y cursores)
+C 0x67C6 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x67E7 pantalla_en_blanco: borra la tabla de nombres (0x3800)
+C 0x681E lee una cuenta de cuadros (16 bits)
+C 0x683F vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
+C 0x6961 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x696D suma_a_hl: HL = HL + A
+C 0x698B suma_a_hl: HL = HL + A
+C 0x69B1 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x6A59 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x6B71 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
+C 0x6C56 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x6C79 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
+C 0x6C82 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x6C8B rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x6C94 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x6C9D rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x6CA0 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x6CD3 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x6D19 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x6D24 orden_83_y_sonido_50: manda la orden 0x83 al motor y pide el sonido 0x50
+C 0x6DBF despacha: salta a la palabra A de la tabla que va detras del call
+C 0x6DD1 orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0x6DE6 orden_83_y_sonido_50: manda la orden 0x83 al motor y pide el sonido 0x50
+C 0x6E2E despacha: salta a la palabra A de la tabla que va detras del call
+C 0x6E41 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x6E61 sonido_4F: pide el sonido 0x4F
+C 0x6F1B suma_a_hl: HL = HL + A
+C 0x6F31 texto_a_ram: copia a la RAM el texto de HL
+C 0x6FB6 lee_palabra: HL = la palabra A de la tabla HL
+C 0x6FBE rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x6FC5 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x6FCF lee_palabra: HL = la palabra A de la tabla HL
+C 0x7014 suma_a_hl: HL = HL + A
+C 0x7025 vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
+C 0x7028 lee la cuenta de cuadros del juego
+C 0x71A4 suma_a_de: DE = DE + A
+C 0x71E5 lee_palabra: HL = la palabra A de la tabla HL
+C 0x71EB lee_palabra: HL = la palabra A de la tabla HL
+C 0x734A rle_a_ram: descomprime a la RAM de DE el RLE de HL
+C 0x735F rle_a_ram: descomprime a la RAM de DE el RLE de HL
+C 0x73B3 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x73BA copia_con_vuelta: copia caracteres de la VRAM dandoles la vuelta (lista IX)
+C 0x73C3 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x73CC rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x73DC rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x747A lee_palabra: HL = la palabra A de la tabla HL
+C 0x7495 lee_palabra: HL = la palabra A de la tabla HL
+C 0x74B0 lee_palabra: HL = la palabra A de la tabla HL
+C 0x74CB lee_palabra: HL = la palabra A de la tabla HL
+C 0x7519 lee_palabra: HL = la palabra A de la tabla HL
+C 0x7536 lee_palabra: HL = la palabra A de la tabla HL
+C 0x755F lee_palabra: HL = la palabra A de la tabla HL
+C 0x7567 suma_a_de: DE = DE + A
+C 0x78AC lee la cuenta de cuadros del juego
+C 0x7902 suma_a_hl: HL = HL + A
+C 0x791D lee la cuenta de cuadros del juego
+C 0x7957 suma_a_hl: HL = HL + A
+C 0x79DF lee la cuenta de cuadros del juego
+C 0x7A47 lee la cuenta de cuadros del juego
+C 0x7A9A suma_a_hl: HL = HL + A
+C 0x7AED lee la cuenta de cuadros del juego
+C 0x7B3F suma_a_hl: HL = HL + A
+C 0x7B9A carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x7B9F copia_con_vuelta: copia caracteres de la VRAM dandoles la vuelta (lista IX)
+C 0x7C0A lee la cuenta de cuadros del juego
+C 0x7C60 suma_a_hl: HL = HL + A
+C 0x7C6D suma_a_hl: HL = HL + A
+C 0x7CC1 rle_a_ram: descomprime a la RAM de DE el RLE de HL
+C 0x7CCC lee la cuenta de cuadros del juego
+C 0x7D1F suma_a_hl: HL = HL + A
+C 0x7D32 suma_a_hl: HL = HL + A
+C 0x7D4B despacha: salta a la palabra A de la tabla que va detras del call
+C 0x7D6B despacha: salta a la palabra A de la tabla que va detras del call
+C 0x7D7C sonido_3F: pide el sonido 0x3F
+C 0x7DA7 lee_palabra: HL = la palabra A de la tabla HL
+C 0x7DFD bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+C 0x7E03 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
+C 0x7E09 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
+C 0x7E0F rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
+C 0x7E15 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
+C 0x7E1C carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x7E1F bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x7E6B lee la cuenta de cuadros del juego
+C 0x7E79 suma_a_hl: HL = HL + A
+C 0x7ED8 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x7EF1 orden_sonido_83: manda la orden 0x83 al motor de sonido
+C 0x7EF4 sonido_01: pide el sonido 0x01
+C 0x7EFE sonido_3F: pide el sonido 0x3F
+C 0x7F01 pantalla_en_blanco: borra la tabla de nombres (0x3800)
+C 0x7F53 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x7F6E orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0x7F7F orden_sonido_83: manda la orden 0x83 al motor de sonido
+C 0x7F8F pantalla_en_blanco: borra la tabla de nombres (0x3800)
+C 0x7FBC orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0x7FCD orden_sonido_83: manda la orden 0x83 al motor de sonido
+C 0x7FFD lee la cuenta de cuadros del juego
+# --- fin de las anotaciones de anota.py ---

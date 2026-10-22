@@ -39,7 +39,7 @@ DATA_resto_8012:
 
 
 L_801E:
-	ld a,(0e303h)		;801e
+	ld a,(0e303h)		;801e   ; lee la cuenta de cuadros del juego
 	rra			;8021
 	rra			;8022
 	and 003h		;8023
@@ -71,7 +71,7 @@ L_8046:
 L_804A:
 	ld bc,(0e7e4h)		;804a
 	ld a,c			;804e
-	call 04093h		;804f
+	call 04093h		;804f   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_8052: 4 destinos del despachador p00:4093 (call en p27:804F, el
@@ -94,7 +94,7 @@ L_805A:
 	push af			;8063
 	call nz,07320h		;8064
 	pop af			;8067
-	call 04093h		;8068
+	call 04093h		;8068   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_806B: 4 destinos del despachador p00:4093 (call en p27:8068, el
@@ -112,16 +112,16 @@ L_8073:
 	ld hl,0e5c0h		;8073
 	dec (hl)			;8076
 	ret nz			;8077
-	call 041e4h		;8078
+	call 041e4h		;8078   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 	ld ix,0bfb8h		;807b
-	call 04cb1h		;807f
+	call 04cb1h		;807f   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 	ld ix,0bfc5h		;8082
 	call 04d17h		;8086
 	ld hl,0bfceh		;8089
 	ld de,0caach		;808c
 	ld bc,00508h		;808f
 	call 059a1h		;8092
-	call 041bfh		;8095
+	call 041bfh		;8095   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ld hl,0626ah		;8098
 	call 0612ah		;809b
 	call 06cc1h		;809e
@@ -142,7 +142,7 @@ L_80AE:
 L_80B7:
 	ld bc,(0e7e4h)		;80b7
 	ld a,c			;80bb
-	call 04093h		;80bc
+	call 04093h		;80bc   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_80BF: 4 destinos del despachador p00:4093 (call en p27:80BC, el
@@ -165,7 +165,7 @@ L_80C7:
 	push af			;80d0
 	call nz,07320h		;80d1
 	pop af			;80d4
-	call 04093h		;80d5
+	call 04093h		;80d5   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_80D8: 4 destinos del despachador p00:4093 (call en p27:80D5, el
@@ -199,19 +199,19 @@ L_80FC:
 	ret nz			;8100
 	jp 07dedh		;8101
 L_8104:
-	call 041e4h		;8104
+	call 041e4h		;8104   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 	call L_8110		;8107
 	call L_8138		;810a
-	jp 041bfh		;810d
+	jp 041bfh		;810d   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 L_8110:
 	ld de,0b730h		;8110
-	call 04b36h		;8113
+	call 04b36h		;8113   ; rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
 	ld de,0b7b8h		;8116
-	call 04b36h		;8119
+	call 04b36h		;8119   ; rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
 	ld de,0b7fch		;811c
-	call 04b36h		;811f
+	call 04b36h		;811f   ; rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
 	ld de,0b84dh		;8122
-	call 04b36h		;8125
+	call 04b36h		;8125   ; rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
 	ld ix,0812fh		;8128
 	jp 04d17h		;812c
 
@@ -233,7 +233,7 @@ DATA_copias_812F:
 L_8138:
 	ld hl,0b87eh		;8138
 	ld de,0cd00h		;813b
-	call 055cdh		;813e
+	call 055cdh		;813e   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 	ld hl,0cd00h		;8141
 	ld de,0ca6ah		;8144
 	ld bc,0090ch		;8147
@@ -254,7 +254,7 @@ L_8156:
 	call c,07320h		;8166
 	pop bc			;8169
 	ld a,c			;816a
-	call 04093h		;816b
+	call 04093h		;816b   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_816E: 5 destinos del despachador p00:4093 (call en p27:816B, el
@@ -269,8 +269,8 @@ DATA_tabla_816E:
 
 
 L_8178:
-	call 0594dh		;8178
-	call 0580eh		;817b
+	call 0594dh		;8178   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
+	call 0580eh		;817b   ; sonido_3F: pide el sonido 0x3F
 	call L_8188		;817e
 	ld hl,06102h		;8181
 	call 060f9h		;8184
@@ -310,7 +310,7 @@ L_81C3:
 	call L_83CF		;81c8
 	ret			;81cb
 L_81CC:
-	ld a,(0e308h)		;81cc
+	ld a,(0e308h)		;81cc   ; lee lo recien pulsado (mando y cursores)
 	and 030h		;81cf
 	ret z			;81d1
 	ld hl,00004h		;81d2
@@ -327,13 +327,13 @@ L_81E7:
 	ld hl,0e402h		;81e7
 	dec (hl)			;81ea
 	ret nz			;81eb
-	call 04aa9h		;81ec
+	call 04aa9h		;81ec   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
 	xor a			;81ef
 	ld (0e321h),a		;81f0
 	ret			;81f3
 L_81F4:
 	ld ix,08208h		;81f4
-	call 04cb1h		;81f8
+	call 04cb1h		;81f8   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 	ld hl,06030h		;81fb
 	ld (0e5d2h),hl		;81fe
 	ld hl,0a030h		;8201
@@ -364,7 +364,7 @@ L_821D:
 	call L_827D		;8220
 	ret			;8223
 L_8224:
-	ld a,(0e303h)		;8224
+	ld a,(0e303h)		;8224   ; lee la cuenta de cuadros del juego
 	and 003h		;8227
 	ret nz			;8229
 	ld a,r		;822a
@@ -567,7 +567,7 @@ L_836A:
 	call 05985h		;836d
 	ld bc,(0e322h)		;8370
 	ld a,c			;8374
-	call 04093h		;8375
+	call 04093h		;8375   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_8378: 4 destinos del despachador p00:4093 (call en p27:8375, el
@@ -582,7 +582,7 @@ DATA_tabla_8378:
 
 
 L_8380:
-	call 0580eh		;8380
+	call 0580eh		;8380   ; sonido_3F: pide el sonido 0x3F
 	call L_8188		;8383
 	ld hl,0610eh		;8386
 	call 060f9h		;8389
@@ -613,7 +613,7 @@ L_83B3:
 	call L_83CF		;83be
 	ret			;83c1
 L_83C2:
-	ld a,(0e308h)		;83c2
+	ld a,(0e308h)		;83c2   ; lee lo recien pulsado (mando y cursores)
 	and 030h		;83c5
 	ret z			;83c7
 	ld hl,00003h		;83c8
@@ -650,7 +650,7 @@ L_83FB:
 L_83FE:
 	ld bc,(0e329h)		;83fe
 	ld a,c			;8402
-	call 04093h		;8403
+	call 04093h		;8403   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_8406: 5 destinos del despachador p00:4093 (call en p27:8403, el
@@ -680,7 +680,7 @@ L_841D:
 	or a			;841f
 	call nz,07320h		;8420
 	pop af			;8423
-	call 04093h		;8424
+	call 04093h		;8424   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_8427: 8 destinos del despachador p00:4093 (call en p27:8424, el
@@ -696,10 +696,10 @@ DATA_tabla_8427:
 
 
 L_8437:
-	call 0594dh		;8437
-	call 05827h		;843a
+	call 0594dh		;8437   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
+	call 05827h		;843a   ; sonido_42: pide el sonido 0x42
 	call 05718h		;843d
-	call 04aa9h		;8440
+	call 04aa9h		;8440   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
 	call 06033h		;8443
 	call 060dfh		;8446
 	ld hl,06108h		;8449
@@ -714,12 +714,12 @@ L_8458:
 	ret nz			;845c
 	ld a,004h		;845d
 	call 05709h		;845f
-	call 041e4h		;8462
+	call 041e4h		;8462   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 	ld ix,0a1d6h		;8465
-	call 04cb1h		;8469
+	call 04cb1h		;8469   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 	ld ix,0a225h		;846c
 	call 04d17h		;8470
-	call 041bfh		;8473
+	call 041bfh		;8473   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	xor a			;8476
 	call L_84A7		;8477
 	ld hl,0620ah		;847a
@@ -747,10 +747,10 @@ L_8497:
 	ld a,(hl)			;84a5
 	inc (hl)			;84a6
 L_84A7:
-	call 041e4h		;84a7
+	call 041e4h		;84a7   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 	ld hl,0b467h		;84aa
 	call 06064h		;84ad
-	call 041bfh		;84b0
+	call 041bfh		;84b0   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ret			;84b3
 L_84B4:
 	ld hl,06213h		;84b4
@@ -762,12 +762,12 @@ L_84BE:
 	ret nz			;84c1
 	ld a,005h		;84c2
 	call 05709h		;84c4
-	call 041e4h		;84c7
+	call 041e4h		;84c7   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 	ld ix,0a808h		;84ca
-	call 04cb1h		;84ce
+	call 04cb1h		;84ce   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 	ld ix,0a81bh		;84d1
 	call 04d17h		;84d5
-	call 041bfh		;84d8
+	call 041bfh		;84d8   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ld hl,00704h		;84db
 	ld (0e5d0h),hl		;84de
 	ld a,001h		;84e1
@@ -814,7 +814,7 @@ L_8521:
 	ret			;8528
 L_8529:
 	ld a,b			;8529
-	call 04093h		;852a
+	call 04093h		;852a   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_852D: 8 destinos del despachador p00:4093 (call en p27:852A, el
@@ -830,7 +830,7 @@ DATA_tabla_852D:
 
 
 L_853D:
-	call 04aa9h		;853d
+	call 04aa9h		;853d   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
 	call 05959h		;8540
 	call 05648h		;8543
 	call 0be34h		;8546
@@ -870,9 +870,9 @@ L_8577:
 	inc (hl)			;8589
 L_858A:
 	ld hl,0b2e7h		;858a
-	call 041e4h		;858d
+	call 041e4h		;858d   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 	call 06064h		;8590
-	call 041bfh		;8593
+	call 041bfh		;8593   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ret			;8596
 L_8597:
 	call L_8A94		;8597
@@ -946,7 +946,7 @@ L_8611:
 	call L_8CBF		;861a
 L_861D:
 	pop af			;861d
-	call 04093h		;861e
+	call 04093h		;861e   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_8621: 18 destinos del despachador p00:4093 (call en p27:861E, el
@@ -982,7 +982,7 @@ L_8656:
 	call 05959h		;8661
 	ld a,096h		;8664
 	ld (0e40ch),a		;8666
-	call 058fdh		;8669
+	call 058fdh		;8669   ; sonido_4D: pide el sonido 0x4D
 	call L_8418		;866c
 	ret			;866f
 L_8670:
@@ -990,13 +990,13 @@ L_8670:
 	and 00fh		;8673
 	or 0e0h		;8675
 	ld b,a			;8677
-	call 04c40h		;8678
+	call 04c40h		;8678   ; color_del_borde: B al registro 7 del VDP
 	ld hl,0e40ch		;867b
 	dec (hl)			;867e
 	ret nz			;867f
 	ld b,0e0h		;8680
-	call 04c40h		;8682
-	call 0591ah		;8685
+	call 04c40h		;8682   ; color_del_borde: B al registro 7 del VDP
+	call 0591ah		;8685   ; sonido_52: pide el sonido 0x52
 	call L_8418		;8688
 	ret			;868b
 L_868C:
@@ -1050,7 +1050,7 @@ L_86E8:
 	ret nz			;86ef
 	ld hl,06233h		;86f0
 	call 0612ah		;86f3
-	call 05951h		;86f6
+	call 05951h		;86f6   ; orden_sonido_84: manda la orden 0x84 al motor de sonido
 	call L_8418		;86f9
 	ret			;86fc
 L_86FD:
@@ -1061,8 +1061,8 @@ L_86FD:
 	call 060c0h		;8707
 	call 060cah		;870a
 	call L_8418		;870d
-	call 0594dh		;8710
-	call 057eah		;8713
+	call 0594dh		;8710   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
+	call 057eah		;8713   ; sonido_01: pide el sonido 0x01
 	ret			;8716
 L_8717:
 	ld a,006h		;8717
@@ -1070,7 +1070,7 @@ L_8717:
 	call L_8DD9		;871c
 	call L_8E21		;871f
 	call L_8DF5		;8722
-	call 05941h		;8725
+	call 05941h		;8725   ; sonido_53: pide el sonido 0x53
 	ld a,080h		;8728
 	ld (0e40ch),a		;872a
 	call L_8418		;872d
@@ -1081,7 +1081,7 @@ L_8731:
 	ret nz			;8735
 	ld hl,06238h		;8736
 	call 0612ah		;8739
-	call 05812h		;873c
+	call 05812h		;873c   ; sonido_40: pide el sonido 0x40
 	call L_8418		;873f
 	ret			;8742
 L_8743:
@@ -1138,7 +1138,7 @@ L_8797:
 	cp 008h		;87a0
 	call c,07320h		;87a2
 	pop af			;87a5
-	call 04093h		;87a6
+	call 04093h		;87a6   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_87A9: 19 destinos del despachador p00:4093 (call en p27:87A6, el
@@ -1164,7 +1164,7 @@ L_87CF:
 L_87D9:
 	call 06135h		;87d9
 	ret nz			;87dc
-	call 05951h		;87dd
+	call 05951h		;87dd   ; orden_sonido_84: manda la orden 0x84 al motor de sonido
 	xor a			;87e0
 	ld (0e40ch),a		;87e1
 	call L_8418		;87e4
@@ -1173,8 +1173,8 @@ L_87E8:
 	ld hl,0e40ch		;87e8
 	dec (hl)			;87eb
 	ret nz			;87ec
-	call 0594dh		;87ed
-	call 0581ah		;87f0
+	call 0594dh		;87ed   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
+	call 0581ah		;87f0   ; sonido_49: pide el sonido 0x49
 	call 05730h		;87f3
 	call L_8E4C		;87f6
 	call L_8E63		;87f9
@@ -1254,9 +1254,9 @@ L_8889:
 	ld hl,0e40ch		;8889
 	dec (hl)			;888c
 	ret nz			;888d
-	call 041e4h		;888e
+	call 041e4h		;888e   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 	ld ix,0abbfh		;8891
-	call 04cb1h		;8895
+	call 04cb1h		;8895   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 	ld ix,0abd9h		;8898
 	call 04d17h		;889c
 	ld hl,01300h		;889f
@@ -1267,7 +1267,7 @@ L_8889:
 	ld de,0cc29h		;88ac
 	ld bc,0050fh		;88af
 	call 059a1h		;88b2
-	call 041bfh		;88b5
+	call 041bfh		;88b5   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ld hl,088c4h		;88b8
 	ld c,0f0h		;88bb
 	call 07978h		;88bd
@@ -1298,7 +1298,7 @@ L_88D4:
 	ld de,01284h		;88d4
 	call 05737h		;88d7
 	ret c			;88da
-	call 05951h		;88db
+	call 05951h		;88db   ; orden_sonido_84: manda la orden 0x84 al motor de sonido
 	ld hl,088e8h		;88de
 	call 078a2h		;88e1
 	call L_8418		;88e4
@@ -1322,7 +1322,7 @@ L_88EC:
 	ld a,(0e560h)		;88ef
 	or a			;88f2
 	ret nz			;88f3
-	call 04aa9h		;88f4
+	call 04aa9h		;88f4   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
 	call 05959h		;88f7
 	call 05985h		;88fa
 	call 05648h		;88fd
@@ -1334,8 +1334,8 @@ L_8908:
 	ld hl,0e40ch		;8908
 	dec (hl)			;890b
 	ret nz			;890c
-	call 0594dh		;890d
-	call 057eah		;8910
+	call 0594dh		;890d   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
+	call 057eah		;8910   ; sonido_01: pide el sonido 0x01
 	xor a			;8913
 	call L_8418		;8914
 	ret			;8917
@@ -1345,7 +1345,7 @@ L_8918:
 	ret			;891c
 L_891D:
 	ld a,b			;891d
-	call 04093h		;891e
+	call 04093h		;891e   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_8921: 15 destinos del despachador p00:4093 (call en p27:891E, el
@@ -1375,7 +1375,7 @@ L_894F:
 	ret nz			;8958
 	call 05959h		;8959
 	call 05648h		;895c
-	call 05951h		;895f
+	call 05951h		;895f   ; orden_sonido_84: manda la orden 0x84 al motor de sonido
 	xor a			;8962
 	ld (0e40ch),a		;8963
 	call L_8418		;8966
@@ -1384,8 +1384,8 @@ L_896A:
 	ld hl,0e40ch		;896a
 	dec (hl)			;896d
 	ret nz			;896e
-	call 0594dh		;896f
-	call 05816h		;8972
+	call 0594dh		;896f   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
+	call 05816h		;8972   ; sonido_41: pide el sonido 0x41
 	call 05730h		;8975
 	call L_8418		;8978
 	ret			;897b
@@ -1434,7 +1434,7 @@ DATA_resto_89B4:
 L_89B8:
 	call 078ach		;89b8
 	ret nz			;89bb
-	call 04aa9h		;89bc
+	call 04aa9h		;89bc   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
 	call 05648h		;89bf
 	call 05959h		;89c2
 	call 05985h		;89c5
@@ -1445,15 +1445,15 @@ L_89CC:
 	call 05737h		;89cf
 	ret c			;89d2
 	call 05730h		;89d3
-	call 05951h		;89d6
+	call 05951h		;89d6   ; orden_sonido_84: manda la orden 0x84 al motor de sonido
 	call L_8418		;89d9
 	ret			;89dc
 L_89DD:
 	ld de,00172h		;89dd
 	call 05737h		;89e0
 	ret c			;89e3
-	call 0594dh		;89e4
-	call 057eah		;89e7
+	call 0594dh		;89e4   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
+	call 057eah		;89e7   ; sonido_01: pide el sonido 0x01
 	jp L_8418		;89ea
 L_89ED:
 	ld a,006h		;89ed
@@ -1462,27 +1462,27 @@ L_89ED:
 	call L_8DF5		;89f5
 	call 05985h		;89f8
 	call 05959h		;89fb
-	call 041e4h		;89fe
+	call 041e4h		;89fe   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 	ld de,0bbf3h		;8a01
 	ld hl,01e80h		;8a04
-	call 04b3ch		;8a07
+	call 04b3ch		;8a07   ; rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 	ld hl,0b8b7h		;8a0a
 	call 05ed4h		;8a0d
-	call 041bfh		;8a10
+	call 041bfh		;8a10   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	call L_8418		;8a13
 	ret			;8a16
 L_8A17:
-	call 041e4h		;8a17
+	call 041e4h		;8a17   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 	call 05eech		;8a1a
-	call 041bfh		;8a1d
+	call 041bfh		;8a1d   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ld a,(0e518h)		;8a20
 	or a			;8a23
 	ret nz			;8a24
-	call 057eah		;8a25
+	call 057eah		;8a25   ; sonido_01: pide el sonido 0x01
 	call L_8418		;8a28
 	ret			;8a2b
 L_8A2C:
-	call 05941h		;8a2c
+	call 05941h		;8a2c   ; sonido_53: pide el sonido 0x53
 	ld a,080h		;8a2f
 	ld (0e40ch),a		;8a31
 	call L_8418		;8a34
@@ -1491,7 +1491,7 @@ L_8A38:
 	ld hl,0e40ch		;8a38
 	dec (hl)			;8a3b
 	ret nz			;8a3c
-	call 057eah		;8a3d
+	call 057eah		;8a3d   ; sonido_01: pide el sonido 0x01
 	ld hl,05ecdh		;8a40
 	call 047b3h		;8a43
 	call L_8418		;8a46
@@ -1528,19 +1528,19 @@ L_8A7B:
 	djnz L_8A74		;8a7c
 	ret			;8a7e
 L_8A7F:
-	call 041e4h		;8a7f
+	call 041e4h		;8a7f   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 	ld ix,0ab9ah		;8a82
-	call 04cb1h		;8a86
+	call 04cb1h		;8a86   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 	ld ix,0abcch		;8a89
 	call 04d17h		;8a8d
-	call 041bfh		;8a90
+	call 041bfh		;8a90   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ret			;8a93
 L_8A94:
-	call 041e4h		;8a94
+	call 041e4h		;8a94   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 	ld de,0bc4ah		;8a97
 	ld hl,01800h		;8a9a
-	call 04b3ch		;8a9d
-	call 041bfh		;8aa0
+	call 04b3ch		;8a9d   ; rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+	call 041bfh		;8aa0   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ret			;8aa3
 L_8AA4:
 	ld hl,04200h		;8aa4
@@ -1611,7 +1611,7 @@ L_8B1C:
 	ld hl,08b50h		;8b2d
 L_8B30:
 	ld a,(0e5d8h)		;8b30
-	call 04a5ah		;8b33
+	call 04a5ah		;8b33   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld a,(hl)			;8b36
 	exx			;8b37
 	ld b,a			;8b38
@@ -1670,7 +1670,7 @@ L_8B90:
 	ld hl,08bd1h		;8b99
 L_8B9C:
 	ld a,(0e5d8h)		;8b9c
-	call 04a5ah		;8b9f
+	call 04a5ah		;8b9f   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld a,(hl)			;8ba2
 	inc hl			;8ba3
 	ld de,0ef02h		;8ba4
@@ -1720,7 +1720,7 @@ L_8BFD:
 	add a,a			;8c01
 	add a,a			;8c02
 	add a,b			;8c03
-	call 04089h		;8c04
+	call 04089h		;8c04   ; suma_a_hl: HL = HL + A
 	ld a,(hl)			;8c07
 	ld (0e5d7h),a		;8c08
 	inc hl			;8c0b
@@ -1808,7 +1808,7 @@ L_8CA9:
 	rst 20h			;8cbd
 	ret			;8cbe
 L_8CBF:
-	ld a,(0e303h)		;8cbf
+	ld a,(0e303h)		;8cbf   ; lee la cuenta de cuadros del juego
 	and 003h		;8cc2
 	ret nz			;8cc4
 	ld hl,0e54ch		;8cc5
@@ -1827,33 +1827,33 @@ L_8CD0:
 	ld (0e54dh),hl		;8cd9
 	ret			;8cdc
 L_8CDD:
-	call 041e4h		;8cdd
+	call 041e4h		;8cdd   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 	ld ix,0aaceh		;8ce0
-	call 04cb1h		;8ce4
-	call 041bfh		;8ce7
+	call 04cb1h		;8ce4   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+	call 041bfh		;8ce7   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ret			;8cea
 L_8CEB:
-	ld a,(0e303h)		;8ceb
+	ld a,(0e303h)		;8ceb   ; lee la cuenta de cuadros del juego
 	bit 3,a		;8cee
 	jp z,060c0h		;8cf0
-	call 041ach		;8cf3
+	call 041ach		;8cf3   ; bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
 	ld hl,0b8f6h		;8cf6
 	call 06067h		;8cf9
-	call 041bfh		;8cfc
+	call 041bfh		;8cfc   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ret			;8cff
 L_8D00:
-	call 041f7h		;8d00
-	call 041ach		;8d03
+	call 041f7h		;8d00   ; guarda_reparto: guarda las tres copias del mapper en la pila de 0xF0D0
+	call 041ach		;8d03   ; bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
 	ld a,(0e380h)		;8d06
 	ld hl,08d36h		;8d09
-	call 04a5ah		;8d0c
+	call 04a5ah		;8d0c   ; lee_palabra: HL = la palabra A de la tabla HL
 	ex de,hl			;8d0f
 	push de			;8d10
 	ld hl,02488h		;8d11
-	call 04b3ch		;8d14
+	call 04b3ch		;8d14   ; rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 	pop de			;8d17
 	ld hl,02c88h		;8d18
-	call 04b3ch		;8d1b
+	call 04b3ch		;8d1b   ; rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 	ld a,0f0h		;8d1e
 	ld hl,00488h		;8d20
 	ld bc,00378h		;8d23
@@ -1861,7 +1861,7 @@ L_8D00:
 	ld hl,00c88h		;8d29
 	ld bc,00378h		;8d2c
 	call 00056h		;8d2f   ; BIOS FILVRM - Fills VRAM with value
-	call 04213h		;8d32
+	call 04213h		;8d32   ; devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
 	ret			;8d35
 
 ; ----------------------------------------------------------------------
@@ -1882,11 +1882,11 @@ DATA_tabla_8D36:
 L_8D3E:
 	ld hl,0a23eh		;8d3e
 	ld de,0e800h		;8d41
-	call 055cdh		;8d44
+	call 055cdh		;8d44   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 	call L_8D65		;8d47
 	ld a,(0e380h)		;8d4a
 	ld hl,08d5dh		;8d4d
-	call 04a5ah		;8d50
+	call 04a5ah		;8d50   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld de,0caa9h		;8d53
 	ld bc,0060eh		;8d56
 	call 059a1h		;8d59
@@ -1926,7 +1926,7 @@ L_8D76:
 	jr nz,L_8D6B		;8d7a
 	ret			;8d7c
 L_8D7D:
-	ld a,(0e303h)		;8d7d
+	ld a,(0e303h)		;8d7d   ; lee la cuenta de cuadros del juego
 	bit 2,a		;8d80
 	jr nz,L_8D92		;8d82
 L_8D84:
@@ -1944,7 +1944,7 @@ L_8D92:
 	add a,a			;8d98
 	add a,b			;8d99
 	ld hl,08da9h		;8d9a
-	call 04089h		;8d9d
+	call 04089h		;8d9d   ; suma_a_hl: HL = HL + A
 	ld de,0ef40h		;8da0
 	ld bc,0000ch		;8da3
 	ldir		;8da6
@@ -1968,21 +1968,21 @@ DATA_tabla_8DA9:
 
 
 L_8DD9:
-	call 041e4h		;8dd9
+	call 041e4h		;8dd9   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 	ld ix,0b8bbh		;8ddc
-	call 04cb1h		;8de0
+	call 04cb1h		;8de0   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 	inc ix		;8de3
 	call 04d17h		;8de5
 	ld de,0bbf3h		;8de8
 	ld hl,01e80h		;8deb
-	call 04b3ch		;8dee
-	call 041bfh		;8df1
+	call 04b3ch		;8dee   ; rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+	call 041bfh		;8df1   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ret			;8df4
 L_8DF5:
 	ld hl,08e19h		;8df5
 	jr L_8E07		;8df8
 L_8DFA:
-	ld a,(0e303h)		;8dfa
+	ld a,(0e303h)		;8dfa   ; lee la cuenta de cuadros del juego
 	bit 3,a		;8dfd
 	ld hl,08e19h		;8dff
 	jr z,L_8E07		;8e02
@@ -2008,15 +2008,15 @@ DATA_resto_8E11:
 
 
 L_8E21:
-	call 041e4h		;8e21
+	call 041e4h		;8e21   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 	ld hl,0bc13h		;8e24
 	ld de,0e800h		;8e27
-	call 055cdh		;8e2a
+	call 055cdh		;8e2a   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 	ld bc,00810h		;8e2d
 	ld hl,0e800h		;8e30
 	ld de,0caa8h		;8e33
 	call 059a1h		;8e36
-	call 041bfh		;8e39
+	call 041bfh		;8e39   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ld hl,08e48h		;8e3c
 	ld de,0ef40h		;8e3f
 	ld bc,00004h		;8e42
@@ -2037,13 +2037,13 @@ DATA_resto_8E48:
 
 
 L_8E4C:
-	call 041e4h		;8e4c
+	call 041e4h		;8e4c   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 	ld ix,0bd4dh		;8e4f
-	call 04cb1h		;8e53
+	call 04cb1h		;8e53   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 	ld de,0bdcah		;8e56
 	ld hl,01de0h		;8e59
-	call 04b3ch		;8e5c
-	call 041bfh		;8e5f
+	call 04b3ch		;8e5c   ; rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+	call 041bfh		;8e5f   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ret			;8e62
 L_8E63:
 	ld hl,08e70h		;8e63
@@ -2070,7 +2070,7 @@ L_8E7C:
 	call 060c0h		;8e7f
 	ret			;8e82
 L_8E83:
-	ld a,(0e303h)		;8e83
+	ld a,(0e303h)		;8e83   ; lee la cuenta de cuadros del juego
 	rra			;8e86
 	and 001h		;8e87
 	add a,002h		;8e89
@@ -2079,7 +2079,7 @@ L_8E8E:
 	call L_8EA4		;8e8e
 	ld a,(0e5d0h)		;8e91
 	ld hl,08eb2h		;8e94
-	call 04a5ah		;8e97
+	call 04a5ah		;8e97   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld c,(hl)			;8e9a
 	ld b,000h		;8e9b
 	inc hl			;8e9d

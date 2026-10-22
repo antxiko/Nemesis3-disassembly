@@ -84,6 +84,10 @@ def todo():
     todo_graficos()
     mapa()
     apariciones()
+    todo_sprites()
+    paletas()
+    demostracion()
+    sonido()
 
 
 # ------------------------------------------------------------ listas de graficos
@@ -489,3 +493,241 @@ def medidos():
                         "tabla que las partidas no han pedido" % sin)
             B.declara(v, ORG[p] + i, ORG[p] + j, "leido_%04X" % (ORG[p] + i), txt + ")",
                       ["p%02d:%04X" % x for x in pcs], F=16)
+
+
+# ------------------------------------------------------------------ el sonido
+#
+# p10:602F arranca el sonido A (del 1 al 0x53; 0x81-0x85 son ordenes): la
+# tabla de p10:7504 + 2 x A da su cabecera, de la que p10:6089 copia siempre
+# 18 bytes a 0xE282 (las cabeceras se solapan: una sola ocupa 2 + 2 x canales):
+# [canales][prioridad] y una palabra por canal, la partitura. Las partituras
+# estan en el 10 y el 11 y en el banco que p10:62EC pone en 0xA000 (12, 13, 9
+# o 25, segun 0xE2BE). Lo que lee el motor de cada sonido lo mide
+# tools/lee_sonidos.py ejecutandolo (work/cob/sonidos.json).
+
+def sonido():
+    import json
+    import os
+    from paginas import ORG
+    v = B.Ventana((10, 11, 12))
+    B.declara(v, 0x7504, 0x75AC, "sonidos",
+              "un puntero por sonido a su cabecera (p10:6079: 0x7504 + 2 x numero, del 1 al 0x53; "
+              "la palabra 0 no la pide nadie)", "p10:6082", F="w8")
+    cab = [v.w(0x7504 + 2 * n) for n in range(1, 0x54)]
+    fin = max(c + 18 for c in cab if 0x75AC <= c < 0x8000)
+    B.declara(v, 0x75AC, fin, "cabeceras",
+              "las cabeceras de los sonidos: p10:6089 copia 18 bytes de cada una ([canales]"
+              "[prioridad] y una palabra por canal, la partitura); se solapan porque cada una solo "
+              "usa 2 + 2 x canales", "p10:608C", F=18)
+    ruta = os.path.join(B.RAIZ, "work", "cob", "sonidos.json")
+    if not os.path.exists(ruta):
+        return
+    por = json.load(open(ruta))["por_sonido"]
+    de = {}
+    for n, xs in por.items():
+        for k in xs:
+            b, a = k.split(":")
+            de.setdefault((int(b), int(a, 16)), set()).add(int(n, 16))
+    tapado = set()
+    for x in B.BLOQUES:
+        for a in range(x["ini"], x["fin"]):
+            tapado.add((x["p"], a))
+    for b in sorted({b for b, _ in de}):
+        if b == 0:
+            continue
+        cod = B.codigo_trazado(b)
+        xs = sorted(a for bb, a in de if bb == b and not cod[a - ORG[b]] and (b, a) not in tapado)
+        tramos = []
+        for a in xs:
+            if tramos and a <= tramos[-1][1] + 1:
+                tramos[-1][1] = a
+            else:
+                tramos.append([a, a])
+        w = ventana_seguida(b)
+        for i, f in tramos:
+            ns = sorted(set().union(*[de.get((b, a), set()) for a in range(i, f + 1)]))
+            B.declara(w, i, f + 1, "partitura_%04X" % i,
+                      "partitura que lee el motor de sonido (p10:644C y compania) al tocar %s %s "
+                      "(medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee "
+                      "seguido)" % ("los sonidos" if len(ns) > 1 else "el sonido",
+                                    ", ".join("0x%02X" % n for n in ns[:8]) + (" y otros" if len(ns) > 8 else "")),
+                      "p10:644C", F=16)
+
+
+# ------------------------------------------------- sprites y juegos de listas
+#
+# p00:50C2 recorre en HL una lista de dibujos de sprite de 3 en 3 hasta un 0:
+# el primer dibujo (x 8 + 0x1800) y el RLE que va ahi. p00:4E5A recorre en
+# IX otra de 4 en 4 hasta un 0: sprites copiados con espejo dentro de la
+# VRAM (no lee mas de la ROM). p00:511B (y 5124) toma de HL cuatro palabras:
+# lista de graficos, de copias, de dibujos de sprite y de espejos.
+
+def fuera(v, a, que):
+    if not 0x4000 <= a < 0xC000 or v.banco(a) is None:
+        B.AVISOS.append("%s: puntero 0x%04X fuera del cartucho" % (que, a))
+        return True
+    return False
+
+
+def sprites(v, a, sitio, que="una lista"):
+    if fuera(v, a, "sprites de " + que):
+        return
+    k = a
+    while v(k):
+        p = v.w(k + 1)
+        B.declara(v, p, rle(v, p), "rle_%04X" % p,
+                  "dibujos de sprite en RLE (p00:4B3C) de %s de p00:50C2 (%d:%04X)" % (que, v.banco(a), a),
+                  ["p00:50D5"], F=16)
+        k += 3
+    B.declara(v, a, k + 1, "sprites_%04X" % a,
+              "lista de dibujos de sprite (p00:50C2): de 3 en 3, el primer dibujo y el RLE que va "
+              "ahi; acaba en 0", [sitio], F=3)
+
+
+def espejos(v, a, sitio):
+    if fuera(v, a, "espejos de " + sitio):
+        return
+    B.declara(v, a, lista(4)(v, a), "espejos_%04X" % a,
+              "lista de sprites copiados con espejo dentro de la VRAM (p00:4E5A): de 4 en 4 (como, "
+              "cuantos, origen, destino); acaba en 0", [sitio], F=4)
+
+
+def juego(v, a, sitio, que):
+    """Las cuatro palabras de p00:5124."""
+    B.declara(v, a, a + 8, "juego_%04X" % a,
+              "%s: cuatro punteros (p00:5124): lista de graficos, de copias con vuelta, de dibujos "
+              "de sprite y de espejos" % que, [sitio], F="w4")
+    if not fuera(v, v.w(a), "graficos de " + que):
+        graficos(v, v.w(a), "p00:512C")
+    q = v.w(a + 2)
+    if not fuera(v, q, "copias de " + que):
+        B.declara(v, q, lista(4)(v, q), "copias_%04X" % q,
+              "lista de copias de caracteres con la vuelta dada (p00:4D1B) de %s" % que, ["p00:5138"], F=4)
+    sprites(v, v.w(a + 4), "p00:5142", que)
+    espejos(v, v.w(a + 6), "p00:514C")
+
+
+def todo_sprites():
+    v14 = B.Ventana((14, 15, 3))
+    for a, sitio in ((0x6ED4, "p00:50A4"), (0x6EDB, "p00:50AA")):
+        sprites(v14, a, sitio)
+    B.declara(v14, 0x6EEF, 0x6F05, "sprites_por_fase",
+              "un puntero por fase a su lista de dibujos de sprite (p00:50B3: 0x6EED + 2 x fase)",
+              "p00:50B9", F="w8")
+    for f in range(1, 12):
+        sprites(v14, v14.w(0x6EED + 2 * f), "p00:50BC", "la fase %d" % f)
+    espejos(v14, 0x6EE2, "p00:50E3")
+    B.declara(v14, 0x6FAC, 0x6FC2, "espejos_por_fase",
+              "un puntero por fase a su lista de sprites con espejo (p00:50EC: 0x6FAA + 2 x fase)",
+              "p00:50F2", F="w8")
+    for f in range(1, 12):
+        espejos(v14, v14.w(0x6FAA + 2 * f), "p00:50F8")
+    v20 = B.Ventana((20, 21, 22))
+    for a, que, sitio in ((0x6BBC, "un juego de p00:515F", "p00:5162"),
+                          (0x6B7B, "un juego de p00:516F (bit 0 de IX+1C a 0)", "p00:5181"),
+                          (0x6B83, "un juego de p00:516F (bit 0 de IX+1C a 1)", "p00:5181")):
+        juego(v20, a, sitio, que)
+    # p00:511B: 0x6B1F + 2 x 0xE440; la palabra 0 vale 2 (0xE440 no es 0 al
+    # llegar aqui) y la tabla acaba donde empieza el primer juego (0x6B43)
+    B.declara(v20, 0x6B1F, 0x6B43, "juegos_por_e440",
+              "un puntero por valor de 0xE440 (del 1 al 0x11; la palabra 0 vale 0x0002 y no se pide) "
+              "a un juego de cuatro listas (p00:511B: 0x6B1F + 2 x 0xE440); p00:50FE no entra con "
+              "0x0D; acaba donde empieza el primer juego", "p00:5121", F="w8")
+    for k in sorted({v20.w(0x6B1F + 2 * k) for k in range(1, 18)}):
+        ks = [x for x in range(1, 18) if v20.w(0x6B1F + 2 * x) == k]
+        juego(v20, k, "p00:5124", "el juego de 0xE440 = %s" % ", ".join(map(str, ks)))
+    # la paleta de cada fase en MSX2 (p00:519C: p16:67DD + 2 x fase); p00:4B94
+    # copia 0x40 bytes a 0xECC0 y los lee de 3 en 3 hasta un 0xFF
+    v16 = B.Ventana((16, 17, 18))
+    B.declara(v16, 0x67DF, 0x67F5, "paletas_por_fase",
+              "un puntero por fase a su paleta de MSX2 (p00:51A2: 0x67DD + 2 x fase)", "p00:51A5", F="w8")
+    for p in sorted({v16.w(0x67DD + 2 * f) for f in range(1, 12)}):
+        k = p
+        while v16(k) != 0xFF:
+            k += 3
+        B.declara(v16, p, k + 1, "paleta_%04X" % p,
+                  "una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de 3 en 3, el color, rojo y "
+                  "azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas "
+                  "corta", ["p00:4BA0"], F=3)
+
+
+# ------------------------------------------------- las paletas de MSX2
+#
+# p00:4B94 (solo con 0x002D distinto de 0) copia 0x40 bytes de HL a 0xECC0 y
+# los lee de 3 en 3 (color, rojo y azul, verde) hasta un 0xFF. Las tablas de
+# punteros acaban donde empieza la primera paleta a la que apuntan.
+
+def paleta(v, a, sitio, que):
+    k = a
+    while v(k) != 0xFF:
+        k += 3
+    B.declara(v, a, k + 1, "paleta_%04X" % a,
+              "paleta de MSX2 (%s; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en "
+              "0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta" % que, [sitio], F=3)
+
+
+def tabla_de_paletas(v, base, desde, que, sitio):
+    ps = {}
+    k = desde
+    tope = 0xC000
+    while base + 2 * k < tope:
+        p = v.w(base + 2 * k)
+        if not 0x4000 <= p < 0xC000:
+            break
+        ps.setdefault(p, []).append(k)
+        if p > base:
+            tope = min(tope, p)
+        k += 1
+    B.declara(v, base + 2 * desde, base + 2 * k, "paletas_%04X" % base,
+              "%s (%s); acaba donde empieza la primera paleta a la que apunta" % (que, sitio),
+              [sitio], F="w8")
+    return ps
+
+
+def paletas():
+    v = B.Ventana((16, 17, 18))
+    paleta(v, 0x67AE, "p00:571E", "la de p00:5718")
+    for p, ks in tabla_de_paletas(v, 0x69CC, 1, "un puntero por valor de 0xE440 a la paleta del "
+                                  "jefe (p00:5701: 0x69CC + 2 x 0xE440)", "p00:570F").items():
+        paleta(v, p, "p00:5712", "jefe %s" % ", ".join(map(str, ks)))
+    for p, ks in tabla_de_paletas(v, 0x6B74, 0, "un puntero por valor de A a una paleta "
+                                  "(p00:5709: 0x6B74 + 2 x A)", "p00:570F").items():
+        paleta(v, p, "p00:5712", "la %s de p00:5709" % ", ".join(map(str, ks)))
+    B.declara(v, 0x6CDC, 0x6CF2, "paletas_que_cambian",
+              "un puntero por fase a su lista de paletas que cambian cada 4 cuadros (p00:56E4: "
+              "0x6CDA + 2 x fase; las fases sin ninguna apuntan a 0x6D5D, que no se lee)", "p00:56EB",
+              F="w8")
+    B.declara(v, 0x6D5D, 0x6D68, "cuantas_paletas",
+              "una por fase: cuantas paletas tiene su lista (p00:56C7: 0x6D5C + fase; 0 = ninguna)",
+              "p00:56CD", F=11)
+    for f in range(1, 12):
+        n = v(0x6D5C + f)
+        if not n:
+            continue
+        lst = v.w(0x6CDA + 2 * f)
+        B.declara(v, lst, lst + 2 * n, "paletas_fase_%d" % f,
+                  "las %d paletas que se alternan en la fase %d (p00:56F2)" % (n, f), "p00:56F7", F="w8")
+        for k in range(n):
+            paleta(v, v.w(lst + 2 * k), "p00:56FB", "la %d de la fase %d" % (k, f))
+
+
+# ------------------------------------------------- la demostracion
+#
+# p00:5D73 (el 19 en 0xA000): por fase (1, 2 o 3, de 0xE33B), la grabacion
+# de p19:B568 + 2 x fase, de 2 en 2: cuantos cuadros y que se pulsa (lo de
+# 0xE308/0xE309, con el disparo puesto). Un 0xFF en los cuadros acaba (el
+# byte de detras tambien se lee: es el primero de la grabacion siguiente).
+
+def demostracion():
+    v = B.Ventana((1, 2, 19))
+    B.declara(v, 0xB56A, 0xB570, "demos",
+              "un puntero por fase de la demostracion (la 1, la 2 y la 3; p00:5D96: 0xB568 + 2 x fase)",
+              "p00:5D99", F="w8")
+    for f in (1, 2, 3):
+        a = v.w(0xB568 + 2 * f)
+        k = a
+        while v(k) != 0xFF:
+            k += 2
+        B.declara(v, a, k + 1, "demo_%d" % f,
+                  "la grabacion de la demostracion de la fase %d (p00:5D73): %d pares de cuantos cuadros y "
+                  "que se pulsa; acaba en 0xFF" % (f, (k - a) // 2), "p00:5DA1", F=2)

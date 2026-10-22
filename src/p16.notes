@@ -108,16 +108,108 @@ D 0x6758 0x6795 graficos_6758  lista de graficos (p00:4CB1): entradas de 6 bytes
 F 0x6758 6
 D 0x6795 0x67AE copias_6795  lista de copias de caracteres con la vuelta dada de la fase 11 (p00:4D1B); lo leen p00:4FFB (25 bytes)
 F 0x6795 4
-D 0x67DD 0x6CDA tabla_67DD  tabla que se lee desde HL = 0x67DD con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p00:51A2 (1277 bytes)
-F 0x67DD 16
-D 0x6CDA 0x6CDC tabla_6CDA  tabla que se lee desde HL = 0x6CDA con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p00:56E7 (2 bytes)
-F 0x6CDA 16
-D 0x6CDC 0x6D4D leido_6CDC  113 bytes que leen p00:56EE, p00:56F0, p00:56F7, p00:56F9 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 67 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:56EE, p00:56F0, p00:56F7, p00:56F9 (113 bytes)
-F 0x6CDC 16
-D 0x6D5C 0x6D5D tabla_6D5C  tabla que se lee desde HL = 0x6D5C con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p00:56C7 (1 bytes)
-F 0x6D5C 16
-D 0x6D5D 0x6D68 leido_6D5D  11 bytes que lee p00:56CD al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 1 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:56CD (11 bytes)
-F 0x6D5D 16
+D 0x67AE 0x67DF paleta_67AE  paleta de MSX2 (la de p00:5718; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:571E (49 bytes)
+F 0x67AE 3
+D 0x67DF 0x67F5 paletas_por_fase  un puntero por fase a su paleta de MSX2 (p00:51A2: 0x67DD + 2 x fase); lo leen p00:51A5 (22 bytes)
+F 0x67DF w8
+D 0x67F5 0x6820 paleta_67F5  una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+F 0x67F5 3
+D 0x6820 0x684B paleta_6820  una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+F 0x6820 3
+D 0x684B 0x6876 paleta_684B  una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+F 0x684B 3
+D 0x6876 0x68A1 paleta_6876  una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+F 0x6876 3
+D 0x68A1 0x68CC paleta_68A1  una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+F 0x68A1 3
+D 0x68CC 0x68F7 paleta_68CC  una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+F 0x68CC 3
+D 0x68F7 0x6922 paleta_68F7  una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+F 0x68F7 3
+D 0x6922 0x694D paleta_6922  una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+F 0x6922 3
+D 0x694D 0x6978 paleta_694D  una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+F 0x694D 3
+D 0x6978 0x69A3 paleta_6978  una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+F 0x6978 3
+D 0x69A3 0x69CE paleta_69A3  una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0, p00:5712 (43 bytes)
+F 0x69A3 3
+D 0x69CE 0x69F0 paletas_69CC  un puntero por valor de 0xE440 a la paleta del jefe (p00:5701: 0x69CC + 2 x 0xE440) (p00:570F); acaba donde empieza la primera paleta a la que apunta; lo leen p00:570F (34 bytes)
+F 0x69CE w8
+D 0x69F0 0x6A1B paleta_69F0  paleta de MSX2 (jefe 1, 3, 4; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+F 0x69F0 3
+D 0x6A1B 0x6A1C paleta_6A1B  paleta de MSX2 (jefe 2, 5, 10, 11; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:5712 (1 bytes)
+F 0x6A1B 3
+D 0x6A1C 0x6A47 paleta_6A1C  paleta de MSX2 (jefe 6; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+F 0x6A1C 3
+D 0x6A47 0x6A72 paleta_6A47  paleta de MSX2 (jefe 7; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+F 0x6A47 3
+D 0x6A72 0x6A9D paleta_6A72  paleta de MSX2 (jefe 8; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+F 0x6A72 3
+D 0x6A9D 0x6AC8 paleta_6A9D  paleta de MSX2 (jefe 9; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+F 0x6A9D 3
+D 0x6AC8 0x6AF3 paleta_6AC8  paleta de MSX2 (jefe 14; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+F 0x6AC8 3
+D 0x6AF3 0x6B1E paleta_6AF3  paleta de MSX2 (jefe 12; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+F 0x6AF3 3
+D 0x6B1E 0x6B49 paleta_6B1E  paleta de MSX2 (jefe 13; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+F 0x6B1E 3
+D 0x6B49 0x6B74 paleta_6B49  paleta de MSX2 (jefe 15, 17; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+F 0x6B49 3
+D 0x6B74 0x6B84 paletas_6B74  un puntero por valor de A a una paleta (p00:5709: 0x6B74 + 2 x A) (p00:570F); acaba donde empieza la primera paleta a la que apunta; lo leen p00:570F (16 bytes)
+F 0x6B74 w8
+D 0x6B84 0x6BAF paleta_6B84  paleta de MSX2 (la 0 de p00:5709; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+F 0x6B84 3
+D 0x6BAF 0x6BDA paleta_6BAF  paleta de MSX2 (la 1 de p00:5709; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+F 0x6BAF 3
+D 0x6BDA 0x6C05 paleta_6BDA  paleta de MSX2 (la 2 de p00:5709; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+F 0x6BDA 3
+D 0x6C05 0x6C30 paleta_6C05  paleta de MSX2 (la 3 de p00:5709; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+F 0x6C05 3
+D 0x6C30 0x6C5B paleta_6C30  paleta de MSX2 (la 4 de p00:5709; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+F 0x6C30 3
+D 0x6C5B 0x6C86 paleta_6C5B  paleta de MSX2 (la 5 de p00:5709; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+F 0x6C5B 3
+D 0x6C86 0x6CB1 paleta_6C86  paleta de MSX2 (la 6 de p00:5709; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+F 0x6C86 3
+D 0x6CB1 0x6CDC paleta_6CB1  paleta de MSX2 (la 7 de p00:5709; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+F 0x6CB1 3
+D 0x6CDC 0x6CF2 paletas_que_cambian  un puntero por fase a su lista de paletas que cambian cada 4 cuadros (p00:56E4: 0x6CDA + 2 x fase; las fases sin ninguna apuntan a 0x6D5D, que no se lee); lo leen p00:56EB (22 bytes)
+F 0x6CDC w8
+D 0x6CF2 0x6D02 paletas_fase_1  las 8 paletas que se alternan en la fase 1 (p00:56F2); lo leen p00:56F7 (16 bytes)
+F 0x6CF2 w8
+D 0x6D02 0x6D09 paleta_6D02  paleta de MSX2 (la 0 de la fase 1; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:56FB (7 bytes)
+F 0x6D02 3
+D 0x6D09 0x6D10 paleta_6D09  paleta de MSX2 (la 1 de la fase 1; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:56FB (7 bytes)
+F 0x6D09 3
+D 0x6D10 0x6D17 paleta_6D10  paleta de MSX2 (la 2 de la fase 1; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:56FB (7 bytes)
+F 0x6D10 3
+D 0x6D17 0x6D1E paleta_6D17  paleta de MSX2 (la 3 de la fase 1; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:56FB (7 bytes)
+F 0x6D17 3
+D 0x6D1E 0x6D25 paleta_6D1E  paleta de MSX2 (la 4 de la fase 1; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:56FB (7 bytes)
+F 0x6D1E 3
+D 0x6D25 0x6D31 paletas_fase_6  las 6 paletas que se alternan en la fase 6 (p00:56F2); lo leen p00:56F7 (12 bytes)
+F 0x6D25 w8
+D 0x6D31 0x6D35 paleta_6D31  paleta de MSX2 (la 0 de la fase 6; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:56FB (4 bytes)
+F 0x6D31 3
+D 0x6D35 0x6D39 paleta_6D35  paleta de MSX2 (la 1 de la fase 6; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:56FB (4 bytes)
+F 0x6D35 3
+D 0x6D39 0x6D3D paleta_6D39  paleta de MSX2 (la 2 de la fase 6; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:56FB (4 bytes)
+F 0x6D39 3
+D 0x6D3D 0x6D41 paleta_6D3D  paleta de MSX2 (la 5 de la fase 6; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:56FB (4 bytes)
+F 0x6D3D 3
+D 0x6D41 0x6D4D paletas_fase_8  las 6 paletas que se alternan en la fase 8 (p00:56F2); lo leen p00:56F7 (12 bytes)
+F 0x6D41 w8
+D 0x6D4D 0x6D51 paleta_6D4D  paleta de MSX2 (la 0 de la fase 8; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:56FB (4 bytes)
+F 0x6D4D 3
+D 0x6D51 0x6D55 paleta_6D51  paleta de MSX2 (la 1 de la fase 8; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:56FB (4 bytes)
+F 0x6D51 3
+D 0x6D55 0x6D59 paleta_6D55  paleta de MSX2 (la 2 de la fase 8; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:56FB (4 bytes)
+F 0x6D55 3
+D 0x6D59 0x6D5D paleta_6D59  paleta de MSX2 (la 3 de la fase 8; p00:4B94): de 3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0 aunque sea mas corta; lo leen p00:56FB (4 bytes)
+F 0x6D59 3
+D 0x6D5D 0x6D68 cuantas_paletas  una por fase: cuantas paletas tiene su lista (p00:56C7: 0x6D5C + fase; 0 = ninguna); lo leen p00:56CD (11 bytes)
+F 0x6D5D 11
 D 0x6D68 0x6DF9 rle_6D68  los dibujos de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6D68 6D68-6DF9); lo leen p00:4CFF, p00:4B3C (145 bytes)
 F 0x6D68 16
 D 0x6DF9 0x6E1A rle_6DF9  los colores de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6DF9 6DF9-6E1A); lo leen p00:4D11, p00:4B3C (33 bytes)
@@ -232,6 +324,4 @@ D 0x7F5A 0x7F5D rle_7F5A  los colores de una entrada de la lista de graficos de 
 F 0x7F5A 16
 D 0x7F5D 0x8000 rle_7F5D  los dibujos de una entrada de la lista de graficos de 16:612D, en RLE (p00:4B3C) (sigue en el banco 17, en 0x8000); se solapan 2 bloques: (rle_vram_7F5D 7F5D-8000); lo leen p00:4CFF, p00:4B3C (163 bytes)
 F 0x7F5D 16
-D 0x67AE 0x67DD resto_67AE  lo apuntan con el banco puesto p00:571B (0x67AE); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p00:571B (47 bytes)
-F 0x67AE 16
 # --- fin de los bloques de bloques.py ---

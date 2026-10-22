@@ -110,16 +110,16 @@ L_A087:
 	call L_A0A6		;a0a0
 	jp 09dc1h		;a0a3
 L_A0A6:
-	ld a,(0e600h)		;a0a6
+	ld a,(0e600h)		;a0a6   ; lee el estado de la nave (0xFF: estalla)
 	inc a			;a0a9
 	ret z			;a0aa
-	jp 05888h		;a0ab
+	jp 05888h		;a0ab   ; sonido_4C: pide el sonido 0x4C
 L_A0AE:
 	ld a,(0e4b2h)		;a0ae
 	or a			;a0b1
 	ret nz			;a0b2
 	ld hl,0002ch		;a0b3
-	ld a,(0e361h)		;a0b6
+	ld a,(0e361h)		;a0b6   ; lee la fase (1 a 11)
 	cp 004h		;a0b9
 	jr nz,L_A0C7		;a0bb
 	ld a,(0e37ch)		;a0bd
@@ -152,7 +152,7 @@ L_A0E6:
 	ret			;a0ef
 L_A0F0:
 	ld a,(0e441h)		;a0f0
-	call 04093h		;a0f3
+	call 04093h		;a0f3   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_A0F6: 9 destinos del despachador p00:4093 (call en p05:A0F3, el
@@ -177,9 +177,9 @@ L_A108:
 	call L_A158		;a114
 	ld (ix+013h),038h		;a117
 	ld (ix+014h),008h		;a11b
-	call 057eeh		;a11f
-	call 0594dh		;a122
-	call 057f6h		;a125
+	call 057eeh		;a11f   ; sonido_02: pide el sonido 0x02
+	call 0594dh		;a122   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
+	call 057f6h		;a125   ; sonido_09: pide el sonido 0x09
 L_A128:
 	ld hl,0e441h		;a128
 	inc (hl)			;a12b
@@ -256,7 +256,7 @@ L_A17F:
 	ld c,000h		;a1a1
 	ld a,038h		;a1a3
 	call 0764fh		;a1a5
-	jp 058d9h		;a1a8
+	jp 058d9h		;a1a8   ; sonido_2E: pide el sonido 0x2E
 L_A1AB:
 	call 09f11h		;a1ab
 	jr c,L_A1B7		;a1ae
@@ -327,7 +327,7 @@ L_A24A:
 	ld a,(ix+014h)		;a257
 	sub 00fh		;a25a
 	neg		;a25c
-	call 04089h		;a25e
+	call 04089h		;a25e   ; suma_a_hl: HL = HL + A
 	exx			;a261
 	ld b,(ix+013h)		;a262
 L_A265:
@@ -339,10 +339,10 @@ L_A265:
 	ldir		;a26d
 	pop de			;a26f
 	ld a,040h		;a270
-	call 0408eh		;a272
+	call 0408eh		;a272   ; suma_a_de: DE = DE + A
 	pop hl			;a275
 	ld a,00fh		;a276
-	call 04089h		;a278
+	call 04089h		;a278   ; suma_a_hl: HL = HL + A
 	exx			;a27b
 	djnz L_A265		;a27c
 	ret			;a27e
@@ -360,7 +360,7 @@ L_A28F:
 	djnz L_A28F		;a292
 	pop hl			;a294
 	ld a,040h		;a295
-	call 04089h		;a297
+	call 04089h		;a297   ; suma_a_hl: HL = HL + A
 	dec c			;a29a
 	jr nz,L_A28B		;a29b
 	ret			;a29d
@@ -385,7 +385,7 @@ DATA_tabla_A29E:
 
 L_A2DA:
 	ld a,(0e441h)		;a2da
-	call 04093h		;a2dd
+	call 04093h		;a2dd   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_A2E0: 10 destinos del despachador p00:4093 (call en p05:A2DD, el
@@ -410,9 +410,9 @@ L_A2F4:
 	call L_A34A		;a300
 	ld (ix+013h),038h		;a303
 	ld (ix+014h),008h		;a307
-	call 057eeh		;a30b
-	call 0594dh		;a30e
-	call 057f6h		;a311
+	call 057eeh		;a30b   ; sonido_02: pide el sonido 0x02
+	call 0594dh		;a30e   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
+	call 057f6h		;a311   ; sonido_09: pide el sonido 0x09
 	jp 09dc1h		;a314
 
 ; ----------------------------------------------------------------------
@@ -487,7 +487,7 @@ L_A390:
 L_A394:
 	dec (ix+018h)		;a394
 	ret nz			;a397
-	ld a,(0e361h)		;a398
+	ld a,(0e361h)		;a398   ; lee la fase (1 a 11)
 	cp 002h		;a39b
 	ld b,018h		;a39d
 	jr z,L_A3A3		;a39f
@@ -503,7 +503,7 @@ L_A3B1:
 	push bc			;a3b1
 	ld a,b			;a3b2
 	ld hl,0a3e4h		;a3b3
-	call 04a5ah		;a3b6
+	call 04a5ah		;a3b6   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld a,(0ec03h)		;a3b9
 	add a,l			;a3bc
 	cp 0b0h		;a3bd
@@ -514,7 +514,7 @@ L_A3B1:
 	ld d,a			;a3c6
 	ld c,b			;a3c7
 	ld b,00ch		;a3c8
-	ld a,(0e361h)		;a3ca
+	ld a,(0e361h)		;a3ca   ; lee la fase (1 a 11)
 	cp 002h		;a3cd
 	jr z,L_A3D3		;a3cf
 	ld b,006h		;a3d1
@@ -529,7 +529,7 @@ L_A3DD:
 L_A3E0:
 	pop bc			;a3e0
 	djnz L_A3B1		;a3e1
-	jp 058d5h		;a3e3
+	jp 058d5h		;a3e3   ; sonido_2D: pide el sonido 0x2D
 
 ; ----------------------------------------------------------------------
 ; DATOS sin identificar  0xa3e6..0xa3ee  (8 bytes)
@@ -543,7 +543,7 @@ DATA_A3E6:
 
 L_A3EE:
 	ld a,(0e441h)		;a3ee
-	call 04093h		;a3f1
+	call 04093h		;a3f1   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_A3F4: 9 destinos del despachador p00:4093 (call en p05:A3F1, el
@@ -576,9 +576,9 @@ L_A406:
 	ld (ix+021h),a		;a428
 	ld a,001h		;a42b
 	ld (0e454h),a		;a42d
-	call 057eeh		;a430
-	call 0594dh		;a433
-	call 057fah		;a436
+	call 057eeh		;a430   ; sonido_02: pide el sonido 0x02
+	call 0594dh		;a433   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
+	call 057fah		;a436   ; sonido_0A: pide el sonido 0x0A
 	jp 09dc1h		;a439
 
 ; ----------------------------------------------------------------------
@@ -642,7 +642,7 @@ L_A479:
 	ld bc,00100h		;a4a2
 	ld a,03ch		;a4a5
 	call 0764fh		;a4a7
-	jp 058d1h		;a4aa
+	jp 058d1h		;a4aa   ; sonido_2C: pide el sonido 0x2C
 
 ; ----------------------------------------------------------------------
 ; DATOS sin identificar  0xa4ad..0xa4f8  (75 bytes)
@@ -662,7 +662,7 @@ L_A4F8:
 	call L_A68B		;a4f8
 	ld ix,0ec00h		;a4fb
 	ld a,(0e441h)		;a4ff
-	call 04093h		;a502
+	call 04093h		;a502   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_A505: 14 destinos del despachador p00:4093 (call en p05:A502, el
@@ -721,7 +721,7 @@ L_A568:
 	and 003h		;a56b
 	inc (ix+01dh)		;a56d
 	ld hl,0a591h		;a570
-	call 04a5ah		;a573
+	call 04a5ah		;a573   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld (ix+003h),l		;a576
 	ld (ix+005h),h		;a579
 	call L_A602		;a57c
@@ -805,7 +805,7 @@ L_A602:
 	ld de,01817h		;a617
 	jr nz,L_A622		;a61a
 	ld de,019ffh		;a61c
-	call 05909h		;a61f
+	call 05909h		;a61f   ; sonido_38: pide el sonido 0x38
 L_A622:
 	ld (ix+007h),d		;a622
 	ld (ix+009h),e		;a625
@@ -817,7 +817,7 @@ L_A629:
 	jr nc,L_A634		;a630
 	ld c,01bh		;a632
 L_A634:
-	ld a,(0e303h)		;a634
+	ld a,(0e303h)		;a634   ; lee la cuenta de cuadros del juego
 	and 001h		;a637
 	ret z			;a639
 	ld c,0ffh		;a63a
@@ -854,7 +854,7 @@ L_A669:
 	djnz L_A669		;a672
 	ret			;a674
 L_A675:
-	call 05894h		;a675
+	call 05894h		;a675   ; sonido_29: pide el sonido 0x29
 	ld a,(ix+005h)		;a678
 	sub 00ch		;a67b
 	ld d,a			;a67d
@@ -888,7 +888,7 @@ L_A6A0:
 L_A6B2:
 	ld a,(ix+01fh)		;a6b2
 	ld hl,0a6dch		;a6b5
-	call 04a5ah		;a6b8
+	call 04a5ah		;a6b8   ; lee_palabra: HL = la palabra A de la tabla HL
 L_A6BB:
 	ld (ix+00eh),l		;a6bb
 L_A6BE:
@@ -969,7 +969,7 @@ L_A710:
 	call L_A68D		;a712
 	ld ix,0ec00h		;a715
 	ld a,(0e441h)		;a719
-	call 04093h		;a71c
+	call 04093h		;a71c   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_A71F: 9 destinos del despachador p00:4093 (call en p05:A71C, el
@@ -1144,7 +1144,7 @@ L_A862:
 	ld (ix+00dh),d		;a871
 	ret			;a874
 L_A875:
-	call 04a5ah		;a875
+	call 04a5ah		;a875   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld bc,(0ec05h)		;a878
 	ld a,l			;a87c
 	call L_A886		;a87d
@@ -1365,7 +1365,7 @@ L_AA1D:
 	call L_A68D		;aa1f
 	ld ix,0ec00h		;aa22
 	ld a,(0e441h)		;aa26
-	call 04093h		;aa29
+	call 04093h		;aa29   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_AA2C: 10 destinos del despachador p00:4093 (call en p05:AA29, el
@@ -1390,9 +1390,9 @@ L_AA40:
 	call L_AB02		;aa4c
 	ld (ix+013h),018h		;aa4f
 	ld (ix+014h),000h		;aa53
-	call 057eeh		;aa57
-	call 0594dh		;aa5a
-	call 057feh		;aa5d
+	call 057eeh		;aa57   ; sonido_02: pide el sonido 0x02
+	call 0594dh		;aa5a   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
+	call 057feh		;aa5d   ; sonido_0B: pide el sonido 0x0B
 	jp 09dc1h		;aa60
 
 ; ----------------------------------------------------------------------
@@ -1676,7 +1676,7 @@ DATA_resto_AC11:
 L_AC71:
 	ld ix,0ec00h		;ac71
 	ld a,(0e441h)		;ac75
-	call 04093h		;ac78
+	call 04093h		;ac78   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_AC7B: 7 destinos del despachador p00:4093 (call en p05:AC78, el
@@ -1740,7 +1740,7 @@ L_ACD3:
 	ld a,(ix+007h)		;acd9
 	sub 08fh		;acdc
 	ld hl,0ad08h		;acde
-	call 04089h		;ace1
+	call 04089h		;ace1   ; suma_a_hl: HL = HL + A
 	ld a,(hl)			;ace4
 	ld (ix+009h),a		;ace5
 	ld l,(ix+003h)		;ace8
@@ -1774,7 +1774,7 @@ DATA_tabla_AD08:
 
 L_AD0D:
 	ld a,(ix+001h)		;ad0d
-	call 04093h		;ad10
+	call 04093h		;ad10   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_AD13: 5 destinos del despachador p00:4093 (call en p05:AD10, el
@@ -1882,7 +1882,7 @@ L_ADA8:
 	ld a,r		;adc5
 	and 003h		;adc7
 	ld hl,0ae20h		;adc9
-	call 04089h		;adcc
+	call 04089h		;adcc   ; suma_a_hl: HL = HL + A
 	ld e,(hl)			;adcf
 	ld a,(ix+003h)		;add0
 	add a,e			;add3
@@ -1989,7 +1989,7 @@ L_AE74:
 	ret			;ae7c
 L_AE7D:
 	ld a,(ix+001h)		;ae7d
-	call 04093h		;ae80
+	call 04093h		;ae80   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_AE83: 3 destinos del despachador p00:4093 (call en p05:AE80, el
@@ -2007,7 +2007,7 @@ L_AE89:
 	dec (ix+002h)		;ae89
 	ret nz			;ae8c
 	ld (ix+002h),001h		;ae8d
-	call 058d5h		;ae91
+	call 058d5h		;ae91   ; sonido_2D: pide el sonido 0x2D
 L_AE94:
 	inc (ix+001h)		;ae94
 	ret			;ae97
@@ -2074,7 +2074,7 @@ L_AEF9:
 L_AF10:
 	ld ix,0ec00h		;af10
 	ld a,(0e441h)		;af14
-	call 04093h		;af17
+	call 04093h		;af17   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_AF1A: 2 destinos del despachador p00:4093 (call en p05:AF17, el
@@ -2128,9 +2128,9 @@ L_AF58:
 	ld a,(ix+007h)		;af67
 	jr z,L_AF88		;af6a
 	cp 097h		;af6c
-	call z,0590eh		;af6e
+	call z,0590eh		;af6e   ; sonido_39: pide el sonido 0x39
 	cp 09ch		;af71
-	call z,0590eh		;af73
+	call z,0590eh		;af73   ; sonido_39: pide el sonido 0x39
 	ld de,0fff8h		;af76
 	cp 09fh		;af79
 	jr z,L_AF9B		;af7b
@@ -2150,7 +2150,7 @@ L_AF88:
 	cp 09fh		;af95
 	ret nz			;af97
 L_AF98:
-	call 0590eh		;af98
+	call 0590eh		;af98   ; sonido_39: pide el sonido 0x39
 L_AF9B:
 	ld l,(ix+005h)		;af9b
 	ld h,(ix+006h)		;af9e
@@ -2169,7 +2169,7 @@ L_AF9B:
 	add a,a			;afbc
 	add a,a			;afbd
 	ld hl,0afd8h		;afbe
-	call 04089h		;afc1
+	call 04089h		;afc1   ; suma_a_hl: HL = HL + A
 	ld e,(hl)			;afc4
 	inc hl			;afc5
 	ld d,(hl)			;afc6
@@ -2227,7 +2227,7 @@ L_AFFC:
 L_B000:
 	ld ix,0ec00h		;b000
 	ld a,(0e441h)		;b004
-	call 04093h		;b007
+	call 04093h		;b007   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B00A: 7 destinos del despachador p00:4093 (call en p05:B007, el
@@ -2314,7 +2314,7 @@ L_B089:
 	ret			;b091
 L_B092:
 	ld a,(ix+021h)		;b092
-	call 04093h		;b095
+	call 04093h		;b095   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B098: 4 destinos del despachador p00:4093 (call en p05:B095, el
@@ -2332,7 +2332,7 @@ L_B0A0:
 	dec (ix+022h)		;b0a0
 	ret nz			;b0a3
 	ld (ix+022h),002h		;b0a4
-	call 058f1h		;b0a8
+	call 058f1h		;b0a8   ; sonido_34: pide el sonido 0x34
 	jr L_B0C3		;b0ab
 L_B0AD:
 	dec (ix+022h)		;b0ad
@@ -2367,10 +2367,10 @@ L_B0CF:
 	ld a,(ix+027h)		;b0d2
 	and 007h		;b0d5
 	ld hl,0b0c7h		;b0d7
-	call 04089h		;b0da
+	call 04089h		;b0da   ; suma_a_hl: HL = HL + A
 	ld a,(hl)			;b0dd
 	ld (ix+026h),a		;b0de
-	call 04093h		;b0e1
+	call 04093h		;b0e1   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B0E4: 4 destinos del despachador p00:4093 (call en p05:B0E1, el
@@ -2449,7 +2449,7 @@ L_B14A:
 L_B167:
 	ld a,(ix+026h)		;b167
 	and 003h		;b16a
-	call 04093h		;b16c
+	call 04093h		;b16c   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B16F: 4 destinos del despachador p00:4093 (call en p05:B16C, el
@@ -2599,7 +2599,7 @@ L_B273:
 L_B277:
 	ld ix,0ec00h		;b277
 	ld a,(0e441h)		;b27b
-	call 04093h		;b27e
+	call 04093h		;b27e   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B281: 7 destinos del despachador p00:4093 (call en p05:B27E, el
@@ -2678,7 +2678,7 @@ L_B2DB:
 	push ix		;b2fc
 	call 0678dh		;b2fe
 	pop ix		;b301
-	call 05884h		;b303
+	call 05884h		;b303   ; sonido_26: pide el sonido 0x26
 L_B306:
 	ld a,058h		;b306
 	ld b,038h		;b308
@@ -2695,7 +2695,7 @@ L_B30D:
 	ret			;b320
 L_B321:
 	ld a,(ix+01fh)		;b321
-	call 04093h		;b324
+	call 04093h		;b324   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B327: 3 destinos del despachador p00:4093 (call en p05:B324, el
@@ -2741,7 +2741,7 @@ L_B32D:
 	xor a			;b362
 	ld (0e454h),a		;b363
 	inc (ix+01fh)		;b366
-	jp 05894h		;b369
+	jp 05894h		;b369   ; sonido_29: pide el sonido 0x29
 L_B36C:
 	dec (ix+018h)		;b36c
 	ret nz			;b36f
@@ -2820,7 +2820,7 @@ L_B3DE:
 	add a,a			;b404
 	add a,b			;b405
 	ld hl,0b41bh		;b406
-	call 04089h		;b409
+	call 04089h		;b409   ; suma_a_hl: HL = HL + A
 L_B40C:
 	ld a,(hl)			;b40c
 	inc hl			;b40d
@@ -2860,7 +2860,7 @@ L_B424:
 	call L_B47A		;b424
 	call L_B499		;b427
 	ld a,(ix+001h)		;b42a
-	call 04093h		;b42d
+	call 04093h		;b42d   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B430: 3 destinos del despachador p00:4093 (call en p05:B42D, el
@@ -2929,7 +2929,7 @@ L_B490:
 	ret			;b498
 L_B499:
 	ld a,(ix+017h)		;b499
-	call 04093h		;b49c
+	call 04093h		;b49c   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B49F: 2 destinos del despachador p00:4093 (call en p05:B49C, el
@@ -3032,7 +3032,7 @@ L_B570:
 	ret			;b574
 L_B575:
 	ld a,(0e441h)		;b575
-	call 04093h		;b578
+	call 04093h		;b578   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B57B: 7 destinos del despachador p00:4093 (call en p05:B578, el
@@ -3194,7 +3194,7 @@ L_B647:
 	push de			;b68d
 	call 07647h		;b68e
 	pop de			;b691
-	jp 058d9h		;b692
+	jp 058d9h		;b692   ; sonido_2E: pide el sonido 0x2E
 L_B695:
 	ld a,(ix+01fh)		;b695
 	ld hl,0b6bbh		;b698
@@ -3237,7 +3237,7 @@ L_B6C4:
 	jr z,$+51		;b6c8
 	ld a,(ix+01fh)		;b6ca
 	ld hl,0b6f7h		;b6cd
-	call 04089h		;b6d0
+	call 04089h		;b6d0   ; suma_a_hl: HL = HL + A
 L_B6D3:
 	ld b,(hl)			;b6d3
 	ld a,(0ec03h)		;b6d4
@@ -3329,7 +3329,7 @@ L_B749:
 	ret			;b74e
 L_B74F:
 	ld a,(0e441h)		;b74f
-	call 04093h		;b752
+	call 04093h		;b752   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B755: 7 destinos del despachador p00:4093 (call en p05:B752, el
@@ -3522,7 +3522,7 @@ L_B8FB:
 	ld (ix+040h),001h		;b907
 	ld (ix+060h),001h		;b90b
 	ld (ix+035h),000h		;b90f
-	jp 058e1h		;b913
+	jp 058e1h		;b913   ; sonido_30: pide el sonido 0x30
 L_B916:
 	ld b,003h		;b916
 L_B918:
@@ -3545,7 +3545,7 @@ L_B924:
 L_B92B:
 	ld hl,0ec18h		;b92b
 	ld (hl),000h		;b92e
-	ld a,(0e303h)		;b930
+	ld a,(0e303h)		;b930   ; lee la cuenta de cuadros del juego
 	and 007h		;b933
 	ret nz			;b935
 	inc (hl)			;b936
@@ -3588,7 +3588,7 @@ L_B96C:
 	ld a,(ix+022h)		;b96f
 	and 003h		;b972
 	ld hl,0b97fh		;b974
-	call 04089h		;b977
+	call 04089h		;b977   ; suma_a_hl: HL = HL + A
 	ld a,(hl)			;b97a
 	ld (ix+015h),a		;b97b
 	ret			;b97e
@@ -3658,7 +3658,7 @@ L_B9C2:
 	ld a,b			;b9c2
 	push hl			;b9c3
 	ld hl,0ec70h		;b9c4
-	call 04089h		;b9c7
+	call 04089h		;b9c7   ; suma_a_hl: HL = HL + A
 	ld a,(hl)			;b9ca
 	or a			;b9cb
 	jr nz,L_B9E2		;b9cc
@@ -3723,8 +3723,8 @@ L_BA3B:
 L_BA3F:
 	ld hl,0ba4eh		;ba3f
 	call 05ffeh		;ba42
-	call 05901h		;ba45
-	call 05951h		;ba48
+	call 05901h		;ba45   ; sonido_4E: pide el sonido 0x4E
+	call 05951h		;ba48   ; orden_sonido_84: manda la orden 0x84 al motor de sonido
 	jp L_B5A4		;ba4b
 
 ; ----------------------------------------------------------------------
@@ -3789,7 +3789,7 @@ L_BA95:
 L_BAAC:
 	ld (0e455h),a		;baac
 	ld a,(ix+001h)		;baaf
-	call 04093h		;bab2
+	call 04093h		;bab2   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_BAB5: 9 destinos del despachador p00:4093 (call en p05:BAB2, el
@@ -3847,7 +3847,7 @@ DATA_leido_BB06:
 L_BB1E:
 	ld a,(0e455h)		;bb1e
 	ld hl,0bb27h		;bb21
-	jp 04a5ah		;bb24
+	jp 04a5ah		;bb24   ; lee_palabra: HL = la palabra A de la tabla HL
 
 ; ----------------------------------------------------------------------
 ; DATOS leido_BB27: 6 bytes que leen p00:4A60, p00:4A62 al jugar (medido
@@ -3941,10 +3941,10 @@ L_BBB0:
 	ld (ix+017h),008h		;bbd0
 	call L_BC60		;bbd4
 	sub 002h		;bbd7
-	jp nz,05884h		;bbd9
+	jp nz,05884h		;bbd9   ; sonido_26: pide el sonido 0x26
 	ld a,001h		;bbdc
 	ld (0e445h),a		;bbde
-	jp 05888h		;bbe1
+	jp 05888h		;bbe1   ; sonido_4C: pide el sonido 0x4C
 L_BBE4:
 	dec (ix+002h)		;bbe4
 	ret nz			;bbe7
@@ -4001,7 +4001,7 @@ L_BC34:
 	call L_BC60		;bc34
 	sub 002h		;bc37
 	ret z			;bc39
-	jp 05884h		;bc3a
+	jp 05884h		;bc3a   ; sonido_26: pide el sonido 0x26
 L_BC3D:
 	inc (ix+01bh)		;bc3d
 	ld de,00100h		;bc40
@@ -4081,11 +4081,11 @@ L_BCA1:
 L_BCAE:
 	ld a,b			;bcae
 	ld hl,0bcc1h		;bcaf
-	call 04a5ah		;bcb2
+	call 04a5ah		;bcb2   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld (0e474h),hl		;bcb5
 	ld a,b			;bcb8
 	ld hl,0bccdh		;bcb9
-	call 04a5ah		;bcbc
+	call 04a5ah		;bcbc   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld (0e472h),hl		;bcbf
 	ret			;bcc2
 
@@ -4213,7 +4213,7 @@ L_BD7C:
 L_BD8D:
 	ld ix,0ec00h		;bd8d
 	ld a,(0e441h)		;bd91
-	call 04093h		;bd94
+	call 04093h		;bd94   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_BD97: 3 destinos del despachador p00:4093 (call en p05:BD94, el
@@ -4266,7 +4266,7 @@ L_BDD4:
 	ret			;bddd
 L_BDDE:
 	ld a,(0ec16h)		;bdde
-	call 04093h		;bde1
+	call 04093h		;bde1   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_BDE4: 4 destinos del despachador p00:4093 (call en p05:BDE1, el
@@ -4345,7 +4345,7 @@ L_BE76:
 L_BE78:
 	ld a,b			;be78
 	ld hl,0be88h		;be79
-	call 04a5ah		;be7c
+	call 04a5ah		;be7c   ; lee_palabra: HL = la palabra A de la tabla HL
 	ex de,hl			;be7f
 	ld a,035h		;be80
 	push bc			;be82

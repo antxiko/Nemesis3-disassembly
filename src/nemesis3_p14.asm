@@ -405,459 +405,300 @@ DATA_6C94:
 	defb 0ffh,000h,0efh,008h,0efh,028h,0efh,000h,0ffh,000h,078h,048h,078h,050h,048h,000h	; 6ec4  .....(....xHxPH.
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6ED4: 14 bytes que leen p00:50C2, p00:50C6, p00:50C8 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:50C2, p00:50C6, p00:50C8
-;   (14 bytes)
-;   0x6ed4..0x6ee2  (14 bytes)
-DATA_leido_6ED4:
-	defb 05ch,070h,080h,0f8h,0b0h,080h,000h,064h,076h,075h,09ch,02ch,07fh,000h	; 6ed4  \p.....dvu.,..
+; DATOS sprites_6ED4: lista de dibujos de sprite (p00:50C2): de 3 en 3, el
+;   primer dibujo y el RLE que va ahi; acaba en 0; lo leen p00:50A4 (7 bytes)
+;   0x6ed4..0x6edb  (7 bytes)
+DATA_sprites_6ED4:
+	defb 05ch,070h,080h	; 6ed4
+	defb 0f8h,0b0h,080h	; 6ed7
+	defb 000h	; 6eda
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6EE2: 1 bytes que lee p00:4E5A al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4E5A (1 bytes)
-;   0x6ee2..0x6ee3  (1 bytes)
-DATA_leido_6EE2:
-	defb 002h	; 6ee2
+; DATOS sprites_6EDB: lista de dibujos de sprite (p00:50C2): de 3 en 3, el
+;   primer dibujo y el RLE que va ahi; acaba en 0; lo leen p00:50AA (7 bytes)
+;   0x6edb..0x6ee2  (7 bytes)
+DATA_sprites_6EDB:
+	defb 064h,076h,075h	; 6edb
+	defb 09ch,02ch,07fh	; 6ede
+	defb 000h	; 6ee1
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6EE3: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x6ee3..0x6ee6  (3 bytes)
-DATA_leido_6EE3:
-	defb 003h,064h,070h	; 6ee3
-
-; ----------------------------------------------------------------------
-; DATOS leido_6EE6: 5 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al
-;   jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (5 bytes)
-;   0x6ee6..0x6eeb  (5 bytes)
-DATA_leido_6EE6:
-	defb 001h,003h,064h,07ch,002h	; 6ee6
-
-; ----------------------------------------------------------------------
-; DATOS leido_6EEB: 2 bytes que leen p00:4EDE, p00:4EF0 al jugar (medido
-;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
-;   tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0 (2 bytes)
-;   0x6eeb..0x6eed  (2 bytes)
-DATA_leido_6EEB:
-	defb 003h,07ch	; 6eeb
-
-; ----------------------------------------------------------------------
-; DATOS tabla_6EED: tabla que se lee desde HL = 0x6EED con un indice
-;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
-;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
-;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p00:50B6 (1 bytes)
-;   0x6eed..0x6eee  (1 bytes)
-DATA_tabla_6EED:
-	defb 088h	; 6eed
-
-; ----------------------------------------------------------------------
-; DATOS leido_6EEE: 1 bytes que lee p00:4E5A al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4E5A (1 bytes)
-;   0x6eee..0x6eef  (1 bytes)
-DATA_leido_6EEE:
+; DATOS espejos_6EE2: lista de sprites copiados con espejo dentro de la VRAM
+;   (p00:4E5A): de 4 en 4 (como, cuantos, origen, destino); acaba en 0; lo
+;   leen p00:50E3 (13 bytes)
+;   0x6ee2..0x6eef  (13 bytes)
+DATA_espejos_6EE2:
+	defb 002h,003h,064h,070h	; 6ee2
+	defb 001h,003h,064h,07ch	; 6ee6
+	defb 002h,003h,07ch,088h	; 6eea
 	defb 000h	; 6eee
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6EEF: 22 bytes que leen p00:4A60, p00:4A62 al jugar (medido
-;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
-;   tamano es lo que se lee seguido, con 2 sin leer entre lecturas de la misma
-;   rutina: entradas de la misma tabla que las partidas no han pedido); lo
-;   leen p00:4A60, p00:4A62 (22 bytes)
+; DATOS sprites_por_fase: un puntero por fase a su lista de dibujos de sprite
+;   (p00:50B3: 0x6EED + 2 x fase); lo leen p00:50B9 (22 bytes)
 ;   0x6eef..0x6f05  (22 bytes)
-DATA_leido_6EEF:
-	defb 005h,06fh,00fh,06fh,01ch,06fh,032h,06fh,036h,06fh,046h,06fh,065h,06fh,072h,06fh	; 6eef  .o.o.o2o6oFoeoro
-	defb 082h,06fh,092h,06fh,0a8h,06fh	; 6eff
+DATA_sprites_por_fase:
+	defw 06f05h,06f0fh,06f1ch,06f32h,06f36h,06f46h,06f65h,06f72h	; 6eef
+	defw 06f82h,06f92h,06fa8h	; 6eff  -> DATA_sprites_6F82 DATA_sprites_6F92 DATA_sprites_6FA8
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6F05: 165 bytes que leen p00:50C2, p00:50C6, p00:50C8 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido, con 4 sin leer entre lecturas de la
-;   misma rutina: entradas de la misma tabla que las partidas no han pedido);
-;   lo leen p00:50C2, p00:50C6, p00:50C8 (165 bytes)
-;   0x6f05..0x6faa  (165 bytes)
-DATA_leido_6F05:
-	defb 0c4h,00eh,07eh,0bch,001h,07dh,0d4h,083h,07eh,000h,0a0h,013h,076h,0d0h,0c4h,076h	; 6f05  ..~..}..~...v..v
-	defb 0d4h,0ceh,076h,0dch,058h,07ch,000h,0a0h,00fh,077h,0d8h,04ch,077h,0a8h,0edh,07fh	; 6f15  ..v.X|...w.Lw...
-	defb 0b0h,06eh,077h,0e0h,0bfh,07ch,098h,064h,07ch,09ch,023h,07dh,000h,0e0h,0d0h,077h	; 6f25  .nw..|.d|.#}...w
-	defb 000h,0a0h,02eh,078h,0d8h,04ch,077h,0ach,070h,078h,0b0h,08dh,078h,0c0h,0cfh,078h	; 6f35  ...x.Lw.px..x..x
-	defb 000h,064h,067h,07dh,084h,0d7h,078h,088h,0f9h,078h,090h,0a1h,07dh,0a0h,02eh,078h	; 6f45  .dg}..x..x..}..x
-	defb 0d8h,04ch,077h,0b0h,004h,079h,0d4h,070h,07fh,0e0h,090h,07fh,0ech,0c0h,07dh,000h	; 6f55  .Lw..y.p......}.
-	defb 08ch,0ddh,07eh,0a8h,066h,079h,094h,0e6h,079h,0e0h,01ah,07ah,000h,0a0h,05ch,07ah	; 6f65  ..~.fy..y..z..\z
-	defb 0ach,02eh,080h,0b4h,0cah,07ah,0c0h,09dh,07ah,0d0h,000h,07bh,000h,064h,04eh,07bh	; 6f75  .....z..z..{.dN{
-	defb 094h,00fh,077h,0a8h,0adh,07bh,0c0h,02fh,07dh,0e0h,0d0h,077h,000h,0a0h,0eah,07bh	; 6f85  ..w..{./}..w...{
-	defb 0b0h,015h,07fh,0d0h,04eh,07fh,0d8h,036h,07ch,094h,0d5h,075h,09ch,023h,07dh,0e0h	; 6f95  ....N..6|..u.#}.
-	defb 0d0h,077h,000h,0a0h,070h	; 6fa5
+; DATOS sprites_6F05: lista de dibujos de sprite (p00:50C2): de 3 en 3, el
+;   primer dibujo y el RLE que va ahi; acaba en 0; lo leen p00:50BC (10 bytes)
+;   0x6f05..0x6f0f  (10 bytes)
+DATA_sprites_6F05:
+	defb 0c4h,00eh,07eh	; 6f05
+	defb 0bch,001h,07dh	; 6f08
+	defb 0d4h,083h,07eh	; 6f0b
+	defb 000h	; 6f0e
 
 ; ----------------------------------------------------------------------
-; DATOS tabla_6FAA: tabla que se lee desde HL = 0x6FAA con un indice
-;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
-;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
-;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p00:50EC (1 bytes)
-;   0x6faa..0x6fab  (1 bytes)
-DATA_tabla_6FAA:
-	defb 078h	; 6faa
+; DATOS sprites_6F0F: lista de dibujos de sprite (p00:50C2): de 3 en 3, el
+;   primer dibujo y el RLE que va ahi; acaba en 0; lo leen p00:50BC (13 bytes)
+;   0x6f0f..0x6f1c  (13 bytes)
+DATA_sprites_6F0F:
+	defb 0a0h,013h,076h	; 6f0f
+	defb 0d0h,0c4h,076h	; 6f12
+	defb 0d4h,0ceh,076h	; 6f15
+	defb 0dch,058h,07ch	; 6f18
+	defb 000h	; 6f1b
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6FAB: 1 bytes que lee p00:50C2 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:50C2 (1 bytes)
-;   0x6fab..0x6fac  (1 bytes)
-DATA_leido_6FAB:
+; DATOS sprites_6F1C: lista de dibujos de sprite (p00:50C2): de 3 en 3, el
+;   primer dibujo y el RLE que va ahi; acaba en 0; lo leen p00:50BC (22 bytes)
+;   0x6f1c..0x6f32  (22 bytes)
+DATA_sprites_6F1C:
+	defb 0a0h,00fh,077h	; 6f1c
+	defb 0d8h,04ch,077h	; 6f1f
+	defb 0a8h,0edh,07fh	; 6f22
+	defb 0b0h,06eh,077h	; 6f25
+	defb 0e0h,0bfh,07ch	; 6f28
+	defb 098h,064h,07ch	; 6f2b
+	defb 09ch,023h,07dh	; 6f2e
+	defb 000h	; 6f31
+
+; ----------------------------------------------------------------------
+; DATOS sprites_6F32: lista de dibujos de sprite (p00:50C2): de 3 en 3, el
+;   primer dibujo y el RLE que va ahi; acaba en 0; lo leen p00:50BC (4 bytes)
+;   0x6f32..0x6f36  (4 bytes)
+DATA_sprites_6F32:
+	defb 0e0h,0d0h,077h	; 6f32
+	defb 000h	; 6f35
+
+; ----------------------------------------------------------------------
+; DATOS sprites_6F36: lista de dibujos de sprite (p00:50C2): de 3 en 3, el
+;   primer dibujo y el RLE que va ahi; acaba en 0; lo leen p00:50BC (16 bytes)
+;   0x6f36..0x6f46  (16 bytes)
+DATA_sprites_6F36:
+	defb 0a0h,02eh,078h	; 6f36
+	defb 0d8h,04ch,077h	; 6f39
+	defb 0ach,070h,078h	; 6f3c
+	defb 0b0h,08dh,078h	; 6f3f
+	defb 0c0h,0cfh,078h	; 6f42
+	defb 000h	; 6f45
+
+; ----------------------------------------------------------------------
+; DATOS sprites_6F46: lista de dibujos de sprite (p00:50C2): de 3 en 3, el
+;   primer dibujo y el RLE que va ahi; acaba en 0; lo leen p00:50BC (31 bytes)
+;   0x6f46..0x6f65  (31 bytes)
+DATA_sprites_6F46:
+	defb 064h,067h,07dh	; 6f46
+	defb 084h,0d7h,078h	; 6f49
+	defb 088h,0f9h,078h	; 6f4c
+	defb 090h,0a1h,07dh	; 6f4f
+	defb 0a0h,02eh,078h	; 6f52
+	defb 0d8h,04ch,077h	; 6f55
+	defb 0b0h,004h,079h	; 6f58
+	defb 0d4h,070h,07fh	; 6f5b
+	defb 0e0h,090h,07fh	; 6f5e
+	defb 0ech,0c0h,07dh	; 6f61
+	defb 000h	; 6f64
+
+; ----------------------------------------------------------------------
+; DATOS sprites_6F65: lista de dibujos de sprite (p00:50C2): de 3 en 3, el
+;   primer dibujo y el RLE que va ahi; acaba en 0; lo leen p00:50BC (13 bytes)
+;   0x6f65..0x6f72  (13 bytes)
+DATA_sprites_6F65:
+	defb 08ch,0ddh,07eh	; 6f65
+	defb 0a8h,066h,079h	; 6f68
+	defb 094h,0e6h,079h	; 6f6b
+	defb 0e0h,01ah,07ah	; 6f6e
+	defb 000h	; 6f71
+
+; ----------------------------------------------------------------------
+; DATOS sprites_6F72: lista de dibujos de sprite (p00:50C2): de 3 en 3, el
+;   primer dibujo y el RLE que va ahi; acaba en 0; lo leen p00:50BC (16 bytes)
+;   0x6f72..0x6f82  (16 bytes)
+DATA_sprites_6F72:
+	defb 0a0h,05ch,07ah	; 6f72
+	defb 0ach,02eh,080h	; 6f75
+	defb 0b4h,0cah,07ah	; 6f78
+	defb 0c0h,09dh,07ah	; 6f7b
+	defb 0d0h,000h,07bh	; 6f7e
+	defb 000h	; 6f81
+
+; ----------------------------------------------------------------------
+; DATOS sprites_6F82: lista de dibujos de sprite (p00:50C2): de 3 en 3, el
+;   primer dibujo y el RLE que va ahi; acaba en 0; lo leen p00:50BC (16 bytes)
+;   0x6f82..0x6f92  (16 bytes)
+DATA_sprites_6F82:
+	defb 064h,04eh,07bh	; 6f82
+	defb 094h,00fh,077h	; 6f85
+	defb 0a8h,0adh,07bh	; 6f88
+	defb 0c0h,02fh,07dh	; 6f8b
+	defb 0e0h,0d0h,077h	; 6f8e
+	defb 000h	; 6f91
+
+; ----------------------------------------------------------------------
+; DATOS sprites_6F92: lista de dibujos de sprite (p00:50C2): de 3 en 3, el
+;   primer dibujo y el RLE que va ahi; acaba en 0; lo leen p00:50BC (22 bytes)
+;   0x6f92..0x6fa8  (22 bytes)
+DATA_sprites_6F92:
+	defb 0a0h,0eah,07bh	; 6f92
+	defb 0b0h,015h,07fh	; 6f95
+	defb 0d0h,04eh,07fh	; 6f98
+	defb 0d8h,036h,07ch	; 6f9b
+	defb 094h,0d5h,075h	; 6f9e
+	defb 09ch,023h,07dh	; 6fa1
+	defb 0e0h,0d0h,077h	; 6fa4
+	defb 000h	; 6fa7
+
+; ----------------------------------------------------------------------
+; DATOS sprites_6FA8: lista de dibujos de sprite (p00:50C2): de 3 en 3, el
+;   primer dibujo y el RLE que va ahi; acaba en 0; lo leen p00:50BC (4 bytes)
+;   0x6fa8..0x6fac  (4 bytes)
+DATA_sprites_6FA8:
+	defb 0a0h,070h,078h	; 6fa8
 	defb 000h	; 6fab
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6FAC: 22 bytes que leen p00:4A60, p00:4A62 al jugar (medido
-;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
-;   tamano es lo que se lee seguido, con 2 sin leer entre lecturas de la misma
-;   rutina: entradas de la misma tabla que las partidas no han pedido); lo
-;   leen p00:4A60, p00:4A62 (22 bytes)
+; DATOS espejos_por_fase: un puntero por fase a su lista de sprites con espejo
+;   (p00:50EC: 0x6FAA + 2 x fase); lo leen p00:50F2 (22 bytes)
 ;   0x6fac..0x6fc2  (22 bytes)
-DATA_leido_6FAC:
-	defb 0c2h,06fh,0cfh,06fh,0d0h,06fh,0e1h,06fh,0e2h,06fh,0ebh,06fh,004h,070h,015h,070h	; 6fac  .o.o.o.o.o.o.p.p
-	defb 022h,070h,04bh,070h,054h,070h	; 6fbc
+DATA_espejos_por_fase:
+	defw 06fc2h,06fcfh,06fd0h,06fe1h,06fe2h,06febh,07004h,07015h	; 6fac
+	defw 07022h,0704bh,07054h	; 6fbc  -> DATA_espejos_7022 DATA_espejos_704B DATA_espejos_7054
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6FC2: 5 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al
-;   jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (5 bytes)
-;   0x6fc2..0x6fc7  (5 bytes)
-DATA_leido_6FC2:
-	defb 001h,001h,0a4h,0ach,002h	; 6fc2
+; DATOS espejos_6FC2: lista de sprites copiados con espejo dentro de la VRAM
+;   (p00:4E5A): de 4 en 4 (como, cuantos, origen, destino); acaba en 0; lo
+;   leen p00:50F8 (13 bytes)
+;   0x6fc2..0x6fcf  (13 bytes)
+DATA_espejos_6FC2:
+	defb 001h,001h,0a4h,0ach	; 6fc2
+	defb 002h,001h,0bch,0c0h	; 6fc6
+	defb 001h,001h,0c0h,0c0h	; 6fca
+	defb 000h	; 6fce
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6FC7: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x6fc7..0x6fca  (3 bytes)
-DATA_leido_6FC7:
-	defb 001h,0bch,0c0h	; 6fc7
+; DATOS espejos_6FCF: lista de sprites copiados con espejo dentro de la VRAM
+;   (p00:4E5A): de 4 en 4 (como, cuantos, origen, destino); acaba en 0; lo
+;   leen p00:50F8 (1 bytes)
+;   0x6fcf..0x6fd0  (1 bytes)
+DATA_espejos_6FCF:
+	defb 000h	; 6fcf
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6FCA: 7 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al
-;   jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (7 bytes)
-;   0x6fca..0x6fd1  (7 bytes)
-DATA_leido_6FCA:
-	defb 001h,001h,0c0h,0c0h,000h,000h,002h	; 6fca
+; DATOS espejos_6FD0: lista de sprites copiados con espejo dentro de la VRAM
+;   (p00:4E5A): de 4 en 4 (como, cuantos, origen, destino); acaba en 0; lo
+;   leen p00:50F8 (17 bytes)
+;   0x6fd0..0x6fe1  (17 bytes)
+DATA_espejos_6FD0:
+	defb 002h,001h,0b8h,0bch	; 6fd0
+	defb 001h,004h,0b0h,0c0h	; 6fd4
+	defb 001h,001h,0e0h,0e8h	; 6fd8
+	defb 002h,001h,0d8h,0dch	; 6fdc
+	defb 000h	; 6fe0
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6FD1: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x6fd1..0x6fd4  (3 bytes)
-DATA_leido_6FD1:
-	defb 001h,0b8h,0bch	; 6fd1
+; DATOS espejos_6FE1: lista de sprites copiados con espejo dentro de la VRAM
+;   (p00:4E5A): de 4 en 4 (como, cuantos, origen, destino); acaba en 0; lo
+;   leen p00:50F8 (1 bytes)
+;   0x6fe1..0x6fe2  (1 bytes)
+DATA_espejos_6FE1:
+	defb 000h	; 6fe1
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6FD4: 9 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al
-;   jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (9 bytes)
-;   0x6fd4..0x6fdd  (9 bytes)
-DATA_leido_6FD4:
-	defb 001h,004h,0b0h,0c0h,001h,001h,0e0h,0e8h,002h	; 6fd4  .........
+; DATOS espejos_6FE2: lista de sprites copiados con espejo dentro de la VRAM
+;   (p00:4E5A): de 4 en 4 (como, cuantos, origen, destino); acaba en 0; lo
+;   leen p00:50F8 (9 bytes)
+;   0x6fe2..0x6feb  (9 bytes)
+DATA_espejos_6FE2:
+	defb 002h,002h,0b0h,0b8h	; 6fe2
+	defb 002h,001h,0d8h,0dch	; 6fe6
+	defb 000h	; 6fea
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6FDD: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x6fdd..0x6fe0  (3 bytes)
-DATA_leido_6FDD:
-	defb 001h,0d8h,0dch	; 6fdd
+; DATOS espejos_6FEB: lista de sprites copiados con espejo dentro de la VRAM
+;   (p00:4E5A): de 4 en 4 (como, cuantos, origen, destino); acaba en 0; lo
+;   leen p00:50F8 (25 bytes)
+;   0x6feb..0x7004  (25 bytes)
+DATA_espejos_6FEB:
+	defb 002h,001h,0b8h,0bch	; 6feb
+	defb 001h,004h,0b0h,0c0h	; 6fef
+	defb 002h,001h,0d8h,0dch	; 6ff3
+	defb 001h,003h,064h,070h	; 6ff7
+	defb 001h,001h,094h,098h	; 6ffb
+	defb 001h,001h,0f0h,0f4h	; 6fff
+	defb 000h	; 7003
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6FE0: 3 bytes que lee p00:4E5A al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido, con 1 sin leer entre lecturas de la misma rutina: entradas
-;   de la misma tabla que las partidas no han pedido); lo leen p00:4E5A (3
-;   bytes)
-;   0x6fe0..0x6fe3  (3 bytes)
-DATA_leido_6FE0:
-	defb 000h,000h,002h	; 6fe0
+; DATOS espejos_7004: lista de sprites copiados con espejo dentro de la VRAM
+;   (p00:4E5A): de 4 en 4 (como, cuantos, origen, destino); acaba en 0; lo
+;   leen p00:50F8 (17 bytes)
+;   0x7004..0x7015  (17 bytes)
+DATA_espejos_7004:
+	defb 001h,005h,0a8h,0bch	; 7004
+	defb 001h,002h,0e0h,0e8h	; 7008
+	defb 002h,002h,094h,0f0h	; 700c
+	defb 002h,001h,0d8h,0dch	; 7010
+	defb 000h	; 7014
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6FE3: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x6fe3..0x6fe6  (3 bytes)
-DATA_leido_6FE3:
-	defb 002h,0b0h,0b8h	; 6fe3
+; DATOS espejos_7015: lista de sprites copiados con espejo dentro de la VRAM
+;   (p00:4E5A): de 4 en 4 (como, cuantos, origen, destino); acaba en 0; lo
+;   leen p00:50F8 (13 bytes)
+;   0x7015..0x7022  (13 bytes)
+DATA_espejos_7015:
+	defb 002h,002h,0ach,0f0h	; 7015
+	defb 002h,001h,0b8h,0bch	; 7019
+	defb 002h,001h,0b4h,0b8h	; 701d
+	defb 000h	; 7021
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6FE6: 1 bytes que lee p00:4E5A al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4E5A (1 bytes)
-;   0x6fe6..0x6fe7  (1 bytes)
-DATA_leido_6FE6:
-	defb 002h	; 6fe6
+; DATOS espejos_7022: lista de sprites copiados con espejo dentro de la VRAM
+;   (p00:4E5A): de 4 en 4 (como, cuantos, origen, destino); acaba en 0; lo
+;   leen p00:50F8 (41 bytes)
+;   0x7022..0x704b  (41 bytes)
+DATA_espejos_7022:
+	defb 002h,003h,064h,070h	; 7022
+	defb 001h,003h,064h,07ch	; 7026
+	defb 002h,003h,07ch,088h	; 702a
+	defb 001h,002h,0a8h,0b0h	; 702e
+	defb 002h,001h,0c0h,0d0h	; 7032
+	defb 002h,001h,0c4h,0cch	; 7036
+	defb 001h,001h,0c4h,0dch	; 703a
+	defb 001h,001h,0c8h,0d8h	; 703e
+	defb 001h,001h,0cch,0d4h	; 7042
+	defb 002h,002h,094h,0f0h	; 7046
+	defb 000h	; 704a
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6FE7: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x6fe7..0x6fea  (3 bytes)
-DATA_leido_6FE7:
-	defb 001h,0d8h,0dch	; 6fe7
+; DATOS espejos_704B: lista de sprites copiados con espejo dentro de la VRAM
+;   (p00:4E5A): de 4 en 4 (como, cuantos, origen, destino); acaba en 0; lo
+;   leen p00:50F8 (9 bytes)
+;   0x704b..0x7054  (9 bytes)
+DATA_espejos_704B:
+	defb 001h,001h,0a8h,0ach	; 704b
+	defb 002h,002h,094h,0f0h	; 704f
+	defb 000h	; 7053
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6FEA: 2 bytes que lee p00:4E5A al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4E5A (2 bytes)
-;   0x6fea..0x6fec  (2 bytes)
-DATA_leido_6FEA:
-	defb 000h,002h	; 6fea
-
-; ----------------------------------------------------------------------
-; DATOS leido_6FEC: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x6fec..0x6fef  (3 bytes)
-DATA_leido_6FEC:
-	defb 001h,0b8h,0bch	; 6fec
-
-; ----------------------------------------------------------------------
-; DATOS leido_6FEF: 5 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al
-;   jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (5 bytes)
-;   0x6fef..0x6ff4  (5 bytes)
-DATA_leido_6FEF:
-	defb 001h,004h,0b0h,0c0h,002h	; 6fef
-
-; ----------------------------------------------------------------------
-; DATOS leido_6FF4: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x6ff4..0x6ff7  (3 bytes)
-DATA_leido_6FF4:
-	defb 001h,0d8h,0dch	; 6ff4
-
-; ----------------------------------------------------------------------
-; DATOS leido_6FF7: 9 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al
-;   jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (9 bytes)
-;   0x6ff7..0x7000  (9 bytes)
-DATA_leido_6FF7:
-	defb 001h,003h,064h,070h,001h,001h,094h,098h,001h	; 6ff7  ..dp.....
-
-; ----------------------------------------------------------------------
-; DATOS leido_7000: 13 bytes que leen p00:4E6E, p00:4E76, p00:4E85, p00:4E5A
-;   al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4E6E, p00:4E76, p00:4E85, p00:4E5A (13 bytes)
-;   0x7000..0x700d  (13 bytes)
-DATA_leido_7000:
-	defb 001h,0f0h,0f4h,000h,001h,005h,0a8h,0bch,001h,002h,0e0h,0e8h,002h	; 7000  .............
-
-; ----------------------------------------------------------------------
-; DATOS leido_700D: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x700d..0x7010  (3 bytes)
-DATA_leido_700D:
-	defb 002h,094h,0f0h	; 700d
-
-; ----------------------------------------------------------------------
-; DATOS leido_7010: 1 bytes que lee p00:4E5A al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4E5A (1 bytes)
-;   0x7010..0x7011  (1 bytes)
-DATA_leido_7010:
-	defb 002h	; 7010
-
-; ----------------------------------------------------------------------
-; DATOS leido_7011: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x7011..0x7014  (3 bytes)
-DATA_leido_7011:
-	defb 001h,0d8h,0dch	; 7011
-
-; ----------------------------------------------------------------------
-; DATOS leido_7014: 2 bytes que lee p00:4E5A al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4E5A (2 bytes)
-;   0x7014..0x7016  (2 bytes)
-DATA_leido_7014:
-	defb 000h,002h	; 7014
-
-; ----------------------------------------------------------------------
-; DATOS leido_7016: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x7016..0x7019  (3 bytes)
-DATA_leido_7016:
-	defb 002h,0ach,0f0h	; 7016
-
-; ----------------------------------------------------------------------
-; DATOS leido_7019: 1 bytes que lee p00:4E5A al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4E5A (1 bytes)
-;   0x7019..0x701a  (1 bytes)
-DATA_leido_7019:
-	defb 002h	; 7019
-
-; ----------------------------------------------------------------------
-; DATOS leido_701A: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x701a..0x701d  (3 bytes)
-DATA_leido_701A:
-	defb 001h,0b8h,0bch	; 701a
-
-; ----------------------------------------------------------------------
-; DATOS leido_701D: 1 bytes que lee p00:4E5A al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4E5A (1 bytes)
-;   0x701d..0x701e  (1 bytes)
-DATA_leido_701D:
-	defb 002h	; 701d
-
-; ----------------------------------------------------------------------
-; DATOS leido_701E: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x701e..0x7021  (3 bytes)
-DATA_leido_701E:
-	defb 001h,0b4h,0b8h	; 701e
-
-; ----------------------------------------------------------------------
-; DATOS leido_7021: 2 bytes que lee p00:4E5A al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4E5A (2 bytes)
-;   0x7021..0x7023  (2 bytes)
-DATA_leido_7021:
-	defb 000h,002h	; 7021
-
-; ----------------------------------------------------------------------
-; DATOS leido_7023: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x7023..0x7026  (3 bytes)
-DATA_leido_7023:
-	defb 003h,064h,070h	; 7023
-
-; ----------------------------------------------------------------------
-; DATOS leido_7026: 5 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al
-;   jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (5 bytes)
-;   0x7026..0x702b  (5 bytes)
-DATA_leido_7026:
-	defb 001h,003h,064h,07ch,002h	; 7026
-
-; ----------------------------------------------------------------------
-; DATOS leido_702B: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x702b..0x702e  (3 bytes)
-DATA_leido_702B:
-	defb 003h,07ch,088h	; 702b
-
-; ----------------------------------------------------------------------
-; DATOS leido_702E: 5 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al
-;   jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (5 bytes)
-;   0x702e..0x7033  (5 bytes)
-DATA_leido_702E:
-	defb 001h,002h,0a8h,0b0h,002h	; 702e
-
-; ----------------------------------------------------------------------
-; DATOS leido_7033: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x7033..0x7036  (3 bytes)
-DATA_leido_7033:
-	defb 001h,0c0h,0d0h	; 7033
-
-; ----------------------------------------------------------------------
-; DATOS leido_7036: 1 bytes que lee p00:4E5A al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4E5A (1 bytes)
-;   0x7036..0x7037  (1 bytes)
-DATA_leido_7036:
-	defb 002h	; 7036
-
-; ----------------------------------------------------------------------
-; DATOS leido_7037: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x7037..0x703a  (3 bytes)
-DATA_leido_7037:
-	defb 001h,0c4h,0cch	; 7037
-
-; ----------------------------------------------------------------------
-; DATOS leido_703A: 13 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85
-;   al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (13 bytes)
-;   0x703a..0x7047  (13 bytes)
-DATA_leido_703A:
-	defb 001h,001h,0c4h,0dch,001h,001h,0c8h,0d8h,001h,001h,0cch,0d4h,002h	; 703a  .............
-
-; ----------------------------------------------------------------------
-; DATOS leido_7047: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x7047..0x704a  (3 bytes)
-DATA_leido_7047:
-	defb 002h,094h,0f0h	; 7047
-
-; ----------------------------------------------------------------------
-; DATOS leido_704A: 6 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al
-;   jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (6 bytes)
-;   0x704a..0x7050  (6 bytes)
-DATA_leido_704A:
-	defb 000h,001h,001h,0a8h,0ach,002h	; 704a
-
-; ----------------------------------------------------------------------
-; DATOS leido_7050: 3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3
-;   (3 bytes)
-;   0x7050..0x7053  (3 bytes)
-DATA_leido_7050:
-	defb 002h,094h,0f0h	; 7050
-
-; ----------------------------------------------------------------------
-; DATOS leido_7053: 2 bytes que lee p00:4E5A al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4E5A (2 bytes)
-;   0x7053..0x7055  (2 bytes)
-DATA_leido_7053:
-	defb 000h,000h	; 7053
+; DATOS espejos_7054: lista de sprites copiados con espejo dentro de la VRAM
+;   (p00:4E5A): de 4 en 4 (como, cuantos, origen, destino); acaba en 0; lo
+;   leen p00:50F8 (1 bytes)
+;   0x7054..0x7055  (1 bytes)
+DATA_espejos_7054:
+	defb 000h	; 7054
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_7055: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80
@@ -1029,13 +870,11 @@ DATA_rle_7537:
 	defb 010h,003h,000h,081h,011h,003h,000h,084h,010h,000h,000h,002h,011h,000h,000h	; 7567  ...............
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7576: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (95
-;   bytes)
+; DATOS rle_7576: dibujos de sprite en RLE (p00:4B3C) de una lista de p00:50C2
+;   (14:6EDB); se solapan 2 bloques: (rle_vram_7576 7576-75D5); lo leen
+;   p00:50D5, p00:4B3C (95 bytes)
 ;   0x7576..0x75d5  (95 bytes)
-DATA_rle_vram_7576:
+DATA_rle_7576:
 	defb 089h,000h,003h,001h,00ch,0f6h,016h,004h,00bh,007h,005h,000h,09eh,005h,00bh,000h	; 7576  ................
 	defb 0d0h,00ch,0e0h,0ceh,03fh,0ffh,0c3h,03ch,0c2h,038h,01eh,025h,003h,0eeh,0b0h,003h	; 7586  ....?..<.8.%....
 	defb 001h,00ch,0f6h,016h,00ch,00bh,007h,000h,000h,07bh,0edh,003h,000h,09bh,001h,0d0h	; 7596  .........{......
@@ -1044,26 +883,22 @@ DATA_rle_vram_7576:
 	defb 098h,04eh,0e3h,09dh,07eh,0ffh,0c3h,0bch,042h,018h,02eh,005h,0ebh,0b4h,000h	; 75c6  .N..~...B......
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_75D5: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (62
-;   bytes)
+; DATOS rle_75D5: dibujos de sprite en RLE (p00:4B3C) de la fase 10 de
+;   p00:50C2 (14:6F92); se solapan 2 bloques: (rle_vram_75D5 75D5-7613); lo
+;   leen p00:50D5, p00:4B3C (62 bytes)
 ;   0x75d5..0x7613  (62 bytes)
-DATA_rle_vram_75D5:
+DATA_rle_75D5:
 	defb 0a0h,000h,002h,015h,039h,07fh,07fh,098h,0c2h,0c2h,098h,07fh,07fh,039h,015h,002h	; 75d5  ....9........9..
 	defb 000h,028h,07ah,07fh,0e0h,0d0h,090h,024h,0aeh,0aeh,024h,090h,0d0h,0e0h,07fh,07ah	; 75e5  .(z....$..$....z
 	defb 028h,004h,000h,08ah,015h,07fh,03ch,0c2h,0dch,03fh,079h,076h,017h,001h,006h,000h	; 75f5  (.....<..?yv....
 	defb 08ch,0fch,0cbh,034h,0aeh,064h,090h,0ffh,0feh,06ch,050h,000h,000h,000h	; 7605  ...4.d...lP...
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7613: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (177
-;   bytes)
+; DATOS rle_7613: dibujos de sprite en RLE (p00:4B3C) de la fase 2 de p00:50C2
+;   (14:6F0F); se solapan 2 bloques: (rle_vram_7613 7613-76C4); lo leen
+;   p00:50D5, p00:4B3C (177 bytes)
 ;   0x7613..0x76c4  (177 bytes)
-DATA_rle_vram_7613:
+DATA_rle_7613:
 	defb 002h,000h,0c9h,006h,009h,008h,008h,070h,0c0h,0c0h,060h,032h,020h,043h,086h,09ch	; 7613  .......p..`2 C..
 	defb 070h,01ch,026h,046h,08ch,018h,00eh,003h,033h,066h,04ch,018h,008h,088h,0e4h,03ch	; 7623  p.&F....3fL....<
 	defb 018h,002h,007h,009h,018h,010h,030h,021h,041h,0c1h,0c0h,042h,060h,021h,013h,01eh	; 7633  ......0!A..B`!..
@@ -1078,23 +913,19 @@ DATA_rle_vram_7613:
 	defb 000h	; 76c3
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_76C4: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (10
-;   bytes)
+; DATOS rle_76C4: dibujos de sprite en RLE (p00:4B3C) de la fase 2 de p00:50C2
+;   (14:6F0F); se solapan 2 bloques: (rle_vram_76C4 76C4-76CE); lo leen
+;   p00:50D5, p00:4B3C (10 bytes)
 ;   0x76c4..0x76ce  (10 bytes)
-DATA_rle_vram_76C4:
+DATA_rle_76C4:
 	defb 086h,030h,078h,0fch,0fch,078h,030h,01ah,000h,000h	; 76c4  .0x..x0...
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_76CE: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (65
-;   bytes)
+; DATOS rle_76CE: dibujos de sprite en RLE (p00:4B3C) de la fase 2 de p00:50C2
+;   (14:6F0F); se solapan 2 bloques: (rle_vram_76CE 76CE-770F); lo leen
+;   p00:50D5, p00:4B3C (65 bytes)
 ;   0x76ce..0x770f  (65 bytes)
-DATA_rle_vram_76CE:
+DATA_rle_76CE:
 	defb 002h,000h,08ch,004h,00ah,011h,008h,012h,021h,02bh,020h,014h,010h,013h,00ch,004h	; 76ce  ........!+ .....
 	defb 000h,0aeh,040h,0a0h,020h,020h,090h,08ch,0c4h,088h,010h,008h,0c8h,030h,000h,000h	; 76de  ..@.  .......0..
 	defb 018h,024h,04bh,040h,024h,027h,043h,0a7h,08fh,047h,042h,02ah,040h,051h,026h,018h	; 76ee  .$K@$'C..GB*@Q&.
@@ -1102,38 +933,32 @@ DATA_rle_vram_76CE:
 	defb 000h	; 770e
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_770F: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (61
-;   bytes)
+; DATOS rle_770F: dibujos de sprite en RLE (p00:4B3C) de la fase 3 de p00:50C2
+;   (14:6F1C); se solapan 2 bloques: (rle_vram_770F 770F-774C); lo leen
+;   p00:50D5, p00:4B3C (61 bytes)
 ;   0x770f..0x774c  (61 bytes)
-DATA_rle_vram_770F:
+DATA_rle_770F:
 	defb 0a0h,000h,007h,00fh,0f7h,01ah,00ch,025h,0abh,0abh,025h,00ch,01ah,0f7h,00fh,007h	; 770f  .......%..%.....
 	defb 000h,03dh,0e8h,090h,068h,0f0h,0e4h,014h,055h,055h,014h,0e4h,0f0h,068h,090h,0e8h	; 771f  .=..h...UU...h..
 	defb 03dh,003h,000h,089h,002h,0f8h,005h,02bh,0abh,001h,01ah,0f7h,003h,007h,000h,08ah	; 772f  =......+........
 	defb 0f8h,007h,050h,054h,0b5h,0f8h,0fch,040h,0f0h,07fh,003h,000h,000h	; 773f  ..PT...@.....
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_774C: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (34
-;   bytes)
+; DATOS rle_774C: dibujos de sprite en RLE (p00:4B3C) de la fase 3 de p00:50C2
+;   (14:6F1C); se solapan 2 bloques: (rle_vram_774C 774C-776E); lo leen
+;   p00:50D5, p00:4B3C (34 bytes)
 ;   0x774c..0x776e  (34 bytes)
-DATA_rle_vram_774C:
+DATA_rle_774C:
 	defb 0a0h,000h,007h,00bh,003h,036h,061h,0deh,03dh,03dh,0deh,061h,036h,003h,00bh,007h	; 774c  .....6a.==.a6...
 	defb 000h,0e8h,053h,086h,0ech,008h,0f0h,068h,0deh,0deh,068h,0f0h,008h,0ech,086h,053h	; 775c  ..S....h..h....S
 	defb 0e8h,000h	; 776c
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_776E: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (98
-;   bytes)
+; DATOS rle_776E: dibujos de sprite en RLE (p00:4B3C) de la fase 3 de p00:50C2
+;   (14:6F1C); se solapan 2 bloques: (rle_vram_776E 776E-77D0); lo leen
+;   p00:50D5, p00:4B3C (98 bytes)
 ;   0x776e..0x77d0  (98 bytes)
-DATA_rle_vram_776E:
+DATA_rle_776E:
 	defb 0e0h,00ah,016h,017h,026h,037h,076h,06dh,06dh,076h,037h,026h,017h,00ah,004h,00eh	; 776e  ....&7vmmv7&....
 	defb 034h,050h,068h,0e8h,064h,0ech,06eh,0b6h,0b6h,06eh,0ech,064h,0e8h,050h,020h,070h	; 777e  4Ph.d.n..n.d.P p
 	defb 02ch,007h,01fh,0c1h,073h,001h,03fh,07eh,015h,015h,07eh,03fh,001h,073h,0c1h,01fh	; 778e  ,...s.?~..~?.s..
@@ -1143,13 +968,11 @@ DATA_rle_vram_776E:
 	defb 000h,000h	; 77ce
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_77D0: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (94
-;   bytes)
+; DATOS rle_77D0: dibujos de sprite en RLE (p00:4B3C) de la fase 4 de p00:50C2
+;   (14:6F32); se solapan 2 bloques: (rle_vram_77D0 77D0-782E); lo leen
+;   p00:50D5, p00:4B3C (94 bytes)
 ;   0x77d0..0x782e  (94 bytes)
-DATA_rle_vram_77D0:
+DATA_rle_77D0:
 	defb 006h,000h,084h,001h,003h,003h,001h,00ch,000h,084h,080h,0c0h,0c0h,080h,00bh,000h	; 77d0  ................
 	defb 086h,002h,004h,001h,001h,004h,002h,00ah,000h,086h,040h,020h,080h,080h,020h,040h	; 77e0  ..........@ .. @
 	defb 008h,000h,08ah,006h,008h,012h,014h,001h,001h,014h,012h,008h,006h,006h,000h,08ah	; 77f0  ................
@@ -1158,13 +981,11 @@ DATA_rle_vram_77D0:
 	defb 066h,013h,008h,08bh,0c0h,0c0h,08bh,008h,013h,066h,00eh,05ch,050h,000h	; 7820  f........f.\P.
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_782E: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (66
-;   bytes)
+; DATOS rle_782E: dibujos de sprite en RLE (p00:4B3C) de la fase 5 de p00:50C2
+;   (14:6F36); se solapan 2 bloques: (rle_vram_782E 782E-7870); lo leen
+;   p00:50D5, p00:4B3C (66 bytes)
 ;   0x782e..0x7870  (66 bytes)
-DATA_rle_vram_782E:
+DATA_rle_782E:
 	defb 0c0h,001h,004h,00fh,03fh,018h,057h,00fh,0afh,0afh,00fh,057h,018h,03fh,00fh,004h	; 782e  ....?.W....W.?..
 	defb 001h,07ch,023h,080h,068h,0f4h,040h,088h,0aah,0aah,088h,040h,0f4h,068h,080h,023h	; 783e  .|#.h.@....@.h.#
 	defb 07ch,001h,004h,00fh,03fh,018h,057h,00fh,0afh,0afh,00fh,057h,018h,03fh,00fh,004h	; 784e  |...?.W....W.?..
@@ -1172,24 +993,20 @@ DATA_rle_vram_782E:
 	defb 060h,000h	; 786e
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7870: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (29
-;   bytes)
+; DATOS rle_7870: dibujos de sprite en RLE (p00:4B3C) de la fase 5 de p00:50C2
+;   (14:6F36); se solapan 2 bloques: (rle_vram_7870 7870-788D); lo leen
+;   p00:50D5, p00:4B3C (29 bytes)
 ;   0x7870..0x788d  (29 bytes)
-DATA_rle_vram_7870:
+DATA_rle_7870:
 	defb 08ch,00fh,039h,060h,040h,0c0h,080h,080h,0c0h,040h,060h,039h,00fh,005h,000h,08ah	; 7870  ..9`@....@`9....
 	defb 0c0h,060h,020h,030h,010h,010h,030h,020h,060h,0c0h,005h,000h,000h	; 7880  .` 0..0 `....
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_788D: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (66
-;   bytes)
+; DATOS rle_788D: dibujos de sprite en RLE (p00:4B3C) de la fase 5 de p00:50C2
+;   (14:6F36); se solapan 2 bloques: (rle_vram_788D 788D-78CF); lo leen
+;   p00:50D5, p00:4B3C (66 bytes)
 ;   0x788d..0x78cf  (66 bytes)
-DATA_rle_vram_788D:
+DATA_rle_788D:
 	defb 002h,000h,002h,001h,0a6h,007h,01eh,00dh,00bh,03fh,03fh,07fh,07fh,0ffh,0ffh,00ah	; 788d  .........??.....
 	defb 015h,01ch,07eh,0fdh,01eh,03dh,07ah,0f5h,0eeh,0eeh,0dch,0cch,0d0h,0a8h,090h,020h	; 789d  ..~..=z........
 	defb 050h,000h,000h,001h,001h,007h,01eh,00dh,00bh,03fh,00fh,003h,007h,093h,04fh,07eh	; 78ad  P........?....O~
@@ -1197,45 +1014,37 @@ DATA_rle_vram_788D:
 	defb 050h,000h	; 78cd
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_78CF: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (8
-;   bytes)
+; DATOS rle_78CF: dibujos de sprite en RLE (p00:4B3C) de la fase 5 de p00:50C2
+;   (14:6F36); se solapan 2 bloques: (rle_vram_78CF 78CF-78D7); lo leen
+;   p00:50D5, p00:4B3C (8 bytes)
 ;   0x78cf..0x78d7  (8 bytes)
-DATA_rle_vram_78CF:
+DATA_rle_78CF:
 	defb 084h,060h,090h,090h,060h,01ch,000h,000h	; 78cf  .`..`...
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_78D7: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (34
-;   bytes)
+; DATOS rle_78D7: dibujos de sprite en RLE (p00:4B3C) de la fase 6 de p00:50C2
+;   (14:6F46); se solapan 2 bloques: (rle_vram_78D7 78D7-78F9); lo leen
+;   p00:50D5, p00:4B3C (34 bytes)
 ;   0x78d7..0x78f9  (34 bytes)
-DATA_rle_vram_78D7:
+DATA_rle_78D7:
 	defb 0a0h,003h,00eh,01dh,02fh,03fh,057h,05fh,02dh,05eh,033h,05ah,03dh,017h,015h,00ah	; 78d7  ..../?W_-^3Z=...
 	defb 001h,080h,0f0h,0cch,0f6h,0f6h,07eh,0b9h,03ah,0f5h,0fah,0eah,0a6h,0cah,054h,0a8h	; 78e7  ......~.:.....T.
 	defb 040h,000h	; 78f7
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_78F9: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (11
-;   bytes)
+; DATOS rle_78F9: dibujos de sprite en RLE (p00:4B3C) de la fase 6 de p00:50C2
+;   (14:6F46); se solapan 2 bloques: (rle_vram_78F9 78F9-7904); lo leen
+;   p00:50D5, p00:4B3C (11 bytes)
 ;   0x78f9..0x7904  (11 bytes)
-DATA_rle_vram_78F9:
+DATA_rle_78F9:
 	defb 087h,000h,038h,07ch,07eh,05eh,066h,03ch,019h,000h,000h	; 78f9  ..8|~^f<...
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7904: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (98
-;   bytes)
+; DATOS rle_7904: dibujos de sprite en RLE (p00:4B3C) de la fase 6 de p00:50C2
+;   (14:6F46); se solapan 2 bloques: (rle_vram_7904 7904-7966); lo leen
+;   p00:50D5, p00:4B3C (98 bytes)
 ;   0x7904..0x7966  (98 bytes)
-DATA_rle_vram_7904:
+DATA_rle_7904:
 	defb 0e0h,001h,003h,007h,004h,013h,016h,035h,035h,036h,033h,014h,017h,003h,019h,008h	; 7904  .......5563.....
 	defb 034h,080h,0c0h,0e0h,020h,0c8h,068h,0ach,0ach,06ch,0cch,028h,0e8h,0c0h,098h,010h	; 7914  4... .h..l.(....
 	defb 02ch,003h,00fh,022h,071h,0c4h,01bh,036h,075h,075h,036h,01bh,0c4h,071h,022h,00fh	; 7924  ,.."q..6uu6..q".
@@ -1245,13 +1054,11 @@ DATA_rle_vram_7904:
 	defb 080h,000h	; 7964
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7966: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (128
-;   bytes)
+; DATOS rle_7966: dibujos de sprite en RLE (p00:4B3C) de la fase 7 de p00:50C2
+;   (14:6F65); se solapan 2 bloques: (rle_vram_7966 7966-79E6); lo leen
+;   p00:50D5, p00:4B3C (128 bytes)
 ;   0x7966..0x79e6  (128 bytes)
-DATA_rle_vram_7966:
+DATA_rle_7966:
 	defb 009h,000h,087h,001h,003h,007h,00fh,01fh,03fh,03fh,007h,000h,0a2h,03eh,0ffh,0fbh	; 7966  ........??...>..
 	defb 0f5h,0eah,0f4h,0e0h,0c0h,080h,000h,000h,001h,003h,007h,00fh,01fh,03fh,03fh,07fh	; 7976  .............??.
 	defb 07eh,0fch,0f4h,0a8h,0d8h,070h,03eh,0f5h,0fbh,0f5h,0fah,0f4h,0e0h,0c0h,080h,007h	; 7986  ~....p>.........
@@ -1262,26 +1069,22 @@ DATA_rle_vram_7966:
 	defb 0bfh,0dfh,077h,03fh,007h,003h,00ah,000h,086h,080h,0c0h,0e0h,0f0h,0f8h,0fch,000h	; 79d6  ..w?............
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_79E6: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (52
-;   bytes)
+; DATOS rle_79E6: dibujos de sprite en RLE (p00:4B3C) de la fase 7 de p00:50C2
+;   (14:6F65); se solapan 2 bloques: (rle_vram_79E6 79E6-7A1A); lo leen
+;   p00:50D5, p00:4B3C (52 bytes)
 ;   0x79e6..0x7a1a  (52 bytes)
-DATA_rle_vram_79E6:
+DATA_rle_79E6:
 	defb 005h,000h,085h,005h,01ah,06fh,0f7h,03ah,00bh,000h,085h,040h,0e0h,0d8h,027h,0fch	; 79e6  .....o.:...@..'.
 	defb 006h,000h,0a0h,002h,01bh,033h,037h,06fh,098h,065h,055h,055h,065h,098h,06fh,037h	; 79f6  .....37o.eUUe.o7
 	defb 037h,01bh,002h,0e0h,03dh,0c0h,0dch,09ah,0b1h,010h,068h,068h,010h,0b1h,09ah,0dch	; 7a06  7...=.....hh....
 	defb 0c0h,03dh,0e0h,000h	; 7a16
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7A1A: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (66
-;   bytes)
+; DATOS rle_7A1A: dibujos de sprite en RLE (p00:4B3C) de la fase 7 de p00:50C2
+;   (14:6F65); se solapan 2 bloques: (rle_vram_7A1A 7A1A-7A5C); lo leen
+;   p00:50D5, p00:4B3C (66 bytes)
 ;   0x7a1a..0x7a5c  (66 bytes)
-DATA_rle_vram_7A1A:
+DATA_rle_7A1A:
 	defb 0c0h,003h,00ch,01fh,02fh,077h,078h,087h,07ch,000h,01ch,007h,010h,01bh,00ch,06bh	; 7a1a  ..../wx.|......k
 	defb 0f1h,0c0h,030h,0f8h,0f4h,0eeh,01eh,0e1h,03eh,000h,038h,0e0h,008h,0d8h,030h,0d6h	; 7a2a  ..0.....>.8...0.
 	defb 08fh,000h,000h,003h,00ch,01fh,02fh,077h,078h,087h,07ch,000h,027h,030h,01bh,068h	; 7a3a  ....../wx.|.'0.h
@@ -1289,13 +1092,11 @@ DATA_rle_vram_7A1A:
 	defb 0cfh,000h	; 7a5a
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7A5C: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (65
-;   bytes)
+; DATOS rle_7A5C: dibujos de sprite en RLE (p00:4B3C) de la fase 8 de p00:50C2
+;   (14:6F72); se solapan 2 bloques: (rle_vram_7A5C 7A5C-7A9D); lo leen
+;   p00:50D5, p00:4B3C (65 bytes)
 ;   0x7a5c..0x7a9d  (65 bytes)
-DATA_rle_vram_7A5C:
+DATA_rle_7A5C:
 	defb 002h,000h,08ch,010h,03dh,037h,013h,010h,03ah,030h,062h,078h,02dh,00fh,006h,004h	; 7a5c  ....=7..:0bx-...
 	defb 000h,0aeh,060h,0f0h,090h,010h,0d8h,0cch,01ch,030h,030h,090h,0d8h,078h,030h,000h	; 7a6c  ..`......00..x0.
 	defb 060h,0f0h,098h,08eh,047h,022h,030h,011h,014h,060h,0cah,0f8h,044h,005h,00bh,00ch	; 7a7c  `...G"0..`..D...
@@ -1303,38 +1104,32 @@ DATA_rle_vram_7A5C:
 	defb 000h	; 7a9c
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7A9D: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (45
-;   bytes)
+; DATOS rle_7A9D: dibujos de sprite en RLE (p00:4B3C) de la fase 8 de p00:50C2
+;   (14:6F72); se solapan 2 bloques: (rle_vram_7A9D 7A9D-7ACA); lo leen
+;   p00:50D5, p00:4B3C (45 bytes)
 ;   0x7a9d..0x7aca  (45 bytes)
-DATA_rle_vram_7A9D:
+DATA_rle_7A9D:
 	defb 088h,00ch,01eh,01eh,06ch,0f6h,0ffh,06fh,006h,018h,000h,088h,030h,078h,078h,036h	; 7a9d  ....l..o....0xx6
 	defb 06fh,0ffh,0f6h,060h,018h,000h,088h,060h,0f6h,0ffh,06fh,036h,078h,078h,030h,018h	; 7aad  o..`...`..o6xx0.
 	defb 000h,088h,006h,06fh,0ffh,0f6h,06ch,01eh,01eh,00ch,018h,000h,000h	; 7abd  ...o..l......
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7ACA: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (54
-;   bytes)
+; DATOS rle_7ACA: dibujos de sprite en RLE (p00:4B3C) de la fase 8 de p00:50C2
+;   (14:6F72); se solapan 2 bloques: (rle_vram_7ACA 7ACA-7B00); lo leen
+;   p00:50D5, p00:4B3C (54 bytes)
 ;   0x7aca..0x7b00  (54 bytes)
-DATA_rle_vram_7ACA:
+DATA_rle_7ACA:
 	defb 006h,000h,094h,003h,001h,000h,00fh,004h,002h,03fh,010h,008h,0fch,03fh,010h,008h	; 7aca  .........?...?..
 	defb 0fch,040h,020h,0f0h,000h,080h,0c0h,008h,000h,084h,003h,00fh,01fh,01fh,004h,03fh	; 7ada  .@ ............?
 	defb 002h,01fh,082h,00fh,003h,004h,000h,084h,0c0h,0f0h,0f8h,0f8h,004h,0fch,002h,0f8h	; 7aea  ................
 	defb 084h,0f0h,0c0h,000h,000h,000h	; 7afa
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7B00: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (78
-;   bytes)
+; DATOS rle_7B00: dibujos de sprite en RLE (p00:4B3C) de la fase 8 de p00:50C2
+;   (14:6F72); se solapan 2 bloques: (rle_vram_7B00 7B00-7B4E); lo leen
+;   p00:50D5, p00:4B3C (78 bytes)
 ;   0x7b00..0x7b4e  (78 bytes)
-DATA_rle_vram_7B00:
+DATA_rle_7B00:
 	defb 08ah,007h,00fh,01eh,07dh,0fch,0feh,07fh,01fh,00fh,007h,006h,000h,08ah,080h,0c0h	; 7b00  ....}...........
 	defb 060h,038h,03ch,07ch,0f8h,0e0h,0c0h,080h,006h,000h,08eh,00ch,01eh,01eh,03fh,07fh	; 7b10  `8<|..........?.
 	defb 0ffh,0f9h,0f2h,0f0h,079h,03fh,01eh,01eh,00ch,006h,000h,081h,080h,004h,0c0h,081h	; 7b20  ....y?..........
@@ -1342,13 +1137,11 @@ DATA_rle_vram_7B00:
 	defb 08ah,060h,0f0h,0f0h,0f8h,07eh,03bh,011h,01bh,00eh,004h,016h,000h,000h	; 7b40  .`...~........
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7B4E: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (95
-;   bytes)
+; DATOS rle_7B4E: dibujos de sprite en RLE (p00:4B3C) de la fase 9 de p00:50C2
+;   (14:6F82); se solapan 2 bloques: (rle_vram_7B4E 7B4E-7BAD); lo leen
+;   p00:50D5, p00:4B3C (95 bytes)
 ;   0x7b4e..0x7bad  (95 bytes)
-DATA_rle_vram_7B4E:
+DATA_rle_7B4E:
 	defb 08dh,001h,00eh,017h,00ah,01dh,0ech,01dh,00bh,004h,000h,000h,03ah,0edh,003h,000h	; 7b4e  ............:...
 	defb 09ah,0f0h,07ch,09eh,029h,09eh,07fh,087h,07ah,0c4h,010h,074h,0a6h,0c3h,002h,014h	; 7b5e  ..|.)...z..t....
 	defb 078h,000h,001h,00eh,017h,00ah,01dh,0ech,01dh,00bh,004h,005h,000h,09ch,003h,000h	; 7b6e  x...............
@@ -1357,26 +1150,22 @@ DATA_rle_vram_7B4E:
 	defb 060h,0b8h,0dch,06ch,0a6h,05ah,07eh,0c7h,03bh,0c6h,018h,006h,0ech,0b0h,000h	; 7b9e  `..l.Z~........
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7BAD: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (61
-;   bytes)
+; DATOS rle_7BAD: dibujos de sprite en RLE (p00:4B3C) de la fase 9 de p00:50C2
+;   (14:6F82); se solapan 2 bloques: (rle_vram_7BAD 7BAD-7BEA); lo leen
+;   p00:50D5, p00:4B3C (61 bytes)
 ;   0x7bad..0x7bea  (61 bytes)
-DATA_rle_vram_7BAD:
+DATA_rle_7BAD:
 	defb 003h,000h,096h,001h,003h,007h,00fh,01fh,03eh,07dh,06ah,074h,068h,050h,020h,000h	; 7bad  ........>}jthP .
 	defb 000h,07ch,0bah,0d4h,0a8h,0d0h,0a0h,040h,080h,007h,000h,0a0h,001h,003h,007h,00fh	; 7bbd  .|.....@........
 	defb 017h,03bh,07dh,0eeh,077h,07fh,037h,03bh,01dh,01eh,00dh,00ah,000h,0c0h,070h,0bch	; 7bcd  ..}.w.7.......p.
 	defb 0dfh,0eeh,0d5h,0eah,0f4h,0e8h,0d0h,0a0h,040h,080h,000h,000h,000h	; 7bdd  ........@....
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7BEA: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (76
-;   bytes)
+; DATOS rle_7BEA: dibujos de sprite en RLE (p00:4B3C) de la fase 10 de
+;   p00:50C2 (14:6F92); se solapan 2 bloques: (rle_vram_7BEA 7BEA-7C36); lo
+;   leen p00:50D5, p00:4B3C (76 bytes)
 ;   0x7bea..0x7c36  (76 bytes)
-DATA_rle_vram_7BEA:
+DATA_rle_7BEA:
 	defb 083h,003h,007h,007h,00ah,00fh,002h,007h,084h,003h,0c0h,0e0h,0e0h,00ah,0f0h,002h	; 7bea  ................
 	defb 0e0h,086h,0c0h,007h,01fh,03fh,07fh,07fh,006h,0ffh,002h,07fh,088h,03fh,01fh,007h	; 7bfa  .....?.......?..
 	defb 0e0h,0f8h,0fch,0feh,0feh,006h,0ffh,002h,0feh,087h,0fch,0f8h,0e0h,001h,003h,007h	; 7c0a  ................
@@ -1384,35 +1173,29 @@ DATA_rle_vram_7BEA:
 	defb 004h,0f0h,082h,0f8h,0feh,003h,0ffh,083h,0feh,0f8h,0e0h,000h	; 7c2a  ............
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7C36: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (34
-;   bytes)
+; DATOS rle_7C36: dibujos de sprite en RLE (p00:4B3C) de la fase 10 de
+;   p00:50C2 (14:6F92); se solapan 2 bloques: (rle_vram_7C36 7C36-7C58); lo
+;   leen p00:50D5, p00:4B3C (34 bytes)
 ;   0x7c36..0x7c58  (34 bytes)
-DATA_rle_vram_7C36:
+DATA_rle_7C36:
 	defb 0a0h,085h,04bh,038h,025h,06eh,09fh,04eh,0d5h,0d5h,04eh,09fh,06eh,025h,038h,04bh	; 7c36  ..K8%n.N..N.n%8K
 	defb 085h,0a1h,0d2h,01ch,0a4h,076h,0f9h,072h,0abh,0abh,072h,0f9h,076h,0a4h,01ch,0d2h	; 7c46  .....v.r..r.v...
 	defb 0a1h,000h	; 7c56
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7C58: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (12
-;   bytes)
+; DATOS rle_7C58: dibujos de sprite en RLE (p00:4B3C) de la fase 2 de p00:50C2
+;   (14:6F0F); se solapan 2 bloques: (rle_vram_7C58 7C58-7C64); lo leen
+;   p00:50D5, p00:4B3C (12 bytes)
 ;   0x7c58..0x7c64  (12 bytes)
-DATA_rle_vram_7C58:
+DATA_rle_7C58:
 	defb 083h,000h,03ch,07eh,003h,0ffh,082h,07eh,03ch,018h,000h,000h	; 7c58  ..<~...~<...
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7C64: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (11
-;   bytes)
+; DATOS rle_7C64: dibujos de sprite en RLE (p00:4B3C) de la fase 3 de p00:50C2
+;   (14:6F1C); se solapan 2 bloques: (rle_vram_7C64 7C64-7C6F); lo leen
+;   p00:50D5, p00:4B3C (11 bytes)
 ;   0x7c64..0x7c6f  (11 bytes)
-DATA_rle_vram_7C64:
+DATA_rle_7C64:
 	defb 002h,010h,085h,038h,0feh,038h,010h,010h,019h,000h,000h	; 7c64  ...8.8.....
 
 ; ----------------------------------------------------------------------
@@ -1425,13 +1208,11 @@ DATA_7C6F:
 	defb 08ch,0aeh,021h,08fh,000h,060h,0dah,0dah,060h,000h,08fh,021h,0aeh,08ch,080h,000h	; 7caf  ..!..`..`..!....
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7CBF: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (66
-;   bytes)
+; DATOS rle_7CBF: dibujos de sprite en RLE (p00:4B3C) de la fase 3 de p00:50C2
+;   (14:6F1C); se solapan 2 bloques: (rle_vram_7CBF 7CBF-7D01); lo leen
+;   p00:50D5, p00:4B3C (66 bytes)
 ;   0x7cbf..0x7d01  (66 bytes)
-DATA_rle_vram_7CBF:
+DATA_rle_7CBF:
 	defb 0c0h,001h,018h,006h,05bh,050h,023h,036h,095h,055h,058h,03bh,07dh,03eh,030h,007h	; 7cbf  ....[P#6.UX.}>0.
 	defb 003h,000h,0d0h,03ch,0fch,078h,09ah,02bh,0b3h,077h,0ebh,0e9h,099h,071h,080h,0c0h	; 7ccf  ...<.x.+.w...q..
 	defb 0f8h,00ch,01eh,0efh,01eh,079h,096h,06dh,0cbh,0cbh,06dh,096h,079h,01eh,0efh,01eh	; 7cdf  .....y.m..m.y...
@@ -1439,72 +1220,60 @@ DATA_rle_vram_7CBF:
 	defb 0f0h,000h	; 7cff
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7D01: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (34
-;   bytes)
+; DATOS rle_7D01: dibujos de sprite en RLE (p00:4B3C) de la fase 1 de p00:50C2
+;   (14:6F05); se solapan 2 bloques: (rle_vram_7D01 7D01-7D23); lo leen
+;   p00:50D5, p00:4B3C (34 bytes)
 ;   0x7d01..0x7d23  (34 bytes)
-DATA_rle_vram_7D01:
+DATA_rle_7D01:
 	defb 0a0h,001h,01bh,039h,03ah,057h,06fh,00fh,02fh,067h,060h,076h,032h,038h,011h,00bh	; 7d01  ...9:Wo./g`v28..
 	defb 001h,0c0h,0f0h,0b8h,050h,0a4h,0c4h,0ceh,0aeh,01eh,0deh,0eeh,054h,020h,078h,0f0h	; 7d11  ....P.......T x.
 	defb 080h,000h	; 7d21
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7D23: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (12
-;   bytes)
+; DATOS rle_7D23: dibujos de sprite en RLE (p00:4B3C) de la fase 3 de p00:50C2
+;   (14:6F1C); se solapan 2 bloques: (rle_vram_7D23 7D23-7D2F); lo leen
+;   p00:50D5, p00:4B3C (12 bytes)
 ;   0x7d23..0x7d2f  (12 bytes)
-DATA_rle_vram_7D23:
+DATA_rle_7D23:
 	defb 088h,008h,01ch,058h,0e6h,067h,01ah,038h,010h,018h,000h,000h	; 7d23  ...X.g.8....
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7D2F: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (56
-;   bytes)
+; DATOS rle_7D2F: dibujos de sprite en RLE (p00:4B3C) de la fase 9 de p00:50C2
+;   (14:6F82); se solapan 2 bloques: (rle_vram_7D2F 7D2F-7D67); lo leen
+;   p00:50D5, p00:4B3C (56 bytes)
 ;   0x7d2f..0x7d67  (56 bytes)
-DATA_rle_vram_7D2F:
+DATA_rle_7D2F:
 	defb 087h,0fch,008h,057h,0ffh,057h,008h,0fch,00bh,000h,083h,0feh,0ffh,0feh,00bh,000h	; 7d2f  ...W.W..........
 	defb 08ah,004h,006h,02bh,019h,03eh,0cdh,06bh,037h,013h,001h,009h,000h,093h,080h,000h	; 7d3f  ...+.>.k7.......
 	defb 000h,080h,0c0h,0e0h,0f0h,0f8h,078h,038h,004h,000h,000h,092h,0bah,092h,0bah,0d6h	; 7d4f  ......x8........
 	defb 0bah,009h,038h,081h,010h,010h,000h,000h	; 7d5f  ..8.....
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7D67: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (58
-;   bytes)
+; DATOS rle_7D67: dibujos de sprite en RLE (p00:4B3C) de la fase 6 de p00:50C2
+;   (14:6F46); se solapan 2 bloques: (rle_vram_7D67 7D67-7DA1); lo leen
+;   p00:50D5, p00:4B3C (58 bytes)
 ;   0x7d67..0x7da1  (58 bytes)
-DATA_rle_vram_7D67:
+DATA_rle_7D67:
 	defb 08eh,080h,040h,060h,030h,038h,01ch,01eh,00fh,00fh,007h,007h,003h,003h,001h,00ah	; 7d67  ..@`08..........
 	defb 000h,082h,080h,0c0h,003h,0e0h,083h,0c0h,000h,000h,004h,020h,005h,070h,006h,0f8h	; 7d77  ........... .p..
 	defb 081h,070h,013h,000h,092h,001h,003h,007h,00fh,01eh,03eh,07ch,0fch,0f8h,0f8h,070h	; 7d87  .p........>|...p
 	defb 000h,000h,020h,040h,0c0h,080h,080h,00bh,000h,000h	; 7d97  .. @......
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7DA1: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (31
-;   bytes)
+; DATOS rle_7DA1: dibujos de sprite en RLE (p00:4B3C) de la fase 6 de p00:50C2
+;   (14:6F46); se solapan 2 bloques: (rle_vram_7DA1 7DA1-7DC0); lo leen
+;   p00:50D5, p00:4B3C (31 bytes)
 ;   0x7da1..0x7dc0  (31 bytes)
-DATA_rle_vram_7DA1:
+DATA_rle_7DA1:
 	defb 084h,000h,00fh,0ffh,00fh,00ch,000h,081h,03eh,003h,0ffh,081h,03eh,00eh,000h,084h	; 7da1  ........>...>...
 	defb 003h,00fh,03fh,0f0h,009h,000h,085h,00ch,03eh,0feh,0feh,0f0h,00bh,000h,000h	; 7db1  ..?.....>......
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7DC0: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (44
-;   bytes)
+; DATOS rle_7DC0: dibujos de sprite en RLE (p00:4B3C) de la fase 6 de p00:50C2
+;   (14:6F46); se solapan 2 bloques: (rle_vram_7DC0 7DC0-7DEC); lo leen
+;   p00:50D5, p00:4B3C (44 bytes)
 ;   0x7dc0..0x7dec  (44 bytes)
-DATA_rle_vram_7DC0:
+DATA_rle_7DC0:
 	defb 082h,01eh,07fh,003h,0ffh,082h,07fh,01eh,00ah,000h,085h,0e0h,0ffh,0fch,0f0h,0c0h	; 7dc0  ................
 	defb 00ah,000h,08bh,070h,0fch,0feh,0feh,0ffh,07fh,07fh,03fh,00fh,007h,001h,00bh,000h	; 7dd0  ...p......?.....
 	defb 002h,080h,088h,0c0h,0e0h,0a0h,0d0h,060h,010h,008h,000h,000h	; 7de0  .......`....
@@ -1517,13 +1286,11 @@ DATA_7DEC:
 	defb 084h,000h	; 7e0c
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7E0E: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (117
-;   bytes)
+; DATOS rle_7E0E: dibujos de sprite en RLE (p00:4B3C) de la fase 1 de p00:50C2
+;   (14:6F05); se solapan 2 bloques: (rle_vram_7E0E 7E0E-7E83); lo leen
+;   p00:50D5, p00:4B3C (117 bytes)
 ;   0x7e0e..0x7e83  (117 bytes)
-DATA_rle_vram_7E0E:
+DATA_rle_7E0E:
 	defb 004h,000h,099h,001h,009h,033h,0ffh,03fh,00fh,003h,001h,001h,002h,000h,000h,015h	; 7e0e  .....3.?........
 	defb 07bh,0eeh,0fbh,0feh,0fdh,0feh,0fah,0feh,0f4h,0f8h,03eh,007h,003h,000h,08eh,008h	; 7e1e  {.........>.....
 	defb 030h,0feh,03fh,01fh,01fh,03fh,03fh,07fh,06fh,0ffh,0b5h,06fh,015h,005h,000h,085h	; 7e2e  0.?..??.o..o....
@@ -1534,13 +1301,11 @@ DATA_rle_vram_7E0E:
 	defb 0c0h,080h,000h,010h,000h	; 7e7e
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7E83: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (90
-;   bytes)
+; DATOS rle_7E83: dibujos de sprite en RLE (p00:4B3C) de la fase 1 de p00:50C2
+;   (14:6F05); se solapan 2 bloques: (rle_vram_7E83 7E83-7EDD); lo leen
+;   p00:50D5, p00:4B3C (90 bytes)
 ;   0x7e83..0x7edd  (90 bytes)
-DATA_rle_vram_7E83:
+DATA_rle_7E83:
 	defb 08ah,000h,008h,033h,0ffh,03fh,00fh,003h,001h,001h,002h,006h,000h,089h,010h,068h	; 7e83  ...3.?.........h
 	defb 0f0h,0bch,0ebh,0f0h,0f8h,03eh,007h,007h,000h,089h,008h,030h,0ffh,03fh,00fh,01fh	; 7e93  .....>.....0.?..
 	defb 01fh,0bbh,016h,009h,000h,087h,080h,0e0h,0f0h,0f8h,0feh,087h,080h,008h,000h,087h	; 7ea3  ................
@@ -1549,72 +1314,60 @@ DATA_rle_vram_7E83:
 	defb 086h,022h,048h,0f0h,064h,000h,080h,009h,000h,000h	; 7ed3  ."H.d.....
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7EDD: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (56
-;   bytes)
+; DATOS rle_7EDD: dibujos de sprite en RLE (p00:4B3C) de la fase 7 de p00:50C2
+;   (14:6F65); se solapan 2 bloques: (rle_vram_7EDD 7EDD-7F15); lo leen
+;   p00:50D5, p00:4B3C (56 bytes)
 ;   0x7edd..0x7f15  (56 bytes)
-DATA_rle_vram_7EDD:
+DATA_rle_7EDD:
 	defb 004h,000h,088h,004h,000h,000h,001h,010h,000h,000h,002h,008h,000h,081h,040h,004h	; 7edd  ..............@.
 	defb 000h,083h,020h,000h,040h,005h,000h,09fh,004h,000h,000h,021h,008h,000h,000h,004h	; 7eed  .. .@......!....
 	defb 000h,020h,004h,000h,002h,010h,000h,000h,008h,000h,040h,000h,000h,010h,080h,000h	; 7efd  . ........@.....
 	defb 008h,000h,000h,040h,010h,000h,000h,000h	; 7f0d  ...@....
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7F15: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (23
-;   bytes)
+; DATOS rle_7F15: dibujos de sprite en RLE (p00:4B3C) de la fase 10 de
+;   p00:50C2 (14:6F92); se solapan 2 bloques: (rle_vram_7F15 7F15-7F2C); lo
+;   leen p00:50D5, p00:4B3C (23 bytes)
 ;   0x7f15..0x7f2c  (23 bytes)
-DATA_rle_vram_7F15:
+DATA_rle_7F15:
 	defb 004h,000h,082h,003h,007h,004h,00fh,082h,007h,003h,008h,000h,082h,0c0h,0e0h,004h	; 7f15  ................
 	defb 0f0h,082h,0e0h,0c0h,004h,000h,000h	; 7f25
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7F2C: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (34
-;   bytes)
+; DATOS rle_7F2C: dibujos de sprite en RLE (p00:4B3C) de una lista de p00:50C2
+;   (14:6EDB); se solapan 2 bloques: (rle_vram_7F2C 7F2C-7F4E); lo leen
+;   p00:50D5, p00:4B3C (34 bytes)
 ;   0x7f2c..0x7f4e  (34 bytes)
-DATA_rle_vram_7F2C:
+DATA_rle_7F2C:
 	defb 0a0h,080h,040h,060h,030h,033h,02eh,00fh,016h,019h,00bh,001h,012h,039h,031h,040h	; 7f2c  ..@`03.......91@
 	defb 081h,001h,002h,006h,00ch,0cch,074h,0f0h,068h,098h,0d0h,080h,048h,09ch,08ch,002h	; 7f3c  ......t.h...H...
 	defb 081h,000h	; 7f4c
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7F4E: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (34
-;   bytes)
+; DATOS rle_7F4E: dibujos de sprite en RLE (p00:4B3C) de la fase 10 de
+;   p00:50C2 (14:6F92); se solapan 2 bloques: (rle_vram_7F4E 7F4E-7F70); lo
+;   leen p00:50D5, p00:4B3C (34 bytes)
 ;   0x7f4e..0x7f70  (34 bytes)
-DATA_rle_vram_7F4E:
+DATA_rle_7F4E:
 	defb 0a0h,030h,041h,0a0h,095h,00dh,01eh,004h,058h,059h,004h,01eh,00dh,095h,0a0h,041h	; 7f4e  .0A.....XY.....A
 	defb 030h,00ch,082h,005h,0a9h,0b0h,078h,020h,09ah,0dah,0a0h,078h,0b0h,0a9h,005h,082h	; 7f5e  0.....x ...x....
 	defb 00ch,000h	; 7f6e
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7F70: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (32
-;   bytes)
+; DATOS rle_7F70: dibujos de sprite en RLE (p00:4B3C) de la fase 6 de p00:50C2
+;   (14:6F46); se solapan 2 bloques: (rle_vram_7F70 7F70-7F90); lo leen
+;   p00:50D5, p00:4B3C (32 bytes)
 ;   0x7f70..0x7f90  (32 bytes)
-DATA_rle_vram_7F70:
+DATA_rle_7F70:
 	defb 092h,000h,003h,001h,000h,001h,001h,043h,06eh,0feh,043h,001h,001h,000h,001h,003h	; 7f70  .......Cn.C.....
 	defb 000h,080h,0c0h,004h,080h,084h,0c2h,076h,07fh,0c2h,004h,080h,082h,0c0h,080h,000h	; 7f80  .......v........
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7F90: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (93
-;   bytes)
+; DATOS rle_7F90: dibujos de sprite en RLE (p00:4B3C) de la fase 6 de p00:50C2
+;   (14:6F46); se solapan 2 bloques: (rle_vram_7F90 7F90-7FED); lo leen
+;   p00:50D5, p00:4B3C (93 bytes)
 ;   0x7f90..0x7fed  (93 bytes)
-DATA_rle_vram_7F90:
+DATA_rle_7F90:
 	defb 0b0h,000h,010h,030h,078h,00ch,00eh,007h,002h,002h,007h,00eh,01ch,070h,030h,010h	; 7f90  ...0x........p0.
 	defb 000h,000h,008h,00ch,01eh,030h,070h,0e0h,040h,040h,0e0h,070h,038h,00eh,00ch,008h	; 7fa0  .....0p.@@.p8...
 	defb 000h,001h,000h,000h,001h,000h,004h,000h,091h,001h,000h,004h,000h,001h,000h,000h	; 7fb0  ................
@@ -1623,12 +1376,10 @@ DATA_rle_vram_7F90:
 	defb 088h,000h,000h,090h,090h,000h,000h,080h,010h,000h,002h,000h,000h	; 7fe0  .............
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7FED: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0 (sigue en el banco 15,
-;   en 0x8000); lo leen p00:4B3C (19 bytes)
+; DATOS rle_7FED: dibujos de sprite en RLE (p00:4B3C) de la fase 3 de p00:50C2
+;   (14:6F1C) (sigue en el banco 15, en 0x8000); se solapan 2 bloques:
+;   (rle_vram_7FED 7FED-8000); lo leen p00:50D5, p00:4B3C (19 bytes)
 ;   0x7fed..0x8000  (19 bytes)
-DATA_rle_vram_7FED:
+DATA_rle_7FED:
 	defb 0bdh,00fh,017h,017h,03bh,07eh,07dh,0fdh,0fah,0dch,05eh,067h,026h,017h,01ah,00eh	; 7fed  .....~}...^g&...
 	defb 007h,000h,080h	; 7ffd

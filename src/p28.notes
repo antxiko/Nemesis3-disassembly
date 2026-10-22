@@ -65,3 +65,8 @@ F 0xA000 16
 D 0xB2E7 0xBBE9 resto_B2E7  lo apuntan con el banco puesto p27:858A (0xB2E7); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p27:858A (2306 bytes)
 F 0xB2E7 16
 # --- fin de los bloques de bloques.py ---
+
+# --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+C 0xBC97 lee_palabra: HL = la palabra A de la tabla HL
+C 0xBE37 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
+# --- fin de las anotaciones de anota.py ---

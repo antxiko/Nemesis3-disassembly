@@ -233,614 +233,358 @@ DATA_61D8:
 ; ----------------------------------------------------------------------
 ; DATOS rle_6AC8: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80
 ;   repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n &
-;   0x7F bytes; se solapan 2 bloques: (rle_vram_6AC8 6AC8-6B21); lo leen
-;   p00:5155, p00:4B3C (89 bytes)
-;   0x6ac8..0x6b21  (89 bytes)
+;   0x7F bytes; se solapan 3 bloques: (rle_vram_6AC8 6AC8-6B21)
+;   (juegos_por_e440 6B1F-6B43); lo leen p00:5155, p00:4B3C, p00:5121 (123
+;   bytes)
+;   0x6ac8..0x6b43  (123 bytes)
 DATA_rle_6AC8:
 	defb 002h,000h,08dh,004h,000h,00eh,01bh,015h,05bh,02bh,011h,00ah,05dh,01fh,00ch,001h	; 6ac8  ........[+..]...
 	defb 004h,000h,0b2h,088h,060h,0b4h,098h,0d8h,0d0h,0a4h,050h,008h,058h,0b0h,060h,000h	; 6ad8  ....`.....P.X.`.
 	defb 001h,042h,038h,074h,0f1h,049h,007h,03dh,08fh,09fh,02bh,047h,0cah,071h,07ch,019h	; 6ae8  .B8t.I.=..+G.q|.
 	defb 080h,045h,01eh,02fh,04eh,092h,0e4h,0e0h,0f2h,070h,0a4h,0e2h,0d6h,04eh,03ch,091h	; 6af8  .E./N....p...N<.
 	defb 000h,030h,040h,020h,040h,007h,000h,089h,080h,020h,040h,008h,000h,014h,002h,008h	; 6b08  .0@ @.... @.....
-	defb 001h,007h,000h,084h,002h,000h,009h,002h,000h	; 6b18  .........
+	defb 001h,007h,000h,084h,002h,000h,009h,002h,000h,043h,06bh,0b3h,06bh,043h,06bh,04bh	; 6b18  .........Ck.kCkK
+	defb 06bh,0b3h,06bh,053h,06bh,05bh,06bh,063h,06bh,06bh,06bh,0b3h,06bh,073h,06bh,08bh	; 6b28  k.kSk[kckkk.ksk.
+	defb 06bh,093h,06bh,09bh,06bh,0a3h,06bh,0abh,06bh,0a3h,06bh	; 6b38  k.k.k.k.k.k
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6b21..0x6b2b  (10 bytes)
-DATA_6B21:
-	defb 043h,06bh,0b3h,06bh,043h,06bh,04bh,06bh,0b3h,06bh	; 6b21  Ck.kCkKk.k
+; DATOS juego_6B43: el juego de 0xE440 = 1, 3: cuatro punteros (p00:5124):
+;   lista de graficos, de copias con vuelta, de dibujos de sprite y de
+;   espejos; lo leen p00:5124 (8 bytes)
+;   0x6b43..0x6b4b  (8 bytes)
+DATA_juego_6B43:
+	defw 06c1eh,06c43h,0876ah,0876eh	; 6b43  -> DATA_graficos_6C1E DATA_copias_6C43 0x876a 0x876e
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6B2B: 24 bytes que leen p00:4A60, p00:4A62 al jugar (medido
-;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
-;   tamano es lo que se lee seguido, con 6 sin leer entre lecturas de la misma
-;   rutina: entradas de la misma tabla que las partidas no han pedido); lo
-;   leen p00:4A60, p00:4A62 (24 bytes)
-;   0x6b2b..0x6b43  (24 bytes)
-DATA_leido_6B2B:
-	defb 053h,06bh,05bh,06bh,063h,06bh,06bh,06bh,0b3h,06bh,073h,06bh,08bh,06bh,093h,06bh	; 6b2b  Sk[kckkk.ksk.k.k
-	defb 09bh,06bh,0a3h,06bh,0abh,06bh,0a3h,06bh	; 6b3b  .k.k.k.k
+; DATOS juego_6B4B: el juego de 0xE440 = 4: cuatro punteros (p00:5124): lista
+;   de graficos, de copias con vuelta, de dibujos de sprite y de espejos; lo
+;   leen p00:5124 (8 bytes)
+;   0x6b4b..0x6b53  (8 bytes)
+DATA_juego_6B4B:
+	defw 06c50h,06c75h,06bbbh,06bbbh	; 6b4b  -> DATA_graficos_6C50 DATA_copias_6C75 DATA_sprites_6BBB DATA_sprites_6BBB
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6b43..0x6b53  (16 bytes)
-DATA_6B43:
-	defb 01eh,06ch,043h,06ch,06ah,087h,06eh,087h,050h,06ch,075h,06ch,0bbh,06bh,0bbh,06bh	; 6b43  .lClj.n.Plul.k.k
+; DATOS juego_6B53: el juego de 0xE440 = 6: cuatro punteros (p00:5124): lista
+;   de graficos, de copias con vuelta, de dibujos de sprite y de espejos; lo
+;   leen p00:5124 (8 bytes)
+;   0x6b53..0x6b5b  (8 bytes)
+DATA_juego_6B53:
+	defw 06bcbh,06bbbh,074e1h,0759ah	; 6b53  -> DATA_graficos_6BCB DATA_sprites_6BBB DATA_sprites_74E1 DATA_espejos_759A
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6B53: 32 bytes que leen p00:5124, p00:5126, p00:5130, p00:5132,
-;   p00:513C, p00:513E al jugar (medido ejecutando el cartucho,
-;   tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee
-;   seguido); lo leen p00:5124, p00:5126, p00:5130, p00:5132, p00:513C,
-;   p00:513E, p00:5146, p00:5148 (32 bytes)
-;   0x6b53..0x6b73  (32 bytes)
-DATA_leido_6B53:
-	defb 0cbh,06bh,0bbh,06bh,0e1h,074h,09ah,075h,0c4h,06bh,0bbh,06bh,0bbh,06bh,0bbh,06bh	; 6b53  .k.k.t.u.k.k.k.k
-	defb 0d2h,06bh,0f1h,06bh,0bbh,06bh,0bbh,06bh,0fah,06bh,00dh,06ch,0bbh,06bh,0bbh,06bh	; 6b63  .k.k.k.k.k.l.k.k
+; DATOS juego_6B5B: el juego de 0xE440 = 7: cuatro punteros (p00:5124): lista
+;   de graficos, de copias con vuelta, de dibujos de sprite y de espejos; lo
+;   leen p00:5124 (8 bytes)
+;   0x6b5b..0x6b63  (8 bytes)
+DATA_juego_6B5B:
+	defw 06bc4h,06bbbh,06bbbh,06bbbh	; 6b5b  -> DATA_graficos_6BC4 DATA_sprites_6BBB DATA_sprites_6BBB DATA_sprites_6BBB
 
 ; ----------------------------------------------------------------------
-; DATOS resto_6B73: lo apuntan con el banco puesto p00:5179 (0x6B7B), p00:517E
-;   (0x6B83); el tamano es lo que hay hasta lo siguiente, no sale de
-;   recorrerlo; lo leen p00:5179, p00:517E (24 bytes)
-;   0x6b73..0x6b8b  (24 bytes)
-DATA_resto_6B73:
-	defb 07eh,06ch,097h,06ch,0bbh,06bh,0bbh,06bh,08ah,06ch,097h,06ch,0bbh,06bh,0bbh,06bh	; 6b73  ~l.l.k.k.l.l.k.k
-	defb 0a8h,06ch,0b5h,06ch,0bbh,06bh,0bbh,06bh	; 6b83  .l.l.k.k
+; DATOS juego_6B63: el juego de 0xE440 = 8: cuatro punteros (p00:5124): lista
+;   de graficos, de copias con vuelta, de dibujos de sprite y de espejos; lo
+;   leen p00:5124 (8 bytes)
+;   0x6b63..0x6b6b  (8 bytes)
+DATA_juego_6B63:
+	defw 06bd2h,06bf1h,06bbbh,06bbbh	; 6b63  -> DATA_graficos_6BD2 DATA_copias_6BF1 DATA_sprites_6BBB DATA_sprites_6BBB
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6B8B: 40 bytes que leen p00:5124, p00:5126, p00:5130, p00:5132,
-;   p00:513C, p00:513E al jugar (medido ejecutando el cartucho,
-;   tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee
-;   seguido, con 8 sin leer entre lecturas de la misma rutina: entradas de la
-;   misma tabla que las partidas no han pedido); lo leen p00:5124, p00:5126,
-;   p00:5130, p00:5132, p00:513C, p00:513E, p00:5146, p00:5148 (40 bytes)
-;   0x6b8b..0x6bb3  (40 bytes)
-DATA_leido_6B8B:
-	defb 0e6h,06ch,0f3h,06ch,0bbh,06bh,0bbh,06bh,0bbh,06bh,0bbh,06bh,0bbh,06bh,0bbh,06bh	; 6b8b  .l.l.k.k.k.k.k.k
-	defb 0c6h,06ch,0d9h,06ch,0bbh,06bh,0bbh,06bh,07ch,06dh,0adh,06dh,0bbh,06bh,0bbh,06bh	; 6b9b  .l.l.k.k|m.m.k.k
-	defb 0bbh,06bh,0bbh,06bh,06ah,087h,06eh,087h	; 6bab  .k.kj.n.
+; DATOS juego_6B6B: el juego de 0xE440 = 9: cuatro punteros (p00:5124): lista
+;   de graficos, de copias con vuelta, de dibujos de sprite y de espejos; lo
+;   leen p00:5124 (8 bytes)
+;   0x6b6b..0x6b73  (8 bytes)
+DATA_juego_6B6B:
+	defw 06bfah,06c0dh,06bbbh,06bbbh	; 6b6b  -> DATA_graficos_6BFA DATA_copias_6C0D DATA_sprites_6BBB DATA_sprites_6BBB
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6bb3..0x6bbb  (8 bytes)
-DATA_6BB3:
-	defb 0bbh,06bh,0bbh,06bh,0bbh,06bh,0bbh,06bh	; 6bb3  .k.k.k.k
+; DATOS juego_6B73: el juego de 0xE440 = 11: cuatro punteros (p00:5124): lista
+;   de graficos, de copias con vuelta, de dibujos de sprite y de espejos; lo
+;   leen p00:5124 (8 bytes)
+;   0x6b73..0x6b7b  (8 bytes)
+DATA_juego_6B73:
+	defw 06c7eh,06c97h,06bbbh,06bbbh	; 6b73  -> DATA_graficos_6C7E DATA_copias_6C97 DATA_sprites_6BBB DATA_sprites_6BBB
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6BBB: 1 bytes que lee p00:4D1F al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4D1F (1 bytes)
+; DATOS juego_6B7B: un juego de p00:516F (bit 0 de IX+1C a 0): cuatro punteros
+;   (p00:5124): lista de graficos, de copias con vuelta, de dibujos de sprite
+;   y de espejos; lo leen p00:5181 (8 bytes)
+;   0x6b7b..0x6b83  (8 bytes)
+DATA_juego_6B7B:
+	defw 06c8ah,06c97h,06bbbh,06bbbh	; 6b7b  -> 0x6c8a DATA_copias_6C97 DATA_sprites_6BBB DATA_sprites_6BBB
+
+; ----------------------------------------------------------------------
+; DATOS juego_6B83: un juego de p00:516F (bit 0 de IX+1C a 1): cuatro punteros
+;   (p00:5124): lista de graficos, de copias con vuelta, de dibujos de sprite
+;   y de espejos; lo leen p00:5181 (8 bytes)
+;   0x6b83..0x6b8b  (8 bytes)
+DATA_juego_6B83:
+	defw 06ca8h,06cb5h,06bbbh,06bbbh	; 6b83  -> DATA_graficos_6CA8 DATA_copias_6CB5 DATA_sprites_6BBB DATA_sprites_6BBB
+
+; ----------------------------------------------------------------------
+; DATOS juego_6B8B: el juego de 0xE440 = 12: cuatro punteros (p00:5124): lista
+;   de graficos, de copias con vuelta, de dibujos de sprite y de espejos; lo
+;   leen p00:5124 (8 bytes)
+;   0x6b8b..0x6b93  (8 bytes)
+DATA_juego_6B8B:
+	defw 06ce6h,06cf3h,06bbbh,06bbbh	; 6b8b  -> DATA_graficos_6CE6 DATA_copias_6CF3 DATA_sprites_6BBB DATA_sprites_6BBB
+
+; ----------------------------------------------------------------------
+; DATOS juego_6B93: el juego de 0xE440 = 13: cuatro punteros (p00:5124): lista
+;   de graficos, de copias con vuelta, de dibujos de sprite y de espejos; lo
+;   leen p00:5124 (8 bytes)
+;   0x6b93..0x6b9b  (8 bytes)
+DATA_juego_6B93:
+	defw 06bbbh,06bbbh,06bbbh,06bbbh	; 6b93  -> DATA_sprites_6BBB DATA_sprites_6BBB DATA_sprites_6BBB DATA_sprites_6BBB
+
+; ----------------------------------------------------------------------
+; DATOS juego_6B9B: el juego de 0xE440 = 14: cuatro punteros (p00:5124): lista
+;   de graficos, de copias con vuelta, de dibujos de sprite y de espejos; lo
+;   leen p00:5124 (8 bytes)
+;   0x6b9b..0x6ba3  (8 bytes)
+DATA_juego_6B9B:
+	defw 06cc6h,06cd9h,06bbbh,06bbbh	; 6b9b  -> DATA_graficos_6CC6 DATA_copias_6CD9 DATA_sprites_6BBB DATA_sprites_6BBB
+
+; ----------------------------------------------------------------------
+; DATOS juego_6BA3: el juego de 0xE440 = 15, 17: cuatro punteros (p00:5124):
+;   lista de graficos, de copias con vuelta, de dibujos de sprite y de
+;   espejos; lo leen p00:5124 (8 bytes)
+;   0x6ba3..0x6bab  (8 bytes)
+DATA_juego_6BA3:
+	defw 06d7ch,06dadh,06bbbh,06bbbh	; 6ba3  -> DATA_graficos_6D7C DATA_copias_6DAD DATA_sprites_6BBB DATA_sprites_6BBB
+
+; ----------------------------------------------------------------------
+; DATOS juego_6BAB: el juego de 0xE440 = 16: cuatro punteros (p00:5124): lista
+;   de graficos, de copias con vuelta, de dibujos de sprite y de espejos; lo
+;   leen p00:5124 (8 bytes)
+;   0x6bab..0x6bb3  (8 bytes)
+DATA_juego_6BAB:
+	defw 06bbbh,06bbbh,0876ah,0876eh	; 6bab  -> DATA_sprites_6BBB DATA_sprites_6BBB 0x876a 0x876e
+
+; ----------------------------------------------------------------------
+; DATOS juego_6BB3: el juego de 0xE440 = 2, 5, 10: cuatro punteros (p00:5124):
+;   lista de graficos, de copias con vuelta, de dibujos de sprite y de
+;   espejos; lo leen p00:5124 (8 bytes)
+;   0x6bb3..0x6bbb  (8 bytes)
+DATA_juego_6BB3:
+	defw 06bbbh,06bbbh,06bbbh,06bbbh	; 6bb3  -> DATA_sprites_6BBB DATA_sprites_6BBB DATA_sprites_6BBB DATA_sprites_6BBB
+
+; ----------------------------------------------------------------------
+; DATOS sprites_6BBB: lista de dibujos de sprite (p00:50C2): de 3 en 3, el
+;   primer dibujo y el RLE que va ahi; acaba en 0; se solapan 22 bloques:
+;   (espejos_6BBB 6BBB-6BBC) (espejos_6BBB 6BBB-6BBC) (espejos_6BBB 6BBB-6BBC)
+;   (espejos_6BBB 6BBB-6BBC) (copias_6BBB 6BBB-6BBC) (copias_6BBB 6BBB-6BBC)
+;   (espejos_6BBB 6BBB-6BBC) (espejos_6BBB 6BBB-6BBC) (espejos_6BBB 6BBB-6BBC)
+;   (espejos_6BBB 6BBB-6BBC) (espejos_6BBB 6BBB-6BBC) (graficos_6BBB
+;   6BBB-6BBC) (copias_6BBB 6BBB-6BBC) (espejos_6BBB 6BBB-6BBC) (espejos_6BBB
+;   6BBB-6BBC) (espejos_6BBB 6BBB-6BBC) (graficos_6BBB 6BBB-6BBC) (copias_6BBB
+;   6BBB-6BBC) (graficos_6BBB 6BBB-6BBC) (copias_6BBB 6BBB-6BBC) (espejos_6BBB
+;   6BBB-6BBC); lo leen p00:5142, p00:514C, p00:5138, p00:512C (1 bytes)
 ;   0x6bbb..0x6bbc  (1 bytes)
-DATA_leido_6BBB:
+DATA_sprites_6BBB:
 	defb 000h	; 6bbb
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6BBC: 8 bytes que leen p00:5124, p00:5126, p00:5130, p00:5132,
-;   p00:513C, p00:513E al jugar (medido ejecutando el cartucho,
-;   tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee
-;   seguido); lo leen p00:5124, p00:5126, p00:5130, p00:5132, p00:513C,
-;   p00:513E, p00:5146, p00:5148 (8 bytes)
+; DATOS juego_6BBC: un juego de p00:515F: cuatro punteros (p00:5124): lista de
+;   graficos, de copias con vuelta, de dibujos de sprite y de espejos; lo leen
+;   p00:5162 (8 bytes)
 ;   0x6bbc..0x6bc4  (8 bytes)
-DATA_leido_6BBC:
-	defb 0c2h,06dh,0d5h,06dh,0bbh,06bh,0bbh,06bh	; 6bbc  .m.m.k.k
+DATA_juego_6BBC:
+	defw 06dc2h,06dd5h,06bbbh,06bbbh	; 6bbc  -> DATA_graficos_6DC2 DATA_copias_6DD5 DATA_sprites_6BBB DATA_sprites_6BBB
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6BC4: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6bc4..0x6bc5  (1 bytes)
-DATA_leido_6BC4:
-	defb 007h	; 6bc4
+; DATOS graficos_6BC4: lista de graficos (p00:4CB1): entradas de 6 bytes
+;   (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores)
+;   y un 0; lo leen p00:512C (7 bytes)
+;   0x6bc4..0x6bcb  (7 bytes)
+DATA_graficos_6BC4:
+	defb 007h,09fh,075h,080h,014h,079h	; 6bc4
+	defb 000h	; 6bca
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6BC5: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6bc5..0x6bca  (5 bytes)
-DATA_leido_6BC5:
-	defb 09fh,075h,080h,014h,079h	; 6bc5
+; DATOS graficos_6BCB: lista de graficos (p00:4CB1): entradas de 6 bytes
+;   (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores)
+;   y un 0; lo leen p00:512C (7 bytes)
+;   0x6bcb..0x6bd2  (7 bytes)
+DATA_graficos_6BCB:
+	defb 007h,0e6h,06dh,059h,005h,073h	; 6bcb
+	defb 000h	; 6bd1
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6BCA: 2 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (2 bytes)
-;   0x6bca..0x6bcc  (2 bytes)
-DATA_leido_6BCA:
-	defb 000h,007h	; 6bca
-
-; ----------------------------------------------------------------------
-; DATOS leido_6BCC: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6bcc..0x6bd1  (5 bytes)
-DATA_leido_6BCC:
-	defb 0e6h,06dh,059h,005h,073h	; 6bcc
-
-; ----------------------------------------------------------------------
-; DATOS leido_6BD1: 2 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (2 bytes)
-;   0x6bd1..0x6bd3  (2 bytes)
-DATA_leido_6BD1:
-	defb 000h,007h	; 6bd1
-
-; ----------------------------------------------------------------------
-; DATOS leido_6BD3: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6bd3..0x6bd8  (5 bytes)
-DATA_leido_6BD3:
-	defb 0a0h,07bh,060h,072h,07fh	; 6bd3
-
-; ----------------------------------------------------------------------
-; DATOS leido_6BD8: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6bd8..0x6bd9  (1 bytes)
-DATA_leido_6BD8:
-	defb 007h	; 6bd8
-
-; ----------------------------------------------------------------------
-; DATOS leido_6BD9: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6bd9..0x6bde  (5 bytes)
-DATA_leido_6BD9:
-	defb 023h,07ch,072h,08bh,07fh	; 6bd9
-
-; ----------------------------------------------------------------------
-; DATOS leido_6BDE: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6bde..0x6bdf  (1 bytes)
-DATA_leido_6BDE:
-	defb 007h	; 6bde
-
-; ----------------------------------------------------------------------
-; DATOS leido_6BDF: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6bdf..0x6be4  (5 bytes)
-DATA_leido_6BDF:
-	defb 054h,07ch,0b0h,0fbh,07dh	; 6bdf
-
-; ----------------------------------------------------------------------
-; DATOS leido_6BE4: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6be4..0x6be5  (1 bytes)
-DATA_leido_6BE4:
-	defb 007h	; 6be4
-
-; ----------------------------------------------------------------------
-; DATOS leido_6BE5: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6be5..0x6bea  (5 bytes)
-DATA_leido_6BE5:
-	defb 022h,07fh,0e8h,0afh,07fh	; 6be5
-
-; ----------------------------------------------------------------------
-; DATOS leido_6BEA: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6bea..0x6beb  (1 bytes)
-DATA_leido_6BEA:
-	defb 007h	; 6bea
-
-; ----------------------------------------------------------------------
-; DATOS leido_6BEB: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6beb..0x6bf0  (5 bytes)
-DATA_leido_6BEB:
-	defb 0f0h,07fh,090h,0dbh,080h	; 6beb
-
-; ----------------------------------------------------------------------
-; DATOS leido_6BF0: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6bf0..0x6bf1  (1 bytes)
-DATA_leido_6BF0:
+; DATOS graficos_6BD2: lista de graficos (p00:4CB1): entradas de 6 bytes
+;   (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores)
+;   y un 0; lo leen p00:512C (31 bytes)
+;   0x6bd2..0x6bf1  (31 bytes)
+DATA_graficos_6BD2:
+	defb 007h,0a0h,07bh,060h,072h,07fh	; 6bd2
+	defb 007h,023h,07ch,072h,08bh,07fh	; 6bd8
+	defb 007h,054h,07ch,0b0h,0fbh,07dh	; 6bde
+	defb 007h,022h,07fh,0e8h,0afh,07fh	; 6be4
+	defb 007h,0f0h,07fh,090h,0dbh,080h	; 6bea
 	defb 000h	; 6bf0
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6BF1: 1 bytes que lee p00:4D1F al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4D1F (1 bytes)
-;   0x6bf1..0x6bf2  (1 bytes)
-DATA_leido_6BF1:
-	defb 072h	; 6bf1
+; DATOS copias_6BF1: lista de copias de caracteres con la vuelta dada
+;   (p00:4D1B) de el juego de 0xE440 = 8; lo leen p00:5138 (9 bytes)
+;   0x6bf1..0x6bfa  (9 bytes)
+DATA_copias_6BF1:
+	defb 072h,078h,03ch,006h	; 6bf1
+	defb 0e8h,0f2h,03ch,00ah	; 6bf5
+	defb 000h	; 6bf9
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6BF2: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6bf2..0x6bf3  (1 bytes)
-DATA_leido_6BF2:
-	defb 078h	; 6bf2
-
-; ----------------------------------------------------------------------
-; DATOS leido_6BF3: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6bf3..0x6bf6  (3 bytes)
-DATA_leido_6BF3:
-	defb 03ch,006h,0e8h	; 6bf3
-
-; ----------------------------------------------------------------------
-; DATOS leido_6BF6: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6bf6..0x6bf7  (1 bytes)
-DATA_leido_6BF6:
-	defb 0f2h	; 6bf6
-
-; ----------------------------------------------------------------------
-; DATOS leido_6BF7: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6bf7..0x6bfa  (3 bytes)
-DATA_leido_6BF7:
-	defb 03ch,00ah,000h	; 6bf7
-
-; ----------------------------------------------------------------------
-; DATOS leido_6BFA: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6bfa..0x6bfb  (1 bytes)
-DATA_leido_6BFA:
-	defb 007h	; 6bfa
-
-; ----------------------------------------------------------------------
-; DATOS leido_6BFB: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6bfb..0x6c00  (5 bytes)
-DATA_leido_6BFB:
-	defb 09ch,081h,060h,00eh,082h	; 6bfb
-
-; ----------------------------------------------------------------------
-; DATOS leido_6C00: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6c00..0x6c01  (1 bytes)
-DATA_leido_6C00:
-	defb 007h	; 6c00
-
-; ----------------------------------------------------------------------
-; DATOS leido_6C01: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6c01..0x6c06  (5 bytes)
-DATA_leido_6C01:
-	defb 058h,082h,07ch,0cah,082h	; 6c01
-
-; ----------------------------------------------------------------------
-; DATOS leido_6C06: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6c06..0x6c07  (1 bytes)
-DATA_leido_6C06:
-	defb 007h	; 6c06
-
-; ----------------------------------------------------------------------
-; DATOS leido_6C07: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6c07..0x6c0c  (5 bytes)
-DATA_leido_6C07:
-	defb 00dh,083h,098h,05fh,083h	; 6c07
-
-; ----------------------------------------------------------------------
-; DATOS leido_6C0C: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6c0c..0x6c0d  (1 bytes)
-DATA_leido_6C0C:
+; DATOS graficos_6BFA: lista de graficos (p00:4CB1): entradas de 6 bytes
+;   (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores)
+;   y un 0; lo leen p00:512C (19 bytes)
+;   0x6bfa..0x6c0d  (19 bytes)
+DATA_graficos_6BFA:
+	defb 007h,09ch,081h,060h,00eh,082h	; 6bfa
+	defb 007h,058h,082h,07ch,0cah,082h	; 6c00
+	defb 007h,00dh,083h,098h,05fh,083h	; 6c06
 	defb 000h	; 6c0c
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6C0D: 1 bytes que lee p00:4D1F al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4D1F (1 bytes)
-;   0x6c0d..0x6c0e  (1 bytes)
-DATA_leido_6C0D:
-	defb 060h	; 6c0d
+; DATOS copias_6C0D: lista de copias de caracteres con la vuelta dada
+;   (p00:4D1B) de el juego de 0xE440 = 9; lo leen p00:5138 (17 bytes)
+;   0x6c0d..0x6c1e  (17 bytes)
+DATA_copias_6C0D:
+	defb 060h,06eh,0bfh,00eh	; 6c0d
+	defb 07ch,08ah,03fh,00eh	; 6c11
+	defb 098h,0a2h,03fh,00ah	; 6c15
+	defb 098h,0ach,0bfh,014h	; 6c19
+	defb 000h	; 6c1d
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6C0E: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6c0e..0x6c0f  (1 bytes)
-DATA_leido_6C0E:
-	defb 06eh	; 6c0e
+; DATOS graficos_6C1E: lista de graficos (p00:4CB1): entradas de 6 bytes
+;   (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores)
+;   y un 0; lo leen p00:512C (37 bytes)
+;   0x6c1e..0x6c43  (37 bytes)
+DATA_graficos_6C1E:
+	defb 007h,099h,083h,059h,0a4h,083h	; 6c1e
+	defb 007h,0afh,083h,05bh,014h,084h	; 6c24
+	defb 007h,070h,084h,07bh,0bfh,084h	; 6c2a
+	defb 007h,00bh,085h,08fh,012h,085h	; 6c30
+	defb 007h,01ch,085h,0b0h,036h,086h	; 6c36
+	defb 007h,02bh,087h,0f6h,048h,087h	; 6c3c
+	defb 000h	; 6c42
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6C0F: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6c0f..0x6c12  (3 bytes)
-DATA_leido_6C0F:
-	defb 0bfh,00eh,07ch	; 6c0f
+; DATOS copias_6C43: lista de copias de caracteres con la vuelta dada
+;   (p00:4D1B) de el juego de 0xE440 = 1, 3; lo leen p00:5138 (13 bytes)
+;   0x6c43..0x6c50  (13 bytes)
+DATA_copias_6C43:
+	defb 05bh,06bh,0bch,010h	; 6c43
+	defb 07bh,085h,0bch,00ah	; 6c47
+	defb 0b0h,0d3h,0bch,023h	; 6c4b
+	defb 000h	; 6c4f
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6C12: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6c12..0x6c13  (1 bytes)
-DATA_leido_6C12:
-	defb 08ah	; 6c12
+; DATOS graficos_6C50: lista de graficos (p00:4CB1): entradas de 6 bytes
+;   (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores)
+;   y un 0; lo leen p00:512C (37 bytes)
+;   0x6c50..0x6c75  (37 bytes)
+DATA_graficos_6C50:
+	defb 007h,0e5h,087h,060h,01eh,088h	; 6c50
+	defb 007h,057h,088h,072h,062h,088h	; 6c56
+	defb 007h,06dh,088h,0b0h,044h,089h	; 6c5c
+	defb 007h,025h,08ah,0e8h,057h,08ah	; 6c62
+	defb 007h,088h,08ah,0eeh,095h,08ah	; 6c68
+	defb 007h,0a7h,08ah,0f0h,0b6h,08ah	; 6c6e
+	defb 000h	; 6c74
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6C13: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6c13..0x6c16  (3 bytes)
-DATA_leido_6C13:
-	defb 03fh,00eh,098h	; 6c13
+; DATOS copias_6C75: lista de copias de caracteres con la vuelta dada
+;   (p00:4D1B) de el juego de 0xE440 = 4; lo leen p00:5138 (9 bytes)
+;   0x6c75..0x6c7e  (9 bytes)
+DATA_copias_6C75:
+	defb 060h,069h,0bch,009h	; 6c75
+	defb 0b0h,0cch,0bch,01ch	; 6c79
+	defb 000h	; 6c7d
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6C16: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6c16..0x6c17  (1 bytes)
-DATA_leido_6C16:
-	defb 0a2h	; 6c16
+; DATOS graficos_6C7E: lista de graficos (p00:4CB1): entradas de 6 bytes
+;   (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores)
+;   y un 0; se solapan 2 bloques: (graficos_6C8A 6C8A-6C97); lo leen p00:512C
+;   (25 bytes)
+;   0x6c7e..0x6c97  (25 bytes)
+DATA_graficos_6C7E:
+	defb 007h,0cfh,090h,07bh,0e1h,091h	; 6c7e
+	defb 007h,0f4h,092h,0f0h,0fdh,092h	; 6c84
+	defb 007h,0cdh,08ah,059h,029h,08bh	; 6c8a
+	defb 007h,078h,08bh,0a0h,0abh,08ch	; 6c90
+	defb 000h	; 6c96
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6C17: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6c17..0x6c1a  (3 bytes)
-DATA_leido_6C17:
-	defb 03fh,00ah,098h	; 6c17
+; DATOS copias_6C97: lista de copias de caracteres con la vuelta dada
+;   (p00:4D1B) de un juego de p00:516F (bit 0 de IX+1C a 0); lo leen p00:5138
+;   (17 bytes)
+;   0x6c97..0x6ca8  (17 bytes)
+DATA_copias_6C97:
+	defb 059h,06ah,0bch,011h	; 6c97
+	defb 06ah,06ah,03ch,011h	; 6c9b
+	defb 0a0h,0c7h,0bch,027h	; 6c9f
+	defb 0c7h,0c7h,03ch,027h	; 6ca3
+	defb 000h	; 6ca7
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6C1A: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6c1a..0x6c1b  (1 bytes)
-DATA_leido_6C1A:
-	defb 0ach	; 6c1a
+; DATOS graficos_6CA8: lista de graficos (p00:4CB1): entradas de 6 bytes
+;   (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores)
+;   y un 0; lo leen p00:512C (13 bytes)
+;   0x6ca8..0x6cb5  (13 bytes)
+DATA_graficos_6CA8:
+	defb 007h,0ceh,08dh,059h,02ah,08eh	; 6ca8
+	defb 007h,079h,08eh,0a0h,0ach,08fh	; 6cae
+	defb 000h	; 6cb4
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6C1B: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6c1b..0x6c1e  (3 bytes)
-DATA_leido_6C1B:
-	defb 0bfh,014h,000h	; 6c1b
+; DATOS copias_6CB5: lista de copias de caracteres con la vuelta dada
+;   (p00:4D1B) de un juego de p00:516F (bit 0 de IX+1C a 1); lo leen p00:5138
+;   (17 bytes)
+;   0x6cb5..0x6cc6  (17 bytes)
+DATA_copias_6CB5:
+	defb 059h,06ah,0bch,011h	; 6cb5
+	defb 06ah,06ah,03ch,011h	; 6cb9
+	defb 0a0h,0c7h,0bch,027h	; 6cbd
+	defb 0c7h,0c7h,03ch,027h	; 6cc1
+	defb 000h	; 6cc5
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6c1e..0x6cc6  (168 bytes)
-DATA_6C1E:
-	defb 007h,099h,083h,059h,0a4h,083h,007h,0afh,083h,05bh,014h,084h,007h,070h,084h,07bh	; 6c1e  ...Y.....[...p.{
-	defb 0bfh,084h,007h,00bh,085h,08fh,012h,085h,007h,01ch,085h,0b0h,036h,086h,007h,02bh	; 6c2e  ............6..+
-	defb 087h,0f6h,048h,087h,000h,05bh,06bh,0bch,010h,07bh,085h,0bch,00ah,0b0h,0d3h,0bch	; 6c3e  ..H..[k..{......
-	defb 023h,000h,007h,0e5h,087h,060h,01eh,088h,007h,057h,088h,072h,062h,088h,007h,06dh	; 6c4e  #....`...W.rb..m
-	defb 088h,0b0h,044h,089h,007h,025h,08ah,0e8h,057h,08ah,007h,088h,08ah,0eeh,095h,08ah	; 6c5e  ..D..%..W.......
-	defb 007h,0a7h,08ah,0f0h,0b6h,08ah,000h,060h,069h,0bch,009h,0b0h,0cch,0bch,01ch,000h	; 6c6e  .......`i.......
-	defb 007h,0cfh,090h,07bh,0e1h,091h,007h,0f4h,092h,0f0h,0fdh,092h,007h,0cdh,08ah,059h	; 6c7e  ...{...........Y
-	defb 029h,08bh,007h,078h,08bh,0a0h,0abh,08ch,000h,059h,06ah,0bch,011h,06ah,06ah,03ch	; 6c8e  )..x.....Yj..jj<
-	defb 011h,0a0h,0c7h,0bch,027h,0c7h,0c7h,03ch,027h,000h,007h,0ceh,08dh,059h,02ah,08eh	; 6c9e  ....'..<'....Y*.
-	defb 007h,079h,08eh,0a0h,0ach,08fh,000h,059h,06ah,0bch,011h,06ah,06ah,03ch,011h,0a0h	; 6cae  .y.....Yj..jj<..
-	defb 0c7h,0bch,027h,0c7h,0c7h,03ch,027h,000h	; 6cbe  ..'..<'.
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CC6: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6cc6..0x6cc7  (1 bytes)
-DATA_leido_6CC6:
-	defb 007h	; 6cc6
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CC7: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6cc7..0x6ccc  (5 bytes)
-DATA_leido_6CC7:
-	defb 00eh,093h,070h,019h,093h	; 6cc7
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CCC: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6ccc..0x6ccd  (1 bytes)
-DATA_leido_6CCC:
-	defb 007h	; 6ccc
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CCD: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6ccd..0x6cd2  (5 bytes)
-DATA_leido_6CCD:
-	defb 01ch,093h,074h,084h,093h	; 6ccd
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CD2: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6cd2..0x6cd3  (1 bytes)
-DATA_leido_6CD2:
-	defb 007h	; 6cd2
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CD3: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6cd3..0x6cd8  (5 bytes)
-DATA_leido_6CD3:
-	defb 0c4h,093h,0b0h,0bch,094h	; 6cd3
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CD8: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6cd8..0x6cd9  (1 bytes)
-DATA_leido_6CD8:
+; DATOS graficos_6CC6: lista de graficos (p00:4CB1): entradas de 6 bytes
+;   (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores)
+;   y un 0; lo leen p00:512C (19 bytes)
+;   0x6cc6..0x6cd9  (19 bytes)
+DATA_graficos_6CC6:
+	defb 007h,00eh,093h,070h,019h,093h	; 6cc6
+	defb 007h,01ch,093h,074h,084h,093h	; 6ccc
+	defb 007h,0c4h,093h,0b0h,0bch,094h	; 6cd2
 	defb 000h	; 6cd8
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6CD9: 1 bytes que lee p00:4D1F al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4D1F (1 bytes)
-;   0x6cd9..0x6cda  (1 bytes)
-DATA_leido_6CD9:
-	defb 070h	; 6cd9
+; DATOS copias_6CD9: lista de copias de caracteres con la vuelta dada
+;   (p00:4D1B) de el juego de 0xE440 = 14; lo leen p00:5138 (13 bytes)
+;   0x6cd9..0x6ce6  (13 bytes)
+DATA_copias_6CD9:
+	defb 070h,072h,03ch,002h	; 6cd9
+	defb 070h,082h,0bch,012h	; 6cdd
+	defb 0b0h,0d1h,0bch,022h	; 6ce1
+	defb 000h	; 6ce5
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6CDA: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6cda..0x6cdb  (1 bytes)
-DATA_leido_6CDA:
-	defb 072h	; 6cda
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CDB: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6cdb..0x6cde  (3 bytes)
-DATA_leido_6CDB:
-	defb 03ch,002h,070h	; 6cdb
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CDE: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6cde..0x6cdf  (1 bytes)
-DATA_leido_6CDE:
-	defb 082h	; 6cde
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CDF: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6cdf..0x6ce2  (3 bytes)
-DATA_leido_6CDF:
-	defb 0bch,012h,0b0h	; 6cdf
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CE2: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6ce2..0x6ce3  (1 bytes)
-DATA_leido_6CE2:
-	defb 0d1h	; 6ce2
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CE3: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6ce3..0x6ce6  (3 bytes)
-DATA_leido_6CE3:
-	defb 0bch,022h,000h	; 6ce3
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CE6: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6ce6..0x6ce7  (1 bytes)
-DATA_leido_6CE6:
-	defb 007h	; 6ce6
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CE7: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6ce7..0x6cec  (5 bytes)
-DATA_leido_6CE7:
-	defb 060h,095h,05ch,072h,095h	; 6ce7
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CEC: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6cec..0x6ced  (1 bytes)
-DATA_leido_6CEC:
-	defb 007h	; 6cec
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CED: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6ced..0x6cf2  (5 bytes)
-DATA_leido_6CED:
-	defb 083h,095h,064h,004h,097h	; 6ced
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CF2: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6cf2..0x6cf3  (1 bytes)
-DATA_leido_6CF2:
+; DATOS graficos_6CE6: lista de graficos (p00:4CB1): entradas de 6 bytes
+;   (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores)
+;   y un 0; lo leen p00:512C (13 bytes)
+;   0x6ce6..0x6cf3  (13 bytes)
+DATA_graficos_6CE6:
+	defb 007h,060h,095h,05ch,072h,095h	; 6ce6
+	defb 007h,083h,095h,064h,004h,097h	; 6cec
 	defb 000h	; 6cf2
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6CF3: 1 bytes que lee p00:4D1F al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4D1F (1 bytes)
-;   0x6cf3..0x6cf4  (1 bytes)
-DATA_leido_6CF3:
-	defb 05ch	; 6cf3
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CF4: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6cf4..0x6cf5  (1 bytes)
-DATA_leido_6CF4:
-	defb 05eh	; 6cf4
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CF5: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6cf5..0x6cf8  (3 bytes)
-DATA_leido_6CF5:
-	defb 0bch,002h,068h	; 6cf5
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CF8: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6cf8..0x6cf9  (1 bytes)
-DATA_leido_6CF8:
-	defb 098h	; 6cf8
-
-; ----------------------------------------------------------------------
-; DATOS leido_6CF9: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6cf9..0x6cfc  (3 bytes)
-DATA_leido_6CF9:
-	defb 0bch,02dh,000h	; 6cf9
+; DATOS copias_6CF3: lista de copias de caracteres con la vuelta dada
+;   (p00:4D1B) de el juego de 0xE440 = 12; lo leen p00:5138 (9 bytes)
+;   0x6cf3..0x6cfc  (9 bytes)
+DATA_copias_6CF3:
+	defb 05ch,05eh,0bch,002h	; 6cf3
+	defb 068h,098h,0bch,02dh	; 6cf7
+	defb 000h	; 6cfb
 
 ; ----------------------------------------------------------------------
 ; DATOS sin identificar  0x6cfc..0x6d7c  (128 bytes)
@@ -855,224 +599,31 @@ DATA_6CFC:
 	defb 0f9h,03ch,003h,0f1h,0fch,03ch,001h,0ceh,0fdh,0bch,003h,0fdh,0fdh,03ch,003h,000h	; 6d6c  .<...<.......<..
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6D7C: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6d7c..0x6d7d  (1 bytes)
-DATA_leido_6D7C:
-	defb 007h	; 6d7c
-
-; ----------------------------------------------------------------------
-; DATOS leido_6D7D: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6d7d..0x6d82  (5 bytes)
-DATA_leido_6D7D:
-	defb 0fdh,09bh,059h,025h,09ch	; 6d7d
-
-; ----------------------------------------------------------------------
-; DATOS leido_6D82: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6d82..0x6d83  (1 bytes)
-DATA_leido_6D82:
-	defb 007h	; 6d82
-
-; ----------------------------------------------------------------------
-; DATOS leido_6D83: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6d83..0x6d88  (5 bytes)
-DATA_leido_6D83:
-	defb 043h,09ch,065h,0c3h,09ch	; 6d83
-
-; ----------------------------------------------------------------------
-; DATOS leido_6D88: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6d88..0x6d89  (1 bytes)
-DATA_leido_6D88:
-	defb 007h	; 6d88
-
-; ----------------------------------------------------------------------
-; DATOS leido_6D89: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6d89..0x6d8e  (5 bytes)
-DATA_leido_6D89:
-	defb 012h,09dh,077h,0dbh,09dh	; 6d89
-
-; ----------------------------------------------------------------------
-; DATOS leido_6D8E: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6d8e..0x6d8f  (1 bytes)
-DATA_leido_6D8E:
-	defb 007h	; 6d8e
-
-; ----------------------------------------------------------------------
-; DATOS leido_6D8F: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6d8f..0x6d94  (5 bytes)
-DATA_leido_6D8F:
-	defb 066h,09eh,090h,00eh,09fh	; 6d8f
-
-; ----------------------------------------------------------------------
-; DATOS leido_6D94: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6d94..0x6d95  (1 bytes)
-DATA_leido_6D94:
-	defb 007h	; 6d94
-
-; ----------------------------------------------------------------------
-; DATOS leido_6D95: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6d95..0x6d9a  (5 bytes)
-DATA_leido_6D95:
-	defb 0bbh,09fh,0a6h,055h,0a0h	; 6d95
-
-; ----------------------------------------------------------------------
-; DATOS leido_6D9A: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6d9a..0x6d9b  (1 bytes)
-DATA_leido_6D9A:
-	defb 007h	; 6d9a
-
-; ----------------------------------------------------------------------
-; DATOS leido_6D9B: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6d9b..0x6da0  (5 bytes)
-DATA_leido_6D9B:
-	defb 0f6h,0a0h,0d0h,012h,0a1h	; 6d9b
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DA0: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6da0..0x6da1  (1 bytes)
-DATA_leido_6DA0:
-	defb 007h	; 6da0
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DA1: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6da1..0x6da6  (5 bytes)
-DATA_leido_6DA1:
-	defb 025h,0a1h,0d4h,096h,0a1h	; 6da1
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DA6: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6da6..0x6da7  (1 bytes)
-DATA_leido_6DA6:
-	defb 007h	; 6da6
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DA7: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6da7..0x6dac  (5 bytes)
-DATA_leido_6DA7:
-	defb 0ffh,0a1h,0f0h,03fh,0a2h	; 6da7
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DAC: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6dac..0x6dad  (1 bytes)
-DATA_leido_6DAC:
+; DATOS graficos_6D7C: lista de graficos (p00:4CB1): entradas de 6 bytes
+;   (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores)
+;   y un 0; lo leen p00:512C (49 bytes)
+;   0x6d7c..0x6dad  (49 bytes)
+DATA_graficos_6D7C:
+	defb 007h,0fdh,09bh,059h,025h,09ch	; 6d7c
+	defb 007h,043h,09ch,065h,0c3h,09ch	; 6d82
+	defb 007h,012h,09dh,077h,0dbh,09dh	; 6d88
+	defb 007h,066h,09eh,090h,00eh,09fh	; 6d8e
+	defb 007h,0bbh,09fh,0a6h,055h,0a0h	; 6d94
+	defb 007h,0f6h,0a0h,0d0h,012h,0a1h	; 6d9a
+	defb 007h,025h,0a1h,0d4h,096h,0a1h	; 6da0
+	defb 007h,0ffh,0a1h,0f0h,03fh,0a2h	; 6da6
 	defb 000h	; 6dac
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6DAD: 1 bytes que lee p00:4D1F al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4D1F (1 bytes)
-;   0x6dad..0x6dae  (1 bytes)
-DATA_leido_6DAD:
-	defb 059h	; 6dad
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DAE: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6dae..0x6daf  (1 bytes)
-DATA_leido_6DAE:
-	defb 05fh	; 6dae
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DAF: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6daf..0x6db2  (3 bytes)
-DATA_leido_6DAF:
-	defb 0bch,006h,0a6h	; 6daf
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DB2: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6db2..0x6db3  (1 bytes)
-DATA_leido_6DB2:
-	defb 0bbh	; 6db2
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DB3: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6db3..0x6db6  (3 bytes)
-DATA_leido_6DB3:
-	defb 0bch,015h,0d4h	; 6db3
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DB6: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6db6..0x6db7  (1 bytes)
-DATA_leido_6DB6:
-	defb 0e2h	; 6db6
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DB7: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6db7..0x6dba  (3 bytes)
-DATA_leido_6DB7:
-	defb 0bch,00eh,0f0h	; 6db7
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DBA: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6dba..0x6dbb  (1 bytes)
-DATA_leido_6DBA:
-	defb 0f8h	; 6dba
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DBB: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6dbb..0x6dbe  (3 bytes)
-DATA_leido_6DBB:
-	defb 0bch,008h,000h	; 6dbb
+; DATOS copias_6DAD: lista de copias de caracteres con la vuelta dada
+;   (p00:4D1B) de el juego de 0xE440 = 15, 17; lo leen p00:5138 (17 bytes)
+;   0x6dad..0x6dbe  (17 bytes)
+DATA_copias_6DAD:
+	defb 059h,05fh,0bch,006h	; 6dad
+	defb 0a6h,0bbh,0bch,015h	; 6db1
+	defb 0d4h,0e2h,0bch,00eh	; 6db5
+	defb 0f0h,0f8h,0bch,008h	; 6db9
+	defb 000h	; 6dbd
 
 ; ----------------------------------------------------------------------
 ; DATOS sin identificar  0x6dbe..0x6dc2  (4 bytes)
@@ -1080,148 +631,33 @@ DATA_6DBE:
 	defb 0a4h,06fh,087h,000h	; 6dbe
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6DC2: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6dc2..0x6dc3  (1 bytes)
-DATA_leido_6DC2:
-	defb 007h	; 6dc2
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DC3: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6dc3..0x6dc8  (5 bytes)
-DATA_leido_6DC3:
-	defb 07bh,0a2h,05dh,0e8h,0a3h	; 6dc3
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DC8: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6dc8..0x6dc9  (1 bytes)
-DATA_leido_6DC8:
-	defb 007h	; 6dc8
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DC9: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6dc9..0x6dce  (5 bytes)
-DATA_leido_6DC9:
-	defb 0cch,0a4h,0bah,0ffh,0a5h	; 6dc9
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DCE: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6dce..0x6dcf  (1 bytes)
-DATA_leido_6DCE:
-	defb 007h	; 6dce
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DCF: 5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09,
-;   p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
-;   0x6dcf..0x6dd4  (5 bytes)
-DATA_leido_6DCF:
-	defb 0afh,0a6h,0f6h,001h,0a7h	; 6dcf
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DD4: 1 bytes que lee p00:4CB1 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4CB1 (1 bytes)
-;   0x6dd4..0x6dd5  (1 bytes)
-DATA_leido_6DD4:
+; DATOS graficos_6DC2: lista de graficos (p00:4CB1): entradas de 6 bytes
+;   (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores)
+;   y un 0; lo leen p00:512C (19 bytes)
+;   0x6dc2..0x6dd5  (19 bytes)
+DATA_graficos_6DC2:
+	defb 007h,07bh,0a2h,05dh,0e8h,0a3h	; 6dc2
+	defb 007h,0cch,0a4h,0bah,0ffh,0a5h	; 6dc8
+	defb 007h,0afh,0a6h,0f6h,001h,0a7h	; 6dce
 	defb 000h	; 6dd4
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6DD5: 1 bytes que lee p00:4D1F al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4D1F (1 bytes)
-;   0x6dd5..0x6dd6  (1 bytes)
-DATA_leido_6DD5:
-	defb 05eh	; 6dd5
+; DATOS copias_6DD5: lista de copias de caracteres con la vuelta dada
+;   (p00:4D1B) de un juego de p00:515F; lo leen p00:5138 (17 bytes)
+;   0x6dd5..0x6de6  (17 bytes)
+DATA_copias_6DD5:
+	defb 05eh,08ch,0bch,02eh	; 6dd5
+	defb 08ch,08ch,03ch,02eh	; 6dd9
+	defb 0cah,0e0h,0bch,016h	; 6ddd
+	defb 0e0h,0e0h,03ch,016h	; 6de1
+	defb 000h	; 6de5
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6DD6: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6dd6..0x6dd7  (1 bytes)
-DATA_leido_6DD6:
-	defb 08ch	; 6dd6
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DD7: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6dd7..0x6dda  (3 bytes)
-DATA_leido_6DD7:
-	defb 0bch,02eh,08ch	; 6dd7
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DDA: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6dda..0x6ddb  (1 bytes)
-DATA_leido_6DDA:
-	defb 08ch	; 6dda
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DDB: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6ddb..0x6dde  (3 bytes)
-DATA_leido_6DDB:
-	defb 03ch,02eh,0cah	; 6ddb
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DDE: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6dde..0x6ddf  (1 bytes)
-DATA_leido_6DDE:
-	defb 0e0h	; 6dde
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DDF: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6ddf..0x6de2  (3 bytes)
-DATA_leido_6DDF:
-	defb 0bch,016h,0e0h	; 6ddf
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DE2: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4DC3 (1 bytes)
-;   0x6de2..0x6de3  (1 bytes)
-DATA_leido_6DE2:
-	defb 0e0h	; 6de2
-
-; ----------------------------------------------------------------------
-; DATOS leido_6DE3: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
-;   (3 bytes)
-;   0x6de3..0x6de6  (3 bytes)
-DATA_leido_6DE3:
-	defb 03ch,016h,000h	; 6de3
-
-; ----------------------------------------------------------------------
-; DATOS rle_vram_6DE6: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (1311
-;   bytes)
+; DATOS rle_6DE6: los dibujos de una entrada de la lista de graficos de
+;   20:6BCB, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6DE6
+;   6DE6-7305); lo leen p00:4CFF, p00:4B3C (1311 bytes)
 ;   0x6de6..0x7305  (1311 bytes)
-DATA_rle_vram_6DE6:
+DATA_rle_6DE6:
 	defb 093h,060h,0fch,0feh,09fh,08fh,007h,001h,000h,07fh,0fch,0ffh,0f4h,0c6h,0aeh,059h	; 6de6  .`.............Y
 	defb 00fh,006h,00ah,001h,004h,000h,0e5h,007h,00fh,0ffh,0c0h,00fh,01fh,07eh,0ech,0c0h	; 6df6  .............~..
 	defb 000h,000h,001h,002h,008h,030h,063h,06fh,000h,000h,001h,01eh,070h,0c0h,0c7h,0bch	; 6e06  .....0co....p...
@@ -1306,13 +742,11 @@ DATA_rle_vram_6DE6:
 	defb 09bh,0feh,00fh,03fh,08fh,00fh,050h,0f8h,0fch,0cfh,087h,0c0h,043h,001h,000h	; 72f6  ...?..P.....C..
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7305: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (476
-;   bytes)
+; DATOS rle_7305: los colores de una entrada de la lista de graficos de
+;   20:6BCB, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7305
+;   7305-74E1); lo leen p00:4D11, p00:4B3C (476 bytes)
 ;   0x7305..0x74e1  (476 bytes)
-DATA_rle_vram_7305:
+DATA_rle_7305:
 	defb 084h,0f0h,0a0h,0b0h,0f0h,004h,090h,088h,080h,086h,080h,080h,0f0h,0b0h,0a0h,0b0h	; 7305  ................
 	defb 007h,060h,081h,090h,003h,060h,005h,090h,002h,000h,004h,0a0h,002h,0b0h,003h,060h	; 7315  .`...`.........`
 	defb 002h,0a0h,003h,0b0h,081h,060h,005h,0b0h,002h,070h,004h,0b0h,086h,070h,050h,0a0h	; 7325  .....`...p...pP.
@@ -1345,35 +779,31 @@ DATA_rle_vram_7305:
 	defb 0e0h,0e0h,0a0h,0f0h,0f0h,0b0h,0b0h,003h,0a0h,081h,080h,000h	; 74d5  ............
 
 ; ----------------------------------------------------------------------
-; DATOS leido_74E1: 7 bytes que leen p00:50C2, p00:50C6, p00:50C8 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p00:50C2, p00:50C6, p00:50C8
-;   (7 bytes)
+; DATOS sprites_74E1: lista de dibujos de sprite (p00:50C2): de 3 en 3, el
+;   primer dibujo y el RLE que va ahi; acaba en 0; lo leen p00:5142 (7 bytes)
 ;   0x74e1..0x74e8  (7 bytes)
-DATA_leido_74E1:
-	defb 0a0h,0e8h,074h,0ach,021h,075h,000h	; 74e1
+DATA_sprites_74E1:
+	defb 0a0h,0e8h,074h	; 74e1
+	defb 0ach,021h,075h	; 74e4
+	defb 000h	; 74e7
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_74E8: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (57
-;   bytes)
+; DATOS rle_74E8: dibujos de sprite en RLE (p00:4B3C) de el juego de 0xE440 =
+;   6 de p00:50C2 (20:74E1); se solapan 2 bloques: (rle_vram_74E8 74E8-7521);
+;   lo leen p00:50D5, p00:4B3C (57 bytes)
 ;   0x74e8..0x7521  (57 bytes)
-DATA_rle_vram_74E8:
+DATA_rle_74E8:
 	defb 084h,000h,00fh,03fh,03fh,003h,07fh,086h,06fh,077h,037h,03bh,01fh,003h,005h,000h	; 74e8  ...??...ow7.....
 	defb 08dh,0c0h,0e0h,0e0h,0b0h,0d0h,0f8h,0f0h,0f8h,0f8h,074h,0eah,074h,002h,004h,000h	; 74f8  ..........t.t...
 	defb 083h,01fh,07fh,07fh,005h,0ffh,083h,06fh,031h,00fh,006h,000h,089h,0c0h,0e0h,0b8h	; 7508  .......o1.......
 	defb 0d6h,0f8h,0fch,0efh,090h,0e0h,003h,000h,000h	; 7518  .........
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7521: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (121
-;   bytes)
+; DATOS rle_7521: dibujos de sprite en RLE (p00:4B3C) de el juego de 0xE440 =
+;   6 de p00:50C2 (20:74E1); se solapan 2 bloques: (rle_vram_7521 7521-759A);
+;   lo leen p00:50D5, p00:4B3C (121 bytes)
 ;   0x7521..0x759a  (121 bytes)
-DATA_rle_vram_7521:
+DATA_rle_7521:
 	defb 083h,080h,0c0h,0e0h,003h,0f0h,08ah,070h,030h,010h,008h,008h,006h,01eh,00eh,006h	; 7521  .......p0.......
 	defb 002h,010h,000h,088h,080h,060h,078h,03eh,03eh,01eh,01fh,003h,010h,000h,085h,0a0h	; 7531  .....`x>>.......
 	defb 060h,0f0h,030h,008h,003h,000h,084h,0fch,07eh,03fh,01fh,00fh,000h,084h,088h,06ch	; 7541  `.0.....~?.....l
@@ -1384,22 +814,20 @@ DATA_rle_vram_7521:
 	defb 003h,0f0h,083h,0e0h,0c0h,080h,010h,000h,000h	; 7591  .........
 
 ; ----------------------------------------------------------------------
-; DATOS leido_759A: 5 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al
-;   jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (5 bytes)
+; DATOS espejos_759A: lista de sprites copiados con espejo dentro de la VRAM
+;   (p00:4E5A): de 4 en 4 (como, cuantos, origen, destino); acaba en 0; lo
+;   leen p00:514C (5 bytes)
 ;   0x759a..0x759f  (5 bytes)
-DATA_leido_759A:
-	defb 001h,001h,0a0h,0a8h,000h	; 759a
+DATA_espejos_759A:
+	defb 001h,001h,0a0h,0a8h	; 759a
+	defb 000h	; 759e
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_759F: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (885
-;   bytes)
+; DATOS rle_759F: los dibujos de una entrada de la lista de graficos de
+;   20:6BC4, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_759F
+;   759F-7914); lo leen p00:4CFF, p00:4B3C (885 bytes)
 ;   0x759f..0x7914  (885 bytes)
-DATA_rle_vram_759F:
+DATA_rle_759F:
 	defb 004h,000h,0ffh,001h,000h,006h,00fh,0ffh,01dh,07eh,0feh,0d5h,0a8h,041h,01ch,079h	; 759f  .........~...A.y
 	defb 0ffh,0ddh,028h,083h,0cfh,083h,04fh,080h,0e0h,0f8h,07ch,0feh,02fh,068h,0d9h,01fh	; 75af  ..(...O...|./h..
 	defb 01fh,03eh,03ch,019h,007h,07bh,0fdh,081h,03ch,07eh,0feh,0ffh,0eah,003h,016h,0fdh	; 75bf  .><..{..<~......
@@ -1458,13 +886,11 @@ DATA_rle_vram_759F:
 	defb 0feh,082h,0fch,078h,000h	; 790f
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7914: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (652
-;   bytes)
+; DATOS rle_7914: los colores de una entrada de la lista de graficos de
+;   20:6BC4, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7914
+;   7914-7BA0); lo leen p00:4D11, p00:4B3C (652 bytes)
 ;   0x7914..0x7ba0  (652 bytes)
-DATA_rle_vram_7914:
+DATA_rle_7914:
 	defb 008h,0c0h,090h,000h,0c0h,0c0h,0c6h,0c2h,0c2h,062h,0c6h,0c0h,0cch,0c2h,0c2h,062h	; 7914  .........b.....b
 	defb 063h,0c6h,0c6h,005h,0c0h,083h,0c6h,062h,0c6h,003h,0c0h,084h,020h,030h,0c0h,0c0h	; 7924  c......b.... 0..
 	defb 006h,0c6h,083h,0c2h,062h,062h,003h,0c2h,085h,062h,063h,0c6h,0c6h,0c2h,003h,062h	; 7934  ....bb...bc....b
@@ -1508,13 +934,11 @@ DATA_rle_vram_7914:
 	defb 080h,002h,060h,008h,080h,002h,090h,004h,080h,002h,060h,000h	; 7b94  ..`.......`.
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7BA0: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (131
-;   bytes)
+; DATOS rle_7BA0: los dibujos de una entrada de la lista de graficos de
+;   20:6BD2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7BA0
+;   7BA0-7C23); lo leen p00:4CFF, p00:4B3C (131 bytes)
 ;   0x7ba0..0x7c23  (131 bytes)
-DATA_rle_vram_7BA0:
+DATA_rle_7BA0:
 	defb 090h,000h,003h,00fh,01fh,03fh,07fh,0fdh,0feh,0e0h,0f8h,0fch,0fch,0feh,0feh,076h	; 7ba0  .....?.........v
 	defb 0aah,007h,000h,081h,001h,005h,000h,084h,001h,000h,002h,004h,006h,000h,002h,001h	; 7bb0  ................
 	defb 0b2h,002h,005h,016h,03bh,03fh,07ah,0f5h,001h,003h,003h,007h,00fh,01eh,03dh,07bh	; 7bc0  .....?z.......={
@@ -1526,26 +950,22 @@ DATA_rle_vram_7BA0:
 	defb 01fh,07fh,000h	; 7c20
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7C23: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (49
-;   bytes)
+; DATOS rle_7C23: los dibujos de una entrada de la lista de graficos de
+;   20:6BD2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7C23
+;   7C23-7C54); lo leen p00:4CFF, p00:4B3C (49 bytes)
 ;   0x7c23..0x7c54  (49 bytes)
-DATA_rle_vram_7C23:
+DATA_rle_7C23:
 	defb 087h,000h,003h,006h,00dh,01bh,037h,043h,003h,000h,09bh,001h,002h,00dh,03ah,03dh	; 7c23  ......7C......:=
 	defb 00fh,007h,003h,01fh,01fh,003h,039h,03fh,01fh,000h,0c8h,0a4h,0d0h,084h,0a8h,0d2h	; 7c33  ......9?........
 	defb 000h,007h,003h,01fh,01fh,001h,004h,000h,087h,0f4h,0fah,0f4h,0fah,0f4h,0fah,000h	; 7c43  ................
 	defb 000h	; 7c53
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7C54: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (423
-;   bytes)
+; DATOS rle_7C54: los dibujos de una entrada de la lista de graficos de
+;   20:6BD2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7C54
+;   7C54-7DFB); lo leen p00:4CFF, p00:4B3C (423 bytes)
 ;   0x7c54..0x7dfb  (423 bytes)
-DATA_rle_vram_7C54:
+DATA_rle_7C54:
 	defb 0b0h,0ebh,0deh,0f7h,0ddh,07bh,0ddh,0fbh,0afh,0dah,02dh,0d2h,02dh,052h,0b4h,049h	; 7c54  .....{....-.-R.I
 	defb 0b6h,048h,0a1h,004h,0a8h,041h,0ach,052h,028h,007h,00fh,01fh,03fh,0f1h,080h,000h	; 7c64  .H...A.R(...?...
 	defb 000h,0ebh,0deh,0f7h,0ddh,07bh,07fh,01fh,007h,0feh,0b5h,0fah,0aeh,07bh,0dah,0f5h	; 7c74  .....{.......{..
@@ -1575,13 +995,11 @@ DATA_rle_vram_7C54:
 	defb 0d6h,0aah,04bh,0ech,07eh,0a8h,000h	; 7df4
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7DFB: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (295
-;   bytes)
+; DATOS rle_7DFB: los colores de una entrada de la lista de graficos de
+;   20:6BD2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7DFB
+;   7DFB-7F22); lo leen p00:4D11, p00:4B3C (295 bytes)
 ;   0x7dfb..0x7f22  (295 bytes)
-DATA_rle_vram_7DFB:
+DATA_rle_7DFB:
 	defb 018h,0e5h,008h,0e0h,005h,0e5h,003h,0e0h,008h,0e5h,010h,0e0h,003h,0e5h,081h,0e0h	; 7dfb  ................
 	defb 004h,0e5h,005h,0e0h,003h,0e5h,009h,0e0h,08fh,050h,0e0h,0e0h,050h,040h,060h,080h	; 7e0b  .........P..P@`.
 	defb 000h,054h,0e0h,040h,050h,040h,050h,0e0h,009h,0e5h,082h,0e0h,0e5h,005h,0e0h,090h	; 7e1b  .T.@P@P.........
@@ -1603,13 +1021,11 @@ DATA_rle_vram_7DFB:
 	defb 004h,0e5h,00dh,0e0h,007h,0e5h,000h	; 7f1b
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7F22: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (80
-;   bytes)
+; DATOS rle_7F22: los dibujos de una entrada de la lista de graficos de
+;   20:6BD2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7F22
+;   7F22-7F72); lo leen p00:4CFF, p00:4B3C (80 bytes)
 ;   0x7f22..0x7f72  (80 bytes)
-DATA_rle_vram_7F22:
+DATA_rle_7F22:
 	defb 09ah,0beh,07fh,054h,0aah,050h,0a8h,040h,000h,001h,067h,035h,07eh,0fdh,0feh,07dh	; 7f22  ...T.P.@..g5~..}
 	defb 07eh,080h,07ah,05ah,07ah,042h,05ah,000h,07ch,03dh,0deh,005h,0feh,09dh,0fch,000h	; 7f32  ~.zZzBZ.|=......
 	defb 07ch,000h,0b4h,0b4h,000h,0b5h,0b5h,00bh,03fh,07fh,0fdh,0fah,0d5h,055h,02ah,080h	; 7f42  |.......?....U*.
@@ -1617,36 +1033,30 @@ DATA_rle_vram_7F22:
 	defb 07ch,000h,0b4h,0b4h,000h,0b5h,0b5h,001h,07fh,00bh,07fh,0fah,0d5h,055h,02ah,000h	; 7f62  |............U*.
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7F72: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (25
-;   bytes)
+; DATOS rle_7F72: los colores de una entrada de la lista de graficos de
+;   20:6BD2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7F72
+;   7F72-7F8B); lo leen p00:4D11, p00:4B3C (25 bytes)
 ;   0x7f72..0x7f8b  (25 bytes)
-DATA_rle_vram_7F72:
+DATA_rle_7F72:
 	defb 006h,0e0h,002h,0e5h,006h,0e0h,002h,0e5h,01fh,0e0h,081h,0e5h,027h,0e0h,004h,050h	; 7f72  ............'..P
 	defb 00dh,0e0h,002h,0e5h,005h,050h,021h,0e0h,000h	; 7f82  .....P!..
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7F8B: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (36
-;   bytes)
+; DATOS rle_7F8B: los colores de una entrada de la lista de graficos de
+;   20:6BD2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7F8B
+;   7F8B-7FAF); lo leen p00:4D11, p00:4B3C (36 bytes)
 ;   0x7f8b..0x7faf  (36 bytes)
-DATA_rle_vram_7F8B:
+DATA_rle_7F8B:
 	defb 006h,0e0h,081h,050h,003h,0e0h,005h,050h,002h,0e0h,081h,040h,007h,0e0h,089h,090h	; 7f8b  ...P...P...@....
 	defb 0a0h,0b0h,0b0h,0a0h,090h,090h,0e0h,040h,004h,0e0h,004h,080h,086h,090h,0b0h,0b0h	; 7f9b  .......@........
 	defb 090h,080h,080h,000h	; 7fab
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7FAF: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (65
-;   bytes)
+; DATOS rle_7FAF: los colores de una entrada de la lista de graficos de
+;   20:6BD2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7FAF
+;   7FAF-7FF0); lo leen p00:4D11, p00:4B3C (65 bytes)
 ;   0x7faf..0x7ff0  (65 bytes)
-DATA_rle_vram_7FAF:
+DATA_rle_7FAF:
 	defb 002h,0e0h,006h,0e5h,002h,050h,005h,0e5h,08bh,0e4h,050h,050h,0e0h,0f0h,0e0h,050h	; 7faf  .....P....PP...P
 	defb 0e0h,0e0h,0e4h,0e5h,006h,0e0h,003h,0f0h,085h,090h,060h,0f0h,0f0h,050h,003h,0e0h	; 7fbf  ..........`..P..
 	defb 003h,0e5h,08ch,050h,040h,0e0h,050h,0e0h,0f0h,0f0h,0e0h,050h,0e0h,0e4h,0e5h,006h	; 7fcf  ...P@.P....P....
@@ -1654,11 +1064,9 @@ DATA_rle_vram_7FAF:
 	defb 000h	; 7fef
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7FF0: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0 (sigue en el banco 21,
-;   en 0x8000); lo leen p00:4B3C (16 bytes)
+; DATOS rle_7FF0: los dibujos de una entrada de la lista de graficos de
+;   20:6BD2, en RLE (p00:4B3C) (sigue en el banco 21, en 0x8000); se solapan 2
+;   bloques: (rle_vram_7FF0 7FF0-8000); lo leen p00:4CFF, p00:4B3C (16 bytes)
 ;   0x7ff0..0x8000  (16 bytes)
-DATA_rle_vram_7FF0:
+DATA_rle_7FF0:
 	defb 0ffh,0feh,0f5h,0fah,0fch,0f9h,0d6h,0a0h,084h,07fh,0afh,05fh,03fh,09fh,06bh,005h	; 7ff0  ..........._?.k.

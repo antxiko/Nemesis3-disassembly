@@ -813,155 +813,836 @@ DATA_copias_6795:
 	defb 000h	; 67ad
 
 ; ----------------------------------------------------------------------
-; DATOS resto_67AE: lo apuntan con el banco puesto p00:571B (0x67AE); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p00:571B (47 bytes)
-;   0x67ae..0x67dd  (47 bytes)
-DATA_resto_67AE:
-	defb 000h,000h,000h,001h,000h,000h,002h,011h,006h,003h,033h,007h,004h,017h,001h,005h	; 67ae  ..........3.....
-	defb 027h,003h,006h,051h,001h,007h,027h,006h,008h,071h,001h,009h,073h,003h,00ah,061h	; 67be  '..Q..'..q..s..a
-	defb 006h,00bh,064h,006h,00ch,011h,004h,00dh,065h,002h,00eh,055h,005h,00fh,077h	; 67ce  ..d.....e..U..w
+; DATOS paleta_67AE: paleta de MSX2 (la de p00:5718; p00:4B94): de 3 en 3, el
+;   color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:571E (49 bytes)
+;   0x67ae..0x67df  (49 bytes)
+DATA_paleta_67AE:
+	defb 000h,000h,000h	; 67ae
+	defb 001h,000h,000h	; 67b1
+	defb 002h,011h,006h	; 67b4
+	defb 003h,033h,007h	; 67b7
+	defb 004h,017h,001h	; 67ba
+	defb 005h,027h,003h	; 67bd
+	defb 006h,051h,001h	; 67c0
+	defb 007h,027h,006h	; 67c3
+	defb 008h,071h,001h	; 67c6
+	defb 009h,073h,003h	; 67c9
+	defb 00ah,061h,006h	; 67cc
+	defb 00bh,064h,006h	; 67cf
+	defb 00ch,011h,004h	; 67d2
+	defb 00dh,065h,002h	; 67d5
+	defb 00eh,055h,005h	; 67d8
+	defb 00fh,077h,007h	; 67db
+	defb 0ffh	; 67de
 
 ; ----------------------------------------------------------------------
-; DATOS tabla_67DD: tabla que se lee desde HL = 0x67DD con un indice
-;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
-;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
-;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p00:51A2 (1277 bytes)
-;   0x67dd..0x6cda  (1277 bytes)
-DATA_tabla_67DD:
-	defb 007h,0ffh,0f5h,067h,020h,068h,04bh,068h,076h,068h,0a1h,068h,0cch,068h,0f7h,068h	; 67dd  ...g hKhvh.h.h.h
-	defb 022h,069h,04dh,069h,078h,069h,0a3h,069h,002h,022h,006h,003h,053h,007h,004h,006h	; 67ed  "iMixi.i."..S...
-	defb 000h,005h,026h,004h,006h,050h,000h,007h,007h,006h,008h,070h,000h,009h,071h,003h	; 67fd  ..&..P.....p..q.
-	defb 00ah,070h,007h,00bh,074h,007h,00ch,000h,004h,00dh,065h,003h,00eh,055h,005h,00fh	; 680d  .p..t.....e..U..
-	defb 077h,007h,0ffh,002h,011h,005h,003h,032h,006h,004h,006h,000h,005h,026h,004h,006h	; 681d  w......2.....&..
-	defb 041h,001h,007h,007h,006h,008h,070h,000h,009h,072h,002h,00ah,071h,006h,00bh,074h	; 682d  A.....p..r..q..t
-	defb 006h,00ch,001h,003h,00dh,065h,003h,00eh,055h,005h,00fh,077h,007h,0ffh,002h,022h	; 683d  .....e..U..w..."
-	defb 006h,003h,053h,007h,004h,017h,001h,005h,017h,003h,006h,050h,000h,007h,007h,006h	; 684d  ..S........P....
-	defb 008h,070h,000h,009h,071h,003h,00ah,070h,007h,00bh,074h,007h,00ch,000h,004h,00dh	; 685d  .p..q..p..t.....
-	defb 065h,003h,00eh,055h,005h,00fh,077h,007h,0ffh,002h,021h,004h,003h,032h,005h,004h	; 686d  e..U..w...!..2..
-	defb 015h,002h,005h,037h,003h,006h,061h,001h,007h,047h,005h,008h,070h,000h,009h,071h	; 687d  ...7..a..G..p..q
-	defb 003h,00ah,071h,005h,00bh,073h,006h,00ch,011h,003h,00dh,051h,003h,00eh,056h,005h	; 688d  ..q..s.....Q..V.
-	defb 00fh,077h,007h,0ffh,002h,022h,006h,003h,053h,007h,004h,015h,002h,005h,037h,003h	; 689d  .w..."..S.....7.
-	defb 006h,061h,001h,007h,007h,006h,008h,070h,000h,009h,071h,003h,00ah,071h,005h,00bh	; 68ad  .a.....p..q..q..
-	defb 073h,006h,00ch,000h,004h,00dh,065h,003h,00eh,056h,005h,00fh,077h,007h,0ffh,002h	; 68bd  s.....e..V..w...
-	defb 022h,006h,003h,053h,007h,004h,006h,000h,005h,026h,004h,006h,040h,000h,007h,007h	; 68cd  "..S.....&..@...
-	defb 006h,008h,070h,000h,009h,070h,003h,00ah,070h,007h,00bh,074h,007h,00ch,000h,004h	; 68dd  ..p..p..p..t....
-	defb 00dh,065h,003h,00eh,055h,005h,00fh,077h,007h,0ffh,002h,022h,006h,003h,053h,007h	; 68ed  .e..U..w..."..S.
-	defb 004h,006h,000h,005h,017h,003h,006h,050h,000h,007h,007h,006h,008h,070h,000h,009h	; 68fd  .......P.....p..
-	defb 070h,003h,00ah,061h,005h,00bh,071h,007h,00ch,000h,004h,00dh,065h,003h,00eh,055h	; 690d  p..a..q.....e..U
-	defb 005h,00fh,077h,007h,0ffh,002h,000h,005h,003h,053h,007h,004h,017h,001h,005h,016h	; 691d  ..w......S......
-	defb 003h,006h,040h,000h,007h,027h,005h,008h,070h,000h,009h,070h,002h,00ah,070h,007h	; 692d  ..@..'..p..p..p.
-	defb 00bh,074h,007h,00ch,000h,003h,00dh,074h,001h,00eh,055h,005h,00fh,077h,007h,0ffh	; 693d  .t.....t..U..w..
-	defb 002h,021h,004h,003h,032h,005h,004h,015h,002h,005h,037h,003h,006h,061h,001h,007h	; 694d  .!..2.....7..a..
-	defb 007h,006h,008h,070h,000h,009h,071h,003h,00ah,071h,006h,00bh,063h,007h,00ch,011h	; 695d  ...p..q..q..c...
-	defb 003h,00dh,065h,003h,00eh,056h,005h,00fh,077h,007h,0ffh,002h,021h,004h,003h,052h	; 696d  ..e..V..w...!..R
-	defb 005h,004h,015h,002h,005h,037h,003h,006h,061h,001h,007h,037h,007h,008h,070h,000h	; 697d  .....7..a..7..p.
-	defb 009h,071h,003h,00ah,071h,005h,00bh,073h,006h,00ch,011h,003h,00dh,065h,003h,00eh	; 698d  .q..q..s.....e..
-	defb 056h,005h,00fh,077h,007h,0ffh,002h,021h,004h,003h,052h,005h,004h,015h,002h,005h	; 699d  V..w...!..R.....
-	defb 037h,003h,006h,061h,001h,007h,037h,007h,008h,070h,000h,009h,071h,003h,00ah,071h	; 69ad  7..a..7..p..q..q
-	defb 005h,00bh,073h,006h,00ch,011h,003h,00dh,065h,003h,00eh,056h,005h,00fh,077h,007h	; 69bd  ..s.....e..V..w.
-	defb 0ffh,0f0h,069h,01bh,06ah,0f0h,069h,0f0h,069h,01bh,06ah,01ch,06ah,047h,06ah,072h	; 69cd  ..i.j.i.i.j.jGjr
-	defb 06ah,09dh,06ah,01bh,06ah,01bh,06ah,0f3h,06ah,01eh,06bh,0c8h,06ah,049h,06bh,0a3h	; 69dd  j.j.j.j.j.k.jIk.
-	defb 069h,049h,06bh,002h,022h,006h,003h,053h,007h,004h,006h,000h,005h,026h,004h,006h	; 69ed  iIk."..S.....&..
-	defb 050h,000h,007h,007h,006h,008h,070h,000h,009h,071h,003h,00ah,070h,007h,00bh,074h	; 69fd  P.....p..q..p..t
-	defb 007h,00ch,000h,004h,00dh,065h,003h,00eh,055h,005h,00fh,077h,007h,0ffh,0ffh,002h	; 6a0d  .....e..U..w....
-	defb 022h,006h,003h,053h,007h,004h,006h,000h,005h,026h,004h,006h,040h,000h,007h,047h	; 6a1d  "..S.....&..@..G
-	defb 006h,008h,070h,000h,009h,062h,004h,00ah,071h,007h,00bh,064h,006h,00ch,000h,004h	; 6a2d  ..p..b..q..d....
-	defb 00dh,065h,003h,00eh,055h,005h,00fh,077h,007h,0ffh,002h,011h,005h,003h,032h,006h	; 6a3d  .e..U..w......2.
-	defb 004h,006h,000h,005h,026h,004h,006h,041h,001h,007h,007h,006h,008h,070h,000h,009h	; 6a4d  ....&..A.....p..
-	defb 072h,002h,00ah,071h,006h,00bh,074h,006h,00ch,001h,003h,00dh,065h,003h,00eh,055h	; 6a5d  r..q..t.....e..U
-	defb 005h,00fh,077h,007h,0ffh,002h,022h,006h,003h,053h,007h,004h,006h,000h,005h,026h	; 6a6d  ..w..."..S.....&
-	defb 004h,006h,050h,000h,007h,007h,006h,008h,070h,000h,009h,071h,003h,00ah,070h,007h	; 6a7d  ..P.....p..q..p.
-	defb 00bh,074h,007h,00ch,000h,004h,00dh,065h,003h,00eh,055h,005h,00fh,077h,007h,0ffh	; 6a8d  .t.....e..U..w..
-	defb 002h,022h,006h,003h,053h,007h,004h,006h,000h,005h,007h,002h,006h,050h,000h,007h	; 6a9d  ."..S........P..
-	defb 007h,005h,008h,070h,000h,009h,071h,003h,00ah,070h,007h,00bh,074h,007h,00ch,000h	; 6aad  ...p..q..p..t...
-	defb 004h,00dh,065h,003h,00eh,055h,005h,00fh,077h,007h,0ffh,002h,022h,006h,003h,053h	; 6abd  ..e..U..w..."..S
-	defb 007h,004h,006h,000h,005h,007h,002h,006h,050h,000h,007h,007h,005h,008h,070h,000h	; 6acd  ........P.....p.
-	defb 009h,070h,003h,00ah,061h,005h,00bh,071h,007h,00ch,000h,004h,00dh,065h,003h,00eh	; 6add  .p..a..q.....e..
-	defb 055h,005h,00fh,077h,007h,0ffh,002h,043h,006h,003h,053h,007h,004h,006h,000h,005h	; 6aed  U..w...C..S.....
-	defb 026h,004h,006h,050h,000h,007h,007h,006h,008h,070h,000h,009h,071h,003h,00ah,070h	; 6afd  &..P.....p..q..p
-	defb 007h,00bh,074h,007h,00ch,012h,003h,00dh,065h,003h,00eh,055h,005h,00fh,077h,007h	; 6b0d  ..t.....e..U..w.
-	defb 0ffh,002h,022h,006h,003h,053h,007h,004h,006h,000h,005h,026h,004h,006h,050h,000h	; 6b1d  .."..S.....&..P.
-	defb 007h,007h,006h,008h,070h,000h,009h,071h,003h,00ah,070h,007h,00bh,074h,007h,00ch	; 6b2d  ....p..q..p..t..
-	defb 000h,004h,00dh,065h,003h,00eh,055h,005h,00fh,077h,007h,0ffh,002h,022h,006h,003h	; 6b3d  ...e..U..w..."..
-	defb 053h,007h,004h,006h,000h,005h,026h,004h,006h,050h,000h,007h,007h,006h,008h,070h	; 6b4d  S.....&..P.....p
-	defb 000h,009h,071h,003h,00ah,070h,007h,00bh,074h,007h,00ch,000h,004h,00dh,065h,003h	; 6b5d  ..q..p..t.....e.
-	defb 00eh,055h,005h,00fh,077h,007h,0ffh,084h,06bh,0afh,06bh,0dah,06bh,005h,06ch,030h	; 6b6d  .U..w...k.k.k.l0
-	defb 06ch,05bh,06ch,086h,06ch,0b1h,06ch,002h,011h,006h,003h,033h,007h,004h,017h,001h	; 6b7d  l[l.l.l....3....
-	defb 005h,017h,003h,006h,051h,001h,007h,027h,006h,008h,070h,000h,009h,070h,002h,00ah	; 6b8d  ....Q..'..p..p..
-	defb 061h,006h,00bh,064h,006h,00ch,011h,004h,00dh,065h,002h,00eh,055h,005h,00fh,077h	; 6b9d  a..d.....e..U..w
-	defb 007h,0ffh,002h,022h,006h,003h,053h,007h,004h,006h,000h,005h,026h,004h,006h,050h	; 6bad  ..."..S.....&..P
-	defb 000h,007h,007h,006h,008h,070h,000h,009h,071h,003h,00ah,070h,007h,00bh,074h,007h	; 6bbd  .....p..q..p..t.
-	defb 00ch,000h,004h,00dh,065h,003h,00eh,055h,005h,00fh,077h,007h,0ffh,002h,022h,006h	; 6bcd  ....e..U..w...".
-	defb 003h,053h,007h,004h,017h,001h,005h,027h,003h,006h,050h,000h,007h,007h,006h,008h	; 6bdd  .S.....'..P.....
-	defb 070h,000h,009h,071h,003h,00ah,074h,005h,00bh,074h,006h,00ch,000h,004h,00dh,065h	; 6bed  p..q..t..t.....e
-	defb 003h,00eh,055h,005h,00fh,077h,007h,0ffh,002h,022h,006h,003h,053h,007h,004h,017h	; 6bfd  ..U..w..."..S...
-	defb 001h,005h,027h,003h,006h,050h,000h,007h,007h,006h,008h,070h,000h,009h,071h,003h	; 6c0d  ..'..P.....p..q.
-	defb 00ah,070h,007h,00bh,074h,007h,00ch,000h,004h,00dh,065h,003h,00eh,055h,005h,00fh	; 6c1d  .p..t.....e..U..
-	defb 077h,007h,0ffh,002h,022h,006h,003h,053h,007h,004h,017h,001h,005h,027h,003h,006h	; 6c2d  w..."..S.....'..
-	defb 050h,000h,007h,007h,006h,008h,071h,001h,009h,071h,003h,00ah,074h,005h,00bh,074h	; 6c3d  P.....q..q..t..t
-	defb 006h,00ch,000h,004h,00dh,065h,003h,00eh,055h,005h,00fh,077h,007h,0ffh,002h,022h	; 6c4d  .....e..U..w..."
-	defb 006h,003h,053h,007h,004h,017h,001h,005h,027h,003h,006h,050h,000h,007h,007h,006h	; 6c5d  ..S.....'..P....
-	defb 008h,070h,000h,009h,073h,004h,00ah,074h,005h,00bh,074h,006h,00ch,000h,004h,00dh	; 6c6d  .p..s..t..t.....
-	defb 065h,003h,00eh,055h,005h,00fh,077h,007h,0ffh,002h,001h,006h,003h,053h,006h,004h	; 6c7d  e..U..w......S..
-	defb 017h,001h,005h,027h,003h,006h,040h,000h,007h,007h,006h,008h,070h,000h,009h,071h	; 6c8d  ...'..@.....p..q
-	defb 003h,00ah,074h,005h,00bh,074h,006h,00ch,002h,003h,00dh,065h,003h,00eh,055h,005h	; 6c9d  ..t..t.....e..U.
-	defb 00fh,077h,007h,0ffh,002h,022h,006h,003h,053h,007h,004h,004h,000h,005h,007h,003h	; 6cad  .w..."..S.......
-	defb 006h,040h,000h,007h,027h,006h,008h,070h,000h,009h,071h,003h,00ah,070h,007h,00bh	; 6cbd  .@..'..p..q..p..
-	defb 074h,006h,00ch,000h,004h,00dh,065h,003h,00eh,055h,005h,00fh,077h	; 6ccd  t.....e..U..w
+; DATOS paletas_por_fase: un puntero por fase a su paleta de MSX2 (p00:51A2:
+;   0x67DD + 2 x fase); lo leen p00:51A5 (22 bytes)
+;   0x67df..0x67f5  (22 bytes)
+DATA_paletas_por_fase:
+	defw 067f5h,06820h,0684bh,06876h,068a1h,068cch,068f7h,06922h	; 67df
+	defw 0694dh,06978h,069a3h	; 67ef  -> DATA_paleta_694D DATA_paleta_6978 DATA_paleta_69A3
 
 ; ----------------------------------------------------------------------
-; DATOS tabla_6CDA: tabla que se lee desde HL = 0x6CDA con un indice
-;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
-;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
-;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p00:56E7 (2 bytes)
-;   0x6cda..0x6cdc  (2 bytes)
-DATA_tabla_6CDA:
-	defb 007h,0ffh	; 6cda
+; DATOS paleta_67F5: una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de
+;   3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40
+;   bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+;   0x67f5..0x6820  (43 bytes)
+DATA_paleta_67F5:
+	defb 002h,022h,006h	; 67f5
+	defb 003h,053h,007h	; 67f8
+	defb 004h,006h,000h	; 67fb
+	defb 005h,026h,004h	; 67fe
+	defb 006h,050h,000h	; 6801
+	defb 007h,007h,006h	; 6804
+	defb 008h,070h,000h	; 6807
+	defb 009h,071h,003h	; 680a
+	defb 00ah,070h,007h	; 680d
+	defb 00bh,074h,007h	; 6810
+	defb 00ch,000h,004h	; 6813
+	defb 00dh,065h,003h	; 6816
+	defb 00eh,055h,005h	; 6819
+	defb 00fh,077h,007h	; 681c
+	defb 0ffh	; 681f
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6CDC: 113 bytes que leen p00:56EE, p00:56F0, p00:56F7, p00:56F9
-;   al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 67 sin leer
-;   entre lecturas de la misma rutina: entradas de la misma tabla que las
-;   partidas no han pedido); lo leen p00:56EE, p00:56F0, p00:56F7, p00:56F9
-;   (113 bytes)
-;   0x6cdc..0x6d4d  (113 bytes)
-DATA_leido_6CDC:
-	defb 0f2h,06ch,05dh,06dh,05dh,06dh,05dh,06dh,05dh,06dh,025h,06dh,05dh,06dh,041h,06dh	; 6cdc  .l]m]m]m]m%m]mAm
-	defb 05dh,06dh,05dh,06dh,05dh,06dh,002h,06dh,009h,06dh,010h,06dh,017h,06dh,01eh,06dh	; 6cec  ]m]m]m.m.m.m.m.m
-	defb 017h,06dh,010h,06dh,009h,06dh,006h,050h,000h,009h,071h,003h,0ffh,006h,040h,000h	; 6cfc  .m.m.m.P..q...@.
-	defb 009h,077h,007h,0ffh,006h,030h,000h,009h,075h,006h,0ffh,006h,020h,000h,009h,073h	; 6d0c  .w...0..u... ..s
-	defb 005h,0ffh,006h,000h,000h,009h,071h,003h,0ffh,031h,06dh,035h,06dh,039h,06dh,035h	; 6d1c  ......q..1m5m9m5
-	defb 06dh,031h,06dh,03dh,06dh,009h,070h,003h,0ffh,009h,070h,005h,0ffh,009h,070h,007h	; 6d2c  m1m=m.p...p...p.
-	defb 0ffh,009h,070h,001h,0ffh,04dh,06dh,051h,06dh,055h,06dh,059h,06dh,055h,06dh,051h	; 6d3c  ..p..MmQmUmYmUmQ
-	defb 06dh	; 6d4c
+; DATOS paleta_6820: una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de
+;   3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40
+;   bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+;   0x6820..0x684b  (43 bytes)
+DATA_paleta_6820:
+	defb 002h,011h,005h	; 6820
+	defb 003h,032h,006h	; 6823
+	defb 004h,006h,000h	; 6826
+	defb 005h,026h,004h	; 6829
+	defb 006h,041h,001h	; 682c
+	defb 007h,007h,006h	; 682f
+	defb 008h,070h,000h	; 6832
+	defb 009h,072h,002h	; 6835
+	defb 00ah,071h,006h	; 6838
+	defb 00bh,074h,006h	; 683b
+	defb 00ch,001h,003h	; 683e
+	defb 00dh,065h,003h	; 6841
+	defb 00eh,055h,005h	; 6844
+	defb 00fh,077h,007h	; 6847
+	defb 0ffh	; 684a
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6d4d..0x6d5c  (15 bytes)
-DATA_6D4D:
-	defb 00dh,074h,001h,0ffh,00dh,074h,003h,0ffh,00dh,074h,005h,0ffh,00dh,074h,007h	; 6d4d  .t...t...t...t.
+; DATOS paleta_684B: una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de
+;   3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40
+;   bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+;   0x684b..0x6876  (43 bytes)
+DATA_paleta_684B:
+	defb 002h,022h,006h	; 684b
+	defb 003h,053h,007h	; 684e
+	defb 004h,017h,001h	; 6851
+	defb 005h,017h,003h	; 6854
+	defb 006h,050h,000h	; 6857
+	defb 007h,007h,006h	; 685a
+	defb 008h,070h,000h	; 685d
+	defb 009h,071h,003h	; 6860
+	defb 00ah,070h,007h	; 6863
+	defb 00bh,074h,007h	; 6866
+	defb 00ch,000h,004h	; 6869
+	defb 00dh,065h,003h	; 686c
+	defb 00eh,055h,005h	; 686f
+	defb 00fh,077h,007h	; 6872
+	defb 0ffh	; 6875
 
 ; ----------------------------------------------------------------------
-; DATOS tabla_6D5C: tabla que se lee desde HL = 0x6D5C con un indice
-;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
-;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
-;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p00:56C7 (1 bytes)
-;   0x6d5c..0x6d5d  (1 bytes)
-DATA_tabla_6D5C:
+; DATOS paleta_6876: una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de
+;   3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40
+;   bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+;   0x6876..0x68a1  (43 bytes)
+DATA_paleta_6876:
+	defb 002h,021h,004h	; 6876
+	defb 003h,032h,005h	; 6879
+	defb 004h,015h,002h	; 687c
+	defb 005h,037h,003h	; 687f
+	defb 006h,061h,001h	; 6882
+	defb 007h,047h,005h	; 6885
+	defb 008h,070h,000h	; 6888
+	defb 009h,071h,003h	; 688b
+	defb 00ah,071h,005h	; 688e
+	defb 00bh,073h,006h	; 6891
+	defb 00ch,011h,003h	; 6894
+	defb 00dh,051h,003h	; 6897
+	defb 00eh,056h,005h	; 689a
+	defb 00fh,077h,007h	; 689d
+	defb 0ffh	; 68a0
+
+; ----------------------------------------------------------------------
+; DATOS paleta_68A1: una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de
+;   3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40
+;   bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+;   0x68a1..0x68cc  (43 bytes)
+DATA_paleta_68A1:
+	defb 002h,022h,006h	; 68a1
+	defb 003h,053h,007h	; 68a4
+	defb 004h,015h,002h	; 68a7
+	defb 005h,037h,003h	; 68aa
+	defb 006h,061h,001h	; 68ad
+	defb 007h,007h,006h	; 68b0
+	defb 008h,070h,000h	; 68b3
+	defb 009h,071h,003h	; 68b6
+	defb 00ah,071h,005h	; 68b9
+	defb 00bh,073h,006h	; 68bc
+	defb 00ch,000h,004h	; 68bf
+	defb 00dh,065h,003h	; 68c2
+	defb 00eh,056h,005h	; 68c5
+	defb 00fh,077h,007h	; 68c8
+	defb 0ffh	; 68cb
+
+; ----------------------------------------------------------------------
+; DATOS paleta_68CC: una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de
+;   3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40
+;   bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+;   0x68cc..0x68f7  (43 bytes)
+DATA_paleta_68CC:
+	defb 002h,022h,006h	; 68cc
+	defb 003h,053h,007h	; 68cf
+	defb 004h,006h,000h	; 68d2
+	defb 005h,026h,004h	; 68d5
+	defb 006h,040h,000h	; 68d8
+	defb 007h,007h,006h	; 68db
+	defb 008h,070h,000h	; 68de
+	defb 009h,070h,003h	; 68e1
+	defb 00ah,070h,007h	; 68e4
+	defb 00bh,074h,007h	; 68e7
+	defb 00ch,000h,004h	; 68ea
+	defb 00dh,065h,003h	; 68ed
+	defb 00eh,055h,005h	; 68f0
+	defb 00fh,077h,007h	; 68f3
+	defb 0ffh	; 68f6
+
+; ----------------------------------------------------------------------
+; DATOS paleta_68F7: una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de
+;   3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40
+;   bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+;   0x68f7..0x6922  (43 bytes)
+DATA_paleta_68F7:
+	defb 002h,022h,006h	; 68f7
+	defb 003h,053h,007h	; 68fa
+	defb 004h,006h,000h	; 68fd
+	defb 005h,017h,003h	; 6900
+	defb 006h,050h,000h	; 6903
+	defb 007h,007h,006h	; 6906
+	defb 008h,070h,000h	; 6909
+	defb 009h,070h,003h	; 690c
+	defb 00ah,061h,005h	; 690f
+	defb 00bh,071h,007h	; 6912
+	defb 00ch,000h,004h	; 6915
+	defb 00dh,065h,003h	; 6918
+	defb 00eh,055h,005h	; 691b
+	defb 00fh,077h,007h	; 691e
+	defb 0ffh	; 6921
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6922: una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de
+;   3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40
+;   bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+;   0x6922..0x694d  (43 bytes)
+DATA_paleta_6922:
+	defb 002h,000h,005h	; 6922
+	defb 003h,053h,007h	; 6925
+	defb 004h,017h,001h	; 6928
+	defb 005h,016h,003h	; 692b
+	defb 006h,040h,000h	; 692e
+	defb 007h,027h,005h	; 6931
+	defb 008h,070h,000h	; 6934
+	defb 009h,070h,002h	; 6937
+	defb 00ah,070h,007h	; 693a
+	defb 00bh,074h,007h	; 693d
+	defb 00ch,000h,003h	; 6940
+	defb 00dh,074h,001h	; 6943
+	defb 00eh,055h,005h	; 6946
+	defb 00fh,077h,007h	; 6949
+	defb 0ffh	; 694c
+
+; ----------------------------------------------------------------------
+; DATOS paleta_694D: una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de
+;   3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40
+;   bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+;   0x694d..0x6978  (43 bytes)
+DATA_paleta_694D:
+	defb 002h,021h,004h	; 694d
+	defb 003h,032h,005h	; 6950
+	defb 004h,015h,002h	; 6953
+	defb 005h,037h,003h	; 6956
+	defb 006h,061h,001h	; 6959
+	defb 007h,007h,006h	; 695c
+	defb 008h,070h,000h	; 695f
+	defb 009h,071h,003h	; 6962
+	defb 00ah,071h,006h	; 6965
+	defb 00bh,063h,007h	; 6968
+	defb 00ch,011h,003h	; 696b
+	defb 00dh,065h,003h	; 696e
+	defb 00eh,056h,005h	; 6971
+	defb 00fh,077h,007h	; 6974
+	defb 0ffh	; 6977
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6978: una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de
+;   3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40
+;   bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0 (43 bytes)
+;   0x6978..0x69a3  (43 bytes)
+DATA_paleta_6978:
+	defb 002h,021h,004h	; 6978
+	defb 003h,052h,005h	; 697b
+	defb 004h,015h,002h	; 697e
+	defb 005h,037h,003h	; 6981
+	defb 006h,061h,001h	; 6984
+	defb 007h,037h,007h	; 6987
+	defb 008h,070h,000h	; 698a
+	defb 009h,071h,003h	; 698d
+	defb 00ah,071h,005h	; 6990
+	defb 00bh,073h,006h	; 6993
+	defb 00ch,011h,003h	; 6996
+	defb 00dh,065h,003h	; 6999
+	defb 00eh,056h,005h	; 699c
+	defb 00fh,077h,007h	; 699f
+	defb 0ffh	; 69a2
+
+; ----------------------------------------------------------------------
+; DATOS paleta_69A3: una paleta de MSX2 (p00:4B94, solo si 0x002D no es 0): de
+;   3 en 3, el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40
+;   bytes a 0xECC0 aunque sea mas corta; lo leen p00:4BA0, p00:5712 (43 bytes)
+;   0x69a3..0x69ce  (43 bytes)
+DATA_paleta_69A3:
+	defb 002h,021h,004h	; 69a3
+	defb 003h,052h,005h	; 69a6
+	defb 004h,015h,002h	; 69a9
+	defb 005h,037h,003h	; 69ac
+	defb 006h,061h,001h	; 69af
+	defb 007h,037h,007h	; 69b2
+	defb 008h,070h,000h	; 69b5
+	defb 009h,071h,003h	; 69b8
+	defb 00ah,071h,005h	; 69bb
+	defb 00bh,073h,006h	; 69be
+	defb 00ch,011h,003h	; 69c1
+	defb 00dh,065h,003h	; 69c4
+	defb 00eh,056h,005h	; 69c7
+	defb 00fh,077h,007h	; 69ca
+	defb 0ffh	; 69cd
+
+; ----------------------------------------------------------------------
+; DATOS paletas_69CC: un puntero por valor de 0xE440 a la paleta del jefe
+;   (p00:5701: 0x69CC + 2 x 0xE440) (p00:570F); acaba donde empieza la primera
+;   paleta a la que apunta; lo leen p00:570F (34 bytes)
+;   0x69ce..0x69f0  (34 bytes)
+DATA_paletas_69CC:
+	defw 069f0h,06a1bh,069f0h,069f0h,06a1bh,06a1ch,06a47h,06a72h	; 69ce
+	defw 06a9dh,06a1bh,06a1bh,06af3h,06b1eh,06ac8h,06b49h,069a3h	; 69de
+	defw 06b49h	; 69ee  -> DATA_paleta_6B49
+
+; ----------------------------------------------------------------------
+; DATOS paleta_69F0: paleta de MSX2 (jefe 1, 3, 4; p00:4B94): de 3 en 3, el
+;   color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+;   0x69f0..0x6a1b  (43 bytes)
+DATA_paleta_69F0:
+	defb 002h,022h,006h	; 69f0
+	defb 003h,053h,007h	; 69f3
+	defb 004h,006h,000h	; 69f6
+	defb 005h,026h,004h	; 69f9
+	defb 006h,050h,000h	; 69fc
+	defb 007h,007h,006h	; 69ff
+	defb 008h,070h,000h	; 6a02
+	defb 009h,071h,003h	; 6a05
+	defb 00ah,070h,007h	; 6a08
+	defb 00bh,074h,007h	; 6a0b
+	defb 00ch,000h,004h	; 6a0e
+	defb 00dh,065h,003h	; 6a11
+	defb 00eh,055h,005h	; 6a14
+	defb 00fh,077h,007h	; 6a17
+	defb 0ffh	; 6a1a
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6A1B: paleta de MSX2 (jefe 2, 5, 10, 11; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:5712 (1 bytes)
+;   0x6a1b..0x6a1c  (1 bytes)
+DATA_paleta_6A1B:
+	defb 0ffh	; 6a1b
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6A1C: paleta de MSX2 (jefe 6; p00:4B94): de 3 en 3, el color,
+;   rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0
+;   aunque sea mas corta; lo leen p00:5712 (43 bytes)
+;   0x6a1c..0x6a47  (43 bytes)
+DATA_paleta_6A1C:
+	defb 002h,022h,006h	; 6a1c
+	defb 003h,053h,007h	; 6a1f
+	defb 004h,006h,000h	; 6a22
+	defb 005h,026h,004h	; 6a25
+	defb 006h,040h,000h	; 6a28
+	defb 007h,047h,006h	; 6a2b
+	defb 008h,070h,000h	; 6a2e
+	defb 009h,062h,004h	; 6a31
+	defb 00ah,071h,007h	; 6a34
+	defb 00bh,064h,006h	; 6a37
+	defb 00ch,000h,004h	; 6a3a
+	defb 00dh,065h,003h	; 6a3d
+	defb 00eh,055h,005h	; 6a40
+	defb 00fh,077h,007h	; 6a43
+	defb 0ffh	; 6a46
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6A47: paleta de MSX2 (jefe 7; p00:4B94): de 3 en 3, el color,
+;   rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0
+;   aunque sea mas corta; lo leen p00:5712 (43 bytes)
+;   0x6a47..0x6a72  (43 bytes)
+DATA_paleta_6A47:
+	defb 002h,011h,005h	; 6a47
+	defb 003h,032h,006h	; 6a4a
+	defb 004h,006h,000h	; 6a4d
+	defb 005h,026h,004h	; 6a50
+	defb 006h,041h,001h	; 6a53
+	defb 007h,007h,006h	; 6a56
+	defb 008h,070h,000h	; 6a59
+	defb 009h,072h,002h	; 6a5c
+	defb 00ah,071h,006h	; 6a5f
+	defb 00bh,074h,006h	; 6a62
+	defb 00ch,001h,003h	; 6a65
+	defb 00dh,065h,003h	; 6a68
+	defb 00eh,055h,005h	; 6a6b
+	defb 00fh,077h,007h	; 6a6e
+	defb 0ffh	; 6a71
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6A72: paleta de MSX2 (jefe 8; p00:4B94): de 3 en 3, el color,
+;   rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0
+;   aunque sea mas corta; lo leen p00:5712 (43 bytes)
+;   0x6a72..0x6a9d  (43 bytes)
+DATA_paleta_6A72:
+	defb 002h,022h,006h	; 6a72
+	defb 003h,053h,007h	; 6a75
+	defb 004h,006h,000h	; 6a78
+	defb 005h,026h,004h	; 6a7b
+	defb 006h,050h,000h	; 6a7e
+	defb 007h,007h,006h	; 6a81
+	defb 008h,070h,000h	; 6a84
+	defb 009h,071h,003h	; 6a87
+	defb 00ah,070h,007h	; 6a8a
+	defb 00bh,074h,007h	; 6a8d
+	defb 00ch,000h,004h	; 6a90
+	defb 00dh,065h,003h	; 6a93
+	defb 00eh,055h,005h	; 6a96
+	defb 00fh,077h,007h	; 6a99
+	defb 0ffh	; 6a9c
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6A9D: paleta de MSX2 (jefe 9; p00:4B94): de 3 en 3, el color,
+;   rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0
+;   aunque sea mas corta; lo leen p00:5712 (43 bytes)
+;   0x6a9d..0x6ac8  (43 bytes)
+DATA_paleta_6A9D:
+	defb 002h,022h,006h	; 6a9d
+	defb 003h,053h,007h	; 6aa0
+	defb 004h,006h,000h	; 6aa3
+	defb 005h,007h,002h	; 6aa6
+	defb 006h,050h,000h	; 6aa9
+	defb 007h,007h,005h	; 6aac
+	defb 008h,070h,000h	; 6aaf
+	defb 009h,071h,003h	; 6ab2
+	defb 00ah,070h,007h	; 6ab5
+	defb 00bh,074h,007h	; 6ab8
+	defb 00ch,000h,004h	; 6abb
+	defb 00dh,065h,003h	; 6abe
+	defb 00eh,055h,005h	; 6ac1
+	defb 00fh,077h,007h	; 6ac4
+	defb 0ffh	; 6ac7
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6AC8: paleta de MSX2 (jefe 14; p00:4B94): de 3 en 3, el color,
+;   rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0
+;   aunque sea mas corta; lo leen p00:5712 (43 bytes)
+;   0x6ac8..0x6af3  (43 bytes)
+DATA_paleta_6AC8:
+	defb 002h,022h,006h	; 6ac8
+	defb 003h,053h,007h	; 6acb
+	defb 004h,006h,000h	; 6ace
+	defb 005h,007h,002h	; 6ad1
+	defb 006h,050h,000h	; 6ad4
+	defb 007h,007h,005h	; 6ad7
+	defb 008h,070h,000h	; 6ada
+	defb 009h,070h,003h	; 6add
+	defb 00ah,061h,005h	; 6ae0
+	defb 00bh,071h,007h	; 6ae3
+	defb 00ch,000h,004h	; 6ae6
+	defb 00dh,065h,003h	; 6ae9
+	defb 00eh,055h,005h	; 6aec
+	defb 00fh,077h,007h	; 6aef
+	defb 0ffh	; 6af2
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6AF3: paleta de MSX2 (jefe 12; p00:4B94): de 3 en 3, el color,
+;   rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0
+;   aunque sea mas corta; lo leen p00:5712 (43 bytes)
+;   0x6af3..0x6b1e  (43 bytes)
+DATA_paleta_6AF3:
+	defb 002h,043h,006h	; 6af3
+	defb 003h,053h,007h	; 6af6
+	defb 004h,006h,000h	; 6af9
+	defb 005h,026h,004h	; 6afc
+	defb 006h,050h,000h	; 6aff
+	defb 007h,007h,006h	; 6b02
+	defb 008h,070h,000h	; 6b05
+	defb 009h,071h,003h	; 6b08
+	defb 00ah,070h,007h	; 6b0b
+	defb 00bh,074h,007h	; 6b0e
+	defb 00ch,012h,003h	; 6b11
+	defb 00dh,065h,003h	; 6b14
+	defb 00eh,055h,005h	; 6b17
+	defb 00fh,077h,007h	; 6b1a
+	defb 0ffh	; 6b1d
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6B1E: paleta de MSX2 (jefe 13; p00:4B94): de 3 en 3, el color,
+;   rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a 0xECC0
+;   aunque sea mas corta; lo leen p00:5712 (43 bytes)
+;   0x6b1e..0x6b49  (43 bytes)
+DATA_paleta_6B1E:
+	defb 002h,022h,006h	; 6b1e
+	defb 003h,053h,007h	; 6b21
+	defb 004h,006h,000h	; 6b24
+	defb 005h,026h,004h	; 6b27
+	defb 006h,050h,000h	; 6b2a
+	defb 007h,007h,006h	; 6b2d
+	defb 008h,070h,000h	; 6b30
+	defb 009h,071h,003h	; 6b33
+	defb 00ah,070h,007h	; 6b36
+	defb 00bh,074h,007h	; 6b39
+	defb 00ch,000h,004h	; 6b3c
+	defb 00dh,065h,003h	; 6b3f
+	defb 00eh,055h,005h	; 6b42
+	defb 00fh,077h,007h	; 6b45
+	defb 0ffh	; 6b48
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6B49: paleta de MSX2 (jefe 15, 17; p00:4B94): de 3 en 3, el
+;   color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+;   0x6b49..0x6b74  (43 bytes)
+DATA_paleta_6B49:
+	defb 002h,022h,006h	; 6b49
+	defb 003h,053h,007h	; 6b4c
+	defb 004h,006h,000h	; 6b4f
+	defb 005h,026h,004h	; 6b52
+	defb 006h,050h,000h	; 6b55
+	defb 007h,007h,006h	; 6b58
+	defb 008h,070h,000h	; 6b5b
+	defb 009h,071h,003h	; 6b5e
+	defb 00ah,070h,007h	; 6b61
+	defb 00bh,074h,007h	; 6b64
+	defb 00ch,000h,004h	; 6b67
+	defb 00dh,065h,003h	; 6b6a
+	defb 00eh,055h,005h	; 6b6d
+	defb 00fh,077h,007h	; 6b70
+	defb 0ffh	; 6b73
+
+; ----------------------------------------------------------------------
+; DATOS paletas_6B74: un puntero por valor de A a una paleta (p00:5709: 0x6B74
+;   + 2 x A) (p00:570F); acaba donde empieza la primera paleta a la que
+;   apunta; lo leen p00:570F (16 bytes)
+;   0x6b74..0x6b84  (16 bytes)
+DATA_paletas_6B74:
+	defw 06b84h,06bafh,06bdah,06c05h,06c30h,06c5bh,06c86h,06cb1h	; 6b74
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6B84: paleta de MSX2 (la 0 de p00:5709; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+;   0x6b84..0x6baf  (43 bytes)
+DATA_paleta_6B84:
+	defb 002h,011h,006h	; 6b84
+	defb 003h,033h,007h	; 6b87
+	defb 004h,017h,001h	; 6b8a
+	defb 005h,017h,003h	; 6b8d
+	defb 006h,051h,001h	; 6b90
+	defb 007h,027h,006h	; 6b93
+	defb 008h,070h,000h	; 6b96
+	defb 009h,070h,002h	; 6b99
+	defb 00ah,061h,006h	; 6b9c
+	defb 00bh,064h,006h	; 6b9f
+	defb 00ch,011h,004h	; 6ba2
+	defb 00dh,065h,002h	; 6ba5
+	defb 00eh,055h,005h	; 6ba8
+	defb 00fh,077h,007h	; 6bab
+	defb 0ffh	; 6bae
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6BAF: paleta de MSX2 (la 1 de p00:5709; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+;   0x6baf..0x6bda  (43 bytes)
+DATA_paleta_6BAF:
+	defb 002h,022h,006h	; 6baf
+	defb 003h,053h,007h	; 6bb2
+	defb 004h,006h,000h	; 6bb5
+	defb 005h,026h,004h	; 6bb8
+	defb 006h,050h,000h	; 6bbb
+	defb 007h,007h,006h	; 6bbe
+	defb 008h,070h,000h	; 6bc1
+	defb 009h,071h,003h	; 6bc4
+	defb 00ah,070h,007h	; 6bc7
+	defb 00bh,074h,007h	; 6bca
+	defb 00ch,000h,004h	; 6bcd
+	defb 00dh,065h,003h	; 6bd0
+	defb 00eh,055h,005h	; 6bd3
+	defb 00fh,077h,007h	; 6bd6
+	defb 0ffh	; 6bd9
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6BDA: paleta de MSX2 (la 2 de p00:5709; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+;   0x6bda..0x6c05  (43 bytes)
+DATA_paleta_6BDA:
+	defb 002h,022h,006h	; 6bda
+	defb 003h,053h,007h	; 6bdd
+	defb 004h,017h,001h	; 6be0
+	defb 005h,027h,003h	; 6be3
+	defb 006h,050h,000h	; 6be6
+	defb 007h,007h,006h	; 6be9
+	defb 008h,070h,000h	; 6bec
+	defb 009h,071h,003h	; 6bef
+	defb 00ah,074h,005h	; 6bf2
+	defb 00bh,074h,006h	; 6bf5
+	defb 00ch,000h,004h	; 6bf8
+	defb 00dh,065h,003h	; 6bfb
+	defb 00eh,055h,005h	; 6bfe
+	defb 00fh,077h,007h	; 6c01
+	defb 0ffh	; 6c04
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6C05: paleta de MSX2 (la 3 de p00:5709; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+;   0x6c05..0x6c30  (43 bytes)
+DATA_paleta_6C05:
+	defb 002h,022h,006h	; 6c05
+	defb 003h,053h,007h	; 6c08
+	defb 004h,017h,001h	; 6c0b
+	defb 005h,027h,003h	; 6c0e
+	defb 006h,050h,000h	; 6c11
+	defb 007h,007h,006h	; 6c14
+	defb 008h,070h,000h	; 6c17
+	defb 009h,071h,003h	; 6c1a
+	defb 00ah,070h,007h	; 6c1d
+	defb 00bh,074h,007h	; 6c20
+	defb 00ch,000h,004h	; 6c23
+	defb 00dh,065h,003h	; 6c26
+	defb 00eh,055h,005h	; 6c29
+	defb 00fh,077h,007h	; 6c2c
+	defb 0ffh	; 6c2f
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6C30: paleta de MSX2 (la 4 de p00:5709; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+;   0x6c30..0x6c5b  (43 bytes)
+DATA_paleta_6C30:
+	defb 002h,022h,006h	; 6c30
+	defb 003h,053h,007h	; 6c33
+	defb 004h,017h,001h	; 6c36
+	defb 005h,027h,003h	; 6c39
+	defb 006h,050h,000h	; 6c3c
+	defb 007h,007h,006h	; 6c3f
+	defb 008h,071h,001h	; 6c42
+	defb 009h,071h,003h	; 6c45
+	defb 00ah,074h,005h	; 6c48
+	defb 00bh,074h,006h	; 6c4b
+	defb 00ch,000h,004h	; 6c4e
+	defb 00dh,065h,003h	; 6c51
+	defb 00eh,055h,005h	; 6c54
+	defb 00fh,077h,007h	; 6c57
+	defb 0ffh	; 6c5a
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6C5B: paleta de MSX2 (la 5 de p00:5709; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+;   0x6c5b..0x6c86  (43 bytes)
+DATA_paleta_6C5B:
+	defb 002h,022h,006h	; 6c5b
+	defb 003h,053h,007h	; 6c5e
+	defb 004h,017h,001h	; 6c61
+	defb 005h,027h,003h	; 6c64
+	defb 006h,050h,000h	; 6c67
+	defb 007h,007h,006h	; 6c6a
+	defb 008h,070h,000h	; 6c6d
+	defb 009h,073h,004h	; 6c70
+	defb 00ah,074h,005h	; 6c73
+	defb 00bh,074h,006h	; 6c76
+	defb 00ch,000h,004h	; 6c79
+	defb 00dh,065h,003h	; 6c7c
+	defb 00eh,055h,005h	; 6c7f
+	defb 00fh,077h,007h	; 6c82
+	defb 0ffh	; 6c85
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6C86: paleta de MSX2 (la 6 de p00:5709; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+;   0x6c86..0x6cb1  (43 bytes)
+DATA_paleta_6C86:
+	defb 002h,001h,006h	; 6c86
+	defb 003h,053h,006h	; 6c89
+	defb 004h,017h,001h	; 6c8c
+	defb 005h,027h,003h	; 6c8f
+	defb 006h,040h,000h	; 6c92
+	defb 007h,007h,006h	; 6c95
+	defb 008h,070h,000h	; 6c98
+	defb 009h,071h,003h	; 6c9b
+	defb 00ah,074h,005h	; 6c9e
+	defb 00bh,074h,006h	; 6ca1
+	defb 00ch,002h,003h	; 6ca4
+	defb 00dh,065h,003h	; 6ca7
+	defb 00eh,055h,005h	; 6caa
+	defb 00fh,077h,007h	; 6cad
+	defb 0ffh	; 6cb0
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6CB1: paleta de MSX2 (la 7 de p00:5709; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:5712 (43 bytes)
+;   0x6cb1..0x6cdc  (43 bytes)
+DATA_paleta_6CB1:
+	defb 002h,022h,006h	; 6cb1
+	defb 003h,053h,007h	; 6cb4
+	defb 004h,004h,000h	; 6cb7
+	defb 005h,007h,003h	; 6cba
+	defb 006h,040h,000h	; 6cbd
+	defb 007h,027h,006h	; 6cc0
+	defb 008h,070h,000h	; 6cc3
+	defb 009h,071h,003h	; 6cc6
+	defb 00ah,070h,007h	; 6cc9
+	defb 00bh,074h,006h	; 6ccc
+	defb 00ch,000h,004h	; 6ccf
+	defb 00dh,065h,003h	; 6cd2
+	defb 00eh,055h,005h	; 6cd5
+	defb 00fh,077h,007h	; 6cd8
+	defb 0ffh	; 6cdb
+
+; ----------------------------------------------------------------------
+; DATOS paletas_que_cambian: un puntero por fase a su lista de paletas que
+;   cambian cada 4 cuadros (p00:56E4: 0x6CDA + 2 x fase; las fases sin ninguna
+;   apuntan a 0x6D5D, que no se lee); lo leen p00:56EB (22 bytes)
+;   0x6cdc..0x6cf2  (22 bytes)
+DATA_paletas_que_cambian:
+	defw 06cf2h,06d5dh,06d5dh,06d5dh,06d5dh,06d25h,06d5dh,06d41h	; 6cdc
+	defw 06d5dh,06d5dh,06d5dh	; 6cec  -> DATA_cuantas_paletas DATA_cuantas_paletas DATA_cuantas_paletas
+
+; ----------------------------------------------------------------------
+; DATOS paletas_fase_1: las 8 paletas que se alternan en la fase 1 (p00:56F2);
+;   lo leen p00:56F7 (16 bytes)
+;   0x6cf2..0x6d02  (16 bytes)
+DATA_paletas_fase_1:
+	defw 06d02h,06d09h,06d10h,06d17h,06d1eh,06d17h,06d10h,06d09h	; 6cf2
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6D02: paleta de MSX2 (la 0 de la fase 1; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:56FB (7 bytes)
+;   0x6d02..0x6d09  (7 bytes)
+DATA_paleta_6D02:
+	defb 006h,050h,000h	; 6d02
+	defb 009h,071h,003h	; 6d05
+	defb 0ffh	; 6d08
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6D09: paleta de MSX2 (la 1 de la fase 1; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:56FB (7 bytes)
+;   0x6d09..0x6d10  (7 bytes)
+DATA_paleta_6D09:
+	defb 006h,040h,000h	; 6d09
+	defb 009h,077h,007h	; 6d0c
+	defb 0ffh	; 6d0f
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6D10: paleta de MSX2 (la 2 de la fase 1; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:56FB (7 bytes)
+;   0x6d10..0x6d17  (7 bytes)
+DATA_paleta_6D10:
+	defb 006h,030h,000h	; 6d10
+	defb 009h,075h,006h	; 6d13
+	defb 0ffh	; 6d16
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6D17: paleta de MSX2 (la 3 de la fase 1; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:56FB (7 bytes)
+;   0x6d17..0x6d1e  (7 bytes)
+DATA_paleta_6D17:
+	defb 006h,020h,000h	; 6d17
+	defb 009h,073h,005h	; 6d1a
+	defb 0ffh	; 6d1d
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6D1E: paleta de MSX2 (la 4 de la fase 1; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:56FB (7 bytes)
+;   0x6d1e..0x6d25  (7 bytes)
+DATA_paleta_6D1E:
+	defb 006h,000h,000h	; 6d1e
+	defb 009h,071h,003h	; 6d21
+	defb 0ffh	; 6d24
+
+; ----------------------------------------------------------------------
+; DATOS paletas_fase_6: las 6 paletas que se alternan en la fase 6 (p00:56F2);
+;   lo leen p00:56F7 (12 bytes)
+;   0x6d25..0x6d31  (12 bytes)
+DATA_paletas_fase_6:
+	defw 06d31h,06d35h,06d39h,06d35h,06d31h,06d3dh	; 6d25
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6D31: paleta de MSX2 (la 0 de la fase 6; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:56FB (4 bytes)
+;   0x6d31..0x6d35  (4 bytes)
+DATA_paleta_6D31:
+	defb 009h,070h,003h	; 6d31
+	defb 0ffh	; 6d34
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6D35: paleta de MSX2 (la 1 de la fase 6; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:56FB (4 bytes)
+;   0x6d35..0x6d39  (4 bytes)
+DATA_paleta_6D35:
+	defb 009h,070h,005h	; 6d35
+	defb 0ffh	; 6d38
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6D39: paleta de MSX2 (la 2 de la fase 6; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:56FB (4 bytes)
+;   0x6d39..0x6d3d  (4 bytes)
+DATA_paleta_6D39:
+	defb 009h,070h,007h	; 6d39
+	defb 0ffh	; 6d3c
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6D3D: paleta de MSX2 (la 5 de la fase 6; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:56FB (4 bytes)
+;   0x6d3d..0x6d41  (4 bytes)
+DATA_paleta_6D3D:
+	defb 009h,070h,001h	; 6d3d
+	defb 0ffh	; 6d40
+
+; ----------------------------------------------------------------------
+; DATOS paletas_fase_8: las 6 paletas que se alternan en la fase 8 (p00:56F2);
+;   lo leen p00:56F7 (12 bytes)
+;   0x6d41..0x6d4d  (12 bytes)
+DATA_paletas_fase_8:
+	defw 06d4dh,06d51h,06d55h,06d59h,06d55h,06d51h	; 6d41
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6D4D: paleta de MSX2 (la 0 de la fase 8; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:56FB (4 bytes)
+;   0x6d4d..0x6d51  (4 bytes)
+DATA_paleta_6D4D:
+	defb 00dh,074h,001h	; 6d4d
+	defb 0ffh	; 6d50
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6D51: paleta de MSX2 (la 1 de la fase 8; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:56FB (4 bytes)
+;   0x6d51..0x6d55  (4 bytes)
+DATA_paleta_6D51:
+	defb 00dh,074h,003h	; 6d51
+	defb 0ffh	; 6d54
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6D55: paleta de MSX2 (la 2 de la fase 8; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:56FB (4 bytes)
+;   0x6d55..0x6d59  (4 bytes)
+DATA_paleta_6D55:
+	defb 00dh,074h,005h	; 6d55
+	defb 0ffh	; 6d58
+
+; ----------------------------------------------------------------------
+; DATOS paleta_6D59: paleta de MSX2 (la 3 de la fase 8; p00:4B94): de 3 en 3,
+;   el color, rojo y azul, y verde; acaba en 0xFF. p00:4B9D copia 0x40 bytes a
+;   0xECC0 aunque sea mas corta; lo leen p00:56FB (4 bytes)
+;   0x6d59..0x6d5d  (4 bytes)
+DATA_paleta_6D59:
+	defb 00dh,074h,007h	; 6d59
 	defb 0ffh	; 6d5c
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6D5D: 11 bytes que lee p00:56CD al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido, con 1 sin leer entre lecturas de la misma rutina: entradas
-;   de la misma tabla que las partidas no han pedido); lo leen p00:56CD (11
-;   bytes)
+; DATOS cuantas_paletas: una por fase: cuantas paletas tiene su lista
+;   (p00:56C7: 0x6D5C + fase; 0 = ninguna); lo leen p00:56CD (11 bytes)
 ;   0x6d5d..0x6d68  (11 bytes)
-DATA_leido_6D5D:
+DATA_cuantas_paletas:
 	defb 008h,000h,000h,000h,000h,006h,000h,006h,000h,000h,000h	; 6d5d  ...........
 
 ; ----------------------------------------------------------------------

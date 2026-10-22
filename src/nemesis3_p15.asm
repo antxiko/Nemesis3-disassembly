@@ -10,25 +10,21 @@
 
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_7FED_cola: graficos comprimidos a la VRAM (p00:4B3C): 0
-;   acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva,
-;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
-;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0
-;   (sigue del banco 14); lo leen p00:4B3C (46 bytes)
+; DATOS rle_7FED_cola: dibujos de sprite en RLE (p00:4B3C) de la fase 3 de
+;   p00:50C2 (14:6F1C) (sigue del banco 14); se solapan 2 bloques:
+;   (rle_vram_7FED_cola 8000-802E); lo leen p00:50D5, p00:4B3C (46 bytes)
 ;   0x8000..0x802e  (46 bytes)
-DATA_rle_vram_7FED_cola:
+DATA_rle_7FED_cola:
 	defb 0c0h,0c0h,0e0h,0f0h,0f8h,0e8h,050h,030h,050h,0a0h,060h,040h,080h,000h,000h,003h	; 8000  ......P0P.`@....
 	defb 00fh,01fh,01fh,03fh,07fh,07fh,0efh,0f4h,0deh,07dh,02ah,015h,000h,000h,060h,0f8h	; 8010  ...?.....}*...`.
 	defb 0eeh,0f1h,0e3h,0e6h,0e2h,0d4h,02ah,070h,0b4h,078h,0c0h,003h,000h,000h	; 8020  ......*p.x....
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_802E: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (66
-;   bytes)
+; DATOS rle_802E: dibujos de sprite en RLE (p00:4B3C) de la fase 8 de p00:50C2
+;   (14:6F72); se solapan 2 bloques: (rle_vram_802E 802E-8070); lo leen
+;   p00:50D5, p00:4B3C (66 bytes)
 ;   0x802e..0x8070  (66 bytes)
-DATA_rle_vram_802E:
+DATA_rle_802E:
 	defb 092h,001h,003h,003h,009h,01ch,08ch,06bh,056h,056h,06bh,08ch,01ch,009h,003h,003h	; 802e  .......kVVk.....
 	defb 001h,0f0h,080h,003h,000h,086h,083h,04ch,0f8h,040h,060h,080h,003h,000h,0a2h,080h	; 803e  .......L.@`.....
 	defb 0f0h,000h,001h,003h,009h,01ch,04ch,0ebh,0d6h,0d6h,0e8h,04ch,01ch,009h,003h,001h	; 804e  ......L....L....
@@ -36,26 +32,22 @@ DATA_rle_vram_802E:
 	defb 000h,000h	; 806e
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_8070: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (64
-;   bytes)
+; DATOS rle_8070: dibujos de sprite en RLE (p00:4B3C) de una lista de p00:50C2
+;   (14:6ED4); se solapan 2 bloques: (rle_vram_8070 8070-80B0); lo leen
+;   p00:50D5, p00:4B3C (64 bytes)
 ;   0x8070..0x80b0  (64 bytes)
-DATA_rle_vram_8070:
+DATA_rle_8070:
 	defb 086h,000h,003h,00ch,010h,023h,027h,004h,04fh,08ch,027h,023h,010h,00ch,003h,000h	; 8070  .....#'.O.'#....
 	defb 000h,0c0h,030h,008h,0c4h,0e4h,004h,0f2h,0a6h,0e4h,0c4h,008h,030h,0c0h,000h,013h	; 8080  ..0.........0...
 	defb 08ch,035h,0aah,04fh,077h,09fh,0bfh,08fh,09fh,077h,04fh,023h,0b4h,00dh,023h,0c8h	; 8090  .5.Ow....wO#..#.
 	defb 031h,02ch,0c4h,0d2h,0f6h,0f9h,0f9h,0f5h,0f9h,0f6h,0dah,044h,0adh,032h,0c8h,000h	; 80a0  1,.........D.2..
 
 ; ----------------------------------------------------------------------
-; DATOS rle_vram_80B0: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n <
-;   0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF
-;   copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee
-;   su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (66
-;   bytes)
+; DATOS rle_80B0: dibujos de sprite en RLE (p00:4B3C) de una lista de p00:50C2
+;   (14:6ED4); se solapan 2 bloques: (rle_vram_80B0 80B0-80F2); lo leen
+;   p00:50D5, p00:4B3C (66 bytes)
 ;   0x80b0..0x80f2  (66 bytes)
-DATA_rle_vram_80B0:
+DATA_rle_80B0:
 	defb 0c0h,003h,00ch,039h,030h,06ah,060h,0f9h,0e3h,0cbh,0afh,047h,06fh,020h,014h,000h	; 80b0  ...90j`....Go ..
 	defb 000h,0c0h,030h,008h,004h,002h,0a2h,081h,0d1h,0e1h,0c1h,0c2h,002h,004h,008h,010h	; 80c0  ..0.............
 	defb 040h,003h,008h,010h,020h,000h,040h,048h,040h,042h,068h,021h,03ch,01fh,006h,000h	; 80d0  @... .@H@Bh!<...

@@ -1,32 +1,32 @@
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
-D 0xA000 0xA055 rle_vram_9FBB_cola  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0 (sigue del banco 21); lo leen p00:4B3C (85 bytes)
+D 0xA000 0xA055 rle_9FBB_cola  los dibujos de una entrada de la lista de graficos de 20:6D7C, en RLE (p00:4B3C) (sigue del banco 21); se solapan 2 bloques: (rle_vram_9FBB_cola A000-A055); lo leen p00:4CFF, p00:4B3C (85 bytes)
 F 0xA000 16
-D 0xA055 0xA0F6 rle_vram_A055  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (161 bytes)
+D 0xA055 0xA0F6 rle_A055  los colores de una entrada de la lista de graficos de 20:6D7C, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A055 A055-A0F6); lo leen p00:4D11, p00:4B3C (161 bytes)
 F 0xA055 16
-D 0xA0F6 0xA112 rle_vram_A0F6  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (28 bytes)
+D 0xA0F6 0xA112 rle_A0F6  los dibujos de una entrada de la lista de graficos de 20:6D7C, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A0F6 A0F6-A112); lo leen p00:4CFF, p00:4B3C (28 bytes)
 F 0xA0F6 16
-D 0xA112 0xA125 rle_vram_A112  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (19 bytes)
+D 0xA112 0xA125 rle_A112  los colores de una entrada de la lista de graficos de 20:6D7C, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A112 A112-A125); lo leen p00:4D11, p00:4B3C (19 bytes)
 F 0xA112 16
-D 0xA125 0xA196 rle_vram_A125  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (113 bytes)
+D 0xA125 0xA196 rle_A125  los dibujos de una entrada de la lista de graficos de 20:6D7C, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A125 A125-A196); lo leen p00:4CFF, p00:4B3C (113 bytes)
 F 0xA125 16
-D 0xA196 0xA1FF rle_vram_A196  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (105 bytes)
+D 0xA196 0xA1FF rle_A196  los colores de una entrada de la lista de graficos de 20:6D7C, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A196 A196-A1FF); lo leen p00:4D11, p00:4B3C (105 bytes)
 F 0xA196 16
-D 0xA1FF 0xA23F rle_vram_A1FF  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (64 bytes)
+D 0xA1FF 0xA23F rle_A1FF  los dibujos de una entrada de la lista de graficos de 20:6D7C, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A1FF A1FF-A23F); lo leen p00:4CFF, p00:4B3C (64 bytes)
 F 0xA1FF 16
-D 0xA23F 0xA27B rle_vram_A23F  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (60 bytes)
+D 0xA23F 0xA27B rle_A23F  los colores de una entrada de la lista de graficos de 20:6D7C, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A23F A23F-A27B); lo leen p00:4D11, p00:4B3C (60 bytes)
 F 0xA23F 16
-D 0xA27B 0xA3E8 rle_vram_A27B  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (365 bytes)
+D 0xA27B 0xA3E8 rle_A27B  los dibujos de una entrada de la lista de graficos de 20:6DC2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A27B A27B-A3E8); lo leen p00:4CFF, p00:4B3C (365 bytes)
 F 0xA27B 16
-D 0xA3E8 0xA4CC rle_vram_A3E8  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (228 bytes)
+D 0xA3E8 0xA4CC rle_A3E8  los colores de una entrada de la lista de graficos de 20:6DC2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A3E8 A3E8-A4CC); lo leen p00:4D11, p00:4B3C (228 bytes)
 F 0xA3E8 16
-D 0xA4CC 0xA5FF rle_vram_A4CC  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (307 bytes)
+D 0xA4CC 0xA5FF rle_A4CC  los dibujos de una entrada de la lista de graficos de 20:6DC2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A4CC A4CC-A5FF); lo leen p00:4CFF, p00:4B3C (307 bytes)
 F 0xA4CC 16
-D 0xA5FF 0xA6AF rle_vram_A5FF  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (176 bytes)
+D 0xA5FF 0xA6AF rle_A5FF  los colores de una entrada de la lista de graficos de 20:6DC2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A5FF A5FF-A6AF); lo leen p00:4D11, p00:4B3C (176 bytes)
 F 0xA5FF 16
-D 0xA6AF 0xA701 rle_vram_A6AF  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (82 bytes)
+D 0xA6AF 0xA701 rle_A6AF  los dibujos de una entrada de la lista de graficos de 20:6DC2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A6AF A6AF-A701); lo leen p00:4CFF, p00:4B3C (82 bytes)
 F 0xA6AF 16
-D 0xA701 0xA737 rle_vram_A701  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (54 bytes)
+D 0xA701 0xA737 rle_A701  los colores de una entrada de la lista de graficos de 20:6DC2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A701 A701-A737); lo leen p00:4D11, p00:4B3C (54 bytes)
 F 0xA701 16
 D 0xA737 0xA899 rle_A737  graficos comprimidos a la VRAM con su direccion delante (p00:4B36): direccion y el RLE de p00:4B3C; lo leen p02:83FE (354 bytes)
 F 0xA737 16

@@ -12,6 +12,9 @@ Escenarios (cada uno una partida nueva):
   fN         la fase N (1..11) con la nave invencible y disparando, CUADROS
              cuadros; apunta cada cambio de estado y de fase, y una foto cada
              300 cuadros en work/rec/
+  bN         la fase N igual pero subiendo y bajando (Juego.barre = 90) y
+             comprando armas: asi caen los jefes y se pasa a la fase siguiente;
+             BCUADROS cuadros
   gameover   la fase 1 sin tocar nada hasta que vuelve al logo
 
 Uso: cobertura.py corre <escenario> ...     (cada uno en work/cob/<escenario>.json)
@@ -30,6 +33,7 @@ from partida import Juego, ESTADO, PASO, FASE   # noqa: E402
 RAIZ = os.path.dirname(AQUI)
 FOTOS = os.path.join(RAIZ, "work", "rec")
 CUADROS = 15000
+BCUADROS = 40000
 FASES = range(1, 12)
 
 
@@ -51,6 +55,8 @@ def corre(nombre):
         return j, []
     f = int(nombre[1:])
     j = Juego().hasta_partida(f, inmortal=True, dispara=True)
+    if nombre.startswith("b"):
+        j.barre = 90            # sube y baja disparando: asi caen los jefes
     ini = j.cuadro
     eventos = []
     previo = [None]
@@ -64,7 +70,7 @@ def corre(nombre):
             previo[0] = st
         if k % 300 == 0:
             j.foto().save(os.path.join(FOTOS, "%s_%05d.png" % (nombre, k)))
-    j.juega(CUADROS, mira)
+    j.juega(BCUADROS if nombre.startswith("b") else CUADROS, mira)
     return j, eventos
 
 

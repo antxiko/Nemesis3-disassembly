@@ -513,3 +513,87 @@ F 0x88C0 16
 D 0x893B 0x89CA resto_893B  lo apuntan con el banco puesto p30:8684 (0x893B), p30:87DE (0x89B2); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p30:8684, p30:87DE (143 bytes)
 F 0x893B 16
 # --- fin de los bloques de bloques.py ---
+
+# --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+C 0x8014 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x8032 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x804D sonido_4A: pide el sonido 0x4A
+C 0x8098 orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0x80AC orden_sonido_83: manda la orden 0x83 al motor de sonido
+C 0x80AF sonido_01: pide el sonido 0x01
+C 0x80BF sonido_3E: pide el sonido 0x3E
+C 0x80C7 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x815B despacha: salta a la palabra A de la tabla que va detras del call
+C 0x8204 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x8210 suma_a_hl: HL = HL + A
+C 0x821A bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x8225 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x822B bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x8291 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x829D bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x82B3 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x82B9 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x82C4 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x82CA bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x82DA bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
+C 0x82E3 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x82F1 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x82F7 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x82FA bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
+C 0x8303 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x8324 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
+C 0x832B carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x8339 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x833C bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x8438 lee_palabra: HL = la palabra A de la tabla HL
+C 0x843E carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x8450 lee_palabra: HL = la palabra A de la tabla HL
+C 0x8456 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x846B suma_a_hl: HL = HL + A
+C 0x847C lee_palabra: HL = la palabra A de la tabla HL
+C 0x84C1 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x84C7 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x84CB bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x84D1 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x84D5 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x84DB bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x84DF bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x84E5 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x84E9 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x84EF bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x84F3 bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
+C 0x84F9 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x84FD bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
+C 0x8503 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x850B bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
+C 0x8511 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x8515 bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
+C 0x851B bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x852D color_del_borde: B al registro 7 del VDP
+C 0x8530 pantalla_en_blanco: borra la tabla de nombres (0x3800)
+C 0x8541 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
+C 0x8548 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x854B bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x8557 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x8575 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
+C 0x857C carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x8583 copia_con_vuelta: copia caracteres de la VRAM dandoles la vuelta (lista IX)
+C 0x858C rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x858F bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x85A0 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x863F orden_83_y_sonido_51: manda la orden 0x83 al motor y pide el sonido 0x51
+C 0x866F bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
+C 0x8675 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x868A rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x8733 bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
+C 0x8739 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x873D bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
+C 0x8743 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x875F lee la cuenta de cuadros del juego
+C 0x87A6 lee la cuenta de cuadros del juego
+C 0x87CA suma_a_hl: HL = HL + A
+C 0x87D1 suma_a_de: DE = DE + A
+C 0x87FA suma_a_hl: HL = HL + A
+C 0x87FF suma_a_de: DE = DE + A
+C 0x880B rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+# --- fin de las anotaciones de anota.py ---

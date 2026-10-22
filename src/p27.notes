@@ -147,3 +147,125 @@ F 0x8F02 16
 D 0x8FEE 0x9002 resto_8FEE  lo apuntan con el banco puesto p00:4226 (0x9000), p00:4240 (0x9000), p00:4257 (0x9000), p00:4260 (0x9000), p00:4279 (0x9000), p00:58A7 (0x9000); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p00:4226, p00:4240, p00:4257, p00:4260, p00:4279, p00:58A7 (20 bytes)
 F 0x8FEE 16
 # --- fin de los bloques de bloques.py ---
+
+# --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+C 0x801E lee la cuenta de cuadros del juego
+C 0x804F despacha: salta a la palabra A de la tabla que va detras del call
+C 0x8068 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x8078 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+C 0x807F carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x8095 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x80BC despacha: salta a la palabra A de la tabla que va detras del call
+C 0x80D5 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x8104 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+C 0x810D bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x8113 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
+C 0x8119 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
+C 0x811F rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
+C 0x8125 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
+C 0x813E rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x816B despacha: salta a la palabra A de la tabla que va detras del call
+C 0x8178 orden_sonido_83: manda la orden 0x83 al motor de sonido
+C 0x817B sonido_3F: pide el sonido 0x3F
+C 0x81CC lee lo recien pulsado (mando y cursores)
+C 0x81EC pantalla_en_blanco: borra la tabla de nombres (0x3800)
+C 0x81F8 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x8224 lee la cuenta de cuadros del juego
+C 0x8375 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x8380 sonido_3F: pide el sonido 0x3F
+C 0x83C2 lee lo recien pulsado (mando y cursores)
+C 0x8403 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x8424 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x8437 orden_sonido_83: manda la orden 0x83 al motor de sonido
+C 0x843A sonido_42: pide el sonido 0x42
+C 0x8440 pantalla_en_blanco: borra la tabla de nombres (0x3800)
+C 0x8462 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+C 0x8469 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x8473 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x84A7 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+C 0x84B0 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x84C7 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+C 0x84CE carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x84D8 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x852A despacha: salta a la palabra A de la tabla que va detras del call
+C 0x853D pantalla_en_blanco: borra la tabla de nombres (0x3800)
+C 0x858D bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+C 0x8593 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x861E despacha: salta a la palabra A de la tabla que va detras del call
+C 0x8669 sonido_4D: pide el sonido 0x4D
+C 0x8678 color_del_borde: B al registro 7 del VDP
+C 0x8682 color_del_borde: B al registro 7 del VDP
+C 0x8685 sonido_52: pide el sonido 0x52
+C 0x86F6 orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0x8710 orden_sonido_83: manda la orden 0x83 al motor de sonido
+C 0x8713 sonido_01: pide el sonido 0x01
+C 0x8725 sonido_53: pide el sonido 0x53
+C 0x873C sonido_40: pide el sonido 0x40
+C 0x87A6 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x87DD orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0x87ED orden_sonido_83: manda la orden 0x83 al motor de sonido
+C 0x87F0 sonido_49: pide el sonido 0x49
+C 0x888E bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+C 0x8895 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x88B5 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x88DB orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0x88F4 pantalla_en_blanco: borra la tabla de nombres (0x3800)
+C 0x890D orden_sonido_83: manda la orden 0x83 al motor de sonido
+C 0x8910 sonido_01: pide el sonido 0x01
+C 0x891E despacha: salta a la palabra A de la tabla que va detras del call
+C 0x895F orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0x896F orden_sonido_83: manda la orden 0x83 al motor de sonido
+C 0x8972 sonido_41: pide el sonido 0x41
+C 0x89BC pantalla_en_blanco: borra la tabla de nombres (0x3800)
+C 0x89D6 orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0x89E4 orden_sonido_83: manda la orden 0x83 al motor de sonido
+C 0x89E7 sonido_01: pide el sonido 0x01
+C 0x89FE bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+C 0x8A07 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x8A10 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x8A17 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+C 0x8A1D bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x8A25 sonido_01: pide el sonido 0x01
+C 0x8A2C sonido_53: pide el sonido 0x53
+C 0x8A3D sonido_01: pide el sonido 0x01
+C 0x8A7F bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+C 0x8A86 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x8A90 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x8A94 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+C 0x8A9D rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x8AA0 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x8B33 lee_palabra: HL = la palabra A de la tabla HL
+C 0x8B9F lee_palabra: HL = la palabra A de la tabla HL
+C 0x8C04 suma_a_hl: HL = HL + A
+C 0x8CBF lee la cuenta de cuadros del juego
+C 0x8CDD bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+C 0x8CE4 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x8CE7 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x8CEB lee la cuenta de cuadros del juego
+C 0x8CF3 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
+C 0x8CFC bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x8D00 guarda_reparto: guarda las tres copias del mapper en la pila de 0xF0D0
+C 0x8D03 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
+C 0x8D0C lee_palabra: HL = la palabra A de la tabla HL
+C 0x8D14 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x8D1B rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x8D32 devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
+C 0x8D44 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x8D50 lee_palabra: HL = la palabra A de la tabla HL
+C 0x8D7D lee la cuenta de cuadros del juego
+C 0x8D9D suma_a_hl: HL = HL + A
+C 0x8DD9 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+C 0x8DE0 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x8DEE rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x8DF1 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x8DFA lee la cuenta de cuadros del juego
+C 0x8E21 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+C 0x8E2A rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x8E39 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x8E4C bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+C 0x8E53 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x8E5C rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x8E5F bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x8E83 lee la cuenta de cuadros del juego
+C 0x8E97 lee_palabra: HL = la palabra A de la tabla HL
+# --- fin de las anotaciones de anota.py ---

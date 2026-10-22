@@ -438,10 +438,66 @@ D 0xB443 0xB461 tabla_B443  tabla que se lee desde HL = 0xB443 con un indice (p0
 F 0xB443 16
 D 0xB489 0xB4D1 tabla_B489  tabla que se lee desde HL = 0xB489 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p19:B47A (72 bytes)
 F 0xB489 16
-D 0xB568 0xB7A4 tabla_B568  tabla que se lee desde HL = 0xB568 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p00:5D96 (572 bytes)
+D 0xB568 0xB56A tabla_B568  tabla que se lee desde HL = 0xB568 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p00:5D96 (2 bytes)
 F 0xB568 16
-D 0xB7A4 0xC000 relleno_ff  2140 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (2140 bytes)
-F 0xB7A4 16
+D 0xB56A 0xB570 demos  un puntero por fase de la demostracion (la 1, la 2 y la 3; p00:5D96: 0xB568 + 2 x fase); lo leen p00:5D99 (6 bytes)
+F 0xB56A w8
+D 0xB570 0xB5DD demo_1  la grabacion de la demostracion de la fase 1 (p00:5D73): 54 pares de cuantos cuadros y que se pulsa; acaba en 0xFF; lo leen p00:5DA1 (109 bytes)
+F 0xB570 2
+D 0xB5DD 0xB67A demo_2  la grabacion de la demostracion de la fase 2 (p00:5D73): 78 pares de cuantos cuadros y que se pulsa; acaba en 0xFF; lo leen p00:5DA1 (157 bytes)
+F 0xB5DD 2
+D 0xB67A 0xB7A5 demo_3  la grabacion de la demostracion de la fase 3 (p00:5D73): 149 pares de cuantos cuadros y que se pulsa; acaba en 0xFF; lo leen p00:5DA1 (299 bytes)
+F 0xB67A 2
+D 0xB7A5 0xC000 relleno_ff  2139 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (2139 bytes)
+F 0xB7A5 16
 D 0xB559 0xB568 resto_B559  lo apuntan con el banco puesto p19:B54D (0xB562); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p19:B54D (15 bytes)
 F 0xB559 16
 # --- fin de los bloques de bloques.py ---
+
+# --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+C 0xA8FF lee la fase (1 a 11)
+C 0xA909 suma_a_hl: HL = HL + A
+C 0xA95C lee la fase (1 a 11)
+C 0xA965 lee_palabra: HL = la palabra A de la tabla HL
+C 0xA968 lee la posicion del scroll (16 bits)
+C 0xA972 guarda la posicion del scroll (16 bits)
+C 0xA9A9 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xABAB suma_a_hl: HL = HL + A
+C 0xABAE lee la posicion del scroll (16 bits)
+C 0xABB8 sonido_34: pide el sonido 0x34
+C 0xAC13 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xAC6C suma_a_hl: HL = HL + A
+C 0xAC81 sonido_29: pide el sonido 0x29
+C 0xAD3F lee_palabra: HL = la palabra A de la tabla HL
+C 0xAD73 lee la cuenta de cuadros del juego
+C 0xADE7 lee_palabra: HL = la palabra A de la tabla HL
+C 0xAE14 lee_palabra: HL = la palabra A de la tabla HL
+C 0xAE21 lee_palabra: HL = la palabra A de la tabla HL
+C 0xAE96 sonido_3C: pide el sonido 0x3C
+C 0xAEBB suma_a_hl: HL = HL + A
+C 0xAED7 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xAF3E lee la posicion del scroll (16 bits)
+C 0xAF95 sonido_2B: pide el sonido 0x2B
+C 0xB000 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xB08F suma_a_de: DE = DE + A
+C 0xB118 suma_a_de: DE = DE + A
+C 0xB14F suma_a_de: DE = DE + A
+C 0xB153 suma_a_hl: HL = HL + A
+C 0xB212 sonido_33: pide el sonido 0x33
+C 0xB299 lee la posicion del scroll (16 bits)
+C 0xB395 lee la cuenta de cuadros del juego
+C 0xB3C9 lee el estado de la nave (0xFF: estalla)
+C 0xB3E9 suma_a_hl: HL = HL + A
+C 0xB404 lee_palabra: HL = la palabra A de la tabla HL
+C 0xB41C despacha: salta a la palabra A de la tabla que va detras del call
+C 0xB47D suma_a_hl: HL = HL + A
+C 0xB4D2 guarda lo pulsado (mando y cursores)
+C 0xB4D9 guarda 1 mientras la nave esta en la fase
+C 0xB4E8 guarda la cuenta de cuadros del juego
+C 0xB4FA guarda la posicion del scroll (16 bits)
+C 0xB4FE lee la fase (1 a 11)
+C 0xB506 suma_a_hl: HL = HL + A
+C 0xB52E guarda el estado de la nave (0xFF: estalla)
+C 0xB539 lee la fase (1 a 11)
+C 0xB542 suma_a_hl: HL = HL + A
+# --- fin de las anotaciones de anota.py ---

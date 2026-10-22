@@ -787,7 +787,7 @@ L_BC92:
 	ret			;bc93
 L_BC94:
 	ld hl,0bca7h		;bc94
-	call 04a5ah		;bc97
+	call 04a5ah		;bc97   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld a,r		;bc9a
 	and 01fh		;bc9c
 	add a,h			;bc9e
@@ -1016,7 +1016,7 @@ L_BE26:
 	ret			;be33
 L_BE34:
 	ld de,0be3bh		;be34
-	call 04b36h		;be37
+	call 04b36h		;be37   ; rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
 	ret			;be3a
 
 ; ----------------------------------------------------------------------

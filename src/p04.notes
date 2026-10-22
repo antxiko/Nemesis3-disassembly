@@ -55,3 +55,97 @@ F 0x80F8 16
 D 0x8647 0x8667 resto_8647  lo apuntan con el banco puesto p04:861C (0x8647); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p04:861C (32 bytes)
 F 0x8647 16
 # --- fin de los bloques de bloques.py ---
+
+# --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+L 0x843D mata_la_nave la nave estalla: 0xFF en 0xE600
+C 0x8014 orden_83_y_sonido_50: manda la orden 0x83 al motor y pide el sonido 0x50
+C 0x803C lee el estado de la nave (0xFF: estalla)
+C 0x805D apunta a lo pulsado (mando y cursores)
+C 0x8091 lee el estado de la nave (0xFF: estalla)
+C 0x80A4 lee la cuenta de cuadros del juego
+C 0x80B1 lee la cuenta de cuadros del juego
+C 0x80C5 lee la cuenta de cuadros del juego
+C 0x80D2 lee la cuenta de cuadros del juego
+C 0x81EB lee lo pulsado (mando y cursores)
+C 0x8237 lee la fase (1 a 11)
+C 0x823D lee la posicion del scroll (16 bits)
+C 0x8295 lee la cuenta de cuadros del juego
+C 0x829A sonido_36: pide el sonido 0x36
+C 0x829E lee la fase (1 a 11)
+C 0x82A9 lee la posicion del scroll (16 bits)
+C 0x8435 color_del_borde: B al registro 7 del VDP
+C 0x8439 guarda 1 mientras la nave esta en la fase
+C 0x843D apunta a el estado de la nave (0xFF: estalla)
+C 0x8456 orden_sonido_83: manda la orden 0x83 al motor de sonido
+C 0x8459 orden_83_y_sonido_4B: manda la orden 0x83 al motor y pide el sonido 0x4B
+C 0x846C lee_palabra: HL = la palabra A de la tabla HL
+C 0x84B5 suma_a_hl: HL = HL + A
+C 0x8516 lee el estado de la nave (0xFF: estalla)
+C 0x8552 suma_a_hl: HL = HL + A
+C 0x855B suma_a_hl: HL = HL + A
+C 0x859D lee lo pulsado (mando y cursores)
+C 0x85FD lee la cuenta de cuadros del juego
+C 0x860A lee la cuenta de cuadros del juego
+C 0x8620 suma_a_de: DE = DE + A
+C 0x867E lee_palabra: HL = la palabra A de la tabla HL
+C 0x870C despacha: salta a la palabra A de la tabla que va detras del call
+C 0x875D lee el estado de la nave (0xFF: estalla)
+C 0x8764 lee la fase (1 a 11)
+C 0x876B lee la posicion del scroll (16 bits)
+C 0x8786 lee lo recien pulsado (mando y cursores)
+C 0x878D lee lo pulsado (mando y cursores)
+C 0x87AB apunta a el estado de la nave (0xFF: estalla)
+C 0x8807 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x88B3 sonido_0F: pide el sonido 0x0F
+C 0x8909 sonido_10: pide el sonido 0x10
+C 0x8964 sonido_11: pide el sonido 0x11
+C 0x897F sonido_15: pide el sonido 0x15
+C 0x8990 sonido_13: pide el sonido 0x13
+C 0x89EE sonido_14: pide el sonido 0x14
+C 0x8A1B sonido_12: pide el sonido 0x12
+C 0x8A6C lee lo pulsado (mando y cursores)
+C 0x8B64 sonido_16: pide el sonido 0x16
+C 0x8BEF sonido_18: pide el sonido 0x18
+C 0x8C80 sonido_17: pide el sonido 0x17
+C 0x8CD9 lee lo recien pulsado (mando y cursores)
+C 0x8CE7 sonido_17: pide el sonido 0x17
+C 0x8D83 sonido_19: pide el sonido 0x19
+C 0x8EB4 lee_palabra: HL = la palabra A de la tabla HL
+C 0x9191 lee la cuenta de cuadros del juego
+C 0x9230 bancos_3: pone el 3 (y sus copias en 0xF0F1-3)
+C 0x9238 suma_a_hl: HL = HL + A
+C 0x9252 bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
+C 0x92A2 lee_palabra: HL = la palabra A de la tabla HL
+C 0x92D8 lee el estado de la nave (0xFF: estalla)
+C 0x92DD lee lo recien pulsado (mando y cursores)
+C 0x9308 lee_palabra: HL = la palabra A de la tabla HL
+C 0x9312 sonido_1C: pide el sonido 0x1C
+C 0x9564 suma_a_hl: HL = HL + A
+C 0x956E vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
+C 0x9580 vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
+C 0x95D2 lee_palabra: HL = la palabra A de la tabla HL
+C 0x95D6 lee_palabra: HL = la palabra A de la tabla HL
+C 0x96A2 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x97C6 suma_a_hl: HL = HL + A
+C 0x9801 suma_a_hl: HL = HL + A
+C 0x9832 lee la fase (1 a 11)
+C 0x9868 sonido_2F: pide el sonido 0x2F
+C 0x990B lee el estado de la nave (0xFF: estalla)
+C 0x993D lee la fase (1 a 11)
+C 0x994B lee la posicion del scroll (16 bits)
+C 0x9968 lee la posicion del scroll (16 bits)
+C 0x9999 pide_sonido: pide al motor (p10:6003) el sonido A
+C 0x99AB sonido_28: pide el sonido 0x28
+C 0x99BF lee el estado de la nave (0xFF: estalla)
+C 0x99F5 lee el estado de la nave (0xFF: estalla)
+C 0x9A40 lee la cuenta de cuadros del juego
+C 0x9ACF despacha: salta a la palabra A de la tabla que va detras del call
+C 0x9B70 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x9C32 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x9D35 guarda_reparto: guarda las tres copias del mapper en la pila de 0xF0D0
+C 0x9D38 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
+C 0x9D3E devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
+C 0x9D9B despacha: salta a la palabra A de la tabla que va detras del call
+C 0x9E25 lee el estado de la nave (0xFF: estalla)
+C 0x9ECB suma_a_hl: HL = HL + A
+# --- fin de las anotaciones de anota.py ---
