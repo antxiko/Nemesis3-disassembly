@@ -1140,7 +1140,7 @@ L_47FD:
 	call 0638bh		;4800
 	jp devuelve_reparto		;4803   ; devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
 L_4806:
-	call guarda_y_bancos_26_27_28		;4806   ; nadie la llama: con 26-27-28, p26:6012 (la consola, como p00:45F0)...
+	call guarda_y_bancos_26_27_28		;4806   ; nadie la llama: con 26-27-28, p26:6012, que salta a p26:730A (pone la consola)...
 	call 06012h		;4809
 	jp devuelve_reparto		;480c   ; ...y el reparto de antes
 L_480F:
