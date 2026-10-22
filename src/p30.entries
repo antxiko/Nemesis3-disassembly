@@ -1,0 +1,68 @@
+# Puntos de entrada del banco 30 (se ejecuta en 0x8000).
+#
+# Cada uno lleva la instruccion que lo justifica. Los que ponen "pNN:XXXX"
+# vienen de OTRO banco: el trazador de una sola pagina no puede seguirlos,
+# porque en esa direccion -segun lo que haya en el registro del mapper- puede
+# estar cualquiera de seis bancos. Los que ponen "tabla" salen de una tabla
+# del despachador (cartucho.DESPACHADOR), que va pegada detras de su `call` y esta declarada
+# como datos en el .nocode: el trazador tampoco puede seguirla.
+#
+# Los saltos y llamadas DENTRO del propio banco no se ponen aqui: los
+# encuentra tools/z80trace.py solo, siguiendo el flujo.
+#
+# Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
+0x8000   # p00:4374 call
+0x8003   # p00:42FC call
+0x8006   # p00:431E call
+0x802A   # p30:8014 entrada 0 de la tabla de 0x8017 (call 0x4093 en 0x8014)
+0x8043   # p30:8032 entrada 0 de la tabla de 0x8035 (call 0x4093 en 0x8032)
+0x8057   # p30:8032 entrada 1 de la tabla de 0x8035 (call 0x4093 en 0x8032)
+0x806C   # p30:8032 entrada 2 de la tabla de 0x8035 (call 0x4093 en 0x8032)
+0x807D   # p30:8032 entrada 3 de la tabla de 0x8035 (call 0x4093 en 0x8032)
+0x808E   # p30:8032 entrada 4 de la tabla de 0x8035 (call 0x4093 en 0x8032)
+0x80A2   # p30:8032 entrada 5 de la tabla de 0x8035 (call 0x4093 en 0x8032)
+0x80B5   # p30:8032 entrada 6 de la tabla de 0x8035 (call 0x4093 en 0x8032)
+0x80C6   # p30:8014 entrada 1 de la tabla de 0x8017 (call 0x4093 en 0x8014)
+0x80D6   # p30:80C7 entrada 0 de la tabla de 0x80CA (call 0x4093 en 0x80C7)
+0x80E1   # p30:80C7 entrada 1 de la tabla de 0x80CA (call 0x4093 en 0x80C7)
+0x8102   # p30:80C7 entrada 2 de la tabla de 0x80CA (call 0x4093 en 0x80C7)
+0x811B   # p30:80C7 entrada 3 de la tabla de 0x80CA (call 0x4093 en 0x80C7)
+0x8132   # p30:80C7 entrada 4 de la tabla de 0x80CA (call 0x4093 en 0x80C7)
+0x8143   # p30:80C7 entrada 5 de la tabla de 0x80CA (call 0x4093 en 0x80C7)
+0x815A   # p30:8014 entrada 2 de la tabla de 0x8017 (call 0x4093 en 0x8014)
+0x818C   # p30:815B entrada 0 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x81A6   # p30:815B entrada 1 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x81AE   # p30:815B entrada 2 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x81C3   # p30:815B entrada 3 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x81CE   # p30:815B entrada 4 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x81EB   # p30:815B entrada 5 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x81FA   # p30:815B entrada 6 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x8225   # p30:815B entrada 7 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x8237   # p30:815B entrada 8 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x8267   # p30:815B entrada 9 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x8284   # p30:815B entrada 10 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x82B3   # p30:815B entrada 11 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x82C4   # p30:815B entrada 12 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x82F1   # p30:815B entrada 13 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x8315   # p30:815B entrada 14 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x835E   # p30:815B entrada 15 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x8366   # p30:815B entrada 16 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x8377   # p30:815B entrada 17 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x8382   # p30:815B entrada 18 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x83AA   # p30:815B entrada 19 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x83B2   # p30:815B entrada 20 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x83C3   # p30:815B entrada 21 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x83CE   # p30:815B entrada 22 de la tabla de 0x815E (call 0x4093 en 0x815B)
+0x85BD   # p30:85A0 entrada 0 de la tabla de 0x85A3 (call 0x4093 en 0x85A0)
+0x85D3   # p30:85A0 entrada 1 de la tabla de 0x85A3 (call 0x4093 en 0x85A0)
+0x860A   # p30:85A0 entrada 2 de la tabla de 0x85A3 (call 0x4093 en 0x85A0)
+0x8649   # p30:85A0 entrada 3 de la tabla de 0x85A3 (call 0x4093 en 0x85A0)
+0x866F   # p30:85A0 entrada 4 de la tabla de 0x85A3 (call 0x4093 en 0x85A0)
+0x8680   # p30:85A0 entrada 5 de la tabla de 0x85A3 (call 0x4093 en 0x85A0)
+0x8690   # p30:85A0 entrada 6 de la tabla de 0x85A3 (call 0x4093 en 0x85A0)
+0x86C2   # p30:85A0 entrada 7 de la tabla de 0x85A3 (call 0x4093 en 0x85A0)
+0x86D1   # p30:85A0 entrada 8 de la tabla de 0x85A3 (call 0x4093 en 0x85A0)
+0x86E0   # p30:85A0 entrada 9 de la tabla de 0x85A3 (call 0x4093 en 0x85A0)
+0x86EF   # p30:85A0 entrada 10 de la tabla de 0x85A3 (call 0x4093 en 0x85A0)
+0x8701   # p30:85A0 entrada 11 de la tabla de 0x85A3 (call 0x4093 en 0x85A0)
+0x870F   # p30:85A0 entrada 12 de la tabla de 0x85A3 (call 0x4093 en 0x85A0)

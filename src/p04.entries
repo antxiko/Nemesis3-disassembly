@@ -1,0 +1,109 @@
+# Puntos de entrada del banco 4 (se ejecuta en 0x8000).
+#
+# Cada uno lleva la instruccion que lo justifica. Los que ponen "pNN:XXXX"
+# vienen de OTRO banco: el trazador de una sola pagina no puede seguirlos,
+# porque en esa direccion -segun lo que haya en el registro del mapper- puede
+# estar cualquiera de seis bancos. Los que ponen "tabla" salen de una tabla
+# del despachador (cartucho.DESPACHADOR), que va pegada detras de su `call` y esta declarada
+# como datos en el .nocode: el trazador tampoco puede seguirla.
+#
+# Los saltos y llamadas DENTRO del propio banco no se ponen aqui: los
+# encuentra tools/z80trace.py solo, siguiendo el flujo.
+#
+# Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
+0x8000   # p00:5A2A call
+0x8036   # p00:5A39 call
+0x8064   # p00:47DF call
+0x8091   # p00:47DB call
+0x843D   # p01:695C call
+0x8516   # p00:5A3F call
+0x86B3   # p00:5A9F call
+0x86B9   # p00:5A42 call
+0x8781   # p00:5A45 call
+0x883A   # p04:8807 entrada 0 de la tabla de 0x880A (call 0x4093 en 0x8807)
+0x886F   # p04:8807 entrada 1 de la tabla de 0x880A (call 0x4093 en 0x8807)
+0x88B7   # p04:870C entrada 0 de la tabla de 0x870F (call 0x4093 en 0x870C)
+0x88C3   # p04:870C entrada 1 de la tabla de 0x870F (call 0x4093 en 0x870C)
+0x88CF   # p04:8807 entrada 3 de la tabla de 0x880A (call 0x4093 en 0x8807)
+0x88E8   # p04:8807 entrada 2 de la tabla de 0x880A (call 0x4093 en 0x8807)
+0x890D   # p04:870C entrada 3 de la tabla de 0x870F (call 0x4093 en 0x870C)
+0x891E   # p04:870C entrada 2 de la tabla de 0x870F (call 0x4093 en 0x870C)
+0x8935   # p04:8807 entrada 4 de la tabla de 0x880A (call 0x4093 en 0x8807)
+0x8972   # p04:8807 entrada 7 de la tabla de 0x880A (call 0x4093 en 0x8807)
+0x8983   # p04:8807 entrada 5 de la tabla de 0x880A (call 0x4093 en 0x8807)
+0x89C0   # p04:8807 entrada 6 de la tabla de 0x880A (call 0x4093 en 0x8807)
+0x89F2   # p04:8807 entrada 12 de la tabla de 0x880A (call 0x4093 en 0x8807)
+0x8A1F   # p04:8807 entrada 13 de la tabla de 0x880A (call 0x4093 en 0x8807)
+0x8A29   # p04:870C entrada 4 de la tabla de 0x870F (call 0x4093 en 0x870C)
+0x8AC0   # p04:870C entrada 5 de la tabla de 0x870F (call 0x4093 en 0x870C)
+0x8B0E   # p04:870C entrada 12 de la tabla de 0x870F (call 0x4093 en 0x870C)
+0x8B32   # p04:870C entrada 13 de la tabla de 0x870F (call 0x4093 en 0x870C)
+0x8B39   # p04:8807 entrada 9 de la tabla de 0x880A (call 0x4093 en 0x8807)
+0x8B68   # p04:870C entrada 9 de la tabla de 0x870F (call 0x4093 en 0x870C)
+0x8BC0   # p04:8807 entrada 8 de la tabla de 0x880A (call 0x4093 en 0x8807)
+0x8BF3   # p04:870C entrada 8 de la tabla de 0x870F (call 0x4093 en 0x870C)
+0x8C4B   # p04:8807 entrada 11 de la tabla de 0x880A (call 0x4093 en 0x8807)
+0x8C59   # p04:8807 entrada 10 de la tabla de 0x880A (call 0x4093 en 0x8807)
+0x8C83   # p04:870C entrada 10 de la tabla de 0x870F (call 0x4093 en 0x870C)
+0x8D87   # p04:870C entrada 23 de la tabla de 0x870F (call 0x4093 en 0x870C)
+0x8EAA   # p04:8807 entrada 15 de la tabla de 0x880A (call 0x4093 en 0x8807)
+0x8EDE   # p04:8807 entrada 14 de la tabla de 0x880A (call 0x4093 en 0x8807)
+0x8EEF   # p04:8807 entrada 18 de la tabla de 0x880A (call 0x4093 en 0x8807)
+0x8EFE   # p04:870C entrada 15 de la tabla de 0x870F (call 0x4093 en 0x870C)
+0x8F33   # p04:870C entrada 19 de la tabla de 0x870F (call 0x4093 en 0x870C)
+0x9178   # p04:870C entrada 18 de la tabla de 0x870F (call 0x4093 en 0x870C)
+0x9257   # p01:65ED call
+0x928B   # p04:870C entrada 14 de la tabla de 0x870F (call 0x4093 en 0x870C)
+0x92D8   # p00:5A3C call
+0x94BD   # p00:47F7 call
+0x9511   # p00:4473 call
+0x9517   # p00:4705 call
+0x9660   # p01:6ABF call
+0x967B   # p01:68FA call
+0x9686   # p00:5A9C call
+0x96D5   # p04:96A2 entrada 0 de la tabla de 0x96A5 (call 0x4093 en 0x96A2)
+0x96F0   # p04:96A2 entrada 1 de la tabla de 0x96A5 (call 0x4093 en 0x96A2)
+0x970D   # p04:96A2 entrada 6 de la tabla de 0x96A5 (call 0x4093 en 0x96A2)
+0x9722   # p04:96A2 entrada 4 de la tabla de 0x96A5 (call 0x4093 en 0x96A2)
+0x976E   # p04:96A2 entrada 12 de la tabla de 0x96A5 (call 0x4093 en 0x96A2)
+0x9793   # p04:96A2 entrada 8 de la tabla de 0x96A5 (call 0x4093 en 0x96A2)
+0x982A   # p04:96A2 entrada 23 de la tabla de 0x96A5 (call 0x4093 en 0x96A2)
+0x982B   # p04:96A2 entrada 15 de la tabla de 0x96A5 (call 0x4093 en 0x96A2)
+0x98B1   # p04:96A2 entrada 14 de la tabla de 0x96A5 (call 0x4093 en 0x96A2)
+0x98B2   # p00:5AB1 call
+0x990B   # p00:5A99 call
+0x99B5   # p00:5AFC call
+0x9A22   # p00:5AFF call
+0x9AB4   # p00:5ACF call
+0x9B02   # p04:9ACF entrada 0 de la tabla de 0x9AD2 (call 0x4093 en 0x9ACF)
+0x9B08   # p04:9ACF entrada 4 de la tabla de 0x9AD2 (call 0x4093 en 0x9ACF)
+0x9B16   # p04:9ACF entrada 6 de la tabla de 0x9AD2 (call 0x4093 en 0x9ACF)
+0x9B33   # p04:9ACF entrada 8 de la tabla de 0x9AD2 (call 0x4093 en 0x9ACF)
+0x9B44   # p04:9B70 entrada 2 de la tabla de 0x9B73 (call 0x4093 en 0x9B70)
+0x9B55   # p00:5B0B call
+0x9BA3   # p04:9B70 entrada 0 de la tabla de 0x9B73 (call 0x4093 en 0x9B70)
+0x9BAE   # p04:9B70 entrada 4 de la tabla de 0x9B73 (call 0x4093 en 0x9B70)
+0x9BC1   # p04:9B70 entrada 6 de la tabla de 0x9B73 (call 0x4093 en 0x9B70)
+0x9BE1   # p04:9B70 entrada 8 de la tabla de 0x9B73 (call 0x4093 en 0x9B70)
+0x9BFA   # p04:9B70 entrada 23 de la tabla de 0x9B73 (call 0x4093 en 0x9B70)
+0x9C1A   # p00:5B02 call
+0x9C65   # p04:9C32 entrada 0 de la tabla de 0x9C35 (call 0x4093 en 0x9C32)
+0x9C70   # p04:9C32 entrada 4 de la tabla de 0x9C35 (call 0x4093 en 0x9C32)
+0x9C84   # p04:9C32 entrada 6 de la tabla de 0x9C35 (call 0x4093 en 0x9C32)
+0x9CA5   # p04:9C32 entrada 11 de la tabla de 0x9C35 (call 0x4093 en 0x9C32)
+0x9CC4   # p04:9C32 entrada 9 de la tabla de 0x9C35 (call 0x4093 en 0x9C32)
+0x9CFB   # p04:9C32 entrada 8 de la tabla de 0x9C35 (call 0x4093 en 0x9C32)
+0x9D16   # p04:9C32 entrada 23 de la tabla de 0x9C35 (call 0x4093 en 0x9C32)
+0x9D97   # p01:7D48 call
+0x9DC0   # p04:9D9B entrada 1 de la tabla de 0x9D9E (call 0x4093 en 0x9D9B)
+0x9DC6   # p05:B76C call
+0x9E0B   # p05:B763 call
+0x9E32   # p05:B7F8 jp
+0x9E40   # p05:B7DC call
+0x9E67   # p05:B800 call
+0x9E96   # p05:B818 call
+0x9EA6   # p05:A36B jp
+0x9EDF   # p05:B62E jp cc
+0x9F11   # p05:B5F6 call
+0x9F9C   # p05:B5FE jp cc
+0x9FA7   # p05:B937 call
