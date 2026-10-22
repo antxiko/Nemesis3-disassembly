@@ -1,49 +1,779 @@
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
-D 0xA000 0xA652 leido_A000  1618 bytes que lee p02:8242 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 4 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:8242 (1618 bytes)
+D 0xA000 0xA030 dibujo_A000  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (48 bytes)
 F 0xA000 16
-D 0xA6F2 0xAA83 leido_A6F2  913 bytes que lee p02:8242 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 33 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:8242 (913 bytes)
+D 0xA030 0xA060 dibujo_A030  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (48 bytes)
+F 0xA030 16
+D 0xA060 0xA090 dibujo_A060  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (48 bytes)
+F 0xA060 16
+D 0xA090 0xA0C0 dibujo_A090  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (48 bytes)
+F 0xA090 16
+D 0xA0C0 0xA0F0 dibujo_A0C0  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (48 bytes)
+F 0xA0C0 16
+D 0xA0F0 0xA120 dibujo_A0F0  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (48 bytes)
+F 0xA0F0 16
+D 0xA120 0xA150 dibujo_A120  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (48 bytes)
+F 0xA120 16
+D 0xA150 0xA180 dibujo_A150  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (48 bytes)
+F 0xA150 16
+D 0xA180 0xA1A0 dibujo_A180  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (32 bytes)
+F 0xA180 16
+D 0xA1A0 0xA1C0 dibujo_A1A0  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (32 bytes)
+F 0xA1A0 16
+D 0xA1C0 0xA1C4 dibujo_A1C0  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (4 bytes)
+F 0xA1C0 16
+D 0xA1C4 0xA1C8 dibujo_A1C4  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (4 bytes)
+F 0xA1C4 16
+D 0xA1C8 0xA1D1 dibujo_A1C8  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (9 bytes)
+F 0xA1C8 16
+D 0xA1D1 0xA1DA dibujo_A1D1  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (9 bytes)
+F 0xA1D1 16
+D 0xA1DA 0xA1F2 dibujo_A1DA  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xA1DA 16
+D 0xA1F2 0xA1FA dibujo_A1F2  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (8 bytes)
+F 0xA1F2 16
+D 0xA1FA 0xA202 dibujo_A1FA  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (8 bytes)
+F 0xA1FA 16
+D 0xA202 0xA21A dibujo_A202  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xA202 16
+D 0xA21A 0xA232 dibujo_A21A  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xA21A 16
+D 0xA232 0xA252 dibujo_A232  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (32 bytes)
+F 0xA232 16
+D 0xA252 0xA272 dibujo_A252  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (32 bytes)
+F 0xA252 16
+D 0xA272 0xA282 dibujo_A272  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xA272 16
+D 0xA282 0xA292 dibujo_A282  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xA282 16
+D 0xA292 0xA2A2 dibujo_A292  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xA292 16
+D 0xA2A2 0xA2B2 dibujo_A2A2  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xA2A2 16
+D 0xA2B2 0xA2C2 dibujo_A2B2  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xA2B2 16
+D 0xA2C2 0xA2D2 dibujo_A2C2  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xA2C2 16
+D 0xA2D2 0xA2E2 dibujo_A2D2  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xA2D2 16
+D 0xA2E2 0xA2EA dibujo_A2E2  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (8 bytes)
+F 0xA2E2 16
+D 0xA2EA 0xA2F2 dibujo_A2EA  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (8 bytes)
+F 0xA2EA 16
+D 0xA2F2 0xA332 dibujo_A2F2  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (64 bytes)
+F 0xA2F2 16
+D 0xA332 0xA372 dibujo_A332  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (64 bytes)
+F 0xA332 16
+D 0xA372 0xA3B2 dibujo_A372  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (64 bytes)
+F 0xA372 16
+D 0xA3B2 0xA3F2 dibujo_A3B2  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (64 bytes)
+F 0xA3B2 16
+D 0xA3F2 0xA432 dibujo_A3F2  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (64 bytes)
+F 0xA3F2 16
+D 0xA432 0xA472 dibujo_A432  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (64 bytes)
+F 0xA432 16
+D 0xA472 0xA4B2 dibujo_A472  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (64 bytes)
+F 0xA472 16
+D 0xA4B2 0xA4F2 dibujo_A4B2  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (64 bytes)
+F 0xA4B2 16
+D 0xA4F2 0xA502 dibujo_A4F2  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xA4F2 16
+D 0xA502 0xA512 dibujo_A502  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xA502 16
+D 0xA512 0xA5B2 dibujo_A512  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (160 bytes)
+F 0xA512 16
+D 0xA5B2 0xA652 dibujo_A5B2  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (160 bytes)
+F 0xA5B2 16
+D 0xA652 0xA6F2 dibujo_A652  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (160 bytes)
+F 0xA652 16
+D 0xA6F2 0xA70A dibujo_A6F2  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
 F 0xA6F2 16
-D 0xAABB 0xAEFB leido_AABB  1088 bytes que lee p02:8242 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 96 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:8242 (1088 bytes)
+D 0xA70A 0xA712 dibujo_A70A  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (8 bytes)
+F 0xA70A 16
+D 0xA712 0xA713 dibujo_A712  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (1 bytes)
+F 0xA712 16
+D 0xA713 0xA737 dibujo_A713  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (36 bytes)
+F 0xA713 16
+D 0xA737 0xA739 dibujo_A737  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (2 bytes)
+F 0xA737 16
+D 0xA739 0xA73B dibujo_A739  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (2 bytes)
+F 0xA739 16
+D 0xA73B 0xA73D dibujo_A73B  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (2 bytes)
+F 0xA73B 16
+D 0xA73D 0xA73F dibujo_A73D  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (2 bytes)
+F 0xA73D 16
+D 0xA73F 0xA741 dibujo_A73F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (2 bytes)
+F 0xA73F 16
+D 0xA741 0xA743 dibujo_A741  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (2 bytes)
+F 0xA741 16
+D 0xA743 0xA745 dibujo_A743  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (2 bytes)
+F 0xA743 16
+D 0xA745 0xA747 dibujo_A745  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (2 bytes)
+F 0xA745 16
+D 0xA747 0xA749 dibujo_A747  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (2 bytes)
+F 0xA747 16
+D 0xA749 0xA74B dibujo_A749  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (2 bytes)
+F 0xA749 16
+D 0xA74B 0xA74D dibujo_A74B  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (2 bytes)
+F 0xA74B 16
+D 0xA74D 0xA74F dibujo_A74D  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (2 bytes)
+F 0xA74D 16
+D 0xA74F 0xA751 dibujo_A74F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (2 bytes)
+F 0xA74F 16
+D 0xA751 0xA753 dibujo_A751  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (2 bytes)
+F 0xA751 16
+D 0xA753 0xA757 dibujo_A753  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (4 bytes)
+F 0xA753 16
+D 0xA757 0xA76F dibujo_A757  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xA757 16
+D 0xA76F 0xA787 dibujo_A76F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xA76F 16
+D 0xA787 0xA79F dibujo_A787  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xA787 16
+D 0xA79F 0xA7AF dibujo_A79F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xA79F 16
+D 0xA7AF 0xA7BF dibujo_A7AF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xA7AF 16
+D 0xA7BF 0xA7CF dibujo_A7BF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xA7BF 16
+D 0xA7CF 0xA7DF dibujo_A7CF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xA7CF 16
+D 0xA7DF 0xA7EF dibujo_A7DF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xA7DF 16
+D 0xA7EF 0xA7FF dibujo_A7EF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xA7EF 16
+D 0xA7FF 0xA80F dibujo_A7FF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xA7FF 16
+D 0xA80F 0xA81F dibujo_A80F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xA80F 16
+D 0xA81F 0xA827 dibujo_A81F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (8 bytes)
+F 0xA81F 16
+D 0xA827 0xA82F dibujo_A827  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (8 bytes)
+F 0xA827 16
+D 0xA82F 0xA8F3 dibujo_A82F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (196 bytes)
+F 0xA82F 16
+D 0xA8F3 0xA8F9 dibujo_A8F3  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xA8F3 16
+D 0xA8F9 0xA8FF dibujo_A8F9  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xA8F9 16
+D 0xA8FF 0xA905 dibujo_A8FF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xA8FF 16
+D 0xA905 0xA90B dibujo_A905  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xA905 16
+D 0xA90B 0xA932 dibujo_A90B  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (39 bytes)
+F 0xA90B 16
+D 0xA932 0xA959 dibujo_A932  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (39 bytes)
+F 0xA932 16
+D 0xA959 0xA980 dibujo_A959  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (39 bytes)
+F 0xA959 16
+D 0xA980 0xA9A7 dibujo_A980  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (39 bytes)
+F 0xA980 16
+D 0xA9A7 0xA9CE dibujo_A9A7  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (39 bytes)
+F 0xA9A7 16
+D 0xA9CE 0xA9F5 dibujo_A9CE  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (39 bytes)
+F 0xA9CE 16
+D 0xA9F5 0xAA1C dibujo_A9F5  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (39 bytes)
+F 0xA9F5 16
+D 0xAA1C 0xAA43 dibujo_AA1C  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (39 bytes)
+F 0xAA1C 16
+D 0xAA43 0xAA53 dibujo_AA43  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAA43 16
+D 0xAA53 0xAA63 dibujo_AA53  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAA53 16
+D 0xAA63 0xAA73 dibujo_AA63  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAA63 16
+D 0xAA73 0xAA83 dibujo_AA73  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAA73 16
+D 0xAA83 0xAAAB dibujo_AA83  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (40 bytes)
+F 0xAA83 16
+D 0xAAAB 0xAABB dibujo_AAAB  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAAAB 16
+D 0xAABB 0xAAE3 dibujo_AABB  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (40 bytes)
 F 0xAABB 16
-D 0xAF61 0xB2CF leido_AF61  878 bytes que lee p02:8242 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 24 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:8242 (878 bytes)
+D 0xAAE3 0xAAF3 dibujo_AAE3  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAAE3 16
+D 0xAAF3 0xAB16 dibujo_AAF3  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xAAF3 16
+D 0xAB16 0xAB39 dibujo_AB16  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xAB16 16
+D 0xAB39 0xAB5C dibujo_AB39  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xAB39 16
+D 0xAB5C 0xAB7F dibujo_AB5C  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xAB5C 16
+D 0xAB7F 0xAB8F dibujo_AB7F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAB7F 16
+D 0xAB8F 0xAB9F dibujo_AB8F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAB8F 16
+D 0xAB9F 0xABAF dibujo_AB9F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAB9F 16
+D 0xABAF 0xABBF dibujo_ABAF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xABAF 16
+D 0xABBF 0xABE2 dibujo_ABBF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xABBF 16
+D 0xABE2 0xAC05 dibujo_ABE2  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xABE2 16
+D 0xAC05 0xAC28 dibujo_AC05  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xAC05 16
+D 0xAC28 0xAC4B dibujo_AC28  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xAC28 16
+D 0xAC4B 0xAC5B dibujo_AC4B  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAC4B 16
+D 0xAC5B 0xAC6B dibujo_AC5B  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAC5B 16
+D 0xAC6B 0xAC7B dibujo_AC6B  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAC6B 16
+D 0xAC7B 0xAC8B dibujo_AC7B  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAC7B 16
+D 0xAC8B 0xACAE dibujo_AC8B  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xAC8B 16
+D 0xACAE 0xACD1 dibujo_ACAE  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xACAE 16
+D 0xACD1 0xACF4 dibujo_ACD1  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xACD1 16
+D 0xACF4 0xAD17 dibujo_ACF4  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xACF4 16
+D 0xAD17 0xAD3A dibujo_AD17  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xAD17 16
+D 0xAD3A 0xAD5D dibujo_AD3A  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xAD3A 16
+D 0xAD5D 0xAD80 dibujo_AD5D  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xAD5D 16
+D 0xAD80 0xADA3 dibujo_AD80  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xAD80 16
+D 0xADA3 0xADC6 dibujo_ADA3  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xADA3 16
+D 0xADC6 0xADE9 dibujo_ADC6  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xADC6 16
+D 0xADE9 0xAE0C dibujo_ADE9  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xADE9 16
+D 0xAE0C 0xAE2F dibujo_AE0C  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xAE0C 16
+D 0xAE2F 0xAE52 dibujo_AE2F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xAE2F 16
+D 0xAE52 0xAE75 dibujo_AE52  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xAE52 16
+D 0xAE75 0xAE85 dibujo_AE75  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAE75 16
+D 0xAE85 0xAE95 dibujo_AE85  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAE85 16
+D 0xAE95 0xAEA5 dibujo_AE95  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAE95 16
+D 0xAEA5 0xAEB5 dibujo_AEA5  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAEA5 16
+D 0xAEB5 0xAED8 dibujo_AEB5  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xAEB5 16
+D 0xAED8 0xAEFB dibujo_AED8  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xAED8 16
+D 0xAEFB 0xAF1E dibujo_AEFB  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xAEFB 16
+D 0xAF1E 0xAF41 dibujo_AF1E  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (35 bytes)
+F 0xAF1E 16
+D 0xAF41 0xAF51 dibujo_AF41  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAF41 16
+D 0xAF51 0xAF61 dibujo_AF51  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAF51 16
+D 0xAF61 0xAF71 dibujo_AF61  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
 F 0xAF61 16
-D 0xB307 0xB41F leido_B307  280 bytes que lee p02:8242 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 16 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:8242 (280 bytes)
+D 0xAF71 0xAF81 dibujo_AF71  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAF71 16
+D 0xAF81 0xAF8D dibujo_AF81  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (12 bytes)
+F 0xAF81 16
+D 0xAF8D 0xAF99 dibujo_AF8D  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (12 bytes)
+F 0xAF8D 16
+D 0xAF99 0xAFA5 dibujo_AF99  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (12 bytes)
+F 0xAF99 16
+D 0xAFA5 0xAFB1 dibujo_AFA5  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (12 bytes)
+F 0xAFA5 16
+D 0xAFB1 0xAFB5 dibujo_AFB1  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (4 bytes)
+F 0xAFB1 16
+D 0xAFB5 0xAFC5 dibujo_AFB5  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAFB5 16
+D 0xAFC5 0xAFC9 dibujo_AFC5  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (4 bytes)
+F 0xAFC5 16
+D 0xAFC9 0xAFCD dibujo_AFC9  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (4 bytes)
+F 0xAFC9 16
+D 0xAFCD 0xAFD1 dibujo_AFCD  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (4 bytes)
+F 0xAFCD 16
+D 0xAFD1 0xAFD5 dibujo_AFD1  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (4 bytes)
+F 0xAFD1 16
+D 0xAFD5 0xAFE5 dibujo_AFD5  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAFD5 16
+D 0xAFE5 0xAFF5 dibujo_AFE5  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAFE5 16
+D 0xAFF5 0xB005 dibujo_AFF5  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xAFF5 16
+D 0xB005 0xB015 dibujo_B005  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB005 16
+D 0xB015 0xB028 dibujo_B015  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (19 bytes)
+F 0xB015 16
+D 0xB028 0xB03B dibujo_B028  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (19 bytes)
+F 0xB028 16
+D 0xB03B 0xB04E dibujo_B03B  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (19 bytes)
+F 0xB03B 16
+D 0xB04E 0xB061 dibujo_B04E  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (19 bytes)
+F 0xB04E 16
+D 0xB061 0xB0AD dibujo_B061  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (76 bytes)
+F 0xB061 16
+D 0xB0AD 0xB17F dibujo_B0AD  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (210 bytes)
+F 0xB0AD 16
+D 0xB17F 0xB1EF dibujo_B17F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (112 bytes)
+F 0xB17F 16
+D 0xB1EF 0xB2CF dibujo_B1EF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (224 bytes)
+F 0xB1EF 16
+D 0xB2CF 0xB2F7 dibujo_B2CF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (40 bytes)
+F 0xB2CF 16
+D 0xB2F7 0xB307 dibujo_B2F7  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB2F7 16
+D 0xB307 0xB32F dibujo_B307  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (40 bytes)
 F 0xB307 16
-D 0xB41F 0xB6EF leido_B41F  720 bytes que lee p02:82DE al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:82DE (720 bytes)
+D 0xB32F 0xB33F dibujo_B32F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB32F 16
+D 0xB33F 0xB34F dibujo_B33F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB33F 16
+D 0xB34F 0xB35F dibujo_B34F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB34F 16
+D 0xB35F 0xB36F dibujo_B35F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB35F 16
+D 0xB36F 0xB37F dibujo_B36F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB36F 16
+D 0xB37F 0xB38F dibujo_B37F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB37F 16
+D 0xB38F 0xB39F dibujo_B38F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB38F 16
+D 0xB39F 0xB3AF dibujo_B39F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB39F 16
+D 0xB3AF 0xB3BF dibujo_B3AF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB3AF 16
+D 0xB3BF 0xB3CF dibujo_B3BF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB3BF 16
+D 0xB3CF 0xB3DF dibujo_B3CF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB3CF 16
+D 0xB3DF 0xB3EF dibujo_B3DF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB3DF 16
+D 0xB3EF 0xB3FF dibujo_B3EF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB3EF 16
+D 0xB3FF 0xB40F dibujo_B3FF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB3FF 16
+D 0xB40F 0xB41F dibujo_B40F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB40F 16
+D 0xB41F 0xB425 dibujo_B41F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
 F 0xB41F 16
-D 0xB6EF 0xB834 leido_B6EF  325 bytes que lee p02:8242 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 1 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:8242 (325 bytes)
+D 0xB425 0xB43D dibujo_B425  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB425 16
+D 0xB43D 0xB443 dibujo_B43D  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB43D 16
+D 0xB443 0xB45B dibujo_B443  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB443 16
+D 0xB45B 0xB461 dibujo_B45B  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB45B 16
+D 0xB461 0xB479 dibujo_B461  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB461 16
+D 0xB479 0xB47F dibujo_B479  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB479 16
+D 0xB47F 0xB497 dibujo_B47F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB47F 16
+D 0xB497 0xB49D dibujo_B497  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB497 16
+D 0xB49D 0xB4B5 dibujo_B49D  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB49D 16
+D 0xB4B5 0xB4BB dibujo_B4B5  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB4B5 16
+D 0xB4BB 0xB4D3 dibujo_B4BB  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB4BB 16
+D 0xB4D3 0xB4D9 dibujo_B4D3  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB4D3 16
+D 0xB4D9 0xB4F1 dibujo_B4D9  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB4D9 16
+D 0xB4F1 0xB4F7 dibujo_B4F1  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB4F1 16
+D 0xB4F7 0xB50F dibujo_B4F7  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB4F7 16
+D 0xB50F 0xB515 dibujo_B50F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB50F 16
+D 0xB515 0xB52D dibujo_B515  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB515 16
+D 0xB52D 0xB533 dibujo_B52D  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB52D 16
+D 0xB533 0xB54B dibujo_B533  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB533 16
+D 0xB54B 0xB551 dibujo_B54B  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB54B 16
+D 0xB551 0xB569 dibujo_B551  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB551 16
+D 0xB569 0xB56F dibujo_B569  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB569 16
+D 0xB56F 0xB587 dibujo_B56F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB56F 16
+D 0xB587 0xB58D dibujo_B587  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB587 16
+D 0xB58D 0xB5A5 dibujo_B58D  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB58D 16
+D 0xB5A5 0xB5AB dibujo_B5A5  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB5A5 16
+D 0xB5AB 0xB5C3 dibujo_B5AB  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB5AB 16
+D 0xB5C3 0xB5C9 dibujo_B5C3  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB5C3 16
+D 0xB5C9 0xB5E1 dibujo_B5C9  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB5C9 16
+D 0xB5E1 0xB5E7 dibujo_B5E1  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB5E1 16
+D 0xB5E7 0xB5FF dibujo_B5E7  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB5E7 16
+D 0xB5FF 0xB605 dibujo_B5FF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB5FF 16
+D 0xB605 0xB61D dibujo_B605  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB605 16
+D 0xB61D 0xB623 dibujo_B61D  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB61D 16
+D 0xB623 0xB63B dibujo_B623  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB623 16
+D 0xB63B 0xB641 dibujo_B63B  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB63B 16
+D 0xB641 0xB659 dibujo_B641  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB641 16
+D 0xB659 0xB65F dibujo_B659  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB659 16
+D 0xB65F 0xB677 dibujo_B65F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB65F 16
+D 0xB677 0xB67D dibujo_B677  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB677 16
+D 0xB67D 0xB695 dibujo_B67D  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB67D 16
+D 0xB695 0xB69B dibujo_B695  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB695 16
+D 0xB69B 0xB6B3 dibujo_B69B  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB69B 16
+D 0xB6B3 0xB6B9 dibujo_B6B3  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB6B3 16
+D 0xB6B9 0xB6D1 dibujo_B6B9  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB6B9 16
+D 0xB6D1 0xB6D7 dibujo_B6D1  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB6D1 16
+D 0xB6D7 0xB6EF dibujo_B6D7  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB6D7 16
+D 0xB6EF 0xB6F7 dibujo_B6EF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (8 bytes)
 F 0xB6EF 16
-D 0xB834 0xB99C leido_B834  360 bytes que leen p02:8232, p02:8234 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 56 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:8232, p02:8234 (360 bytes)
-F 0xB834 16
-D 0xB99C 0xB9CC leido_B99C  48 bytes que leen p02:82C2, p02:82C4 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:82C2, p02:82C4 (48 bytes)
-F 0xB99C 16
-D 0xB9CC 0xB9D4 leido_B9CC  8 bytes que leen p02:8232, p02:8234 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:8232, p02:8234 (8 bytes)
-F 0xB9CC 16
-D 0xB9D4 0xBA04 leido_B9D4  48 bytes que leen p02:82C2, p02:82C4 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:82C2, p02:82C4 (48 bytes)
-F 0xB9D4 16
-D 0xBA04 0xBA32 leido_BA04  46 bytes que leen p02:8232, p02:8234 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 6 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:8232, p02:8234 (46 bytes)
-F 0xBA04 16
-D 0xBA32 0xBA33 tabla_BA32  tabla que se lee desde HL = 0xBA32 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p01:6F1F (1 bytes)
-F 0xBA32 16
-D 0xBA33 0xBA34 leido_BA33  1 bytes que lee p02:8234 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:8234 (1 bytes)
-F 0xBA33 16
+D 0xB6F7 0xB6FF dibujo_B6F7  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (8 bytes)
+F 0xB6F7 16
+D 0xB6FF 0xB707 dibujo_B6FF  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (8 bytes)
+F 0xB6FF 16
+D 0xB707 0xB70F dibujo_B707  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (8 bytes)
+F 0xB707 16
+D 0xB70F 0xB713 dibujo_B70F  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (4 bytes)
+F 0xB70F 16
+D 0xB713 0xB717 dibujo_B713  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (4 bytes)
+F 0xB713 16
+D 0xB717 0xB720 dibujo_B717  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (9 bytes)
+F 0xB717 16
+D 0xB720 0xB729 dibujo_B720  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (9 bytes)
+F 0xB720 16
+D 0xB729 0xB739 dibujo_B729  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB729 16
+D 0xB739 0xB749 dibujo_B739  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (16 bytes)
+F 0xB739 16
+D 0xB749 0xB74A dibujo_B749  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (1 bytes)
+F 0xB749 16
+D 0xB74A 0xB74B dibujo_B74A  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (1 bytes)
+F 0xB74A 16
+D 0xB74B 0xB750 dibujo_B74B  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (5 bytes)
+F 0xB74B 16
+D 0xB750 0xB756 dibujo_B750  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (6 bytes)
+F 0xB750 16
+D 0xB756 0xB75B dibujo_B756  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (5 bytes)
+F 0xB756 16
+D 0xB75B 0xB75C dibujo_B75B  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (1 bytes)
+F 0xB75B 16
+D 0xB75C 0xB774 dibujo_B75C  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB75C 16
+D 0xB774 0xB78C dibujo_B774  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB774 16
+D 0xB78C 0xB7A4 dibujo_B78C  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB78C 16
+D 0xB7A4 0xB7B8 dibujo_B7A4  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (20 bytes)
+F 0xB7A4 16
+D 0xB7B8 0xB7BC dibujo_B7B8  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (4 bytes)
+F 0xB7B8 16
+D 0xB7BC 0xB7D4 dibujo_B7BC  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB7BC 16
+D 0xB7D4 0xB7EC dibujo_B7D4  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB7D4 16
+D 0xB7EC 0xB804 dibujo_B7EC  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB7EC 16
+D 0xB804 0xB81C dibujo_B804  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB804 16
+D 0xB81C 0xB834 dibujo_B81C  un dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p02:8242 (24 bytes)
+F 0xB81C 16
+D 0xB834 0xBA34 tabla_B834  un puntero por dibujo de las piezas (p02:8221: 0xB834 + 2 x IX+7) (256); lo leen p02:8232, p02:82C2 (512 bytes)
+F 0xB834 w8
 D 0xBA34 0xBA3A leido_BA34  6 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (6 bytes)
 F 0xBA34 16
 D 0xBA3A 0xBA6A leido_BA3A  48 bytes que lee p01:6F30 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:6F30 (48 bytes)
 F 0xBA3A 16
-D 0xBA72 0xBAEE leido_BA72  124 bytes que lee p01:7A2A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 26 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p01:7A2A (124 bytes)
+D 0xBA6A 0xBA6E dibujo_BA6A  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBA6A 16
+D 0xBA6E 0xBA72 dibujo_BA6E  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBA6E 16
+D 0xBA72 0xBA76 dibujo_BA72  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
 F 0xBA72 16
-D 0xBB1A 0xBB30 leido_BB1A  22 bytes que lee p01:7A2A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:7A2A (22 bytes)
+D 0xBA76 0xBA7A dibujo_BA76  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBA76 16
+D 0xBA7A 0xBA7E dibujo_BA7A  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBA7A 16
+D 0xBA7E 0xBA82 dibujo_BA7E  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBA7E 16
+D 0xBA82 0xBA86 dibujo_BA82  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBA82 16
+D 0xBA86 0xBA8A dibujo_BA86  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBA86 16
+D 0xBA8A 0xBA8E dibujo_BA8A  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBA8A 16
+D 0xBA8E 0xBA92 dibujo_BA8E  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBA8E 16
+D 0xBA92 0xBA96 dibujo_BA92  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBA92 16
+D 0xBA96 0xBA9E dibujo_BA96  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (8 bytes)
+F 0xBA96 16
+D 0xBA9E 0xBAA6 dibujo_BA9E  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (8 bytes)
+F 0xBA9E 16
+D 0xBAA6 0xBAC6 dibujo_BAA6  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (32 bytes)
+F 0xBAA6 16
+D 0xBAC6 0xBAE6 dibujo_BAC6  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (32 bytes)
+F 0xBAC6 16
+D 0xBAE6 0xBAEA dibujo_BAE6  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBAE6 16
+D 0xBAEA 0xBAEE dibujo_BAEA  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBAEA 16
+D 0xBAEE 0xBB0E dibujo_BAEE  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (32 bytes)
+F 0xBAEE 16
+D 0xBB0E 0xBB10 dibujo_BB0E  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (2 bytes)
+F 0xBB0E 16
+D 0xBB10 0xBB12 dibujo_BB10  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (2 bytes)
+F 0xBB10 16
+D 0xBB12 0xBB14 dibujo_BB12  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (2 bytes)
+F 0xBB12 16
+D 0xBB14 0xBB16 dibujo_BB14  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (2 bytes)
+F 0xBB14 16
+D 0xBB16 0xBB18 dibujo_BB16  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (2 bytes)
+F 0xBB16 16
+D 0xBB18 0xBB1A dibujo_BB18  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (2 bytes)
+F 0xBB18 16
+D 0xBB1A 0xBB1E dibujo_BB1A  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
 F 0xBB1A 16
-D 0xBB60 0xBCAC leido_BB60  332 bytes que lee p01:7A2A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 38 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p01:7A2A (332 bytes)
+D 0xBB1E 0xBB22 dibujo_BB1E  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB1E 16
+D 0xBB22 0xBB23 dibujo_BB22  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (1 bytes)
+F 0xBB22 16
+D 0xBB23 0xBB27 dibujo_BB23  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB23 16
+D 0xBB27 0xBB30 dibujo_BB27  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (9 bytes)
+F 0xBB27 16
+D 0xBB30 0xBB34 dibujo_BB30  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB30 16
+D 0xBB34 0xBB38 dibujo_BB34  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB34 16
+D 0xBB38 0xBB3C dibujo_BB38  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB38 16
+D 0xBB3C 0xBB40 dibujo_BB3C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB3C 16
+D 0xBB40 0xBB44 dibujo_BB40  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB40 16
+D 0xBB44 0xBB48 dibujo_BB44  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB44 16
+D 0xBB48 0xBB4C dibujo_BB48  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB48 16
+D 0xBB4C 0xBB50 dibujo_BB4C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB4C 16
+D 0xBB50 0xBB54 dibujo_BB50  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB50 16
+D 0xBB54 0xBB58 dibujo_BB54  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB54 16
+D 0xBB58 0xBB5C dibujo_BB58  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB58 16
+D 0xBB5C 0xBB60 dibujo_BB5C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB5C 16
+D 0xBB60 0xBB64 dibujo_BB60  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
 F 0xBB60 16
-D 0xBD0C 0xBD4C leido_BD0C  64 bytes que lee p01:7A2A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 8 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p01:7A2A (64 bytes)
+D 0xBB64 0xBB68 dibujo_BB64  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB64 16
+D 0xBB68 0xBB6C dibujo_BB68  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB68 16
+D 0xBB6C 0xBB70 dibujo_BB6C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB6C 16
+D 0xBB70 0xBB74 dibujo_BB70  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB70 16
+D 0xBB74 0xBB78 dibujo_BB74  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB74 16
+D 0xBB78 0xBB7C dibujo_BB78  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB78 16
+D 0xBB7C 0xBB7E dibujo_BB7C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (2 bytes)
+F 0xBB7C 16
+D 0xBB7E 0xBB80 dibujo_BB7E  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (2 bytes)
+F 0xBB7E 16
+D 0xBB80 0xBB84 dibujo_BB80  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB80 16
+D 0xBB84 0xBB88 dibujo_BB84  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB84 16
+D 0xBB88 0xBB8A dibujo_BB88  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (2 bytes)
+F 0xBB88 16
+D 0xBB8A 0xBB8C dibujo_BB8A  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (2 bytes)
+F 0xBB8A 16
+D 0xBB8C 0xBB90 dibujo_BB8C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB8C 16
+D 0xBB90 0xBB94 dibujo_BB90  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB90 16
+D 0xBB94 0xBB98 dibujo_BB94  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB94 16
+D 0xBB98 0xBB9C dibujo_BB98  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBB98 16
+D 0xBB9C 0xBBAC dibujo_BB9C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (16 bytes)
+F 0xBB9C 16
+D 0xBBAC 0xBBBC dibujo_BBAC  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (16 bytes)
+F 0xBBAC 16
+D 0xBBBC 0xBBC4 dibujo_BBBC  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (8 bytes)
+F 0xBBBC 16
+D 0xBBC4 0xBBCC dibujo_BBC4  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (8 bytes)
+F 0xBBC4 16
+D 0xBBCC 0xBBD0 dibujo_BBCC  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBBCC 16
+D 0xBBD0 0xBBD4 dibujo_BBD0  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBBD0 16
+D 0xBBD4 0xBBDC dibujo_BBD4  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (8 bytes)
+F 0xBBD4 16
+D 0xBBDC 0xBBE4 dibujo_BBDC  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (8 bytes)
+F 0xBBDC 16
+D 0xBBE4 0xBBEC dibujo_BBE4  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (8 bytes)
+F 0xBBE4 16
+D 0xBBEC 0xBBF4 dibujo_BBEC  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (8 bytes)
+F 0xBBEC 16
+D 0xBBF4 0xBBFC dibujo_BBF4  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (8 bytes)
+F 0xBBF4 16
+D 0xBBFC 0xBC04 dibujo_BBFC  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (8 bytes)
+F 0xBBFC 16
+D 0xBC04 0xBC0C dibujo_BC04  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (8 bytes)
+F 0xBC04 16
+D 0xBC0C 0xBC10 dibujo_BC0C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC0C 16
+D 0xBC10 0xBC14 dibujo_BC10  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC10 16
+D 0xBC14 0xBC18 dibujo_BC14  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC14 16
+D 0xBC18 0xBC1C dibujo_BC18  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC18 16
+D 0xBC1C 0xBC20 dibujo_BC1C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC1C 16
+D 0xBC20 0xBC24 dibujo_BC20  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC20 16
+D 0xBC24 0xBC28 dibujo_BC24  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC24 16
+D 0xBC28 0xBC2C dibujo_BC28  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC28 16
+D 0xBC2C 0xBC30 dibujo_BC2C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC2C 16
+D 0xBC30 0xBC34 dibujo_BC30  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC30 16
+D 0xBC34 0xBC38 dibujo_BC34  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC34 16
+D 0xBC38 0xBC3C dibujo_BC38  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC38 16
+D 0xBC3C 0xBC40 dibujo_BC3C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC3C 16
+D 0xBC40 0xBC44 dibujo_BC40  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC40 16
+D 0xBC44 0xBC48 dibujo_BC44  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC44 16
+D 0xBC48 0xBC4C dibujo_BC48  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC48 16
+D 0xBC4C 0xBC50 dibujo_BC4C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC4C 16
+D 0xBC50 0xBC54 dibujo_BC50  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC50 16
+D 0xBC54 0xBC58 dibujo_BC54  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC54 16
+D 0xBC58 0xBC5C dibujo_BC58  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC58 16
+D 0xBC5C 0xBC60 dibujo_BC5C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC5C 16
+D 0xBC60 0xBC64 dibujo_BC60  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC60 16
+D 0xBC64 0xBC68 dibujo_BC64  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC64 16
+D 0xBC68 0xBC6C dibujo_BC68  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC68 16
+D 0xBC6C 0xBC70 dibujo_BC6C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC6C 16
+D 0xBC70 0xBC74 dibujo_BC70  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC70 16
+D 0xBC74 0xBC78 dibujo_BC74  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC74 16
+D 0xBC78 0xBC7C dibujo_BC78  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC78 16
+D 0xBC7C 0xBC80 dibujo_BC7C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC7C 16
+D 0xBC80 0xBC84 dibujo_BC80  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC80 16
+D 0xBC84 0xBC88 dibujo_BC84  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC84 16
+D 0xBC88 0xBC8C dibujo_BC88  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC88 16
+D 0xBC8C 0xBC90 dibujo_BC8C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC8C 16
+D 0xBC90 0xBC94 dibujo_BC90  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC90 16
+D 0xBC94 0xBC98 dibujo_BC94  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC94 16
+D 0xBC98 0xBC9C dibujo_BC98  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC98 16
+D 0xBC9C 0xBCA0 dibujo_BC9C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBC9C 16
+D 0xBCA0 0xBCA4 dibujo_BCA0  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBCA0 16
+D 0xBCA4 0xBCA8 dibujo_BCA4  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBCA4 16
+D 0xBCA8 0xBCAC dibujo_BCA8  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBCA8 16
+D 0xBCAC 0xBCC4 dibujo_BCAC  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (24 bytes)
+F 0xBCAC 16
+D 0xBCC4 0xBCDC dibujo_BCC4  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (24 bytes)
+F 0xBCC4 16
+D 0xBCDC 0xBCF4 dibujo_BCDC  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (24 bytes)
+F 0xBCDC 16
+D 0xBCF4 0xBD0C dibujo_BCF4  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (24 bytes)
+F 0xBCF4 16
+D 0xBD0C 0xBD10 dibujo_BD0C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
 F 0xBD0C 16
-D 0xBD50 0xBE6C leido_BD50  284 bytes que leen p00:4A6A, p00:4A6C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 90 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4A6A, p00:4A6C (284 bytes)
-F 0xBD50 16
+D 0xBD10 0xBD14 dibujo_BD10  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBD10 16
+D 0xBD14 0xBD18 dibujo_BD14  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBD14 16
+D 0xBD18 0xBD1C dibujo_BD18  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBD18 16
+D 0xBD1C 0xBD20 dibujo_BD1C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBD1C 16
+D 0xBD20 0xBD24 dibujo_BD20  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBD20 16
+D 0xBD24 0xBD28 dibujo_BD24  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBD24 16
+D 0xBD28 0xBD2C dibujo_BD28  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBD28 16
+D 0xBD2C 0xBD30 dibujo_BD2C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBD2C 16
+D 0xBD30 0xBD34 dibujo_BD30  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBD30 16
+D 0xBD34 0xBD38 dibujo_BD34  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBD34 16
+D 0xBD38 0xBD3C dibujo_BD38  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBD38 16
+D 0xBD3C 0xBD40 dibujo_BD3C  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBD3C 16
+D 0xBD40 0xBD44 dibujo_BD40  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBD40 16
+D 0xBD44 0xBD48 dibujo_BD44  un dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32): caracteres en filas, hasta el dibujo siguiente (el tamano lo da la ficha); lo leen p01:7A2A (4 bytes)
+F 0xBD44 16
+D 0xBD48 0xBD4C leido_BD48  4 bytes que lee p01:7A2A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:7A2A (4 bytes)
+F 0xBD48 16
+D 0xBD4C 0xBE6C tabla_BD4C  un puntero por dibujo de los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x IX+32) (144); lo leen p00:4A6A (288 bytes)
+F 0xBD4C w8
 D 0xBE6C 0xC000 relleno_ff  404 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (404 bytes)
 F 0xBE6C 16
-D 0xBD4C 0xBD50 resto_BD4C  lo apuntan con el banco puesto p01:79FA (0xBD4C); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p01:79FA (4 bytes)
-F 0xBD4C 16
 # --- fin de los bloques de bloques.py ---

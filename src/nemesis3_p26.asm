@@ -2907,58 +2907,61 @@ L_7069:
 	ret			;7072
 
 ; ----------------------------------------------------------------------
-; DATOS leido_7073: 2 bytes que leen p00:4A60, p00:4A62 al jugar (medido
-;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
-;   tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (2 bytes)
-;   0x7073..0x7075  (2 bytes)
-DATA_leido_7073:
-	defb 07bh,070h	; 7073
+; DATOS rectangulos_7073: un puntero por plano de nave (p26:7069: 0x7073 + 2 x
+;   0xE380) (p26:6064: la palabra A); acaba donde empieza el primero; lo leen
+;   p00:4A60 (8 bytes)
+;   0x7073..0x707b  (8 bytes)
+DATA_rectangulos_7073:
+	defw 0707bh,070bbh,0710ch,0714eh	; 7073  -> DATA_rect_707B DATA_rect_70BB DATA_rect_710C DATA_rect_714E
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7075..0x707b  (6 bytes)
-DATA_7075:
-	defb 0bbh,070h,00ch,071h,04eh,071h	; 7075
+; DATOS rect_707B: plano de nave (p26:7069: 0x7073 + 2 x 0xE380): el destino,
+;   8 filas de 19 bytes y el tipo 2 (el formato de p00:55CD), y los datos
+;   (p26:6067); se solapan 2 bloques: (rle_ram2_7080 7080-70BB); lo leen
+;   p26:606D, p26:6080, p00:55CD (64 bytes)
+;   0x707b..0x70bb  (64 bytes)
+DATA_rect_707B:
+	defb 067h,0cah,008h,013h,002h,0c1h,000h,042h,020h,011h,000h,044h,022h,00fh,000h,0c3h	; 707b  g......B ..D"...
+	defb 026h,023h,000h,043h,027h,00dh,000h,0c2h,026h,023h,002h,02ah,044h,02bh,00ah,000h	; 708b  &#.C'...&#.*D+..
+	defb 050h,02fh,003h,000h,045h,03fh,0c1h,021h,04ch,044h,0c2h,000h,02fh,044h,050h,0c1h	; 709b  P/..E?.!LD../DP.
+	defb 000h,047h,054h,043h,05ah,0c1h,05ah,042h,05dh,0c1h,03fh,047h,05fh,00bh,000h,000h	; 70ab  .GTCZ.ZB].?G_...
 
 ; ----------------------------------------------------------------------
-; DATOS leido_707B: 5 bytes que leen p26:606D, p26:6070, p26:6073, p26:6076,
-;   p26:6080 al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 (5 bytes)
-;   0x707b..0x7080  (5 bytes)
-DATA_leido_707B:
-	defb 067h,0cah,008h,013h,002h	; 707b
-
-; ----------------------------------------------------------------------
-; DATOS rle_ram2_7080: datos comprimidos a la RAM (p00:55CD): 0 acaba; bits
-;   7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte
-;   de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia
-;   los n de detras; empieza donde la campana de tools/cobertura.py lee su
-;   primer byte de control y se recorre hasta su 0; lo leen p00:55CD (59
-;   bytes)
-;   0x7080..0x70bb  (59 bytes)
-DATA_rle_ram2_7080:
-	defb 0c1h,000h,042h,020h,011h,000h,044h,022h,00fh,000h,0c3h,026h,023h,000h,043h,027h	; 7080  ..B ..D"...&#.C'
-	defb 00dh,000h,0c2h,026h,023h,002h,02ah,044h,02bh,00ah,000h,050h,02fh,003h,000h,045h	; 7090  ...&#.*D+..P/..E
-	defb 03fh,0c1h,021h,04ch,044h,0c2h,000h,02fh,044h,050h,0c1h,000h,047h,054h,043h,05ah	; 70a0  ?.!LD../DP..GTCZ
-	defb 0c1h,05ah,042h,05dh,0c1h,03fh,047h,05fh,00bh,000h,000h	; 70b0  .ZB].?G_...
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x70bb..0x7199  (222 bytes)
-DATA_70BB:
+; DATOS rect_70BB: plano de nave (p26:7069: 0x7073 + 2 x 0xE380): el destino,
+;   10 filas de 19 bytes y el tipo 2 (el formato de p00:55CD), y los datos
+;   (p26:6067); lo leen p26:606D, p26:6080 (81 bytes)
+;   0x70bb..0x710c  (81 bytes)
+DATA_rect_70BB:
 	defb 067h,0cah,00ah,013h,002h,002h,000h,046h,020h,00ch,000h,047h,026h,00bh,000h,04fh	; 70bb  g......F ..G&..O
 	defb 02dh,004h,000h,042h,03ch,0c2h,000h,03eh,002h,040h,043h,041h,0c1h,000h,042h,044h	; 70cb  -..B<..>.@CA..BD
 	defb 002h,045h,045h,046h,002h,000h,043h,04bh,0c5h,040h,000h,041h,04eh,047h,043h,04fh	; 70db  .EEF..CK.@.ANGCO
 	defb 046h,051h,004h,000h,043h,057h,0c1h,036h,044h,05ah,00bh,000h,0c3h,05eh,000h,05fh	; 70eb  FQ..CW.6DZ...^._
 	defb 010h,000h,0c3h,060h,045h,061h,010h,000h,042h,062h,010h,000h,043h,064h,00dh,000h	; 70fb  ...`Ea..Bb..Cd..
-	defb 000h,067h,0cah,009h,013h,002h,0c1h,000h,043h,020h,010h,000h,043h,023h,010h,000h	; 710b  .g......C ..C#..
-	defb 044h,026h,00fh,000h,0c1h,026h,042h,02ah,0c1h,025h,002h,000h,042h,02ch,00ah,000h	; 711b  D&...&B*.%..B,..
-	defb 04dh,02eh,006h,000h,042h,03bh,0c2h,026h,000h,045h,03dh,042h,041h,0c2h,000h,05fh	; 712b  M...B..&.E=BA.._
-	defb 04eh,043h,0c1h,021h,047h,051h,002h,057h,046h,058h,00eh,000h,0c1h,05eh,003h,041h	; 713b  NC.!GQ.WFX...^.A
-	defb 00fh,000h,000h,066h,0cah,00ah,014h,002h,002h,000h,042h,020h,010h,000h,046h,022h	; 714b  ...f......B ..F"
-	defb 0c1h,021h,00dh,000h,044h,028h,0c1h,026h,043h,02ch,0c2h,027h,02fh,00ch,000h,046h	; 715b  .!..D(.&C,.'/..F
-	defb 030h,0c1h,000h,043h,036h,00ch,000h,04ah,039h,046h,042h,004h,000h,050h,048h,002h	; 716b  0..C6..J9FB..PH.
-	defb 000h,046h,058h,0c1h,000h,045h,05eh,002h,062h,042h,063h,002h,000h,04ah,065h,00ah	; 717b  .FX..E^.bBc..Je.
-	defb 000h,044h,06fh,0c3h,069h,06dh,073h,00fh,000h,082h,074h,010h,000h,000h	; 718b  .Do.ims...t...
+	defb 000h	; 710b
+
+; ----------------------------------------------------------------------
+; DATOS rect_710C: plano de nave (p26:7069: 0x7073 + 2 x 0xE380): el destino,
+;   9 filas de 19 bytes y el tipo 2 (el formato de p00:55CD), y los datos
+;   (p26:6067); lo leen p26:606D, p26:6080 (66 bytes)
+;   0x710c..0x714e  (66 bytes)
+DATA_rect_710C:
+	defb 067h,0cah,009h,013h,002h,0c1h,000h,043h,020h,010h,000h,043h,023h,010h,000h,044h	; 710c  g......C ..C#..D
+	defb 026h,00fh,000h,0c1h,026h,042h,02ah,0c1h,025h,002h,000h,042h,02ch,00ah,000h,04dh	; 711c  &...&B*.%..B,..M
+	defb 02eh,006h,000h,042h,03bh,0c2h,026h,000h,045h,03dh,042h,041h,0c2h,000h,05fh,04eh	; 712c  ...B..&.E=BA.._N
+	defb 043h,0c1h,021h,047h,051h,002h,057h,046h,058h,00eh,000h,0c1h,05eh,003h,041h,00fh	; 713c  C.!GQ.WFX...^.A.
+	defb 000h,000h	; 714c
+
+; ----------------------------------------------------------------------
+; DATOS rect_714E: plano de nave (p26:7069: 0x7073 + 2 x 0xE380): el destino,
+;   10 filas de 20 bytes y el tipo 2 (el formato de p00:55CD), y los datos
+;   (p26:6067); lo leen p26:606D, p26:6080 (75 bytes)
+;   0x714e..0x7199  (75 bytes)
+DATA_rect_714E:
+	defb 066h,0cah,00ah,014h,002h,002h,000h,042h,020h,010h,000h,046h,022h,0c1h,021h,00dh	; 714e  f......B ..F".!.
+	defb 000h,044h,028h,0c1h,026h,043h,02ch,0c2h,027h,02fh,00ch,000h,046h,030h,0c1h,000h	; 715e  .D(.&C,.'/..F0..
+	defb 043h,036h,00ch,000h,04ah,039h,046h,042h,004h,000h,050h,048h,002h,000h,046h,058h	; 716e  C6..J9FB..PH..FX
+	defb 0c1h,000h,045h,05eh,002h,062h,042h,063h,002h,000h,04ah,065h,00ah,000h,044h,06fh	; 717e  ..E^.bBc..Je..Do
+	defb 0c3h,069h,06dh,073h,00fh,000h,082h,074h,010h,000h,000h	; 718e  .ims...t...
 
 ; ======================================================================
 ; CODIGO 0x7199..0x720c  (115 bytes)
@@ -3033,42 +3036,272 @@ L_7206:
 	ret			;720b
 
 ; ----------------------------------------------------------------------
-; DATOS tabla_720C: tabla que se lee desde HL = 0x720C con un indice
-;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
-;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
-;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p26:71E2 (25 bytes)
-;   0x720c..0x7225  (25 bytes)
-DATA_tabla_720C:
-	defb 014h,072h,04dh,072h,08bh,072h,0cch,072h,024h,072h,025h,072h,02ch,072h,033h,072h	; 720c  .rMr.r.r$r%r,r3r
-	defb 037h,072h,03bh,072h,03fh,072h,046h,072h,000h	; 721c  7r.r?rFr.
+; DATOS trozos_por_nave: un puntero por nave a su tabla de trozos del arma
+;   secreta (p26:71E2: 0x720C + 2 x 0xE380); lo leen p00:4A60 (8 bytes)
+;   0x720c..0x7214  (8 bytes)
+DATA_trozos_por_nave:
+	defw 07214h,0724dh,0728bh,072cch	; 720c  -> DATA_trozos_nave_0 DATA_trozos_nave_1 DATA_trozos_nave_2 DATA_trozos_nave_3
 
 ; ----------------------------------------------------------------------
-; DATOS leido_7225: 7 bytes que leen p26:71EE, p26:71F4, p26:71F6, p26:71F8 al
-;   jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p26:71EE, p26:71F4, p26:71F6, p26:71F8 (7 bytes)
+; DATOS trozos_nave_0: los trozos del arma secreta de la nave 0: un puntero
+;   por nivel, del 0 (que no se pide) al 7 (p26:71EB); lo leen p00:4A60 (16
+;   bytes)
+;   0x7214..0x7224  (16 bytes)
+DATA_trozos_nave_0:
+	defw 07224h,07225h,0722ch,07233h,07237h,0723bh,0723fh,07246h	; 7214
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x7224..0x7225  (1 bytes)
+DATA_7224:
+	defb 000h	; 7224
+
+; ----------------------------------------------------------------------
+; DATOS trozo_7225: el trozo 1 del arma secreta de la nave 0: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (7 bytes)
 ;   0x7225..0x722c  (7 bytes)
-DATA_leido_7225:
+DATA_trozo_7225:
 	defb 002h,055h,042h,01ch,055h,052h,020h	; 7225
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x722c..0x730a  (222 bytes)
-DATA_722C:
-	defb 002h,017h,03dh,000h,017h,04dh,004h,001h,02ah,081h,008h,001h,043h,0a0h,010h,001h	; 722c  ..=..M..*...C...
-	defb 044h,08eh,00ch,002h,044h,0b0h,014h,044h,0c0h,018h,002h,05ah,039h,024h,05ah,049h	; 723c  D...D..D...Z9$ZI
-	defb 028h,024h,072h,05dh,072h,06ah,072h,06eh,072h,072h,072h,076h,072h,07dh,072h,084h	; 724c  ($r]rjrnrrrvr}r.
-	defb 072h,004h,05fh,050h,04ch,05fh,060h,050h,05fh,070h,054h,05fh,080h,058h,001h,01eh	; 725c  r._PL_`P_pT_.X..
-	defb 073h,034h,001h,01dh,082h,008h,001h,044h,080h,038h,002h,03bh,095h,03ch,04bh,095h	; 726c  s4.....D.8...<K.
-	defb 040h,002h,034h,09eh,044h,034h,0aeh,048h,002h,024h,034h,02ch,034h,034h,030h,024h	; 727c  @.4.D4.H.$4,440$
-	defb 072h,09bh,072h,09fh,072h,0a6h,072h,0adh,072h,0b1h,072h,0b5h,072h,0c2h,072h,001h	; 728c  r.r.r.r.r.r.r.r.
-	defb 050h,05fh,078h,002h,050h,06fh,07ch,050h,07fh,080h,002h,02dh,063h,008h,02dh,063h	; 729c  P_x.Po|P...-c.-c
-	defb 06ch,001h,057h,048h,084h,001h,01fh,036h,068h,004h,03fh,0afh,070h,03fh,0bfh,074h	; 72ac  l.WH...6h.?.p?.t
-	defb 03fh,0afh,06ch,03fh,0bfh,06ch,003h,00fh,026h,05ch,00fh,036h,060h,00fh,046h,064h	; 72bc  ?.l?.l..&\.6`.Fd
-	defb 024h,072h,0dch,072h,0e3h,072h,0eah,072h,0eeh,072h,0f2h,072h,0f6h,072h,003h,073h	; 72cc  $r.r.r.r.r.r.r.s
-	defb 002h,04ah,07ch,0a0h,04ah,08ch,0a4h,002h,039h,0c0h,09ch,039h,0c0h,06ch,001h,017h	; 72dc  .J|.J...9..9.l..
-	defb 048h,090h,001h,05ch,048h,0ach,001h,04ch,072h,0a8h,004h,01bh,030h,088h,01bh,040h	; 72ec  H..\H..Lr...0..@
-	defb 08ch,05ch,030h,0b0h,05ch,040h,0b4h,002h,037h,036h,094h,037h,046h,098h	; 72fc  .\0.\@..76.7F.
+; DATOS trozo_722C: el trozo 2 del arma secreta de la nave 0: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (7 bytes)
+;   0x722c..0x7233  (7 bytes)
+DATA_trozo_722C:
+	defb 002h,017h,03dh,000h,017h,04dh,004h	; 722c
+
+; ----------------------------------------------------------------------
+; DATOS trozo_7233: el trozo 3 del arma secreta de la nave 0: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (4 bytes)
+;   0x7233..0x7237  (4 bytes)
+DATA_trozo_7233:
+	defb 001h,02ah,081h,008h	; 7233
+
+; ----------------------------------------------------------------------
+; DATOS trozo_7237: el trozo 4 del arma secreta de la nave 0: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (4 bytes)
+;   0x7237..0x723b  (4 bytes)
+DATA_trozo_7237:
+	defb 001h,043h,0a0h,010h	; 7237
+
+; ----------------------------------------------------------------------
+; DATOS trozo_723B: el trozo 5 del arma secreta de la nave 0: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (4 bytes)
+;   0x723b..0x723f  (4 bytes)
+DATA_trozo_723B:
+	defb 001h,044h,08eh,00ch	; 723b
+
+; ----------------------------------------------------------------------
+; DATOS trozo_723F: el trozo 6 del arma secreta de la nave 0: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (7 bytes)
+;   0x723f..0x7246  (7 bytes)
+DATA_trozo_723F:
+	defb 002h,044h,0b0h,014h,044h,0c0h,018h	; 723f
+
+; ----------------------------------------------------------------------
+; DATOS trozo_7246: el trozo 7 del arma secreta de la nave 0: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (7 bytes)
+;   0x7246..0x724d  (7 bytes)
+DATA_trozo_7246:
+	defb 002h,05ah,039h,024h,05ah,049h,028h	; 7246
+
+; ----------------------------------------------------------------------
+; DATOS trozos_nave_1: los trozos del arma secreta de la nave 1: un puntero
+;   por nivel, del 0 (que no se pide) al 7 (p26:71EB); lo leen p00:4A60 (16
+;   bytes)
+;   0x724d..0x725d  (16 bytes)
+DATA_trozos_nave_1:
+	defw 07224h,0725dh,0726ah,0726eh,07272h,07276h,0727dh,07284h	; 724d
+
+; ----------------------------------------------------------------------
+; DATOS trozo_725D: el trozo 1 del arma secreta de la nave 1: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (13 bytes)
+;   0x725d..0x726a  (13 bytes)
+DATA_trozo_725D:
+	defb 004h,05fh,050h,04ch,05fh,060h,050h,05fh,070h,054h,05fh,080h,058h	; 725d  ._PL_`P_pT_.X
+
+; ----------------------------------------------------------------------
+; DATOS trozo_726A: el trozo 2 del arma secreta de la nave 1: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (4 bytes)
+;   0x726a..0x726e  (4 bytes)
+DATA_trozo_726A:
+	defb 001h,01eh,073h,034h	; 726a
+
+; ----------------------------------------------------------------------
+; DATOS trozo_726E: el trozo 3 del arma secreta de la nave 1: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (4 bytes)
+;   0x726e..0x7272  (4 bytes)
+DATA_trozo_726E:
+	defb 001h,01dh,082h,008h	; 726e
+
+; ----------------------------------------------------------------------
+; DATOS trozo_7272: el trozo 4 del arma secreta de la nave 1: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (4 bytes)
+;   0x7272..0x7276  (4 bytes)
+DATA_trozo_7272:
+	defb 001h,044h,080h,038h	; 7272
+
+; ----------------------------------------------------------------------
+; DATOS trozo_7276: el trozo 5 del arma secreta de la nave 1: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (7 bytes)
+;   0x7276..0x727d  (7 bytes)
+DATA_trozo_7276:
+	defb 002h,03bh,095h,03ch,04bh,095h,040h	; 7276
+
+; ----------------------------------------------------------------------
+; DATOS trozo_727D: el trozo 6 del arma secreta de la nave 1: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (7 bytes)
+;   0x727d..0x7284  (7 bytes)
+DATA_trozo_727D:
+	defb 002h,034h,09eh,044h,034h,0aeh,048h	; 727d
+
+; ----------------------------------------------------------------------
+; DATOS trozo_7284: el trozo 7 del arma secreta de la nave 1: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (7 bytes)
+;   0x7284..0x728b  (7 bytes)
+DATA_trozo_7284:
+	defb 002h,024h,034h,02ch,034h,034h,030h	; 7284
+
+; ----------------------------------------------------------------------
+; DATOS trozos_nave_2: los trozos del arma secreta de la nave 2: un puntero
+;   por nivel, del 0 (que no se pide) al 7 (p26:71EB); lo leen p00:4A60 (16
+;   bytes)
+;   0x728b..0x729b  (16 bytes)
+DATA_trozos_nave_2:
+	defw 07224h,0729bh,0729fh,072a6h,072adh,072b1h,072b5h,072c2h	; 728b
+
+; ----------------------------------------------------------------------
+; DATOS trozo_729B: el trozo 1 del arma secreta de la nave 2: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (4 bytes)
+;   0x729b..0x729f  (4 bytes)
+DATA_trozo_729B:
+	defb 001h,050h,05fh,078h	; 729b
+
+; ----------------------------------------------------------------------
+; DATOS trozo_729F: el trozo 2 del arma secreta de la nave 2: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (7 bytes)
+;   0x729f..0x72a6  (7 bytes)
+DATA_trozo_729F:
+	defb 002h,050h,06fh,07ch,050h,07fh,080h	; 729f
+
+; ----------------------------------------------------------------------
+; DATOS trozo_72A6: el trozo 3 del arma secreta de la nave 2: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (7 bytes)
+;   0x72a6..0x72ad  (7 bytes)
+DATA_trozo_72A6:
+	defb 002h,02dh,063h,008h,02dh,063h,06ch	; 72a6
+
+; ----------------------------------------------------------------------
+; DATOS trozo_72AD: el trozo 4 del arma secreta de la nave 2: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (4 bytes)
+;   0x72ad..0x72b1  (4 bytes)
+DATA_trozo_72AD:
+	defb 001h,057h,048h,084h	; 72ad
+
+; ----------------------------------------------------------------------
+; DATOS trozo_72B1: el trozo 5 del arma secreta de la nave 2: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (4 bytes)
+;   0x72b1..0x72b5  (4 bytes)
+DATA_trozo_72B1:
+	defb 001h,01fh,036h,068h	; 72b1
+
+; ----------------------------------------------------------------------
+; DATOS trozo_72B5: el trozo 6 del arma secreta de la nave 2: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (13 bytes)
+;   0x72b5..0x72c2  (13 bytes)
+DATA_trozo_72B5:
+	defb 004h,03fh,0afh,070h,03fh,0bfh,074h,03fh,0afh,06ch,03fh,0bfh,06ch	; 72b5  .?.p?.t?.l?.l
+
+; ----------------------------------------------------------------------
+; DATOS trozo_72C2: el trozo 7 del arma secreta de la nave 2: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (10 bytes)
+;   0x72c2..0x72cc  (10 bytes)
+DATA_trozo_72C2:
+	defb 003h,00fh,026h,05ch,00fh,036h,060h,00fh,046h,064h	; 72c2  ..&\.6`.Fd
+
+; ----------------------------------------------------------------------
+; DATOS trozos_nave_3: los trozos del arma secreta de la nave 3: un puntero
+;   por nivel, del 0 (que no se pide) al 7 (p26:71EB); lo leen p00:4A60 (16
+;   bytes)
+;   0x72cc..0x72dc  (16 bytes)
+DATA_trozos_nave_3:
+	defw 07224h,072dch,072e3h,072eah,072eeh,072f2h,072f6h,07303h	; 72cc
+
+; ----------------------------------------------------------------------
+; DATOS trozo_72DC: el trozo 1 del arma secreta de la nave 3: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (7 bytes)
+;   0x72dc..0x72e3  (7 bytes)
+DATA_trozo_72DC:
+	defb 002h,04ah,07ch,0a0h,04ah,08ch,0a4h	; 72dc
+
+; ----------------------------------------------------------------------
+; DATOS trozo_72E3: el trozo 2 del arma secreta de la nave 3: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (7 bytes)
+;   0x72e3..0x72ea  (7 bytes)
+DATA_trozo_72E3:
+	defb 002h,039h,0c0h,09ch,039h,0c0h,06ch	; 72e3
+
+; ----------------------------------------------------------------------
+; DATOS trozo_72EA: el trozo 3 del arma secreta de la nave 3: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (4 bytes)
+;   0x72ea..0x72ee  (4 bytes)
+DATA_trozo_72EA:
+	defb 001h,017h,048h,090h	; 72ea
+
+; ----------------------------------------------------------------------
+; DATOS trozo_72EE: el trozo 4 del arma secreta de la nave 3: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (4 bytes)
+;   0x72ee..0x72f2  (4 bytes)
+DATA_trozo_72EE:
+	defb 001h,05ch,048h,0ach	; 72ee
+
+; ----------------------------------------------------------------------
+; DATOS trozo_72F2: el trozo 5 del arma secreta de la nave 3: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (4 bytes)
+;   0x72f2..0x72f6  (4 bytes)
+DATA_trozo_72F2:
+	defb 001h,04ch,072h,0a8h	; 72f2
+
+; ----------------------------------------------------------------------
+; DATOS trozo_72F6: el trozo 6 del arma secreta de la nave 3: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (13 bytes)
+;   0x72f6..0x7303  (13 bytes)
+DATA_trozo_72F6:
+	defb 004h,01bh,030h,088h,01bh,040h,08ch,05ch,030h,0b0h,05ch,040h,0b4h	; 72f6  ..0..@.\0.\@.
+
+; ----------------------------------------------------------------------
+; DATOS trozo_7303: el trozo 7 del arma secreta de la nave 3: cuantos sprites
+;   y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE,
+;   p26:71F4 (7 bytes)
+;   0x7303..0x730a  (7 bytes)
+DATA_trozo_7303:
+	defb 002h,037h,036h,094h,037h,046h,098h	; 7303
 
 ; ======================================================================
 ; CODIGO 0x730a..0x73e0  (214 bytes)

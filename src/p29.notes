@@ -130,38 +130,44 @@ D 0xB23C 0xB2E2 rle_B23C  los dibujos de una entrada de la lista de graficos de 
 F 0xB23C 16
 D 0xB2E2 0xB2E7 rle_B2E2  los colores de una entrada de la lista de graficos de 29:ABBF, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_B2E2 B2E2-B2E7); lo leen p00:4D11, p00:4B3C (5 bytes)
 F 0xB2E2 16
-D 0xB2E7 0xB2EF leido_B2E7  8 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (8 bytes)
-F 0xB2E7 16
-D 0xB2EF 0xB2FD leido_B2EF  14 bytes que leen p26:606D, p26:6070, p26:6089, p26:608C, p26:6080, p26:609F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:606D, p26:6070, p26:6089, p26:608C, p26:6080, p26:609F, p26:6073, p26:6076 (14 bytes)
+D 0xB2E7 0xB2EF rectangulos_B2E7  un puntero por cuadro de la animacion de p27:858A (p26:6064: la palabra A); acaba donde empieza el primero; lo leen p00:4A60 (8 bytes)
+F 0xB2E7 w8
+D 0xB2EF 0xB2F8 rect_B2EF  cuadro de la animacion de p27:858A: el destino, 2 filas de 2 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D, p26:6080 (9 bytes)
 F 0xB2EF 16
-D 0xB2FD 0xB318 rle_ram_B2FD  datos comprimidos a la RAM (p00:55AD, el mismo formato que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55AD (27 bytes)
-F 0xB2FD 16
-D 0xB318 0xB31D leido_B318  5 bytes que leen p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 (5 bytes)
+D 0xB2F8 0xB318 rect_B2F8  cuadro de la animacion de p27:858A: el destino, 7 filas de 4 bytes y el tipo 1 (RLE de p00:55AD), y los datos (p26:6067); se solapan 2 bloques: (rle_ram_B2FD B2FD-B318); lo leen p26:606D, p26:6080, p00:55AD (32 bytes)
+F 0xB2F8 16
+D 0xB318 0xB368 rect_B318  cuadro de la animacion de p27:858A: el destino, 12 filas de 8 bytes y el tipo 1 (RLE de p00:55AD), y los datos (p26:6067); se solapan 2 bloques: (rle_ram_B31D B31D-B368); lo leen p26:606D, p26:6080, p00:55AD (80 bytes)
 F 0xB318 16
-D 0xB31D 0xB368 rle_ram_B31D  datos comprimidos a la RAM (p00:55AD, el mismo formato que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55AD (75 bytes)
-F 0xB31D 16
-D 0xB368 0xB36D leido_B368  5 bytes que leen p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 (5 bytes)
+D 0xB368 0xB41C rect_B368  cuadro de la animacion de p27:858A: el destino, 15 filas de 14 bytes y el tipo 1 (RLE de p00:55AD), y los datos (p26:6067); se solapan 2 bloques: (rle_ram_B36D B36D-B41C); lo leen p26:606D, p26:6080, p00:55AD (180 bytes)
 F 0xB368 16
-D 0xB36D 0xB41C rle_ram_B36D  datos comprimidos a la RAM (p00:55AD, el mismo formato que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55AD (175 bytes)
-F 0xB36D 16
 D 0xB41C 0xB467 leido_B41C  75 bytes que lee p00:59B3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:59B3 (75 bytes)
 F 0xB41C 16
-D 0xB467 0xB47F leido_B467  24 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (24 bytes)
-F 0xB467 16
-D 0xB47F 0xB537 leido_B47F  184 bytes que leen p26:606D, p26:6070, p26:6089, p26:608C, p26:6080, p26:609F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:606D, p26:6070, p26:6089, p26:608C, p26:6080, p26:609F, p26:6073, p26:6076 (184 bytes)
+D 0xB467 0xB47F rectangulos_B467  un puntero por cuadro de la animacion de p27:84A7 (p26:6064: la palabra A); acaba donde empieza el primero; lo leen p00:4A60 (24 bytes)
+F 0xB467 w8
+D 0xB47F 0xB48E rect_B47F  cuadro de la animacion de p27:84A7: el destino, 5 filas de 2 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D, p26:6080 (15 bytes)
 F 0xB47F 16
-D 0xB537 0xB5B4 rle_ram2_B537  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (125 bytes)
-F 0xB537 16
-D 0xB5B4 0xB5B9 leido_B5B4  5 bytes que leen p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 (5 bytes)
+D 0xB48E 0xB4BF rect_B48E  cuadro de la animacion de p27:84A7: el destino, 11 filas de 4 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D, p26:6080 (49 bytes)
+F 0xB48E 16
+D 0xB4BF 0xB532 rect_B4BF  cuadro de la animacion de p27:84A7: el destino, 11 filas de 10 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D, p26:6080 (115 bytes)
+F 0xB4BF 16
+D 0xB532 0xB5B4 rect_B532  cuadro de la animacion de p27:84A7: el destino, 11 filas de 16 bytes y el tipo 2 (el formato de p00:55CD), y los datos (p26:6067); se solapan 2 bloques: (rle_ram2_B537 B537-B5B4); lo leen p26:606D, p26:6080, p00:55CD (130 bytes)
+F 0xB532 16
+D 0xB5B4 0xB5DF rect_B5B4  cuadro de la animacion de p27:84A7: el destino, 5 filas de 10 bytes y el tipo 2 (el formato de p00:55CD), y los datos (p26:6067); se solapan 2 bloques: (rle_ram2_B5B9 B5B9-B5DF); lo leen p26:606D, p26:6080, p00:55CD (43 bytes)
 F 0xB5B4 16
-D 0xB5B9 0xB5DF rle_ram2_B5B9  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (38 bytes)
-F 0xB5B9 16
-D 0xB5DF 0xB5E4 leido_B5DF  5 bytes que leen p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 (5 bytes)
+D 0xB5DF 0xB60E rect_B5DF  cuadro de la animacion de p27:84A7: el destino, 5 filas de 10 bytes y el tipo 2 (el formato de p00:55CD), y los datos (p26:6067); se solapan 2 bloques: (rle_ram2_B5E4 B5E4-B60E); lo leen p26:606D, p26:6080, p00:55CD (47 bytes)
 F 0xB5DF 16
-D 0xB5E4 0xB60E rle_ram2_B5E4  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (42 bytes)
-F 0xB5E4 16
-D 0xB60E 0xB730 leido_B60E  290 bytes que leen p26:606D, p26:6070, p26:6089, p26:608C, p26:6080, p26:609F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:606D, p26:6070, p26:6089, p26:608C, p26:6080, p26:609F (290 bytes)
+D 0xB60E 0xB645 rect_B60E  cuadro de la animacion de p27:84A7: el destino, 5 filas de 10 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D, p26:6080 (55 bytes)
 F 0xB60E 16
+D 0xB645 0xB67C rect_B645  cuadro de la animacion de p27:84A7: el destino, 5 filas de 10 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D, p26:6080 (55 bytes)
+F 0xB645 16
+D 0xB67C 0xB6B3 rect_B67C  cuadro de la animacion de p27:84A7: el destino, 5 filas de 10 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D, p26:6080 (55 bytes)
+F 0xB67C 16
+D 0xB6B3 0xB6EA rect_B6B3  cuadro de la animacion de p27:84A7: el destino, 5 filas de 10 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D, p26:6080 (55 bytes)
+F 0xB6B3 16
+D 0xB6EA 0xB70D rect_B6EA  cuadro de la animacion de p27:84A7: el destino, 3 filas de 10 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D, p26:6080 (35 bytes)
+F 0xB6EA 16
+D 0xB70D 0xB730 rect_B70D  cuadro de la animacion de p27:84A7: el destino, 3 filas de 10 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D, p26:6080 (35 bytes)
+F 0xB70D 16
 D 0xB730 0xB7B8 rle_B730  graficos comprimidos a la VRAM con su direccion delante (p00:4B36): direccion y el RLE de p00:4B3C; lo leen p27:8113 (136 bytes)
 F 0xB730 16
 D 0xB7B8 0xB7FC rle_B7B8  graficos comprimidos a la VRAM con su direccion delante (p00:4B36): direccion y el RLE de p00:4B3C; lo leen p27:8119 (68 bytes)

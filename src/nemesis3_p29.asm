@@ -833,85 +833,63 @@ DATA_rle_B2E2:
 	defb 07fh,0f0h,061h,0f0h,000h	; b2e2
 
 ; ----------------------------------------------------------------------
-; DATOS leido_B2E7: 8 bytes que leen p00:4A60, p00:4A62 al jugar (medido
-;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
-;   tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (8 bytes)
+; DATOS rectangulos_B2E7: un puntero por cuadro de la animacion de p27:858A
+;   (p26:6064: la palabra A); acaba donde empieza el primero; lo leen p00:4A60
+;   (8 bytes)
 ;   0xb2e7..0xb2ef  (8 bytes)
-DATA_leido_B2E7:
-	defb 0efh,0b2h,0f8h,0b2h,018h,0b3h,068h,0b3h	; b2e7  ......h.
+DATA_rectangulos_B2E7:
+	defw 0b2efh,0b2f8h,0b318h,0b368h	; b2e7  -> DATA_rect_B2EF DATA_rect_B2F8 DATA_rect_B318 DATA_rect_B368
 
 ; ----------------------------------------------------------------------
-; DATOS leido_B2EF: 14 bytes que leen p26:606D, p26:6070, p26:6089, p26:608C,
-;   p26:6080, p26:609F al jugar (medido ejecutando el cartucho,
-;   tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee
-;   seguido); lo leen p26:606D, p26:6070, p26:6089, p26:608C, p26:6080,
-;   p26:609F, p26:6073, p26:6076 (14 bytes)
-;   0xb2ef..0xb2fd  (14 bytes)
-DATA_leido_B2EF:
-	defb 00fh,0cbh,002h,002h,000h,060h,073h,061h,072h,0aeh,0cah,007h,004h,001h	; b2ef  .....`sar.....
+; DATOS rect_B2EF: cuadro de la animacion de p27:858A: el destino, 2 filas de
+;   2 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D,
+;   p26:6080 (9 bytes)
+;   0xb2ef..0xb2f8  (9 bytes)
+DATA_rect_B2EF:
+	defb 00fh,0cbh,002h,002h,000h,060h,073h,061h,072h	; b2ef  .....`sar
 
 ; ----------------------------------------------------------------------
-; DATOS rle_ram_B2FD: datos comprimidos a la RAM (p00:55AD, el mismo formato
-;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
-;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
-;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
-;   lo leen p00:55AD (27 bytes)
-;   0xb2fd..0xb318  (27 bytes)
-DATA_rle_ram_B2FD:
-	defb 082h,000h,064h,006h,000h,090h,0b4h,0bdh,073h,0ach,0d2h,070h,041h,0d5h,0e2h,06bh	; b2fd  ..d.....s..pA..k
-	defb 043h,0e5h,0b4h,0bdh,06ah,0ach,003h,000h,081h,083h,000h	; b30d  C...j......
+; DATOS rect_B2F8: cuadro de la animacion de p27:858A: el destino, 7 filas de
+;   4 bytes y el tipo 1 (RLE de p00:55AD), y los datos (p26:6067); se solapan
+;   2 bloques: (rle_ram_B2FD B2FD-B318); lo leen p26:606D, p26:6080, p00:55AD
+;   (32 bytes)
+;   0xb2f8..0xb318  (32 bytes)
+DATA_rect_B2F8:
+	defb 0aeh,0cah,007h,004h,001h,082h,000h,064h,006h,000h,090h,0b4h,0bdh,073h,0ach,0d2h	; b2f8  .......d.....s..
+	defb 070h,041h,0d5h,0e2h,06bh,043h,0e5h,0b4h,0bdh,06ah,0ach,003h,000h,081h,083h,000h	; b308  pA..kC...j......
 
 ; ----------------------------------------------------------------------
-; DATOS leido_B318: 5 bytes que leen p26:606D, p26:6070, p26:6073, p26:6076,
-;   p26:6080 al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 (5 bytes)
-;   0xb318..0xb31d  (5 bytes)
-DATA_leido_B318:
-	defb 04ch,0cah,00ch,008h,001h	; b318
+; DATOS rect_B318: cuadro de la animacion de p27:858A: el destino, 12 filas de
+;   8 bytes y el tipo 1 (RLE de p00:55AD), y los datos (p26:6067); se solapan
+;   2 bloques: (rle_ram_B31D B31D-B368); lo leen p26:606D, p26:6080, p00:55AD
+;   (80 bytes)
+;   0xb318..0xb368  (80 bytes)
+DATA_rect_B318:
+	defb 04ch,0cah,00ch,008h,001h,005h,000h,081h,063h,013h,000h,0beh,0bah,0bbh,0bch,06bh	; b318  L.......c......k
+	defb 066h,0adh,000h,0b5h,0b7h,0a6h,0a3h,042h,06ah,0a8h,0a9h,0b6h,0b8h,069h,0a1h,049h	; b328  f......Bj....i.I
+	defb 0aeh,040h,0abh,0d1h,047h,07ch,076h,06fh,06eh,040h,0d3h,0e1h,07bh,07ah,06dh,06fh	; b338  .@..G|von@..{zmo
+	defb 06dh,040h,0e3h,0b6h,0b8h,0a4h,049h,0a1h,0aeh,065h,0abh,0b5h,0b7h,0a6h,076h,044h	; b348  m@....I..e....vD
+	defb 068h,0a8h,0a9h,000h,0bah,0bbh,0bch,08ch,071h,0adh,007h,000h,082h,082h,000h,000h	; b358  h.......q.......
 
 ; ----------------------------------------------------------------------
-; DATOS rle_ram_B31D: datos comprimidos a la RAM (p00:55AD, el mismo formato
-;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
-;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
-;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
-;   lo leen p00:55AD (75 bytes)
-;   0xb31d..0xb368  (75 bytes)
-DATA_rle_ram_B31D:
-	defb 005h,000h,081h,063h,013h,000h,0beh,0bah,0bbh,0bch,06bh,066h,0adh,000h,0b5h,0b7h	; b31d  ...c......kf....
-	defb 0a6h,0a3h,042h,06ah,0a8h,0a9h,0b6h,0b8h,069h,0a1h,049h,0aeh,040h,0abh,0d1h,047h	; b32d  ..Bj....i.I.@..G
-	defb 07ch,076h,06fh,06eh,040h,0d3h,0e1h,07bh,07ah,06dh,06fh,06dh,040h,0e3h,0b6h,0b8h	; b33d  |von@..{zmom@...
-	defb 0a4h,049h,0a1h,0aeh,065h,0abh,0b5h,0b7h,0a6h,076h,044h,068h,0a8h,0a9h,000h,0bah	; b34d  .I..e....vDh....
-	defb 0bbh,0bch,08ch,071h,0adh,007h,000h,082h,082h,000h,000h	; b35d  ...q.......
-
-; ----------------------------------------------------------------------
-; DATOS leido_B368: 5 bytes que leen p26:606D, p26:6070, p26:6073, p26:6076,
-;   p26:6080 al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 (5 bytes)
-;   0xb368..0xb36d  (5 bytes)
-DATA_leido_B368:
-	defb 02ah,0cah,00fh,00eh,001h	; b368
-
-; ----------------------------------------------------------------------
-; DATOS rle_ram_B36D: datos comprimidos a la RAM (p00:55AD, el mismo formato
-;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
-;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
-;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
-;   lo leen p00:55AD (175 bytes)
-;   0xb36d..0xb41c  (175 bytes)
-DATA_rle_ram_B36D:
-	defb 00ch,000h,081h,060h,00dh,000h,08ch,061h,062h,000h,000h,090h,074h,075h,096h,0b0h	; b36d  ...`...ab...tu..
-	defb 0b1h,076h,071h,005h,000h,08ah,092h,099h,06fh,097h,09ch,0afh,09dh,09eh,068h,072h	; b37d  .vq.....o.....hr
-	defb 003h,000h,08bh,093h,095h,09ah,09bh,04bh,04ch,0a4h,0b3h,0a0h,041h,0a7h,003h,000h	; b38d  .......KL...A...
-	defb 0dfh,091h,06eh,098h,0b2h,0b9h,0a5h,0a2h,09fh,06ah,043h,06dh,0aah,000h,000h,094h	; b39d  ..n......jCm....
-	defb 045h,046h,04eh,047h,04ah,04dh,048h,06ch,070h,044h,067h,000h,000h,0d0h,07fh,087h	; b3ad  EFNGJMHlpDg.....
-	defb 088h,07ch,04dh,048h,089h,085h,074h,075h,0d4h,000h,000h,0e0h,07eh,087h,088h,07ch	; b3bd  .|MH..tu....~..|
-	defb 076h,06bh,064h,063h,041h,06ch,0e4h,000h,000h,094h,045h,046h,04eh,047h,04ah,04dh	; b3cd  vkdcAl....EFNGJM
-	defb 048h,089h,09fh,065h,08ah,000h,000h,091h,07dh,098h,0b2h,0b9h,0a5h,0a2h,09fh,066h	; b3dd  H..e....}......f
-	defb 066h,078h,0aah,000h,000h,093h,095h,09ah,09bh,04bh,04ch,0a4h,0b3h,0a0h,068h,0a7h	; b3ed  fx.......KL...h.
-	defb 004h,000h,08ah,092h,099h,086h,097h,09ch,0afh,09dh,09eh,069h,062h,005h,000h,088h	; b3fd  ...........ib...
-	defb 090h,081h,080h,096h,0b0h,0b1h,079h,08bh,00dh,000h,081h,084h,004h,000h,000h	; b40d  ......y........
+; DATOS rect_B368: cuadro de la animacion de p27:858A: el destino, 15 filas de
+;   14 bytes y el tipo 1 (RLE de p00:55AD), y los datos (p26:6067); se solapan
+;   2 bloques: (rle_ram_B36D B36D-B41C); lo leen p26:606D, p26:6080, p00:55AD
+;   (180 bytes)
+;   0xb368..0xb41c  (180 bytes)
+DATA_rect_B368:
+	defb 02ah,0cah,00fh,00eh,001h,00ch,000h,081h,060h,00dh,000h,08ch,061h,062h,000h,000h	; b368  *.......`...ab..
+	defb 090h,074h,075h,096h,0b0h,0b1h,076h,071h,005h,000h,08ah,092h,099h,06fh,097h,09ch	; b378  .tu...vq.....o..
+	defb 0afh,09dh,09eh,068h,072h,003h,000h,08bh,093h,095h,09ah,09bh,04bh,04ch,0a4h,0b3h	; b388  ...hr.......KL..
+	defb 0a0h,041h,0a7h,003h,000h,0dfh,091h,06eh,098h,0b2h,0b9h,0a5h,0a2h,09fh,06ah,043h	; b398  .A.....n......jC
+	defb 06dh,0aah,000h,000h,094h,045h,046h,04eh,047h,04ah,04dh,048h,06ch,070h,044h,067h	; b3a8  m....EFNGJMHlpDg
+	defb 000h,000h,0d0h,07fh,087h,088h,07ch,04dh,048h,089h,085h,074h,075h,0d4h,000h,000h	; b3b8  ......|MH..tu...
+	defb 0e0h,07eh,087h,088h,07ch,076h,06bh,064h,063h,041h,06ch,0e4h,000h,000h,094h,045h	; b3c8  .~..|vkdcAl....E
+	defb 046h,04eh,047h,04ah,04dh,048h,089h,09fh,065h,08ah,000h,000h,091h,07dh,098h,0b2h	; b3d8  FNGJMH..e....}..
+	defb 0b9h,0a5h,0a2h,09fh,066h,066h,078h,0aah,000h,000h,093h,095h,09ah,09bh,04bh,04ch	; b3e8  ....ffx.......KL
+	defb 0a4h,0b3h,0a0h,068h,0a7h,004h,000h,08ah,092h,099h,086h,097h,09ch,0afh,09dh,09eh	; b3f8  ...h............
+	defb 069h,062h,005h,000h,088h,090h,081h,080h,096h,0b0h,0b1h,079h,08bh,00dh,000h,081h	; b408  ib.........y....
+	defb 084h,004h,000h,000h	; b418
 
 ; ----------------------------------------------------------------------
 ; DATOS leido_B41C: 75 bytes que lee p00:59B3 al jugar (medido ejecutando el
@@ -926,26 +904,39 @@ DATA_leido_B41C:
 	defb 000h,000h,07bh,07eh,063h,078h,061h,087h,089h,061h,08ah	; b45c  ..{~cxa..a.
 
 ; ----------------------------------------------------------------------
-; DATOS leido_B467: 24 bytes que leen p00:4A60, p00:4A62 al jugar (medido
-;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
-;   tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (24 bytes)
+; DATOS rectangulos_B467: un puntero por cuadro de la animacion de p27:84A7
+;   (p26:6064: la palabra A); acaba donde empieza el primero; lo leen p00:4A60
+;   (24 bytes)
 ;   0xb467..0xb47f  (24 bytes)
-DATA_leido_B467:
-	defb 07fh,0b4h,08eh,0b4h,0bfh,0b4h,032h,0b5h,0b4h,0b5h,0dfh,0b5h,00eh,0b6h,045h,0b6h	; b467  ......2.......E.
-	defb 07ch,0b6h,0b3h,0b6h,0eah,0b6h,00dh,0b7h	; b477  |.......
+DATA_rectangulos_B467:
+	defw 0b47fh,0b48eh,0b4bfh,0b532h,0b5b4h,0b5dfh,0b60eh,0b645h	; b467
+	defw 0b67ch,0b6b3h,0b6eah,0b70dh	; b477  -> DATA_rect_B67C DATA_rect_B6B3 DATA_rect_B6EA DATA_rect_B70D
 
 ; ----------------------------------------------------------------------
-; DATOS leido_B47F: 184 bytes que leen p26:606D, p26:6070, p26:6089, p26:608C,
-;   p26:6080, p26:609F al jugar (medido ejecutando el cartucho,
-;   tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee
-;   seguido); lo leen p26:606D, p26:6070, p26:6089, p26:608C, p26:6080,
-;   p26:609F, p26:6073, p26:6076 (184 bytes)
-;   0xb47f..0xb537  (184 bytes)
-DATA_leido_B47F:
-	defb 0afh,0cah,005h,002h,000h,0aah,0cah,0abh,0cbh,0ach,0cch,0b8h,0d8h,0b9h,0d9h,04eh	; b47f  ...............N
-	defb 0cah,00bh,004h,000h,090h,091h,0b1h,0b0h,092h,093h,0b3h,0b2h,09bh,094h,0b4h,0bbh	; b48f  ................
-	defb 0a2h,07ah,082h,0c2h,0a9h,081h,083h,0c9h,0a7h,097h,0b7h,0c7h,0a8h,0a9h,0c9h,0c8h	; b49f  .z..............
-	defb 0b4h,0b2h,0d2h,0d4h,0aah,0a0h,0c0h,0cah,0a1h,0a2h,0c2h,0c1h,0b7h,0a3h,0c3h,0d7h	; b4af  ................
+; DATOS rect_B47F: cuadro de la animacion de p27:84A7: el destino, 5 filas de
+;   2 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D,
+;   p26:6080 (15 bytes)
+;   0xb47f..0xb48e  (15 bytes)
+DATA_rect_B47F:
+	defb 0afh,0cah,005h,002h,000h,0aah,0cah,0abh,0cbh,0ach,0cch,0b8h,0d8h,0b9h,0d9h	; b47f  ...............
+
+; ----------------------------------------------------------------------
+; DATOS rect_B48E: cuadro de la animacion de p27:84A7: el destino, 11 filas de
+;   4 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D,
+;   p26:6080 (49 bytes)
+;   0xb48e..0xb4bf  (49 bytes)
+DATA_rect_B48E:
+	defb 04eh,0cah,00bh,004h,000h,090h,091h,0b1h,0b0h,092h,093h,0b3h,0b2h,09bh,094h,0b4h	; b48e  N...............
+	defb 0bbh,0a2h,07ah,082h,0c2h,0a9h,081h,083h,0c9h,0a7h,097h,0b7h,0c7h,0a8h,0a9h,0c9h	; b49e  ..z.............
+	defb 0c8h,0b4h,0b2h,0d2h,0d4h,0aah,0a0h,0c0h,0cah,0a1h,0a2h,0c2h,0c1h,0b7h,0a3h,0c3h	; b4ae  ................
+	defb 0d7h	; b4be
+
+; ----------------------------------------------------------------------
+; DATOS rect_B4BF: cuadro de la animacion de p27:84A7: el destino, 11 filas de
+;   10 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D,
+;   p26:6080 (115 bytes)
+;   0xb4bf..0xb532  (115 bytes)
+DATA_rect_B4BF:
 	defb 04bh,0cah,00bh,00ah,000h,000h,096h,0a1h,098h,09ah,0bah,0b8h,0c1h,0b6h,000h,0a5h	; b4bf  K...............
 	defb 0a4h,09dh,095h,099h,0b9h,0b5h,0bdh,0c4h,0c5h,000h,0a6h,09eh,086h,089h,077h,078h	; b4cf  ..............wx
 	defb 0beh,0c6h,000h,000h,0a8h,09fh,07ch,087h,084h,07bh,0bfh,0c8h,000h,000h,0a8h,09fh	; b4df  ......|..{......
@@ -953,97 +944,110 @@ DATA_leido_B47F:
 	defb 000h,000h,0b5h,0abh,0a4h,0a6h,0c6h,0c4h,0cbh,0d5h,000h,000h,0b5h,0b3h,0a5h,0a7h	; b4ff  ................
 	defb 0c7h,0c5h,0d3h,0d5h,000h,000h,0b5h,0b3h,0b1h,0ach,0cch,0d1h,0d3h,0d5h,000h,000h	; b50f  ................
 	defb 0b5h,0b3h,0adh,0aeh,0ceh,0cdh,0d3h,0d5h,000h,000h,0b5h,0b3h,0afh,0b0h,0d0h,0cfh	; b51f  ................
-	defb 0d3h,0d5h,000h,048h,0cah,00bh,010h,002h	; b52f  ...H....
+	defb 0d3h,0d5h,000h	; b52f
 
 ; ----------------------------------------------------------------------
-; DATOS rle_ram2_B537: datos comprimidos a la RAM (p00:55CD): 0 acaba; bits
-;   7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte
-;   de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia
-;   los n de detras; empieza donde la campana de tools/cobertura.py lee su
-;   primer byte de control y se recorre hasta su 0; lo leen p00:55CD (125
-;   bytes)
-;   0xb537..0xb5b4  (125 bytes)
-DATA_rle_ram2_B537:
-	defb 0c1h,067h,082h,05ah,00ah,057h,042h,060h,0c1h,068h,043h,05ah,00ah,058h,083h,063h	; b537  .g.Z.WB`.hCZ.X.c
-	defb 043h,05dh,0c1h,069h,008h,056h,0c1h,06ah,083h,066h,042h,051h,0c2h,050h,0d6h,044h	; b547  C].i.V.j.fBQ.P.D
-	defb 0e0h,084h,0f3h,0c2h,0d7h,053h,082h,055h,042h,051h,0c2h,050h,0d0h,044h,0e4h,084h	; b557  .....S.UBQ.P.D..
-	defb 0f7h,0c2h,0d1h,053h,082h,055h,042h,051h,0c2h,050h,0d0h,044h,0e8h,084h,0fbh,0c2h	; b567  ...S.UBQ.P.D....
-	defb 0d1h,053h,082h,055h,042h,081h,0c2h,080h,0e0h,044h,0f0h,084h,0f9h,0c2h,0e1h,083h	; b577  .S.UB....D......
-	defb 082h,085h,042h,081h,0c2h,080h,0e6h,042h,0f4h,044h,0fch,082h,0fbh,0c2h,0e7h,083h	; b587  ..B....B.D......
-	defb 082h,085h,043h,08dh,0c1h,09ah,008h,086h,0c1h,09dh,083h,096h,043h,08ah,00ah,088h	; b597  ..C.........C...
-	defb 083h,093h,042h,098h,0c1h,089h,00ah,087h,0c1h,090h,082h,09ch,000h	; b5a7  ..B..........
+; DATOS rect_B532: cuadro de la animacion de p27:84A7: el destino, 11 filas de
+;   16 bytes y el tipo 2 (el formato de p00:55CD), y los datos (p26:6067); se
+;   solapan 2 bloques: (rle_ram2_B537 B537-B5B4); lo leen p26:606D, p26:6080,
+;   p00:55CD (130 bytes)
+;   0xb532..0xb5b4  (130 bytes)
+DATA_rect_B532:
+	defb 048h,0cah,00bh,010h,002h,0c1h,067h,082h,05ah,00ah,057h,042h,060h,0c1h,068h,043h	; b532  H.....g.Z.WB`.hC
+	defb 05ah,00ah,058h,083h,063h,043h,05dh,0c1h,069h,008h,056h,0c1h,06ah,083h,066h,042h	; b542  Z.X.cC].i.V.j.fB
+	defb 051h,0c2h,050h,0d6h,044h,0e0h,084h,0f3h,0c2h,0d7h,053h,082h,055h,042h,051h,0c2h	; b552  Q.P.D.....S.UBQ.
+	defb 050h,0d0h,044h,0e4h,084h,0f7h,0c2h,0d1h,053h,082h,055h,042h,051h,0c2h,050h,0d0h	; b562  P.D.....S.UBQ.P.
+	defb 044h,0e8h,084h,0fbh,0c2h,0d1h,053h,082h,055h,042h,081h,0c2h,080h,0e0h,044h,0f0h	; b572  D.....S.UB....D.
+	defb 084h,0f9h,0c2h,0e1h,083h,082h,085h,042h,081h,0c2h,080h,0e6h,042h,0f4h,044h,0fch	; b582  .......B....B.D.
+	defb 082h,0fbh,0c2h,0e7h,083h,082h,085h,043h,08dh,0c1h,09ah,008h,086h,0c1h,09dh,083h	; b592  .......C........
+	defb 096h,043h,08ah,00ah,088h,083h,093h,042h,098h,0c1h,089h,00ah,087h,0c1h,090h,082h	; b5a2  .C.....B........
+	defb 09ch,000h	; b5b2
 
 ; ----------------------------------------------------------------------
-; DATOS leido_B5B4: 5 bytes que leen p26:606D, p26:6070, p26:6073, p26:6076,
-;   p26:6080 al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 (5 bytes)
-;   0xb5b4..0xb5b9  (5 bytes)
-DATA_leido_B5B4:
-	defb 0abh,0cah,005h,00ah,002h	; b5b4
+; DATOS rect_B5B4: cuadro de la animacion de p27:84A7: el destino, 5 filas de
+;   10 bytes y el tipo 2 (el formato de p00:55CD), y los datos (p26:6067); se
+;   solapan 2 bloques: (rle_ram2_B5B9 B5B9-B5DF); lo leen p26:606D, p26:6080,
+;   p00:55CD (43 bytes)
+;   0xb5b4..0xb5df  (43 bytes)
+DATA_rect_B5B4:
+	defb 0abh,0cah,005h,00ah,002h,0c1h,0d6h,044h,0e0h,084h,0f3h,0c2h,0d7h,0d0h,044h,0e4h	; b5b4  .......D......D.
+	defb 084h,0f7h,082h,0d1h,044h,0e8h,084h,0fbh,0c2h,0d1h,0e0h,044h,0f0h,084h,0f9h,0c2h	; b5c4  ....D......D....
+	defb 0e1h,0e6h,042h,0f4h,044h,0fch,082h,0fbh,0c1h,0e7h,000h	; b5d4  ..B.D......
 
 ; ----------------------------------------------------------------------
-; DATOS rle_ram2_B5B9: datos comprimidos a la RAM (p00:55CD): 0 acaba; bits
-;   7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte
-;   de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia
-;   los n de detras; empieza donde la campana de tools/cobertura.py lee su
-;   primer byte de control y se recorre hasta su 0; lo leen p00:55CD (38
-;   bytes)
-;   0xb5b9..0xb5df  (38 bytes)
-DATA_rle_ram2_B5B9:
-	defb 0c1h,0d6h,044h,0e0h,084h,0f3h,0c2h,0d7h,0d0h,044h,0e4h,084h,0f7h,082h,0d1h,044h	; b5b9  ..D......D.....D
-	defb 0e8h,084h,0fbh,0c2h,0d1h,0e0h,044h,0f0h,084h,0f9h,0c2h,0e1h,0e6h,042h,0f4h,044h	; b5c9  ......D......B.D
-	defb 0fch,082h,0fbh,0c1h,0e7h,000h	; b5d9
+; DATOS rect_B5DF: cuadro de la animacion de p27:84A7: el destino, 5 filas de
+;   10 bytes y el tipo 2 (el formato de p00:55CD), y los datos (p26:6067); se
+;   solapan 2 bloques: (rle_ram2_B5E4 B5E4-B60E); lo leen p26:606D, p26:6080,
+;   p00:55CD (47 bytes)
+;   0xb5df..0xb60e  (47 bytes)
+DATA_rect_B5DF:
+	defb 0abh,0cah,005h,00ah,002h,0c1h,0d8h,042h,077h,042h,07dh,082h,09eh,0c4h,09bh,097h	; b5df  .......BwB}.....
+	defb 0d9h,0d0h,044h,0e4h,084h,0f7h,082h,0d1h,044h,0e8h,084h,0fbh,0c2h,0d1h,0e0h,044h	; b5ef  ..D.....D......D
+	defb 0f0h,084h,0f9h,0c2h,0e1h,0e6h,042h,0f4h,044h,0fch,082h,0fbh,0c1h,0e7h,000h	; b5ff  ......B.D......
 
 ; ----------------------------------------------------------------------
-; DATOS leido_B5DF: 5 bytes que leen p26:606D, p26:6070, p26:6073, p26:6076,
-;   p26:6080 al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 (5 bytes)
-;   0xb5df..0xb5e4  (5 bytes)
-DATA_leido_B5DF:
-	defb 0abh,0cah,005h,00ah,002h	; b5df
-
-; ----------------------------------------------------------------------
-; DATOS rle_ram2_B5E4: datos comprimidos a la RAM (p00:55CD): 0 acaba; bits
-;   7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte
-;   de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia
-;   los n de detras; empieza donde la campana de tools/cobertura.py lee su
-;   primer byte de control y se recorre hasta su 0; lo leen p00:55CD (42
-;   bytes)
-;   0xb5e4..0xb60e  (42 bytes)
-DATA_rle_ram2_B5E4:
-	defb 0c1h,0d8h,042h,077h,042h,07dh,082h,09eh,0c4h,09bh,097h,0d9h,0d0h,044h,0e4h,084h	; b5e4  ..BwB}.......D..
-	defb 0f7h,082h,0d1h,044h,0e8h,084h,0fbh,0c2h,0d1h,0e0h,044h,0f0h,084h,0f9h,0c2h,0e1h	; b5f4  ...D......D.....
-	defb 0e6h,042h,0f4h,044h,0fch,082h,0fbh,0c1h,0e7h,000h	; b604  .B.D......
-
-; ----------------------------------------------------------------------
-; DATOS leido_B60E: 290 bytes que leen p26:606D, p26:6070, p26:6089, p26:608C,
-;   p26:6080, p26:609F al jugar (medido ejecutando el cartucho,
-;   tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee
-;   seguido); lo leen p26:606D, p26:6070, p26:6089, p26:608C, p26:6080,
-;   p26:609F (290 bytes)
-;   0xb60e..0xb730  (290 bytes)
-DATA_leido_B60E:
+; DATOS rect_B60E: cuadro de la animacion de p27:84A7: el destino, 5 filas de
+;   10 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D,
+;   p26:6080 (55 bytes)
+;   0xb60e..0xb645  (55 bytes)
+DATA_rect_B60E:
 	defb 0abh,0cah,005h,00ah,000h,0dah,070h,071h,074h,000h,000h,094h,091h,090h,0dbh,0d2h	; b60e  ......pqt.......
 	defb 07ch,078h,07fh,080h,0a0h,09fh,098h,09ch,0d3h,0d0h,0e8h,0e9h,0eah,0ebh,0fbh,0fah	; b61e  |x..............
 	defb 0f9h,0f8h,0d1h,0e0h,0f0h,0f1h,0f2h,0f3h,0f9h,0f8h,0f7h,0f6h,0e1h,0e6h,0f4h,0f5h	; b62e  ................
-	defb 0fch,0fdh,0feh,0ffh,0fbh,0fah,0e7h,0abh,0cah,005h,00ah,000h,0dah,070h,071h,074h	; b63e  .............pqt
-	defb 000h,000h,094h,091h,090h,0dbh,0d4h,075h,072h,083h,084h,0a4h,0a3h,092h,095h,0d5h	; b64e  .......ur.......
-	defb 0d2h,079h,07ah,081h,082h,0a2h,0a1h,09ah,099h,0d3h,0e0h,0f0h,0f1h,0f2h,0f3h,0f9h	; b65e  .yz.............
-	defb 0f8h,0f7h,0f6h,0e1h,0e6h,0f4h,0f5h,0fch,0fdh,0feh,0ffh,0fbh,0fah,0e7h,0abh,0cah	; b66e  ................
-	defb 005h,00ah,000h,0dah,070h,071h,074h,000h,000h,094h,091h,090h,0dbh,0d4h,075h,072h	; b67e  ....pqt.......ur
-	defb 083h,084h,0a4h,0a3h,092h,095h,0d5h,0d4h,073h,076h,085h,086h,0a6h,0a5h,096h,093h	; b68e  ........sv......
-	defb 0d5h,0e2h,0a6h,0a3h,0a8h,0a9h,0b9h,0b8h,0b3h,0b6h,0e3h,0e6h,0f4h,0f5h,0fch,0fdh	; b69e  ................
-	defb 0feh,0ffh,0fbh,0fah,0e7h,0abh,0cah,005h,00ah,000h,0dah,070h,071h,074h,000h,000h	; b6ae  ...........pqt..
-	defb 094h,091h,090h,0dbh,0d4h,075h,072h,083h,084h,0a4h,0a3h,092h,095h,0d5h,0d4h,073h	; b6be  .....ur........s
-	defb 076h,087h,088h,0a8h,0a7h,096h,093h,0d5h,0e4h,0a5h,0a0h,0aah,0abh,0bbh,0bah,0b0h	; b6ce  v...............
-	defb 0b5h,0e5h,0e8h,0a4h,0a7h,0c0h,0c1h,0c2h,0c3h,0b7h,0b4h,0e9h,0ebh,0cah,003h,00ah	; b6de  ................
-	defb 000h,0d4h,073h,076h,089h,08ah,0aah,0a9h,096h,093h,0d5h,0e4h,0a5h,0a0h,0ach,0adh	; b6ee  ..sv............
-	defb 0bdh,0bch,0b0h,0b5h,0e5h,0eah,0a1h,0a2h,0c6h,0c4h,0c7h,0c5h,0b2h,0b1h,0ebh,0ebh	; b6fe  ................
-	defb 0cah,003h,00ah,000h,0d4h,073h,076h,08bh,08ch,0ach,0abh,096h,093h,0d5h,0e4h,0a5h	; b70e  .....sv.........
-	defb 0a0h,0ach,0adh,0bdh,0bch,0b0h,0b5h,0e5h,0eah,0a1h,0a2h,0c6h,0c4h,0c7h,0c5h,0b2h	; b71e  ................
-	defb 0b1h,0ebh	; b72e
+	defb 0fch,0fdh,0feh,0ffh,0fbh,0fah,0e7h	; b63e
+
+; ----------------------------------------------------------------------
+; DATOS rect_B645: cuadro de la animacion de p27:84A7: el destino, 5 filas de
+;   10 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D,
+;   p26:6080 (55 bytes)
+;   0xb645..0xb67c  (55 bytes)
+DATA_rect_B645:
+	defb 0abh,0cah,005h,00ah,000h,0dah,070h,071h,074h,000h,000h,094h,091h,090h,0dbh,0d4h	; b645  ......pqt.......
+	defb 075h,072h,083h,084h,0a4h,0a3h,092h,095h,0d5h,0d2h,079h,07ah,081h,082h,0a2h,0a1h	; b655  ur........yz....
+	defb 09ah,099h,0d3h,0e0h,0f0h,0f1h,0f2h,0f3h,0f9h,0f8h,0f7h,0f6h,0e1h,0e6h,0f4h,0f5h	; b665  ................
+	defb 0fch,0fdh,0feh,0ffh,0fbh,0fah,0e7h	; b675
+
+; ----------------------------------------------------------------------
+; DATOS rect_B67C: cuadro de la animacion de p27:84A7: el destino, 5 filas de
+;   10 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D,
+;   p26:6080 (55 bytes)
+;   0xb67c..0xb6b3  (55 bytes)
+DATA_rect_B67C:
+	defb 0abh,0cah,005h,00ah,000h,0dah,070h,071h,074h,000h,000h,094h,091h,090h,0dbh,0d4h	; b67c  ......pqt.......
+	defb 075h,072h,083h,084h,0a4h,0a3h,092h,095h,0d5h,0d4h,073h,076h,085h,086h,0a6h,0a5h	; b68c  ur........sv....
+	defb 096h,093h,0d5h,0e2h,0a6h,0a3h,0a8h,0a9h,0b9h,0b8h,0b3h,0b6h,0e3h,0e6h,0f4h,0f5h	; b69c  ................
+	defb 0fch,0fdh,0feh,0ffh,0fbh,0fah,0e7h	; b6ac
+
+; ----------------------------------------------------------------------
+; DATOS rect_B6B3: cuadro de la animacion de p27:84A7: el destino, 5 filas de
+;   10 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D,
+;   p26:6080 (55 bytes)
+;   0xb6b3..0xb6ea  (55 bytes)
+DATA_rect_B6B3:
+	defb 0abh,0cah,005h,00ah,000h,0dah,070h,071h,074h,000h,000h,094h,091h,090h,0dbh,0d4h	; b6b3  ......pqt.......
+	defb 075h,072h,083h,084h,0a4h,0a3h,092h,095h,0d5h,0d4h,073h,076h,087h,088h,0a8h,0a7h	; b6c3  ur........sv....
+	defb 096h,093h,0d5h,0e4h,0a5h,0a0h,0aah,0abh,0bbh,0bah,0b0h,0b5h,0e5h,0e8h,0a4h,0a7h	; b6d3  ................
+	defb 0c0h,0c1h,0c2h,0c3h,0b7h,0b4h,0e9h	; b6e3
+
+; ----------------------------------------------------------------------
+; DATOS rect_B6EA: cuadro de la animacion de p27:84A7: el destino, 3 filas de
+;   10 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D,
+;   p26:6080 (35 bytes)
+;   0xb6ea..0xb70d  (35 bytes)
+DATA_rect_B6EA:
+	defb 0ebh,0cah,003h,00ah,000h,0d4h,073h,076h,089h,08ah,0aah,0a9h,096h,093h,0d5h,0e4h	; b6ea  ......sv........
+	defb 0a5h,0a0h,0ach,0adh,0bdh,0bch,0b0h,0b5h,0e5h,0eah,0a1h,0a2h,0c6h,0c4h,0c7h,0c5h	; b6fa  ................
+	defb 0b2h,0b1h,0ebh	; b70a
+
+; ----------------------------------------------------------------------
+; DATOS rect_B70D: cuadro de la animacion de p27:84A7: el destino, 3 filas de
+;   10 bytes y el tipo 0 (tal cual), y los datos (p26:6067); lo leen p26:606D,
+;   p26:6080 (35 bytes)
+;   0xb70d..0xb730  (35 bytes)
+DATA_rect_B70D:
+	defb 0ebh,0cah,003h,00ah,000h,0d4h,073h,076h,08bh,08ch,0ach,0abh,096h,093h,0d5h,0e4h	; b70d  ......sv........
+	defb 0a5h,0a0h,0ach,0adh,0bdh,0bch,0b0h,0b5h,0e5h,0eah,0a1h,0a2h,0c6h,0c4h,0c7h,0c5h	; b71d  ................
+	defb 0b2h,0b1h,0ebh	; b72d
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_B730: graficos comprimidos a la VRAM con su direccion delante

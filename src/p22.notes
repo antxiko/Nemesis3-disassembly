@@ -102,10 +102,8 @@ D 0xB699 0xB7A6 rle_B699  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n 
 F 0xB699 16
 D 0xB7A6 0xB8F6 rle_B7A6  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; se solapan 2 bloques: (rle_vram_B7A6 B7A6-B8F6); lo leen p26:6C9D, p00:4B3C (336 bytes)
 F 0xB7A6 16
-D 0xB8F6 0xB8FB leido_B8F6  5 bytes que leen p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 (5 bytes)
+D 0xB8F6 0xB906 rect_B8F6  el dibujo que parpadea de p27:8CEB: el destino, 2 filas de 16 bytes y el tipo 2 (el formato de p00:55CD), y los datos (p26:6067); se solapan 2 bloques: (rle_ram2_B8FB B8FB-B906); lo leen p27:8CF6, p26:6080, p00:55CD (16 bytes)
 F 0xB8F6 16
-D 0xB8FB 0xB906 rle_ram2_B8FB  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (11 bytes)
-F 0xB8FB 16
 D 0xB906 0xB907 tabla_B906  tabla que se lee desde HL = 0xB906 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p04:9D68, p04:9D89 (1 bytes)
 F 0xB906 16
 D 0xB907 0xBAD2 leido_B907  459 bytes que leen p04:9D6E, p04:9D8D, p04:9D8F, p04:9D6C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 88 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p04:9D6E, p04:9D8D, p04:9D8F, p04:9D6C (459 bytes)

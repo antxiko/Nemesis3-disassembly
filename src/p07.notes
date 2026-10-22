@@ -68,96 +68,358 @@ D 0xA8D8 0xA8E0 rle_ram_A8D8  datos comprimidos a la RAM (p00:55AD, el mismo for
 F 0xA8D8 16
 D 0xA8E0 0xA91C leido_A8E0  60 bytes que leen p01:7DFC, p01:7E01, p01:7E09 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:7DFC, p01:7E01, p01:7E09 (60 bytes)
 F 0xA8E0 16
-D 0xA91C 0xA924 leido_A91C  8 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (8 bytes)
-F 0xA91C 16
-D 0xA924 0xAA64 leido_A924  320 bytes que lee p01:6EEA al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:6EEA (320 bytes)
+D 0xA91C 0xA924 listas_A91C  un puntero por lista de caracteres para el bufer (p03:A37D: la lista A, p01:6EDA); acaba donde empieza la primera; lo leen p00:4A60 (8 bytes)
+F 0xA91C w8
+D 0xA924 0xA96F caracteres_A924  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (75 bytes)
 F 0xA924 16
-D 0xAA64 0xAA78 leido_AA64  20 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (20 bytes)
-F 0xAA64 16
-D 0xAA78 0xAACF leido_AA78  87 bytes que lee p01:6EEA al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:6EEA (87 bytes)
+D 0xA96F 0xA9BA caracteres_A96F  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (75 bytes)
+F 0xA96F 16
+D 0xA9BA 0xAA0E caracteres_A9BA  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (84 bytes)
+F 0xA9BA 16
+D 0xAA0E 0xAA64 caracteres_AA0E  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (86 bytes)
+F 0xAA0E 16
+D 0xAA64 0xAA78 listas_AA64  un puntero por lista de caracteres para el bufer (p03:A47F: la lista A, p01:6EDA); acaba donde empieza la primera; lo leen p00:4A60 (20 bytes)
+F 0xAA64 w8
+D 0xAA78 0xAA79 caracteres_AA78  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (1 bytes)
 F 0xAA78 16
-D 0xAACF 0xAAE3 leido_AACF  20 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (20 bytes)
-F 0xAACF 16
-D 0xAAE3 0xAB31 leido_AAE3  78 bytes que lee p01:6EEA al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:6EEA (78 bytes)
+D 0xAA79 0xAA7F caracteres_AA79  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (6 bytes)
+F 0xAA79 16
+D 0xAA7F 0xAA85 caracteres_AA7F  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (6 bytes)
+F 0xAA7F 16
+D 0xAA85 0xAA93 caracteres_AA85  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (14 bytes)
+F 0xAA85 16
+D 0xAA93 0xAAA2 caracteres_AA93  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (15 bytes)
+F 0xAA93 16
+D 0xAAA2 0xAAB6 caracteres_AAA2  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (20 bytes)
+F 0xAAA2 16
+D 0xAAB6 0xAAC7 caracteres_AAB6  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (17 bytes)
+F 0xAAB6 16
+D 0xAAC7 0xAACF caracteres_AAC7  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (8 bytes)
+F 0xAAC7 16
+D 0xAACF 0xAAE3 listas_AACF  un puntero por lista de caracteres para el bufer (p03:A493: la lista A, p01:6EDA); acaba donde empieza la primera; lo leen p00:4A60 (20 bytes)
+F 0xAACF w8
+D 0xAAE3 0xAAE4 caracteres_AAE3  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (1 bytes)
 F 0xAAE3 16
-D 0xAB32 0xAB46 leido_AB32  20 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (20 bytes)
-F 0xAB32 16
-D 0xAB46 0xABDD leido_AB46  151 bytes que lee p01:6EEA al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:6EEA (151 bytes)
+D 0xAAE4 0xAAE9 caracteres_AAE4  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (5 bytes)
+F 0xAAE4 16
+D 0xAAE9 0xAAEE caracteres_AAE9  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (5 bytes)
+F 0xAAE9 16
+D 0xAAEE 0xAAFA caracteres_AAEE  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (12 bytes)
+F 0xAAEE 16
+D 0xAAFA 0xAB07 caracteres_AAFA  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (13 bytes)
+F 0xAAFA 16
+D 0xAB07 0xAB1A caracteres_AB07  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (19 bytes)
+F 0xAB07 16
+D 0xAB1A 0xAB28 caracteres_AB1A  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (14 bytes)
+F 0xAB1A 16
+D 0xAB28 0xAB31 caracteres_AB28  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (9 bytes)
+F 0xAB28 16
+D 0xAB32 0xAB46 listas_AB32  un puntero por lista de caracteres para el bufer (p03:A49E: la lista A, p01:6EDA); acaba donde empieza la primera; lo leen p00:4A60 (20 bytes)
+F 0xAB32 w8
+D 0xAB46 0xAB47 caracteres_AB46  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (1 bytes)
 F 0xAB46 16
-D 0xABDD 0xABF1 leido_ABDD  20 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (20 bytes)
-F 0xABDD 16
-D 0xABF1 0xAC71 leido_ABF1  128 bytes que lee p01:6EEA al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:6EEA (128 bytes)
+D 0xAB47 0xAB53 caracteres_AB47  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (12 bytes)
+F 0xAB47 16
+D 0xAB53 0xAB5E caracteres_AB53  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (11 bytes)
+F 0xAB53 16
+D 0xAB5E 0xAB73 caracteres_AB5E  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (21 bytes)
+F 0xAB5E 16
+D 0xAB73 0xAB8B caracteres_AB73  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (24 bytes)
+F 0xAB73 16
+D 0xAB8B 0xABAE caracteres_AB8B  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (35 bytes)
+F 0xAB8B 16
+D 0xABAE 0xABCE caracteres_ABAE  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (32 bytes)
+F 0xABAE 16
+D 0xABCE 0xABDD caracteres_ABCE  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (15 bytes)
+F 0xABCE 16
+D 0xABDD 0xABF1 listas_ABDD  un puntero por lista de caracteres para el bufer (p03:A4A9: la lista A, p01:6EDA); acaba donde empieza la primera; lo leen p00:4A60 (20 bytes)
+F 0xABDD w8
+D 0xABF1 0xABF2 caracteres_ABF1  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (1 bytes)
 F 0xABF1 16
-D 0xAC71 0xAC85 leido_AC71  20 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (20 bytes)
-F 0xAC71 16
-D 0xAC85 0xACD3 leido_AC85  78 bytes que lee p01:6EEA al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:6EEA (78 bytes)
+D 0xABF2 0xABFD caracteres_ABF2  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (11 bytes)
+F 0xABF2 16
+D 0xABFD 0xAC09 caracteres_ABFD  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (12 bytes)
+F 0xABFD 16
+D 0xAC09 0xAC18 caracteres_AC09  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (15 bytes)
+F 0xAC09 16
+D 0xAC18 0xAC2A caracteres_AC18  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (18 bytes)
+F 0xAC18 16
+D 0xAC2A 0xAC46 caracteres_AC2A  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (28 bytes)
+F 0xAC2A 16
+D 0xAC46 0xAC60 caracteres_AC46  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (26 bytes)
+F 0xAC46 16
+D 0xAC60 0xAC71 caracteres_AC60  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (17 bytes)
+F 0xAC60 16
+D 0xAC71 0xAC85 listas_AC71  un puntero por lista de caracteres para el bufer (p03:A4B7: la lista A, p01:6EDA); acaba donde empieza la primera; lo leen p00:4A60 (20 bytes)
+F 0xAC71 w8
+D 0xAC85 0xAC86 caracteres_AC85  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (1 bytes)
 F 0xAC85 16
-D 0xACD4 0xACE8 leido_ACD4  20 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (20 bytes)
-F 0xACD4 16
-D 0xACE8 0xAD3F leido_ACE8  87 bytes que lee p01:6EEA al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:6EEA (87 bytes)
+D 0xAC86 0xAC8B caracteres_AC86  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (5 bytes)
+F 0xAC86 16
+D 0xAC8B 0xAC90 caracteres_AC8B  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (5 bytes)
+F 0xAC8B 16
+D 0xAC90 0xAC9C caracteres_AC90  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (12 bytes)
+F 0xAC90 16
+D 0xAC9C 0xACA9 caracteres_AC9C  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (13 bytes)
+F 0xAC9C 16
+D 0xACA9 0xACBC caracteres_ACA9  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (19 bytes)
+F 0xACA9 16
+D 0xACBC 0xACCA caracteres_ACBC  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (14 bytes)
+F 0xACBC 16
+D 0xACCA 0xACD3 caracteres_ACCA  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (9 bytes)
+F 0xACCA 16
+D 0xACD4 0xACE8 listas_ACD4  un puntero por lista de caracteres para el bufer (p03:A4C5: la lista A, p01:6EDA); acaba donde empieza la primera; lo leen p00:4A60 (20 bytes)
+F 0xACD4 w8
+D 0xACE8 0xACE9 caracteres_ACE8  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (1 bytes)
 F 0xACE8 16
-D 0xAD3F 0xAD55 leido_AD3F  22 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (22 bytes)
-F 0xAD3F 16
-D 0xAD55 0xAE50 leido_AD55  251 bytes que lee p01:6EEA al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:6EEA (251 bytes)
+D 0xACE9 0xACEF caracteres_ACE9  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (6 bytes)
+F 0xACE9 16
+D 0xACEF 0xACF5 caracteres_ACEF  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (6 bytes)
+F 0xACEF 16
+D 0xACF5 0xAD03 caracteres_ACF5  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (14 bytes)
+F 0xACF5 16
+D 0xAD03 0xAD12 caracteres_AD03  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (15 bytes)
+F 0xAD03 16
+D 0xAD12 0xAD26 caracteres_AD12  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (20 bytes)
+F 0xAD12 16
+D 0xAD26 0xAD37 caracteres_AD26  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (17 bytes)
+F 0xAD26 16
+D 0xAD37 0xAD3F caracteres_AD37  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (8 bytes)
+F 0xAD37 16
+D 0xAD3F 0xAD55 listas_AD3F  un puntero por lista de caracteres para el bufer (p03:BB61: la lista A, p01:6EDA); acaba donde empieza la primera; lo leen p00:4A60 (22 bytes)
+F 0xAD3F w8
+D 0xAD55 0xAD6E caracteres_AD55  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (25 bytes)
 F 0xAD55 16
+D 0xAD6E 0xAD88 caracteres_AD6E  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (26 bytes)
+F 0xAD6E 16
+D 0xAD88 0xADA0 caracteres_AD88  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (24 bytes)
+F 0xAD88 16
+D 0xADA0 0xADB6 caracteres_ADA0  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (22 bytes)
+F 0xADA0 16
+D 0xADB6 0xADCD caracteres_ADB6  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (23 bytes)
+F 0xADB6 16
+D 0xADCD 0xADD8 caracteres_ADCD  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (11 bytes)
+F 0xADCD 16
+D 0xADD8 0xADEE caracteres_ADD8  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (22 bytes)
+F 0xADD8 16
+D 0xADEE 0xAE05 caracteres_ADEE  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (23 bytes)
+F 0xADEE 16
+D 0xAE05 0xAE1D caracteres_AE05  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (24 bytes)
+F 0xAE05 16
+D 0xAE1D 0xAE37 caracteres_AE1D  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (26 bytes)
+F 0xAE1D 16
+D 0xAE37 0xAE50 caracteres_AE37  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (25 bytes)
+F 0xAE37 16
 D 0xAE50 0xAE66 leido_AE50  22 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (22 bytes)
 F 0xAE50 16
 D 0xAE66 0xAF5E leido_AE66  248 bytes que lee p01:6EEA al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:6EEA (248 bytes)
 F 0xAE66 16
-D 0xAF5E 0xAF6E leido_AF5E  16 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (16 bytes)
-F 0xAF5E 16
-D 0xAF70 0xB057 leido_AF70  231 bytes que lee p01:6EEA al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:6EEA (231 bytes)
+D 0xAF5E 0xAF70 listas_AF5E  un puntero por lista de caracteres para el bufer (p03:BD34: la lista A, p01:6EDA); acaba donde empieza la primera; lo leen p00:4A60 (18 bytes)
+F 0xAF5E w8
+D 0xAF70 0xAF88 caracteres_AF70  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (24 bytes)
 F 0xAF70 16
-D 0xB070 0xB07E leido_B070  14 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (14 bytes)
-F 0xB070 16
-D 0xB082 0xB14F leido_B082  205 bytes que lee p01:6EEA al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:6EEA (205 bytes)
+D 0xAF88 0xAFA3 caracteres_AF88  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (27 bytes)
+F 0xAF88 16
+D 0xAFA3 0xAFC0 caracteres_AFA3  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (29 bytes)
+F 0xAFA3 16
+D 0xAFC0 0xAFDF caracteres_AFC0  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (31 bytes)
+F 0xAFC0 16
+D 0xAFDF 0xB000 caracteres_AFDF  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (33 bytes)
+F 0xAFDF 16
+D 0xB000 0xB01F caracteres_B000  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (31 bytes)
+F 0xB000 16
+D 0xB01F 0xB03C caracteres_B01F  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (29 bytes)
+F 0xB01F 16
+D 0xB03C 0xB057 caracteres_B03C  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (27 bytes)
+F 0xB03C 16
+D 0xB057 0xB070 caracteres_B057  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (25 bytes)
+F 0xB057 16
+D 0xB070 0xB082 listas_B070  un puntero por lista de caracteres para el bufer (p03:BD39: la lista A, p01:6EDA); acaba donde empieza la primera; lo leen p00:4A60 (18 bytes)
+F 0xB070 w8
+D 0xB082 0xB09B caracteres_B082  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (25 bytes)
 F 0xB082 16
-D 0xB183 0xB185 leido_B183  2 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (2 bytes)
-F 0xB183 16
-D 0xB185 0xB1F5 leido_B185  112 bytes que lee p01:6EEA al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:6EEA (112 bytes)
+D 0xB09B 0xB0B6 caracteres_B09B  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (27 bytes)
+F 0xB09B 16
+D 0xB0B6 0xB0D3 caracteres_B0B6  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (29 bytes)
+F 0xB0B6 16
+D 0xB0D3 0xB0F2 caracteres_B0D3  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (31 bytes)
+F 0xB0D3 16
+D 0xB0F2 0xB113 caracteres_B0F2  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (33 bytes)
+F 0xB0F2 16
+D 0xB113 0xB132 caracteres_B113  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (31 bytes)
+F 0xB113 16
+D 0xB132 0xB14F caracteres_B132  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (29 bytes)
+F 0xB132 16
+D 0xB14F 0xB16A caracteres_B14F  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (27 bytes)
+F 0xB14F 16
+D 0xB16A 0xB183 caracteres_B16A  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (25 bytes)
+F 0xB16A 16
+D 0xB183 0xB185 listas_B183  un puntero por lista de caracteres para el bufer (p01:7D65: la lista A, p01:6EDA); acaba donde empieza la primera; lo leen p00:4A60 (2 bytes)
+F 0xB183 w8
+D 0xB185 0xB1F7 caracteres_B185  una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 salta tantos, desde 0x41 un caracter; lo leen p01:6EEA (114 bytes)
 F 0xB185 16
-D 0xB1F5 0xB20D tabla_B1F5  tabla que se lee desde HL = 0xB1F5 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p02:836D (24 bytes)
-F 0xB1F5 16
-D 0xB20D 0xB220 leido_B20D  19 bytes que leen p02:8387, p02:8389, p02:8375, p02:8377, p02:838B, p02:839F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:8387, p02:8389, p02:8375, p02:8377, p02:838B, p02:839F (19 bytes)
-F 0xB20D 16
-D 0xB220 0xB230 leido_B220  16 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (16 bytes)
-F 0xB220 16
-D 0xB230 0xB336 leido_B230  262 bytes que leen p02:83AA, p02:83BB, p02:83E0, p02:8387, p02:8389, p02:8375 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:83AA, p02:83BB, p02:83E0, p02:8387, p02:8389, p02:8375, p02:8377, p02:838B (262 bytes)
-F 0xB230 16
-D 0xB336 0xB34E leido_B336  24 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (24 bytes)
-F 0xB336 16
-D 0xB34E 0xB548 leido_B34E  506 bytes que leen p02:83AA, p02:83BB, p02:83E0, p02:8387, p02:8389, p02:8375 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 4 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:83AA, p02:83BB, p02:83E0, p02:8387, p02:8389, p02:8375, p02:8377, p02:838B (506 bytes)
-F 0xB34E 16
-D 0xB548 0xB552 leido_B548  10 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (10 bytes)
-F 0xB548 16
-D 0xB552 0xB62D leido_B552  219 bytes que leen p02:83AA, p02:83BB, p02:83E0, p02:8387, p02:8389, p02:8375 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:83AA, p02:83BB, p02:83E0, p02:8387, p02:8389, p02:8375, p02:8377, p02:838B (219 bytes)
-F 0xB552 16
-D 0xB62D 0xB63D leido_B62D  16 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (16 bytes)
-F 0xB62D 16
-D 0xB63D 0xB79B leido_B63D  350 bytes que leen p02:83AA, p02:83BB, p02:83E0, p02:8387, p02:8389, p02:8375 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 4 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:83AA, p02:83BB, p02:83E0, p02:8387, p02:8389, p02:8375, p02:8377, p02:838B (350 bytes)
-F 0xB63D 16
-D 0xB79B 0xB7A3 leido_B79B  8 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (8 bytes)
-F 0xB79B 16
-D 0xB7A3 0xB899 leido_B7A3  246 bytes que leen p02:83AA, p02:83BB, p02:83E0, p02:838B, p02:839F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:83AA, p02:83BB, p02:83E0, p02:838B, p02:839F (246 bytes)
-F 0xB7A3 16
-D 0xB899 0xB8A9 leido_B899  16 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (16 bytes)
-F 0xB899 16
-D 0xB8A9 0xBAE3 leido_B8A9  570 bytes que leen p02:83AA, p02:83BB, p02:83E0, p02:838B, p02:839F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:83AA, p02:83BB, p02:83E0, p02:838B, p02:839F (570 bytes)
-F 0xB8A9 16
-D 0xBAE3 0xBAEB leido_BAE3  8 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (8 bytes)
-F 0xBAE3 16
-D 0xBAEB 0xBC19 leido_BAEB  302 bytes que leen p02:83AA, p02:83BB, p02:83E0, p02:8387, p02:8389, p02:8375 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:83AA, p02:83BB, p02:83E0, p02:8387, p02:8389, p02:8375, p02:8377, p02:838B (302 bytes)
-F 0xBAEB 16
-D 0xBC19 0xBC1F leido_BC19  6 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (6 bytes)
-F 0xBC19 16
-D 0xBC1F 0xBC7D leido_BC1F  94 bytes que leen p02:83AA, p02:83BB, p02:83E0, p02:838B al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:83AA, p02:83BB, p02:83E0, p02:838B (94 bytes)
-F 0xBC1F 16
-D 0xBCC5 0xBCD1 leido_BCC5  12 bytes que leen p02:8375, p02:8377, p02:8387, p02:8389, p02:838B, p02:839F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 4 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:8375, p02:8377, p02:8387, p02:8389, p02:838B, p02:839F (12 bytes)
-F 0xBCC5 16
-D 0xBCD1 0xBCDD leido_BCD1  12 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (12 bytes)
-F 0xBCD1 16
-D 0xBCDD 0xBD5B leido_BCDD  126 bytes que leen p02:83AA, p02:83BB, p02:83E0 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:83AA, p02:83BB, p02:83E0 (126 bytes)
-F 0xBCDD 16
+D 0xB1F7 0xB20D animaciones_por_fase  un puntero por fase a su lista de animaciones de caracteres (p02:836D: 0xB1F5 + 2 x fase); lo leen p02:8370 (22 bytes)
+F 0xB1F7 w8
+D 0xB20D 0xB211 animaciones_B20D  una lista de animaciones de caracteres por tramos de scroll: [animacion][scroll] hasta un scroll 0xFFFF (p02:8373); lo leen p02:8375 (4 bytes)
+F 0xB20D w8
+D 0xB211 0xB212 animacion_B211  una animacion vacia: la espera 0 (p02:838B, nada); lo leen p02:838B (1 bytes)
+F 0xB211 1
+D 0xB212 0xB21E animaciones_B212  una lista de animaciones de caracteres por tramos de scroll: [animacion][scroll] hasta un scroll 0xFFFF (p02:8373); lo leen p02:8375 (12 bytes)
+F 0xB212 w8
+D 0xB21E 0xB230 animacion_B21E  una animacion de caracteres: la espera, cuantos pasos (8) y una palabra por paso (p02:838B); lo leen p02:838B, p02:839F, p00:4A60 (18 bytes)
+F 0xB21E 16
+D 0xB230 0xB24F paso_B230  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (31 bytes)
+F 0xB230 10
+D 0xB24F 0xB26E paso_B24F  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (31 bytes)
+F 0xB24F 10
+D 0xB26E 0xB28D paso_B26E  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (31 bytes)
+F 0xB26E 10
+D 0xB28D 0xB2AC paso_B28D  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (31 bytes)
+F 0xB28D 10
+D 0xB2AC 0xB2CB paso_B2AC  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (31 bytes)
+F 0xB2AC 10
+D 0xB2CB 0xB2EA paso_B2CB  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (31 bytes)
+F 0xB2CB 10
+D 0xB2EA 0xB309 paso_B2EA  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (31 bytes)
+F 0xB2EA 10
+D 0xB309 0xB328 paso_B309  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (31 bytes)
+F 0xB309 10
+D 0xB328 0xB334 animaciones_B328  una lista de animaciones de caracteres por tramos de scroll: [animacion][scroll] hasta un scroll 0xFFFF (p02:8373); lo leen p02:8375 (12 bytes)
+F 0xB328 w8
+D 0xB334 0xB34E animacion_B334  una animacion de caracteres: la espera, cuantos pasos (12) y una palabra por paso (p02:838B); lo leen p02:838B, p02:839F, p00:4A60 (26 bytes)
+F 0xB334 16
+D 0xB34E 0xB377 paso_B34E  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB34E 10
+D 0xB377 0xB3A0 paso_B377  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB377 10
+D 0xB3A0 0xB3C9 paso_B3A0  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB3A0 10
+D 0xB3C9 0xB3F2 paso_B3C9  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB3C9 10
+D 0xB3F2 0xB41B paso_B3F2  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB3F2 10
+D 0xB41B 0xB444 paso_B41B  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB41B 10
+D 0xB444 0xB46D paso_B444  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB444 10
+D 0xB46D 0xB496 paso_B46D  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB46D 10
+D 0xB496 0xB4BF paso_B496  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB496 10
+D 0xB4BF 0xB4E8 paso_B4BF  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB4BF 10
+D 0xB4E8 0xB511 paso_B4E8  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB4E8 10
+D 0xB511 0xB53A paso_B511  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB511 10
+D 0xB53A 0xB546 animaciones_B53A  una lista de animaciones de caracteres por tramos de scroll: [animacion][scroll] hasta un scroll 0xFFFF (p02:8373); lo leen p02:8375 (12 bytes)
+F 0xB53A w8
+D 0xB546 0xB552 animacion_B546  una animacion de caracteres: la espera, cuantos pasos (5) y una palabra por paso (p02:838B); lo leen p02:838B, p02:839F, p00:4A60 (12 bytes)
+F 0xB546 16
+D 0xB552 0xB57B paso_B552  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB552 10
+D 0xB57B 0xB5A4 paso_B57B  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB57B 10
+D 0xB5A4 0xB5CD paso_B5A4  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB5A4 10
+D 0xB5CD 0xB5F6 paso_B5CD  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB5CD 10
+D 0xB5F6 0xB61F paso_B5F6  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB5F6 10
+D 0xB61F 0xB62B animaciones_B61F  una lista de animaciones de caracteres por tramos de scroll: [animacion][scroll] hasta un scroll 0xFFFF (p02:8373); lo leen p02:8375 (12 bytes)
+F 0xB61F w8
+D 0xB62B 0xB63D animacion_B62B  una animacion de caracteres: la espera, cuantos pasos (8) y una palabra por paso (p02:838B); lo leen p02:838B, p02:839F, p00:4A60 (18 bytes)
+F 0xB62B 16
+D 0xB63D 0xB666 paso_B63D  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB63D 10
+D 0xB666 0xB68F paso_B666  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB666 10
+D 0xB68F 0xB6B8 paso_B68F  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB68F 10
+D 0xB6B8 0xB6E1 paso_B6B8  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB6B8 10
+D 0xB6E1 0xB70A paso_B6E1  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB6E1 10
+D 0xB70A 0xB733 paso_B70A  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB70A 10
+D 0xB733 0xB75C paso_B733  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB733 10
+D 0xB75C 0xB785 paso_B75C  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (41 bytes)
+F 0xB75C 10
+D 0xB785 0xB799 animaciones_B785  una lista de animaciones de caracteres por tramos de scroll: [animacion][scroll] hasta un scroll 0xFFFF (p02:8373); lo leen p02:8375 (20 bytes)
+F 0xB785 w8
+D 0xB799 0xB7A3 animacion_B799  una animacion de caracteres: la espera, cuantos pasos (4) y una palabra por paso (p02:838B); lo leen p02:838B, p02:839F, p00:4A60 (10 bytes)
+F 0xB799 16
+D 0xB7A3 0xB7E0 paso_B7A3  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (61 bytes)
+F 0xB7A3 10
+D 0xB7E0 0xB81D paso_B7E0  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (61 bytes)
+F 0xB7E0 10
+D 0xB81D 0xB85A paso_B81D  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (61 bytes)
+F 0xB81D 10
+D 0xB85A 0xB897 paso_B85A  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (61 bytes)
+F 0xB85A 10
+D 0xB897 0xB8A9 animacion_B897  una animacion de caracteres: la espera, cuantos pasos (8) y una palabra por paso (p02:838B); lo leen p02:838B, p02:839F, p00:4A60 (18 bytes)
+F 0xB897 16
+D 0xB8A9 0xB8F0 paso_B8A9  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (71 bytes)
+F 0xB8A9 10
+D 0xB8F0 0xB937 paso_B8F0  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (71 bytes)
+F 0xB8F0 10
+D 0xB937 0xB97E paso_B937  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (71 bytes)
+F 0xB937 10
+D 0xB97E 0xB9C5 paso_B97E  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (71 bytes)
+F 0xB97E 10
+D 0xB9C5 0xBA0C paso_B9C5  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (71 bytes)
+F 0xB9C5 10
+D 0xBA0C 0xBA53 paso_BA0C  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (71 bytes)
+F 0xBA0C 10
+D 0xBA53 0xBA9A paso_BA53  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (71 bytes)
+F 0xBA53 10
+D 0xBA9A 0xBAE1 paso_BA9A  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (71 bytes)
+F 0xBA9A 10
+D 0xBAE1 0xBAEB animacion_BAE1  una animacion de caracteres: la espera, cuantos pasos (4) y una palabra por paso (p02:838B); lo leen p02:838B, p02:839F, p00:4A60 (10 bytes)
+F 0xBAE1 16
+D 0xBAEB 0xBB32 paso_BAEB  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (71 bytes)
+F 0xBAEB 10
+D 0xBB32 0xBB79 paso_BB32  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (71 bytes)
+F 0xBB32 10
+D 0xBB79 0xBBC0 paso_BB79  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (71 bytes)
+F 0xBB79 10
+D 0xBBC0 0xBC07 paso_BBC0  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (71 bytes)
+F 0xBBC0 10
+D 0xBC07 0xBC17 animaciones_BC07  una lista de animaciones de caracteres por tramos de scroll: [animacion][scroll] hasta un scroll 0xFFFF (p02:8373); lo leen p02:8375 (16 bytes)
+F 0xBC07 w8
+D 0xBC17 0xBC1F animacion_BC17  una animacion de caracteres: la espera, cuantos pasos (3) y una palabra por paso (p02:838B); lo leen p02:838B, p02:839F, p00:4A60 (8 bytes)
+F 0xBC17 16
+D 0xBC1F 0xBC3E paso_BC1F  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (31 bytes)
+F 0xBC1F 10
+D 0xBC3E 0xBC5D paso_BC3E  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (31 bytes)
+F 0xBC3E 10
+D 0xBC5D 0xBC7C paso_BC5D  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (31 bytes)
+F 0xBC5D 10
+D 0xBC7C 0xBC84 animacion_BC7C  una animacion de caracteres: la espera, cuantos pasos (3) y una palabra por paso (p02:838B); lo leen p02:838B, p02:839F, p00:4A60 (8 bytes)
+F 0xBC7C 16
+D 0xBC84 0xBC99 paso_BC84  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (21 bytes)
+F 0xBC84 10
+D 0xBC99 0xBCAE paso_BC99  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (21 bytes)
+F 0xBC99 10
+D 0xBCAE 0xBCC3 paso_BCAE  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (21 bytes)
+F 0xBCAE 10
+D 0xBCC3 0xBCCF animaciones_BCC3  una lista de animaciones de caracteres por tramos de scroll: [animacion][scroll] hasta un scroll 0xFFFF (p02:8373); lo leen p02:8375 (12 bytes)
+F 0xBCC3 w8
+D 0xBCCF 0xBCDD animacion_BCCF  una animacion de caracteres: la espera, cuantos pasos (6) y una palabra por paso (p02:838B); lo leen p02:838B, p02:839F, p00:4A60 (14 bytes)
+F 0xBCCF 16
+D 0xBCDD 0xBCF2 paso_BCDD  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (21 bytes)
+F 0xBCDD 10
+D 0xBCF2 0xBD07 paso_BCF2  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (21 bytes)
+F 0xBCF2 10
+D 0xBD07 0xBD1C paso_BD07  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (21 bytes)
+F 0xBD07 10
+D 0xBD1C 0xBD31 paso_BD1C  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (21 bytes)
+F 0xBD1C 10
+D 0xBD31 0xBD46 paso_BD31  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (21 bytes)
+F 0xBD31 10
+D 0xBD46 0xBD5B paso_BD46  un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, 8 bytes) hasta un 0 (p02:83AA); lo leen p02:83AA, p02:83B9 (21 bytes)
+F 0xBD46 10
 D 0xBD5B 0xBD67 tabla_BD5B  tabla que se lee desde HL = 0xBD5B con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p02:834C (12 bytes)
 F 0xBD5B 16
 D 0xBD67 0xC000 relleno_ff  665 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (665 bytes)

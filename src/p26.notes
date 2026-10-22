@@ -1231,16 +1231,82 @@ D 0x7045 0x704D tabla_7045  tabla que se lee desde HL = 0x7045 con un indice (p0
 F 0x7045 16
 D 0x704D 0x704E leido_704D  1 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A73 (1 bytes)
 F 0x704D 16
-D 0x7073 0x7075 leido_7073  2 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (2 bytes)
-F 0x7073 16
-D 0x707B 0x7080 leido_707B  5 bytes que leen p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 (5 bytes)
+D 0x7073 0x707B rectangulos_7073  un puntero por plano de nave (p26:7069: 0x7073 + 2 x 0xE380) (p26:6064: la palabra A); acaba donde empieza el primero; lo leen p00:4A60 (8 bytes)
+F 0x7073 w8
+D 0x707B 0x70BB rect_707B  plano de nave (p26:7069: 0x7073 + 2 x 0xE380): el destino, 8 filas de 19 bytes y el tipo 2 (el formato de p00:55CD), y los datos (p26:6067); se solapan 2 bloques: (rle_ram2_7080 7080-70BB); lo leen p26:606D, p26:6080, p00:55CD (64 bytes)
 F 0x707B 16
-D 0x7080 0x70BB rle_ram2_7080  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (59 bytes)
-F 0x7080 16
-D 0x720C 0x7225 tabla_720C  tabla que se lee desde HL = 0x720C con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:71E2 (25 bytes)
-F 0x720C 16
-D 0x7225 0x722C leido_7225  7 bytes que leen p26:71EE, p26:71F4, p26:71F6, p26:71F8 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:71EE, p26:71F4, p26:71F6, p26:71F8 (7 bytes)
+D 0x70BB 0x710C rect_70BB  plano de nave (p26:7069: 0x7073 + 2 x 0xE380): el destino, 10 filas de 19 bytes y el tipo 2 (el formato de p00:55CD), y los datos (p26:6067); lo leen p26:606D, p26:6080 (81 bytes)
+F 0x70BB 16
+D 0x710C 0x714E rect_710C  plano de nave (p26:7069: 0x7073 + 2 x 0xE380): el destino, 9 filas de 19 bytes y el tipo 2 (el formato de p00:55CD), y los datos (p26:6067); lo leen p26:606D, p26:6080 (66 bytes)
+F 0x710C 16
+D 0x714E 0x7199 rect_714E  plano de nave (p26:7069: 0x7073 + 2 x 0xE380): el destino, 10 filas de 20 bytes y el tipo 2 (el formato de p00:55CD), y los datos (p26:6067); lo leen p26:606D, p26:6080 (75 bytes)
+F 0x714E 16
+D 0x720C 0x7214 trozos_por_nave  un puntero por nave a su tabla de trozos del arma secreta (p26:71E2: 0x720C + 2 x 0xE380); lo leen p00:4A60 (8 bytes)
+F 0x720C w8
+D 0x7214 0x7224 trozos_nave_0  los trozos del arma secreta de la nave 0: un puntero por nivel, del 0 (que no se pide) al 7 (p26:71EB); lo leen p00:4A60 (16 bytes)
+F 0x7214 w8
+D 0x7225 0x722C trozo_7225  el trozo 1 del arma secreta de la nave 0: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (7 bytes)
 F 0x7225 16
+D 0x722C 0x7233 trozo_722C  el trozo 2 del arma secreta de la nave 0: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (7 bytes)
+F 0x722C 16
+D 0x7233 0x7237 trozo_7233  el trozo 3 del arma secreta de la nave 0: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (4 bytes)
+F 0x7233 16
+D 0x7237 0x723B trozo_7237  el trozo 4 del arma secreta de la nave 0: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (4 bytes)
+F 0x7237 16
+D 0x723B 0x723F trozo_723B  el trozo 5 del arma secreta de la nave 0: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (4 bytes)
+F 0x723B 16
+D 0x723F 0x7246 trozo_723F  el trozo 6 del arma secreta de la nave 0: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (7 bytes)
+F 0x723F 16
+D 0x7246 0x724D trozo_7246  el trozo 7 del arma secreta de la nave 0: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (7 bytes)
+F 0x7246 16
+D 0x724D 0x725D trozos_nave_1  los trozos del arma secreta de la nave 1: un puntero por nivel, del 0 (que no se pide) al 7 (p26:71EB); lo leen p00:4A60 (16 bytes)
+F 0x724D w8
+D 0x725D 0x726A trozo_725D  el trozo 1 del arma secreta de la nave 1: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (13 bytes)
+F 0x725D 16
+D 0x726A 0x726E trozo_726A  el trozo 2 del arma secreta de la nave 1: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (4 bytes)
+F 0x726A 16
+D 0x726E 0x7272 trozo_726E  el trozo 3 del arma secreta de la nave 1: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (4 bytes)
+F 0x726E 16
+D 0x7272 0x7276 trozo_7272  el trozo 4 del arma secreta de la nave 1: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (4 bytes)
+F 0x7272 16
+D 0x7276 0x727D trozo_7276  el trozo 5 del arma secreta de la nave 1: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (7 bytes)
+F 0x7276 16
+D 0x727D 0x7284 trozo_727D  el trozo 6 del arma secreta de la nave 1: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (7 bytes)
+F 0x727D 16
+D 0x7284 0x728B trozo_7284  el trozo 7 del arma secreta de la nave 1: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (7 bytes)
+F 0x7284 16
+D 0x728B 0x729B trozos_nave_2  los trozos del arma secreta de la nave 2: un puntero por nivel, del 0 (que no se pide) al 7 (p26:71EB); lo leen p00:4A60 (16 bytes)
+F 0x728B w8
+D 0x729B 0x729F trozo_729B  el trozo 1 del arma secreta de la nave 2: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (4 bytes)
+F 0x729B 16
+D 0x729F 0x72A6 trozo_729F  el trozo 2 del arma secreta de la nave 2: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (7 bytes)
+F 0x729F 16
+D 0x72A6 0x72AD trozo_72A6  el trozo 3 del arma secreta de la nave 2: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (7 bytes)
+F 0x72A6 16
+D 0x72AD 0x72B1 trozo_72AD  el trozo 4 del arma secreta de la nave 2: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (4 bytes)
+F 0x72AD 16
+D 0x72B1 0x72B5 trozo_72B1  el trozo 5 del arma secreta de la nave 2: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (4 bytes)
+F 0x72B1 16
+D 0x72B5 0x72C2 trozo_72B5  el trozo 6 del arma secreta de la nave 2: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (13 bytes)
+F 0x72B5 16
+D 0x72C2 0x72CC trozo_72C2  el trozo 7 del arma secreta de la nave 2: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (10 bytes)
+F 0x72C2 16
+D 0x72CC 0x72DC trozos_nave_3  los trozos del arma secreta de la nave 3: un puntero por nivel, del 0 (que no se pide) al 7 (p26:71EB); lo leen p00:4A60 (16 bytes)
+F 0x72CC w8
+D 0x72DC 0x72E3 trozo_72DC  el trozo 1 del arma secreta de la nave 3: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (7 bytes)
+F 0x72DC 16
+D 0x72E3 0x72EA trozo_72E3  el trozo 2 del arma secreta de la nave 3: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (7 bytes)
+F 0x72E3 16
+D 0x72EA 0x72EE trozo_72EA  el trozo 3 del arma secreta de la nave 3: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (4 bytes)
+F 0x72EA 16
+D 0x72EE 0x72F2 trozo_72EE  el trozo 4 del arma secreta de la nave 3: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (4 bytes)
+F 0x72EE 16
+D 0x72F2 0x72F6 trozo_72F2  el trozo 5 del arma secreta de la nave 3: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (4 bytes)
+F 0x72F2 16
+D 0x72F6 0x7303 trozo_72F6  el trozo 6 del arma secreta de la nave 3: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (13 bytes)
+F 0x72F6 16
+D 0x7303 0x730A trozo_7303  el trozo 7 del arma secreta de la nave 3: cuantos sprites y, por cada uno, la y, la x y el dibujo (p26:71EE); lo leen p26:71EE, p26:71F4 (7 bytes)
+F 0x7303 16
 D 0x73E0 0x73F9 graficos_73E0  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p26:73B3 (25 bytes)
 F 0x73E0 6
 D 0x73F9 0x7406 copias_73F9  lista de copias de caracteres con la vuelta dada (p00:4D1B): de 4 en 4 (origen, destino, tercios y vuelta, cuantos) y un 0; lo leen p26:73BA (13 bytes)

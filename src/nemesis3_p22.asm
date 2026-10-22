@@ -831,24 +831,13 @@ DATA_rle_B7A6:
 	defb 087h,0b8h,0c0h,000h,000h,003h,01ch,0e0h,004h,000h,082h,070h,080h,006h,000h,000h	; b8e6  ...........p....
 
 ; ----------------------------------------------------------------------
-; DATOS leido_B8F6: 5 bytes que leen p26:606D, p26:6070, p26:6073, p26:6076,
-;   p26:6080 al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 (5 bytes)
-;   0xb8f6..0xb8fb  (5 bytes)
-DATA_leido_B8F6:
-	defb 0c8h,0cah,002h,010h,002h	; b8f6
-
-; ----------------------------------------------------------------------
-; DATOS rle_ram2_B8FB: datos comprimidos a la RAM (p00:55CD): 0 acaba; bits
-;   7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte
-;   de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia
-;   los n de detras; empieza donde la campana de tools/cobertura.py lee su
-;   primer byte de control y se recorre hasta su 0; lo leen p00:55CD (11
-;   bytes)
-;   0xb8fb..0xb906  (11 bytes)
-DATA_rle_ram2_B8FB:
-	defb 048h,080h,0c1h,085h,046h,088h,050h,08dh,0c1h,09ch,000h	; b8fb  H...F.P....
+; DATOS rect_B8F6: el dibujo que parpadea de p27:8CEB: el destino, 2 filas de
+;   16 bytes y el tipo 2 (el formato de p00:55CD), y los datos (p26:6067); se
+;   solapan 2 bloques: (rle_ram2_B8FB B8FB-B906); lo leen p27:8CF6, p26:6080,
+;   p00:55CD (16 bytes)
+;   0xb8f6..0xb906  (16 bytes)
+DATA_rect_B8F6:
+	defb 0c8h,0cah,002h,010h,002h,048h,080h,0c1h,085h,046h,088h,050h,08dh,0c1h,09ch,000h	; b8f6  .....H...F.P....
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B906: tabla que se lee desde HL = 0xB906 con un indice

@@ -108,6 +108,11 @@ def todo():
     dibujos_de_secuencia()
     ondas()
     tablas_de_la_nave()
+    animaciones()
+    listas_de_caracteres()
+    dibujos_de_caracteres()
+    trozos_del_arma_secreta()
+    rectangulos()
     sonido()
 
 
@@ -875,6 +880,185 @@ def tablas_de_la_nave():
               "cuanto se puede subir cada casilla con cada nivel del arma secreta: 8 bytes por "
               "nivel (0xE36F de 0 a 7), uno por casilla de 1 a 8 (p04:94BD: 0x94D0 + 8 x nivel + "
               "casilla)", "p04:94CF", F=8)
+
+
+# ------------------------------------------------- los caracteres que cambian solos
+#
+# p02:835A (con el 7 en 0xA000): la lista de la fase p07:B1F5 + 2 x fase son
+# palabras [animacion][scroll] hasta un scroll 0xFFFF; una animacion es
+# [espera][pasos][una palabra por paso]; cada paso, fichas de 10 bytes
+# [caracter][marcas][8 bytes] hasta un 0 (p02:83B9).
+
+def animaciones():
+    v = B.Ventana((1, 2, 7))
+    B.declara(v, 0xB1F7, 0xB1F7 + 2 * 11, "animaciones_por_fase",
+              "un puntero por fase a su lista de animaciones de caracteres (p02:836D: 0xB1F5 + 2 x "
+              "fase)", "p02:8370", F="w8")
+    listas, anims = set(), set()
+    for f in range(1, 12):
+        listas.add(v.w(0xB1F5 + 2 * f))
+    for a in sorted(listas):
+        k = a
+        while v.w(k + 2) != 0xFFFF:
+            anims.add(v.w(k))
+            k += 4
+        anims.add(v.w(k))
+        B.declara(v, a, k + 4, "animaciones_%04X" % a,
+                  "una lista de animaciones de caracteres por tramos de scroll: [animacion][scroll] "
+                  "hasta un scroll 0xFFFF (p02:8373)", ["p02:8375"], F="w8")
+    for a in sorted(anims):
+        n = v(a + 1)
+        if v(a) == 0:
+            B.declara(v, a, a + 1, "animacion_%04X" % a,
+                      "una animacion vacia: la espera 0 (p02:838B, nada)", "p02:838B", F=1)
+            continue
+        B.declara(v, a, a + 2 + 2 * n, "animacion_%04X" % a,
+                  "una animacion de caracteres: la espera, cuantos pasos (%d) y una palabra por paso "
+                  "(p02:838B)" % n, ["p02:838B", "p02:839F", "p00:4A60"], F=16)
+        for k in range(n):
+            q = v.w(a + 2 + 2 * k)
+            r = q
+            while v(r) != 0:
+                r += 10
+            B.declara(v, q, r + 1, "paso_%04X" % q,
+                      "un paso de animacion: fichas de 10 bytes (caracter, tercios y si son colores, "
+                      "8 bytes) hasta un 0 (p02:83AA)", ["p02:83AA", "p02:83B9"], F=10)
+
+
+# ------------------------------------------------- listas de caracteres al bufer
+#
+# p01:6EDA (con 6 y 7 en 0x8000 y 0xA000): la lista A de la tabla DE, y
+# p01:6EE8 la escribe en el bufer: 0 acaba, por debajo de 0x41 salta tantos,
+# desde 0x41 es un caracter. Cada tabla acaba donde empieza la primera lista.
+
+def _listas_de(v, base, sitio):
+    ps = []
+    k = base
+    while True:
+        p = v.w(k)
+        if not base < p < 0xC000 or (ps and k >= min(ps)):
+            break
+        ps.append(p)
+        k += 2
+    B.declara(v, base, base + 2 * len(ps), "listas_%04X" % base,
+              "un puntero por lista de caracteres para el bufer (%s: la lista A, p01:6EDA); acaba "
+              "donde empieza la primera" % sitio, "p00:4A60", F="w8")
+    for p in sorted(set(ps)):
+        k = p
+        while v(k) != 0:
+            k += 1
+        B.declara(v, p, k + 1, "caracteres_%04X" % p,
+                  "una lista de caracteres para el bufer (p01:6EE8): 0 acaba, por debajo de 0x41 "
+                  "salta tantos, desde 0x41 un caracter", "p01:6EEA", F=16)
+
+
+def listas_de_caracteres():
+    v = B.Ventana((1, 6, 7))
+    for base, sitio in ((0xB070, "p03:BD39"), (0xB183, "p01:7D65"), (0xA91C, "p03:A37D"),
+                        (0xAD3F, "p03:BB61"), (0xAA64, "p03:A47F"), (0xAACF, "p03:A493"),
+                        (0xAB32, "p03:A49E"), (0xABDD, "p03:A4A9"), (0xAC71, "p03:A4B7"),
+                        (0xACD4, "p03:A4C5"), (0xAF5E, "p03:BD34")):
+        _listas_de(v, base, sitio)
+
+
+# ------------------------------------------------- dibujos de caracteres por tabla
+#
+# Las piezas (p02:8221, p02:82BB) y los enemigos hechos de caracteres
+# (p01:79F9) se pintan en el bufer con un rectangulo de caracteres cuyo
+# tamano da su ficha (IX+9 x IX+0A, IX+13 x IX+14): el dibujo N empieza en la
+# palabra N de su tabla de p08. Sin el tamano de cada uno, cada dibujo va de
+# su puntero al siguiente.
+
+def _dibujos(v, base, n, fin_zona, que, lectores_tabla, lector):
+    ps = sorted({v.w(base + 2 * k) for k in range(n)})
+    B.declara(v, base, base + 2 * n, "tabla_%04X" % base,
+              "un puntero por dibujo de %s (%d)" % (que, n), lectores_tabla, F="w8")
+    for i, p in enumerate(ps):
+        fin = ps[i + 1] if i + 1 < len(ps) else fin_zona
+        if fin > p:
+            B.declara(v, p, fin, "dibujo_%04X" % p,
+                      "un dibujo de %s: caracteres en filas, hasta el dibujo siguiente (el tamano lo "
+                      "da la ficha)" % que, lector, F=16)
+
+
+def dibujos_de_caracteres():
+    v = B.Ventana((1, 2, 8))
+    _dibujos(v, 0xB834, 256, 0xB834, "las piezas (p02:8221: 0xB834 + 2 x IX+7)",
+             ["p02:8232", "p02:82C2"], "p02:8242")
+    _dibujos(v, 0xBD4C, 0x90, 0xBD0C, "los enemigos de caracteres (p01:79F9: 0xBD4C + 2 x "
+             "IX+32)", ["p00:4A6A"], "p01:7A2A")
+
+
+# ------------------------------------------------- los trozos del arma secreta
+#
+# p26:71DF: los sprites de un nivel del arma secreta en el plano de la nave:
+# la palabra 0xE380 de p26:720C y, en esa tabla, la del nivel (de 1 a 7); la
+# lista es cuantos sprites y, por cada uno, la y, la x y el dibujo.
+
+def trozos_del_arma_secreta():
+    v = B.Ventana((26, 27, 28))
+    B.declara(v, 0x720C, 0x7214, "trozos_por_nave",
+              "un puntero por nave a su tabla de trozos del arma secreta (p26:71E2: 0x720C + 2 x "
+              "0xE380)", "p00:4A60", F="w8")
+    for n in range(4):
+        t = v.w(0x720C + 2 * n)
+        B.declara(v, t, t + 16, "trozos_nave_%d" % n,
+                  "los trozos del arma secreta de la nave %d: un puntero por nivel, del 0 (que no se "
+                  "pide) al 7 (p26:71EB)" % n, "p00:4A60", F="w8")
+        for lvl in range(1, 8):
+            p = v.w(t + 2 * lvl)
+            B.declara(v, p, p + 1 + 3 * v(p), "trozo_%04X" % p,
+                      "el trozo %d del arma secreta de la nave %d: cuantos sprites y, por cada uno, "
+                      "la y, la x y el dibujo (p26:71EE)" % (lvl, n), ["p26:71EE", "p26:71F4"], F=16)
+
+
+# ------------------------------------------------- rectangulos de p26:6064
+#
+# p26:6067: con IX en la cabecera, el destino (2 bytes), las filas, los bytes
+# por fila y el tipo, y detras los datos: tipo 0 tal cual (filas x bytes), 1
+# RLE de p00:55AD, 2 o mas el de p00:55CD (p26:6080). p26:6064 toma la
+# palabra A de una tabla.
+
+def _rect(v, a, nom, que, sitio):
+    filas, ancho, tipo = v(a + 2), v(a + 3), v(a + 4)
+    if tipo == 0:
+        fin = a + 5 + filas * ancho
+    elif tipo == 1:
+        fin = rle(v, a + 5)
+    else:
+        fin = rle2(v, a + 5)
+    B.declara(v, a, fin, nom,
+              "%s: el destino, %d filas de %d bytes y el tipo %d (%s), y los datos (p26:6067)" % (
+                  que, filas, ancho, tipo,
+                  ("tal cual", "RLE de p00:55AD", "el formato de p00:55CD")[min(tipo, 2)]),
+              [sitio, "p26:6080"], F=16)
+
+
+def _tabla_de_rects(v, base, que, sitio):
+    ps = []
+    k = base
+    while True:
+        p = v.w(k)
+        if not 0x4000 <= p < 0xC000 or (ps and k >= min(ps)) or len(ps) > 64:
+            break
+        ps.append(p)
+        k += 2
+    B.declara(v, base, base + 2 * len(ps), "rectangulos_%04X" % base,
+              "un puntero por %s (p26:6064: la palabra A); acaba donde empieza el primero" % que,
+              "p00:4A60", F="w8")
+    for p in sorted(set(ps)):
+        _rect(v, p, "rect_%04X" % p, que, "p26:606D")
+
+
+def rectangulos():
+    _tabla_de_rects(B.Ventana((26, 27, 28)), 0x7073, "plano de nave (p26:7069: 0x7073 + 2 x 0xE380)",
+                    "p26:706C")
+    _tabla_de_rects(B.Ventana((26, 27, 29)), 0xB467, "cuadro de la animacion de p27:84A7",
+                    "p27:84AA")
+    _tabla_de_rects(B.Ventana((26, 27, 29)), 0xB2E7, "cuadro de la animacion de p27:858A",
+                    "p27:858A")
+    _rect(B.Ventana((26, 27, 22)), 0xB8F6, "rect_B8F6", "el dibujo que parpadea de p27:8CEB",
+          "p27:8CF6")
 
 
 # ------------------------------------------------- la demostracion
