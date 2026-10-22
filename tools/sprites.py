@@ -16,7 +16,7 @@ bancos 14-15:
             byte al reves y una columna por la otra)
 p00:506C (p14:7537 a 0x1920, con 0xE5E0) no va al empezar la fase.
 
-Uso: sprites.py png <fase> <salida.png> [--escala N]
+Uso: sprites.py png <fase> <salida.png> [--escala N] [--colores colores.json]
      sprites.py coteja <fase> <vram.bin>   contra un volcado de openMSX
 """
 import os
@@ -76,20 +76,27 @@ def de_la_fase(fase):
     return vr
 
 
-def png(fase, salida, escala=3):
+def png(fase, salida, escala=3, colores=None):
+    """Los 64 dibujos; con `colores` ({dibujo: {color: veces}}, lo que sale en
+    la tabla de atributos jugando la fase), cada uno con el color con que mas
+    sale, y los que no salen en gris oscuro."""
     from PIL import Image
     vr = de_la_fase(fase)
     img = Image.new("RGB", (8 * 20 * escala, 8 * 20 * escala), PALETA[1])
     px = img.load()
     for s in range(64):
         x0, y0 = 2 + 20 * (s % 8), 2 + 20 * (s // 8)
+        tinta = PALETA[15]
+        if colores is not None:
+            c = colores.get(str(s))
+            tinta = PALETA[int(max(c, key=c.get))] if c else (64, 64, 64)
         for dx in range(16):
             for dy in range(16):
                 b = vr[V.SPRITES + 32 * s + 16 * (dx // 8) + dy]
                 if b >> (7 - dx % 8) & 1:
                     for i in range(escala):
                         for j in range(escala):
-                            px[(x0 + dx) * escala + i, (y0 + dy) * escala + j] = PALETA[15]
+                            px[(x0 + dx) * escala + i, (y0 + dy) * escala + j] = tinta
     img.save(salida)
 
 
@@ -105,7 +112,11 @@ def coteja(fase, ruta):
 def main(argv):
     if len(argv) > 3 and argv[1] == "png":
         esc = int(argv[argv.index("--escala") + 1]) if "--escala" in argv else 3
-        png(int(argv[2]), argv[3], esc)
+        col = None
+        if "--colores" in argv:
+            import json
+            col = json.load(open(argv[argv.index("--colores") + 1]))
+        png(int(argv[2]), argv[3], esc, col)
     elif len(argv) > 3 and argv[1] == "coteja":
         return 1 if coteja(int(argv[2]), argv[3]) else 0
     else:
