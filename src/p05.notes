@@ -464,12 +464,14 @@ F 0xBED9 16
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
 C 0xA005 guarda la y del jefe (bajo)
 C 0xA008 guarda la y del jefe (alto)
+C 0xA036 guarda la entrada secreta: su tipo (0: ninguna), su y, su x y B
 C 0xA066 guarda cuantos enemigos hay
 C 0xA069 guarda cuantos sprites usan los enemigos (tope 12)
 C 0xA06C apunta a los enemigos (12 de 0x40)
 C 0xA078 apunta a las piezas (8 de 0x20)
 C 0xA08B le suma la y del jefe (bajo)
 C 0xA08F lee la x del jefe (bajo)
+C 0xA098 guarda la entrada secreta: su tipo (0: ninguna), su y, su x y B
 C 0xA09D guarda el caracter del fondo de la fase
 C 0xA0AB sonido_4C: pide el sonido 0x4C
 C 0xA0B6 lee la fase (1 a 11)

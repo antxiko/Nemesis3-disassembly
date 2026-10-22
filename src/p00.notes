@@ -1177,8 +1177,11 @@ C 0x4348 escribe_texto: escribe en la VRAM el texto de DE (direccion y letras)
 C 0x434C despacha: salta a la palabra A de la tabla que va detras del call
 C 0x4377 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x439B despacha: salta a la palabra A de la tabla que va detras del call
+C 0x4403 guarda el paso de la eleccion de nave y el byte siguiente (16 bits)
 C 0x4413 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
+C 0x441E guarda el paso de la eleccion de nave y el byte siguiente (16 bits)
 C 0x443C bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
+C 0x443F lee el paso de la eleccion de nave
 C 0x4476 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x4493 borra_texto: borra en la VRAM el texto de DE
 C 0x449B guarda 1 mientras la nave esta en la fase
@@ -1196,6 +1199,7 @@ C 0x456C guarda el temporizador del estado
 C 0x457C guarda 1 si se continua (F5)
 C 0x4582 borra_texto: borra en la VRAM el texto de DE
 C 0x4586 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x4593 guarda la fase siguiente (0: la de despues)
 C 0x4596 lee la fase (1 a 11)
 C 0x45A6 lee la fase (1 a 11)
 C 0x45B3 lee la fase (1 a 11)
@@ -1203,13 +1207,18 @@ C 0x45BB guarda el jefe de la fase 4 (0 a 3)
 C 0x45BF guarda 1: fase superada (al estado 8)
 C 0x45D4 pantalla_en_blanco: borra la tabla de nombres (0x3800)
 C 0x45DD sonido_01: pide el sonido 0x01
+C 0x45E8 guarda el subpaso del estado 8 (entre fases)
 C 0x45F0 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x45F6 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x460C bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x4612 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
+C 0x4615 lee el subpaso del estado 8 (entre fases)
 C 0x461D despacha: salta a la palabra A de la tabla que va detras del call
+C 0x4628 lee el tipo de la entrada secreta cogida (al estado 9)
+C 0x4631 guarda el paso del estado 9 (la entrada secreta) y el byte siguiente (16 bits)
 C 0x463A bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x4640 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
+C 0x4643 lee el tipo de la entrada secreta cogida (al estado 9)
 C 0x4654 lee la fase (1 a 11)
 C 0x4676 guarda el temporizador del estado
 C 0x467C bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
@@ -1226,6 +1235,7 @@ C 0x46E5 lee lo recien pulsado (teclas de funcion)
 C 0x46FC pantalla_en_blanco: borra la tabla de nombres (0x3800)
 C 0x4702 bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
 C 0x4708 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
+C 0x4710 guarda la fase siguiente (0: la de despues)
 C 0x4717 guarda 1: fase superada (al estado 8)
 C 0x4720 guarda las vidas (BCD)
 C 0x4723 lee la ficha del otro jugador (0x50 bytes)
@@ -1448,6 +1458,7 @@ C 0x557A bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x557E vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
 C 0x558D suma_a_de: DE = DE + A
 C 0x5622 guarda la fase (1 a 11)
+C 0x5626 guarda la fase siguiente (0: la de despues)
 C 0x562D guarda el paso del final de la fase
 C 0x5630 guarda 1 al vencer al jefe
 C 0x5661 lee el azar

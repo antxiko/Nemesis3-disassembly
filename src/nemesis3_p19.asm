@@ -2162,7 +2162,7 @@ L_B4FE:
 	add a,a			;b502
 	ld hl,0b50eh		;b503
 	call 04089h		;b506   ; suma_a_hl: HL = HL + A
-	ld de,0e37eh		;b509
+	ld de,0e37eh		;b509   ; apunta a las opciones elegidas (0 SHADOW, 1 FIXED, 2 ROLLING)
 	ld bc,00004h		;b50c
 	ldir		;b50f
 	ret			;b511
@@ -2179,7 +2179,7 @@ DATA_B512:
 
 L_B51E:
 	xor a			;b51e
-	ld (0e36fh),a		;b51f
+	ld (0e36fh),a		;b51f   ; guarda el nivel del arma secreta (0 a 7)
 	inc a			;b522
 	ld (0e610h),a		;b523
 	inc a			;b526

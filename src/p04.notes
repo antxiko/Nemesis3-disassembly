@@ -611,6 +611,10 @@ C 0x92C7 guarda el dibujo del disparo
 C 0x92DD lee lo recien pulsado (mando y cursores)
 C 0x92F5 guarda la marca de armas (1 a 8)
 C 0x9308 lee_palabra: HL = la palabra A de la tabla HL
+C 0x937B lee la nave elegida (0 a 3)
+C 0x93C4 lee el nivel del arma secreta (0 a 7)
+C 0x93F7 lee el nivel del arma secreta (0 a 7)
+C 0x943C lee la nave elegida (0 a 3)
 C 0x954A guarda la marca de armas (1 a 8)
 C 0x9564 suma_a_hl: HL = HL + A
 C 0x956E vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
@@ -618,6 +622,7 @@ C 0x9580 vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del V
 C 0x9595 lee la marca de armas (1 a 8)
 C 0x95D2 lee_palabra: HL = la palabra A de la tabla HL
 C 0x95D6 lee_palabra: HL = la palabra A de la tabla HL
+C 0x95ED lee el escudo elegido (0 SHIELD, 1 FORCE FIELD)
 C 0x968A apunta a los disparos de la nave (9 de 0x20)
 C 0x96A2 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x96DB lee la y del disparo

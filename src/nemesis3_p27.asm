@@ -15,12 +15,12 @@
 
 
 L_8000:
-	bit 2,a		;8000
-	ld a,000h		;8002
+	bit 2,a		;8000   ; el color de tres sprites (0xEF37, 0xEF3B, 0xEF3F): 0 o 8 segun el bit 2 de A (parpadean)
+	ld a,000h		;8002   ; bit 2 a 0: color 0 (no se ven)
 	jr z,L_8008		;8004
-	ld a,008h		;8006
+	ld a,008h		;8006   ; a 1: color 8
 L_8008:
-	ld (0ef37h),a		;8008
+	ld (0ef37h),a		;8008   ; a los tres
 	ld (0ef3bh),a		;800b
 	ld (0ef3fh),a		;800e
 	ret			;8011
@@ -39,28 +39,28 @@ DATA_resto_8012:
 
 
 L_801E:
-	ld a,(0e303h)		;801e   ; lee la cuenta de cuadros del juego
-	rra			;8021
+	ld a,(0e303h)		;801e   ; el cuadro animado de la consola: cada 4 cuadros los caracteres 0xEC-0xEF corridos uno...
+	rra			;8021   ; cada 4 cuadros...
 	rra			;8022
 	and 003h		;8023
-	add a,0ech		;8025
-	ld hl,0ca48h		;8027
-	ld bc,00b10h		;802a
+	add a,0ech		;8025   ; ...el primero de 0xEC a 0xEF
+	ld hl,0ca48h		;8027   ; ...0x0B filas de 0x10 en 0xCA48, cada fila uno mas
+	ld bc,00b10h		;802a   ; 0x0B filas de 0x10
 	ld de,00010h		;802d
 L_8030:
 	push bc			;8030
 L_8031:
-	ld (hl),a			;8031
+	ld (hl),a			;8031   ; cada caracter, el siguiente (de 0xEC a 0xEF)
 	inc hl			;8032
-	inc a			;8033
+	inc a			;8033   ; el siguiente; despues de 0xEF, 0xEC
 	cp 0f0h		;8034
 	jr c,L_803A		;8036
 	ld a,0ech		;8038
 L_803A:
-	dec c			;803a
+	dec c			;803a   ; la fila
 	jr nz,L_8031		;803b
-	add hl,de			;803d
-	add a,001h		;803e
+	add hl,de			;803d   ; la fila siguiente
+	add a,001h		;803e   ; la siguiente empieza uno mas alla
 	cp 0f0h		;8040
 	jr c,L_8046		;8042
 	ld a,0ech		;8044
@@ -69,8 +69,8 @@ L_8046:
 	djnz L_8030		;8047
 	ret			;8049
 L_804A:
-	ld bc,(0e7e4h)		;804a
-	ld a,c			;804e
+	ld bc,(0e7e4h)		;804a   ; la consola de las entradas secretas desde la 0x0C: por el paso (0xE7E4); 0, 1 y 3 como las demas
+	ld a,c			;804e   ; por el paso
 	call 04093h		;804f   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -86,14 +86,14 @@ DATA_tabla_8052:
 
 
 L_805A:
-	push bc			;805a
-	call 05de9h		;805b
+	push bc			;805a   ; paso 2: los sprites y la pantalla a la VRAM, la consola cada cuadro y por el subpaso
+	call 05de9h		;805b   ; los sprites y la pantalla a la VRAM
 	call 05985h		;805e
 	pop af			;8061
-	or a			;8062
+	or a			;8062   ; desde el subpaso 1, la consola
 	push af			;8063
 	call nz,07320h		;8064
-	pop af			;8067
+	pop af			;8067   ; y por el subpaso
 	call 04093h		;8068   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -109,39 +109,39 @@ DATA_tabla_806B:
 
 
 L_8073:
-	ld hl,0e5c0h		;8073
-	dec (hl)			;8076
+	ld hl,0e5c0h		;8073   ; subpaso 1: al acabar la espera, los graficos de p29:BFB8 y BFC5, un rectangulo de 5 x 8 (p29:BFCE en 0xCAAC) y la secuencia de 0x626A
+	dec (hl)			;8076   ; la espera
 	ret nz			;8077
 	call 041e4h		;8078   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
-	ld ix,0bfb8h		;807b
+	ld ix,0bfb8h		;807b   ; la lista de graficos de p29:BFB8...
 	call 04cb1h		;807f   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
-	ld ix,0bfc5h		;8082
+	ld ix,0bfc5h		;8082   ; ...las copias de p29:BFC5...
 	call 04d17h		;8086
-	ld hl,0bfceh		;8089
+	ld hl,0bfceh		;8089   ; ...y el dibujo de p29:BFCE, 5 filas de 8 en 0xCAAC
 	ld de,0caach		;808c
 	ld bc,00508h		;808f
 	call 059a1h		;8092
 	call 041bfh		;8095   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
-	ld hl,0626ah		;8098
+	ld hl,0626ah		;8098   ; la secuencia de 0x626A
 	call 0612ah		;809b
 	call 06cc1h		;809e
 	ret			;80a1
 L_80A2:
-	call 06135h		;80a2
-	ret nz			;80a5
-	xor a			;80a6
+	call 06135h		;80a2   ; subpaso 2: hasta acabar la secuencia
+	ret nz			;80a5   ; hasta acabarla
+	xor a			;80a6   ; sin espera
 	ld (0e5c0h),a		;80a7
 	call 06cc1h		;80aa
 	ret			;80ad
 L_80AE:
-	ld hl,0e5c0h		;80ae
-	dec (hl)			;80b1
+	ld hl,0e5c0h		;80ae   ; subpaso 3: la espera y la vuelta (p26:7DED)
+	dec (hl)			;80b1   ; la espera
 	ret nz			;80b2
-	call 07dedh		;80b3
+	call 07dedh		;80b3   ; la vuelta
 	ret			;80b6
 L_80B7:
-	ld bc,(0e7e4h)		;80b7
-	ld a,c			;80bb
+	ld bc,(0e7e4h)		;80b7   ; la consola de la entrada secreta 0x0B: por el paso; 0, 1 y 3 como las demas
+	ld a,c			;80bb   ; por el paso
 	call 04093h		;80bc   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -157,14 +157,14 @@ DATA_tabla_80BF:
 
 
 L_80C7:
-	push bc			;80c7
-	call 05de9h		;80c8
+	push bc			;80c7   ; paso 2: lo mismo, por el subpaso
+	call 05de9h		;80c8   ; los sprites y la pantalla a la VRAM
 	call 05985h		;80cb
 	pop af			;80ce
-	or a			;80cf
+	or a			;80cf   ; desde el subpaso 1, la consola
 	push af			;80d0
 	call nz,07320h		;80d1
-	pop af			;80d4
+	pop af			;80d4   ; y por el subpaso
 	call 04093h		;80d5   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -180,39 +180,39 @@ DATA_tabla_80D8:
 
 
 L_80E0:
-	ld hl,0e5c0h		;80e0
-	dec (hl)			;80e3
+	ld hl,0e5c0h		;80e0   ; subpaso 1: al acabar la espera, sus graficos (p27:8104) y la secuencia de 0x61FD
+	dec (hl)			;80e3   ; la espera
 	ret nz			;80e4
-	call L_8104		;80e5
-	ld hl,061fdh		;80e8
+	call L_8104		;80e5   ; los graficos
+	ld hl,061fdh		;80e8   ; la secuencia de 0x61FD
 	call 0612ah		;80eb
 	jp 06cc1h		;80ee
 L_80F1:
-	call 06135h		;80f1
-	ret nz			;80f4
+	call 06135h		;80f1   ; subpaso 2: hasta acabar la secuencia
+	ret nz			;80f4   ; hasta acabarla
 	xor a			;80f5
 	ld (0e5c0h),a		;80f6
 	jp 06cc1h		;80f9
 L_80FC:
-	ld hl,0e5c0h		;80fc
-	dec (hl)			;80ff
+	ld hl,0e5c0h		;80fc   ; subpaso 3: la espera y la vuelta
+	dec (hl)			;80ff   ; la espera
 	ret nz			;8100
-	jp 07dedh		;8101
+	jp 07dedh		;8101   ; la vuelta
 L_8104:
-	call 041e4h		;8104   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
-	call L_8110		;8107
-	call L_8138		;810a
+	call 041e4h		;8104   ; con el 29, los RLE de p29:B730, B7B8, B7FC y B84D, las copias de 0x812F y el dibujo de p29:B87E
+	call L_8110		;8107   ; los RLE...
+	call L_8138		;810a   ; ...y el dibujo
 	jp 041bfh		;810d   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 L_8110:
-	ld de,0b730h		;8110
+	ld de,0b730h		;8110   ; p29:B730...
 	call 04b36h		;8113   ; rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
-	ld de,0b7b8h		;8116
+	ld de,0b7b8h		;8116   ; ...B7B8...
 	call 04b36h		;8119   ; rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
-	ld de,0b7fch		;811c
+	ld de,0b7fch		;811c   ; ...B7FC...
 	call 04b36h		;811f   ; rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
-	ld de,0b84dh		;8122
+	ld de,0b84dh		;8122   ; ...y B84D
 	call 04b36h		;8125   ; rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
-	ld ix,0812fh		;8128
+	ld ix,0812fh		;8128   ; las copias de 0x812F
 	jp 04d17h		;812c
 
 ; ----------------------------------------------------------------------
@@ -231,29 +231,29 @@ DATA_copias_812F:
 
 
 L_8138:
-	ld hl,0b87eh		;8138
-	ld de,0cd00h		;813b
+	ld hl,0b87eh		;8138   ; el dibujo de p29:B87E (segundo formato) en 0xCA6A, 9 filas de 0x0C
+	ld de,0cd00h		;813b   ; a 0xCD00...
 	call 055cdh		;813e   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
-	ld hl,0cd00h		;8141
+	ld hl,0cd00h		;8141   ; ...y al bufer
 	ld de,0ca6ah		;8144
 	ld bc,0090ch		;8147
 	jp 059a1h		;814a
 L_814D:
-	ld a,(0e321h)		;814d
-	dec a			;8150
+	ld a,(0e321h)		;814d   ; el estado 8, paso 1 (la consola entre fases): tras la fase 3 (0xE321 = 1) el radar, tras la 4 p27:836A
+	dec a			;8150   ; tras la fase 3?
 	jr z,L_8156		;8151
-	jp L_836A		;8153
+	jp L_836A		;8153   ; si no, tras la 4
 L_8156:
-	call 05de9h		;8156
-	call 05985h		;8159
-	ld bc,(0e322h)		;815c
+	call 05de9h		;8156   ; los sprites y la pantalla a la VRAM; en los subpasos 1-3 la consola cada cuadro; por el subpaso (0xE322)
+	call 05985h		;8159   ; la pantalla a la VRAM
+	ld bc,(0e322h)		;815c   ; el paso (C) y el subpaso (B)
 	push bc			;8160
-	ld a,c			;8161
+	ld a,c			;8161   ; en los pasos 1-3, la consola
 	sub 001h		;8162
 	cp 003h		;8164
 	call c,07320h		;8166
 	pop bc			;8169
-	ld a,c			;816a
+	ld a,c			;816a   ; por el paso
 	call 04093h		;816b   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -269,74 +269,74 @@ DATA_tabla_816E:
 
 
 L_8178:
-	call 0594dh		;8178   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
+	call 0594dh		;8178   ; paso 0: la orden 0x83, el sonido 0x3F, la consola con el contador de 0x6102
 	call 0580eh		;817b   ; sonido_3F: pide el sonido 0x3F
-	call L_8188		;817e
-	ld hl,06102h		;8181
+	call L_8188		;817e   ; el siguiente, la espera y la consola
+	ld hl,06102h		;8181   ; con el contador de 0x6102
 	call 060f9h		;8184
 	ret			;8187
 L_8188:
-	call L_83CF		;8188
-	call L_83DC		;818b
-	ld a,0b4h		;818e
+	call L_83CF		;8188   ; al subpaso siguiente, 0xE5C0-0xE5DF a cero, 0xB4 cuadros y la consola
+	call L_83DC		;818b   ; 0xE5C0-0xE5DF a cero
+	ld a,0b4h		;818e   ; 0xB4 cuadros
 	ld (0e5c0h),a		;8190
-	call 060dfh		;8193
+	call 060dfh		;8193   ; la consola
 	ret			;8196
 L_8197:
-	ld hl,0e5c0h		;8197
-	dec (hl)			;819a
+	ld hl,0e5c0h		;8197   ; paso 1: al acabar la espera, el radar (p27:81F4) y la secuencia de 0x6193
+	dec (hl)			;819a   ; la espera
 	ret nz			;819b
-	call L_81F4		;819c
-	ld hl,06193h		;819f
+	call L_81F4		;819c   ; el radar
+	ld hl,06193h		;819f   ; y la secuencia de 0x6193
 	call 0612ah		;81a2
 	call L_83CF		;81a5
 	ret			;81a8
 L_81A9:
-	call L_81CC		;81a9
-	ret nz			;81ac
-	call L_820F		;81ad
-	call 06135h		;81b0
+	call L_81CC		;81a9   ; paso 2: con un boton se salta; si no, el radar se mueve (p27:820F) hasta acabar la secuencia...
+	ret nz			;81ac   ; un boton: se salta
+	call L_820F		;81ad   ; el radar se mueve
+	call 06135h		;81b0   ; hasta acabar la secuencia
 	ret nz			;81b3
-	call 060c0h		;81b4
-	call L_838C		;81b7
-	ld a,03ch		;81ba
+	call 060c0h		;81b4   ; ...el cuadro de 0xCA48 a cero, el contador baja (p27:838C) y 0x3C cuadros
+	call L_838C		;81b7   ; el contador baja
+	ld a,03ch		;81ba   ; 0x3C cuadros
 	ld (0e5c0h),a		;81bc
 	call L_83CF		;81bf
 	ret			;81c2
 L_81C3:
-	ld hl,0e5c0h		;81c3
-	dec (hl)			;81c6
+	ld hl,0e5c0h		;81c3   ; paso 3: la espera
+	dec (hl)			;81c6   ; la espera
 	ret nz			;81c7
 	call L_83CF		;81c8
 	ret			;81cb
 L_81CC:
-	ld a,(0e308h)		;81cc   ; lee lo recien pulsado (mando y cursores)
-	and 030h		;81cf
+	ld a,(0e308h)		;81cc   ; un boton (bits 4-5): al paso 4 (0xE322 = 4)
+	and 030h		;81cf   ; los botones
 	ret z			;81d1
-	ld hl,00004h		;81d2
+	ld hl,00004h		;81d2   ; al paso 4
 	ld (0e322h),hl		;81d5
 	ret			;81d8
 L_81D9:
-	dec b			;81d9
-	jr z,L_81E7		;81da
-	call 0578bh		;81dc
-	ld a,078h		;81df
+	dec b			;81d9   ; paso 4: la orden 0x84 (p00:578B) y 0x78 cuadros...
+	jr z,L_81E7		;81da   ; subpaso 1: p27:81E7
+	call 0578bh		;81dc   ; subpaso 0: la orden 0x84...
+	ld a,078h		;81df   ; ...0x78 cuadros
 	ld (0e402h),a		;81e1   ; guarda un temporizador
 	jp L_83D7		;81e4
 L_81E7:
-	ld hl,0e402h		;81e7   ; apunta a un temporizador
-	dec (hl)			;81ea
+	ld hl,0e402h		;81e7   ; ...al acabar, la pantalla en blanco y 0xE321 = 0
+	dec (hl)			;81ea   ; la espera
 	ret nz			;81eb
 	call 04aa9h		;81ec   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
-	xor a			;81ef
+	xor a			;81ef   ; acabado (0xE321 = 0)
 	ld (0e321h),a		;81f0
 	ret			;81f3
 L_81F4:
-	ld ix,08208h		;81f4
+	ld ix,08208h		;81f4   ; el radar: sus graficos (0x8208) y sus dos marcas en 0xE5D2 (0x30, 0x60) y 0xE5D4 (0x30, 0xA0)
 	call 04cb1h		;81f8   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
-	ld hl,06030h		;81fb
+	ld hl,06030h		;81fb   ; la primera marca: x 0x60, y 0x30
 	ld (0e5d2h),hl		;81fe
-	ld hl,0a030h		;8201
+	ld hl,0a030h		;8201   ; la segunda: x 0xA0, y 0x30
 	ld (0e5d4h),hl		;8204
 	ret			;8207
 
@@ -355,25 +355,25 @@ DATA_graficos_8208:
 
 
 L_820F:
-	call 060c0h		;820f
-	ld ix,0e5d2h		;8212
+	call 060c0h		;820f   ; el radar: el cuadro a cero y cada marca se mueve y se pinta
+	ld ix,0e5d2h		;8212   ; la primera...
 	call L_821D		;8216
-	ld ix,0e5d4h		;8219
+	ld ix,0e5d4h		;8219   ; ...y la segunda: se mueve y se pinta
 L_821D:
 	call L_8224		;821d
 	call L_827D		;8220
 	ret			;8223
 L_8224:
-	ld a,(0e303h)		;8224   ; lee la cuenta de cuadros del juego
-	and 003h		;8227
+	ld a,(0e303h)		;8224   ; cada 4 cuadros, al azar (registro R): IX+1 + 8 o - 8, IX+0 - 8 o + 8
+	and 003h		;8227   ; cada 4 cuadros
 	ret nz			;8229
-	ld a,r		;822a
+	ld a,r		;822a   ; al azar: abajo o arriba (IX+1)...
 	rra			;822c
 	push af			;822d
 	call c,L_8241		;822e
 	pop af			;8231
 	call nc,L_8250		;8232
-	ld a,r		;8235
+	ld a,r		;8235   ; ...y a un lado u otro (IX+0)
 	rra			;8237
 	push af			;8238
 	call c,L_825F		;8239
@@ -381,8 +381,8 @@ L_8224:
 	call nc,L_826E		;823d
 	ret			;8240
 L_8241:
-	ld a,(ix+001h)		;8241
-	add a,008h		;8244
+	ld a,(ix+001h)		;8241   ; IX+1 + 8, hasta 0xB0
+	add a,008h		;8244   ; mas 8, hasta 0xB0
 	cp 0b0h		;8246
 	jr c,L_824C		;8248
 	ld a,0b0h		;824a
@@ -390,8 +390,8 @@ L_824C:
 	ld (ix+001h),a		;824c
 	ret			;824f
 L_8250:
-	ld a,(ix+001h)		;8250
-	sub 008h		;8253
+	ld a,(ix+001h)		;8250   ; IX+1 - 8, hasta 0x48
+	sub 008h		;8253   ; menos 8, hasta 0x48
 	cp 048h		;8255
 	jr nc,L_825B		;8257
 	ld a,048h		;8259
@@ -399,8 +399,8 @@ L_825B:
 	ld (ix+001h),a		;825b
 	ret			;825e
 L_825F:
-	ld a,(ix+000h)		;825f
-	sub 008h		;8262
+	ld a,(ix+000h)		;825f   ; IX+0 - 8, hasta 0x20
+	sub 008h		;8262   ; menos 8, hasta 0x20
 	cp 020h		;8264
 	jr nc,L_826A		;8266
 	ld a,020h		;8268
@@ -408,8 +408,8 @@ L_826A:
 	ld (ix+000h),a		;826a
 	ret			;826d
 L_826E:
-	ld a,(ix+000h)		;826e
-	add a,008h		;8271
+	ld a,(ix+000h)		;826e   ; IX+0 + 8, hasta 0x58
+	add a,008h		;8271   ; mas 8, hasta 0x58
 	cp 058h		;8273
 	jr c,L_8279		;8275
 	ld a,058h		;8277
@@ -417,35 +417,35 @@ L_8279:
 	ld (ix+000h),a		;8279
 	ret			;827c
 L_827D:
-	call L_8287		;827d
-	call L_8312		;8280
+	call L_8287		;827d   ; una marca: sus dos lineas y sus esquinas
+	call L_8312		;8280   ; sus diagonales
 	call L_82CA		;8283
 	ret			;8286
 L_8287:
-	ld l,(ix+000h)		;8287
-	ld h,040h		;828a
+	ld l,(ix+000h)		;8287   ; la linea de IX+0 (caracteres 0x81, 0x10 de largo desde la columna 0x40)...
+	ld h,040h		;828a   ; desde la columna 0x40
 	call L_8356		;828c
 	ld e,l			;828f
 	ld d,h			;8290
 	inc de			;8291
-	ld (hl),081h		;8292
+	ld (hl),081h		;8292   ; 0x10 caracteres 0x81
 	ld bc,0000fh		;8294
 	ldir		;8297
-	ld l,010h		;8299
-	ld h,(ix+001h)		;829b
+	ld l,010h		;8299   ; ...la de IX+1 (0x82, 0x0B filas desde la fila 0x10)...
+	ld h,(ix+001h)		;829b   ; la columna de IX+1, desde la fila 0x10
 	call L_8356		;829e
 	ld de,00020h		;82a1
 	ld b,00bh		;82a4
 L_82A6:
-	ld (hl),082h		;82a6
+	ld (hl),082h		;82a6   ; 0x0B caracteres 0x82, uno por fila
 	add hl,de			;82a8
 	djnz L_82A6		;82a9
-	ld l,(ix+000h)		;82ab
-	ld h,(ix+001h)		;82ae
+	ld l,(ix+000h)		;82ab   ; ...el cruce (0x80) y debajo 0x83 y 0x84
+	ld h,(ix+001h)		;82ae   ; el cruce
 	call L_8356		;82b1
-	ld (hl),080h		;82b4
+	ld (hl),080h		;82b4   ; 0x80...
 	ld bc,00020h		;82b6
-	add hl,bc			;82b9
+	add hl,bc			;82b9   ; ...y debajo 0x83 y 0x84, sin pasar de 0xCBA0
 	ld de,0cba0h		;82ba
 	rst 20h			;82bd
 	ret nc			;82be
@@ -457,17 +457,17 @@ L_82A6:
 	ld (hl),084h		;82c7
 	ret			;82c9
 L_82CA:
-	ld a,(ix+000h)		;82ca
-	add a,010h		;82cd
+	ld a,(ix+000h)		;82ca   ; una diagonal hacia arriba desde el cruce: 0x85-0x88, cada 0x18 y 8
+	add a,010h		;82cd   ; desde el cruce + 0x10 en y y - 8 en x...
 	ld l,a			;82cf
 	ld a,(ix+001h)		;82d0
 	sub 008h		;82d3
 	ld h,a			;82d5
 	ld (0ef80h),hl		;82d6
 L_82D9:
-	call L_82ED		;82d9
+	call L_82ED		;82d9   ; ...un trozo
 	ret c			;82dc
-	ld hl,(0ef80h)		;82dd
+	ld hl,(0ef80h)		;82dd   ; el siguiente: 0x18 mas abajo y 8 a la izquierda
 	ld a,l			;82e0
 	add a,018h		;82e1
 	ld l,a			;82e3
@@ -477,11 +477,11 @@ L_82D9:
 	ld (0ef80h),hl		;82e8
 	jr L_82D9		;82eb
 L_82ED:
-	ld a,h			;82ed
-	cp 040h		;82ee
+	ld a,h			;82ed   ; dentro del cuadro? se pinta (0x85-0x88 hacia abajo); C al salirse
+	cp 040h		;82ee   ; a la izquierda de 0x40, nada
 	ret c			;82f0
 	call L_8356		;82f1
-	ld de,0cb98h		;82f4
+	ld de,0cb98h		;82f4   ; cuatro filas (0x85-0x88) sin pasar de 0xCB98
 	ld bc,00020h		;82f7
 	rst 20h			;82fa
 	ccf			;82fb
@@ -504,17 +504,17 @@ L_82ED:
 	ld (hl),088h		;830f
 	ret			;8311
 L_8312:
-	ld a,(ix+000h)		;8312
-	add a,010h		;8315
+	ld a,(ix+000h)		;8312   ; otra diagonal hacia abajo: 0x89-0x8C
+	add a,010h		;8315   ; desde el cruce + 0x10 en y y + 8 en x...
 	ld l,a			;8317
 	ld a,(ix+001h)		;8318
 	add a,008h		;831b
 	ld h,a			;831d
 	ld (0ef80h),hl		;831e
 L_8321:
-	call L_8335		;8321
+	call L_8335		;8321   ; ...un trozo
 	ret nc			;8324
-	ld hl,(0ef80h)		;8325
+	ld hl,(0ef80h)		;8325   ; el siguiente: 0x18 mas abajo y 8 a la derecha
 	ld a,l			;8328
 	add a,018h		;8329
 	ld l,a			;832b
@@ -524,11 +524,11 @@ L_8321:
 	ld (0ef80h),hl		;8330
 	jr L_8321		;8333
 L_8335:
-	ld a,h			;8335
-	cp 0c0h		;8336
+	ld a,h			;8335   ; dentro del cuadro? se pinta; NC al salirse
+	cp 0c0h		;8336   ; desde la x 0xC0, nada
 	ret nc			;8338
 	call L_8356		;8339
-	ld de,0cb98h		;833c
+	ld de,0cb98h		;833c   ; cuatro filas (0x89-0x8C) sin pasar de 0xCB98
 	ld bc,00020h		;833f
 	rst 20h			;8342
 	ret nc			;8343
@@ -547,25 +547,25 @@ L_8335:
 	ld (hl),08ch		;8353
 	ret			;8355
 L_8356:
-	ld a,l			;8356
-	rra			;8357
+	ld a,l			;8356   ; la direccion del bufer de 0xCA00 de HL (L fila, H columna, en puntos)
+	rra			;8357   ; la fila (L / 8) x 0x20...
 	rra			;8358
 	rra			;8359
 	rra			;835a
 	rr h		;835b
 	rra			;835d
-	rr h		;835e
+	rr h		;835e   ; ...+ la columna (H / 8)...
 	rra			;8360
 	rr h		;8361
 	ld l,h			;8363
-	and 003h		;8364
+	and 003h		;8364   ; ...+ 0xCA00
 	add a,0cah		;8366
 	ld h,a			;8368
 	ret			;8369
 L_836A:
-	call 05de9h		;836a
-	call 05985h		;836d
-	ld bc,(0e322h)		;8370
+	call 05de9h		;836a   ; tras la fase 4: los sprites y la pantalla a la VRAM; por el subpaso (0xE322)
+	call 05985h		;836d   ; la pantalla a la VRAM
+	ld bc,(0e322h)		;8370   ; por el paso
 	ld a,c			;8374
 	call 04093h		;8375   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -582,63 +582,63 @@ DATA_tabla_8378:
 
 
 L_8380:
-	call 0580eh		;8380   ; sonido_3F: pide el sonido 0x3F
-	call L_8188		;8383
-	ld hl,0610eh		;8386
+	call 0580eh		;8380   ; paso 0: el sonido 0x3F, la consola con el contador de 0x610E y a bajar
+	call L_8188		;8383   ; el siguiente, la espera y la consola
+	ld hl,0610eh		;8386   ; con el contador de 0x610E
 	call 060f9h		;8389
 L_838C:
-	ld a,002h		;838c
-	ld (0e54ch),a		;838e
-	ld hl,00001h		;8391
+	ld a,002h		;838c   ; el contador baja (0xE54C = 2) de uno en uno (0xE54D = 1)
+	ld (0e54ch),a		;838e   ; 0xE54C = 2: baja
+	ld hl,00001h		;8391   ; de uno en uno
 	ld (0e54dh),hl		;8394
 	ret			;8397
 L_8398:
-	call 07320h		;8398
-	call L_8C9B		;839b
+	call 07320h		;8398   ; paso 1: la consola hasta que el contador llegue (p27:8C9B); luego quieto, el de 0x6108 y la secuencia de 0x61B4
+	call L_8C9B		;839b   ; hasta 6644
 	ret nz			;839e
-	xor a			;839f
+	xor a			;839f   ; quieto
 	ld (0e54ch),a		;83a0
-	ld hl,06108h		;83a3
+	ld hl,06108h		;83a3   ; con el de 0x6108
 	call 060f9h		;83a6
-	ld hl,061b4h		;83a9
+	ld hl,061b4h		;83a9   ; la secuencia de 0x61B4
 	call 0612ah		;83ac
 	call L_83CF		;83af
 	ret			;83b2
 L_83B3:
-	call L_83C2		;83b3
-	ret nz			;83b6
-	call 07320h		;83b7
-	call 06135h		;83ba
+	call L_83C2		;83b3   ; paso 2: con un boton se salta; si no, la consola hasta acabar la secuencia
+	ret nz			;83b6   ; un boton: se salta
+	call 07320h		;83b7   ; la consola
+	call 06135h		;83ba   ; hasta acabar la secuencia
 	ret nz			;83bd
 	call L_83CF		;83be
 	ret			;83c1
 L_83C2:
-	ld a,(0e308h)		;83c2   ; lee lo recien pulsado (mando y cursores)
-	and 030h		;83c5
+	ld a,(0e308h)		;83c2   ; un boton: al paso 3
+	and 030h		;83c5   ; los botones
 	ret z			;83c7
-	ld hl,00003h		;83c8
+	ld hl,00003h		;83c8   ; al paso 3
 	ld (0e322h),hl		;83cb
 	ret			;83ce
 L_83CF:
-	ld hl,0e322h		;83cf
-	inc (hl)			;83d2
+	ld hl,0e322h		;83cf   ; el paso siguiente (0xE322), con el subpaso a 0
+	inc (hl)			;83d2   ; el paso + 1, el subpaso a 0
 	inc hl			;83d3
 	ld (hl),000h		;83d4
 	ret			;83d6
 L_83D7:
-	ld hl,0e323h		;83d7
+	ld hl,0e323h		;83d7   ; el subpaso siguiente (0xE323)
 	inc (hl)			;83da
 	ret			;83db
 L_83DC:
-	ld hl,0e5c0h		;83dc
-	ld de,0e5c1h		;83df
+	ld hl,0e5c0h		;83dc   ; 0xE5C0-0xE5DF a cero
+	ld de,0e5c1h		;83df   ; 0x20 bytes
 	ld bc,0001fh		;83e2
 	ld (hl),000h		;83e5
 	ldir		;83e7
 	ret			;83e9
 L_83EA:
-	call 05de9h		;83ea
-	ld bc,(0e329h)		;83ed
+	call 05de9h		;83ea   ; el final (estado 10): los sprites a la VRAM, la pantalla salvo en el paso 4 desde el subpaso 7; por el paso (0xE329)
+	ld bc,(0e329h)		;83ed   ; en el paso 4 desde el subpaso 7, la pantalla no
 	ld a,c			;83f1
 	cp 004h		;83f2
 	jr nz,L_83FB		;83f4
@@ -648,7 +648,7 @@ L_83EA:
 L_83FB:
 	call 05985h		;83fb
 L_83FE:
-	ld bc,(0e329h)		;83fe
+	ld bc,(0e329h)		;83fe   ; por el paso
 	ld a,c			;8402
 	call 04093h		;8403   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -665,18 +665,18 @@ DATA_tabla_8406:
 
 
 L_8410:
-	ld hl,0e329h		;8410
-	inc (hl)			;8413
+	ld hl,0e329h		;8410   ; el paso siguiente (0xE329), con el subpaso a 0
+	inc (hl)			;8413   ; el paso + 1, el subpaso a 0
 	inc hl			;8414
 	ld (hl),000h		;8415
 	ret			;8417
 L_8418:
-	ld hl,0e32ah		;8418
+	ld hl,0e32ah		;8418   ; el subpaso siguiente (0xE32A)
 	inc (hl)			;841b
 	ret			;841c
 L_841D:
-	push bc			;841d
-	ld a,b			;841e
+	push bc			;841d   ; paso 0: desde el subpaso 1 la consola cada cuadro; por el subpaso
+	ld a,b			;841e   ; desde el subpaso 1, la consola
 	or a			;841f
 	call nz,07320h		;8420
 	pop af			;8423
@@ -696,93 +696,93 @@ DATA_tabla_8427:
 
 
 L_8437:
-	call 0594dh		;8437   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
+	call 0594dh		;8437   ; subpaso 0: la orden 0x83, el sonido 0x42, la paleta, la pantalla en blanco, la consola y 0x78 cuadros
 	call 05827h		;843a   ; sonido_42: pide el sonido 0x42
-	call 05718h		;843d
+	call 05718h		;843d   ; la paleta
 	call 04aa9h		;8440   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
-	call 06033h		;8443
-	call 060dfh		;8446
-	ld hl,06108h		;8449
+	call 06033h		;8443   ; los dibujos de sprite a cero
+	call 060dfh		;8446   ; la consola
+	ld hl,06108h		;8449   ; con el contador de 0x6108
 	call 060f9h		;844c
-	ld a,078h		;844f
+	ld a,078h		;844f   ; 0x78 cuadros
 	ld (0e40ch),a		;8451
 	call L_8418		;8454
 	ret			;8457
 L_8458:
-	ld hl,0e40ch		;8458
-	dec (hl)			;845b
+	ld hl,0e40ch		;8458   ; subpaso 1: al acabar, la paleta 4, los graficos de p29:A1D6 y A225, p27:84A7 con 0 y la secuencia de 0x620A
+	dec (hl)			;845b   ; la espera
 	ret nz			;845c
-	ld a,004h		;845d
+	ld a,004h		;845d   ; la paleta 4
 	call 05709h		;845f
 	call 041e4h		;8462   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
-	ld ix,0a1d6h		;8465
+	ld ix,0a1d6h		;8465   ; la lista de p29:A1D6...
 	call 04cb1h		;8469   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
-	ld ix,0a225h		;846c
+	ld ix,0a225h		;846c   ; ...y sus copias (p29:A225)
 	call 04d17h		;8470
 	call 041bfh		;8473   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
-	xor a			;8476
+	xor a			;8476   ; el cuadro 0
 	call L_84A7		;8477
-	ld hl,0620ah		;847a
+	ld hl,0620ah		;847a   ; la secuencia de 0x620A
 	call 0612ah		;847d
 	call L_8418		;8480
 	ret			;8483
 L_8484:
-	call 06135h		;8484
-	ret nz			;8487
-	ld hl,00500h		;8488
+	call 06135h		;8484   ; subpaso 2: al acabar la secuencia, la animacion de 5 cuadros (0xE5D0 = 0, 0xE5D1 = 5)
+	ret nz			;8487   ; al acabar la secuencia
+	ld hl,00500h		;8488   ; desde el cuadro 0, 5 cuadros
 	ld (0e5d0h),hl		;848b
-	ld a,001h		;848e
+	ld a,001h		;848e   ; la espera, 1
 	ld (0e40ch),a		;8490
 	call L_8418		;8493
 	ret			;8496
 L_8497:
-	ld hl,0e40ch		;8497
-	dec (hl)			;849a
+	ld hl,0e40ch		;8497   ; subpaso 3: cada 0x78 cuadros el cuadro siguiente; al acabar, la secuencia de 0x6213
+	dec (hl)			;849a   ; la espera
 	ret nz			;849b
-	ld (hl),078h		;849c
-	ld hl,0e5d1h		;849e
+	ld (hl),078h		;849c   ; 0x78 cuadros mas
+	ld hl,0e5d1h		;849e   ; uno menos; acabados, p27:84B4
 	dec (hl)			;84a1
 	jr z,L_84B4		;84a2
-	dec hl			;84a4
+	dec hl			;84a4   ; el cuadro siguiente
 	ld a,(hl)			;84a5
 	inc (hl)			;84a6
 L_84A7:
-	call 041e4h		;84a7   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
-	ld hl,0b467h		;84aa
+	call 041e4h		;84a7   ; el cuadro A de la tabla de p29:B467 en el bufer (p26:6064)
+	ld hl,0b467h		;84aa   ; en la tabla de p29:B467
 	call 06064h		;84ad
 	call 041bfh		;84b0   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ret			;84b3
 L_84B4:
-	ld hl,06213h		;84b4
+	ld hl,06213h		;84b4   ; la secuencia de 0x6213
 	call 0612ah		;84b7
 	call L_8418		;84ba
 	ret			;84bd
 L_84BE:
-	call 06135h		;84be
-	ret nz			;84c1
-	ld a,005h		;84c2
+	call 06135h		;84be   ; subpaso 4: al acabar la secuencia, la paleta 5, los graficos de p29:A808 y A81B, y 7 cuadros desde el 4
+	ret nz			;84c1   ; al acabarla
+	ld a,005h		;84c2   ; la paleta 5
 	call 05709h		;84c4
 	call 041e4h		;84c7   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
-	ld ix,0a808h		;84ca
+	ld ix,0a808h		;84ca   ; la lista de p29:A808...
 	call 04cb1h		;84ce   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
-	ld ix,0a81bh		;84d1
+	ld ix,0a81bh		;84d1   ; ...y sus copias
 	call 04d17h		;84d5
 	call 041bfh		;84d8   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
-	ld hl,00704h		;84db
+	ld hl,00704h		;84db   ; desde el cuadro 4, 7 cuadros
 	ld (0e5d0h),hl		;84de
 	ld a,001h		;84e1
 	ld (0e40ch),a		;84e3
 	call L_8418		;84e6
 	ret			;84e9
 L_84EA:
-	ld hl,0e40ch		;84ea
-	dec (hl)			;84ed
+	ld hl,0e40ch		;84ea   ; subpaso 5: cada 0x14 cuadros el siguiente; al acabar, 0xB4 cuadros
+	dec (hl)			;84ed   ; la espera
 	ret nz			;84ee
-	ld (hl),014h		;84ef
-	ld hl,0e5d1h		;84f1
+	ld (hl),014h		;84ef   ; 0x14 cuadros mas
+	ld hl,0e5d1h		;84f1   ; uno menos; acabados, 0xB4 cuadros
 	dec (hl)			;84f4
 	jr z,L_84FC		;84f5
-	dec hl			;84f7
+	dec hl			;84f7   ; el cuadro siguiente
 	ld a,(hl)			;84f8
 	inc (hl)			;84f9
 	jr L_84A7		;84fa
@@ -792,10 +792,10 @@ L_84FC:
 	call L_8418		;8501
 	ret			;8504
 L_8505:
-	ld hl,0e40ch		;8505
-	dec (hl)			;8508
+	ld hl,0e40ch		;8505   ; subpaso 6: parpadea entre los cuadros 0x0A y 0x0B (cada 8); al acabar, la secuencia de 0x621C
+	dec (hl)			;8508   ; la espera; al acabar, la secuencia
 	jr z,L_8517		;8509
-	bit 3,(hl)		;850b
+	bit 3,(hl)		;850b   ; cada 8 cuadros el 0x0A o el 0x0B
 	ld a,00ah		;850d
 	jr z,L_8513		;850f
 	ld a,00bh		;8511
@@ -803,17 +803,17 @@ L_8513:
 	call L_84A7		;8513
 	ret			;8516
 L_8517:
-	ld hl,0621ch		;8517
+	ld hl,0621ch		;8517   ; la secuencia de 0x621C
 	call 0612ah		;851a
 	call L_8418		;851d
 	ret			;8520
 L_8521:
-	call 06135h		;8521
-	ret nz			;8524
-	call L_8410		;8525
+	call 06135h		;8521   ; subpaso 7: al acabar la secuencia, al paso 1
+	ret nz			;8524   ; al acabarla
+	call L_8410		;8525   ; al paso 1
 	ret			;8528
 L_8529:
-	ld a,b			;8529
+	ld a,b			;8529   ; paso 1, el planeta: por el subpaso
 	call 04093h		;852a   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -830,104 +830,104 @@ DATA_tabla_852D:
 
 
 L_853D:
-	call 04aa9h		;853d   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
-	call 05959h		;8540
-	call 05648h		;8543
-	call 0be34h		;8546
+	call 04aa9h		;853d   ; subpaso 0: la pantalla en blanco, el bufer a cero, los sprites fuera, las estrellas (p28:BE34, BBE9)
+	call 05959h		;8540   ; el bufer a cero
+	call 05648h		;8543   ; los sprites fuera
+	call 0be34h		;8546   ; las estrellas (p28)
 	call 0bbe9h		;8549
-	xor a			;854c
+	xor a			;854c   ; sin espera
 	ld (0e40ch),a		;854d
 	call L_8418		;8550
 	ret			;8553
 L_8554:
-	call 0bc08h		;8554
-	ld hl,0e40ch		;8557
+	call 0bc08h		;8554   ; subpaso 1: las estrellas se mueven (p28:BC08) y, al acabar la espera, p27:8563
+	ld hl,0e40ch		;8557   ; la espera
 	dec (hl)			;855a
 	ret nz			;855b
-	call L_8563		;855c
+	call L_8563		;855c   ; el planeta
 	call L_8418		;855f
 	ret			;8562
 L_8563:
-	ld a,007h		;8563
-	call 05709h		;8565
-	call L_8A7F		;8568
-	ld hl,00500h		;856b
+	ld a,007h		;8563   ; la paleta 7, el planeta (p27:8A7F) y su animacion de 5 cuadros
+	call 05709h		;8565   ; la paleta 7
+	call L_8A7F		;8568   ; los graficos del planeta
+	ld hl,00500h		;856b   ; desde el cuadro 0, 5 cuadros
 	ld (0e5d0h),hl		;856e
 	ld a,001h		;8571
 	ld (0e40ch),a		;8573
 	ret			;8576
 L_8577:
-	call 0bc08h		;8577
-	ld hl,0e40ch		;857a
+	call 0bc08h		;8577   ; subpaso 2: cada 0x5A cuadros el cuadro siguiente del planeta (tabla de p29:B2E7); al acabar, p27:8A94 y 8AAE
+	ld hl,0e40ch		;857a   ; la espera
 	dec (hl)			;857d
 	ret nz			;857e
-	ld (hl),05ah		;857f
-	ld hl,0e5d1h		;8581
+	ld (hl),05ah		;857f   ; 0x5A cuadros mas
+	ld hl,0e5d1h		;8581   ; uno menos; acabados, p27:8597
 	dec (hl)			;8584
 	jr z,L_8597		;8585
-	dec hl			;8587
+	dec hl			;8587   ; el cuadro siguiente
 	ld a,(hl)			;8588
 	inc (hl)			;8589
 L_858A:
-	ld hl,0b2e7h		;858a
+	ld hl,0b2e7h		;858a   ; en la tabla de p29:B2E7
 	call 041e4h		;858d   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 	call 06064h		;8590
 	call 041bfh		;8593   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ret			;8596
 L_8597:
-	call L_8A94		;8597
+	call L_8A94		;8597   ; los sprites de la nave y la primera que cruza
 	call L_8AAE		;859a
 	call L_8418		;859d
 	ret			;85a0
 L_85A1:
-	call L_8ADF		;85a1
-	ld a,(0e5d6h)		;85a4
+	call L_8ADF		;85a1   ; subpaso 3: p27:8ADF hasta que 0xE5D6 vuelva a 0; luego la secuencia de 0x6225 (VIXEN ENTERED TIME-WARP)
+	ld a,(0e5d6h)		;85a4   ; hasta que acabe
 	or a			;85a7
 	ret nz			;85a8
-	call L_8A6C		;85a9
-	ld hl,06225h		;85ac
+	call L_8A6C		;85a9   ; los sprites de abajo fuera
+	ld hl,06225h		;85ac   ; la secuencia de 0x6225
 	call 0612ah		;85af
 	call L_8418		;85b2
 	ret			;85b5
 L_85B6:
-	call 06135h		;85b6
-	ret nz			;85b9
-	call L_8AA4		;85ba
+	call 06135h		;85b6   ; subpaso 4: al acabar la secuencia, p27:8AA4
+	ret nz			;85b9   ; al acabarla
+	call L_8AA4		;85ba   ; la segunda nave
 	call L_8418		;85bd
 	ret			;85c0
 L_85C1:
-	call L_8ADF		;85c1
-	ld a,(0e5d6h)		;85c4
+	call L_8ADF		;85c1   ; subpaso 5: lo mismo hasta 0xE5D6 = 0; las estrellas otra vez y 0x3C cuadros
+	ld a,(0e5d6h)		;85c4   ; hasta que acabe
 	or a			;85c7
 	ret nz			;85c8
-	call 0be34h		;85c9
+	call 0be34h		;85c9   ; las estrellas otra vez
 	call 0bbe9h		;85cc
-	ld a,03ch		;85cf
+	ld a,03ch		;85cf   ; 0x3C cuadros
 	ld (0e40ch),a		;85d1
 	call L_8418		;85d4
 	ret			;85d7
 L_85D8:
-	call 0bc12h		;85d8
-	ld hl,0e40ch		;85db
+	call 0bc12h		;85d8   ; subpaso 6: las estrellas (p28:BC12); al acabar, 3 cuadros desde el 5
+	ld hl,0e40ch		;85db   ; la espera
 	dec (hl)			;85de
 	ret nz			;85df
-	ld hl,00503h		;85e0
+	ld hl,00503h		;85e0   ; desde el cuadro 3, 5 cuadros
 	ld (0e5d0h),hl		;85e3
 	ld a,001h		;85e6
 	ld (0e40ch),a		;85e8
 	call L_8418		;85eb
 	ret			;85ee
 L_85EF:
-	call 0bc12h		;85ef
-	ld hl,0e40ch		;85f2
+	call 0bc12h		;85ef   ; subpaso 7: cada 0x5A cuadros el cuadro anterior; al acabar, al paso 2
+	ld hl,0e40ch		;85f2   ; la espera
 	dec (hl)			;85f5
 	ret nz			;85f6
-	ld (hl),05ah		;85f7
-	call 05959h		;85f9
-	ld hl,0e5d1h		;85fc
+	ld (hl),05ah		;85f7   ; 0x5A cuadros mas
+	call 05959h		;85f9   ; el bufer a cero
+	ld hl,0e5d1h		;85fc   ; uno menos; acabados, al paso 2
 	dec (hl)			;85ff
 	jr z,L_8609		;8600
-	dec hl			;8602
+	dec hl			;8602   ; el cuadro anterior (hacia atras)
 	ld a,(hl)			;8603
 	dec (hl)			;8604
 	call L_858A		;8605
@@ -938,14 +938,14 @@ L_8609:
 	call L_8410		;860d
 	ret			;8610
 L_8611:
-	push bc			;8611
-	ld a,b			;8612
+	push bc			;8611   ; paso 2: desde el subpaso 4 la consola y p27:8CBF cada cuadro; por el subpaso
+	ld a,b			;8612   ; desde el subpaso 4...
 	cp 004h		;8613
 	jr c,L_861D		;8615
-	call 07320h		;8617
+	call 07320h		;8617   ; ...la consola y el contador loco
 	call L_8CBF		;861a
 L_861D:
-	pop af			;861d
+	pop af			;861d   ; y por el subpaso
 	call 04093h		;861e   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -965,179 +965,179 @@ DATA_tabla_8621:
 
 
 L_8645:
-	call 0bc12h		;8645
-	ld hl,0e40ch		;8648
+	call 0bc12h		;8645   ; subpaso 0: las estrellas; al acabar, 0x78 cuadros
+	ld hl,0e40ch		;8648   ; la espera
 	dec (hl)			;864b
 	ret nz			;864c
-	ld a,078h		;864d
+	ld a,078h		;864d   ; 0x78 cuadros
 	ld (0e40ch),a		;864f
 	call L_8418		;8652
 	ret			;8655
 L_8656:
-	call 0bc12h		;8656
-	ld hl,0e40ch		;8659
+	call 0bc12h		;8656   ; subpaso 1: al acabar, los sprites fuera, el bufer a cero, el sonido 0x4D y 0x96 cuadros
+	ld hl,0e40ch		;8659   ; la espera
 	dec (hl)			;865c
 	ret nz			;865d
-	call 05648h		;865e
-	call 05959h		;8661
-	ld a,096h		;8664
+	call 05648h		;865e   ; los sprites fuera
+	call 05959h		;8661   ; el bufer a cero
+	ld a,096h		;8664   ; 0x96 cuadros
 	ld (0e40ch),a		;8666
 	call 058fdh		;8669   ; sonido_4D: pide el sonido 0x4D
 	call L_8418		;866c
 	ret			;866f
 L_8670:
-	ld a,(0e40ch)		;8670
-	and 00fh		;8673
+	ld a,(0e40ch)		;8670   ; subpaso 2: el borde cambia de color cada cuadro (la cuenta); al acabar, negro y el sonido 0x52
+	and 00fh		;8673   ; el color del borde: la cuenta & 0x0F
 	or 0e0h		;8675
 	ld b,a			;8677
 	call 04c40h		;8678   ; color_del_borde: B al registro 7 del VDP
-	ld hl,0e40ch		;867b
+	ld hl,0e40ch		;867b   ; la espera
 	dec (hl)			;867e
 	ret nz			;867f
-	ld b,0e0h		;8680
+	ld b,0e0h		;8680   ; negro otra vez
 	call 04c40h		;8682   ; color_del_borde: B al registro 7 del VDP
 	call 0591ah		;8685   ; sonido_52: pide el sonido 0x52
 	call L_8418		;8688
 	ret			;868b
 L_868C:
-	call 060dfh		;868c
-	ld a,003h		;868f
+	call 060dfh		;868c   ; subpaso 3: la consola (cada 3 cuadros) con el contador de 0x6108, p27:8CDD y 0x3C cuadros
+	ld a,003h		;868f   ; la consola, cada 3 cuadros
 	ld (0e540h),a		;8691
-	ld hl,06108h		;8694
+	ld hl,06108h		;8694   ; con el contador de 0x6108
 	call 060f9h		;8697
-	call L_8CDD		;869a
-	ld a,03ch		;869d
+	call L_8CDD		;869a   ; los graficos de p29:AACE
+	ld a,03ch		;869d   ; carga A = 0x3C pero guarda HL: la espera es lo que deje HL (L en 0xE40C)
 	ld (0e40ch),hl		;869f
 	call L_8418		;86a2
 	ret			;86a5
 L_86A6:
-	call L_8CEB		;86a6
-	ld hl,0e40ch		;86a9
+	call L_8CEB		;86a6   ; subpaso 4: al acabar, la secuencia de 0x622E
+	ld hl,0e40ch		;86a9   ; la espera
 	dec (hl)			;86ac
 	ret nz			;86ad
-	ld hl,0622eh		;86ae
+	ld hl,0622eh		;86ae   ; la secuencia de 0x622E
 	call 0612ah		;86b1
 	call L_8418		;86b4
 	ret			;86b7
 L_86B8:
-	call L_8CEB		;86b8
-	call 06135h		;86bb
+	call L_8CEB		;86b8   ; subpaso 5: al acabarla, el bufer de 0xCC22 a cero
+	call 06135h		;86bb   ; hasta acabarla
 	ret nz			;86be
-	call 060cah		;86bf
-	xor a			;86c2
+	call 060cah		;86bf   ; el cuadro de 0xCC22 a cero
+	xor a			;86c2   ; sin espera
 	ld (0e40ch),a		;86c3
 	call L_8418		;86c6
 	ret			;86c9
 L_86CA:
-	call L_8CEB		;86ca
-	ld hl,0e40ch		;86cd
+	call L_8CEB		;86ca   ; subpaso 6: al acabar, el de 0xCA48
+	ld hl,0e40ch		;86cd   ; la espera
 	dec (hl)			;86d0
 	ret nz			;86d1
-	call 060c0h		;86d2
+	call 060c0h		;86d2   ; el cuadro de 0xCA48 a cero
 	call L_8418		;86d5
 	ret			;86d8
 L_86D9:
-	call L_8D00		;86d9
-	call L_8D3E		;86dc
-	ld a,0b4h		;86df
+	call L_8D00		;86d9   ; subpaso 7: p27:8D00 y 8D3E, 0xB4 cuadros
+	call L_8D3E		;86dc   ; la nave elegida
+	ld a,0b4h		;86df   ; 0xB4 cuadros
 	ld (0e40ch),a		;86e1
 	call L_8418		;86e4
 	ret			;86e7
 L_86E8:
-	call L_8D7D		;86e8
-	ld hl,0e40ch		;86eb
+	call L_8D7D		;86e8   ; subpaso 8: al acabar, la secuencia de 0x6233 y la orden 0x84
+	ld hl,0e40ch		;86eb   ; la espera
 	dec (hl)			;86ee
 	ret nz			;86ef
-	ld hl,06233h		;86f0
+	ld hl,06233h		;86f0   ; la secuencia de 0x6233
 	call 0612ah		;86f3
 	call 05951h		;86f6   ; orden_sonido_84: manda la orden 0x84 al motor de sonido
 	call L_8418		;86f9
 	ret			;86fc
 L_86FD:
-	call L_8D7D		;86fd
-	call 06135h		;8700
+	call L_8D7D		;86fd   ; subpaso 9: al acabarla, p27:8D84, los dos cuadros a cero, la orden 0x83 y el sonido 1
+	call 06135h		;8700   ; hasta acabarla
 	ret nz			;8703
-	call L_8D84		;8704
-	call 060c0h		;8707
+	call L_8D84		;8704   ; los sprites fuera
+	call 060c0h		;8707   ; los dos cuadros a cero
 	call 060cah		;870a
 	call L_8418		;870d
 	call 0594dh		;8710   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
 	call 057eah		;8713   ; sonido_01: pide el sonido 0x01
 	ret			;8716
 L_8717:
-	ld a,006h		;8717
-	call 05709h		;8719
-	call L_8DD9		;871c
-	call L_8E21		;871f
-	call L_8DF5		;8722
+	ld a,006h		;8717   ; subpaso 0x0A: la paleta 6, p27:8DD9, 8E21 y 8DF5, el sonido 0x53 y 0x80 cuadros
+	call 05709h		;8719   ; la paleta 6
+	call L_8DD9		;871c   ; los graficos de p29:B8BB
+	call L_8E21		;871f   ; el dibujo de p29:BC13
+	call L_8DF5		;8722   ; y el de 0x8E19
 	call 05941h		;8725   ; sonido_53: pide el sonido 0x53
-	ld a,080h		;8728
+	ld a,080h		;8728   ; 0x80 cuadros
 	ld (0e40ch),a		;872a
 	call L_8418		;872d
 	ret			;8730
 L_8731:
-	ld hl,0e40ch		;8731
-	dec (hl)			;8734
+	ld hl,0e40ch		;8731   ; subpaso 0x0B: al acabar, la secuencia de 0x6238 y el sonido 0x40
+	dec (hl)			;8734   ; la espera
 	ret nz			;8735
-	ld hl,06238h		;8736
+	ld hl,06238h		;8736   ; la secuencia de 0x6238
 	call 0612ah		;8739
 	call 05812h		;873c   ; sonido_40: pide el sonido 0x40
 	call L_8418		;873f
 	ret			;8742
 L_8743:
-	call L_8DFA		;8743
-	call 06135h		;8746
+	call L_8DFA		;8743   ; subpaso 0x0C: p27:8DFA hasta acabarla; luego p27:8E04, el cuadro de 0xCC22 a cero y 0x78 cuadros
+	call 06135h		;8746   ; hasta acabarla, parpadeando
 	ret nz			;8749
-	call L_8E04		;874a
+	call L_8E04		;874a   ; al acabar, el de 0x8E11
 	call 060cah		;874d
-	ld a,078h		;8750
+	ld a,078h		;8750   ; 0x78 cuadros
 	ld (0e40ch),a		;8752
 	call L_8418		;8755
 	ret			;8758
 L_8759:
-	ld hl,0e40ch		;8759
-	dec (hl)			;875c
+	ld hl,0e40ch		;8759   ; subpaso 0x0D: al acabar, el de 0xCA48 a cero y los sprites fuera
+	dec (hl)			;875c   ; la espera
 	ret nz			;875d
-	call 060c0h		;875e
-	call 05648h		;8761
+	call 060c0h		;875e   ; el cuadro de 0xCA48 a cero
+	call 05648h		;8761   ; los sprites fuera
 	call L_8418		;8764
 	ret			;8767
 L_8768:
-	ld hl,06241h		;8768
-	call 0612ah		;876b
+	ld hl,06241h		;8768   ; subpaso 0x0E: la secuencia de 0x6241
+	call 0612ah		;876b   ; la secuencia
 	call L_8418		;876e
 	ret			;8771
 L_8772:
-	call 06135h		;8772
-	ret nz			;8775
-	call 060cah		;8776
+	call 06135h		;8772   ; subpaso 0x0F: al acabarla, el cuadro de 0xCC22 a cero
+	ret nz			;8775   ; hasta acabarla
+	call 060cah		;8776   ; el cuadro de 0xCC22 a cero
 	call L_8418		;8779
 	ret			;877c
 L_877D:
-	call L_8418		;877d
+	call L_8418		;877d   ; subpaso 0x10: nada
 	ret			;8780
 L_8781:
-	ld a,002h		;8781
-	call 05709h		;8783
-	ld a,(0e396h)		;8786
-	or a			;8789
+	ld a,002h		;8781   ; subpaso 0x11: la paleta 2; con 0xE396 al paso 3, sin ella dos pasos (al 4)
+	call 05709h		;8783   ; la paleta 2
+	ld a,(0e396h)		;8786   ; lee 1 si se cogio la entrada secreta 0x0B (el final con un paso mas)
+	or a			;8789   ; la entrada secreta 0x0B (0xE396)?
 	jr nz,L_8793		;878a
-	call L_8410		;878c
+	call L_8410		;878c   ; sin ella, se salta el paso 3
 	call L_8410		;878f
 	ret			;8792
 L_8793:
 	call L_8410		;8793
 	ret			;8796
 L_8797:
-	push bc			;8797
-	push bc			;8798
+	push bc			;8797   ; paso 3: hasta el subpaso 5 p27:8CBF y hasta el 7 la consola; por el subpaso
+	push bc			;8798   ; hasta el subpaso 5, el contador loco
 	ld a,b			;8799
 	cp 006h		;879a
 	call c,L_8CBF		;879c
 	pop af			;879f
-	cp 008h		;87a0
+	cp 008h		;87a0   ; hasta el 7, la consola
 	call c,07320h		;87a2
-	pop af			;87a5
+	pop af			;87a5   ; y por el subpaso
 	call 04093h		;87a6   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -1157,118 +1157,118 @@ DATA_tabla_87A9:
 
 
 L_87CF:
-	ld hl,06246h		;87cf
-	call 0612ah		;87d2
+	ld hl,06246h		;87cf   ; subpaso 0: la secuencia de 0x6246
+	call 0612ah		;87d2   ; la secuencia de 0x6246
 	call L_8418		;87d5
 	ret			;87d8
 L_87D9:
-	call 06135h		;87d9
-	ret nz			;87dc
+	call 06135h		;87d9   ; subpaso 1: al acabarla, la orden 0x84
+	ret nz			;87dc   ; al acabarla
 	call 05951h		;87dd   ; orden_sonido_84: manda la orden 0x84 al motor de sonido
-	xor a			;87e0
+	xor a			;87e0   ; sin espera
 	ld (0e40ch),a		;87e1
 	call L_8418		;87e4
 	ret			;87e7
 L_87E8:
-	ld hl,0e40ch		;87e8
-	dec (hl)			;87eb
+	ld hl,0e40ch		;87e8   ; subpaso 2: la orden 0x83, el sonido 0x49, p00:5730, p27:8E4C y 8E63
+	dec (hl)			;87eb   ; la espera
 	ret nz			;87ec
 	call 0594dh		;87ed   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
 	call 0581ah		;87f0   ; sonido_49: pide el sonido 0x49
-	call 05730h		;87f3
-	call L_8E4C		;87f6
-	call L_8E63		;87f9
-	ld hl,00000h		;87fc
-	ld (0e5d0h),hl		;87ff
-	ld a,008h		;8802
+	call 05730h		;87f3   ; la cuenta de 0xE339 a cero
+	call L_8E4C		;87f6   ; los graficos de p29:BD4D...
+	call L_8E63		;87f9   ; ...y el dibujo de 0x8E70
+	ld hl,00000h		;87fc   ; el cuadro 0 y 8 cuadros por paso de la consola
+	ld (0e5d0h),hl		;87ff   ; el cuadro 0
+	ld a,008h		;8802   ; la consola cada 8 cuadros
 	ld (0e540h),a		;8804
 	call L_8418		;8807
 	ret			;880a
 L_880B:
-	ld hl,0e40ch		;880b
-	dec (hl)			;880e
+	ld hl,0e40ch		;880b   ; subpaso 3: cada 0x1E cuadros p27:8E8E y el cuadro siguiente; al cuarto, 0x3C cuadros
+	dec (hl)			;880e   ; la espera
 	ret nz			;880f
-	call L_8E8E		;8810
-	ld hl,0e5d0h		;8813
+	call L_8E8E		;8810   ; los sprites del cuadro...
+	ld hl,0e5d0h		;8813   ; ...y el siguiente
 	inc (hl)			;8816
 	ld a,(hl)			;8817
-	cp 004h		;8818
+	cp 004h		;8818   ; hasta el 4: 0x1E cuadros cada uno
 	jr nc,L_8822		;881a
 	ld a,01eh		;881c
 	ld (0e40ch),a		;881e
 	ret			;8821
 L_8822:
-	ld a,03ch		;8822
+	ld a,03ch		;8822   ; acabados: 0x3C cuadros
 	ld (0e40ch),a		;8824
 	call L_8418		;8827
 	ret			;882a
 L_882B:
-	call L_8E83		;882b
-	ld hl,0e40ch		;882e
+	call L_8E83		;882b   ; subpaso 4: p27:8E83; al acabar la espera, la secuencia de 0x624F
+	ld hl,0e40ch		;882e   ; la espera
 	dec (hl)			;8831
 	ret nz			;8832
-	ld hl,0624fh		;8833
+	ld hl,0624fh		;8833   ; la secuencia de 0x624F
 	call 0612ah		;8836
 	call L_8418		;8839
 	ret			;883c
 L_883D:
-	call L_8E83		;883d
-	call 06135h		;8840
+	call L_8E83		;883d   ; subpaso 5: hasta acabarla; luego p27:8E7C
+	call 06135h		;8840   ; hasta acabarla
 	ret nz			;8843
-	call L_8E7C		;8844
+	call L_8E7C		;8844   ; los sprites fuera y el cuadro a cero
 	call L_8418		;8847
 	ret			;884a
 L_884B:
-	call L_8C62		;884b
-	call L_8418		;884e
+	call L_8C62		;884b   ; subpaso 6: p27:8C62
+	call L_8418		;884e   ; el contador hacia 6809
 	ret			;8851
 L_8852:
-	call L_8CA3		;8852
-	ret nz			;8855
-	ld hl,06102h		;8856
+	call L_8CA3		;8852   ; subpaso 7: hasta que el contador llegue (p27:8CA3); luego quieto, el de 0x6102 y 0x78 cuadros
+	ret nz			;8855   ; hasta llegar
+	ld hl,06102h		;8856   ; con el de 0x6102
 	call 060f9h		;8859
-	xor a			;885c
+	xor a			;885c   ; quieto
 	ld (0e54ch),a		;885d
-	ld a,078h		;8860
+	ld a,078h		;8860   ; 0x78 cuadros
 	ld (0e40ch),a		;8862
 	call L_8418		;8865
 	ret			;8868
 L_8869:
-	ld hl,0e40ch		;8869
-	dec (hl)			;886c
+	ld hl,0e40ch		;8869   ; subpaso 8: al acabar, el bufer a cero
+	dec (hl)			;886c   ; la espera
 	ret nz			;886d
-	call 05959h		;886e
+	call 05959h		;886e   ; el bufer a cero
 	call L_8418		;8871
 	ret			;8874
 L_8875:
-	call L_8ADF		;8875
-	ld a,(0e5d6h)		;8878
+	call L_8ADF		;8875   ; subpaso 9: p27:8ADF hasta que 0xE5D6 vuelva a 0; los sprites de abajo fuera (p27:8A6C) y 0x78 cuadros
+	ld a,(0e5d6h)		;8878   ; hasta que acabe la nave
 	or a			;887b
 	ret nz			;887c
-	call L_8A6C		;887d
+	call L_8A6C		;887d   ; los sprites de abajo fuera
 	call L_8418		;8880
-	ld a,078h		;8883
+	ld a,078h		;8883   ; 0x78 cuadros
 	ld (0e40ch),a		;8885
 	ret			;8888
 L_8889:
-	ld hl,0e40ch		;8889
-	dec (hl)			;888c
+	ld hl,0e40ch		;8889   ; subpaso 0x0A: al acabar, los graficos de p29:ABBF y ABD9, 0x1300-0x145F a cero, un rectangulo de 5 x 0x0F (p29:B41C en 0xCC29) y lo de 0x88C4 aparece con 0xF0
+	dec (hl)			;888c   ; la espera
 	ret nz			;888d
 	call 041e4h		;888e   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
-	ld ix,0abbfh		;8891
+	ld ix,0abbfh		;8891   ; la lista de p29:ABBF...
 	call 04cb1h		;8895   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
-	ld ix,0abd9h		;8898
+	ld ix,0abd9h		;8898   ; ...y sus copias
 	call 04d17h		;889c
-	ld hl,01300h		;889f
+	ld hl,01300h		;889f   ; 0x1300-0x145F a cero
 	ld bc,00160h		;88a2
 	xor a			;88a5
 	call 00056h		;88a6   ; BIOS FILVRM - Fills VRAM with value
-	ld hl,0b41ch		;88a9
+	ld hl,0b41ch		;88a9   ; el dibujo de p29:B41C, 5 filas de 0x0F en 0xCC29
 	ld de,0cc29h		;88ac
 	ld bc,0050fh		;88af
 	call 059a1h		;88b2
 	call 041bfh		;88b5   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
-	ld hl,088c4h		;88b8
+	ld hl,088c4h		;88b8   ; lo de 0x88C4 aparece con 0xF0
 	ld c,0f0h		;88bb
 	call 07978h		;88bd
 	call L_8418		;88c0
@@ -1297,18 +1297,18 @@ DATA_leido_88C5:
 
 
 L_88C8:
-	call 07a3dh		;88c8
-	ld a,(0e564h)		;88cb
-	or a			;88ce
+	call 07a3dh		;88c8   ; subpaso 0x0B: hasta que acabe de aparecer
+	ld a,(0e564h)		;88cb   ; lee el llenado fila a fila en marcha
+	or a			;88ce   ; hasta que aparezca
 	ret nz			;88cf
 	call L_8418		;88d0
 	ret			;88d3
 L_88D4:
-	ld de,01284h		;88d4
-	call 05737h		;88d7
+	ld de,01284h		;88d4   ; subpaso 0x0C: a los 0x1284 cuadros de 0xE339, la orden 0x84 y se borra lo de 0x88E8
+	call 05737h		;88d7   ; hasta los 0x1284 cuadros
 	ret c			;88da
 	call 05951h		;88db   ; orden_sonido_84: manda la orden 0x84 al motor de sonido
-	ld hl,088e8h		;88de
+	ld hl,088e8h		;88de   ; se borra lo de 0x88E8
 	call 078a2h		;88e1
 	call L_8418		;88e4
 	ret			;88e7
@@ -1327,21 +1327,21 @@ DATA_resto_88E8:
 
 
 L_88EC:
-	call 078ach		;88ec
-	ld a,(0e560h)		;88ef
-	or a			;88f2
+	call 078ach		;88ec   ; subpaso 0x0D: al acabar, la pantalla en blanco, el bufer a cero y los sprites fuera
+	ld a,(0e560h)		;88ef   ; lee el borrado fila a fila en marcha
+	or a			;88f2   ; hasta que se borre
 	ret nz			;88f3
 	call 04aa9h		;88f4   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
-	call 05959h		;88f7
-	call 05985h		;88fa
-	call 05648h		;88fd
-	xor a			;8900
+	call 05959h		;88f7   ; el bufer a cero
+	call 05985h		;88fa   ; la pantalla a la VRAM
+	call 05648h		;88fd   ; los sprites fuera
+	xor a			;8900   ; sin espera
 	ld (0e40ch),a		;8901
 	call L_8418		;8904
 	ret			;8907
 L_8908:
-	ld hl,0e40ch		;8908
-	dec (hl)			;890b
+	ld hl,0e40ch		;8908   ; subpaso 0x0E: la orden 0x83 y el sonido 1
+	dec (hl)			;890b   ; la espera
 	ret nz			;890c
 	call 0594dh		;890d   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
 	call 057eah		;8910   ; sonido_01: pide el sonido 0x01
@@ -1349,11 +1349,11 @@ L_8908:
 	call L_8418		;8914
 	ret			;8917
 L_8918:
-	xor a			;8918
+	xor a			;8918   ; subpaso 0x0F: 0xE328 = 0, el final acabado
 	ld (0e328h),a		;8919   ; guarda 1: el final del juego (al estado 10)
 	ret			;891c
 L_891D:
-	ld a,b			;891d
+	ld a,b			;891d   ; paso 4: por el subpaso
 	call 04093h		;891e   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -1371,39 +1371,39 @@ DATA_tabla_8921:
 
 
 L_893F:
-	call L_8CBF		;893f
-	call 07320h		;8942
-	ld hl,06258h		;8945
+	call L_8CBF		;893f   ; subpaso 0: p27:8CBF, la consola y la secuencia de 0x6258
+	call 07320h		;8942   ; la consola
+	ld hl,06258h		;8945   ; la secuencia de 0x6258
 	call 0612ah		;8948
 	call L_8418		;894b
 	ret			;894e
 L_894F:
-	call L_8CBF		;894f
-	call 07320h		;8952
-	call 06135h		;8955
+	call L_8CBF		;894f   ; subpaso 1: hasta acabarla; luego el bufer a cero, los sprites fuera y la orden 0x84
+	call 07320h		;8952   ; la consola
+	call 06135h		;8955   ; hasta acabarla
 	ret nz			;8958
-	call 05959h		;8959
-	call 05648h		;895c
+	call 05959h		;8959   ; el bufer a cero
+	call 05648h		;895c   ; los sprites fuera
 	call 05951h		;895f   ; orden_sonido_84: manda la orden 0x84 al motor de sonido
-	xor a			;8962
+	xor a			;8962   ; sin espera
 	ld (0e40ch),a		;8963
 	call L_8418		;8966
 	ret			;8969
 L_896A:
-	ld hl,0e40ch		;896a
-	dec (hl)			;896d
+	ld hl,0e40ch		;896a   ; subpaso 2: la orden 0x83, el sonido 0x41 y la cuenta de 0xE339 a cero
+	dec (hl)			;896d   ; la espera
 	ret nz			;896e
 	call 0594dh		;896f   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
 	call 05816h		;8972   ; sonido_41: pide el sonido 0x41
-	call 05730h		;8975
+	call 05730h		;8975   ; la cuenta de 0xE339 a cero
 	call L_8418		;8978
 	ret			;897b
 L_897C:
-	ld hl,06265h		;897c
-	call 0612ah		;897f
+	ld hl,06265h		;897c   ; subpaso 3: la secuencia de 0x6265 y la pantalla aparece con pausas (p26:796B, desde 0x12 en japones o 0x32)
+	call 0612ah		;897f   ; la secuencia de 0x6265
 	ld hl,0c400h		;8982   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
-	ld c,0f0h		;8985
-	call 05636h		;8987
+	ld c,0f0h		;8985   ; la pantalla (0xC400) aparece con 0xF0...
+	call 05636h		;8987   ; ...con pausas desde el trozo 0x12 en japones o 0x32 en ingles
 	ld a,012h		;898a
 	jr z,L_8990		;898c
 	ld a,032h		;898e
@@ -1412,17 +1412,17 @@ L_8990:
 	call L_8418		;8993
 	ret			;8996
 L_8997:
-	call 079cfh		;8997
-	ld a,(0e564h)		;899a
-	or a			;899d
+	call 079cfh		;8997   ; subpaso 4: hasta que acabe (p26:79CF)
+	ld a,(0e564h)		;899a   ; lee el llenado fila a fila en marcha
+	or a			;899d   ; hasta que acabe
 	ret nz			;899e
 	call L_8418		;899f
 	ret			;89a2
 L_89A3:
-	ld de,00800h		;89a3
-	call 05737h		;89a6
+	ld de,00800h		;89a3   ; subpaso 5: a los 0x800 cuadros de 0xE339, se borra lo de 0x89B4
+	call 05737h		;89a6   ; hasta los 0x800 cuadros
 	ret c			;89a9
-	ld hl,089b4h		;89aa
+	ld hl,089b4h		;89aa   ; se borra lo de 0x89B4
 	call 078a2h		;89ad
 	call L_8418		;89b0
 	ret			;89b3
@@ -1457,94 +1457,94 @@ DATA_leido_89B7:
 
 
 L_89B8:
-	call 078ach		;89b8
-	ret nz			;89bb
+	call 078ach		;89b8   ; subpaso 6: al acabar, la pantalla en blanco
+	ret nz			;89bb   ; hasta que se borre
 	call 04aa9h		;89bc   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
-	call 05648h		;89bf
-	call 05959h		;89c2
-	call 05985h		;89c5
+	call 05648h		;89bf   ; los sprites fuera
+	call 05959h		;89c2   ; el bufer a cero
+	call 05985h		;89c5   ; la pantalla
 	call L_8418		;89c8
 	ret			;89cb
 L_89CC:
-	ld de,00870h		;89cc
-	call 05737h		;89cf
+	ld de,00870h		;89cc   ; subpaso 7: a los 0x870, la cuenta a cero y la orden 0x84
+	call 05737h		;89cf   ; hasta los 0x870 cuadros
 	ret c			;89d2
-	call 05730h		;89d3
+	call 05730h		;89d3   ; la cuenta a cero
 	call 05951h		;89d6   ; orden_sonido_84: manda la orden 0x84 al motor de sonido
 	call L_8418		;89d9
 	ret			;89dc
 L_89DD:
-	ld de,00172h		;89dd
-	call 05737h		;89e0
+	ld de,00172h		;89dd   ; subpaso 8: a los 0x172, la orden 0x83 y el sonido 1
+	call 05737h		;89e0   ; hasta los 0x172
 	ret c			;89e3
 	call 0594dh		;89e4   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
 	call 057eah		;89e7   ; sonido_01: pide el sonido 0x01
 	jp L_8418		;89ea
 L_89ED:
-	ld a,006h		;89ed
-	call 05709h		;89ef
-	call L_8E21		;89f2
+	ld a,006h		;89ed   ; subpaso 9: la paleta 6, p27:8E21 y 8DF5, la pantalla, el RLE de p29:BBF3 en 0x1E80 y la aparicion de p29:B8B7 (p00:5ED4)
+	call 05709h		;89ef   ; la paleta 6
+	call L_8E21		;89f2   ; los dibujos de p29:BC13 y 0x8E19
 	call L_8DF5		;89f5
-	call 05985h		;89f8
-	call 05959h		;89fb
+	call 05985h		;89f8   ; la pantalla
+	call 05959h		;89fb   ; el bufer a cero
 	call 041e4h		;89fe   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
-	ld de,0bbf3h		;8a01
+	ld de,0bbf3h		;8a01   ; el RLE de p29:BBF3 en 0x1E80
 	ld hl,01e80h		;8a04
 	call 04b3ch		;8a07   ; rle_a_vram: descomprime a la VRAM de HL el RLE de DE
-	ld hl,0b8b7h		;8a0a
+	ld hl,0b8b7h		;8a0a   ; la aparicion poco a poco de p29:B8B7
 	call 05ed4h		;8a0d
 	call 041bfh		;8a10   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	call L_8418		;8a13
 	ret			;8a16
 L_8A17:
-	call 041e4h		;8a17   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
-	call 05eech		;8a1a
+	call 041e4h		;8a17   ; subpaso 0x0A: la aparicion poco a poco hasta acabar (p00:5EEC); el sonido 1
+	call 05eech		;8a1a   ; la aparicion, cada cuadro
 	call 041bfh		;8a1d   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ld a,(0e518h)		;8a20   ; lee la aparicion poco a poco en marcha (1 o 2)
-	or a			;8a23
+	or a			;8a23   ; hasta acabarla
 	ret nz			;8a24
 	call 057eah		;8a25   ; sonido_01: pide el sonido 0x01
 	call L_8418		;8a28
 	ret			;8a2b
 L_8A2C:
-	call 05941h		;8a2c   ; sonido_53: pide el sonido 0x53
-	ld a,080h		;8a2f
+	call 05941h		;8a2c   ; subpaso 0x0B: el sonido 0x53 y 0x80 cuadros
+	ld a,080h		;8a2f   ; 0x80 cuadros
 	ld (0e40ch),a		;8a31
 	call L_8418		;8a34
 	ret			;8a37
 L_8A38:
-	ld hl,0e40ch		;8a38
-	dec (hl)			;8a3b
+	ld hl,0e40ch		;8a38   ; subpaso 0x0C: al acabar, el sonido 1 y la aparicion de 0x5ECD (p00:47B3)
+	dec (hl)			;8a3b   ; la espera
 	ret nz			;8a3c
 	call 057eah		;8a3d   ; sonido_01: pide el sonido 0x01
-	ld hl,05ecdh		;8a40
+	ld hl,05ecdh		;8a40   ; la aparicion de p00:5ECD con 1-2-3
 	call 047b3h		;8a43
 	call L_8418		;8a46
 	ret			;8a49
 L_8A4A:
-	call 047bch		;8a4a
+	call 047bch		;8a4a   ; subpaso 0x0D: hasta acabarla; los sprites fuera y 0xB4 cuadros (16 bits)
 	ld a,(0e518h)		;8a4d   ; lee la aparicion poco a poco en marcha (1 o 2)
-	or a			;8a50
+	or a			;8a50   ; hasta acabarla
 	ret nz			;8a51
-	call 05648h		;8a52
-	ld hl,000b4h		;8a55
+	call 05648h		;8a52   ; los sprites fuera
+	ld hl,000b4h		;8a55   ; 0xB4 cuadros (16 bits)
 	ld (0e40ch),hl		;8a58
 	call L_8418		;8a5b
 	ret			;8a5e
 L_8A5F:
-	ld hl,(0e40ch)		;8a5f
-	dec hl			;8a62
+	ld hl,(0e40ch)		;8a5f   ; subpaso 0x0E: al acabar, el final acabado (p27:8918)
+	dec hl			;8a62   ; la espera de 16 bits
 	ld (0e40ch),hl		;8a63
 	ld a,l			;8a66
 	or h			;8a67
 	ret nz			;8a68
-	jp L_8918		;8a69
+	jp L_8918		;8a69   ; al acabar, el final acabado
 L_8A6C:
-	ld hl,0ef00h		;8a6c   ; apunta a los atributos de sprite (32 x 4)
-	ld de,00004h		;8a6f
+	ld hl,0ef00h		;8a6c   ; los sprites de la mitad de abajo (y desde 0x7F) fuera (0xE0)
+	ld de,00004h		;8a6f   ; 32 sprites
 	ld b,020h		;8a72
 L_8A74:
-	ld a,(hl)			;8a74
+	ld a,(hl)			;8a74   ; desde la y 0x7F, fuera
 	cp 07fh		;8a75
 	jr c,L_8A7B		;8a77
 	ld (hl),0e0h		;8a79
@@ -1553,110 +1553,110 @@ L_8A7B:
 	djnz L_8A74		;8a7c
 	ret			;8a7e
 L_8A7F:
-	call 041e4h		;8a7f   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
-	ld ix,0ab9ah		;8a82
+	call 041e4h		;8a7f   ; los graficos del planeta: las listas de p29:AB9A y ABCC
+	ld ix,0ab9ah		;8a82   ; la lista de p29:AB9A...
 	call 04cb1h		;8a86   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
-	ld ix,0abcch		;8a89
+	ld ix,0abcch		;8a89   ; ...y sus copias
 	call 04d17h		;8a8d
 	call 041bfh		;8a90   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ret			;8a93
 L_8A94:
-	call 041e4h		;8a94   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
-	ld de,0bc4ah		;8a97
-	ld hl,01800h		;8a9a
+	call 041e4h		;8a94   ; los dibujos de sprite de p29:BC4A en 0x1800
+	ld de,0bc4ah		;8a97   ; p29:BC4A...
+	ld hl,01800h		;8a9a   ; ...en 0x1800
 	call 04b3ch		;8a9d   ; rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 	call 041bfh		;8aa0   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ret			;8aa3
 L_8AA4:
-	ld hl,04200h		;8aa4
-	ld de,04e00h		;8aa7
+	ld hl,04200h		;8aa4   ; una nave que cruza: la segunda (y 0x4200, x 0x4E00)...
+	ld de,04e00h		;8aa7   ; la nave 2
 	ld a,002h		;8aaa
 	jr L_8AB6		;8aac
 L_8AAE:
-	ld hl,0bf00h		;8aae
-	ld de,01900h		;8ab1
+	ld hl,0bf00h		;8aae   ; ...o la primera (y 0xBF00, x 0x1900)
+	ld de,01900h		;8ab1   ; la nave 1
 	ld a,001h		;8ab4
 L_8AB6:
-	ld (0e5d6h),a		;8ab6
-	xor a			;8ab9
+	ld (0e5d6h),a		;8ab6   ; 0xE5D6 la nave (1 o 2), su tramo 0 y su sitio (16 bits)
+	xor a			;8ab9   ; el tramo 0
 	ld (0e5d8h),a		;8aba
-	ld (0e5dch),hl		;8abd
+	ld (0e5dch),hl		;8abd   ; su y y su x
 	ld (0e5deh),de		;8ac0
-	call L_8AD1		;8ac4
-	call L_8BF1		;8ac7
+	call L_8AD1		;8ac4   ; los sprites fuera, el tramo (p27:8BF1), sus dibujos (p27:8B90) y su sitio (p27:8B1C)
+	call L_8BF1		;8ac7   ; el tramo, sus dibujos y su sitio
 	call L_8B90		;8aca
 	call L_8B1C		;8acd
 	ret			;8ad0
 L_8AD1:
-	ld hl,0ef00h		;8ad1   ; apunta a los atributos de sprite (32 x 4)
-	ld de,0ef01h		;8ad4
+	ld hl,0ef00h		;8ad1   ; los tres primeros sprites fuera (0xE0)
+	ld de,0ef01h		;8ad4   ; 12 bytes
 	ld bc,0000bh		;8ad7
 	ld (hl),0e0h		;8ada
 	ldir		;8adc
 	ret			;8ade
 L_8ADF:
-	call L_8B05		;8adf
-	call L_8B1C		;8ae2
-	ld hl,0e5d7h		;8ae5
+	call L_8B05		;8adf   ; cada cuadro se mueve (p27:8B05) y se pinta; al acabar el tramo, el siguiente; a los 7, acaba (0xE5D6 = 0)
+	call L_8B1C		;8ae2   ; se pinta
+	ld hl,0e5d7h		;8ae5   ; los cuadros del tramo
 	dec (hl)			;8ae8
 	ret nz			;8ae9
-	call L_8AD1		;8aea
-	ld hl,0e5d8h		;8aed
+	call L_8AD1		;8aea   ; acabados: los sprites fuera...
+	ld hl,0e5d8h		;8aed   ; ...y el tramo siguiente
 	inc (hl)			;8af0
 	ld a,(hl)			;8af1
-	cp 007h		;8af2
+	cp 007h		;8af2   ; a los 7, acabado
 	jr nc,L_8B00		;8af4
-	call L_8BF1		;8af6
+	call L_8BF1		;8af6   ; el nuevo tramo
 	call L_8B90		;8af9
 	call L_8B1C		;8afc
 	ret			;8aff
 L_8B00:
-	xor a			;8b00
+	xor a			;8b00   ; acabado (0xE5D6 = 0)
 	ld (0e5d6h),a		;8b01
 	ret			;8b04
 L_8B05:
-	ld hl,(0e5dch)		;8b05
-	ld de,(0e5e2h)		;8b08
+	ld hl,(0e5dch)		;8b05   ; la y + 0xE5E2 y la x + 0xE5E4 (16 bits)
+	ld de,(0e5e2h)		;8b08   ; la y + su velocidad
 	add hl,de			;8b0c
 	ld (0e5dch),hl		;8b0d
-	ld hl,(0e5deh)		;8b10
+	ld hl,(0e5deh)		;8b10   ; la x + la suya
 	ld de,(0e5e4h)		;8b13
 	add hl,de			;8b17
 	ld (0e5deh),hl		;8b18
 	ret			;8b1b
 L_8B1C:
-	ld a,(0e5ddh)		;8b1c
-	ld b,a			;8b1f
+	ld a,(0e5ddh)		;8b1c   ; sus sprites: el tramo de la tabla (0x8B70 la nave 1, 0x8B50 la 2), cuantos, y cada uno su y y su x sobre la de la nave
+	ld b,a			;8b1f   ; la y (B) y la x (C) de la nave
 	ld a,(0e5dfh)		;8b20
 	ld c,a			;8b23
-	ld hl,08b70h		;8b24
+	ld hl,08b70h		;8b24   ; la tabla de la nave 1 (0x8B70)...
 	ld a,(0e5d6h)		;8b27
 	dec a			;8b2a
 	jr z,L_8B30		;8b2b
-	ld hl,08b50h		;8b2d
+	ld hl,08b50h		;8b2d   ; ...o la de la 2 (0x8B50)
 L_8B30:
-	ld a,(0e5d8h)		;8b30
+	ld a,(0e5d8h)		;8b30   ; el tramo
 	call 04a5ah		;8b33   ; lee_palabra: HL = la palabra A de la tabla HL
-	ld a,(hl)			;8b36
+	ld a,(hl)			;8b36   ; cuantos sprites
 	exx			;8b37
 	ld b,a			;8b38
 	exx			;8b39
 	ld de,0ef00h		;8b3a   ; apunta a los atributos de sprite (32 x 4)
 	inc hl			;8b3d
 L_8B3E:
-	ld a,(hl)			;8b3e
+	ld a,(hl)			;8b3e   ; cada uno: su y sobre la de la nave...
 	add a,b			;8b3f
 	ld (de),a			;8b40
 	inc hl			;8b41
 	inc de			;8b42
-	ld a,(hl)			;8b43
+	ld a,(hl)			;8b43   ; ...y su x
 	add a,c			;8b44
 	ld (de),a			;8b45
 	inc hl			;8b46
 	inc de			;8b47
 	inc de			;8b48
 	inc de			;8b49
-	exx			;8b4a
+	exx			;8b4a   ; el siguiente
 	dec b			;8b4b
 	exx			;8b4c
 	jr nz,L_8B3E		;8b4d
@@ -1706,19 +1706,19 @@ DATA_leido_8B7E:
 
 
 L_8B90:
-	ld hl,08bb1h		;8b90
-	ld a,(0e5d6h)		;8b93
+	ld hl,08bb1h		;8b90   ; los dibujos y colores de sus sprites: el tramo de la tabla (0x8BB1 o 0x8BD1)
+	ld a,(0e5d6h)		;8b93   ; la nave 2: 0x8BD1
 	dec a			;8b96
 	jr z,L_8B9C		;8b97
 	ld hl,08bd1h		;8b99
 L_8B9C:
-	ld a,(0e5d8h)		;8b9c
+	ld a,(0e5d8h)		;8b9c   ; el tramo
 	call 04a5ah		;8b9f   ; lee_palabra: HL = la palabra A de la tabla HL
-	ld a,(hl)			;8ba2
+	ld a,(hl)			;8ba2   ; cuantos
 	inc hl			;8ba3
-	ld de,0ef02h		;8ba4
+	ld de,0ef02h		;8ba4   ; desde el dibujo del primer sprite
 L_8BA7:
-	ldi		;8ba7
+	ldi		;8ba7   ; el dibujo y el color de cada uno
 	ldi		;8ba9
 	inc de			;8bab
 	inc de			;8bac
@@ -1770,27 +1770,27 @@ DATA_leido_8BDF:
 
 
 L_8BF1:
-	ld hl,08c1ch		;8bf1
-	ld a,(0e5d6h)		;8bf4
+	ld hl,08c1ch		;8bf1   ; el tramo 0xE5D8 de la tabla (0x8C1C o 0x8C3F), 5 bytes: los cuadros (0xE5D7) y las velocidades en y y en x
+	ld a,(0e5d6h)		;8bf4   ; la nave 2: 0x8C3F
 	dec a			;8bf7
 	jr z,L_8BFD		;8bf8
 	ld hl,08c3fh		;8bfa
 L_8BFD:
-	ld a,(0e5d8h)		;8bfd
+	ld a,(0e5d8h)		;8bfd   ; el tramo x 5
 	ld b,a			;8c00
 	add a,a			;8c01
 	add a,a			;8c02
 	add a,b			;8c03
 	call 04089h		;8c04   ; suma_a_hl: HL = HL + A
-	ld a,(hl)			;8c07
+	ld a,(hl)			;8c07   ; sus cuadros
 	ld (0e5d7h),a		;8c08
 	inc hl			;8c0b
-	ld e,(hl)			;8c0c
+	ld e,(hl)			;8c0c   ; la velocidad en y
 	inc hl			;8c0d
 	ld d,(hl)			;8c0e
 	ld (0e5e2h),de		;8c0f
 	inc hl			;8c13
-	ld e,(hl)			;8c14
+	ld e,(hl)			;8c14   ; la velocidad en x
 	inc hl			;8c15
 	ld d,(hl)			;8c16
 	ld (0e5e4h),de		;8c17
@@ -1824,18 +1824,18 @@ DATA_leido_8C3F:
 
 
 L_8C62:
-	ld a,(0e54fh)		;8c62
-	ld h,a			;8c65
+	ld a,(0e54fh)		;8c62   ; el contador (cifras 0xE54F-0xE552) contra 6809: por debajo sube (0xE54C = 1), por encima baja (2)
+	ld h,a			;8c65   ; las dos primeras cifras (6 y 8)
 	ld a,(0e550h)		;8c66
 	ld l,a			;8c69
 	ld de,00608h		;8c6a
 	rst 20h			;8c6d
-	jr z,L_8C74		;8c6e
-	jr c,L_8C8B		;8c70
-	jr L_8C8F		;8c72
+	jr z,L_8C74		;8c6e   ; iguales: las otras dos
+	jr c,L_8C8B		;8c70   ; menos: sube
+	jr L_8C8F		;8c72   ; mas: baja
 L_8C74:
-	ld a,(0e551h)		;8c74
-	ld h,a			;8c77
+	ld a,(0e551h)		;8c74   ; las dos ultimas contra 0 y 9
+	ld h,a			;8c77   ; la tercera y la cuarta (0 y 9)
 	ld a,(0e552h)		;8c78
 	ld l,a			;8c7b
 	ld de,00009h		;8c7c
@@ -1844,33 +1844,33 @@ L_8C74:
 	jr c,L_8C8B		;8c82
 	jr nc,L_8C8F		;8c84
 L_8C86:
-	dec de			;8c86
-	ld (0e54fh),de		;8c87
+	dec de			;8c86   ; igual: 0xE54F = 8 y 0xE550 = 0, y sube
+	ld (0e54fh),de		;8c87   ; 8 y 0 en las dos primeras
 L_8C8B:
-	ld a,001h		;8c8b
+	ld a,001h		;8c8b   ; ...sube...
 	jr L_8C91		;8c8d
 L_8C8F:
-	ld a,002h		;8c8f
+	ld a,002h		;8c8f   ; ...o baja
 L_8C91:
-	ld (0e54ch),a		;8c91
-	ld hl,00001h		;8c94
-	ld (0e54dh),hl		;8c97
+	ld (0e54ch),a		;8c91   ; el modo
+	ld hl,00001h		;8c94   ; de uno en uno
+	ld (0e54dh),hl		;8c97   ; de uno en uno
 	ret			;8c9a
 L_8C9B:
-	ld de,00606h		;8c9b
-	ld bc,00404h		;8c9e
+	ld de,00606h		;8c9b   ; Z si el contador vale 6644 (el del final, G6644)
+	ld bc,00404h		;8c9e   ; 6644
 	jr L_8CA9		;8ca1
 L_8CA3:
-	ld de,00608h		;8ca3
-	ld bc,00009h		;8ca6
+	ld de,00608h		;8ca3   ; Z si vale 6809 (G6809)
+	ld bc,00009h		;8ca6   ; 6809
 L_8CA9:
-	ld a,(0e54fh)		;8ca9
+	ld a,(0e54fh)		;8ca9   ; las dos primeras contra D y E
 	ld h,a			;8cac
 	ld a,(0e550h)		;8cad
 	ld l,a			;8cb0
 	rst 20h			;8cb1
 	ret nz			;8cb2
-	ld a,(0e551h)		;8cb3
+	ld a,(0e551h)		;8cb3   ; y las otras dos contra B y C
 	ld h,a			;8cb6
 	ld a,(0e552h)		;8cb7
 	ld l,a			;8cba
@@ -1879,10 +1879,10 @@ L_8CA9:
 	rst 20h			;8cbd
 	ret			;8cbe
 L_8CBF:
-	ld a,(0e303h)		;8cbf   ; lee la cuenta de cuadros del juego
-	and 003h		;8cc2
+	ld a,(0e303h)		;8cbf   ; cada 4 cuadros el contador cambia de modo (1-2) y de paso al azar: se vuelve loco
+	and 003h		;8cc2   ; cada 4 cuadros
 	ret nz			;8cc4
-	ld hl,0e54ch		;8cc5
+	ld hl,0e54ch		;8cc5   ; el modo: 1, 2, 1, 2...
 	ld a,(hl)			;8cc8
 	inc a			;8cc9
 	cp 003h		;8cca
@@ -1890,7 +1890,7 @@ L_8CBF:
 	ld a,001h		;8cce
 L_8CD0:
 	ld (hl),a			;8cd0
-	ld a,r		;8cd1
+	ld a,r		;8cd1   ; y el paso al azar
 	and 003h		;8cd3
 	ld l,a			;8cd5
 	and 001h		;8cd6
@@ -1898,34 +1898,34 @@ L_8CD0:
 	ld (0e54dh),hl		;8cd9
 	ret			;8cdc
 L_8CDD:
-	call 041e4h		;8cdd   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
-	ld ix,0aaceh		;8ce0
+	call 041e4h		;8cdd   ; con el 29, la lista de graficos de p29:AACE
+	ld ix,0aaceh		;8ce0   ; la lista de p29:AACE
 	call 04cb1h		;8ce4   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 	call 041bfh		;8ce7   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ret			;8cea
 L_8CEB:
-	ld a,(0e303h)		;8ceb   ; lee la cuenta de cuadros del juego
-	bit 3,a		;8cee
-	jp z,060c0h		;8cf0
+	ld a,(0e303h)		;8ceb   ; cada 8 cuadros, el cuadro de 0xCA48 a cero o el dibujo de p22:B8F6 (parpadea)
+	bit 3,a		;8cee   ; cada 8 cuadros...
+	jp z,060c0h		;8cf0   ; ...a cero...
 	call 041ach		;8cf3   ; bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
-	ld hl,0b8f6h		;8cf6
+	ld hl,0b8f6h		;8cf6   ; ...o el dibujo de p22:B8F6
 	call 06067h		;8cf9
 	call 041bfh		;8cfc   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ret			;8cff
 L_8D00:
-	call 041f7h		;8d00   ; guarda_reparto: guarda las tres copias del mapper en la pila de 0xF0D0
+	call 041f7h		;8d00   ; con el 22, los colores de la nave elegida (tabla de 0x8D36) en 0x2488 y 0x2C88, y sus dibujos a 0xF0
 	call 041ach		;8d03   ; bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
-	ld a,(0e380h)		;8d06
-	ld hl,08d36h		;8d09
+	ld a,(0e380h)		;8d06   ; lee la nave elegida (0 a 3)
+	ld hl,08d36h		;8d09   ; la tabla de colores de la nave
 	call 04a5ah		;8d0c   ; lee_palabra: HL = la palabra A de la tabla HL
 	ex de,hl			;8d0f
 	push de			;8d10
-	ld hl,02488h		;8d11
+	ld hl,02488h		;8d11   ; al tercio de enmedio...
 	call 04b3ch		;8d14   ; rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 	pop de			;8d17
-	ld hl,02c88h		;8d18
+	ld hl,02c88h		;8d18   ; ...y al de abajo
 	call 04b3ch		;8d1b   ; rle_a_vram: descomprime a la VRAM de HL el RLE de DE
-	ld a,0f0h		;8d1e
+	ld a,0f0h		;8d1e   ; sus dibujos a 0xF0 (0x378 bytes en cada tercio)
 	ld hl,00488h		;8d20
 	ld bc,00378h		;8d23
 	call 00056h		;8d26   ; BIOS FILVRM - Fills VRAM with value
@@ -1951,14 +1951,14 @@ DATA_tabla_8D36:
 
 
 L_8D3E:
-	ld hl,0a23eh		;8d3e
+	ld hl,0a23eh		;8d3e   ; la nave elegida (p28:A23E en 0xE800, tabla de 0x8D5D) en 0xCAA9, 6 filas de 0x0E, con sus caracteres desde 0x80
 	ld de,0e800h		;8d41   ; apunta a los enemigos (12 de 0x40)
 	call 055cdh		;8d44   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
-	call L_8D65		;8d47
-	ld a,(0e380h)		;8d4a
-	ld hl,08d5dh		;8d4d
+	call L_8D65		;8d47   ; a los caracteres 0x81-0x100
+	ld a,(0e380h)		;8d4a   ; lee la nave elegida (0 a 3)
+	ld hl,08d5dh		;8d4d   ; la tabla de la nave
 	call 04a5ah		;8d50   ; lee_palabra: HL = la palabra A de la tabla HL
-	ld de,0caa9h		;8d53
+	ld de,0caa9h		;8d53   ; 6 filas de 0x0E en 0xCAA9
 	ld bc,0060eh		;8d56
 	call 059a1h		;8d59
 	ret			;8d5c
@@ -1979,10 +1979,10 @@ DATA_tabla_8D5D:
 
 
 L_8D65:
-	ld hl,0e800h		;8d65   ; apunta a los enemigos (12 de 0x40)
-	ld bc,00150h		;8d68
+	ld hl,0e800h		;8d65   ; 0x150 bytes: los caracteres de 1 a 0x80 pasan a 0x81-0x100
+	ld bc,00150h		;8d68   ; 0x150 bytes
 L_8D6B:
-	ld a,(hl)			;8d6b
+	ld a,(hl)			;8d6b   ; los de 1 a 0x80, + 0x80
 	or a			;8d6c
 	jr z,L_8D76		;8d6d
 	cp 081h		;8d6f
@@ -1997,26 +1997,26 @@ L_8D76:
 	jr nz,L_8D6B		;8d7a
 	ret			;8d7c
 L_8D7D:
-	ld a,(0e303h)		;8d7d   ; lee la cuenta de cuadros del juego
-	bit 2,a		;8d80
+	ld a,(0e303h)		;8d7d   ; cada 4 cuadros sus sprites (12 bytes de la tabla de 0x8DA9 por nave) o nada (parpadean)
+	bit 2,a		;8d80   ; cada 4 cuadros...
 	jr nz,L_8D92		;8d82
 L_8D84:
-	ld hl,0ef40h		;8d84
-	ld de,0ef41h		;8d87
+	ld hl,0ef40h		;8d84   ; los tres sprites de 0xEF40 fuera
+	ld de,0ef41h		;8d87   ; ...fuera...
 	ld bc,0000bh		;8d8a
 	ld (hl),0e0h		;8d8d
 	ldir		;8d8f
 	ret			;8d91
 L_8D92:
-	ld a,(0e380h)		;8d92
-	add a,a			;8d95
+	ld a,(0e380h)		;8d92   ; lee la nave elegida (0 a 3)
+	add a,a			;8d95   ; ...o los de la nave: x 12...
 	add a,a			;8d96
 	ld b,a			;8d97
 	add a,a			;8d98
 	add a,b			;8d99
 	ld hl,08da9h		;8d9a
 	call 04089h		;8d9d   ; suma_a_hl: HL = HL + A
-	ld de,0ef40h		;8da0
+	ld de,0ef40h		;8da0   ; ...en 0xEF40
 	ld bc,0000ch		;8da3
 	ldir		;8da6
 	ret			;8da8
@@ -2039,22 +2039,22 @@ DATA_tabla_8DA9:
 
 
 L_8DD9:
-	call 041e4h		;8dd9   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
-	ld ix,0b8bbh		;8ddc
+	call 041e4h		;8dd9   ; con el 29, la lista de graficos de p29:B8BB, sus copias y el RLE de p29:BBF3 en 0x1E80
+	ld ix,0b8bbh		;8ddc   ; la lista de p29:B8BB...
 	call 04cb1h		;8de0   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
-	inc ix		;8de3
+	inc ix		;8de3   ; ...y sus copias
 	call 04d17h		;8de5
-	ld de,0bbf3h		;8de8
+	ld de,0bbf3h		;8de8   ; y el RLE de p29:BBF3 en 0x1E80
 	ld hl,01e80h		;8deb
 	call 04b3ch		;8dee   ; rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 	call 041bfh		;8df1   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ret			;8df4
 L_8DF5:
-	ld hl,08e19h		;8df5
+	ld hl,08e19h		;8df5   ; el dibujo de 0x8E19 (2 x 4) en 0xCB6E
 	jr L_8E07		;8df8
 L_8DFA:
-	ld a,(0e303h)		;8dfa   ; lee la cuenta de cuadros del juego
-	bit 3,a		;8dfd
+	ld a,(0e303h)		;8dfa   ; cada 8 cuadros el de 0x8E19 o el de 0x8E11 (parpadea)
+	bit 3,a		;8dfd   ; cada 8 cuadros uno u otro
 	ld hl,08e19h		;8dff
 	jr z,L_8E07		;8e02
 L_8E04:
@@ -2079,7 +2079,7 @@ DATA_leido_8E11:
 
 
 L_8E21:
-	call 041e4h		;8e21   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+	call 041e4h		;8e21   ; el dibujo de p29:BC13 (8 filas de 0x10) en 0xCAA8 y un sprite de 0x8E48
 	ld hl,0bc13h		;8e24
 	ld de,0e800h		;8e27   ; apunta a los enemigos (12 de 0x40)
 	call 055cdh		;8e2a   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
@@ -2108,7 +2108,7 @@ DATA_leido_8E48:
 
 
 L_8E4C:
-	call 041e4h		;8e4c   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+	call 041e4h		;8e4c   ; con el 29, la lista de p29:BD4D y el RLE de p29:BDCA en 0x1DE0
 	ld ix,0bd4dh		;8e4f
 	call 04cb1h		;8e53   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 	ld de,0bdcah		;8e56
@@ -2117,7 +2117,7 @@ L_8E4C:
 	call 041bfh		;8e5f   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ret			;8e62
 L_8E63:
-	ld hl,08e70h		;8e63
+	ld hl,08e70h		;8e63   ; el dibujo de 0x8E70 (3 x 4) en 0xCACE
 	ld de,0caceh		;8e66
 	ld bc,00304h		;8e69
 	call 059a1h		;8e6c
@@ -2137,17 +2137,17 @@ DATA_leido_8E70:
 
 
 L_8E7C:
-	call L_8EA4		;8e7c
+	call L_8EA4		;8e7c   ; los sprites de 0xEF40 fuera y el cuadro de 0xCA48 a cero
 	call 060c0h		;8e7f
 	ret			;8e82
 L_8E83:
-	ld a,(0e303h)		;8e83   ; lee la cuenta de cuadros del juego
+	ld a,(0e303h)		;8e83   ; cada 2 cuadros el dibujo 2 o 3
 	rra			;8e86
 	and 001h		;8e87
 	add a,002h		;8e89
 	ld (0e5d0h),a		;8e8b
 L_8E8E:
-	call L_8EA4		;8e8e
+	call L_8EA4		;8e8e   ; los sprites del dibujo 0xE5D0 (tabla de 0x8EB2: cuantos bytes y ellos) en 0xEF40
 	ld a,(0e5d0h)		;8e91
 	ld hl,08eb2h		;8e94
 	call 04a5ah		;8e97   ; lee_palabra: HL = la palabra A de la tabla HL
@@ -2158,7 +2158,7 @@ L_8E8E:
 	ldir		;8ea1
 	ret			;8ea3
 L_8EA4:
-	ld hl,0ef40h		;8ea4
+	ld hl,0ef40h		;8ea4   ; 0x18 bytes de sprites fuera (0xE0)
 	ld de,0ef41h		;8ea7
 	ld bc,00017h		;8eaa
 	ld (hl),0e0h		;8ead

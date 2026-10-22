@@ -194,7 +194,7 @@ L_8110:
 	ld a,(0e420h)		;8116   ; lee 1 si este cuadro hay scroll
 	or a			;8119
 	ret z			;811a
-	ld hl,0e7e0h		;811b
+	ld hl,0e7e0h		;811b   ; apunta a la entrada secreta: su tipo (0: ninguna), su y, su x y B
 	ld a,(hl)			;811e
 	or a			;811f
 	ret z			;8120
@@ -212,7 +212,7 @@ L_812D:
 	ld a,(0e600h)		;812d   ; la nave la coge? (si vive y hay entrada)
 	inc a			;8130
 	ret z			;8131
-	ld a,(0e7e0h)		;8132
+	ld a,(0e7e0h)		;8132   ; lee la entrada secreta: su tipo (0: ninguna), su y, su x y B
 	or a			;8135
 	ret z			;8136
 	ld de,(0e7e1h)		;8137   ; su y y su x
@@ -229,15 +229,15 @@ L_812D:
 	cp 00dh		;814e
 	ret nc			;8150
 	ld a,(0e7e0h)		;8151   ; cogida: 0xE31E = el tipo (al estado 9)
-	ld (0e31eh),a		;8154
+	ld (0e31eh),a		;8154   ; guarda el tipo de la entrada secreta cogida (al estado 9)
 	ld hl,0e38bh		;8157   ; y queda apuntada (0xE38B + tipo = 1)
 	call 04089h		;815a   ; suma_a_hl: HL = HL + A
 	ld (hl),001h		;815d
 	xor a			;815f   ; la entrada se acaba
 	ld h,a			;8160
 	ld l,a			;8161
-	ld (0e7e0h),a		;8162
-	ld (0e7e4h),hl		;8165
+	ld (0e7e0h),a		;8162   ; guarda la entrada secreta: su tipo (0: ninguna), su y, su x y B
+	ld (0e7e4h),hl		;8165   ; guarda el paso del estado 9 (la entrada secreta) y el byte siguiente (16 bits)
 	ret			;8168
 L_8169:
 	ld a,(0e7e0h)		;8169   ; guarda en 0xE7F6 el caracter del bufer donde esta la entrada
@@ -266,7 +266,7 @@ L_818C:
 	or a			;8195
 	ret z			;8196
 L_8197:
-	ld a,(0e7e0h)		;8197
+	ld a,(0e7e0h)		;8197   ; lee la entrada secreta: su tipo (0: ninguna), su y, su x y B
 	or a			;819a
 	ret z			;819b
 	ld hl,(0e7e1h)		;819c

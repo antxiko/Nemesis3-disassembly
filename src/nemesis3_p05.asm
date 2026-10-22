@@ -61,7 +61,7 @@ L_A031:
 	call L_A0E6		;a031   ; espera; luego la entrada se va y 1 cuadro
 	ret nz			;a034
 	xor a			;a035
-	ld (0e7e0h),a		;a036
+	ld (0e7e0h),a		;a036   ; guarda la entrada secreta: su tipo (0: ninguna), su y, su x y B
 	ld hl,00001h		;a039
 	ld (0e443h),hl		;a03c
 	jp 09dc1h		;a03f
@@ -104,7 +104,7 @@ L_A087:
 	call 0482ah		;a092
 	pop ix		;a095
 	xor a			;a097
-	ld (0e7e0h),a		;a098
+	ld (0e7e0h),a		;a098   ; guarda la entrada secreta: su tipo (0: ninguna), su y, su x y B
 	ld a,0ffh		;a09b
 	ld (0e405h),a		;a09d   ; guarda el caracter del fondo de la fase
 	call L_A0A6		;a0a0

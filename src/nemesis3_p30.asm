@@ -306,7 +306,7 @@ L_81EB:
 	ret nz			;81ee
 	call 05724h		;81ef
 	xor a			;81f2
-	ld (0e380h),a		;81f3
+	ld (0e380h),a		;81f3   ; guarda la nave elegida (0 a 3)
 	call L_8025		;81f6
 	ret			;81f9
 L_81FA:
@@ -316,7 +316,7 @@ L_81FA:
 	call 05724h		;8201
 	call 041cfh		;8204   ; bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
 	call 06fb0h		;8207
-	ld a,(0e380h)		;820a
+	ld a,(0e380h)		;820a   ; lee la nave elegida (0 a 3)
 	ld hl,08221h		;820d
 	call 04089h		;8210   ; suma_a_hl: HL = HL + A
 	ld c,(hl)			;8213
@@ -345,13 +345,13 @@ L_8225:
 	call 041cfh		;8225   ; bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
 	call 07a3dh		;8228
 	call 041dch		;822b   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-	ld a,(0e564h)		;822e
+	ld a,(0e564h)		;822e   ; lee el llenado fila a fila en marcha
 	or a			;8231
 	ret nz			;8232
 	call L_8025		;8233
 	ret			;8236
 L_8237:
-	ld a,(0e380h)		;8237
+	ld a,(0e380h)		;8237   ; lee la nave elegida (0 a 3)
 	cp 003h		;823a
 	ld de,000a8h		;823c
 	jr nz,L_8244		;823f
@@ -360,7 +360,7 @@ L_8244:
 	call 0572bh		;8244
 	ret c			;8247
 	call 05724h		;8248
-	ld a,(0e380h)		;824b
+	ld a,(0e380h)		;824b   ; lee la nave elegida (0 a 3)
 	cp 003h		;824e
 	ld hl,0825fh		;8250
 	jr nz,L_8258		;8253
@@ -387,7 +387,7 @@ L_8267:
 	call L_8515		;8267
 	ret nz			;826a
 	call L_83DD		;826b
-	ld hl,0e380h		;826e
+	ld hl,0e380h		;826e   ; apunta a la nave elegida (0 a 3)
 	inc (hl)			;8271
 	ld a,(hl)			;8272
 	cp 004h		;8273
@@ -464,7 +464,7 @@ L_82F1:
 	call 078ach		;82fd
 	call 0791dh		;8300
 	call 041dch		;8303   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-	ld a,(0e560h)		;8306
+	ld a,(0e560h)		;8306   ; lee el borrado fila a fila en marcha
 	or a			;8309
 	ret nz			;830a
 	call 05648h		;830b
@@ -712,7 +712,7 @@ L_84FD:
 	call 041c7h		;84fd   ; bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
 	call 079cfh		;8500
 	call 041dch		;8503   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-	ld a,(0e564h)		;8506
+	ld a,(0e564h)		;8506   ; lee el llenado fila a fila en marcha
 	or a			;8509
 	ret			;850a
 L_850B:
@@ -724,7 +724,7 @@ L_8515:
 	call 041c7h		;8515   ; bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
 	call 078ach		;8518
 	call 041dch		;851b   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-	ld a,(0e560h)		;851e
+	ld a,(0e560h)		;851e   ; lee el borrado fila a fila en marcha
 	or a			;8521
 	ret			;8522
 L_8523:
@@ -992,7 +992,7 @@ L_873D:
 	call 041c7h		;873d   ; bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
 	call 07a3dh		;8740
 	call 041dch		;8743   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-	ld a,(0e564h)		;8746
+	ld a,(0e564h)		;8746   ; lee el llenado fila a fila en marcha
 	or a			;8749
 	ret			;874a
 L_874B:

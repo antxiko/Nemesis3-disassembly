@@ -1,4 +1,568 @@
 
+
+# --- A MANO: comentarios escritos leyendo el codigo ---
+C 0x8000 el color de tres sprites (0xEF37, 0xEF3B, 0xEF3F): 0 o 8 segun el bit 2 de A (parpadean)
+C 0x8002 bit 2 a 0: color 0 (no se ven)
+C 0x8006 a 1: color 8
+C 0x8008 a los tres
+C 0x801E el cuadro animado de la consola: cada 4 cuadros los caracteres 0xEC-0xEF corridos uno...
+C 0x8021 cada 4 cuadros...
+C 0x8025 ...el primero de 0xEC a 0xEF
+C 0x8027 ...0x0B filas de 0x10 en 0xCA48, cada fila uno mas
+C 0x802A 0x0B filas de 0x10
+C 0x8031 cada caracter, el siguiente (de 0xEC a 0xEF)
+C 0x8033 el siguiente; despues de 0xEF, 0xEC
+C 0x803A la fila
+C 0x803D la fila siguiente
+C 0x803E la siguiente empieza uno mas alla
+C 0x804A la consola de las entradas secretas desde la 0x0C: por el paso (0xE7E4); 0, 1 y 3 como las demas
+C 0x804E por el paso
+C 0x805A paso 2: los sprites y la pantalla a la VRAM, la consola cada cuadro y por el subpaso
+C 0x805B los sprites y la pantalla a la VRAM
+C 0x8062 desde el subpaso 1, la consola
+C 0x8067 y por el subpaso
+C 0x8073 subpaso 1: al acabar la espera, los graficos de p29:BFB8 y BFC5, un rectangulo de 5 x 8 (p29:BFCE en 0xCAAC) y la secuencia de 0x626A
+C 0x8076 la espera
+C 0x807B la lista de graficos de p29:BFB8...
+C 0x8082 ...las copias de p29:BFC5...
+C 0x8089 ...y el dibujo de p29:BFCE, 5 filas de 8 en 0xCAAC
+C 0x8098 la secuencia de 0x626A
+C 0x80A2 subpaso 2: hasta acabar la secuencia
+C 0x80A5 hasta acabarla
+C 0x80A6 sin espera
+C 0x80AE subpaso 3: la espera y la vuelta (p26:7DED)
+C 0x80B1 la espera
+C 0x80B3 la vuelta
+C 0x80B7 la consola de la entrada secreta 0x0B: por el paso; 0, 1 y 3 como las demas
+C 0x80BB por el paso
+C 0x80C7 paso 2: lo mismo, por el subpaso
+C 0x80C8 los sprites y la pantalla a la VRAM
+C 0x80CF desde el subpaso 1, la consola
+C 0x80D4 y por el subpaso
+C 0x80E0 subpaso 1: al acabar la espera, sus graficos (p27:8104) y la secuencia de 0x61FD
+C 0x80E3 la espera
+C 0x80E5 los graficos
+C 0x80E8 la secuencia de 0x61FD
+C 0x80F1 subpaso 2: hasta acabar la secuencia
+C 0x80F4 hasta acabarla
+C 0x80FC subpaso 3: la espera y la vuelta
+C 0x80FF la espera
+C 0x8101 la vuelta
+C 0x8104 con el 29, los RLE de p29:B730, B7B8, B7FC y B84D, las copias de 0x812F y el dibujo de p29:B87E
+C 0x8107 los RLE...
+C 0x810A ...y el dibujo
+C 0x8110 p29:B730...
+C 0x8116 ...B7B8...
+C 0x811C ...B7FC...
+C 0x8122 ...y B84D
+C 0x8128 las copias de 0x812F
+C 0x8138 el dibujo de p29:B87E (segundo formato) en 0xCA6A, 9 filas de 0x0C
+C 0x813B a 0xCD00...
+C 0x8141 ...y al bufer
+C 0x814D el estado 8, paso 1 (la consola entre fases): tras la fase 3 (0xE321 = 1) el radar, tras la 4 p27:836A
+C 0x8150 tras la fase 3?
+C 0x8153 si no, tras la 4
+C 0x8156 los sprites y la pantalla a la VRAM; en los subpasos 1-3 la consola cada cuadro; por el subpaso (0xE322)
+C 0x8159 la pantalla a la VRAM
+C 0x815C el paso (C) y el subpaso (B)
+C 0x8161 en los pasos 1-3, la consola
+C 0x816A por el paso
+C 0x8178 paso 0: la orden 0x83, el sonido 0x3F, la consola con el contador de 0x6102
+C 0x817E el siguiente, la espera y la consola
+C 0x8181 con el contador de 0x6102
+C 0x8188 al subpaso siguiente, 0xE5C0-0xE5DF a cero, 0xB4 cuadros y la consola
+C 0x818B 0xE5C0-0xE5DF a cero
+C 0x818E 0xB4 cuadros
+C 0x8193 la consola
+C 0x8197 paso 1: al acabar la espera, el radar (p27:81F4) y la secuencia de 0x6193
+C 0x819A la espera
+C 0x819C el radar
+C 0x819F y la secuencia de 0x6193
+C 0x81A9 paso 2: con un boton se salta; si no, el radar se mueve (p27:820F) hasta acabar la secuencia...
+C 0x81AC un boton: se salta
+C 0x81AD el radar se mueve
+C 0x81B0 hasta acabar la secuencia
+C 0x81B4 ...el cuadro de 0xCA48 a cero, el contador baja (p27:838C) y 0x3C cuadros
+C 0x81B7 el contador baja
+C 0x81BA 0x3C cuadros
+C 0x81C3 paso 3: la espera
+C 0x81C6 la espera
+C 0x81CC un boton (bits 4-5): al paso 4 (0xE322 = 4)
+C 0x81CF los botones
+C 0x81D2 al paso 4
+C 0x81D9 paso 4: la orden 0x84 (p00:578B) y 0x78 cuadros...
+C 0x81DA subpaso 1: p27:81E7
+C 0x81DC subpaso 0: la orden 0x84...
+C 0x81DF ...0x78 cuadros
+C 0x81E7 ...al acabar, la pantalla en blanco y 0xE321 = 0
+C 0x81EA la espera
+C 0x81EF acabado (0xE321 = 0)
+C 0x81F4 el radar: sus graficos (0x8208) y sus dos marcas en 0xE5D2 (0x30, 0x60) y 0xE5D4 (0x30, 0xA0)
+C 0x81FB la primera marca: x 0x60, y 0x30
+C 0x8201 la segunda: x 0xA0, y 0x30
+C 0x820F el radar: el cuadro a cero y cada marca se mueve y se pinta
+C 0x8212 la primera...
+C 0x8219 ...y la segunda: se mueve y se pinta
+C 0x8224 cada 4 cuadros, al azar (registro R): IX+1 + 8 o - 8, IX+0 - 8 o + 8
+C 0x8227 cada 4 cuadros
+C 0x822A al azar: abajo o arriba (IX+1)...
+C 0x8235 ...y a un lado u otro (IX+0)
+C 0x8241 IX+1 + 8, hasta 0xB0
+C 0x8244 mas 8, hasta 0xB0
+C 0x8250 IX+1 - 8, hasta 0x48
+C 0x8253 menos 8, hasta 0x48
+C 0x825F IX+0 - 8, hasta 0x20
+C 0x8262 menos 8, hasta 0x20
+C 0x826E IX+0 + 8, hasta 0x58
+C 0x8271 mas 8, hasta 0x58
+C 0x827D una marca: sus dos lineas y sus esquinas
+C 0x8280 sus diagonales
+C 0x8287 la linea de IX+0 (caracteres 0x81, 0x10 de largo desde la columna 0x40)...
+C 0x828A desde la columna 0x40
+C 0x8292 0x10 caracteres 0x81
+C 0x8299 ...la de IX+1 (0x82, 0x0B filas desde la fila 0x10)...
+C 0x829B la columna de IX+1, desde la fila 0x10
+C 0x82A6 0x0B caracteres 0x82, uno por fila
+C 0x82AB ...el cruce (0x80) y debajo 0x83 y 0x84
+C 0x82AE el cruce
+C 0x82B4 0x80...
+C 0x82B9 ...y debajo 0x83 y 0x84, sin pasar de 0xCBA0
+C 0x82CA una diagonal hacia arriba desde el cruce: 0x85-0x88, cada 0x18 y 8
+C 0x82CD desde el cruce + 0x10 en y y - 8 en x...
+C 0x82D9 ...un trozo
+C 0x82DD el siguiente: 0x18 mas abajo y 8 a la izquierda
+C 0x82ED dentro del cuadro? se pinta (0x85-0x88 hacia abajo); C al salirse
+C 0x82EE a la izquierda de 0x40, nada
+C 0x82F4 cuatro filas (0x85-0x88) sin pasar de 0xCB98
+C 0x8312 otra diagonal hacia abajo: 0x89-0x8C
+C 0x8315 desde el cruce + 0x10 en y y + 8 en x...
+C 0x8321 ...un trozo
+C 0x8325 el siguiente: 0x18 mas abajo y 8 a la derecha
+C 0x8335 dentro del cuadro? se pinta; NC al salirse
+C 0x8336 desde la x 0xC0, nada
+C 0x833C cuatro filas (0x89-0x8C) sin pasar de 0xCB98
+C 0x8356 la direccion del bufer de 0xCA00 de HL (L fila, H columna, en puntos)
+C 0x8357 la fila (L / 8) x 0x20...
+C 0x835E ...+ la columna (H / 8)...
+C 0x8364 ...+ 0xCA00
+C 0x836A tras la fase 4: los sprites y la pantalla a la VRAM; por el subpaso (0xE322)
+C 0x836D la pantalla a la VRAM
+C 0x8370 por el paso
+C 0x8380 paso 0: el sonido 0x3F, la consola con el contador de 0x610E y a bajar
+C 0x8383 el siguiente, la espera y la consola
+C 0x8386 con el contador de 0x610E
+C 0x838C el contador baja (0xE54C = 2) de uno en uno (0xE54D = 1)
+C 0x838E 0xE54C = 2: baja
+C 0x8391 de uno en uno
+C 0x8398 paso 1: la consola hasta que el contador llegue (p27:8C9B); luego quieto, el de 0x6108 y la secuencia de 0x61B4
+C 0x839B hasta 6644
+C 0x839F quieto
+C 0x83A3 con el de 0x6108
+C 0x83A9 la secuencia de 0x61B4
+C 0x83B3 paso 2: con un boton se salta; si no, la consola hasta acabar la secuencia
+C 0x83B6 un boton: se salta
+C 0x83B7 la consola
+C 0x83BA hasta acabar la secuencia
+C 0x83C2 un boton: al paso 3
+C 0x83C5 los botones
+C 0x83C8 al paso 3
+C 0x83CF el paso siguiente (0xE322), con el subpaso a 0
+C 0x83D2 el paso + 1, el subpaso a 0
+C 0x83D7 el subpaso siguiente (0xE323)
+C 0x83DC 0xE5C0-0xE5DF a cero
+C 0x83DF 0x20 bytes
+C 0x83EA el final (estado 10): los sprites a la VRAM, la pantalla salvo en el paso 4 desde el subpaso 7; por el paso (0xE329)
+C 0x83ED en el paso 4 desde el subpaso 7, la pantalla no
+C 0x83FE por el paso
+C 0x8410 el paso siguiente (0xE329), con el subpaso a 0
+C 0x8413 el paso + 1, el subpaso a 0
+C 0x8418 el subpaso siguiente (0xE32A)
+C 0x841D paso 0: desde el subpaso 1 la consola cada cuadro; por el subpaso
+C 0x841E desde el subpaso 1, la consola
+C 0x8437 subpaso 0: la orden 0x83, el sonido 0x42, la paleta, la pantalla en blanco, la consola y 0x78 cuadros
+C 0x843D la paleta
+C 0x8443 los dibujos de sprite a cero
+C 0x8446 la consola
+C 0x8449 con el contador de 0x6108
+C 0x844F 0x78 cuadros
+C 0x8458 subpaso 1: al acabar, la paleta 4, los graficos de p29:A1D6 y A225, p27:84A7 con 0 y la secuencia de 0x620A
+C 0x845B la espera
+C 0x845D la paleta 4
+C 0x8465 la lista de p29:A1D6...
+C 0x846C ...y sus copias (p29:A225)
+C 0x8476 el cuadro 0
+C 0x847A la secuencia de 0x620A
+C 0x8484 subpaso 2: al acabar la secuencia, la animacion de 5 cuadros (0xE5D0 = 0, 0xE5D1 = 5)
+C 0x8487 al acabar la secuencia
+C 0x8488 desde el cuadro 0, 5 cuadros
+C 0x848E la espera, 1
+C 0x8497 subpaso 3: cada 0x78 cuadros el cuadro siguiente; al acabar, la secuencia de 0x6213
+C 0x849A la espera
+C 0x849C 0x78 cuadros mas
+C 0x849E uno menos; acabados, p27:84B4
+C 0x84A4 el cuadro siguiente
+C 0x84A7 el cuadro A de la tabla de p29:B467 en el bufer (p26:6064)
+C 0x84AA en la tabla de p29:B467
+C 0x84B4 la secuencia de 0x6213
+C 0x84BE subpaso 4: al acabar la secuencia, la paleta 5, los graficos de p29:A808 y A81B, y 7 cuadros desde el 4
+C 0x84C1 al acabarla
+C 0x84C2 la paleta 5
+C 0x84CA la lista de p29:A808...
+C 0x84D1 ...y sus copias
+C 0x84DB desde el cuadro 4, 7 cuadros
+C 0x84EA subpaso 5: cada 0x14 cuadros el siguiente; al acabar, 0xB4 cuadros
+C 0x84ED la espera
+C 0x84EF 0x14 cuadros mas
+C 0x84F1 uno menos; acabados, 0xB4 cuadros
+C 0x84F7 el cuadro siguiente
+C 0x8505 subpaso 6: parpadea entre los cuadros 0x0A y 0x0B (cada 8); al acabar, la secuencia de 0x621C
+C 0x8508 la espera; al acabar, la secuencia
+C 0x850B cada 8 cuadros el 0x0A o el 0x0B
+C 0x8517 la secuencia de 0x621C
+C 0x8521 subpaso 7: al acabar la secuencia, al paso 1
+C 0x8524 al acabarla
+C 0x8525 al paso 1
+C 0x8529 paso 1, el planeta: por el subpaso
+C 0x853D subpaso 0: la pantalla en blanco, el bufer a cero, los sprites fuera, las estrellas (p28:BE34, BBE9)
+C 0x8540 el bufer a cero
+C 0x8543 los sprites fuera
+C 0x8546 las estrellas (p28)
+C 0x854C sin espera
+C 0x8554 subpaso 1: las estrellas se mueven (p28:BC08) y, al acabar la espera, p27:8563
+C 0x8557 la espera
+C 0x855C el planeta
+C 0x8563 la paleta 7, el planeta (p27:8A7F) y su animacion de 5 cuadros
+C 0x8565 la paleta 7
+C 0x8568 los graficos del planeta
+C 0x856B desde el cuadro 0, 5 cuadros
+C 0x8577 subpaso 2: cada 0x5A cuadros el cuadro siguiente del planeta (tabla de p29:B2E7); al acabar, p27:8A94 y 8AAE
+C 0x857A la espera
+C 0x857F 0x5A cuadros mas
+C 0x8581 uno menos; acabados, p27:8597
+C 0x8587 el cuadro siguiente
+C 0x858A en la tabla de p29:B2E7
+C 0x8597 los sprites de la nave y la primera que cruza
+C 0x85A1 subpaso 3: p27:8ADF hasta que 0xE5D6 vuelva a 0; luego la secuencia de 0x6225 (VIXEN ENTERED TIME-WARP)
+C 0x85A4 hasta que acabe
+C 0x85A9 los sprites de abajo fuera
+C 0x85AC la secuencia de 0x6225
+C 0x85B6 subpaso 4: al acabar la secuencia, p27:8AA4
+C 0x85B9 al acabarla
+C 0x85BA la segunda nave
+C 0x85C1 subpaso 5: lo mismo hasta 0xE5D6 = 0; las estrellas otra vez y 0x3C cuadros
+C 0x85C4 hasta que acabe
+C 0x85C9 las estrellas otra vez
+C 0x85CF 0x3C cuadros
+C 0x85D8 subpaso 6: las estrellas (p28:BC12); al acabar, 3 cuadros desde el 5
+C 0x85DB la espera
+C 0x85E0 desde el cuadro 3, 5 cuadros
+C 0x85EF subpaso 7: cada 0x5A cuadros el cuadro anterior; al acabar, al paso 2
+C 0x85F2 la espera
+C 0x85F7 0x5A cuadros mas
+C 0x85F9 el bufer a cero
+C 0x85FC uno menos; acabados, al paso 2
+C 0x8602 el cuadro anterior (hacia atras)
+C 0x8611 paso 2: desde el subpaso 4 la consola y p27:8CBF cada cuadro; por el subpaso
+C 0x8612 desde el subpaso 4...
+C 0x8617 ...la consola y el contador loco
+C 0x861D y por el subpaso
+C 0x8645 subpaso 0: las estrellas; al acabar, 0x78 cuadros
+C 0x8648 la espera
+C 0x864D 0x78 cuadros
+C 0x8656 subpaso 1: al acabar, los sprites fuera, el bufer a cero, el sonido 0x4D y 0x96 cuadros
+C 0x8659 la espera
+C 0x865E los sprites fuera
+C 0x8661 el bufer a cero
+C 0x8664 0x96 cuadros
+C 0x8670 subpaso 2: el borde cambia de color cada cuadro (la cuenta); al acabar, negro y el sonido 0x52
+C 0x8673 el color del borde: la cuenta & 0x0F
+C 0x867B la espera
+C 0x8680 negro otra vez
+C 0x868C subpaso 3: la consola (cada 3 cuadros) con el contador de 0x6108, p27:8CDD y 0x3C cuadros
+C 0x868F la consola, cada 3 cuadros
+C 0x8694 con el contador de 0x6108
+C 0x869A los graficos de p29:AACE
+C 0x869D carga A = 0x3C pero guarda HL: la espera es lo que deje HL (L en 0xE40C)
+C 0x86A6 subpaso 4: al acabar, la secuencia de 0x622E
+C 0x86A9 la espera
+C 0x86AE la secuencia de 0x622E
+C 0x86B8 subpaso 5: al acabarla, el bufer de 0xCC22 a cero
+C 0x86BB hasta acabarla
+C 0x86BF el cuadro de 0xCC22 a cero
+C 0x86C2 sin espera
+C 0x86CA subpaso 6: al acabar, el de 0xCA48
+C 0x86CD la espera
+C 0x86D2 el cuadro de 0xCA48 a cero
+C 0x86D9 subpaso 7: p27:8D00 y 8D3E, 0xB4 cuadros
+C 0x86DC la nave elegida
+C 0x86DF 0xB4 cuadros
+C 0x86E8 subpaso 8: al acabar, la secuencia de 0x6233 y la orden 0x84
+C 0x86EB la espera
+C 0x86F0 la secuencia de 0x6233
+C 0x86FD subpaso 9: al acabarla, p27:8D84, los dos cuadros a cero, la orden 0x83 y el sonido 1
+C 0x8700 hasta acabarla
+C 0x8704 los sprites fuera
+C 0x8707 los dos cuadros a cero
+C 0x8717 subpaso 0x0A: la paleta 6, p27:8DD9, 8E21 y 8DF5, el sonido 0x53 y 0x80 cuadros
+C 0x8719 la paleta 6
+C 0x871C los graficos de p29:B8BB
+C 0x871F el dibujo de p29:BC13
+C 0x8722 y el de 0x8E19
+C 0x8728 0x80 cuadros
+C 0x8731 subpaso 0x0B: al acabar, la secuencia de 0x6238 y el sonido 0x40
+C 0x8734 la espera
+C 0x8736 la secuencia de 0x6238
+C 0x8743 subpaso 0x0C: p27:8DFA hasta acabarla; luego p27:8E04, el cuadro de 0xCC22 a cero y 0x78 cuadros
+C 0x8746 hasta acabarla, parpadeando
+C 0x874A al acabar, el de 0x8E11
+C 0x8750 0x78 cuadros
+C 0x8759 subpaso 0x0D: al acabar, el de 0xCA48 a cero y los sprites fuera
+C 0x875C la espera
+C 0x875E el cuadro de 0xCA48 a cero
+C 0x8761 los sprites fuera
+C 0x8768 subpaso 0x0E: la secuencia de 0x6241
+C 0x876B la secuencia
+C 0x8772 subpaso 0x0F: al acabarla, el cuadro de 0xCC22 a cero
+C 0x8775 hasta acabarla
+C 0x8776 el cuadro de 0xCC22 a cero
+C 0x877D subpaso 0x10: nada
+C 0x8781 subpaso 0x11: la paleta 2; con 0xE396 al paso 3, sin ella dos pasos (al 4)
+C 0x8783 la paleta 2
+C 0x8789 la entrada secreta 0x0B (0xE396)?
+C 0x878C sin ella, se salta el paso 3
+C 0x8797 paso 3: hasta el subpaso 5 p27:8CBF y hasta el 7 la consola; por el subpaso
+C 0x8798 hasta el subpaso 5, el contador loco
+C 0x87A0 hasta el 7, la consola
+C 0x87A5 y por el subpaso
+C 0x87CF subpaso 0: la secuencia de 0x6246
+C 0x87D2 la secuencia de 0x6246
+C 0x87D9 subpaso 1: al acabarla, la orden 0x84
+C 0x87DC al acabarla
+C 0x87E0 sin espera
+C 0x87E8 subpaso 2: la orden 0x83, el sonido 0x49, p00:5730, p27:8E4C y 8E63
+C 0x87EB la espera
+C 0x87F3 la cuenta de 0xE339 a cero
+C 0x87F6 los graficos de p29:BD4D...
+C 0x87F9 ...y el dibujo de 0x8E70
+C 0x87FC el cuadro 0 y 8 cuadros por paso de la consola
+C 0x87FF el cuadro 0
+C 0x8802 la consola cada 8 cuadros
+C 0x880B subpaso 3: cada 0x1E cuadros p27:8E8E y el cuadro siguiente; al cuarto, 0x3C cuadros
+C 0x880E la espera
+C 0x8810 los sprites del cuadro...
+C 0x8813 ...y el siguiente
+C 0x8818 hasta el 4: 0x1E cuadros cada uno
+C 0x8822 acabados: 0x3C cuadros
+C 0x882B subpaso 4: p27:8E83; al acabar la espera, la secuencia de 0x624F
+C 0x882E la espera
+C 0x8833 la secuencia de 0x624F
+C 0x883D subpaso 5: hasta acabarla; luego p27:8E7C
+C 0x8840 hasta acabarla
+C 0x8844 los sprites fuera y el cuadro a cero
+C 0x884B subpaso 6: p27:8C62
+C 0x884E el contador hacia 6809
+C 0x8852 subpaso 7: hasta que el contador llegue (p27:8CA3); luego quieto, el de 0x6102 y 0x78 cuadros
+C 0x8855 hasta llegar
+C 0x8856 con el de 0x6102
+C 0x885C quieto
+C 0x8860 0x78 cuadros
+C 0x8869 subpaso 8: al acabar, el bufer a cero
+C 0x886C la espera
+C 0x886E el bufer a cero
+C 0x8875 subpaso 9: p27:8ADF hasta que 0xE5D6 vuelva a 0; los sprites de abajo fuera (p27:8A6C) y 0x78 cuadros
+C 0x8878 hasta que acabe la nave
+C 0x887D los sprites de abajo fuera
+C 0x8883 0x78 cuadros
+C 0x8889 subpaso 0x0A: al acabar, los graficos de p29:ABBF y ABD9, 0x1300-0x145F a cero, un rectangulo de 5 x 0x0F (p29:B41C en 0xCC29) y lo de 0x88C4 aparece con 0xF0
+C 0x888C la espera
+C 0x8891 la lista de p29:ABBF...
+C 0x8898 ...y sus copias
+C 0x889F 0x1300-0x145F a cero
+C 0x88A9 el dibujo de p29:B41C, 5 filas de 0x0F en 0xCC29
+C 0x88B8 lo de 0x88C4 aparece con 0xF0
+C 0x88C8 subpaso 0x0B: hasta que acabe de aparecer
+C 0x88CE hasta que aparezca
+C 0x88D4 subpaso 0x0C: a los 0x1284 cuadros de 0xE339, la orden 0x84 y se borra lo de 0x88E8
+C 0x88D7 hasta los 0x1284 cuadros
+C 0x88DE se borra lo de 0x88E8
+C 0x88EC subpaso 0x0D: al acabar, la pantalla en blanco, el bufer a cero y los sprites fuera
+C 0x88F2 hasta que se borre
+C 0x88F7 el bufer a cero
+C 0x88FA la pantalla a la VRAM
+C 0x88FD los sprites fuera
+C 0x8900 sin espera
+C 0x8908 subpaso 0x0E: la orden 0x83 y el sonido 1
+C 0x890B la espera
+C 0x8918 subpaso 0x0F: 0xE328 = 0, el final acabado
+C 0x891D paso 4: por el subpaso
+C 0x893F subpaso 0: p27:8CBF, la consola y la secuencia de 0x6258
+C 0x8942 la consola
+C 0x8945 la secuencia de 0x6258
+C 0x894F subpaso 1: hasta acabarla; luego el bufer a cero, los sprites fuera y la orden 0x84
+C 0x8952 la consola
+C 0x8955 hasta acabarla
+C 0x8959 el bufer a cero
+C 0x895C los sprites fuera
+C 0x8962 sin espera
+C 0x896A subpaso 2: la orden 0x83, el sonido 0x41 y la cuenta de 0xE339 a cero
+C 0x896D la espera
+C 0x8975 la cuenta de 0xE339 a cero
+C 0x897C subpaso 3: la secuencia de 0x6265 y la pantalla aparece con pausas (p26:796B, desde 0x12 en japones o 0x32)
+C 0x897F la secuencia de 0x6265
+C 0x8985 la pantalla (0xC400) aparece con 0xF0...
+C 0x8987 ...con pausas desde el trozo 0x12 en japones o 0x32 en ingles
+C 0x8997 subpaso 4: hasta que acabe (p26:79CF)
+C 0x899D hasta que acabe
+C 0x89A3 subpaso 5: a los 0x800 cuadros de 0xE339, se borra lo de 0x89B4
+C 0x89A6 hasta los 0x800 cuadros
+C 0x89AA se borra lo de 0x89B4
+C 0x89B8 subpaso 6: al acabar, la pantalla en blanco
+C 0x89BB hasta que se borre
+C 0x89BF los sprites fuera
+C 0x89C2 el bufer a cero
+C 0x89C5 la pantalla
+C 0x89CC subpaso 7: a los 0x870, la cuenta a cero y la orden 0x84
+C 0x89CF hasta los 0x870 cuadros
+C 0x89D3 la cuenta a cero
+C 0x89DD subpaso 8: a los 0x172, la orden 0x83 y el sonido 1
+C 0x89E0 hasta los 0x172
+C 0x89ED subpaso 9: la paleta 6, p27:8E21 y 8DF5, la pantalla, el RLE de p29:BBF3 en 0x1E80 y la aparicion de p29:B8B7 (p00:5ED4)
+C 0x89EF la paleta 6
+C 0x89F2 los dibujos de p29:BC13 y 0x8E19
+C 0x89F8 la pantalla
+C 0x89FB el bufer a cero
+C 0x8A01 el RLE de p29:BBF3 en 0x1E80
+C 0x8A0A la aparicion poco a poco de p29:B8B7
+C 0x8A17 subpaso 0x0A: la aparicion poco a poco hasta acabar (p00:5EEC); el sonido 1
+C 0x8A1A la aparicion, cada cuadro
+C 0x8A23 hasta acabarla
+C 0x8A2C subpaso 0x0B: el sonido 0x53 y 0x80 cuadros
+C 0x8A2F 0x80 cuadros
+C 0x8A38 subpaso 0x0C: al acabar, el sonido 1 y la aparicion de 0x5ECD (p00:47B3)
+C 0x8A3B la espera
+C 0x8A40 la aparicion de p00:5ECD con 1-2-3
+C 0x8A4A subpaso 0x0D: hasta acabarla; los sprites fuera y 0xB4 cuadros (16 bits)
+C 0x8A50 hasta acabarla
+C 0x8A52 los sprites fuera
+C 0x8A55 0xB4 cuadros (16 bits)
+C 0x8A5F subpaso 0x0E: al acabar, el final acabado (p27:8918)
+C 0x8A62 la espera de 16 bits
+C 0x8A69 al acabar, el final acabado
+C 0x8A6C los sprites de la mitad de abajo (y desde 0x7F) fuera (0xE0)
+C 0x8A6F 32 sprites
+C 0x8A74 desde la y 0x7F, fuera
+C 0x8A7F los graficos del planeta: las listas de p29:AB9A y ABCC
+C 0x8A82 la lista de p29:AB9A...
+C 0x8A89 ...y sus copias
+C 0x8A94 los dibujos de sprite de p29:BC4A en 0x1800
+C 0x8A97 p29:BC4A...
+C 0x8A9A ...en 0x1800
+C 0x8AA4 una nave que cruza: la segunda (y 0x4200, x 0x4E00)...
+C 0x8AA7 la nave 2
+C 0x8AAE ...o la primera (y 0xBF00, x 0x1900)
+C 0x8AB1 la nave 1
+C 0x8AB6 0xE5D6 la nave (1 o 2), su tramo 0 y su sitio (16 bits)
+C 0x8AB9 el tramo 0
+C 0x8ABD su y y su x
+C 0x8AC4 los sprites fuera, el tramo (p27:8BF1), sus dibujos (p27:8B90) y su sitio (p27:8B1C)
+C 0x8AC7 el tramo, sus dibujos y su sitio
+C 0x8AD1 los tres primeros sprites fuera (0xE0)
+C 0x8AD4 12 bytes
+C 0x8ADF cada cuadro se mueve (p27:8B05) y se pinta; al acabar el tramo, el siguiente; a los 7, acaba (0xE5D6 = 0)
+C 0x8AE2 se pinta
+C 0x8AE5 los cuadros del tramo
+C 0x8AEA acabados: los sprites fuera...
+C 0x8AED ...y el tramo siguiente
+C 0x8AF2 a los 7, acabado
+C 0x8AF6 el nuevo tramo
+C 0x8B00 acabado (0xE5D6 = 0)
+C 0x8B05 la y + 0xE5E2 y la x + 0xE5E4 (16 bits)
+C 0x8B08 la y + su velocidad
+C 0x8B10 la x + la suya
+C 0x8B1C sus sprites: el tramo de la tabla (0x8B70 la nave 1, 0x8B50 la 2), cuantos, y cada uno su y y su x sobre la de la nave
+C 0x8B1F la y (B) y la x (C) de la nave
+C 0x8B24 la tabla de la nave 1 (0x8B70)...
+C 0x8B2D ...o la de la 2 (0x8B50)
+C 0x8B30 el tramo
+C 0x8B36 cuantos sprites
+C 0x8B3E cada uno: su y sobre la de la nave...
+C 0x8B43 ...y su x
+C 0x8B4A el siguiente
+C 0x8B90 los dibujos y colores de sus sprites: el tramo de la tabla (0x8BB1 o 0x8BD1)
+C 0x8B93 la nave 2: 0x8BD1
+C 0x8B9C el tramo
+C 0x8BA2 cuantos
+C 0x8BA4 desde el dibujo del primer sprite
+C 0x8BA7 el dibujo y el color de cada uno
+C 0x8BF1 el tramo 0xE5D8 de la tabla (0x8C1C o 0x8C3F), 5 bytes: los cuadros (0xE5D7) y las velocidades en y y en x
+C 0x8BF4 la nave 2: 0x8C3F
+C 0x8BFD el tramo x 5
+C 0x8C07 sus cuadros
+C 0x8C0C la velocidad en y
+C 0x8C14 la velocidad en x
+C 0x8C62 el contador (cifras 0xE54F-0xE552) contra 6809: por debajo sube (0xE54C = 1), por encima baja (2)
+C 0x8C65 las dos primeras cifras (6 y 8)
+C 0x8C6E iguales: las otras dos
+C 0x8C70 menos: sube
+C 0x8C72 mas: baja
+C 0x8C74 las dos ultimas contra 0 y 9
+C 0x8C77 la tercera y la cuarta (0 y 9)
+C 0x8C86 igual: 0xE54F = 8 y 0xE550 = 0, y sube
+C 0x8C87 8 y 0 en las dos primeras
+C 0x8C8B ...sube...
+C 0x8C8F ...o baja
+C 0x8C91 el modo
+C 0x8C94 de uno en uno
+C 0x8C97 de uno en uno
+C 0x8C9B Z si el contador vale 6644 (el del final, G6644)
+C 0x8C9E 6644
+C 0x8CA3 Z si vale 6809 (G6809)
+C 0x8CA6 6809
+C 0x8CA9 las dos primeras contra D y E
+C 0x8CB3 y las otras dos contra B y C
+C 0x8CBF cada 4 cuadros el contador cambia de modo (1-2) y de paso al azar: se vuelve loco
+C 0x8CC2 cada 4 cuadros
+C 0x8CC5 el modo: 1, 2, 1, 2...
+C 0x8CD1 y el paso al azar
+C 0x8CDD con el 29, la lista de graficos de p29:AACE
+C 0x8CE0 la lista de p29:AACE
+C 0x8CEB cada 8 cuadros, el cuadro de 0xCA48 a cero o el dibujo de p22:B8F6 (parpadea)
+C 0x8CEE cada 8 cuadros...
+C 0x8CF0 ...a cero...
+C 0x8CF6 ...o el dibujo de p22:B8F6
+C 0x8D00 con el 22, los colores de la nave elegida (tabla de 0x8D36) en 0x2488 y 0x2C88, y sus dibujos a 0xF0
+C 0x8D09 la tabla de colores de la nave
+C 0x8D11 al tercio de enmedio...
+C 0x8D18 ...y al de abajo
+C 0x8D1E sus dibujos a 0xF0 (0x378 bytes en cada tercio)
+C 0x8D3E la nave elegida (p28:A23E en 0xE800, tabla de 0x8D5D) en 0xCAA9, 6 filas de 0x0E, con sus caracteres desde 0x80
+C 0x8D47 a los caracteres 0x81-0x100
+C 0x8D4D la tabla de la nave
+C 0x8D53 6 filas de 0x0E en 0xCAA9
+C 0x8D65 0x150 bytes: los caracteres de 1 a 0x80 pasan a 0x81-0x100
+C 0x8D68 0x150 bytes
+C 0x8D6B los de 1 a 0x80, + 0x80
+C 0x8D7D cada 4 cuadros sus sprites (12 bytes de la tabla de 0x8DA9 por nave) o nada (parpadean)
+C 0x8D80 cada 4 cuadros...
+C 0x8D84 los tres sprites de 0xEF40 fuera
+C 0x8D87 ...fuera...
+C 0x8D95 ...o los de la nave: x 12...
+C 0x8DA0 ...en 0xEF40
+C 0x8DD9 con el 29, la lista de graficos de p29:B8BB, sus copias y el RLE de p29:BBF3 en 0x1E80
+C 0x8DDC la lista de p29:B8BB...
+C 0x8DE3 ...y sus copias
+C 0x8DE8 y el RLE de p29:BBF3 en 0x1E80
+C 0x8DF5 el dibujo de 0x8E19 (2 x 4) en 0xCB6E
+C 0x8DFA cada 8 cuadros el de 0x8E19 o el de 0x8E11 (parpadea)
+C 0x8DFD cada 8 cuadros uno u otro
+C 0x8E21 el dibujo de p29:BC13 (8 filas de 0x10) en 0xCAA8 y un sprite de 0x8E48
+C 0x8E4C con el 29, la lista de p29:BD4D y el RLE de p29:BDCA en 0x1DE0
+C 0x8E63 el dibujo de 0x8E70 (3 x 4) en 0xCACE
+C 0x8E7C los sprites de 0xEF40 fuera y el cuadro de 0xCA48 a cero
+C 0x8E83 cada 2 cuadros el dibujo 2 o 3
+C 0x8E8E los sprites del dibujo 0xE5D0 (tabla de 0x8EB2: cuantos bytes y ellos) en 0xEF40
+C 0x8EA4 0x18 bytes de sprites fuera (0xE0)
+# --- fin de lo escrito a mano ---
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x8052 0x805A tabla_8052  4 destinos del despachador p00:4093 (call en p27:804F, el indice en A): 6CCB, 6D14, 805A, 6DB7; lo leen p27:804F (8 bytes)
 F 0x8052 w4
@@ -373,7 +937,6 @@ F 0x8FEE 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
-C 0x801E lee la cuenta de cuadros del juego
 C 0x804F despacha: salta a la palabra A de la tabla que va detras del call
 C 0x8068 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x8078 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
@@ -381,7 +944,6 @@ C 0x807F carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 C 0x8095 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x80BC despacha: salta a la palabra A de la tabla que va detras del call
 C 0x80D5 despacha: salta a la palabra A de la tabla que va detras del call
-C 0x8104 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x810D bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x8113 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
 C 0x8119 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
@@ -389,32 +951,23 @@ C 0x811F rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su dir
 C 0x8125 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
 C 0x813E rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 C 0x816B despacha: salta a la palabra A de la tabla que va detras del call
-C 0x8178 orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0x817B sonido_3F: pide el sonido 0x3F
-C 0x81CC lee lo recien pulsado (mando y cursores)
 C 0x81E1 guarda un temporizador
-C 0x81E7 apunta a un temporizador
 C 0x81EC pantalla_en_blanco: borra la tabla de nombres (0x3800)
 C 0x81F8 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
-C 0x8224 lee la cuenta de cuadros del juego
 C 0x8375 despacha: salta a la palabra A de la tabla que va detras del call
-C 0x8380 sonido_3F: pide el sonido 0x3F
-C 0x83C2 lee lo recien pulsado (mando y cursores)
 C 0x8403 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x8424 despacha: salta a la palabra A de la tabla que va detras del call
-C 0x8437 orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0x843A sonido_42: pide el sonido 0x42
 C 0x8440 pantalla_en_blanco: borra la tabla de nombres (0x3800)
 C 0x8462 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x8469 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 C 0x8473 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
-C 0x84A7 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x84B0 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x84C7 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x84CE carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 C 0x84D8 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x852A despacha: salta a la palabra A de la tabla que va detras del call
-C 0x853D pantalla_en_blanco: borra la tabla de nombres (0x3800)
 C 0x858D bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x8593 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x861E despacha: salta a la palabra A de la tabla que va detras del call
@@ -427,6 +980,7 @@ C 0x8710 orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0x8713 sonido_01: pide el sonido 0x01
 C 0x8725 sonido_53: pide el sonido 0x53
 C 0x873C sonido_40: pide el sonido 0x40
+C 0x8786 lee 1 si se cogio la entrada secreta 0x0B (el final con un paso mas)
 C 0x87A6 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x87DD orden_sonido_84: manda la orden 0x84 al motor de sonido
 C 0x87ED orden_sonido_83: manda la orden 0x83 al motor de sonido
@@ -434,7 +988,9 @@ C 0x87F0 sonido_49: pide el sonido 0x49
 C 0x888E bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x8895 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 C 0x88B5 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x88CB lee el llenado fila a fila en marcha
 C 0x88DB orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0x88EF lee el borrado fila a fila en marcha
 C 0x88F4 pantalla_en_blanco: borra la tabla de nombres (0x3800)
 C 0x890D orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0x8910 sonido_01: pide el sonido 0x01
@@ -444,6 +1000,7 @@ C 0x895F orden_sonido_84: manda la orden 0x84 al motor de sonido
 C 0x896F orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0x8972 sonido_41: pide el sonido 0x41
 C 0x8982 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
+C 0x899A lee el llenado fila a fila en marcha
 C 0x89BC pantalla_en_blanco: borra la tabla de nombres (0x3800)
 C 0x89D6 orden_sonido_84: manda la orden 0x84 al motor de sonido
 C 0x89E4 orden_sonido_83: manda la orden 0x83 al motor de sonido
@@ -451,58 +1008,44 @@ C 0x89E7 sonido_01: pide el sonido 0x01
 C 0x89FE bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x8A07 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x8A10 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
-C 0x8A17 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x8A1D bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x8A20 lee la aparicion poco a poco en marcha (1 o 2)
 C 0x8A25 sonido_01: pide el sonido 0x01
-C 0x8A2C sonido_53: pide el sonido 0x53
 C 0x8A3D sonido_01: pide el sonido 0x01
 C 0x8A4D lee la aparicion poco a poco en marcha (1 o 2)
-C 0x8A6C apunta a los atributos de sprite (32 x 4)
-C 0x8A7F bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x8A86 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 C 0x8A90 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
-C 0x8A94 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x8A9D rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x8AA0 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
-C 0x8AD1 apunta a los atributos de sprite (32 x 4)
 C 0x8B33 lee_palabra: HL = la palabra A de la tabla HL
 C 0x8B3A apunta a los atributos de sprite (32 x 4)
 C 0x8B9F lee_palabra: HL = la palabra A de la tabla HL
 C 0x8C04 suma_a_hl: HL = HL + A
-C 0x8CBF lee la cuenta de cuadros del juego
-C 0x8CDD bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x8CE4 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 C 0x8CE7 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
-C 0x8CEB lee la cuenta de cuadros del juego
 C 0x8CF3 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
 C 0x8CFC bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
-C 0x8D00 guarda_reparto: guarda las tres copias del mapper en la pila de 0xF0D0
 C 0x8D03 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
+C 0x8D06 lee la nave elegida (0 a 3)
 C 0x8D0C lee_palabra: HL = la palabra A de la tabla HL
 C 0x8D14 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x8D1B rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x8D32 devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
 C 0x8D41 apunta a los enemigos (12 de 0x40)
 C 0x8D44 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x8D4A lee la nave elegida (0 a 3)
 C 0x8D50 lee_palabra: HL = la palabra A de la tabla HL
-C 0x8D65 apunta a los enemigos (12 de 0x40)
-C 0x8D7D lee la cuenta de cuadros del juego
+C 0x8D92 lee la nave elegida (0 a 3)
 C 0x8D9D suma_a_hl: HL = HL + A
-C 0x8DD9 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x8DE0 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 C 0x8DEE rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x8DF1 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
-C 0x8DFA lee la cuenta de cuadros del juego
-C 0x8E21 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x8E27 apunta a los enemigos (12 de 0x40)
 C 0x8E2A rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 C 0x8E30 apunta a los enemigos (12 de 0x40)
 C 0x8E39 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
-C 0x8E4C bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x8E53 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 C 0x8E5C rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x8E5F bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
-C 0x8E83 lee la cuenta de cuadros del juego
 C 0x8E97 lee_palabra: HL = la palabra A de la tabla HL
 # --- fin de las anotaciones de anota.py ---

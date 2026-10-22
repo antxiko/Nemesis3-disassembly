@@ -612,7 +612,7 @@ L_43F7:
 L_43FD:
 	call sonido_48		;43fd   ; paso 5: p00:580A
 	ld hl,00000h		;4400   ; 0xE31B = 0
-	ld (0e31bh),hl		;4403
+	ld (0e31bh),hl		;4403   ; guarda el paso de la eleccion de nave y el byte siguiente (16 bits)
 	xor a			;4406
 	ld (0e324h),a		;4407   ; 0xE324 = 0
 	jp L_433A		;440a
@@ -624,7 +624,7 @@ L_440D:
 	inc a			;4419
 	ret nz			;441a
 	ld hl,00000h		;441b   ; 0xE31B a 0 otra vez
-	ld (0e31bh),hl		;441e
+	ld (0e31bh),hl		;441e   ; guarda el paso de la eleccion de nave y el byte siguiente (16 bits)
 	ld a,(0e302h)		;4421   ; con un jugador...
 	bit 5,a		;4424
 	ld a,008h		;4426   ; ...al paso 8
@@ -637,7 +637,7 @@ L_4436:
 	call bancos_26_27_28		;4436   ; paso 7: la eleccion del segundo jugador, igual
 	call 06000h		;4439
 	call bancos_1_2_3		;443c   ; bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
-	ld a,(0e31bh)		;443f
+	ld a,(0e31bh)		;443f   ; lee el paso de la eleccion de nave
 	inc a			;4442
 	ret nz			;4443
 	call L_44E9		;4444   ; y vuelve a cambiar las fichas
@@ -827,7 +827,7 @@ DATA_tabla_4589:
 L_458F:
 	call L_5677		;458f
 	xor a			;4592
-	ld (0e37dh),a		;4593
+	ld (0e37dh),a		;4593   ; guarda la fase siguiente (0: la de despues)
 	ld a,(0e361h)		;4596   ; lee la fase (1 a 11)
 	cp 00bh		;4599
 	ld a,00ah		;459b
@@ -866,7 +866,7 @@ L_45CA:
 L_45E3:
 	ld a,001h		;45e3
 	ld (0e398h),a		;45e5
-	ld (0e327h),a		;45e8
+	ld (0e327h),a		;45e8   ; guarda el subpaso del estado 8 (entre fases)
 	ld a,002h		;45eb
 	jp L_4501		;45ed
 L_45F0:
@@ -886,7 +886,7 @@ L_460C:
 	call bancos_26_27_28		;460c   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	call 06009h		;460f
 	call bancos_1_2_3		;4612   ; bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
-	ld a,(0e327h)		;4615
+	ld a,(0e327h)		;4615   ; lee el subpaso del estado 8 (entre fases)
 	or a			;4618
 	ret nz			;4619
 	jr L_45FE		;461a
@@ -907,17 +907,17 @@ DATA_tabla_4620:
 
 
 L_4628:
-	ld a,(0e31eh)		;4628
+	ld a,(0e31eh)		;4628   ; lee el tipo de la entrada secreta cogida (al estado 9)
 	ld (0e338h),a		;462b
 	ld hl,00000h		;462e
-	ld (0e7e4h),hl		;4631
+	ld (0e7e4h),hl		;4631   ; guarda el paso del estado 9 (la entrada secreta) y el byte siguiente (16 bits)
 	call L_5677		;4634
 	jp L_433A		;4637
 L_463A:
 	call bancos_26_27_28		;463a   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	call 06003h		;463d
 	call bancos_1_2_3		;4640   ; bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
-	ld a,(0e31eh)		;4643
+	ld a,(0e31eh)		;4643   ; lee el tipo de la entrada secreta cogida (al estado 9)
 	or a			;4646
 	ret nz			;4647
 	call L_4FB9		;4648
@@ -1006,7 +1006,7 @@ L_46DA:
 	call bancos_1_2_3		;4708   ; bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 	call L_5683		;470b
 	ld a,001h		;470e
-	ld (0e37dh),a		;4710
+	ld (0e37dh),a		;4710   ; guarda la fase siguiente (0: la de despues)
 	call L_5612		;4713
 	xor a			;4716
 	ld (0e30dh),a		;4717   ; guarda 1: fase superada (al estado 8)
@@ -3287,7 +3287,7 @@ L_5619:
 	call L_5603		;561f   ; la fase siguiente
 	ld (0e361h),a		;5622   ; guarda la fase (1 a 11)
 	xor a			;5625   ; 0xE37D = 0
-	ld (0e37dh),a		;5626
+	ld (0e37dh),a		;5626   ; guarda la fase siguiente (0: la de despues)
 	call sonido_01		;5629   ; p00:57EA
 	xor a			;562c   ; 0xE365 y 0xE442 a 0
 	ld (0e365h),a		;562d   ; guarda el paso del final de la fase

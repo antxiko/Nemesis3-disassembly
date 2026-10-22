@@ -526,11 +526,17 @@ C 0x80C7 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x815B despacha: salta a la palabra A de la tabla que va detras del call
 C 0x8191 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 C 0x81DD apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
+C 0x81F3 guarda la nave elegida (0 a 3)
 C 0x8204 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x820A lee la nave elegida (0 a 3)
 C 0x8210 suma_a_hl: HL = HL + A
 C 0x821A bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 C 0x8225 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
 C 0x822B bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x822E lee el llenado fila a fila en marcha
+C 0x8237 lee la nave elegida (0 a 3)
+C 0x824B lee la nave elegida (0 a 3)
+C 0x826E apunta a la nave elegida (0 a 3)
 C 0x8291 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
 C 0x829D bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 C 0x82A5 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
@@ -544,6 +550,7 @@ C 0x82F1 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
 C 0x82F7 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 C 0x82FA bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
 C 0x8303 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x8306 lee el borrado fila a fila en marcha
 C 0x8324 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
 C 0x832B carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 C 0x8339 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
@@ -571,10 +578,12 @@ C 0x84F3 bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
 C 0x84F9 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 C 0x84FD bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
 C 0x8503 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x8506 lee el llenado fila a fila en marcha
 C 0x850B bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
 C 0x8511 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 C 0x8515 bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
 C 0x851B bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x851E lee el borrado fila a fila en marcha
 C 0x852D color_del_borde: B al registro 7 del VDP
 C 0x8530 pantalla_en_blanco: borra la tabla de nombres (0x3800)
 C 0x8541 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
@@ -599,6 +608,7 @@ C 0x8733 bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
 C 0x8739 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 C 0x873D bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
 C 0x8743 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x8746 lee el llenado fila a fila en marcha
 C 0x875F lee la cuenta de cuadros del juego
 C 0x87A6 lee la cuenta de cuadros del juego
 C 0x87CA suma_a_hl: HL = HL + A

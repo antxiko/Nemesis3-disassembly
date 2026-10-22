@@ -2582,7 +2582,7 @@ L_9370:
 	ld (hl),0ffh		;9378
 L_937A:
 	ld b,a			;937a
-	ld a,(0e380h)		;937b
+	ld a,(0e380h)		;937b   ; lee la nave elegida (0 a 3)
 	ld c,a			;937e
 	add a,a			;937f
 	add a,c			;9380
@@ -2636,7 +2636,7 @@ L_93BD:
 	xor a			;93bd
 	ld (0e437h),a		;93be
 	ld (0e439h),a		;93c1
-	ld a,(0e36fh)		;93c4
+	ld a,(0e36fh)		;93c4   ; lee el nivel del arma secreta (0 a 7)
 	cp 003h		;93c7
 	ret c			;93c9
 	xor a			;93ca
@@ -2679,7 +2679,7 @@ L_93F0:
 	xor a			;93f0
 	ld (0e436h),a		;93f1
 	ld (0e439h),a		;93f4
-	ld a,(0e36fh)		;93f7
+	ld a,(0e36fh)		;93f7   ; lee el nivel del arma secreta (0 a 7)
 	cp 003h		;93fa
 	ret c			;93fc
 	xor a			;93fd
@@ -2718,7 +2718,7 @@ L_9431:
 	ld (hl),0ffh		;9439
 L_943B:
 	ld b,a			;943b
-	ld a,(0e380h)		;943c
+	ld a,(0e380h)		;943c   ; lee la nave elegida (0 a 3)
 	ld c,a			;943f
 	add a,a			;9440
 	add a,c			;9441
@@ -2966,7 +2966,7 @@ L_95E7:
 	ld a,(0e43bh)		;95e7   ; la casilla 8: con 0xE43B lleno, nada; si no, el nombre 0x0A u 0x0B segun 0xE37F
 	inc a			;95ea
 	jr z,L_95E4		;95eb
-	ld a,(0e37fh)		;95ed
+	ld a,(0e37fh)		;95ed   ; lee el escudo elegido (0 SHIELD, 1 FORCE FIELD)
 	or a			;95f0
 	ld a,00ah		;95f1
 	jr z,L_95F7		;95f3
