@@ -182,7 +182,10 @@ C 0x85CC 1: fijas; 2: giran
 C 0x85D6 tipo 0: siguen la estela, la segunda 8 posiciones mas atras
 C 0x85D9 la segunda: la posicion de ahora
 C 0x85E0 la primera: 8 posiciones antes
+C 0x85EA la entrada A de la estela (2 bytes)
 C 0x85EB su y y su x de la estela
+C 0x85F0 la y...
+C 0x85F5 ...y la x, 2 bytes despues
 C 0x85F8 tipo 2: giran alrededor de la nave (tabla de 0x8647), una a 8 pasos de la otra
 C 0x85F9 la segunda, por la cuenta de cuadros...
 C 0x8606 ...la primera, media vuelta despues
@@ -357,7 +360,10 @@ C 0x8B74 8 a la derecha
 C 0x8B80 8 a la derecha y cada 4 cuadros crece...
 C 0x8B8B cada 4 cuadros...
 C 0x8B93 con la y en 0, crece 1; si no, 8 arriba y crece 2
+C 0x8BA1 crece B (IY+0A)
 C 0x8BA8 ...recortado por abajo
+C 0x8BB3 pasa de la fila 0x17? se recorta
+C 0x8BB6 lo que sobra, fuera
 C 0x8BC0 el tipo 9: el dibujo 0x11, largo 2, el sonido 0x18
 C 0x8BC4 tipo 9, paso 4
 C 0x8BC9 la y de quien lo lanza...
@@ -368,7 +374,10 @@ C 0x8BFF 8 a la derecha
 C 0x8C0B 8 a la derecha; fuera, se acaba
 C 0x8C16 cada 4 cuadros...
 C 0x8C1E con la y en 0, crece 1; si no, 8 arriba y crece 2
+C 0x8C2C crece B (IY+0A)
 C 0x8C33 recortado por abajo (0x17 filas)
+C 0x8C3E pasa de la fila 0x17? se recorta
+C 0x8C41 lo que sobra, fuera
 C 0x8C4B el tipo 0x0C (caja 0x10)...
 C 0x8C4F tipo 0x0C
 C 0x8C54 alto 0x10
@@ -604,6 +613,8 @@ C 0x9483 ...y aparece
 C 0x9486 0x80 de puntos segun la dificultad
 C 0x94B7 C = el tope de la casilla elegida: la tabla de 0x94D0 por el nivel del arma secreta (0xE36F x 8 + casilla)
 C 0x94BD un byte de la tabla de 0x94D0 por 0xE36F x 8 + 0xEF80
+C 0x94C4 + la casilla (0xEF80)
+C 0x94CF C: el tope
 C 0x9511 el marcador de armas al empezar: a cero...
 C 0x9514 ...la marca si se tenia...
 C 0x9517 ...los colores del medidor...
@@ -621,6 +632,7 @@ C 0x9553 cada caracter: su primera fila 0xE0...
 C 0x955A ...las siete de abajo 0xA0
 C 0x956B los 9 caracteres del medidor en 0x3AD4 (del 0x4F en adelante)
 C 0x9571 nueve, desde el 0x4F
+C 0x9575 los caracteres seguidos, del 0x4F al 0x57
 C 0x957D las 8 casillas en 0x3AC2, de dos caracteres
 C 0x9583 las 8, desde la 1 (C)
 C 0x958C la siguiente
@@ -760,6 +772,8 @@ C 0x9A7F los tipos 3-4 y 0x0F-0x17 son sprites; los demas, fuera
 C 0x9A8E fuera (0xE0)
 C 0x9A96 la y (+3) y la x (+5), el dibujo y el color
 C 0x9AA3 el 0x0F: desde +8 y +9, y +4 y +5
+C 0x9AA7 2 bytes desde +8...
+C 0x9AAF ...y 2 desde +4
 C 0x9AB4 los disparos de caracteres en el bufer de 0xCE00
 C 0x9ABB los 9
 C 0x9ACA por su tipo (tabla de detras)
@@ -790,6 +804,9 @@ C 0x9BE1 una columna
 C 0x9BED uno por fila (0x40)
 C 0x9BFA borra un rectangulo de IX+0A x IX+10
 C 0x9BFF desde su sitio, IX+10 filas de IX+0A
+C 0x9C10 la fila a cero
+C 0x9C15 la fila siguiente (0x40)
+C 0x9C16 IX+10 filas
 C 0x9C1A pinta los disparos de caracteres en el bufer
 C 0x9C1E los 9
 C 0x9C2D por su tipo (tabla de detras)
@@ -802,6 +819,8 @@ C 0x9C8B la fila de arriba con 0x0A...
 C 0x9C99 ...y la de abajo con 0x0B
 C 0x9CA5 el de 0x10 en dos filas
 C 0x9CAC las dos filas con 0x10
+C 0x9CB5 la primera fila con 0x10
+C 0x9CBA la segunda (0x40 mas)
 C 0x9CC4 el rayo vertical: 0x0D arriba, 0x0E en medio y 0x0F abajo
 C 0x9CC7 parado: nada
 C 0x9CCE de 1 o 2: arriba y abajo
@@ -812,6 +831,9 @@ C 0x9D05 una columna del caracter 0x11
 C 0x9D0E una por fila
 C 0x9D16 un rectangulo del caracter 0x34 (IX+0A x IX+10)
 C 0x9D1E IX+10 filas de IX+0A
+C 0x9D2B la fila con 0x34
+C 0x9D30 la siguiente (0x40)
+C 0x9D32 IX+10 filas
 C 0x9D35 la direccion de DE a HL con la tabla de p22:B906 (con el 22 puesto)
 C 0x9D41 la distancia en x (H - D; bit 0 de C si es negativa)...
 C 0x9D4C ...y en y (L - E; bit 1)
@@ -1007,6 +1029,7 @@ C 0x8552 suma_a_hl: HL = HL + A
 C 0x855B suma_a_hl: HL = HL + A
 C 0x85B5 lee la y de la nave (el primer byte de su sprite, p01:797C)
 C 0x85B9 lee la x de la nave
+C 0x85DD la entrada A de la estela (2 bytes)
 C 0x85FD lee la cuenta de cuadros del juego
 C 0x8602 la y de la nave + el paso en y, la x + el de x, sin salirse
 C 0x860A lee la cuenta de cuadros del juego

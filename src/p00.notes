@@ -331,6 +331,9 @@ C 0x4A13 la cifra baja
 C 0x4A1A el par anterior
 C 0x4A3C cambia B bytes de HL con los de DE
 C 0x4A46 la direccion de la tabla de 0xC400 que corresponde a la posicion HL
+C 0x4A47 0xC400 + la fila (y / 8) x 0x40...
+C 0x4A4B ...+ la columna (x / 8), en L
+C 0x4A54 y la parte alta, de 0xC4 a 0xCB
 C 0x4A65 DE = la palabra A de la tabla DE (A x 2 + DE)
 C 0x4A6A byte bajo
 C 0x4A6C byte alto
@@ -348,6 +351,8 @@ C 0x4AA1 y la otra, borrada
 C 0x4AA3 la flecha (p02:8649) en HL
 C 0x4AA9 p00:48EF y la tabla de nombres (0x3800, 0x300 bytes) a cero: la pantalla en blanco
 C 0x4AB6 la direccion de VRAM de HL para escribir (SETWRT), y en C' el puerto de datos del VDP (de 0x0007)
+C 0x4AD3 a cada tercio, la misma copia...
+C 0x4AD9 ...y al tercio siguiente (0x800)
 C 0x4B04 texto a la VRAM: DE apunta a la direccion; las letras tal cual (C = 0xFF)
 C 0x4B06 HL = la direccion de VRAM que trae el texto...
 C 0x4B0B ...y DE en la primera letra
@@ -483,6 +488,9 @@ C 0x4D63 ...dando la vuelta a cada caracter (p00:4D70)
 C 0x4D66 y los colores igual
 C 0x4D70 cada caracter...
 C 0x4D76 ...cambia sus 8 filas de arriba abajo
+C 0x4D78 la fila de arriba por la de abajo
+C 0x4D81 HL al caracter siguiente (8 bytes)
+C 0x4D85 DE a su ultima fila (+0x0C)
 C 0x4D8E de lado a lado: cada byte con los bits al reves
 C 0x4D98 el bit de abajo del byte...
 C 0x4D9A ...entra por abajo en A
@@ -515,6 +523,7 @@ C 0x4EA0 y al destino
 C 0x4EAC el sprite siguiente de cada lado
 C 0x4EBD hasta acabar la cuenta
 C 0x4EC4 un sprite de 16 x 16 de lado a lado: las dos mitades se cambian, fila a fila
+C 0x4ED7 un byte, del reves: HL sube y DE baja
 C 0x4EDE dos o mas: C tiras con los bytes al reves (p00:4B61)
 C 0x4EE3 el destino x 8 + 0x1810
 C 0x4EF0 el origen x 8 + 0x1800
@@ -546,6 +555,16 @@ C 0x4FD8 con 16-17-18
 C 0x4FED las copias con espejo de la fase (tabla p16:6014)
 C 0x5007 los dibujos de sprite de p14:7055 (RLE) en 0x1800, con los bancos 14 y 15
 C 0x500A 0x1800: los dibujos de los sprites
+C 0x50C2 cada entrada: un byte (0 acaba) y la direccion de un RLE
+C 0x50CB a la VRAM 0x1800 + el byte x 8 (la tabla de nombres)
+C 0x5124 la lista de graficos
+C 0x5130 las copias con vuelta
+C 0x513C los RLE a la tabla de nombres (p00:50C2)
+C 0x5146 y los sprites con espejo (p00:4E5A)
+C 0x51F7 cada entrada (7 bytes): la posicion del scroll...
+C 0x5203 ...aun no llega: nada
+C 0x5204 justo en ella: sus graficos (p00:5210)
+C 0x5206 pasada: la entrada siguiente
 C 0x5236 la pantalla entera al empezar la fase: 32 columnas del mapa hacia atras desde el scroll
 C 0x5237 0xE428 = 0 (la x de la columna, de 8 en 8)
 C 0x523A guarda el scroll...
@@ -606,6 +625,8 @@ C 0x53D7 la columna de dentro del bloque (scroll & 3)
 C 0x53E1 de 0x40 en 0x40: una fila del bufer
 C 0x53E4 el ultimo bloque solo lleva dos filas
 C 0x53E6 las cuatro filas del bloque, una de cada 4 bytes
+C 0x53F4 las dos filas de abajo
+C 0x53FB la cuarta
 C 0x53FE el bloque siguiente
 C 0x5404 una columna sin mapa: la de las estrellas de 0x5428 (scroll & 0x1F)
 C 0x540F cada cuantas filas sale una estrella
@@ -636,6 +657,14 @@ C 0x5583 el numero (0xFF + 1 = 0: se acabo)
 C 0x5587 x 8...
 C 0x558A ...en la tabla de 0x6068
 C 0x5590 8 bytes al VDP
+C 0x55AD rle_a_ram: 0 acaba
+C 0x55B2 bit 7 a 0: el byte siguiente repetido (p00:55C1)
+C 0x55B7 bit 7 y nada mas: otro destino delante
+C 0x55BA bit 7 y una cuenta: tantos bytes sueltos
+C 0x55CD rle2_a_ram: 0 acaba
+C 0x55D2 la cuenta, los bits 0-5
+C 0x55D6 bits 6-7: 0, repetido; 1, subiendo; 2, bajando
+C 0x55E2 3: tantos bytes sueltos
 C 0x5603 la fase siguiente: si 0xE37D no es 0, la de A
 C 0x5608 la de 0xE361 + 1...
 C 0x560C ...y despues de la 11, la 1
@@ -673,6 +702,10 @@ C 0x5724 la cuenta de 0xE333 a cero
 C 0x572B la cuenta de 0xE333 contra DE
 C 0x5730 la cuenta de 0xE339 a cero
 C 0x5737 la cuenta de 0xE339 contra DE
+C 0x576A cada entrada (3 bytes): la musica y una posicion del scroll
+C 0x5773 justo en ella: p00:578B
+C 0x5775 antes de ella: su musica (p00:577A)
+C 0x5777 pasada: la entrada siguiente
 C 0x57EA el sonido 0x01
 C 0x57EE el sonido 0x02
 C 0x57F2 el sonido 0x03
@@ -767,7 +800,9 @@ C 0x59B6 la fila siguiente del destino (+0x20)
 C 0x59C2 hasta B filas
 C 0x59C7 borra un rectangulo de DE: B filas de C bytes, con filas de 0x20
 C 0x59DA a cero
+C 0x59DB la fila a cero
 C 0x59DF la fila siguiente (+0x20)
+C 0x59E7 B filas
 C 0x59EC el cuadro de la fase: con 0xE31F...
 C 0x59F0 ...p01:6274
 C 0x59F3 con 0xE413, p00:5B8F
@@ -903,8 +938,13 @@ C 0x5F86 el caracter x 8 + el tercio
 C 0x5F8F dibujos (0xE51A = 0) o colores
 C 0x5FB9 las copias con vuelta de 0xE51E
 C 0x5FC0 el RLE de p00:4B3C, cada byte con AND C
+C 0x5FC3 la cuenta: 0 acaba
+C 0x5FC8 bit 7 a 0: el byte siguiente repetido (p00:5FE5); a 1, tantos sueltos
 C 0x5FCF el byte con la mascara
 C 0x5FDB en los dibujos la mascara gira tres bits cada byte
+C 0x5FE7 el byte con la mascara al VDP
+C 0x5FED en los dibujos (0xE51A a 0), la mascara gira tres bits
+C 0x5FFA B veces
 # --- fin de lo escrito a mano ---
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
@@ -1409,6 +1449,7 @@ C 0x4E60 cuantos sprites (0: nada)
 C 0x4E64 dos o mas: C tiras con los bytes al reves (p00:4B61)
 C 0x4E94 apunta a un bufer de trabajo
 C 0x4EA9 copia_a_vram: LDIRVM con origen DE y destino HL
+C 0x4ECC un byte, del reves: HL sube y DE baja
 C 0x4F08 devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
 C 0x4F25 apunta a el siguiente caracter libre de cada tercio
 C 0x4F36 vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
@@ -1459,10 +1500,13 @@ C 0x508F guarda_y_bancos_14_15: guarda el reparto en la pila y pone los bancos 1
 C 0x5098 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x509B devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
 C 0x509E bancos_14_15: pone los bancos 14-15 (y sus copias en 0xF0F1-3)
+C 0x50A4 cada entrada: un byte (0 acaba) y la direccion de un RLE
+C 0x50AA cada entrada: un byte (0 acaba) y la direccion de un RLE
 C 0x50AD bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x50B0 bancos_14_15: pone los bancos 14-15 (y sus copias en 0xF0F1-3)
 C 0x50B3 lee la fase (1 a 11)
 C 0x50B9 lee_palabra: HL = la palabra A de la tabla HL
+C 0x50BC cada entrada: un byte (0 acaba) y la direccion de un RLE
 C 0x50BF bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x50D5 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x50DC bancos_14_15: pone los bancos 14-15 (y sus copias en 0xF0F1-3)
@@ -1481,10 +1525,13 @@ C 0x511B lee el jefe en curso (0: ninguno)
 C 0x5121 lee_palabra: HL = la palabra A de la tabla HL
 C 0x512C carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 C 0x5138 copia_con_vuelta: copia caracteres de la VRAM dandoles la vuelta (lista IX)
+C 0x5142 cada entrada: un byte (0 acaba) y la direccion de un RLE
 C 0x5155 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x515C guarda_y_bancos_20_21_22: guarda el reparto en la pila y pone los bancos 20-21-22 (y sus copias en 0xF0F1-3)
+C 0x5162 la lista de graficos
 C 0x5165 devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
 C 0x5172 guarda_y_bancos_20_21_22: guarda el reparto en la pila y pone los bancos 20-21-22 (y sus copias en 0xF0F1-3)
+C 0x5181 la lista de graficos
 C 0x5184 devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
 C 0x518E apunta a un bufer de trabajo
 C 0x519C bancos_16_17_18: pone los bancos 16-17-18 (y sus copias en 0xF0F1-3)

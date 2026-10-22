@@ -8,9 +8,18 @@ C 0x8015 ...(p02:8025)
 C 0x8025 en uso: su sitio en el bufer (IX+2, IX+3)...
 C 0x8033 ...en IX+4, IX+5
 C 0x8039 4 filas de 4 caracteres del bufer a IY
+C 0x803E una fila: 4 caracteres del bufer a IY
+C 0x8043 la fila siguiente del bufer (0x40 por fila, 4 ya pasados)
+C 0x8046 las 4 filas
 C 0x804A y lo devuelve al bufer (p02:806A)
+C 0x8059 cada explosion grande vuelve al bufer (p02:806A)
+C 0x805D la siguiente: 8 bytes mas en IX
+C 0x8062 y 0x10 mas en lo guardado (IY: 4 filas de 4)
 C 0x806F del sitio de IX+4 y lo guardado en IY...
 C 0x8078 ...4 filas de 4
+C 0x807A una fila: 4 caracteres de lo guardado al bufer
+C 0x807F la fila siguiente del bufer (0x40 por fila, 4 ya pasados)
+C 0x8084 las 4 filas
 C 0x8088 las entradas secretas de la fase al empezar, salvo en la fase 4
 C 0x808E la siguiente (p02:80B1)
 C 0x8094 ya pasada: la siguiente (0xE7F8)
@@ -45,6 +54,9 @@ C 0x81C2 en uso: el tipo 6 va aparte (p03:A4D7)
 C 0x81CC con ancho (IX+9) y alto (IX+0A)...
 C 0x81D6 ...que se pintan (bit 1 de IX+12)...
 C 0x81E4 ...se borra su rectangulo del bufer
+C 0x81F2 la fila a cero: IX+0A caracteres
+C 0x81F6 la fila siguiente del bufer (0x40)
+C 0x81F8 IX+09 filas
 C 0x81FC las piezas en el bufer: las pinta (p02:8213)
 C 0x8213 en uso y con el bit 0 de IX+12
 C 0x821D con el bit 2: aparte (p02:8264)
@@ -54,6 +66,11 @@ C 0x8245 la fila siguiente del bufer (0x40)
 C 0x8250 el tipo 6: p03:A36B
 C 0x8258 el tipo 5: con el 19, p19:AE73
 C 0x8264 los de dibujo propio: 0x2F, 0x1E, 0x2E, 0x0D y 0x30
+C 0x8269 0x2F: p02:8A9C
+C 0x826E 0x1E: p02:8299
+C 0x8273 0x2E: 4 filas de 0x88C4 (p02:889C)
+C 0x8278 0x0D: en el banco 3 (p03:BD2A)
+C 0x827D 0x30: en el banco 3 (p03:BB5B)
 C 0x8281 su sitio en el bufer (IX+4, IX+6); con el bit 6 de IX+12, una fila mas arriba
 C 0x8299 el tipo 0x1E: dos trozos del dibujo IX+7 (con el 8)...
 C 0x82A4 ...el segundo 8 a la derecha o a la izquierda (bit 0 de IX+0B)...
@@ -63,6 +80,9 @@ C 0x82E1 guarda en 0xCF00 lo que tapan los enemigos de caracteres
 C 0x82F7 los de caracteres (bit 6 de IX+0B)
 C 0x8301 su sitio en el bufer, en IX+11/IX+12
 C 0x8310 IX+13 filas de IX+14
+C 0x8316 una fila: IX+14 caracteres del bufer a DE
+C 0x831D la fila siguiente del bufer (0x40)
+C 0x8322 IX+13 filas
 C 0x8325 los caracteres que cambian solos, con el 7 en 0xA000
 C 0x8331 cada 8 cuadros, el color de 0x1AC1 gira entre 4 de p07:BD5B (3 bytes)
 C 0x835A los dibujos que cambian de la fase (sin jefe ni aparicion poco a poco)
@@ -96,8 +116,16 @@ C 0x84A9 los 0x38, 0x39 y 0x3B aparte; el 0x49 a p01:7A44
 C 0x84C2 los de caracteres...
 C 0x84C7 ...IX+13 filas de IX+14 desde su sitio
 C 0x84D3 con el jefe 0x0D, a cero
+C 0x84DA una fila: IX+14 caracteres de HL al bufer
+C 0x84E1 la fila siguiente del bufer (DE + 0x40)
+C 0x84F3 una fila a cero
+C 0x84F9 la fila siguiente del bufer (0x40)
+C 0x84FE IX+13 filas
 C 0x8502 los 0x38, 0x39 y 0x3B: con el 5, p05:A27F
 C 0x850E las balas se mueven (p01:758F) y se acaban fuera de la pantalla
+C 0x8514 cada bala en uso se mueve (p01:758F)
+C 0x851D sin acarreo: se acaba
+C 0x851F con la x en 0xF0 o mas, tambien
 C 0x8526 la bala se acaba
 C 0x8532 las balas se acaban contra el decorado (p02:854F)
 C 0x854F el caracter del bufer donde esta la bala: distinto del fondo (0xE405)?
@@ -107,6 +135,8 @@ C 0x8571 la direccion hacia la nave (p01:639A)
 C 0x8576 muy cerca de la nave (0xE479), no
 C 0x857B esperando (0xE464), no
 C 0x8580 una bala libre de las 10 de 0xEB00
+C 0x8585 la primera libre (el primer byte a 0)
+C 0x8589 la siguiente: 0x10 bytes mas
 C 0x8593 0xE407 = 1 (el sonido de la bala)
 C 0x8598 en uso
 C 0x859F la y y la x
@@ -116,6 +146,10 @@ C 0x85BB la fase 3 (sin jefe, pasado el scroll 0x180): la nave toca la pieza 0x0
 C 0x85DA la caja de la nave: y + 4, x + 2, 6 x 8
 C 0x85ED si: la secuencia 1 (0xE31F)
 C 0x85F4 las piezas del tipo 0x0C (sin IX+1D) en la caja: dx 0x1C, de 8 de lado
+C 0x8622 lee la x de la pieza: con 0xE0 o mas, fuera
+C 0x8628 la x + 0x1C contra D: a menos de 8, dentro (C)
+C 0x8637 la pieza siguiente (0x20 bytes)
+C 0x863D ninguna: NC
 C 0x86B9 por el paso IX+1 (tabla de detras)
 C 0x8780 el dibujo (IX+7)
 C 0x8783 1 x 4 caracteres
@@ -142,6 +176,10 @@ C 0x886D paso 0: crece (IX+0A + 1) y va 8 a la izquierda hasta la x 8
 C 0x8883 cada 4 cuadros, el dibujo par o impar
 C 0x8894 paso 1: decrece y se acaba
 C 0x889C su dibujo en el bufer: 4 filas de IX+0A caracteres de 0x88C4 (o 0x88C5)
+C 0x88A7 una fila: IX+0A caracteres de 0x88C4 (de 0x88C5 con IX+07)
+C 0x88B8 copiados al bufer
+C 0x88BD la fila siguiente del bufer (0x40)
+C 0x88C1 las 4 filas
 C 0x88E5 el sitio del centro (y + 8, x + 8) para p01:7FBD
 C 0x88F4 sale de su lado: de abajo (y desde 0x60) o de arriba
 C 0x8902 el lado (IX+1F) y su dibujo final (IX+24)
@@ -175,6 +213,8 @@ C 0x8AB7 en el paso 2, o con las columnas pares...
 C 0x8AC2 ...el borde (p02:8AF0 + 2 x IX+0B)...
 C 0x8AD0 ...y el resto (p02:8AF6)
 C 0x8ADF una fila de IX+0A caracteres al bufer y a la siguiente (0x40)
+C 0x8AE1 IX+0A caracteres
+C 0x8AEA DE a la fila siguiente (+0x40)
 C 0x8B18 la velocidad en x a -0x180 y en y a cero
 C 0x8B21 con IX+1F = 0x0F, el color 8
 C 0x8B2C la animacion (p02:8B70) y por el paso IX+1
@@ -217,6 +257,9 @@ C 0x8DD8 paso 0: espera a que la nave pase su x (+0x18), por un lado o por el ot
 C 0x8DF0 entonces cierra, 4 cuadros...
 C 0x8DF7 ...el dibujo 0x72 o 0x77
 C 0x8E08 paso 1: al acabar, gira (dibujo +1 o -2) y cambia de lado
+C 0x8E16 el dibujo + 1 o - 2 (p02:8C5A)
+C 0x8E1A IX+17 cambia: de 0 a 1 o de 1 a 0
+C 0x8E22 uno menos en IX+14
 C 0x8E29 la nave dentro de C en y y B en x? IX+16 = 1
 C 0x8E4C 0xE4D1 + 1
 C 0x8E50 5 vidas, 0x20 cuadros, no se toca (IX+0D 0xFF), 4 disparos, 2 x 8 caracteres
@@ -304,6 +347,8 @@ C 0x940B el caracter del bufer donde esta...
 C 0x9413 ...o 16 mas abajo
 C 0x941F en 0xE47F
 C 0x9422 decorado (mayor o igual que el fondo) aqui o en el de al lado? C
+C 0x9429 y el de al lado, si no pasa del borde de 32 columnas
+C 0x942E con el mismo limite: decorado? C
 C 0x9431 y en multiplo de 8, hacia su lado
 C 0x9442 se pega al decorado (IX+29 = 1) o no (0)
 C 0x944A con el jefe 0x0D, aparte (p02:94D6)
@@ -323,7 +368,12 @@ C 0x9530 la animacion segun la direccion (tabla de 0x954C)
 C 0x9554 el dibujo mirando hacia la nave: 0x78/0x6C por un lado, 0x90/0x84 por el otro
 C 0x957A si va con el bit 0 de IX+1F y con la x por debajo de 0x20: alguna opcion de la nave lo toca? (C)
 C 0x9587 las 3 opciones de 0xE6C0 (0x60 bytes)
+C 0x95A9 C: esta opcion lo toca
+C 0x95AB la opcion siguiente (0x60 bytes)
+C 0x95AE ninguna lo toca: NC
 C 0x95B0 en la fase 9, solo si esta sobre los caracteres 0x92-0x9E (las burbujas): si no, p05:A8A1
+C 0x95CC el caracter del bufer por debajo de 0x92: C
+C 0x95D0 por encima de 0x9E: C; entre 0x92 y 0x9E, NC
 C 0x95D9 una torreta que dispara rafagas: como p02:9081, con 2 cuadros
 C 0x95E5 paso 0: si se ve, mira a la nave cada 8 cuadros...
 C 0x95F4 ...y cada 4 lanza hasta 3 disparos (p02:9665)
@@ -363,6 +413,9 @@ C 0x9833 quita los demas enemigos del tipo 0x18
 C 0x9849 el dibujo 0xF6 o 0xFB, 6 x 4, sin tocar, 0x28 vidas
 C 0x986B paso 0: al entrar en la pantalla, sus vidas: 0x26 o 0x27
 C 0x9887 paso 1: el dibujo segun lo danado (p02:98F1 y 98E6)
+C 0x988A con 4 (lo mas danado): p02:98AB
+C 0x9890 el otro dibujo (p02:98E6)
+C 0x9898 se queda el mayor de los dos
 C 0x98AB destruido del todo (4): ...
 C 0x98B5 una explosion grande en su sitio
 C 0x98C3 su dibujo roto, se quita y el sonido 0x20
@@ -375,6 +428,10 @@ C 0x992F la velocidad de cada una (tabla de 0x9941), con tope 0xFF
 C 0x9949 la direccion de cada una (tabla de 0x9950)
 C 0x995D apuntando a la nave en la de enmedio (IX+1F = C)
 C 0x9983 la direccion + la desviacion, en el cuadrante que toque
+C 0x998B menos de 0x40: p02:99AB
+C 0x998F de 0x40 a 0x7F: p02:99A3
+C 0x9993 de 0x80 a 0xBF: p02:999D
+C 0x9997 0xC0 o mas: A al reves y HL = 1
 C 0x99AF a la izquierda (-0x300 en x) y, segun su y (0x60), hacia el centro
 C 0x99D8 la velocidad en y y la aceleracion
 C 0x99DF dispara, acelera hasta el tope y frena
@@ -384,6 +441,9 @@ C 0x9A21 paso 0: espera, abre (dibujo + 1) y suelta uno (p02:9A45)
 C 0x9A3A paso 1: espera y cierra
 C 0x9A45 suelta un 0x34 por su lado (y - 8 o + 0x10, x + 8)
 C 0x9A61 apunta a la y 0x50 y a la x de la nave (entre 0x40 y 0xC0)
+C 0x9A71 la x de la nave + 0x30 en L, entre 0x40 y 0xC0
+C 0x9A78 si pasa de 0xFF, 0xC0
+C 0x9A7B por debajo de 0x40, 0x40
 C 0x9A81 al llegar se quita en 6 explosiones
 C 0x9A8B a menos de 0x10 de su destino (IX+2E, IX+2F)? C
 C 0x9AA5 6 explosiones 0x35 en su sitio
@@ -391,6 +451,13 @@ C 0x9AB8 IX+10 = 0x14, 4 cuadros...
 C 0x9AC8 ...parado, con la velocidad de la tabla de 0x9AE0 segun IX+1F
 C 0x9AEE acelera, se mueve, rebota y se quita al salir
 C 0x9B04 rebota en x (IX+0A) entre 2 y 7 (o se para) segun su tipo
+C 0x9B0D 1: p02:9B1D; 2: p02:9B2C
+C 0x9B13 si no, IX+0A entre 2 y 7 (p02:9B4D)
+C 0x9B1D con IX+0A negativa: se mira en positivo...
+C 0x9B26 ...y vuelve a negativa
+C 0x9B4D 7 o mas: rebota (la aceleracion IX+1A al reves, p01:7EFA)
+C 0x9B53 menos de 2: rebota igual
+C 0x9B59 si no, B = A
 C 0x9B5B cada 6 cuadros, aceleracion en y al azar (+-0x200)
 C 0x9B82 cada IX+1D cuadros...
 C 0x9B89 ...el sonido (p02:9B90) y el paso siguiente
@@ -413,8 +480,15 @@ C 0x9CC1 paso 1: suelta un 0x29 y vuelve al 0
 C 0x9CD6 la animacion: 7 dibujos de 0x9CE9 o 0x9CEB segun IX+24
 C 0x9CED paso 2: una vez de cada 16 (azar), al 3
 C 0x9CFE paso 3: dispara 6 veces seguidas (0x31) por su lado
+C 0x9D17 la y + 0x10 si esta arriba (menos de 0x60), en E
+C 0x9D19 una mas en IX+15: con 6, p02:9D37
+C 0x9D26 C = 0 o 1 al azar (bit 5 de R)
 C 0x9D37 y vuelve al 0 con 0x20 cuadros
 C 0x9D4D se pinta en el decorado: 0x0E arriba o 0x2C abajo, 6 x 4
+C 0x9D5A IX+4: 0x10 mas arriba, o igual abajo
+C 0x9D5B el dibujo en IX+7 (0x0E o 0x2C)
+C 0x9D5E 6 filas de 4 columnas
+C 0x9D69 y se pinta (p02:8221)
 C 0x9D6C hacia la nave en x (+-0x200)
 C 0x9D7A la y de 0x0004, que es la BIOS (0xBF): por el resto deberia ser IX+4; siempre sube
 C 0x9D7F con la y "menor de 0x60" bajaria (+0x600 en y)...
@@ -433,6 +507,8 @@ C 0x9E42 por su lado (y + 0x18 si esta arriba)
 C 0x9E59 la bala 0x0C
 C 0x9E5F paso 3: espera y vuelta al 0
 C 0x9E6F mira a la nave en x (IX+24) y avanza hacia su lado (+-0x400)
+C 0x9E7A IX+24: 1 si la nave esta a la derecha, 0 si no
+C 0x9E7D con IX+1F, +0x400; sin el, -0x400
 C 0x9E93 la animacion; en el paso 0...
 C 0x9E9B ...espera a que la nave (o el anterior de su lado, 0xE482/0xE492) pase por delante
 C 0x9ECB apunta su x en la cuenta de su lado
@@ -997,6 +1073,7 @@ C 0x95A1 lee la x del enemigo
 C 0x95B7 lee la y del enemigo
 C 0x95BD lee la x del enemigo
 C 0x95C3 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
+C 0x95C6 el caracter del bufer por debajo de 0x92: C
 C 0x95E1 guarda la cuenta del enemigo
 C 0x95EB lee la x del enemigo
 C 0x95F1 cada 8 cuadros, el caracter mirando a la nave
@@ -1114,6 +1191,8 @@ C 0x9AF1 la velocidad en x += la aceleracion (p01:7F2F)
 C 0x9AF4 rebota en x (IX+0A) entre 2 y 7 (o se para) segun su tipo
 C 0x9AF7 cada 6 cuadros, aceleracion en y al azar (+-0x200)
 C 0x9AFA el caracter del bufer donde esta: decorado (entre el fondo y 0xFC)? C
+C 0x9B16 7 o mas: rebota (la aceleracion IX+1A al reves, p01:7EFA)
+C 0x9B22 7 o mas: rebota (la aceleracion IX+1A al reves, p01:7EFA)
 C 0x9B39 la velocidad en x (IX+9) (p01:78B3)
 C 0x9B3C la aceleracion en x (IX+1A), al reves (p01:7EFA)
 C 0x9B46 la velocidad en x (IX+9) (p01:78B3)

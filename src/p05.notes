@@ -390,6 +390,8 @@ C 0xABBE la tabla de un lado (0xAC11) o del otro (0xAC41)...
 C 0xABCA ...la entrada de su dibujo + B, sobre su sitio (p05:A875)
 C 0xABD2 el dibujo del cuerpo segun lo danado (0xABE9 por 0xEC12 / 4)
 C 0xABD5 el dibujo segun las vidas: en escalones de 4 (tabla de 0xABE9)
+C 0xABDD el dibujo de la tabla de 0xABE9...
+C 0xABE5 ...a 0xEC08
 C 0xAC71 otro jefe: por su paso
 C 0xAC89 paso 0: empieza (el tipo 0x1F, 10 bytes de 0xACA8)
 C 0xAC8C aun no
@@ -549,6 +551,9 @@ C 0xB1BA C: llegado
 C 0xB1BC y mueve igual las 8 piezas de 0xED00 (su y y su x)
 C 0xB1BF 1: +8 en y; 2: -8 en x; 3: +8 en x; 4: -8 en y
 C 0xB1D4 las 8 piezas de 0xED00 (y en +4, x en +6)
+C 0xB1DE la y + C
+C 0xB1E3 la x + B
+C 0xB1E6 la pieza siguiente (0x20 bytes)
 C 0xB1EB una pieza que suelta: dos sprites, 0x20 cuadros, su y y su x en IX+34/35
 C 0xB1EE 0x0FE8 en IX+36, 0x20 cuadros y 2
 C 0xB201 su y y su x en IX+34 e IX+35
@@ -836,6 +841,10 @@ C 0xBBC6 ninguna estallando: 0xE454 = 1...
 C 0xBBC9 ...al paso 5, 1 cuadro
 C 0xBBE4 paso 5: cada 4 cuadros una explosion grande (p01:678D) en y + 8 y la x de 0xBC07...
 C 0xBC0F ...y sus tres dibujos se apagan uno a uno (el sonido 0x26 salvo en la tercera)
+C 0xBC12 en 7, el primero (IX+7 a 0xFF)
+C 0xBC16 en 5 y en 2, el sonido (p05:BC34)
+C 0xBC1A en 4, el segundo (IX+8)
+C 0xBC22 en 1, el tercero (IX+9)
 C 0xBC3D al acabar: 0x100 puntos, una parte menos (IX+1B), y el paso 6
 C 0xBC52 paso 6: la parte 0, cuando caen las tres, sigue
 C 0xBC60 A = cuantas de las tres han caido (IX+1B de cada una)
@@ -846,8 +855,14 @@ C 0xBC9F ...seis balas en abanico desde y + 0x10, x - 8 (velocidades de 0xBCC1 y
 C 0xBCAE la velocidad de la bala B: la y de 0xBCCD, la x de 0xBCC1
 C 0xBCDB cada A cuadros (IX+1D) un paso de 8 a la izquierda o a la derecha (IX+1C)
 C 0xBCF1 la x de 16 bits + DE; su caja de x + 0x10 a + 0x70
+C 0xBCFE + 0x10: el borde izquierdo de la caja (IX+0C)
+C 0xBD08 + 0x60 mas: el derecho (IX+10)
 C 0xBD13 la direccion: en la x 0 va a la derecha, en la 0xC0 a la izquierda; en el paso 4 no cambia
+C 0xBD1F pasada la 0xC0: IX+1C = 0 (p05:BD2D)
+C 0xBD25 en la 0: IX+1C = 1
 C 0xBD32 anima sus dibujos: 8 de 0xBD61, cada 4 cuadros (2 con menos de 8 vidas)
+C 0xBD44 la espera (IX+1F)
+C 0xBD47 el dibujo siguiente de los 8 (IX+1E)
 C 0xBD69 la x de su caja
 C 0xBD7C parpadea: cada 2 cuadros IX+7 cambia de dibujo
 C 0xBD8D otro jefe: por su paso

@@ -56,11 +56,11 @@ L_8025:
 	pop de			;803b
 	ld a,004h		;803c
 L_803E:
-	ld bc,00004h		;803e
+	ld bc,00004h		;803e   ; una fila: 4 caracteres del bufer a IY
 	ldir		;8041
-	ld c,03ch		;8043
+	ld c,03ch		;8043   ; la fila siguiente del bufer (0x40 por fila, 4 ya pasados)
 	add hl,bc			;8045
-	dec a			;8046
+	dec a			;8046   ; las 4 filas
 	jr nz,L_803E		;8047
 	ret			;8049
 L_804A:
@@ -71,11 +71,11 @@ L_804A:
 	ld iy,0ec80h		;8053
 	ld b,004h		;8057
 L_8059:
-	push bc			;8059
+	push bc			;8059   ; cada explosion grande vuelve al bufer (p02:806A)
 	call L_806A		;805a
-	ld bc,00008h		;805d
+	ld bc,00008h		;805d   ; la siguiente: 8 bytes mas en IX
 	add ix,bc		;8060
-	ld c,010h		;8062
+	ld c,010h		;8062   ; y 0x10 mas en lo guardado (IY: 4 filas de 4)
 	add iy,bc		;8064
 	pop bc			;8066
 	djnz L_8059		;8067
@@ -90,13 +90,13 @@ L_806A:
 	pop hl			;8077
 	ld a,004h		;8078   ; ...4 filas de 4
 L_807A:
-	ld bc,00004h		;807a
+	ld bc,00004h		;807a   ; una fila: 4 caracteres de lo guardado al bufer
 	ldir		;807d
-	ld c,03ch		;807f
+	ld c,03ch		;807f   ; la fila siguiente del bufer (0x40 por fila, 4 ya pasados)
 	ex de,hl			;8081
 	add hl,bc			;8082
 	ex de,hl			;8083
-	dec a			;8084
+	dec a			;8084   ; las 4 filas
 	jr nz,L_807A		;8085
 	ret			;8087
 L_8088:
@@ -319,12 +319,12 @@ L_81EE:
 	ld b,(ix+00ah)		;81ee
 	push hl			;81f1
 L_81F2:
-	ld (hl),a			;81f2
+	ld (hl),a			;81f2   ; la fila a cero: IX+0A caracteres
 	inc hl			;81f3
 	djnz L_81F2		;81f4
-	pop hl			;81f6
+	pop hl			;81f6   ; la fila siguiente del bufer (0x40)
 	add hl,de			;81f7
-	dec c			;81f8
+	dec c			;81f8   ; IX+09 filas
 	jr nz,L_81EE		;81f9
 	ret			;81fb
 L_81FC:
@@ -389,15 +389,15 @@ L_823C:
 L_8264:
 	ld a,(ix+000h)		;8264   ; los de dibujo propio: 0x2F, 0x1E, 0x2E, 0x0D y 0x30
 	cp 02fh		;8267
-	jp z,L_8A9C		;8269
+	jp z,L_8A9C		;8269   ; 0x2F: p02:8A9C
 	cp 01eh		;826c
-	jp z,L_8299		;826e
+	jp z,L_8299		;826e   ; 0x1E: p02:8299
 	cp 02eh		;8271
-	jp z,L_889C		;8273
+	jp z,L_889C		;8273   ; 0x2E: 4 filas de 0x88C4 (p02:889C)
 	cp 00dh		;8276
-	jp z,0bd2ah		;8278
+	jp z,0bd2ah		;8278   ; 0x0D: en el banco 3 (p03:BD2A)
 	cp 030h		;827b
-	jp z,0bb5bh		;827d
+	jp z,0bb5bh		;827d   ; 0x30: en el banco 3 (p03:BB5B)
 	ret			;8280
 L_8281:
 	ld l,(ix+004h)		;8281   ; su sitio en el bufer (IX+4, IX+6); con el bit 6 de IX+12, una fila mas arriba
@@ -476,15 +476,15 @@ L_82F7:
 	ld b,(ix+013h)		;8310   ; IX+13 filas de IX+14
 	ld c,(ix+014h)		;8313
 L_8316:
-	push bc			;8316
+	push bc			;8316   ; una fila: IX+14 caracteres del bufer a DE
 	push hl			;8317
 	ld b,000h		;8318
 	ldir		;831a
 	pop hl			;831c
-	ld bc,00040h		;831d
+	ld bc,00040h		;831d   ; la fila siguiente del bufer (0x40)
 	add hl,bc			;8320
 	pop bc			;8321
-	djnz L_8316		;8322
+	djnz L_8316		;8322   ; IX+13 filas
 	ret			;8324
 L_8325:
 	call 04173h		;8325   ; los caracteres que cambian solos, con el 7 en 0xA000
@@ -760,12 +760,12 @@ L_84A9:
 	cp 00dh		;84d6
 	jr z,L_84EC		;84d8
 L_84DA:
-	push bc			;84da
+	push bc			;84da   ; una fila: IX+14 caracteres de HL al bufer
 	push de			;84db
 	ld b,000h		;84dc
 	ldir		;84de
 	pop de			;84e0
-	ld a,040h		;84e1
+	ld a,040h		;84e1   ; la fila siguiente del bufer (DE + 0x40)
 	add a,e			;84e3
 	ld e,a			;84e4
 	jr nc,L_84E8		;84e5
@@ -784,14 +784,14 @@ L_84F1:
 	push bc			;84f1
 	push hl			;84f2
 L_84F3:
-	ld (hl),000h		;84f3
+	ld (hl),000h		;84f3   ; una fila a cero
 	inc hl			;84f5
 	djnz L_84F3		;84f6
 	pop hl			;84f8
-	ld de,00040h		;84f9
+	ld de,00040h		;84f9   ; la fila siguiente del bufer (0x40)
 	add hl,de			;84fc
 	pop bc			;84fd
-	dec c			;84fe
+	dec c			;84fe   ; IX+13 filas
 	jr nz,L_84F1		;84ff
 	ret			;8501
 L_8502:
@@ -805,12 +805,12 @@ L_850E:
 	ld ix,0eb00h		;850e   ; las balas se mueven (p01:758F) y se acaban fuera de la pantalla
 	ld b,00ah		;8512
 L_8514:
-	ld a,(ix+000h)		;8514
+	ld a,(ix+000h)		;8514   ; cada bala en uso se mueve (p01:758F)
 	and a			;8517
 	jr z,L_852A		;8518
 	call 0758fh		;851a
-	jr nc,L_8526		;851d
-	ld a,(ix+006h)		;851f
+	jr nc,L_8526		;851d   ; sin acarreo: se acaba
+	ld a,(ix+006h)		;851f   ; con la x en 0xF0 o mas, tambien
 	cp 0f0h		;8522
 	jr c,L_852A		;8524
 L_8526:
@@ -868,10 +868,10 @@ L_8580:
 	ld hl,0eb00h		;8580   ; una bala libre de las 10 de 0xEB00
 	ld b,00ah		;8583
 L_8585:
-	ld a,(hl)			;8585
+	ld a,(hl)			;8585   ; la primera libre (el primer byte a 0)
 	and a			;8586
 	jr z,L_8593		;8587
-	ld a,010h		;8589
+	ld a,010h		;8589   ; la siguiente: 0x10 bytes mas
 	add a,l			;858b
 	ld l,a			;858c
 	jr nc,L_8590		;858d
@@ -964,10 +964,10 @@ L_861F:
 	cp l			;861f
 	jr nc,L_8637		;8620
 L_8622:
-	ld a,(ix+006h)		;8622
+	ld a,(ix+006h)		;8622   ; lee la x de la pieza: con 0xE0 o mas, fuera
 	cp 0e0h		;8625
 	ret nc			;8627
-	add a,01ch		;8628
+	add a,01ch		;8628   ; la x + 0x1C contra D: a menos de 8, dentro (C)
 	sub d			;862a
 	jp nc,L_8635		;862b
 	neg		;862e
@@ -978,11 +978,11 @@ L_8635:
 	cp h			;8635
 	ret c			;8636
 L_8637:
-	exx			;8637
+	exx			;8637   ; la pieza siguiente (0x20 bytes)
 	add ix,de		;8638
 	exx			;863a
 	djnz L_85FF		;863b
-	xor a			;863d
+	xor a			;863d   ; ninguna: NC
 	ret			;863e
 
 ; ----------------------------------------------------------------------
@@ -1338,7 +1338,7 @@ L_889C:
 	call 04a46h		;88a2   ; sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 	ld b,004h		;88a5
 L_88A7:
-	push hl			;88a7
+	push hl			;88a7   ; una fila: IX+0A caracteres de 0x88C4 (de 0x88C5 con IX+07)
 	push bc			;88a8
 	ld c,(ix+00ah)		;88a9
 	ld b,000h		;88ac
@@ -1348,13 +1348,13 @@ L_88A7:
 	jr z,L_88B8		;88b5
 	inc de			;88b7
 L_88B8:
-	ex de,hl			;88b8
+	ex de,hl			;88b8   ; copiados al bufer
 	ldir		;88b9
 	pop bc			;88bb
 	pop hl			;88bc
-	ld de,00040h		;88bd
+	ld de,00040h		;88bd   ; la fila siguiente del bufer (0x40)
 	add hl,de			;88c0
-	djnz L_88A7		;88c1
+	djnz L_88A7		;88c1   ; las 4 filas
 	ret			;88c3
 
 ; ----------------------------------------------------------------------
@@ -1628,12 +1628,12 @@ L_8AD0:
 L_8ADF:
 	push de			;8adf   ; una fila de IX+0A caracteres al bufer y a la siguiente (0x40)
 	push bc			;8ae0
-	ld c,(ix+00ah)		;8ae1
+	ld c,(ix+00ah)		;8ae1   ; IX+0A caracteres
 	ld b,000h		;8ae4
 	ldir		;8ae6
 	pop bc			;8ae8
 	pop de			;8ae9
-	ld hl,00040h		;8aea
+	ld hl,00040h		;8aea   ; DE a la fila siguiente (+0x40)
 	add hl,de			;8aed
 	ex de,hl			;8aee
 	ret			;8aef
@@ -2124,12 +2124,12 @@ L_8E08:
 	jr z,L_8E16		;8e12
 	ld b,0feh		;8e14
 L_8E16:
-	ld a,b			;8e16
+	ld a,b			;8e16   ; el dibujo + 1 o - 2 (p02:8C5A)
 	call L_8C5A		;8e17
-	ld a,001h		;8e1a
+	ld a,001h		;8e1a   ; IX+17 cambia: de 0 a 1 o de 1 a 0
 	xor (ix+017h)		;8e1c
 	ld (ix+017h),a		;8e1f
-	dec (ix+014h)		;8e22
+	dec (ix+014h)		;8e22   ; uno menos en IX+14
 	ret			;8e25
 
 ; ----------------------------------------------------------------------
@@ -3062,11 +3062,11 @@ L_9422:
 	ld c,a			;9426
 	cp (hl)			;9427
 	ret c			;9428
-	inc hl			;9429
+	inc hl			;9429   ; y el de al lado, si no pasa del borde de 32 columnas
 	ld a,l			;942a
 	and 01fh		;942b
 	ret z			;942d
-	ld a,c			;942e
+	ld a,c			;942e   ; con el mismo limite: decorado? C
 	cp (hl)			;942f
 	ret			;9430
 L_9431:
@@ -3273,11 +3273,11 @@ L_958F:
 	sub (hl)			;95a6
 	cp 021h		;95a7
 L_95A9:
-	pop hl			;95a9
+	pop hl			;95a9   ; C: esta opcion lo toca
 	ret c			;95aa
-	add hl,de			;95ab
+	add hl,de			;95ab   ; la opcion siguiente (0x60 bytes)
 	djnz L_958F		;95ac
-	or a			;95ae
+	or a			;95ae   ; ninguna lo toca: NC
 	ret			;95af
 L_95B0:
 	ld a,(0e361h)		;95b0   ; en la fase 9, solo si esta sobre los caracteres 0x92-0x9E (las burbujas): si no, p05:A8A1
@@ -3291,14 +3291,14 @@ L_95B0:
 	add a,008h		;95c0
 	ld h,a			;95c2
 	call 04a46h		;95c3   ; sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
-	call L_95CC		;95c6
+	call L_95CC		;95c6   ; el caracter del bufer por debajo de 0x92: C
 	jr nc,L_95D4		;95c9
 	inc hl			;95cb
 L_95CC:
-	ld a,(hl)			;95cc
+	ld a,(hl)			;95cc   ; el caracter del bufer por debajo de 0x92: C
 	sub 092h		;95cd
 	ret c			;95cf
-	sub 00dh		;95d0
+	sub 00dh		;95d0   ; por encima de 0x9E: C; entre 0x92 y 0x9E, NC
 	ccf			;95d2
 	ret c			;95d3
 L_95D4:
@@ -3688,15 +3688,15 @@ L_9880:
 	ret			;9886
 L_9887:
 	call L_98F1		;9887   ; paso 1: el dibujo segun lo danado (p02:98F1 y 98E6)
-	ld a,004h		;988a
+	ld a,004h		;988a   ; con 4 (lo mas danado): p02:98AB
 	cp b			;988c
 	jr z,L_98AB		;988d
 	ld c,b			;988f
-	call L_98E6		;9890
+	call L_98E6		;9890   ; el otro dibujo (p02:98E6)
 	ld a,b			;9893
 	cp 004h		;9894
 	jr z,L_98B1		;9896
-	cp c			;9898
+	cp c			;9898   ; se queda el mayor de los dos
 	jr nc,L_989C		;9899
 	ld a,c			;989b
 L_989C:
@@ -3849,13 +3849,13 @@ L_9983:
 	add hl,de			;9986
 	ld a,(0e490h)		;9987
 	add a,(hl)			;998a
-	cp 040h		;998b
+	cp 040h		;998b   ; menos de 0x40: p02:99AB
 	jr c,L_99AB		;998d
-	cp 080h		;998f
+	cp 080h		;998f   ; de 0x40 a 0x7F: p02:99A3
 	jr c,L_99A3		;9991
-	cp 0c0h		;9993
+	cp 0c0h		;9993   ; de 0x80 a 0xBF: p02:999D
 	jr c,L_999D		;9995
-	neg		;9997
+	neg		;9997   ; 0xC0 o mas: A al reves y HL = 1
 	ld hl,00001h		;9999
 	ret			;999c
 L_999D:
@@ -3960,13 +3960,13 @@ L_9A61:
 	ld a,0c0h		;9a6c
 	jp 07888h		;9a6e
 L_9A71:
-	ld l,0c0h		;9a71
+	ld l,0c0h		;9a71   ; la x de la nave + 0x30 en L, entre 0x40 y 0xC0
 	ld a,(0e606h)		;9a73   ; lee la x de la nave
 	add a,030h		;9a76
-	ret c			;9a78
+	ret c			;9a78   ; si pasa de 0xFF, 0xC0
 	cp l			;9a79
 	ret nc			;9a7a
-	ld l,040h		;9a7b
+	ld l,040h		;9a7b   ; por debajo de 0x40, 0x40
 	cp l			;9a7d
 	ret c			;9a7e
 	ld l,a			;9a7f
@@ -4051,20 +4051,20 @@ L_9B04:
 	jr c,L_9B0D		;9b09
 	sub 003h		;9b0b
 L_9B0D:
-	dec a			;9b0d
+	dec a			;9b0d   ; 1: p02:9B1D; 2: p02:9B2C
 	jr z,L_9B1D		;9b0e
 	dec a			;9b10
 	jr z,L_9B2C		;9b11
-	ld a,(ix+00ah)		;9b13
-	call L_9B4D		;9b16
+	ld a,(ix+00ah)		;9b13   ; si no, IX+0A entre 2 y 7 (p02:9B4D)
+	call L_9B4D		;9b16   ; 7 o mas: rebota (la aceleracion IX+1A al reves, p01:7EFA)
 	ld (ix+00ah),b		;9b19
 	ret			;9b1c
 L_9B1D:
-	ld a,(ix+00ah)		;9b1d
+	ld a,(ix+00ah)		;9b1d   ; con IX+0A negativa: se mira en positivo...
 	neg		;9b20
-	call L_9B4D		;9b22
+	call L_9B4D		;9b22   ; 7 o mas: rebota (la aceleracion IX+1A al reves, p01:7EFA)
 	ld a,b			;9b25
-	neg		;9b26
+	neg		;9b26   ; ...y vuelve a negativa
 	ld (ix+00ah),a		;9b28
 	ret			;9b2b
 L_9B2C:
@@ -4085,13 +4085,13 @@ L_9B40:
 	call 07efah		;9b49   ; la aceleracion en x (IX+1A), al reves (p01:7EFA)
 	ret			;9b4c
 L_9B4D:
-	ld b,007h		;9b4d
+	ld b,007h		;9b4d   ; 7 o mas: rebota (la aceleracion IX+1A al reves, p01:7EFA)
 	cp b			;9b4f
 	jp nc,07efah		;9b50
-	ld b,002h		;9b53
+	ld b,002h		;9b53   ; menos de 2: rebota igual
 	cp b			;9b55
 	jp c,07efah		;9b56
-	ld b,a			;9b59
+	ld b,a			;9b59   ; si no, B = A
 	ret			;9b5a
 L_9B5B:
 	dec (ix+002h)		;9b5b   ; cada 6 cuadros, aceleracion en y al azar (+-0x200)
@@ -4357,15 +4357,15 @@ L_9CFE:
 	jr c,L_9D17		;9d13
 	ld b,000h		;9d15
 L_9D17:
-	add a,b			;9d17
+	add a,b			;9d17   ; la y + 0x10 si esta arriba (menos de 0x60), en E
 	ld e,a			;9d18
-	inc (ix+015h)		;9d19
+	inc (ix+015h)		;9d19   ; una mas en IX+15: con 6, p02:9D37
 	ld a,(ix+015h)		;9d1c
 	cp 006h		;9d1f
 	jr nc,L_9D37		;9d21
 	ld b,a			;9d23
 	ld c,000h		;9d24
-	ld a,r		;9d26
+	ld a,r		;9d26   ; C = 0 o 1 al azar (bit 5 de R)
 	bit 5,a		;9d28
 	jr z,L_9D2E		;9d2a
 	ld c,001h		;9d2c
@@ -4390,12 +4390,12 @@ L_9D4D:
 	jr c,L_9D5A		;9d55
 	ld bc,02c00h		;9d57
 L_9D5A:
-	add a,c			;9d5a
-	ld (ix+007h),b		;9d5b
-	ld (ix+009h),006h		;9d5e
+	add a,c			;9d5a   ; IX+4: 0x10 mas arriba, o igual abajo
+	ld (ix+007h),b		;9d5b   ; el dibujo en IX+7 (0x0E o 0x2C)
+	ld (ix+009h),006h		;9d5e   ; 6 filas de 4 columnas
 	ld (ix+00ah),004h		;9d62
 	ld (ix+004h),a		;9d66
-	jp L_8221		;9d69
+	jp L_8221		;9d69   ; y se pinta (p02:8221)
 L_9D6C:
 	ld a,(0e606h)		;9d6c   ; hacia la nave en x (+-0x200)
 	cp (ix+006h)		;9d6f   ; compara con la x del enemigo
@@ -4558,8 +4558,8 @@ L_9E6F:
 	jr nc,L_9E7A		;9e77
 	dec a			;9e79
 L_9E7A:
-	ld (ix+024h),a		;9e7a
-	ld a,(ix+01fh)		;9e7d
+	ld (ix+024h),a		;9e7a   ; IX+24: 1 si la nave esta a la derecha, 0 si no
+	ld a,(ix+01fh)		;9e7d   ; con IX+1F, +0x400; sin el, -0x400
 	or a			;9e80
 	ld de,00400h		;9e81
 	jr nz,L_9E89		;9e84

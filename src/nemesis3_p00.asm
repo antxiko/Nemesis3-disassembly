@@ -1491,17 +1491,17 @@ L_4A3C:
 	ret			;4a45
 sitio_en_bufer:		; la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 	ld a,l			;4a46   ; la direccion de la tabla de 0xC400 que corresponde a la posicion HL
-	rra			;4a47
+	rra			;4a47   ; 0xC400 + la fila (y / 8) x 0x40...
 	rra			;4a48
 	rra			;4a49
 	or a			;4a4a
-	rr h		;4a4b
+	rr h		;4a4b   ; ...+ la columna (x / 8), en L
 	rra			;4a4d
 	rr h		;4a4e
 	rra			;4a50
 	rr h		;4a51
 	ld l,h			;4a53
-	and 007h		;4a54
+	and 007h		;4a54   ; y la parte alta, de 0xC4 a 0xCB
 	add a,0c4h		;4a56
 	ld h,a			;4a58
 	ret			;4a59
@@ -1606,11 +1606,11 @@ copia_a_tres_tercios:		; copia lo mismo a los tres tercios de la VRAM
 	exx			;4ad0
 	ld b,003h		;4ad1
 L_4AD3:
-	exx			;4ad3
+	exx			;4ad3   ; a cada tercio, la misma copia...
 	push bc			;4ad4
 	push de			;4ad5
 	call copia_a_vram		;4ad6   ; copia_a_vram: LDIRVM con origen DE y destino HL
-	ld de,00800h		;4ad9
+	ld de,00800h		;4ad9   ; ...y al tercio siguiente (0x800)
 	add hl,de			;4adc
 	pop de			;4add
 	pop bc			;4ade
@@ -2062,7 +2062,7 @@ L_4D75:
 	exx			;4d75
 	ld b,004h		;4d76   ; ...cambia sus 8 filas de arriba abajo
 L_4D78:
-	ld c,(hl)			;4d78
+	ld c,(hl)			;4d78   ; la fila de arriba por la de abajo
 	ld a,(de)			;4d79
 	ld (hl),a			;4d7a
 	ld a,c			;4d7b
@@ -2070,11 +2070,11 @@ L_4D78:
 	inc hl			;4d7d
 	dec de			;4d7e
 	djnz L_4D78		;4d7f
-	inc hl			;4d81
+	inc hl			;4d81   ; HL al caracter siguiente (8 bytes)
 	inc hl			;4d82
 	inc hl			;4d83
 	inc hl			;4d84
-	ld a,00ch		;4d85
+	ld a,00ch		;4d85   ; DE a su ultima fila (+0x0C)
 	call suma_a_de		;4d87   ; suma_a_de: DE = DE + A
 	exx			;4d8a
 	djnz L_4D75		;4d8b
@@ -2241,12 +2241,12 @@ L_4EC4:
 	ld hl,0ca00h		;4ec4   ; un sprite de 16 x 16 de lado a lado: las dos mitades se cambian, fila a fila
 	ld de,0ca2fh		;4ec7
 	ld b,010h		;4eca
-	call L_4ED7		;4ecc
+	call L_4ED7		;4ecc   ; un byte, del reves: HL sube y DE baja
 	ld hl,0ca10h		;4ecf
 	ld de,0ca3fh		;4ed2
 	ld b,010h		;4ed5
 L_4ED7:
-	ld a,(hl)			;4ed7
+	ld a,(hl)			;4ed7   ; un byte, del reves: HL sube y DE baja
 	ld (de),a			;4ed8
 	inc hl			;4ed9
 	dec de			;4eda
@@ -2470,19 +2470,19 @@ L_508F:
 L_509E:
 	call bancos_14_15		;509e   ; bancos_14_15: pone los bancos 14-15 (y sus copias en 0xF0F1-3)
 	ld hl,06ed4h		;50a1
-	call L_50C2		;50a4
+	call L_50C2		;50a4   ; cada entrada: un byte (0 acaba) y la direccion de un RLE
 	ld hl,06edbh		;50a7
-	call L_50C2		;50aa
+	call L_50C2		;50aa   ; cada entrada: un byte (0 acaba) y la direccion de un RLE
 	jp bancos_1_2_3		;50ad   ; bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 L_50B0:
 	call bancos_14_15		;50b0   ; bancos_14_15: pone los bancos 14-15 (y sus copias en 0xF0F1-3)
 	ld a,(0e361h)		;50b3   ; lee la fase (1 a 11)
 	ld hl,06eedh		;50b6
 	call lee_palabra		;50b9   ; lee_palabra: HL = la palabra A de la tabla HL
-	call L_50C2		;50bc
+	call L_50C2		;50bc   ; cada entrada: un byte (0 acaba) y la direccion de un RLE
 	jp bancos_1_2_3		;50bf   ; bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 L_50C2:
-	ld a,(hl)			;50c2
+	ld a,(hl)			;50c2   ; cada entrada: un byte (0 acaba) y la direccion de un RLE
 	or a			;50c3
 	ret z			;50c4
 	inc hl			;50c5
@@ -2491,7 +2491,7 @@ L_50C2:
 	ld d,(hl)			;50c8
 	inc hl			;50c9
 	push hl			;50ca
-	ld l,a			;50cb
+	ld l,a			;50cb   ; a la VRAM 0x1800 + el byte x 8 (la tabla de nombres)
 	ld h,000h		;50cc
 	add hl,hl			;50ce
 	add hl,hl			;50cf
@@ -2533,7 +2533,7 @@ L_511B:
 	ld hl,06b1fh		;511e
 	call lee_palabra		;5121   ; lee_palabra: HL = la palabra A de la tabla HL
 L_5124:
-	ld e,(hl)			;5124
+	ld e,(hl)			;5124   ; la lista de graficos
 	inc hl			;5125
 	ld d,(hl)			;5126
 	inc hl			;5127
@@ -2542,7 +2542,7 @@ L_5124:
 	pop ix		;512a
 	call carga_graficos		;512c   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 	pop hl			;512f
-	ld e,(hl)			;5130
+	ld e,(hl)			;5130   ; las copias con vuelta
 	inc hl			;5131
 	ld d,(hl)			;5132
 	inc hl			;5133
@@ -2551,15 +2551,15 @@ L_5124:
 	pop ix		;5136
 	call copia_con_vuelta		;5138   ; copia_con_vuelta: copia caracteres de la VRAM dandoles la vuelta (lista IX)
 	pop hl			;513b
-	ld e,(hl)			;513c
+	ld e,(hl)			;513c   ; los RLE a la tabla de nombres (p00:50C2)
 	inc hl			;513d
 	ld d,(hl)			;513e
 	inc hl			;513f
 	push hl			;5140
 	ex de,hl			;5141
-	call L_50C2		;5142
+	call L_50C2		;5142   ; cada entrada: un byte (0 acaba) y la direccion de un RLE
 	pop hl			;5145
-	ld e,(hl)			;5146
+	ld e,(hl)			;5146   ; y los sprites con espejo (p00:4E5A)
 	inc hl			;5147
 	ld d,(hl)			;5148
 	push de			;5149
@@ -2575,7 +2575,7 @@ L_5159:
 	push hl			;515b
 	call guarda_y_bancos_20_21_22		;515c   ; guarda_y_bancos_20_21_22: guarda el reparto en la pila y pone los bancos 20-21-22 (y sus copias en 0xF0F1-3)
 	ld hl,06bbch		;515f
-	call L_5124		;5162
+	call L_5124		;5162   ; la lista de graficos
 	call devuelve_reparto		;5165   ; devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
 	call L_518E		;5168
 	pop hl			;516b
@@ -2590,7 +2590,7 @@ L_516F:
 	jr z,L_5181		;517c
 	ld hl,06b83h		;517e
 L_5181:
-	call L_5124		;5181
+	call L_5124		;5181   ; la lista de graficos
 	call devuelve_reparto		;5184   ; devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
 	call L_518E		;5187
 	pop hl			;518a
@@ -2648,7 +2648,7 @@ L_51EE:
 	ld hl,0602ah		;51f1
 	call lee_palabra		;51f4   ; lee_palabra: HL = la palabra A de la tabla HL
 L_51F7:
-	ld e,(hl)			;51f7
+	ld e,(hl)			;51f7   ; cada entrada (7 bytes): la posicion del scroll...
 	inc hl			;51f8
 	ld d,(hl)			;51f9
 	inc hl			;51fa
@@ -2657,9 +2657,9 @@ L_51F7:
 	ld hl,(0e363h)		;51fd   ; lee la posicion del scroll (16 bits)
 	or a			;5200
 	sbc hl,de		;5201
-	ret c			;5203
-	jr z,L_5210		;5204
-	ld h,b			;5206
+	ret c			;5203   ; ...aun no llega: nada
+	jr z,L_5210		;5204   ; justo en ella: sus graficos (p00:5210)
+	ld h,b			;5206   ; pasada: la entrada siguiente
 	ld l,c			;5207
 	inc hl			;5208
 	inc hl			;5209
@@ -2935,14 +2935,14 @@ L_53D7:
 	inc de			;53f2
 	inc de			;53f3
 L_53F4:
-	ld a,(de)			;53f4
+	ld a,(de)			;53f4   ; las dos filas de abajo
 	ld (hl),a			;53f5
 	add hl,bc			;53f6
 	inc de			;53f7
 	inc de			;53f8
 	inc de			;53f9
 	inc de			;53fa
-	ld a,(de)			;53fb
+	ld a,(de)			;53fb   ; la cuarta
 	ld (hl),a			;53fc
 	add hl,bc			;53fd
 	pop bc			;53fe   ; el bloque siguiente
@@ -3189,17 +3189,17 @@ rle_a_ram_con_destino:		; descomprime a la RAM el RLE de HL, con su destino dela
 	ld d,(hl)			;55ab
 	inc hl			;55ac
 rle_a_ram:		; descomprime a la RAM de DE el RLE de HL
-	ld a,(hl)			;55ad
+	ld a,(hl)			;55ad   ; rle_a_ram: 0 acaba
 	and a			;55ae
 	ret z			;55af
 	inc hl			;55b0
 	ld b,a			;55b1
-	and 07fh		;55b2
+	and 07fh		;55b2   ; bit 7 a 0: el byte siguiente repetido (p00:55C1)
 	cp b			;55b4
 	jr z,L_55C1		;55b5
-	and a			;55b7
+	and a			;55b7   ; bit 7 y nada mas: otro destino delante
 	jr z,rle_a_ram_con_destino		;55b8
-	ld c,a			;55ba
+	ld c,a			;55ba   ; bit 7 y una cuenta: tantos bytes sueltos
 	ld b,000h		;55bb
 	ldir		;55bd
 	jr rle_a_ram		;55bf
@@ -3223,20 +3223,20 @@ rle2_con_destino:		; descomprime a la RAM el segundo formato de HL, con su desti
 
 
 rle2_a_ram:		; descomprime a la RAM de DE el segundo formato de HL
-	ld a,(hl)			;55cd
+	ld a,(hl)			;55cd   ; rle2_a_ram: 0 acaba
 	and a			;55ce
 	ret z			;55cf
 	inc hl			;55d0
 	ld b,a			;55d1
-	res 7,b		;55d2
+	res 7,b		;55d2   ; la cuenta, los bits 0-5
 	res 6,b		;55d4
-	and 0c0h		;55d6
+	and 0c0h		;55d6   ; bits 6-7: 0, repetido; 1, subiendo; 2, bajando
 	jr z,L_55E9		;55d8
 	cp 040h		;55da
 	jr z,L_55F1		;55dc
 	cp 080h		;55de
 	jr z,L_55FA		;55e0
-	ld c,b			;55e2
+	ld c,b			;55e2   ; 3: tantos bytes sueltos
 	ld b,000h		;55e3
 	ldir		;55e5
 	jr rle2_a_ram		;55e7
@@ -3496,7 +3496,7 @@ L_5759:
 	ld b,h			;5766
 	ld hl,(0e363h)		;5767   ; lee la posicion del scroll (16 bits)
 L_576A:
-	ld a,(bc)			;576a
+	ld a,(bc)			;576a   ; cada entrada (3 bytes): la musica y una posicion del scroll
 	ex af,af'			;576b
 	inc bc			;576c
 	ld a,(bc)			;576d
@@ -3505,9 +3505,9 @@ L_576A:
 	ld a,(bc)			;5770
 	ld d,a			;5771
 	rst 20h			;5772
-	jr z,L_578B		;5773
-	jr c,L_577A		;5775
-	inc bc			;5777
+	jr z,L_578B		;5773   ; justo en ella: p00:578B
+	jr c,L_577A		;5775   ; antes de ella: su musica (p00:577A)
+	inc bc			;5777   ; pasada: la entrada siguiente
 	jr L_576A		;5778
 L_577A:
 	ex af,af'			;577a
@@ -3927,14 +3927,14 @@ L_59D6:
 	ld b,a			;59d9
 	xor a			;59da   ; a cero
 L_59DB:
-	ld (hl),a			;59db
+	ld (hl),a			;59db   ; la fila a cero
 	inc hl			;59dc
 	djnz L_59DB		;59dd
 	ld hl,(0ef82h)		;59df   ; la fila siguiente (+0x20)
 	add hl,de			;59e2
 	ld (0ef82h),hl		;59e3
 	exx			;59e6
-	dec b			;59e7
+	dec b			;59e7   ; B filas
 	exx			;59e8
 	jr nz,L_59D6		;59e9
 	ret			;59eb
@@ -4799,12 +4799,12 @@ L_5FB9:
 L_5FC0:
 	call vram_para_escribir		;5fc0   ; el RLE de p00:4B3C, cada byte con AND C
 L_5FC3:
-	ld a,(de)			;5fc3
+	ld a,(de)			;5fc3   ; la cuenta: 0 acaba
 	and a			;5fc4
 	ret z			;5fc5
 	inc de			;5fc6
 	ld b,a			;5fc7
-	and 07fh		;5fc8
+	and 07fh		;5fc8   ; bit 7 a 0: el byte siguiente repetido (p00:5FE5); a 1, tantos sueltos
 	cp b			;5fca
 	jr z,L_5FE5		;5fcb
 	ld b,a			;5fcd
@@ -4828,12 +4828,12 @@ L_5FE5:
 	ld a,(de)			;5fe5
 	inc de			;5fe6
 L_5FE7:
-	and c			;5fe7
+	and c			;5fe7   ; el byte con la mascara al VDP
 	exx			;5fe8
 	out (c),a		;5fe9
 	exx			;5feb
 	ex af,af'			;5fec
-	ld a,(0e51ah)		;5fed
+	ld a,(0e51ah)		;5fed   ; en los dibujos (0xE51A a 0), la mascara gira tres bits
 	and a			;5ff0
 	jr nz,L_5FF9		;5ff1
 	rrc c		;5ff3
@@ -4841,7 +4841,7 @@ L_5FE7:
 	rrc c		;5ff7
 L_5FF9:
 	ex af,af'			;5ff9
-	djnz L_5FE7		;5ffa
+	djnz L_5FE7		;5ffa   ; B veces
 	jr L_5FC3		;5ffc
 
 ; ----------------------------------------------------------------------

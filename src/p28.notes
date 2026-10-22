@@ -78,6 +78,9 @@ C 0xBD89 la x + la suya
 C 0xBD9C el dibujo: lejos del centro 0xF8, mas cerca 0xF4, en el centro 0xF0
 C 0xBDCA el caracter del bufer donde esta (IX+0B: 0 si es el fondo)
 C 0xBDD8 la direccion de 0xCA00 de HL (L la y, H la x)
+C 0xBDD9 0xCA00 + (y / 16) x 0x40...
+C 0xBDDD ...+ la columna (x / 8), en L
+C 0xBDE6 la parte alta, de 0xCA a 0xCD
 C 0xBDEC las estrellas a los sprites desde 0xEF20: las que no tapa nada (IX+0B a 0)
 C 0xBE07 la y, la x, el dibujo y el color
 C 0xBE20 tapada: se salta

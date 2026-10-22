@@ -1990,8 +1990,8 @@ L_8D6B:
 	add a,080h		;8d73
 	ld (hl),a			;8d75
 L_8D76:
-	inc hl			;8d76
-	dec bc			;8d77
+	inc hl			;8d76   ; el siguiente
+	dec bc			;8d77   ; 0x150 veces
 	ld a,b			;8d78
 	or c			;8d79
 	jr nz,L_8D6B		;8d7a

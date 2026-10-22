@@ -994,17 +994,17 @@ L_BDCA:
 	ret			;bdd7
 L_BDD8:
 	ld a,l			;bdd8   ; la direccion de 0xCA00 de HL (L la y, H la x)
-	rra			;bdd9
+	rra			;bdd9   ; 0xCA00 + (y / 16) x 0x40...
 	rra			;bdda
 	rra			;bddb
 	rra			;bddc
-	rr h		;bddd
+	rr h		;bddd   ; ...+ la columna (x / 8), en L
 	rra			;bddf
 	rr h		;bde0
 	rra			;bde2
 	rr h		;bde3
 	ld l,h			;bde5
-	and 003h		;bde6
+	and 003h		;bde6   ; la parte alta, de 0xCA a 0xCD
 	add a,0cah		;bde8
 	ld h,a			;bdea
 	ret			;bdeb

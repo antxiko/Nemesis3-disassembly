@@ -1,6 +1,13 @@
 
 
 # --- A MANO: comentarios escritos leyendo el codigo ---
+C 0x602F el sonido pedido, en 0xE2C2
+C 0x6033 menos de 0x55: sigue
+C 0x6038 de 0x55 a 0x80 o de 0x86 en adelante, nada
+C 0x603E 0x53: p10:62D5
+C 0x6043 con 0xE2BF puesto, nada
+C 0x6048 el 0x33 no vuelve a empezar si ya suena en 0xE0C0
+C 0x6053 el 0x17 tampoco
 C 0x605C 0x83: quita el fundido (p10:6180)
 C 0x6061 0x84: el fundido (p10:6187)
 C 0x6066 0x85: lo mismo (p10:6192)
@@ -61,8 +68,30 @@ C 0x6292 al SCC: el volumen del canal 3 del SCC
 C 0x6295 al SCC: el volumen del canal 4 del SCC
 C 0x62A0 C = 3
 C 0x62A3 copia 0x40 bytes: un canal
+C 0x62A9 el banco de partituras, por el sonido (0xE2C2)
+C 0x62AC menos de 0x3D: p10:62C1 (el 0 por debajo de 0x0F)
+C 0x62B0 de 0x3D a 0x43: el 1
+C 0x62B4 de 0x44 a 0x4A: el 2; de 0x4B a 0x7F, el 3
+C 0x632B cada cuadro, una entrada de la lista de 0xE2C0 en el canal 1 del SCC (el banco 0x3F en 0x8000 deja ver sus registros)
+C 0x6333 el periodo (alto y bajo); 0 acaba
+C 0x633D x 3, al periodo del canal 1
+C 0x6345 y 32 bytes a su forma de onda
+C 0x634D la entrada siguiente
+C 0x6351 acaba: el volumen del canal 1 a 0 y los canales del SCC apagados (0x988F)...
+C 0x6358 ...su periodo a 0...
+C 0x635E ...y 0xE2BF a 0
+C 0x638F un cuadro mas (0xE2BD, copiado en 0xFDA2)
 C 0x6394 los canales del SCC en el PSG?
 C 0x639C en pausa...
+C 0x63A4 el canal del bit 0x01: 0xE000
+C 0x63B0 el del 0x02: 0xE040
+C 0x63BC el del 0x04: 0xE080
+C 0x63C8 el del 0x08: 0xE0C0
+C 0x63D4 el del 0x10: 0xE100
+C 0x63E0 el del 0x20: 0xE140
+C 0x63EC el del 0x40: 0xE180
+C 0x63F8 el del 0x80: 0xE1C0
+C 0x6404 y todo a los registros (p10:6F99)
 C 0x6410 solo los canales 3 y 4
 C 0x6412 guarda el bit del canal que se interpreta (1, 2, 4... 0x80)
 C 0x6446 lee por donde va la partitura (bajo)
@@ -252,7 +281,15 @@ C 0x6B51 salta alli (el destino saca HL de la pila)
 C 0x6B90 0xE0 y 0xE2: tono y ruido (IX+0D bits 0-1) y la duracion fija (IX+13)
 C 0x6BA6 0xE1 y 0xE3: lo mismo, con el ruido del canal en 0xE29C
 C 0x6BC3 0xE4: el periodo del ruido (0xE29A en el canal 3, 0xE29B en los demas)
+C 0x6BC6 5 bits
+C 0x6BC9 en el canal del bit 0x04...
+C 0x6BD1 ...a 0xE29A, con el bit 0 de 0xE29C y sin el 1
+C 0x6BDF en los demas, a 0xE29B...
+C 0x6BE2 ...con el bit 2 de 0xE29C y sin el 3
 C 0x6BED 0xE5: la envolvente del PSG: la forma (0xE29D) y su periodo (0xE29F y 0xE29E)
+C 0x6C02 un byte del periodo de la envolvente (0xE29F)...
+C 0x6C07 ...con el bit 6 de 0xE29C
+C 0x6C0E y el otro (p10:6C12)
 C 0x6C23 0xE8: sin ruido ni envolvente del PSG
 C 0x6C29 IX+0D bits 2-3 a cero
 C 0x6C2E guarda IX+0D (bits 0-1 de las ordenes 0xE0-0xE3)
@@ -271,12 +308,16 @@ C 0x6D2D 0xF5: IX+0E bit 5: en el SCC, la cifra alta es el volumen y la baja el 
 C 0x6D33 0xF6: IX+0E bits 5 y 6 a cero
 C 0x6D3D 0xF7: resta IX+2F al volumen
 C 0x6D48 0xF8: la forma de onda del SCC (tabla 0x7904); con el bit 7, la onda que cambia y su velocidad
+C 0x6D5F la entrada A de la tabla de 0x7904 (2 bytes)
 C 0x6DAC 0xF9: salta y guarda la vuelta (IX+7/8)
 C 0x6DB7 0xFA: vuelve alli
 C 0x6DBF 0xFB: repite: las veces y la direccion (cuenta en IX+5)
+C 0x6DCB la direccion de la vuelta (2 bytes)...
+C 0x6DCF ...a HL, uno antes (se suma al leer)
 C 0x6DD9 0xFC: otro bucle (cuenta en IX+6)
 C 0x6DEE 0xFD: salta
 C 0x6DF1 0xFE: el modo del canal; al pasar al 1 guarda IX+0E/0F y al salir los devuelve
+C 0x6E27 las ordenes 0xD0-0xDF: la entrada (A & 0x0F) de la tabla de 0x6E37
 C 0x6E35 HL = el destino
 C 0x6E57 0xD0-0xD5: la octava (y su copia en IX+29)
 C 0x6E62 0xD6: el deslizamiento: IX+39 el paso, IX+3A los cuadros
@@ -286,6 +327,9 @@ C 0x6EA2 0xDB: el volumen minimo
 C 0x6EA9 0xDC: sin volumen minimo
 C 0x6EAF 0xDD: la segunda envolvente: ataque y paso de la cifra alta y baja; las bajadas del byte siguiente, en dieciseisavos (divididas por IX+22)
 C 0x6FA0 periodos y volumenes, ruido, envolvente y mezclador
+C 0x6FB0 con el bit 0 de IX+0D en el canal 0xE000...
+C 0x6FB8 ...y en el 0xE080...
+C 0x6FC0 ...el de 0xE000 pasa al bit 1
 C 0x6FC8 los tres canales del PSG: los registros 0-5 y 8-10
 C 0x6FCC el canal 1 (0xE00A: periodo y volumen)
 C 0x6FD2 el 2
@@ -511,7 +555,9 @@ F 0x748E 16
 L 0x6000 sonido_arranca el motor de sonido: lo pone a cero
 L 0x6003 sonido_pide el motor de sonido: arranca el sonido A
 L 0x6006 sonido_cuadro el motor de sonido: un cuadro de los ocho canales
+C 0x600B el sonido pedido, en 0xE2C2
 C 0x6021 los registros del SCC: las marcas
+C 0x6140 el banco de partituras, por el sonido (0xE2C2)
 C 0x61F9 el mapper: pone en 0x8000 el banco de A
 C 0x6204 el mapper: pone en 0x8000 el banco de A
 C 0x6212 apunta a el estado del sonido (pausa, fundido...)
@@ -789,6 +835,7 @@ C 0x6D72 pone a uno el bit 7 de las marcas IX+0F (la envolvente de volumen; bit 
 C 0x6D76 pone a uno el bit 6 de las marcas IX+0D (bits 0-1 tono y ruido, 2-3 la envolvente del PSG, 4-7 la onda que cambia)
 C 0x6D7A pone a uno el bit 7 de las marcas IX+0D (bits 0-1 tono y ruido, 2-3 la envolvente del PSG, 4-7 la onda que cambia)
 C 0x6D7E pone a cero el bit 3 de las marcas del deslizamiento (bit 6 en marcha, 7 hacia arriba)
+C 0x6D85 la entrada A de la tabla de 0x7904 (2 bytes)
 C 0x6D8E pone a cero el bit 4 de las marcas IX+0D (bits 0-1 tono y ruido, 2-3 la envolvente del PSG, 4-7 la onda que cambia)
 C 0x6D94 pone a uno el bit 4 de las marcas IX+0D (bits 0-1 tono y ruido, 2-3 la envolvente del PSG, 4-7 la onda que cambia)
 C 0x6D9C pone a cero el bit 5 de las marcas IX+0D (bits 0-1 tono y ruido, 2-3 la envolvente del PSG, 4-7 la onda que cambia)

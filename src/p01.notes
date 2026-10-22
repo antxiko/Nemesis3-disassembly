@@ -995,7 +995,15 @@ C 0x73C0 el 2
 C 0x73CD el enemigo 0x27, de dos en dos cada 8 pasos de scroll
 C 0x73D0 sin nada, fuera
 C 0x73EF el enemigo 6, de tres en tres, por lotes de 8 (0xE497)
-C 0x742B la x siguiente de la tabla de 0x743A (0xE496 & 7)
+C 0x73F6 la espera (0xE498): hasta que acaba, nada
+C 0x73FC la espera nueva: 0x30 - la dificultad
+C 0x7401 un lote menos (0xE497)
+C 0x7406 la y de la tabla de 0x7442 (el lote & 7)
+C 0x740E D = 0xF7: entra por la derecha
+C 0x7410 3 seguidos, cada uno 0x18 mas abajo
+C 0x7414 C: el lado siguiente de la tabla de 0x743A (0xE496 & 7)
+C 0x7425 sin lotes: otros 8, con la espera 0x10
+C 0x742B C: el lado siguiente de la tabla de 0x743A (0xE496 & 7)
 C 0x744A los enemigos: las 12 fichas de 0xE800 (0x40 bytes)
 C 0x7451 las que estan en uso
 C 0x7461 lo de su tipo (p01:7475)
@@ -1018,6 +1026,7 @@ C 0x758F se mueve: y += velocidad en y (IX+3 += IX+7, 16 bits)...
 C 0x759E ...y lo mismo en x (IX+5 += IX+9)
 C 0x75A1 dentro de la pantalla? (y < 0xA8, x < 0xF9: C)
 C 0x75AD (HL) += (DE) en 16 bits
+C 0x75B2 la parte alta, con el acarreo
 C 0x75B8 con el bit 3 de IX+10 y scroll este cuadro, 8 a la izquierda (va con el decorado)
 C 0x75CC al salir por la izquierda: se quita
 C 0x75D1 se quita el enemigo: uno menos (0xE462)
@@ -1067,13 +1076,21 @@ C 0x78DD la velocidad en y, al reves
 C 0x78ED la velocidad en x, al reves
 C 0x78FD las balas (0xEB00, 10 de 0x10) a los atributos de sprite de 0xEF58
 C 0x790A en uso: y, x, dibujo y color
+C 0x7910 la y
+C 0x7915 la x
+C 0x791A el dibujo (IX+0B)
+C 0x791F el color (IX+0C)
 C 0x792B libre: el sprite fuera (0xE0)
 C 0x7935 los enemigos que son sprites a los atributos de 0xEF28
 C 0x794C los que llevan el bit 7 de IX+0B
+C 0x7958 el enemigo siguiente (0x40 bytes)
 C 0x7963 los 12 fuera (0xE0)
+C 0x796A la y a 0xE0 (fuera), cada 4 bytes
 C 0x7972 de caracteres (bit 6), nada; si no, tantos sprites como bits 0-5
 C 0x798B el color
 C 0x7990 y los demas sprites del enemigo, de IX+34 en adelante (4 bytes cada uno)
+C 0x799C los B que quedan, de 4 bytes...
+C 0x79A2 ...de IX+34 a los atributos
 C 0x79A5 el tipo 0x38: p04:A24A
 C 0x79B1 los 0x39, 0x3B y 0x25: sus caracteres en el bufer (p01:6E29)
 C 0x79B7 el 0x49: p04:B70A
@@ -1083,10 +1100,15 @@ C 0x79ED con el 8, p01:79F9
 C 0x79F9 su dibujo de caracteres: p08:BD4C, palabra IX+32
 C 0x7A04 su sitio en el bufer, en IX+11/IX+12
 C 0x7A0E IX+13 filas de IX+14 caracteres, recortadas por el borde
+C 0x7A1A las columnas hasta el borde de la derecha (/8)
+C 0x7A1F como mucho IX+14
 C 0x7A26 una fila
+C 0x7A2D lo que no cabe de la fila se salta en el dibujo
 C 0x7A39 la fila siguiente del bufer (0x40)
 C 0x7A44 p04:B73D con 4-5
 C 0x7A4D cuantas fichas de 0xED00 hay en uso (de las 8 de 0x20, desde la ultima) en 0xE4B1
+C 0x7A56 en uso? para
+C 0x7A5A una menos y la anterior (0x20 atras)
 C 0x7A63 las piezas de 0xED00 (0xE4B1 fichas)
 C 0x7A7A en uso: lo de su tipo (p01:7AD0)
 C 0x7A88 bit 7 de IX+12: ...
@@ -1129,11 +1151,15 @@ C 0x7D4E pinta el jefe en el bufer (si lo hay, p01:7EC2)
 C 0x7D57 C = 1: pintar (p01:7D6F)
 C 0x7D5C el jefe 0x0E ademas lleva lo de p06:B183 en 0xC49A
 C 0x7D6F las 4 partes del jefe (0xEC00, 0xEC20, 0xEC40, 0xEC60): sus 3 dibujos de IX+7
+C 0x7D7C la segunda parte (0xEC20)
+C 0x7D89 la tercera (0xEC40)
+C 0x7D96 la cuarta (0xEC60)
 C 0x7DA0 en uso...
 C 0x7DA5 ...tres dibujos
 C 0x7DA9 el dibujo (0xFF: ninguno)
 C 0x7DB6 C = 1: lo pinta (p01:7DDC y 7DCD)...
 C 0x7DC2 ...C = 0: lo borra (p01:7E47)
+C 0x7DC5 el dibujo siguiente: un byte mas en 0x7D6C y en IX+7
 C 0x7DCD el dibujo de 0xCA00 en el bufer, recortado (p01:7E7F): con transparencia en el jefe 7
 C 0x7DDC el dibujo A de los jefes a 0xCA00, con 6 y 7: comprimido o no segun el bit A de p06:8465
 C 0x7DF8 sin comprimir: ancho y alto delante, y las filas
@@ -1144,8 +1170,20 @@ C 0x7E44 y vuelven las estrellas
 C 0x7E47 borra un dibujo del bufer: su tamano...
 C 0x7E5A ...recortado...
 C 0x7E61 ...y a cero
+C 0x7E74 la fila a cero
+C 0x7E79 la fila siguiente del bufer (0x40)
+C 0x7E7B C filas
 C 0x7E7F el tamano del dibujo de 0xCA00 (ancho, alto) y el recorte en la pantalla
 C 0x7E88 el byte de (HL) a 0xEF90: de 1 a 0x80, fuera (C)
+C 0x7E8F el byte de HL-2: a 0, sin recorte (p01:7EBB)
+C 0x7E96 de 1 a 0x7F: fuera (C)
+C 0x7E98 negativo: las filas que quedan por arriba (el byte de HL-3 / 8)
+C 0x7EA1 se quitan del alto: si no queda ninguna, fuera (C)
+C 0x7EA9 DE salta en el dibujo B bytes por cada fila que no se ve
+C 0x7EB4 HL: arriba del todo (L = 0) y H, el byte de HL-1
+C 0x7EB9 dentro: NC
+C 0x7EBB HL: los bytes de HL-3 y HL-1
+C 0x7EC0 dentro: NC
 C 0x7EC2 hay jefe? (0xE440 y la parte de 0xEC00 en uso: NZ)
 C 0x7ECC p02:8580 con 1-2-3, y vuelve con 4-5
 C 0x7ED5 p02:995D con 1-2-3, y vuelve con 4-5
@@ -1457,7 +1495,6 @@ C 0x7373 lee_palabra_de: DE = la palabra A de la tabla DE
 C 0x73A3 lee la dificultad de la fase (0 a 0x0F)
 C 0x73D2 lee la posicion del scroll (16 bits)
 C 0x73F9 lee la dificultad de la fase (0 a 0x0F)
-C 0x7414 la x siguiente de la tabla de 0x743A (0xE496 & 7)
 C 0x7419 una aparicion (A el tipo, E la y y D la x, B y C): los datos (p01:7674)
 C 0x7435 suma_a_hl: HL = HL + A
 C 0x7455 lo de su tipo (p01:7475)

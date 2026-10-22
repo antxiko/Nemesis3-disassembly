@@ -605,7 +605,7 @@ L_A3AB:
 	rrca			;a3ae
 	rrca			;a3af
 	and 00fh		;a3b0
-	ld (ix+01ah),a		;a3b2
+	ld (ix+01ah),a		;a3b2   ; la espera en IX+1A
 	ld a,c			;a3b5   ; la postura: 5 bytes de 0xA419 a IX+1B
 	and 00fh		;a3b6
 	ld b,a			;a3b8
@@ -614,25 +614,25 @@ L_A3AB:
 	add a,b			;a3bb
 	ld e,a			;a3bc
 	ld d,000h		;a3bd
-	ld hl,0a419h		;a3bf
+	ld hl,0a419h		;a3bf   ; la entrada de la postura (5 bytes cada una)
 	add hl,de			;a3c2
 	push hl			;a3c3
 	push ix		;a3c4
 	pop hl			;a3c6
-	ld e,01bh		;a3c7
+	ld e,01bh		;a3c7   ; a IX+1B
 	add hl,de			;a3c9
 	ex de,hl			;a3ca
 	pop hl			;a3cb
-	ld bc,00005h		;a3cc
+	ld bc,00005h		;a3cc   ; los 5 bytes, IX+1B a IX+1F
 	ldir		;a3cf
 	ld a,(ix+015h)		;a3d1   ; del otro pie, las patas cambiadas de lado
 	rra			;a3d4
 	ret nc			;a3d5
-	ld a,(ix+01bh)		;a3d6
+	ld a,(ix+01bh)		;a3d6   ; IX+1B e IX+1C cambiadas
 	ld b,(ix+01ch)		;a3d9
 	ld (ix+01ch),a		;a3dc
 	ld (ix+01bh),b		;a3df
-	ld a,(ix+01dh)		;a3e2
+	ld a,(ix+01dh)		;a3e2   ; IX+1D e IX+1E cambiadas
 	ld b,(ix+01eh)		;a3e5
 	ld (ix+01eh),a		;a3e8
 	ld (ix+01dh),b		;a3eb
@@ -769,13 +769,13 @@ L_A523:
 	push bc			;a523
 	push hl			;a524
 L_A525:
-	ld (hl),a			;a525
+	ld (hl),a			;a525   ; la fila a cero
 	inc hl			;a526
 	djnz L_A525		;a527
 	pop hl			;a529
-	add hl,de			;a52a
+	add hl,de			;a52a   ; la fila siguiente del bufer (0x40)
 	pop bc			;a52b
-	dec c			;a52c
+	dec c			;a52c   ; C filas
 	jr nz,L_A523		;a52d
 	ret			;a52f
 L_A530:
@@ -875,24 +875,24 @@ L_A5A9:
 	ld c,a			;a5ac
 	or a			;a5ad
 	jr z,L_A5C3		;a5ae
-	ld b,0ffh		;a5b0
-	ld a,(ix+015h)		;a5b2
+	ld b,0ffh		;a5b0   ; B = 0xFF: no dispara
+	ld a,(ix+015h)		;a5b2   ; del otro pie, ninguna
 	rra			;a5b5
 	ret c			;a5b6
-	ld a,(ix+017h)		;a5b7
+	ld a,(ix+017h)		;a5b7   ; solo en el paso 0x0A del guion
 	sub 00ah		;a5ba
 	ret nz			;a5bc
-	ld b,004h		;a5bd
+	ld b,004h		;a5bd   ; la pata 4 (con IX+0B = 1) o la 5
 	dec c			;a5bf
 	ret z			;a5c0
 	inc b			;a5c1
 	ret			;a5c2
 L_A5C3:
-	ld b,002h		;a5c3
+	ld b,002h		;a5c3   ; sin IX+0B: la pata 2 en el paso 0x0A...
 	ld a,(ix+017h)		;a5c5
 	sub 00ah		;a5c8
 	jr z,L_A5D3		;a5ca
-	sub 015h		;a5cc
+	sub 015h		;a5cc   ; ...la 0 en el paso 0x1F, y ninguna en los demas
 	ld b,0ffh		;a5ce
 	ret nz			;a5d0
 	ld b,000h		;a5d1
@@ -970,17 +970,17 @@ L_A61A:
 	ld hl,0a65eh		;a628
 	jp 06e40h		;a62b
 L_A62E:
-	ld a,(0e604h)		;a62e   ; IX+2F: 0, 1 o 2 si la nave esta por encima, a su altura o por debajo
+	ld a,(0e604h)		;a62e   ; IX+2F: 0, 1 o 2 si la nave esta por debajo, a su altura o por encima
 	ld b,(ix+004h)		;a631   ; lee la y del enemigo
 	ld c,000h		;a634
 	sub 008h		;a636
 	jr nc,L_A63B		;a638
 	xor a			;a63a
 L_A63B:
-	cp b			;a63b
+	cp b			;a63b   ; con la nave 8 o mas por debajo: 0
 	jr nc,L_A645		;a63c
 	inc c			;a63e
-	add a,010h		;a63f
+	add a,010h		;a63f   ; a menos de 8: 1; 8 o mas por encima: 2
 	cp b			;a641
 	jr nc,L_A645		;a642
 	inc c			;a644
@@ -992,7 +992,7 @@ L_A649:
 	sub (ix+006h)		;a64c   ; le resta la x del enemigo
 	ret nc			;a64f
 	ld d,(ix+02fh)		;a650
-	call L_A62E		;a653   ; IX+2F: 0, 1 o 2 si la nave esta por encima, a su altura o por debajo
+	call L_A62E		;a653   ; IX+2F: 0, 1 o 2 si la nave esta por debajo, a su altura o por encima
 	ld a,c			;a656
 	sub d			;a657
 	ret z			;a658
@@ -1026,14 +1026,14 @@ L_A66A:
 	ld hl,0e4b2h		;a66a   ; una explosion grande en una de las 4 de 0xE4B2 (C si hay hueco)
 	ld b,004h		;a66d
 L_A66F:
-	ld a,(hl)			;a66f
+	ld a,(hl)			;a66f   ; libre (primer byte a 0)?
 	and a			;a670
 	jr z,L_A67B		;a671
-	ld a,008h		;a673
+	ld a,008h		;a673   ; la siguiente: 8 bytes mas
 	add a,l			;a675
 	ld l,a			;a676
 	djnz L_A66F		;a677
-	xor a			;a679
+	xor a			;a679   ; ninguna libre: NC
 	ret			;a67a
 L_A67B:
 	ld a,(ix+003h)		;a67b   ; x dentro de la pantalla...
@@ -1061,27 +1061,27 @@ L_A69F:
 	ld de,00008h		;a6a3
 	ld b,004h		;a6a6
 L_A6A8:
-	ld a,(ix+000h)		;a6a8
+	ld a,(ix+000h)		;a6a8   ; cada una en uso, p03:A6B4
 	and a			;a6ab
 	call nz,L_A6B4		;a6ac
-	add ix,de		;a6af
+	add ix,de		;a6af   ; la siguiente: 8 bytes mas
 	djnz L_A6A8		;a6b1
 	ret			;a6b3
 L_A6B4:
-	dec (ix+001h)		;a6b4
+	dec (ix+001h)		;a6b4   ; cada 4 cuadros...
 	ret nz			;a6b7
 	ld (ix+001h),004h		;a6b8
-	dec (ix+006h)		;a6bc
+	dec (ix+006h)		;a6bc   ; ...un dibujo menos (IX+6)
 	ret p			;a6bf
-	ld (ix+000h),000h		;a6c0
+	ld (ix+000h),000h		;a6c0   ; pasado el 0, se acaba
 	ret			;a6c4
 L_A6C5:
 	ld ix,0e4b2h		;a6c5   ; las explosiones grandes en el bufer
 	ld b,004h		;a6c9
 L_A6CB:
-	push bc			;a6cb
+	push bc			;a6cb   ; cada una, a su sitio (p03:A6D8)
 	call L_A6D8		;a6cc
-	ld bc,00008h		;a6cf
+	ld bc,00008h		;a6cf   ; la siguiente: 8 bytes mas
 	add ix,bc		;a6d2
 	pop bc			;a6d4
 	djnz L_A6CB		;a6d5
@@ -1096,15 +1096,15 @@ L_A6D8:
 	ld e,(ix+004h)		;a6e5
 	ld d,(ix+005h)		;a6e8
 L_A6EB:
-	push bc			;a6eb
+	push bc			;a6eb   ; una fila: 12 caracteres de 0xCA00 al bufer
 	ld b,000h		;a6ec
 	ldir		;a6ee
-	ld c,a			;a6f0
+	ld c,a			;a6f0   ; la fila siguiente del bufer (12 + 0x34 = 0x40)
 	ex de,hl			;a6f1
 	add hl,bc			;a6f2
 	ex de,hl			;a6f3
 	pop bc			;a6f4
-	djnz L_A6EB		;a6f5
+	djnz L_A6EB		;a6f5   ; las 12 filas
 	ret			;a6f7
 L_A6F8:
 	ld a,(ix+006h)		;a6f8   ; el dibujo IX+6 (tabla de 0xA70B) en RLE a 0xCA00
@@ -1269,20 +1269,20 @@ L_A8A1:
 	ret			;a8b2
 L_A8B3:
 	ld a,h			;a8b3   ; HL / 16 con su signo
-	rla			;a8b4
+	rla			;a8b4   ; negativo? se pasa a positivo (p03:A8C3)
 	push af			;a8b5
-	call c,L_A8C3		;a8b6
-	add hl,hl			;a8b9
+	call c,L_A8C3		;a8b6   ; HL = -HL
+	add hl,hl			;a8b9   ; HL x 16: la parte alta es HL / 16
 	add hl,hl			;a8ba
 	add hl,hl			;a8bb
 	add hl,hl			;a8bc
 	ld a,h			;a8bd
 	ld l,a			;a8be
 	ld h,000h		;a8bf
-	pop af			;a8c1
+	pop af			;a8c1   ; negativo: vuelve a negativo (p03:A8C3)
 	ret nc			;a8c2
 L_A8C3:
-	ld a,h			;a8c3
+	ld a,h			;a8c3   ; HL = -HL
 	cpl			;a8c4
 	ld h,a			;a8c5
 	ld a,l			;a8c6
@@ -1780,14 +1780,14 @@ L_AC11:
 	ld hl,lac2bh		;ac18
 	call 04089h		;ac1b   ; suma_a_hl: HL = HL + A
 L_AC1E:
-	ld a,(hl)			;ac1e
+	ld a,(hl)			;ac1e   ; el dibujo
 	inc hl			;ac1f
 	ld (ix+030h),a		;ac20   ; guarda el dibujo del primer sprite del enemigo
-	ld e,(hl)			;ac23
+	ld e,(hl)			;ac23   ; la primera palabra: IX+7 (la velocidad en y)
 	inc hl			;ac24
 	ld d,(hl)			;ac25
 	inc hl			;ac26
-	ld a,(hl)			;ac27
+	ld a,(hl)			;ac27   ; la segunda: IX+9 (en x), p01:78D7
 	inc hl			;ac28
 	ld h,(hl)			;ac29
 	ld l,a			;ac2a
@@ -1914,11 +1914,11 @@ L_ACD6:
 	jr z,L_ACDF		;acdb
 	neg		;acdd
 L_ACDF:
-	ld b,000h		;acdf
+	ld b,000h		;acdf   ; menos de 0x32: B = 0
 	sub 032h		;ace1
 	ret c			;ace3
 	inc b			;ace4
-	sub 01ch		;ace5
+	sub 01ch		;ace5   ; de 0x32 a 0x4D: 1; mas: 2
 	ret c			;ace7
 	inc b			;ace8
 	ret			;ace9
@@ -2163,10 +2163,10 @@ L_AE34:
 	ex de,hl			;ae43
 	ld bc,007ffh		;ae44
 L_AE47:
-	ldi		;ae47
+	ldi		;ae47   ; una fila: 3 caracteres
 	ldi		;ae49
 	ldi		;ae4b
-	ld a,03dh		;ae4d
+	ld a,03dh		;ae4d   ; la fila siguiente del bufer (3 + 0x3D = 0x40)
 	add a,e			;ae4f
 	ld e,a			;ae50
 	jr nc,L_AE54		;ae51
@@ -2250,13 +2250,13 @@ L_AEB7:
 	ld a,(ix+01bh)		;aeb7   ; en su sitio (IX+1B): la entrada secreta 6 en su centro (p02:80D6)
 	rra			;aeba
 	ret nc			;aebb
-	ld a,(ix+006h)		;aebc
+	ld a,(ix+006h)		;aebc   ; su centro: la x + 8...
 	add a,008h		;aebf
 	ld d,a			;aec1
-	ld a,(ix+004h)		;aec2
+	ld a,(ix+004h)		;aec2   ; ...y la y + 8
 	add a,008h		;aec5
 	ld e,a			;aec7
-	ld a,006h		;aec8
+	ld a,006h		;aec8   ; la entrada 6, si no se ha cogido ya (p02:80D6)
 	jp 080d6h		;aeca
 L_AECD:
 	ld a,(ix+00bh)		;aecd   ; un nido: el dibujo 0x13 o 0x14, la espera 1 o 0x19, la caja 1 o 2
@@ -2805,9 +2805,9 @@ L_B24B:
 	cpl			;b256
 	inc d			;b257
 L_B258:
-	bit 6,a		;b258
+	bit 6,a		;b258   ; D: el cuarto (bits 7 y 6 de A)
 	jr z,L_B261		;b25a
-	sub 080h		;b25c
+	sub 080h		;b25c   ; con el bit 6, al reves
 	cpl			;b25e
 	inc d			;b25f
 	inc d			;b260
@@ -3245,26 +3245,26 @@ L_B572:
 	ret			;b575
 L_B576:
 	call L_B5A1		;b576   ; entre el scroll 0x1C4 y 0x1F8 de su columna, cambia de sentido
-	ld de,001f8h		;b579
+	ld de,001f8h		;b579   ; pasado 0x1F8: p03:B597
 	rst 20h			;b57c
 	jr nc,L_B597		;b57d
-	ld de,001c4h		;b57f
+	ld de,001c4h		;b57f   ; por debajo de 0x1C4: nada
 	rst 20h			;b582
 	ret nc			;b583
-	ld a,(ix+02fh)		;b584
+	ld a,(ix+02fh)		;b584   ; IX+2F: 0 o 3, sigue igual
 	ld b,a			;b587
 	or a			;b588
 	ret z			;b589
 	sub 003h		;b58a
 	ret z			;b58c
 L_B58D:
-	ld a,b			;b58d
+	ld a,b			;b58d   ; si no, cambia de sentido (bit 0 de IX+2F)...
 	xor 001h		;b58e
 	ld (ix+02fh),a		;b590
-	inc (ix+01fh)		;b593
+	inc (ix+01fh)		;b593   ; ...y un paso mas en IX+1F
 	ret			;b596
 L_B597:
-	ld a,(ix+02fh)		;b597
+	ld a,(ix+02fh)		;b597   ; IX+2F: 1 o 2, sigue igual; si no, cambia
 	ld b,a			;b59a
 	dec a			;b59b
 	ret z			;b59c
@@ -3841,12 +3841,12 @@ L_B93D:
 	ld b,(ix+014h)		;b956
 	ld c,000h		;b959
 L_B95B:
-	cp (hl)			;b95b
+	cp (hl)			;b95b   ; mas alto que el fondo: decorado, para
 	jr c,L_B966		;b95c
-	dec hl			;b95e
+	dec hl			;b95e   ; la columna de la izquierda (sin pasar el borde de 32)
 	bit 5,l		;b95f
 	jr nz,L_B966		;b961
-	inc c			;b963
+	inc c			;b963   ; una libre mas en C, hasta IX+14
 	djnz L_B95B		;b964
 L_B966:
 	ld a,c			;b966   ; ...ninguna: se quita; si no, ese alto
@@ -3874,12 +3874,12 @@ L_B983:
 	ld b,(ix+014h)		;b990
 	ld c,000h		;b993
 L_B995:
-	cp (hl)			;b995
+	cp (hl)			;b995   ; mas alto que el fondo: decorado, para
 	jr c,L_B9A2		;b996
-	inc hl			;b998
+	inc hl			;b998   ; la columna de la derecha (sin pasar el borde de 32)
 	bit 5,l		;b999
 	jr nz,L_B9A2		;b99b
-	inc c			;b99d
+	inc c			;b99d   ; una libre mas en C, hasta IX+14
 	djnz L_B995		;b99e
 	jr L_B9A6		;b9a0
 L_B9A2:

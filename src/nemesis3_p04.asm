@@ -809,23 +809,23 @@ L_85D6:
 	ld hl,0e60bh		;85d6   ; tipo 0: siguen la estela, la segunda 8 posiciones mas atras
 	ld bc,0e624h		;85d9   ; la segunda: la posicion de ahora
 	ld a,(hl)			;85dc
-	call L_85EA		;85dd
+	call L_85EA		;85dd   ; la entrada A de la estela (2 bytes)
 	ld bc,0e614h		;85e0   ; la primera: 8 posiciones antes
 	ld a,(hl)			;85e3
 	sub 008h		;85e4
 	jr nc,L_85EA		;85e6
 	add a,010h		;85e8
 L_85EA:
-	add a,a			;85ea
+	add a,a			;85ea   ; la entrada A de la estela (2 bytes)
 	ld de,0e660h		;85eb   ; su y y su x de la estela
 	add a,e			;85ee
 	ld e,a			;85ef
-	ld a,(de)			;85f0
+	ld a,(de)			;85f0   ; la y...
 	ld (bc),a			;85f1
 	inc e			;85f2
 	inc c			;85f3
 	inc c			;85f4
-	ld a,(de)			;85f5
+	ld a,(de)			;85f5   ; ...y la x, 2 bytes despues
 	ld (bc),a			;85f6
 	ret			;85f7
 L_85F8:
@@ -1556,7 +1556,7 @@ L_8B80:
 	sub 008h		;8b9c
 	ld (iy+003h),a		;8b9e   ; guarda la y del disparo
 L_8BA1:
-	ld a,(iy+00ah)		;8ba1
+	ld a,(iy+00ah)		;8ba1   ; crece B (IY+0A)
 	add a,b			;8ba4
 	ld (iy+00ah),a		;8ba5
 	ld a,(iy+003h)		;8ba8   ; ...recortado por abajo
@@ -1565,9 +1565,9 @@ L_8BA1:
 	rra			;8bad
 	and 01fh		;8bae
 	add a,(iy+00ah)		;8bb0
-	sub 017h		;8bb3
+	sub 017h		;8bb3   ; pasa de la fila 0x17? se recorta
 	ret c			;8bb5
-	inc a			;8bb6
+	inc a			;8bb6   ; lo que sobra, fuera
 	neg		;8bb7
 	add a,(iy+00ah)		;8bb9
 	ld (iy+00ah),a		;8bbc
@@ -1619,7 +1619,7 @@ L_8C0B:
 	sub 008h		;8c27
 	ld (iy+003h),a		;8c29   ; guarda la y del disparo
 L_8C2C:
-	ld a,(iy+00ah)		;8c2c
+	ld a,(iy+00ah)		;8c2c   ; crece B (IY+0A)
 	add a,b			;8c2f
 	ld (iy+00ah),a		;8c30
 	ld a,(iy+003h)		;8c33   ; recortado por abajo (0x17 filas)
@@ -1628,9 +1628,9 @@ L_8C2C:
 	rra			;8c38
 	and 01fh		;8c39
 	add a,(iy+00ah)		;8c3b
-	sub 017h		;8c3e
+	sub 017h		;8c3e   ; pasa de la fila 0x17? se recorta
 	ret c			;8c40
-	inc a			;8c41
+	inc a			;8c41   ; lo que sobra, fuera
 	neg		;8c42
 	add a,(iy+00ah)		;8c44
 	ld (iy+00ah),a		;8c47
@@ -2799,13 +2799,13 @@ L_94BD:
 	add a,a			;94c1
 	add a,a			;94c2
 	ld c,a			;94c3
-	ld a,(0ef80h)		;94c4
+	ld a,(0ef80h)		;94c4   ; + la casilla (0xEF80)
 	add a,c			;94c7
 	ld c,a			;94c8
 	ld b,000h		;94c9
 	ld hl,l94d0h		;94cb
 	add hl,bc			;94ce
-	ld c,(hl)			;94cf
+	ld c,(hl)			;94cf   ; C: el tope
 L_94D0:
 	ret			;94d0
 
@@ -2891,7 +2891,7 @@ L_956B:
 	ld b,009h		;9571   ; nueve, desde el 0x4F
 	ld a,04fh		;9573
 L_9575:
-	exx			;9575
+	exx			;9575   ; los caracteres seguidos, del 0x4F al 0x57
 	out (c),a		;9576
 	inc a			;9578
 	exx			;9579
@@ -3694,12 +3694,12 @@ L_9AA3:
 	ld a,l			;9aa3   ; el 0x0F: desde +8 y +9, y +4 y +5
 	add a,008h		;9aa4
 	ld l,a			;9aa6
-	ldi		;9aa7
+	ldi		;9aa7   ; 2 bytes desde +8...
 	ldi		;9aa9
 	ld a,l			;9aab
 	sub 004h		;9aac
 	ld l,a			;9aae
-	ldi		;9aaf
+	ldi		;9aaf   ; ...y 2 desde +4
 	ldi		;9ab1
 	ret			;9ab3
 L_9AB4:
@@ -3887,12 +3887,12 @@ L_9C0C:
 	push hl			;9c0c
 	ld b,(ix+00ah)		;9c0d
 L_9C10:
-	ld (hl),a			;9c10
+	ld (hl),a			;9c10   ; la fila a cero
 	inc l			;9c11
 	djnz L_9C10		;9c12
 	pop hl			;9c14
-	add hl,de			;9c15
-	dec c			;9c16
+	add hl,de			;9c15   ; la fila siguiente (0x40)
+	dec c			;9c16   ; IX+10 filas
 	jr nz,L_9C0C		;9c17
 	ret			;9c19
 L_9C1A:
@@ -3982,11 +3982,11 @@ L_9CA5:
 	push hl			;9cb2
 	ld a,010h		;9cb3
 L_9CB5:
-	ld (hl),a			;9cb5
+	ld (hl),a			;9cb5   ; la primera fila con 0x10
 	inc l			;9cb6
 	djnz L_9CB5		;9cb7
 	pop hl			;9cb9
-	ld de,00040h		;9cba
+	ld de,00040h		;9cba   ; la segunda (0x40 mas)
 	add hl,de			;9cbd
 	ld b,c			;9cbe
 L_9CBF:
@@ -4056,13 +4056,13 @@ L_9D26:
 	push hl			;9d27
 	ld b,(ix+00ah)		;9d28
 L_9D2B:
-	ld (hl),a			;9d2b
+	ld (hl),a			;9d2b   ; la fila con 0x34
 	inc l			;9d2c
 	djnz L_9D2B		;9d2d
 	pop hl			;9d2f
-	add hl,de			;9d30
+	add hl,de			;9d30   ; la siguiente (0x40)
 	pop bc			;9d31
-	djnz L_9D26		;9d32
+	djnz L_9D26		;9d32   ; IX+10 filas
 	ret			;9d34
 L_9D35:
 	call 041f7h		;9d35   ; la direccion de DE a HL con la tabla de p22:B906 (con el 22 puesto)

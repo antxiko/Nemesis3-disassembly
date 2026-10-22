@@ -1682,12 +1682,12 @@ L_ABD7:
 	jr c,L_ABDD		;abd9
 	djnz L_ABD7		;abdb
 L_ABDD:
-	ld e,b			;abdd
+	ld e,b			;abdd   ; el dibujo de la tabla de 0xABE9...
 	ld d,000h		;abde
 	ld hl,0abe9h		;abe0
 	add hl,de			;abe3
 	ld a,(hl)			;abe4
-	ld (0ec08h),a		;abe5
+	ld (0ec08h),a		;abe5   ; ...a 0xEC08
 	ret			;abe8
 
 ; ----------------------------------------------------------------------
@@ -2592,15 +2592,15 @@ L_B1D4:
 	ld b,008h		;b1db
 L_B1DD:
 	exx			;b1dd
-	ld a,(hl)			;b1de
+	ld a,(hl)			;b1de   ; la y + C
 	add a,c			;b1df
 	ld (hl),a			;b1e0
 	inc hl			;b1e1
 	inc hl			;b1e2
-	ld a,(hl)			;b1e3
+	ld a,(hl)			;b1e3   ; la x + B
 	add a,b			;b1e4
 	ld (hl),a			;b1e5
-	add hl,de			;b1e6
+	add hl,de			;b1e6   ; la pieza siguiente (0x20 bytes)
 	exx			;b1e7
 	djnz L_B1DD		;b1e8
 	ret			;b1ea
@@ -4099,15 +4099,15 @@ DATA_leido_BC08:
 
 L_BC0F:
 	ld a,(ix+017h)		;bc0f   ; ...y sus tres dibujos se apagan uno a uno (el sonido 0x26 salvo en la tercera)
-	cp 007h		;bc12
+	cp 007h		;bc12   ; en 7, el primero (IX+7 a 0xFF)
 	jr z,L_BC2F		;bc14
-	cp 005h		;bc16
+	cp 005h		;bc16   ; en 5 y en 2, el sonido (p05:BC34)
 	jr z,L_BC34		;bc18
-	cp 004h		;bc1a
+	cp 004h		;bc1a   ; en 4, el segundo (IX+8)
 	jr z,L_BC2A		;bc1c
 	cp 002h		;bc1e
 	jr z,L_BC34		;bc20
-	cp 001h		;bc22
+	cp 001h		;bc22   ; en 1, el tercero (IX+9)
 	ret nz			;bc24
 	ld (ix+009h),0ffh		;bc25
 	ret			;bc29
@@ -4263,11 +4263,11 @@ L_BCF1:
 	add hl,de			;bcf7
 	ld (ix+005h),l		;bcf8
 	ld (ix+006h),h		;bcfb
-	ld de,00010h		;bcfe
+	ld de,00010h		;bcfe   ; + 0x10: el borde izquierdo de la caja (IX+0C)
 	add hl,de			;bd01
 	ld (ix+00ch),l		;bd02
 	ld (ix+00dh),h		;bd05
-	ld de,00060h		;bd08
+	ld de,00060h		;bd08   ; + 0x60 mas: el derecho (IX+10)
 	add hl,de			;bd0b
 	ld (ix+010h),l		;bd0c
 	ld (ix+011h),h		;bd0f
@@ -4278,10 +4278,10 @@ L_BD13:
 	ret z			;bd18
 	ld l,(ix+005h)		;bd19
 	ld h,(ix+006h)		;bd1c
-	ld de,000c0h		;bd1f
+	ld de,000c0h		;bd1f   ; pasada la 0xC0: IX+1C = 0 (p05:BD2D)
 	rst 20h			;bd22
 	jr nc,L_BD2D		;bd23
-	ld a,l			;bd25
+	ld a,l			;bd25   ; en la 0: IX+1C = 1
 	or h			;bd26
 	ret nz			;bd27
 	ld (ix+01ch),001h		;bd28
@@ -4299,8 +4299,8 @@ L_BD32:
 	jr nc,L_BD44		;bd40
 	ld a,002h		;bd42
 L_BD44:
-	ld (ix+01fh),a		;bd44
-	ld a,(ix+01eh)		;bd47
+	ld (ix+01fh),a		;bd44   ; la espera (IX+1F)
+	ld a,(ix+01eh)		;bd47   ; el dibujo siguiente de los 8 (IX+1E)
 	inc a			;bd4a
 	cp 008h		;bd4b
 	jr c,L_BD50		;bd4d

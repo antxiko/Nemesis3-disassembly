@@ -3182,28 +3182,28 @@ L_73EF:
 	ld a,(hl)			;73f2
 	and a			;73f3
 	jr z,L_7425		;73f4
-	inc hl			;73f6
+	inc hl			;73f6   ; la espera (0xE498): hasta que acaba, nada
 	dec (hl)			;73f7
 	ret nz			;73f8
 	ld a,(0e389h)		;73f9   ; lee la dificultad de la fase (0 a 0x0F)
-	sub 030h		;73fc
+	sub 030h		;73fc   ; la espera nueva: 0x30 - la dificultad
 	neg		;73fe
 	ld (hl),a			;7400
-	dec hl			;7401
+	dec hl			;7401   ; un lote menos (0xE497)
 	dec (hl)			;7402
 	ld a,(hl)			;7403
 	and 007h		;7404
-	ld hl,07442h		;7406
+	ld hl,07442h		;7406   ; la y de la tabla de 0x7442 (el lote & 7)
 	ld e,a			;7409
 	ld d,000h		;740a
 	add hl,de			;740c
 	ld e,(hl)			;740d
-	ld d,0f7h		;740e
-	ld b,003h		;7410
+	ld d,0f7h		;740e   ; D = 0xF7: entra por la derecha
+	ld b,003h		;7410   ; 3 seguidos, cada uno 0x18 mas abajo
 L_7412:
 	push bc			;7412
 	push de			;7413
-	call L_742B		;7414   ; la x siguiente de la tabla de 0x743A (0xE496 & 7)
+	call L_742B		;7414   ; C: el lado siguiente de la tabla de 0x743A (0xE496 & 7)
 	ld a,006h		;7417
 	call L_765B		;7419   ; una aparicion (A el tipo, E la y y D la x, B y C): los datos (p01:7674)
 	pop de			;741c
@@ -3214,12 +3214,12 @@ L_7412:
 	djnz L_7412		;7422
 	ret			;7424
 L_7425:
-	ld (hl),008h		;7425
+	ld (hl),008h		;7425   ; sin lotes: otros 8, con la espera 0x10
 	inc hl			;7427
 	ld (hl),010h		;7428
 	ret			;742a
 L_742B:
-	ld hl,0e496h		;742b   ; la x siguiente de la tabla de 0x743A (0xE496 & 7)
+	ld hl,0e496h		;742b   ; C: el lado siguiente de la tabla de 0x743A (0xE496 & 7)
 	inc (hl)			;742e
 	ld a,(hl)			;742f
 	and 007h		;7430
@@ -3412,7 +3412,7 @@ L_75AD:
 	ld (hl),a			;75af
 	inc l			;75b0
 	inc e			;75b1
-	ld a,(de)			;75b2
+	ld a,(de)			;75b2   ; la parte alta, con el acarreo
 	adc a,(hl)			;75b3
 	ld (hl),a			;75b4
 	inc l			;75b5
@@ -3844,16 +3844,16 @@ L_790A:
 	ld a,(ix+000h)		;790a   ; en uso: y, x, dibujo y color
 	and a			;790d
 	jr z,L_792B		;790e
-	ld a,(ix+004h)		;7910
+	ld a,(ix+004h)		;7910   ; la y
 	ld (de),a			;7913
 	inc e			;7914
-	ld a,(ix+006h)		;7915
+	ld a,(ix+006h)		;7915   ; la x
 	ld (de),a			;7918
 	inc e			;7919
-	ld a,(ix+00bh)		;791a
+	ld a,(ix+00bh)		;791a   ; el dibujo (IX+0B)
 	ld (de),a			;791d
 	inc e			;791e
-	ld a,(ix+00ch)		;791f
+	ld a,(ix+00ch)		;791f   ; el color (IX+0C)
 	ld (de),a			;7922
 	inc e			;7923
 L_7924:
@@ -3888,7 +3888,7 @@ L_7945:
 	call L_7972		;7952   ; de caracteres (bit 6), nada; si no, tantos sprites como bits 0-5
 	call L_79C3		;7955   ; los enemigos de caracteres (bit 6 de IX+0B) en el bufer
 L_7958:
-	exx			;7958
+	exx			;7958   ; el enemigo siguiente (0x40 bytes)
 	ld de,00040h		;7959
 	add ix,de		;795c
 	exx			;795e
@@ -3900,7 +3900,7 @@ L_7963:
 	ld b,00ch		;7966
 	ld a,0e0h		;7968
 L_796A:
-	ld (de),a			;796a
+	ld (de),a			;796a   ; la y a 0xE0 (fuera), cada 4 bytes
 	inc e			;796b
 	inc e			;796c
 	inc e			;796d
@@ -3936,12 +3936,12 @@ L_7972:
 	jr nc,L_799C		;7999
 	inc h			;799b
 L_799C:
-	ld a,b			;799c
+	ld a,b			;799c   ; los B que quedan, de 4 bytes...
 	add a,a			;799d
 	add a,a			;799e
 	ld c,a			;799f
 	ld b,000h		;79a0
-	ldir		;79a2
+	ldir		;79a2   ; ...de IX+34 a los atributos
 	ret			;79a4
 L_79A5:
 	push de			;79a5   ; el tipo 0x38: p04:A24A
@@ -4007,11 +4007,11 @@ L_79F9:
 	jr nz,L_7A1A		;7a16
 	ld a,0f8h		;7a18
 L_7A1A:
-	rra			;7a1a
+	rra			;7a1a   ; las columnas hasta el borde de la derecha (/8)
 	rra			;7a1b
 	rra			;7a1c
 	and 01fh		;7a1d
-	ld c,(ix+014h)		;7a1f
+	ld c,(ix+014h)		;7a1f   ; como mucho IX+14
 	cp c			;7a22
 	jr nc,L_7A26		;7a23
 	ld c,a			;7a25
@@ -4021,7 +4021,7 @@ L_7A26:
 	ld b,000h		;7a28
 	ldir		;7a2a
 	pop bc			;7a2c
-	sub (ix+014h)		;7a2d
+	sub (ix+014h)		;7a2d   ; lo que no cabe de la fila se salta en el dibujo
 	jr z,L_7A39		;7a30
 	neg		;7a32
 	add a,l			;7a34
@@ -4047,10 +4047,10 @@ L_7A4D:
 	ld de,0ffe0h		;7a50
 	ld bc,00808h		;7a53
 L_7A56:
-	ld a,(hl)			;7a56
+	ld a,(hl)			;7a56   ; en uso? para
 	and a			;7a57
 	jr nz,L_7A5E		;7a58
-	dec c			;7a5a
+	dec c			;7a5a   ; una menos y la anterior (0x20 atras)
 	add hl,de			;7a5b
 	djnz L_7A56		;7a5c
 L_7A5E:
@@ -4446,15 +4446,15 @@ L_7D6F:
 	ld hl,07d6ch		;7d73
 	ld de,0ec07h		;7d76
 	call L_7DA0		;7d79
-	ld ix,0ec20h		;7d7c
+	ld ix,0ec20h		;7d7c   ; la segunda parte (0xEC20)
 	ld hl,07d6ch		;7d80
 	ld de,0ec27h		;7d83
 	call L_7DA0		;7d86
-	ld ix,0ec40h		;7d89
+	ld ix,0ec40h		;7d89   ; la tercera (0xEC40)
 	ld hl,07d6ch		;7d8d
 	ld de,0ec47h		;7d90
 	call L_7DA0		;7d93
-	ld ix,0ec60h		;7d96
+	ld ix,0ec60h		;7d96   ; la cuarta (0xEC60)
 	ld hl,07d6ch		;7d9a
 	ld de,0ec67h		;7d9d
 L_7DA0:
@@ -4483,7 +4483,7 @@ L_7DA7:
 L_7DC2:
 	call L_7E47		;7dc2   ; ...C = 0: lo borra (p01:7E47)
 L_7DC5:
-	pop hl			;7dc5
+	pop hl			;7dc5   ; el dibujo siguiente: un byte mas en 0x7D6C y en IX+7
 	inc hl			;7dc6
 	pop de			;7dc7
 	inc de			;7dc8
@@ -4598,13 +4598,13 @@ L_7E72:
 	push bc			;7e72
 	push hl			;7e73
 L_7E74:
-	ld (hl),a			;7e74
+	ld (hl),a			;7e74   ; la fila a cero
 	inc hl			;7e75
 	djnz L_7E74		;7e76
 	pop hl			;7e78
-	add hl,de			;7e79
+	add hl,de			;7e79   ; la fila siguiente del bufer (0x40)
 	pop bc			;7e7a
-	dec c			;7e7b
+	dec c			;7e7b   ; C filas
 	jr nz,L_7E72		;7e7c
 	ret			;7e7e
 L_7E7F:
@@ -4621,28 +4621,28 @@ L_7E88:
 	dec a			;7e8c
 	scf			;7e8d
 	ret p			;7e8e
-	dec l			;7e8f
+	dec l			;7e8f   ; el byte de HL-2: a 0, sin recorte (p01:7EBB)
 	dec l			;7e90
 	ld a,(hl)			;7e91
 	dec l			;7e92
 	and a			;7e93
 	jr z,L_7EBB		;7e94
-	scf			;7e96
+	scf			;7e96   ; de 1 a 0x7F: fuera (C)
 	ret p			;7e97
-	ld a,(hl)			;7e98
+	ld a,(hl)			;7e98   ; negativo: las filas que quedan por arriba (el byte de HL-3 / 8)
 	rra			;7e99
 	rra			;7e9a
 	rra			;7e9b
 	or 0e0h		;7e9c
 	ld (0ef80h),a		;7e9e
-	add a,c			;7ea1
+	add a,c			;7ea1   ; se quitan del alto: si no queda ninguna, fuera (C)
 	ld c,a			;7ea2
 	scf			;7ea3
 	ret z			;7ea4
 	ret m			;7ea5
 	ld a,(0ef80h)		;7ea6
 L_7EA9:
-	ex af,af'			;7ea9
+	ex af,af'			;7ea9   ; DE salta en el dibujo B bytes por cada fila que no se ve
 	ld a,b			;7eaa
 	add a,e			;7eab
 	ld e,a			;7eac
@@ -4652,19 +4652,19 @@ L_7EB0:
 	ex af,af'			;7eb0
 	inc a			;7eb1
 	jr nz,L_7EA9		;7eb2
-	inc l			;7eb4
+	inc l			;7eb4   ; HL: arriba del todo (L = 0) y H, el byte de HL-1
 	inc l			;7eb5
 	ld h,(hl)			;7eb6
 	ld l,000h		;7eb7
-	xor a			;7eb9
+	xor a			;7eb9   ; dentro: NC
 	ret			;7eba
 L_7EBB:
-	ld a,(hl)			;7ebb
+	ld a,(hl)			;7ebb   ; HL: los bytes de HL-3 y HL-1
 	inc l			;7ebc
 	inc l			;7ebd
 	ld h,(hl)			;7ebe
 	ld l,a			;7ebf
-	xor a			;7ec0
+	xor a			;7ec0   ; dentro: NC
 	ret			;7ec1
 L_7EC2:
 	ld a,(0e440h)		;7ec2   ; hay jefe? (0xE440 y la parte de 0xEC00 en uso: NZ)

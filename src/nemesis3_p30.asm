@@ -1122,15 +1122,15 @@ L_882F:
 	ld (0ef80h),bc		;8835
 	ld (0ef82h),de		;8839
 L_883D:
-	ld bc,(0ef80h)		;883d
+	ld bc,(0ef80h)		;883d   ; una fila: C bytes
 	ldir		;8841
 	ex de,hl			;8843
-	ld hl,(0ef82h)		;8844
+	ld hl,(0ef82h)		;8844   ; la fila siguiente del destino (0x40)
 	ld bc,00040h		;8847
 	add hl,bc			;884a
 	ld (0ef82h),hl		;884b
 	ex de,hl			;884e
-	exx			;884f
+	exx			;884f   ; B filas
 	dec b			;8850
 	exx			;8851
 	jr nz,L_883D		;8852
@@ -1149,13 +1149,13 @@ L_8864:
 	ld b,a			;8867
 	xor a			;8868
 L_8869:
-	ld (hl),a			;8869
+	ld (hl),a			;8869   ; la fila a cero
 	inc hl			;886a
 	djnz L_8869		;886b
-	ld hl,(0ef82h)		;886d
+	ld hl,(0ef82h)		;886d   ; la fila siguiente (0x40)
 	add hl,de			;8870
 	ld (0ef82h),hl		;8871
-	exx			;8874
+	exx			;8874   ; B filas
 	dec b			;8875
 	exx			;8876
 	jr nz,L_8864		;8877

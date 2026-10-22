@@ -95,7 +95,13 @@ C 0x87E9 la columna siguiente; NC al llegar a la 0x0E
 C 0x87F1 una columna: 6 filas de la tabla (0x1C por fila) al bufer (0x40), sin los 0
 C 0x8805 el dibujo de abajo (p30:892E en 0xE800): dos bytes en 0xEBB0 + 0x0E y 3 x 0x10 una fila mas abajo
 C 0x882F copia B filas de C bytes de HL a DE, con filas de 0x40
+C 0x883D una fila: C bytes
+C 0x8844 la fila siguiente del destino (0x40)
+C 0x884F B filas
 C 0x8855 borra B filas de C bytes desde DE, con filas de 0x40
+C 0x8869 la fila a cero
+C 0x886D la fila siguiente (0x40)
+C 0x8874 B filas
 # --- fin de lo escrito a mano ---
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x8017 0x801D tabla_8017  3 destinos del despachador p00:4093 (call en p30:8014, el indice en A): 802A, 80C6, 815A; lo leen p30:8014 (6 bytes)

@@ -22,7 +22,7 @@ sonido_cuadro:		; el motor de sonido: un cuadro de los ocho canales
 	jp L_62DE		;6006
 L_6009:
 	ld a,001h		;6009
-	call L_602F		;600b
+	call L_602F		;600b   ; el sonido pedido, en 0xE2C2
 	ld a,0ffh		;600e
 	ld hl,0e2a0h		;6010
 	ld (hl),a			;6013
@@ -40,21 +40,21 @@ L_6009:
 	ld a,007h		;602a
 	jp 00093h		;602c   ; BIOS WRTPSG - Writes data to PSG-register
 L_602F:
-	ld c,a			;602f
+	ld c,a			;602f   ; el sonido pedido, en 0xE2C2
 	ld (0e2c2h),a		;6030
-	cp 055h		;6033
+	cp 055h		;6033   ; menos de 0x55: sigue
 	jp c,L_603E		;6035
-	cp 081h		;6038
+	cp 081h		;6038   ; de 0x55 a 0x80 o de 0x86 en adelante, nada
 	ret c			;603a
 	cp 086h		;603b
 	ret nc			;603d
 L_603E:
-	cp 053h		;603e
+	cp 053h		;603e   ; 0x53: p10:62D5
 	jp z,L_62D5		;6040
-	ld a,(0e2bfh)		;6043
+	ld a,(0e2bfh)		;6043   ; con 0xE2BF puesto, nada
 	or a			;6046
 	ret nz			;6047
-	ld hl,0e0c0h		;6048
+	ld hl,0e0c0h		;6048   ; el 0x33 no vuelve a empezar si ya suena en 0xE0C0
 	ld a,c			;604b
 	cp 033h		;604c
 	jr nz,L_6053		;604e
@@ -62,7 +62,7 @@ L_603E:
 	cp c			;6051
 	ret z			;6052
 L_6053:
-	ld a,c			;6053
+	ld a,c			;6053   ; el 0x17 tampoco
 	cp 017h		;6054
 	jr nz,L_605B		;6056
 	ld a,(hl)			;6058
@@ -192,7 +192,7 @@ L_6122:
 	ld hl,06144h		;6138   ; el resto del canal de 0x6144 (0x3C bytes): la cuenta a 1 y lo demas a cero
 	ld bc,0003ch		;613b
 	ldir		;613e
-	call L_62A9		;6140
+	call L_62A9		;6140   ; el banco de partituras, por el sonido (0xE2C2)
 	ret			;6143
 
 ; ----------------------------------------------------------------------
@@ -364,12 +364,12 @@ L_62A3:
 	ldir		;62a6
 	ret			;62a8
 L_62A9:
-	ld a,(0e2c2h)		;62a9
-	cp 03dh		;62ac
+	ld a,(0e2c2h)		;62a9   ; el banco de partituras, por el sonido (0xE2C2)
+	cp 03dh		;62ac   ; menos de 0x3D: p10:62C1 (el 0 por debajo de 0x0F)
 	jr c,L_62C1		;62ae
-	cp 044h		;62b0
+	cp 044h		;62b0   ; de 0x3D a 0x43: el 1
 	jr c,L_62C9		;62b2
-	cp 04bh		;62b4
+	cp 04bh		;62b4   ; de 0x44 a 0x4A: el 2; de 0x4B a 0x7F, el 3
 	jr c,L_62CF		;62b6
 L_62B8:
 	cp 080h		;62b8
@@ -435,10 +435,10 @@ L_62FF:
 	ld a,001h		;6326
 	ld (0e2bfh),a		;6328
 L_632B:
-	ld a,03fh		;632b
+	ld a,03fh		;632b   ; cada cuadro, una entrada de la lista de 0xE2C0 en el canal 1 del SCC (el banco 0x3F en 0x8000 deja ver sus registros)
 	ld (09000h),a		;632d   ; el mapper: pone en 0x8000 el banco de A
 	ld hl,(0e2c0h)		;6330
-	ld d,(hl)			;6333
+	ld d,(hl)			;6333   ; el periodo (alto y bajo); 0 acaba
 	inc hl			;6334
 	ld e,(hl)			;6335
 	inc hl			;6336
@@ -446,24 +446,24 @@ L_632B:
 	or e			;6338
 	jp z,L_6351		;6339
 	push hl			;633c
-	ld h,d			;633d
+	ld h,d			;633d   ; x 3, al periodo del canal 1
 	ld l,e			;633e
 	add hl,de			;633f
 	add hl,de			;6340
 	ld (09880h),hl		;6341
 	pop hl			;6344
-	ld de,09800h		;6345
+	ld de,09800h		;6345   ; y 32 bytes a su forma de onda
 	ld bc,00020h		;6348
 	ldir		;634b
-	ld (0e2c0h),hl		;634d
+	ld (0e2c0h),hl		;634d   ; la entrada siguiente
 	ret			;6350
 L_6351:
-	xor a			;6351
+	xor a			;6351   ; acaba: el volumen del canal 1 a 0 y los canales del SCC apagados (0x988F)...
 	ld (0988ah),a		;6352
 	ld (0988fh),a		;6355
-	ld (09880h),a		;6358
+	ld (09880h),a		;6358   ; ...su periodo a 0...
 	ld (09881h),a		;635b
-	ld (0e2bfh),a		;635e
+	ld (0e2bfh),a		;635e   ; ...y 0xE2BF a 0
 	ret			;6361
 L_6362:
 	ld a,(0fda2h)		;6362
@@ -481,7 +481,7 @@ L_6362:
 	ld a,(0fda2h)		;638b
 	ld (hl),a			;638e
 L_638F:
-	inc (hl)			;638f
+	inc (hl)			;638f   ; un cuadro mas (0xE2BD, copiado en 0xFDA2)
 	ld a,(hl)			;6390
 	ld (0fda2h),a		;6391
 	ld hl,0e280h		;6394   ; los canales del SCC en el PSG?
@@ -490,39 +490,39 @@ L_638F:
 	ld a,(0e280h)		;639c   ; en pausa...
 	bit 0,a		;639f
 	call nz,L_6A78		;63a1   ; el fundido: cada 0xE294 cuadros un paso (0xE297), hasta 0xE295 pasos
-	ld a,001h		;63a4
+	ld a,001h		;63a4   ; el canal del bit 0x01: 0xE000
 	ld (0e299h),a		;63a6
 	ld ix,0e000h		;63a9   ; apunta a los 8 canales de sonido (0x40 bytes cada uno)
 	call L_6408		;63ad
-	ld a,002h		;63b0
+	ld a,002h		;63b0   ; el del 0x02: 0xE040
 	ld (0e299h),a		;63b2
 	ld ix,0e040h		;63b5
 	call L_6408		;63b9
-	ld a,004h		;63bc
+	ld a,004h		;63bc   ; el del 0x04: 0xE080
 	ld (0e299h),a		;63be
 	ld ix,0e080h		;63c1
 	call L_6408		;63c5
-	ld a,008h		;63c8
+	ld a,008h		;63c8   ; el del 0x08: 0xE0C0
 	ld (0e299h),a		;63ca
 	ld ix,0e0c0h		;63cd
 	call L_6408		;63d1
-	ld a,010h		;63d4
+	ld a,010h		;63d4   ; el del 0x10: 0xE100
 	ld (0e299h),a		;63d6
 	ld ix,0e100h		;63d9
 	call L_6408		;63dd
-	ld a,020h		;63e0
+	ld a,020h		;63e0   ; el del 0x20: 0xE140
 	ld (0e299h),a		;63e2
 	ld ix,0e140h		;63e5
 	call L_6408		;63e9
-	ld a,040h		;63ec
+	ld a,040h		;63ec   ; el del 0x40: 0xE180
 	ld (0e299h),a		;63ee
 	ld ix,0e180h		;63f1
 	call L_6408		;63f5
-	ld a,080h		;63f8
+	ld a,080h		;63f8   ; el del 0x80: 0xE1C0
 	ld (0e299h),a		;63fa
 	ld ix,0e1c0h		;63fd
 	call L_6408		;6401
-	call L_6F99		;6404
+	call L_6F99		;6404   ; y todo a los registros (p10:6F99)
 	ret			;6407
 L_6408:
 	ld a,(ix+000h)		;6408   ; lee el sonido del canal (0: callado; p10:612B)
@@ -1524,21 +1524,21 @@ L_6BC3:
 	pop hl			;6bc3   ; 0xE4: el periodo del ruido (0xE29A en el canal 3, 0xE29B en los demas)
 	inc hl			;6bc4
 	ld a,(hl)			;6bc5
-	and 01fh		;6bc6
+	and 01fh		;6bc6   ; 5 bits
 	ld b,a			;6bc8
-	ld a,(0e299h)		;6bc9
+	ld a,(0e299h)		;6bc9   ; en el canal del bit 0x04...
 	cp 004h		;6bcc
 	ld a,b			;6bce
 	jr nz,L_6BDF		;6bcf
-	ld (0e29ah),a		;6bd1
+	ld (0e29ah),a		;6bd1   ; ...a 0xE29A, con el bit 0 de 0xE29C y sin el 1
 	ld a,(0e29ch)		;6bd4
 	set 0,a		;6bd7
 	res 1,a		;6bd9
 	ld (0e29ch),a		;6bdb
 	ret			;6bde
 L_6BDF:
-	ld (0e29bh),a		;6bdf
-	ld a,(0e29ch)		;6be2
+	ld (0e29bh),a		;6bdf   ; en los demas, a 0xE29B...
+	ld a,(0e29ch)		;6be2   ; ...con el bit 2 de 0xE29C y sin el 3
 	set 2,a		;6be5
 	res 3,a		;6be7
 	ld (0e29ch),a		;6be9
@@ -1557,14 +1557,14 @@ L_6BED:
 L_6C01:
 	pop hl			;6c01
 L_6C02:
-	inc hl			;6c02
+	inc hl			;6c02   ; un byte del periodo de la envolvente (0xE29F)...
 	ld a,(hl)			;6c03
 	ld (0e29fh),a		;6c04
-	ld de,0e29ch		;6c07
+	ld de,0e29ch		;6c07   ; ...con el bit 6 de 0xE29C
 	ld a,(de)			;6c0a
 	set 6,a		;6c0b
 	ld (de),a			;6c0d
-	jp L_6C12		;6c0e
+	jp L_6C12		;6c0e   ; y el otro (p10:6C12)
 L_6C11:
 	pop hl			;6c11
 L_6C12:
@@ -1766,7 +1766,7 @@ L_6D48:
 	res 6,(ix+00dh)		;6d57   ; pone a cero el bit 6 de las marcas IX+0D (bits 0-1 tono y ruido, 2-3 la envolvente del PSG, 4-7 la onda que cambia)
 	res 3,(ix+03ch)		;6d5b   ; pone a cero el bit 3 de las marcas del deslizamiento (bit 6 en marcha, 7 hacia arriba)
 L_6D5F:
-	ld de,07904h		;6d5f
+	ld de,07904h		;6d5f   ; la entrada A de la tabla de 0x7904 (2 bytes)
 	add a,a			;6d62
 	add a,e			;6d63
 	ld e,a			;6d64
@@ -1786,7 +1786,7 @@ L_6D72:
 	res 3,(ix+03ch)		;6d7e   ; pone a cero el bit 3 de las marcas del deslizamiento (bit 6 en marcha, 7 hacia arriba)
 	ld a,(hl)			;6d82
 	and 07fh		;6d83
-	call L_6D5F		;6d85
+	call L_6D5F		;6d85   ; la entrada A de la tabla de 0x7904 (2 bytes)
 	inc hl			;6d88
 	ld a,(hl)			;6d89
 	bit 7,a		;6d8a
@@ -1826,11 +1826,11 @@ L_6DBF:
 	jr z,L_6DD2		;6dc6
 	ld (ix+005h),a		;6dc8   ; guarda la cuenta del bucle de la orden 0xFB
 L_6DCB:
-	inc hl			;6dcb
+	inc hl			;6dcb   ; la direccion de la vuelta (2 bytes)...
 	ld e,(hl)			;6dcc
 	inc hl			;6dcd
 	ld d,(hl)			;6dce
-	ex de,hl			;6dcf
+	ex de,hl			;6dcf   ; ...a HL, uno antes (se suma al leer)
 	dec hl			;6dd0
 	ret			;6dd1
 L_6DD2:
@@ -1883,7 +1883,7 @@ L_6E17:
 	ld (ix+00fh),a		;6e23   ; guarda las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)
 	ret			;6e26
 L_6E27:
-	and 00fh		;6e27
+	and 00fh		;6e27   ; las ordenes 0xD0-0xDF: la entrada (A & 0x0F) de la tabla de 0x6E37
 	push hl			;6e29
 	ld hl,06e37h		;6e2a
 	add a,a			;6e2d
@@ -2122,15 +2122,15 @@ L_6FA0:
 	call L_7052		;6fac
 	ret			;6faf
 L_6FB0:
-	ld hl,0e00dh		;6fb0
+	ld hl,0e00dh		;6fb0   ; con el bit 0 de IX+0D en el canal 0xE000...
 	ld a,(hl)			;6fb3
 	and 001h		;6fb4
 	jr z,L_6FC7		;6fb6
-	ld hl,0e08dh		;6fb8
+	ld hl,0e08dh		;6fb8   ; ...y en el 0xE080...
 	ld a,(hl)			;6fbb
 	and 001h		;6fbc
 	jr z,L_6FC7		;6fbe
-	ld hl,0e00dh		;6fc0
+	ld hl,0e00dh		;6fc0   ; ...el de 0xE000 pasa al bit 1
 	set 1,(hl)		;6fc3
 	res 0,(hl)		;6fc5
 L_6FC7:
