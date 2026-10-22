@@ -2184,10 +2184,10 @@ L_B51E:
 	ld (0e610h),a		;b523
 	inc a			;b526
 	ld (0e620h),a		;b527
-	ld (0e608h),a		;b52a
+	ld (0e608h),a		;b52a   ; guarda cuantas opciones tiene la nave
 	inc a			;b52d
 	ld (0e600h),a		;b52e   ; guarda el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
-	ld (0e602h),a		;b531
+	ld (0e602h),a		;b531   ; guarda la velocidad de la nave
 	ld a,07fh		;b534
 	ld (0e601h),a		;b536   ; guarda los golpes que le quedan al escudo
 	ld a,(0e361h)		;b539   ; lee la fase (1 a 11)
@@ -2196,11 +2196,11 @@ L_B51E:
 	add a,b			;b53e
 	ld hl,lb556h		;b53f
 	call 04089h		;b542   ; suma_a_hl: HL = HL + A
-	ld de,0e630h		;b545
+	ld de,0e630h		;b545   ; apunta a el primer arma (el disparo)
 	ld bc,00003h		;b548
 	ldir		;b54b
 	ld hl,0b562h		;b54d
-	ld de,0e434h		;b550
+	ld de,0e434h		;b550   ; apunta a el nivel de la casilla 1, la velocidad (0xFF al maximo)
 	ld bc,00008h		;b553
 L_B556:
 	ldir		;b556

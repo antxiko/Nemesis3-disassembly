@@ -4225,7 +4225,7 @@ L_5C8E:
 	ld bc,0000ch		;5c94
 	ldir		;5c97
 	ld hl,05cb1h		;5c99   ; y 3 de 0x5CB1 a 0xE630
-	ld de,0e630h		;5c9c
+	ld de,0e630h		;5c9c   ; apunta a el primer arma (el disparo)
 	ld bc,00003h		;5c9f
 	ldir		;5ca2
 	ret			;5ca4

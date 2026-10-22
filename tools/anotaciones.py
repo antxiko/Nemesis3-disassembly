@@ -218,6 +218,20 @@ for _a, _n in _ATAJOS:
     RUTINAS.setdefault((0, _a), (_nom, _txt))
 
 RAM = {
+    0xE434: ("el nivel de la casilla 1, la velocidad (0xFF al maximo)", "p04:935E"),
+    0xE435: ("el nivel de la casilla 2 (0xFF al maximo)", "p04:9370"),
+    0xE436: ("el nivel de la casilla 3 (0xFF al maximo)", "p04:93A1"),
+    0xE437: ("el nivel de la casilla 4 (0xFF al maximo)", "p04:93D4"),
+    0xE438: ("el nivel de la casilla 5 (0xFF al maximo)", "p04:93CB"),
+    0xE439: ("el nivel de la casilla 6 (0xFF al maximo)", "p04:9431"),
+    0xE43A: ("el nivel de la casilla 7, las opciones (0xFF al maximo)", "p04:9475"),
+    0xE43B: ("el nivel de la casilla 8 (0xFF al maximo)", "p26:6F15"),
+    0xE43D: ("la casilla que se compra", "p04:92E9"),
+    0xE602: ("la velocidad de la nave", "p04:9369, p04:8204"),
+    0xE608: ("cuantas opciones tiene la nave", "p04:947A"),
+    0xE630: ("el primer arma (el disparo)", "p04:93B6"),
+    0xE631: ("el segundo arma", "p04:93B1"),
+    0xE632: ("el tercer arma (el misil)", "p04:9388"),
     0xE31B: ("el paso de la eleccion de nave", "p26:648F"),
     0xE31C: ("el subpaso de la eleccion de nave", "p26:6801"),
     0xE31E: ("el tipo de la entrada secreta cogida (al estado 9)", "p02:8154"),
@@ -516,11 +530,8 @@ CAMPOS_DISPARO = {
     0x05: "la x del disparo",  # p01:64FF
     0x06: "el dibujo del disparo",  # p04:8E0F
     0x07: "el color del disparo",  # p04:88FD
-    0x08: "quien lanza el disparo (bajo)",  # p04:8CEA
-    0x09: "quien lanza el disparo (alto)",
     0x0C: "el ancho del disparo para los choques",  # p01:650E
     0x0D: "el alto del disparo para los choques",  # p01:64F8
-    0x10: "el largo del disparo",  # p04:8D55
     0x11: "la vida del disparo",  # p04:8B6E
     0x12: "la velocidad en y del disparo (bajo)",  # p04:91B1
     0x13: "la velocidad en y del disparo (alto)",
@@ -528,6 +539,16 @@ CAMPOS_DISPARO = {
     0x15: "la velocidad en x del disparo (alto)",
 }
 CARGAS_DISPARO = tuple(0xE680 + 0x20 * k for k in range(9))
+# La nave (0xE600) y sus dos opciones (0xE610, 0xE620), fichas de 0x10: la
+# misma forma (p04:8994 lee IX+4 e IX+6 de quien dispara).
+CAMPOS_NAVE = {
+    0x00: "el estado de la nave u opcion (0: no esta; 0xFF estalla)",  # p04:843D, 8505
+    0x03: "la y de la nave u opcion (decimales)",  # p04:8228
+    0x04: "la y de la nave u opcion",  # p04:8998
+    0x05: "la x de la nave u opcion (decimales)",  # p04:822F
+    0x06: "la x de la nave u opcion",  # p04:89A2
+}
+CARGAS_NAVE = (0xE600, 0xE610, 0xE620)
 # Las estrellas del final (0xC880, 24 de 0x10): p28:BCD1 las crea, p28:BD75 y
 # BD89 las mueven, p28:BE07 las pasa a los sprites.
 CAMPOS_ESTRELLA = {
@@ -554,4 +575,6 @@ FICHAS = ((CARGAS_CANAL, {10: ((0x6400, 0x73A9),)}, CAMPOS_CANAL),
           (CARGAS_JEFE, tramos_fichas().get("jefe", {}), CAMPOS_JEFE),
           (CARGAS_DISPARO, tramos_fichas().get("disparo", {}), CAMPOS_DISPARO, "iy"),
           (CARGAS_DISPARO, {}, CAMPOS_DISPARO),
-          ((0xC880,), {28: ((0xBBE9, 0xBE3B),)}, CAMPOS_ESTRELLA))
+          ((0xC880,), {28: ((0xBBE9, 0xBE3B),)}, CAMPOS_ESTRELLA),
+          (CARGAS_NAVE, {}, CAMPOS_NAVE),
+          (CARGAS_NAVE, {}, CAMPOS_NAVE, "iy"))

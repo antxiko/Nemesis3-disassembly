@@ -369,8 +369,12 @@ C 0xB4FE lee la fase (1 a 11)
 C 0xB506 suma_a_hl: HL = HL + A
 C 0xB509 apunta a las opciones elegidas (0 SHADOW, 1 FIXED, 2 ROLLING)
 C 0xB51F guarda el nivel del arma secreta (0 a 7)
+C 0xB52A guarda cuantas opciones tiene la nave
 C 0xB52E guarda el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
+C 0xB531 guarda la velocidad de la nave
 C 0xB536 guarda los golpes que le quedan al escudo
 C 0xB539 lee la fase (1 a 11)
 C 0xB542 suma_a_hl: HL = HL + A
+C 0xB545 apunta a el primer arma (el disparo)
+C 0xB550 apunta a el nivel de la casilla 1, la velocidad (0xFF al maximo)
 # --- fin de las anotaciones de anota.py ---

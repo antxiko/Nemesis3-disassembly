@@ -1685,6 +1685,7 @@ C 0x5C65 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x5C71 guarda el paso del final de la fase
 C 0x5C8A guarda la velocidad del scroll (se rota: avanza con el bit 0)
 C 0x5C91 apunta a el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
+C 0x5C9C apunta a el primer arma (el disparo)
 C 0x5CB9 apunta a la y de la nave (el primer byte de su sprite, p01:797C)
 C 0x5CEE lee_byte: A = el byte A de la tabla HL
 C 0x5CF1 guarda el caracter del fondo de la fase
