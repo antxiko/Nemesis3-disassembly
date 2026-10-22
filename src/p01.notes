@@ -2,79 +2,140 @@
 
 # --- A MANO: comentarios escritos leyendo el codigo ---
 C 0x6001 la aparicion de p01:600B: 0xE519 = 0 (paso) y 0xE518 = 2 (en marcha)
+C 0x6005 en marcha (2)
 C 0x600B la aparicion de 0xE518 = 2: lo que hay en la VRAM se va enmascarando
+C 0x600E solo la 2
 C 0x6011 paso 0 o 1
 C 0x6017 paso 0: la lista de 0xE51C, de 3 en 3, con la mascara 0xF0
+C 0x601B la mascara 0xF0
 C 0x6020 el caracter (0 acaba)
 C 0x6026 bit 2: el tercio de arriba
 C 0x6030 bit 1: el del medio
 C 0x603A bit 0: el de abajo
-C 0x6044 la entrada siguiente
+C 0x6044 la entrada siguiente (3 bytes)
 C 0x604C al acabar, la mascara a 0x7F y al paso siguiente (p00:5F10)
-C 0x6054 paso 1: lo mismo en los dibujos (0x2000...)
+C 0x6054 paso 1: lo mismo en los colores (0x2000, 0x2800, 0x3000)
+C 0x6058 cada entrada hasta el 0
+C 0x605E el tercio de arriba (bit 2)...
+C 0x6068 ...el del medio (bit 1)...
+C 0x6072 ...y el de abajo (bit 0)
+C 0x607C la siguiente
 C 0x6084 la mascara, a la mitad cada cuadro
+C 0x6087 a 0: se acaba
+C 0x608B si no, la mitad
 C 0x608F hasta 0: el bufer a cero y se acaba
 C 0x6097 el bufer de 0xCA00 a cero (0x400 bytes)
 C 0x60A5 cuantos (IX+1) x 8 bytes...
+C 0x60AD en BC
 C 0x60AF ...desde el caracter IX+0 x 8 + el tercio
+C 0x60B7 + el tercio
 C 0x60B9 de la VRAM al bufer
+C 0x60BC cuantos bytes
 C 0x60C2 con la mascara (p01:60CD)
 C 0x60C6 y de vuelta a la VRAM
 C 0x60CD cada byte del bufer AND la mascara de 0xE51B
-C 0x60E4 en los dibujos, la mascara gira tres bits cada byte
+C 0x60D4 en el paso 1 (colores), p01:60E4
+C 0x60DA cada byte AND la mascara
+C 0x60DE hasta acabar
+C 0x60E4 en los colores, la mascara gira tres bits cada byte
+C 0x60EC hasta acabar
 C 0x60F2 el final de la fase: la paleta que cambia (p00:56BC)
 C 0x60F5 y lo de cada fase (tabla de detras: 1, 2, 5-8 p01:611A; 3 p01:6163; 4 p01:61F5; 9 p01:617C; 10 p01:619D; 11 p01:61C2)
+C 0x60F8 desde la fase 1
 C 0x611A fases 1, 2 y 5-8: 0xE365 es el paso del final
+C 0x611D paso 1: p01:6134
 C 0x611E paso 0: espera el final del scroll (0xE427)
+C 0x6123 aun no: nada
 C 0x6125 paso 1...
 C 0x6128 ...y el jefe de la fase (p01:6111 + fase: 6, 7, 8, 9, 0x0E, 0x0C)
+C 0x612B la tabla de 0x6111
+C 0x6131 el jefe
 C 0x6134 paso 1: hasta vencer al jefe (0xE442)
+C 0x6137 aun no
 C 0x6139 con la nave viva...
+C 0x613C estallando, nada
 C 0x613E ...0xE30D = 1: fase superada
 C 0x6144 sale el jefe L: 0xE445 y 0xE442 a 0
+C 0x614B H = 0
 C 0x614C 0xE440 = L (el jefe)
+C 0x614F L = 0
 C 0x6150 0xE450 = 0
 C 0x6153 0xE44D = 1
+C 0x6155 0xE44D = 1
 C 0x6158 0xE443 = 8
+C 0x615A 0xE443 = 8
 C 0x615E 0xE365, al paso siguiente
 C 0x6163 la fase 3: al final del scroll, 0xE60D = 1 y al paso siguiente
+C 0x6166 paso 1: p01:6175
+C 0x616C aun no
+C 0x616E la nave se va (0xE60D = 1)
 C 0x6175 y en el paso 1, cuando 0xE60D vuelva a 0, superada
+C 0x6178 hasta que se haya ido
 C 0x617C la fase 9: el jefe 0x0D al llegar el scroll a 0x1C0
+C 0x617F paso 1: p01:6195
+C 0x6185 el scroll...
+C 0x6189 ...en 0x1C0?
+C 0x6191 el jefe 0x0D
 C 0x6195 y despues, al final del scroll, superada
+C 0x6198 aun no
 C 0x619D la fase 10: por el paso de 0xE365
 C 0x61A9 paso 0: al final del scroll, el jefe 0x0F
+C 0x61AC aun no
+C 0x61B1 el jefe 0x0F
 C 0x61B5 paso 1: vencido, el jefe 0x11
+C 0x61B8 aun no
+C 0x61BD el jefe 0x11
 C 0x61C2 la fase 11: paso 0, al final del scroll, el jefe 0x10
+C 0x61C5 paso 1: p01:61D8
+C 0x61C8 paso 2: p01:61EA
+C 0x61CE aun no
+C 0x61D3 el jefe 0x10
 C 0x61D8 paso 1: vencido...
+C 0x61DB aun no
 C 0x61DD ...0xE445 = 0 y el final del scroll en 0x9F
 C 0x61EA paso 2: al final del scroll, 0xE328 = 1 (estado 10: el final del juego)
+C 0x61ED aun no
 C 0x61F5 la fase 4: por el paso de 0xE365
 C 0x61F8 por el paso de 0xE365 (tabla de detras)
 C 0x6207 paso 0: al paso siguiente, el sonido 2, la orden 0x83 y el 0x0A
 C 0x6213 paso 1: 0xE443 = 0xF0
+C 0x6215 0xF0 cuadros
 C 0x621B paso 2: p01:734C y la cuenta de 0xE443
+C 0x621E la espera
 C 0x6223 al acabar, la orden 0x84 al sonido...
 C 0x6226 ...y 0x14 cuadros en 0xE402
 C 0x622E paso 3: pasados, el jefe numero 0xE37C de la tabla p01:6243
+C 0x6231 la espera
+C 0x6236 la tabla de 0x6243 (0x0B, 1, 3, 4)
 C 0x6247 paso 4: vencido (0xE442)...
+C 0x624A aun no
 C 0x624C ...0xE442 a 0
 C 0x6250 el jefe siguiente (0xE37C + 1)
 C 0x6255 menos de 4: otra vez al paso 3 con un cuadro de espera
+C 0x6257 los cuatro?
+C 0x6259 no: al paso 3...
+C 0x625E ...con 1 cuadro
 C 0x6264 los 4 vencidos: al paso 5
 C 0x626C paso 5: la espera y la fase superada
+C 0x626F la espera
 C 0x6274 la secuencia de 0xE31F (C) y su paso 0xE320 (B)
+C 0x6278 desde la secuencia 1
 C 0x6281 con el paso en la pila...
 C 0x6282 ...los sprites y lo de p00:5AC6
 C 0x6288 y por el paso
 C 0x6294 el sonido 0x4D
 C 0x6297 0x3C cuadros en 0xE7F4
+C 0x6299 en 0xE7F4...
 C 0x629C 0xE7F5 = 0
 C 0x62A3 la cuenta: mientras, el borde parpadea (p01:6343)
+C 0x62A6 la cuenta
 C 0x62AC al acabar, el borde a 0xE0 y el bufer a cero
 C 0x62B7 el sonido 0x4E y p00:5FFE con 0x5EB8
 C 0x62C3 la aparicion de p01:600B, hasta que acaba
+C 0x62C9 aun no
 C 0x62CB y todo a cero, sin sprites, a la secuencia siguiente
 C 0x62D4 la otra secuencia: los sprites y p00:5AC6, y por el paso
+C 0x62DB y por el paso
 C 0x62E5 la orden 0x84 al sonido
 C 0x62E8 el byte de la fase
 C 0x62EB el scroll en 0x38
@@ -88,22 +149,36 @@ C 0x6323 se acaba la secuencia (0xE31F = 0)
 C 0x6328 la secuencia siguiente, desde el paso 0
 C 0x6330 el paso siguiente de la secuencia
 C 0x6335 el bufer de 0xC400 a cero (0x600 bytes)
+C 0x6338 0x600 bytes
 C 0x6343 el borde parpadea: 0xE0 y 0xEF cuadro si, cuadro no
+C 0x6346 la cuenta + 1
 C 0x6352 0xE440-0xE5FF, 0xE680-0xEEFF y el bufer de 0xC400 a cero
+C 0x6355 0xE440-0xE5FF a cero
+C 0x6362 0xE680-0xEEFF a cero
+C 0x636F 0xC400-0xC9FF a cero
 C 0x637A la nave en 0xED04 + 0x18, 0xED06 + 0x18
+C 0x637D la y de la pieza + 0x18
+C 0x6385 su x + 0x18
 C 0x638B apuntar a la nave: la direccion en 0xE46E...
 C 0x638E ...la distancia en y y en x (p01:63FF)
 C 0x6391 D = 1: con algo de azar
 C 0x6397 lo mismo sin azar (D = 0)
 C 0x639F la direccion de 0xE476
+C 0x63A2 en E
 C 0x63A3 con la dificultad (0xE389) por debajo de 7, sin azar
+C 0x63AA sin azar: p01:63C7
 C 0x63AD el azar: el registro R del Z80 (cambia con cada instruccion)
+C 0x63AF B el azar, A de 0 a 15
 C 0x63B0 de 0 a 15...
 C 0x63B2 ...hacia un lado (bit 6)...
+C 0x63B6 hacia atras, sin bajar de 0
 C 0x63BF ...o hacia el otro, con tope 0x3F
 C 0x63C9 la direccion, de 0 a 0x3F, en la tabla de p01:6479
+C 0x63CA 0x3F - direccion
 C 0x63D2 el paso en y...
+C 0x63D3 C
 C 0x63D6 ...y en x (del final de la tabla hacia atras)
+C 0x63D7 del otro extremo
 C 0x63DB la velocidad en y (p01:6467)
 C 0x63DF hacia arriba: en negativo
 C 0x63E6 en 0xE472
@@ -111,360 +186,814 @@ C 0x63EB la de x
 C 0x63F2 hacia la izquierda: en negativo
 C 0x63F9 en 0xE474
 C 0x63FF la distancia a la nave (0xE604 la y, 0xE606 la x)
+C 0x6402 la y de la nave en 0xEF80...
+C 0x6408 ...y la x en 0xEF81
 C 0x640B 0xE470: 1 si la nave esta mas arriba
 C 0x6410 la y de la nave - E
+C 0x6413 y - E: si es negativa...
+C 0x6416 ...al reves y la nave mas arriba
 C 0x6419 0xE471: 1 si la nave esta a la izquierda
 C 0x641C la distancia en y, por 16
 C 0x641F y la de x
+C 0x6422 x - D: si es negativa...
+C 0x6425 ...al reves y la nave a la izquierda
 C 0x6429 0xE479 = 1 si estan cerca (la suma por debajo de 0x30)
+C 0x642E la suma de las dos distancias...
+C 0x6431 ...por debajo de 0x30: cerca
 C 0x6436 la de x / 16 + la de y: el indice de la tabla de direcciones
+C 0x6437 la de y / 16...
+C 0x643D ...+ la de x: el indice
 C 0x643E con el 22 en 0xA000...
 C 0x6444 ...la direccion de p22:BB06 + indice
 C 0x644A en 0xE476
 C 0x6450 y en 0xE477 vista desde el cuadrante en que esta la nave
+C 0x6451 el cuadrante: arriba y a la izquierda...
+C 0x645A ...0x80 si esta arriba
+C 0x645C igual arriba que a la izquierda: tal cual; si no, al reves
+C 0x6463 el angulo, en 0xE477
 C 0x6467 la velocidad: H = el paso (0xE46E) x E (p00:563C)...
+C 0x646A H = el paso
+C 0x646E el producto con E, 16 bits...
 C 0x646F .../ 32: en DE
+C 0x6475 .../ 64 en DE
 C 0x64B9 los disparos de la nave contra los enemigos: las 12 fichas de 0xE800 (0x40 bytes)
+C 0x64BD los 12
 C 0x64C0 bit 1 de IX+10: se le puede dar
+C 0x64C4 libre: el siguiente
 C 0x64C6 las 9 fichas de disparo de 0xE680 (0x20 bytes)
+C 0x64CA contra los 9 disparos
 C 0x64CF las que estan en uso...
+C 0x64D2 uno libre: el siguiente
 C 0x64D3 ...contra este enemigo (p01:64E5)
 C 0x64D6 tocado: al enemigo siguiente
+C 0x64D8 el disparo siguiente
 C 0x64DC el enemigo siguiente
+C 0x64DF el enemigo siguiente
 C 0x64E5 se tocan?: la y del enemigo menos la del disparo
+C 0x64E8 la y del disparo
 C 0x64EE el disparo por debajo: contra el alto del enemigo (IX+0E)
+C 0x64F0 por debajo...
 C 0x64F8 por encima: contra el del disparo (IY+0D)
+C 0x64FB por encima: dentro del alto del disparo?
 C 0x64FC y lo mismo en x, con IX+0F e IY+0C
+C 0x64FF la x del disparo
+C 0x6505 por la derecha...
+C 0x650E por la izquierda: dentro del ancho del disparo?
 C 0x6512 tocado (p01:6517) y vuelve con C
+C 0x6515 se tocan: C
 C 0x6517 tocado: lo del disparo (p01:65C5)
 C 0x651A los disparos 0x11 y 0x15 lo matan de una
+C 0x651D el 0x11 y el 0x15...
 C 0x6525 los demas le quitan una vida (IX+0D)
+C 0x6528 ...el 0x12...
 C 0x652A si le quedan, nada (el 0x26 suena)
+C 0x652D ...y el 0x26: de una
 C 0x6533 muerto: un punto
 C 0x6539 el sonido segun el tipo de enemigo (IX+0)...
+C 0x653C los que mueren de un golpe: 0x17, 7, 0x1A y 0x1E
+C 0x654C los que no se pueden matar: 0x0A, 0x0D, 0x0E, 0x19, 0x21, 0x22, 0x28, 0x2C, 0x2D, 0x30 y 0x4A
 C 0x6578 ...el 0x1E...
+C 0x657B los demas, una vida menos
 C 0x657D ...el 0x1F...
 C 0x6582 ...o el 0x21
 C 0x6585 los puntos del enemigo (p01:65A5)
 C 0x6588 lo que deja (p01:75D1)
+C 0x658B guardando BC
+C 0x6590 el 0x19 con B = 1, los demas 0
 C 0x6598 y una explosion (0x3D) donde estaba (p01:763C)
+C 0x659A en su sitio
 C 0x65A5 C = los puntos del enemigo (IX+0C)
 C 0x65A8 si es de un grupo (IX+16)...
+C 0x65AB sin oleada, nada
+C 0x65AD cuenta los de la misma oleada que quedan
 C 0x65AF ...cuenta los que quedan del grupo (p01:6E0F)...
+C 0x65B6 el numero de su oleada
 C 0x65B9 ...y al morir el ultimo...
+C 0x65BD la ficha libre
 C 0x65BF ...sale la capsula
+C 0x65C0 cada 8...
 C 0x65C5 el disparo que ha tocado: su tipo (IY+0) en 0xE412
+C 0x65C8 el disparo que toco, en 0xE412
 C 0x65CB 0x12 y 0x16: p04:9257
+C 0x65CF el 0x16 tambien
 C 0x65D3 0x11, 0x15 y 0x18 siguen
+C 0x65D6 el 0x15 y el 0x18 siguen
+C 0x65DC el 0x0A se acaba
+C 0x65E0 los 5-0x0F siguen
 C 0x65E5 los demas se acaban
 C 0x65F4 los disparos contra la lista de 0xED00 (0xE4B1 fichas de 0x20)
+C 0x65F7 sin piezas, nada
+C 0x65FE cada pieza
 C 0x65FF en uso...
+C 0x6602 libre: la siguiente
 C 0x6605 ...que no sean del tipo 6...
 C 0x6609 ...ni lleven el bit 7 de IX+0D...
 C 0x660F ...ni el bit 6 de IX+12
+C 0x6612 tapada (bit 6 de IX+12): la siguiente
 C 0x6616 contra los 9 disparos
+C 0x661A contra los 9 disparos
+C 0x6622 libre: el siguiente
+C 0x6626 tocada: la siguiente pieza
+C 0x6628 el disparo siguiente
 C 0x662C la siguiente
+C 0x662F la pieza siguiente
 C 0x6635 contra una de 0xED00: con caja propia (IX+0D) o con la de IX+09/IX+0A
+C 0x6638 sin punto debil: p01:667C
 C 0x663B la caja numero IX+0D de p03:BE18 (4 bytes: dx, dy, ancho, alto)
+C 0x663C su caja de la tabla de 0xBE18
 C 0x6646 la y con su desplazamiento, menos la del disparo
+C 0x6649 la y + su desplazamiento contra la del disparo
+C 0x6650 por debajo: contra el alto de la caja
 C 0x6655 contra el ancho de la caja
 C 0x665A o contra el del disparo
+C 0x665D por encima: contra el alto del disparo
 C 0x665E y en x
+C 0x6662 la x + su desplazamiento contra la del disparo
+C 0x666C por la derecha: contra el ancho de la caja
+C 0x6675 por la izquierda: contra el ancho del disparo
 C 0x667C sin caja: la y contra IX+09 x 8...
+C 0x667F contra la del disparo
+C 0x6685 por debajo: contra las filas x 8
+C 0x6696 por encima: contra el alto del disparo
 C 0x669A ...y la x contra IX+0A x 8
+C 0x669D la x contra la del disparo
+C 0x66A3 por la derecha: contra las columnas x 8
+C 0x66B3 por la izquierda: contra el ancho del disparo
 C 0x66B7 tocado y vuelve con C
+C 0x66BA se tocan: C
 C 0x66BC tocado: lo del disparo
 C 0x66BF el tipo 0x0A no lo toca el disparo 0x0F
+C 0x66C2 la pieza 0x0A...
+C 0x66C6 ...no la toca el disparo 0x0F
 C 0x66CC una chispa (0x3D) donde el disparo (p01:7647)
+C 0x66CF en el sitio del disparo...
+C 0x66D5 ...una explosion (0x3D)
 C 0x66DA los disparos 0x11 y 0x15 lo matan de una
+C 0x66DD los disparos 0x11 y 0x15 la matan de una
 C 0x66E5 los demas: el sonido 0x28 y una vida menos (IX+08)
+C 0x66E8 una vida menos; con vidas, nada mas
 C 0x66EC muerto: lo de su tipo (p01:6737)
+C 0x66EF la 0x0A no estalla
 C 0x66F5 16 puntos
 C 0x66FB el sonido de la explosion (p01:6727)
 C 0x66FE p02:8294
 C 0x6701 donde estalla: IX+0E en la tabla de p03:BEC8...
+C 0x6704 el desplazamiento de su explosion (tabla de p03:BEC8)
 C 0x670A ...sumado a la y y a la x
+C 0x670D la x
+C 0x6710 la y + el de y
+C 0x6714 la x + el de x
 C 0x6717 fuera de la pantalla por un lado (la x desde 0xE0): en el borde
+C 0x6719 dentro: la explosion
+C 0x671B por un lado (0xE0) o por el otro (0)
 C 0x6727 el sonido de la explosion: 0x22 para el tipo 0x31...
+C 0x672A la 0x31 aparte
 C 0x672F ...0x26 para el 0x35...
 C 0x6734 ...y 0x20 para los demas
 C 0x6737 lo que hace al morir cada tipo (IX+0): una rutina de otro banco
+C 0x673A lo que deja cada pieza al morir: la 0x26...
+C 0x6741 ...la 0x1C...
+C 0x674A ...la 0x27...
+C 0x6751 ...la 0x28...
+C 0x6756 ...la 0x23 (p02:9D4D)...
+C 0x675B ...la 0x22...
+C 0x6760 ...la 0x0D...
+C 0x6765 ...la 0x2A (su dibujo)...
+C 0x676A ...la 0x21...
+C 0x676F ...la 0x10...
+C 0x6774 ...la 0x2D...
+C 0x6779 ...la 7...
+C 0x677D ...y la 4
 C 0x6783 el tipo 7: con el 19, p19:ACB9
 C 0x678D una explosion grande en DE (E la y, D la x): dentro de la pantalla
+C 0x678E la x dentro (hasta 0xE7)...
+C 0x6791 ...y la y (hasta 0xA7)
 C 0x6795 0xE44F = 0
+C 0x6796 la gran explosion apagada
 C 0x6799 un hueco en las 4 fichas de 0xE4B2 (8 bytes)
+C 0x679C 4 fichas de 8 bytes
+C 0x67A2 la siguiente
 C 0x67A8 sin hueco: vuelve con NC
 C 0x67AA el numero (5 - B)
+C 0x67AC el numero
 C 0x67AF 4
 C 0x67B2 la y y la x
+C 0x67B4 la x
 C 0x67B7 y su sitio en el bufer de 0xC400 (p00:4A46)
+C 0x67BC donde va en el bufer
 C 0x67C1 3, y vuelve con C
+C 0x67C3 C: hecho
 C 0x67C5 las balas contra la nave (si vive)
+C 0x67C8 sin nave, nada
 C 0x67CA las 10 balas de 0xEB00 (0x10 bytes)
+C 0x67CE 10 balas, caja de 3 x 3 alrededor de la nave
 C 0x67D3 alguna toca la nave?
+C 0x67D6 ninguna: nada
 C 0x67D7 si: la bala se acaba y la nave... (p01:693D)
+C 0x67DB tocada: la nave estalla (p01:693D)
 C 0x67DE la nave en 0xE604 + 4, 0xE606 + 3
+C 0x67E1 la y de la nave + 4...
+C 0x67E7 ...y su x + 3
+C 0x67EB de 0x10 en 0x10
 C 0x67EE una caja de 6 x 9
 C 0x67F2 las balas en uso
+C 0x67F5 libre: la siguiente
 C 0x67F8 la y de la bala menos la de la nave, dentro de la caja?
+C 0x67FB por encima o por debajo...
 C 0x6804 y la x
+C 0x6807 ...y a un lado u otro: dentro de la caja? C
 C 0x680E la siguiente
+C 0x680F la siguiente
 C 0x6815 ninguna: NC
 C 0x6817 las balas contra el escudo de la nave (0xE600 = 2 o 3)
+C 0x681A con escudo (2 o 3)
 C 0x6820 la caja del escudo (p01:686C con 2, p01:6872 con 3)
+C 0x6825 la caja del escudo grande (0x6872) o la del de delante (0x686C)
 C 0x6828 desplazamientos y tamano
+C 0x6829 su desplazamiento y su tamano...
 C 0x6830 la caja respecto a la nave
+C 0x6833 ...sobre la y de la nave...
+C 0x6839 ...y su x
 C 0x683D las 10 balas
+C 0x6845 contra las 10 balas
+C 0x684B libre: la siguiente
 C 0x684F dentro de la caja?
+C 0x6850 la y dentro de la caja...
+C 0x6857 ...y la x: tocada
+C 0x685F la siguiente
 C 0x6865 si: la bala se acaba y el escudo pierde (p01:68DF)
+C 0x6869 el escudo pierde un golpe (p01:68DF)
 C 0x6878 la nave con escudo (0xE600 = 2 o 3) contra los enemigos
+C 0x687B con escudo...
 C 0x6880 la caja del escudo (p01:686C o p01:6872)
+C 0x6881 ...su caja
 C 0x689D algun enemigo toca el escudo? (p01:6962)
 C 0x68A1 estos tipos no le hacen nada: 0x20, 0x44, 0x12, 0x3D-0x3F, 0x46-0x47
+C 0x68A4 los que no hacen nada al escudo: 0x20, 0x44, 0x12, 0x3D-0x3F, 0x46-0x47
 C 0x68B9 el 0x18 solo si IX+1 no es 1
+C 0x68BA el 0x18 en el paso 1 tampoco
+C 0x68C4 el 0x49 y el 0x25 rompen el escudo de golpe
 C 0x68C5 los 0x1B y 0x49 no mueren...
 C 0x68CD ...los demas, si (p01:6533)
 C 0x68D1 el 0x49, el 0x25 y los 0x38-0x3C rompen el escudo de golpe
+C 0x68D3 el 0x49 y el 0x25...
+C 0x68D9 ...y los 0x38-0x3C: el escudo se acaba
 C 0x68DF los demas le quitan un golpe (0xE601)
+C 0x68E2 un golpe menos; a 0, se acaba
 C 0x68E5 con uno solo, el escudo cambia de dibujo
+C 0x68E6 con 1, el dibujo de escudo roto
 C 0x68EC sin golpes: se acaba el escudo
 C 0x68F0 0xE600 = 1: la nave sin escudo
 C 0x68F4 su dibujo
 C 0x68F7 p04:967B
 C 0x6901 la nave contra los enemigos (si no estalla)
+C 0x6904 estallando: nada
 C 0x6906 la caja de la nave: y + 5, x + 4, 6 x 8
+C 0x6909 la y + 5...
+C 0x690F ...la x + 4
+C 0x6912 6 de alto y 8 de ancho
 C 0x6915 alguno la toca? (p01:6962)
+C 0x6918 nadie: nada
 C 0x6919 los tipos 0x1B y 0x49: la nave estalla
+C 0x691C el tipo
 C 0x6925 el 0x47, los 0x3E-0x3F y el 0x1F son capsulas: se cogen (p01:69ED)
+C 0x6927 0x47: capsula
+C 0x692A 0x3E-0x3F: capsulas
+C 0x6932 0x1E-0x1F: capsulas
 C 0x693A los demas mueren tambien
 C 0x693D la nave estalla: un nop...
 C 0x693E ...si no se juega de verdad (bit 6 de 0xE302: la demostracion), no estalla
+C 0x6941 en la demostracion no muere
 C 0x6944 ...y otro nop
 C 0x6945 0xE36B = 0
+C 0x6946 0xE36B = 0
 C 0x6949 guarda la marca de armas (0xE430) en 0xE36D
+C 0x694C la marca de armas, guardada
 C 0x694F las opciones a cero (0xE6C0, 0xE720, 0xE780)
+C 0x6950 las tres opciones fuera
 C 0x6959 y la nave estalla (p04:843D)
 C 0x6962 algun enemigo de 0xE800 toca la caja de DE (E la y, D la x), L de alto y H de ancho? (C)
+C 0x6966 los 12
+C 0x6970 libre: el siguiente
 C 0x6973 los que tienen el bit 0 de IX+10
+C 0x6977 sin el bit 0 de IX+10: no se toca
 C 0x6979 en y: el enemigo por encima...
+C 0x697C la distancia en y
+C 0x6980 por encima
 C 0x6982 ...contra su alto (IX+0E)...
 C 0x698B ...o por debajo, contra L
 C 0x698E y lo mismo en x (IX+0F y H)
+C 0x6991 la distancia en x
+C 0x6995 a la izquierda: contra su ancho
+C 0x699C tocado: Z
+C 0x699D a la derecha: contra H
 C 0x699F el tipo 0x3A tiene ademas tres trozos (p01:69B2)
+C 0x69A2 el 0x3A: sus trozos
+C 0x69AA el siguiente
+C 0x69B0 ninguno: Z y NC
 C 0x69B2 los tres trozos del 0x3A: su y y su x en IX+34...
+C 0x69B3 desde IX+34
+C 0x69BB tres trozos
+C 0x69BE su y contra E
+C 0x69C5 por encima: 8
 C 0x69C7 ...cajas de 8 x 16
+C 0x69CE por debajo: L
+C 0x69D2 su x contra D
+C 0x69DA a la izquierda: 0x10
+C 0x69E0 a la derecha: H
+C 0x69E3 el siguiente trozo
 C 0x69ED coge la capsula: con tipo menor de 3...
+C 0x69EE tipo (el de la capsula - 0x3E) por debajo de 3
 C 0x69F0 ...lo que deje (p01:75D1)
 C 0x69F4 y por el tipo: 0 la de armas, 1 la azul, 2 la de 0xE5E0
 C 0x69FD la de armas: 0xE36B = 0
+C 0x69FE la marca a 0xE36B
 C 0x6A01 la marca de armas avanza (0xE430: de 1 a 8 y vuelta)
+C 0x6A04 la marca de armas avanza...
+C 0x6A0A ...despues de la 8, la 1
 C 0x6A0D 5 puntos
 C 0x6A13 el marcador de armas (p04:957D y 95B6)
+C 0x6A19 el nombre de la marcada
 C 0x6A1F y el sonido 0x1A
 C 0x6A22 la azul: 5 puntos
 C 0x6A28 0xE49A = 0
+C 0x6A29 0xE49A = 0
 C 0x6A2C todos los enemigos de 0xE800-0xEAC0, del ultimo al primero
+C 0x6A30 los 12
+C 0x6A37 libre: el siguiente
 C 0x6A3A menos los 0x38-0x3F, 0x46-0x47, 0x27, 0x33, 0x20, 0x25 y 0x12...
+C 0x6A3C los de caracteres...
+C 0x6A40 ...0x46-0x47...
+C 0x6A47 ...0x27, 0x33, 0x20, 0x25 y 0x12 no
 C 0x6A5C ...mueren
+C 0x6A5F el anterior (0x40 menos)
 C 0x6A67 y el sonido 0x1B
 C 0x6A6A la otra: 0xE5E0 = 1
+C 0x6A6C 0xE5E0 = 1: el rayo grande
 C 0x6A6F los 9 disparos de la nave fuera
+C 0x6A72 los 9 disparos de la nave fuera
 C 0x6A7C 0xE64B = 0
+C 0x6A7D su dibujo desde el 0
 C 0x6A80 sus dibujos de sprite (p00:5071)
 C 0x6A83 y el sonido 0x1A
 C 0x6A86 la fase 2: las plantas que crecen contra la estela (si la nave vive)
+C 0x6A89 estallando, nada
+C 0x6A8E solo con 0xE49A = 2...
 C 0x6A91 solo con el scroll entre 0x100 y 0x160
+C 0x6A95 ...y el scroll desde 0x100...
+C 0x6A9C ...hasta 0x160
 C 0x6AA3 la opcion de 0xE610...
 C 0x6AAA ...si toca, se pierde
 C 0x6AAD y la de 0xE620
 C 0x6AB8 la opcion se pierde: p04:9660 y el sonido 0x31
 C 0x6AC8 la opcion de IY contra los enemigos del tipo 3
+C 0x6ACB sin ella, nada
 C 0x6ACD su caja: y + 4, x + 2, L 8 y H 12
+C 0x6AD0 su y + 4...
+C 0x6AD3 ...su x + 2
+C 0x6AE0 contra los 12 enemigos
+C 0x6AEA solo el 3
+C 0x6AF1 por encima o por debajo...
+C 0x6B03 ...y a un lado u otro
+C 0x6B14 el siguiente
+C 0x6B1A ninguno: Z
 C 0x6B1C los disparos contra la parte de 0xEC00 (el jefe): p01:7EC2
+C 0x6B1F estallando, nada
 C 0x6B20 con el jefe ya vencido (0xE445) o 0xE454, nada
+C 0x6B23 con el jefe vencido, nada
+C 0x6B25 sin la nave en su sitio (0xE454), nada
 C 0x6B2A la parte de 0xEC00
+C 0x6B2E sin jefe, nada
 C 0x6B33 el tipo 0x0E tiene tres partes (p01:6B54)
+C 0x6B35 con 0xEC18 a 0, sus tres partes
 C 0x6B37 los 9 disparos...
+C 0x6B3B contra los 9 disparos
+C 0x6B41 libre: el siguiente
 C 0x6B44 ...menos el 0x0F...
 C 0x6B48 ...contra el punto debil (p01:6B69)
+C 0x6B4B el siguiente
 C 0x6B54 tres partes: 0xEC00, 0xEC20 y 0xEC40, si IX+18 es 0
+C 0x6B57 la parte de 0xEC20...
+C 0x6B5E ...y la de 0xEC40
+C 0x6B62 con IX+18 distinto de 0, no se toca
 C 0x6B69 el punto debil (IX+13 e IX+14 sobre su y y su x)
+C 0x6B6C vencido, nada
+C 0x6B71 en 0xEF80
 C 0x6B74 y su sitio en el bufer, en 0xDFFE
 C 0x6B7D una caja de 16 x 16
+C 0x6B80 la y del punto + 1 contra la del disparo
+C 0x6B88 por debajo: contra C
+C 0x6B8F por encima: contra el alto del disparo
+C 0x6B94 la x contra la del disparo
+C 0x6B9B a la derecha: contra B
+C 0x6BA2 a la izquierda: contra el ancho del disparo
 C 0x6BA6 tocado: el disparo se acaba (p01:6BF6)
 C 0x6BA9 un destello donde el punto debil (p02:855E)
+C 0x6BAC el sitio del destello
 C 0x6BB2 una vida menos (IX+12)
+C 0x6BB5 sin vidas: vencido
 C 0x6BB8 le quedan: el sonido 0x27 y una chispa (0x44)
+C 0x6BBB la chispa (0x44)
 C 0x6BC2 vencido (salvo el 0x0E): 0xE445 = 1
+C 0x6BC5 con el jefe 0x0E...
 C 0x6BCD 0x100 puntos (BCD: 10.000)
 C 0x6BD3 en la fase 4, si es el jefe que toca (0xE37C contra 0xE381)...
+C 0x6BD6 ...en la fase 4...
+C 0x6BDD ...y el de 0xE381...
 C 0x6BE2 ...p02:80D6 con 7...
+C 0x6BE6 ...7
 C 0x6BEB ...y con 0xE7E0, 0xE445 = 2
+C 0x6BEE con la entrada secreta (0xE7E0), 2
 C 0x6BF6 el disparo que ha tocado: el 0x12 y el 0x16 van a p04:9257, los demas se acaban
+C 0x6BF9 el 0x12 y el 0x16 a p04:9257
+C 0x6C01 los demas, se acaban
 C 0x6C0F HL = el punto debil: (IX+13 + IX+3, IX+14 + IX+5), la y en L y la x en H
+C 0x6C12 IX+13 + la y...
+C 0x6C16 ...e IX+14 + la x
 C 0x6C1E en la pausa: con el 19, p19:B3C4
+C 0x6C21 las claves (p19:B3C4)
 C 0x6C27 sin el otro cartucho (0xF0F7 = 0xFF), nada mas
+C 0x6C2A sin el, nada
 C 0x6C2C una espera (0xE404) entre tecla y tecla
+C 0x6C2F la espera
 C 0x6C35 la fila 5, bit 0: la S (grabar)
+C 0x6C3A la S: grabar
 C 0x6C3D la fila 4, bit 1: la L (cargar)
+C 0x6C42 la L: cargar
 C 0x6C47 grabar: se puede? (p01:6CC2): el mensaje 0 o 1
+C 0x6C4A el mensaje: 0 si fue bien, 1 si no
 C 0x6C50 borra la fila de 0x3AE0
+C 0x6C53 0x20 bytes
 C 0x6C5A los caracteres de los mensajes
 C 0x6C5E el mensaje C de la tabla de p01:6C7E...
 C 0x6C66 ...en 0x3AE8
+C 0x6C69 0xFF
 C 0x6C6E 0xE403 = 1: el marcador cambiado
 C 0x6C74 cargar (p00:5D0B): el mensaje 2 o 3
+C 0x6C77 el mensaje 2 o 3
 C 0x6CC2 grabar en el otro cartucho: sin el (0xF0F7 = 0xFF), vuelve con NZ
+C 0x6CC5 sin el, NZ
 C 0x6CC9 su ranura en 0x8000-0xBFFF (ENASLT)
 C 0x6CCE su registro de 0x8000 a 4
+C 0x6CD0 en 0x8000 (el registro del otro mapper)
 C 0x6CD3 la cabecera GOFE1 (p01:6D3C)
 C 0x6CD6 la orden 0x0A (grabar)...
+C 0x6CD9 en 0xEF80
 C 0x6CDC ...a su rutina de 0x8000
+C 0x6CDF mal: fuera
 C 0x6CE2 bien: la cabecera GOFE2 y otra vez
+C 0x6CE5 la orden 0x0A otra vez
+C 0x6CEB la rutina del Game Master 2 en 0x8000 (el otro cartucho), con la cabecera GOFE2
 C 0x6CEF el resultado (Z: bien)
 C 0x6CF0 su registro a 2
+C 0x6CF2 su registro de 0x8000 a 2
 C 0x6CF5 y el cartucho propio otra vez en 0x8000 (0xF0F8)
+C 0x6CF8 en 0x8000
 C 0x6CFF sin cartucho: NZ
 C 0x6D01 cargar del otro cartucho: igual, con la orden 0x0B
+C 0x6D08 en 0x8000
+C 0x6D0F su registro de 0x8000 a 4
+C 0x6D15 la orden 0x0B (cargar)...
+C 0x6D1A ...a la rutina del Game Master 2 en 0x8000 (el otro cartucho)
+C 0x6D1E mal: fuera
+C 0x6D23 la orden 0x0B otra vez...
+C 0x6D28 ...con la cabecera GOFE2, al Game Master 2
+C 0x6D2D su registro a 2
 C 0x6D3C la cabecera GOFE1 (17 bytes de p01:6D54) a 0xEF80
+C 0x6D3F 17 bytes de 0x6D54
 C 0x6D48 la cabecera GOFE2 (p01:6D65) a 0xEF80
+C 0x6D4B 17 bytes de 0x6D65
 C 0x6D76 busca el otro cartucho: las 4 ranuras primarias
+C 0x6D79 desde 0xFCC1 (EXPTBL, las 4 ranuras)
 C 0x6D7E expandida?
+C 0x6D7F ampliada (bit 7): sus 4 subranuras
 C 0x6D83 no: esa ranura (p01:6DA9)
+C 0x6D84 si no, la ranura
 C 0x6D89 si: sus 4 subranuras (p01:6D99)
 C 0x6D8E encontrado: fuera con C
+C 0x6D8F la siguiente
 C 0x6D93 no esta: 0xF0F7 = 0xFF
+C 0x6D99 la ranura con el bit 7...
+C 0x6D9E ...y cada subranura
+C 0x6DA4 la siguiente subranura
 C 0x6DA9 en la ranura A: lee su 0x4010 (RDSLT)...
+C 0x6DAC lee 0x4010 de esa ranura...
 C 0x6DB2 ...tiene que ser 'Y'...
+C 0x6DB6 ...y 0x4011
 C 0x6DBF ...y 0x4011, 'Z': el Game Master 2
 C 0x6DC3 encontrado: C
+C 0x6DC6 C: lo es
+C 0x6DCB NC: no
 C 0x6DCD la entrada A de la lista de apariciones de la fase (HL + 2 x (fase - 1))
+C 0x6DD1 desde la entrada 1
 C 0x6DD6 3 bytes cada una
+C 0x6DD7 x 3
 C 0x6DDC la posicion del scroll...
+C 0x6DDD el alto
 C 0x6DE0 ...y que sale
 C 0x6DE1 comparada con el scroll (Z: ahora)
+C 0x6DE4 Z: es ahora
 C 0x6DE6 queda algun enemigo (que no sea 0x3D-0x3F) o alguna bala? (NZ)
+C 0x6DE9 los 12
+C 0x6DF2 los 0x3D-0x3F no cuentan
+C 0x6DF8 el siguiente
+C 0x6DFE las 10 balas
+C 0x6E03 alguna: NZ
+C 0x6E09 nada: Z
+C 0x6E0B alguno: NZ
 C 0x6E0F A esta en las 4 de 0xE507 (de 3 en 3)? (NC si esta)
+C 0x6E12 4 entradas
+C 0x6E14 esta: Z
+C 0x6E16 la siguiente (3 bytes)
+C 0x6E1B no esta: C
 C 0x6E1D un destello en el enemigo (p02:855E), 8 mas a la derecha
+C 0x6E23 la x + 8
 C 0x6E29 IX+14 caracteres del bufer, desde el sitio del enemigo, con el de IX+32
+C 0x6E2C sin caracteres, nada
+C 0x6E2F su sitio en el bufer
+C 0x6E38 el caracter de IX+32...
+C 0x6E3B ...IX+14 veces
 C 0x6E40 la entrada A (de 4 bytes) de la tabla HL: DE y HL, y p01:78D7
+C 0x6E41 x 4: la entrada
+C 0x6E46 DE...
+C 0x6E4A ...y HL
+C 0x6E4E a sus velocidades (p01:78D7)
 C 0x6E51 borra en el bufer un rectangulo de B x C desde HL (hasta 0xCA00)
+C 0x6E55 hasta el final del bufer (0xCA00)
+C 0x6E5C B a cero
+C 0x6E61 la fila siguiente
 C 0x6E6A el sitio de HL en el bufer, recortando B a lo que cabe en la fila
+C 0x6E6D la columna + B...
+C 0x6E71 ...pasa de 0x40? lo que cabe
 C 0x6E79 copia un rectangulo de DE al bufer, sin los ceros (transparente)
+C 0x6E8C hasta el final del bufer
+C 0x6E92 los ceros no se copian
+C 0x6EA2 la fila siguiente
 C 0x6EAB copia un rectangulo de DE al bufer, entero
+C 0x6EBA hasta el final del bufer
+C 0x6EBF la fila entera
 C 0x6ECD el sitio en el bufer (una fila mas arriba con 0xEF90)
+C 0x6ED0 con 0xEF90, una fila mas arriba
 C 0x6EDA con 6 y 7, la lista DE de la tabla de A...
 C 0x6EE2 ...(p01:6EE8)
 C 0x6EE8 una lista de bytes al bufer de HL: 0 acaba, hasta 0x40 salta tantos, de 0x41 en adelante se escriben
+C 0x6EEA cada byte (0 acaba)
+C 0x6EEE por debajo de 0x41: un salto de tantos
 C 0x6EF6 el caracter
+C 0x6EF7 el siguiente
 C 0x6EFA las explosiones grandes (4 fichas de 0xE4B2, 8 bytes); con 0xE44F, p03:A6C5
+C 0x6EFD con la gran explosion, p03:A6C5
+C 0x6F05 las 4
+C 0x6F08 cada una
 C 0x6F14 en uso: con el 8, el dibujo de p08:BA32 (IX+6)...
+C 0x6F17 libre, nada
+C 0x6F1C su dibujo (IX+6)
 C 0x6F25 ...al sitio del bufer de IX+4
+C 0x6F28 al bufer: IX+5 filas...
 C 0x6F2B 4 filas de 4 caracteres (el bufer va de 0x40 en 0x40)
+C 0x6F2D ...de 4 caracteres
+C 0x6F32 la fila siguiente (0x40)
 C 0x6F3E lo que sale con el scroll (salvo en la fase 4)
+C 0x6F41 en la fase 4, nada
 C 0x6F44 las apariciones de la fase (p01:7105)
 C 0x6F47 p01:7178
 C 0x6F4A mientras espere (p01:6F69), nada mas
+C 0x6F4D esperando, nada mas
 C 0x6F4E las oleadas de las fases 3 a 9 (p01:6FEB)
 C 0x6F51 con una oleada en marcha (0xE500), nada mas
+C 0x6F54 con oleada, nada mas
 C 0x6F56 con 0xE463: solo si quedan menos de 11 - 0xE462 de la oleada
+C 0x6F59 sin 0xE463, a los sueltos
+C 0x6F5F 11 - los que hay...
+C 0x6F65 ...contra los de la oleada que faltan
 C 0x6F69 la espera de 0xE464
+C 0x6F6C la espera...
+C 0x6F70 ...menos uno
 C 0x6F71 esperando: NZ
 C 0x6F74 sin espera: en la fase 9, o sin jefe...
+C 0x6F77 la fase 9 no espera
+C 0x6F7E con jefe, si
 C 0x6F80 ...en los primeros 0x200 de scroll espera
+C 0x6F83 por encima de 0x200, no
+C 0x6F87 Z: nada que esperar
 C 0x6F89 los enemigos sueltos: lo de p19:A27C para esta columna...
+C 0x6F8C en la fase 4, nada
+C 0x6F8F la tabla de p19:A27C
 C 0x6F95 ...la cifra alta...
+C 0x6F96 la cifra alta
 C 0x6F9C ...es uno...
+C 0x6F9F la cifra baja
 C 0x6FA0 ...y con la dificultad 0x0A o mas...
+C 0x6FA3 por debajo de 0x0A, solo uno
 C 0x6FA6 ...la cifra baja, otro
 C 0x6FAD el enemigo A (1 a 15, 0 nada) por la tabla de detras
+C 0x6FAE 0: nada
 C 0x6FCB con el 19, el byte de la tabla DE de la fase para la columna del scroll / 32
+C 0x6FD1 desde la fase 1
 C 0x6FD2 la tabla de la fase (p00:4A65)
 C 0x6FD5 el scroll / 32...
+C 0x6FD8 el scroll / 32
 C 0x6FE7 ...el byte
 C 0x6FEB las oleadas: solo en las fases 3 a 9
+C 0x6FEE por debajo de la 3, nada
+C 0x6FF1 desde la 10, nada
 C 0x6FF4 0xE500: 0 sin oleada, 1 empieza, 2 sale
+C 0x6FF7 0: p01:703A
+C 0x6FFB 1: p01:7032
 C 0x6FFE sale: la cuenta de 0xE501
+C 0x6FFF la espera
 C 0x7001 el siguiente intervalo (p01:707A)
+C 0x7004 otra vez
 C 0x7005 y uno menos por salir (0xE502)
+C 0x7006 uno menos; acabados, 0xE500 = 0
 C 0x7009 acabada: 0xE500 = 0
 C 0x700D otro enemigo de la oleada (0xE46C)
+C 0x7010 el numero de este
 C 0x7012 en la y de 0xE505, a la derecha (x 0xF8)
+C 0x7015 en E la y
+C 0x7016 a la derecha
 C 0x7018 del tipo de 0xE503
+C 0x701B C = 0
 C 0x701D sale (p01:765B)
 C 0x7020 sin 0xE463...
+C 0x7023 queda alguno? nada
 C 0x7025 ...no cuenta: sigue saliendo
+C 0x7028 uno menos
+C 0x702C ...y 0xE500 = 1
 C 0x7032 empieza: espera a que haya menos de 7 enemigos (0xE462)
+C 0x7035 hasta 7...
+C 0x7038 ...uno mas
 C 0x703A sin oleada: cada 8 pasos de scroll...
+C 0x703D sin scroll, nada
+C 0x7042 cada 8 pasos de scroll
 C 0x7045 ...lo de p19:A347 para esta columna
 C 0x704B 0: nada
+C 0x704C nada que salga: fuera
 C 0x704D el tipo de la oleada
 C 0x7050 0xE500 = 1 y 0xE501 = 1
 C 0x7056 el numero de oleada (0xE506), sin el 0
+C 0x7059 la siguiente, sin el 0
 C 0x705F la y (p01:7098)
 C 0x7065 6 enemigos
 C 0x706A 0xE46C = 0xFF
+C 0x706C 0xE46C = 0xFF
 C 0x706F si ya hay oleada con premio, no sale (p01:6E0F)
+C 0x7073 con premio: no sale
 C 0x707A el intervalo de la oleada: el byte de 0x7075 + tipo
+C 0x707E el tipo de la oleada...
+C 0x7081 ...de la tabla de 0x7075 por la fase
 C 0x708C la oleada en las 4 de 0xE507: numero, cuantos y cuantos quedan
+C 0x708F en 0xE500, 0xE501...
+C 0x7094 ...y 0xE502
 C 0x7098 la y de la oleada: arriba o abajo, una vez cada una (0xE46D)
+C 0x709B la siguiente vez
+C 0x709F el 0x14 y el 0x16 aparte
 C 0x70A7 0x10 o 0x90
+C 0x70A8 los demas: arriba (0x10) o abajo (0x90)
 C 0x70B0 el tipo 0x14: 0x30 o 0x70
+C 0x70B1 el 0x14: 0x30 o 0x70
 C 0x70B9 el tipo 0x16: 0 o 0xA0
+C 0x70BA el 0x16: 0 o 0xA0
 C 0x70D2 un byte de 0x70E5 por turno (0xE466 & 0x0F)
+C 0x70D3 la tabla de 0x70E5
+C 0x70DA la cuenta de 0xE466, de 16
+C 0x70E3 C
 C 0x7105 las apariciones de la fase (salvo la 4), con scroll
+C 0x7108 en la fase 4, nada
+C 0x710E sin scroll, nada
 C 0x7110 a la derecha (0xF8)
 C 0x7115 todas las de esta posicion del scroll
+C 0x7118 todas las de ahora
 C 0x711B con 6 y 7, la aparicion 0xE468 de la fase (p01:6DCD)
+C 0x7121 la lista de p06:8000
 C 0x712A todavia no: NZ
 C 0x712B ahora: la siguiente
+C 0x712E la siguiente
 C 0x7130 la y: (tercer byte & 0x1F) x 8
+C 0x7131 la y...
+C 0x7136 ...x 8
 C 0x7137 la x, la de 0xE428
+C 0x713A en D la x
 C 0x713C bit 6: C = 1
+C 0x713E con el bit 6, C = 1
 C 0x7142 el tipo de la fase (p01:7157 + fase)...
 C 0x7145 ...sale (p01:765B)
+C 0x7148 Z: sale otra
 C 0x714A el byte de 0x7157 + fase (el 0x7157 es un ret: la tabla empieza detras)
+C 0x714E la fase
+C 0x7151 en la tabla de 0x7157
 C 0x7163 en las fases 1-3 y 5-8: lo de p01:718E mientras pueda
+C 0x7166 en la fase 4, nada
+C 0x7169 desde la 9, nada
+C 0x716F todas
+C 0x7175 la siguiente
 C 0x7178 lo de p19:A000 de la fase, con scroll (salvo en la fase 4)
+C 0x717B en la fase 4, nada
+C 0x7181 sin scroll, nada
 C 0x7183 a la derecha (0xF8)
 C 0x7188 todo lo de esta posicion del scroll
 C 0x718E la entrada 0xE47B de la lista de p19:A000 de la fase (p01:71BD)
+C 0x7191 la lista de p07:A000
 C 0x7197 todavia no: NZ
 C 0x7198 ahora: la siguiente
+C 0x719B la siguiente
 C 0x719C E = el cuarto byte
 C 0x719D el tercero: bits 2-5, la y / 8...
+C 0x719E el byte: la y / 8 (bits 2-5)...
 C 0x71A5 ...la x, la de 0xE428
+C 0x71A8 ...y la x
 C 0x71A9 bits 6-7: C = 0, 1 o 2
+C 0x71AA el lado: 0, 1 o 2
 C 0x71B8 sale el enemigo del segundo byte (p01:765B)
+C 0x71BB Z: sale
 C 0x71BD con el 19: la entrada A de 4 bytes de la lista de la fase (tabla DE + 2 x (fase - 1))
+C 0x71C0 x 4: la entrada
+C 0x71C9 desde 1
 C 0x71CE 0xFFFF: se acabo (C)
+C 0x71CF el byte de la posicion
+C 0x71D4 0xFF: acabada (C)
 C 0x71DE la posicion: bits 0-1 del segundo byte y el primero
+C 0x71E0 la posicion (16 bits)
 C 0x71E1 A, C y B: lo que sale
+C 0x71E3 lo que sale
 C 0x71E9 comparada con el scroll (Z: ahora)
+C 0x71EC contra el scroll: Z si es ahora
 C 0x71F9 el enemigo 9: cada 0xE493 cuadros
+C 0x71FC la espera de 0xE493
+C 0x7200 la espera...
+C 0x7205 ...cada cuadro
 C 0x7207 por encima o por debajo de 0x145 de scroll: de un lado u otro
+C 0x720A segun el scroll (0x145)...
+C 0x720E ...a la derecha (0xF0) o a la izquierda (0)
 C 0x7214 la y al azar de la tabla de 0x723D (registro R)
+C 0x7216 una de 16
+C 0x721E en E la y
 C 0x7222 sale el 9
 C 0x7228 0xE495: una x que sigue al scroll
+C 0x722B sin scroll, nada
+C 0x7230 0x3C - el scroll...
+C 0x7236 ...x 8 en 0xE495
 C 0x724E el enemigo 0x0F: cada 0x60 cuadros
+C 0x7251 la espera...
+C 0x7257 ...0x60 cuadros
 C 0x7259 la y y el lado al azar (0x73C5 y 0x743A)
+C 0x725B la y de 0x73C5...
+C 0x7264 ...y el lado de 0x743A
+C 0x726E el lado: a la derecha (0xF0)...
+C 0x7276 ...con B = 0x0F
 C 0x7278 sale el 0x0F
 C 0x727E el enemigo 0x0A, por lotes de 8 (0xE47D)
+C 0x7287 sin lote, p01:72B8
+C 0x728B la espera
 C 0x728E el intervalo segun la dificultad
+C 0x7291 la siguiente: 0x70 - 4 x el numero
+C 0x7298 uno menos del lote
+C 0x729D cada uno, una y de la tabla
 C 0x729E en la fase 9 entre 0x19C y 0x1BC del scroll, otra tabla de alturas
+C 0x72A1 0x72D3 o, en la fase 9 en su tramo, 0x72DB
+C 0x72AD en E
 C 0x72B3 sale el 0x0A
 C 0x72B8 un lote nuevo de 8
+C 0x72BA el lote siguiente
 C 0x72BE C si no es la fase 9 entre 0x19C y 0x1BC
+C 0x72C1 la fase 9...
+C 0x72C8 ...con el scroll entre 0x19C...
+C 0x72CD ...y 0x1BC: NC
 C 0x72E3 el enemigo 7, cada 4 cuadros
+C 0x72E6 cada 4 cuadros
+C 0x72F1 el 7
 C 0x72F8 la posicion al azar (registro R): por arriba o por la derecha
+C 0x72FA tres de cada cuatro...
+C 0x72FF ...por arriba (y 1), la x al azar x 2...
+C 0x7305 ...si no, por la derecha (x 0xF6), la y al azar
 C 0x730B el enemigo 0x21, por lotes de 8 (0xE483), con intervalo segun la dificultad
+C 0x730E sin lote, p01:7335
+C 0x7313 la espera
+C 0x7318 la siguiente: 0x90 - 4 x el numero
+C 0x7320 uno menos
+C 0x7324 la y de la tabla de 0x7344
 C 0x7330 sale el 0x21
+C 0x7335 un lote de 8...
+C 0x7338 ...y 1 cuadro
 C 0x733B C = 1 una vez de cada cuatro (azar)
+C 0x733D 3 de cada 4, C - 1
 C 0x734C el enemigo 0x1C cada 10 cuadros, alternando C
+C 0x734E con el bit 0 de 0xE49D...
+C 0x7354 ...si no, C = 0
+C 0x7359 la espera de 0x0A
+C 0x7364 el 0x1C
 C 0x7369 la posicion siguiente de la tabla de 0x7376
+C 0x736C la siguiente de 16
 C 0x7397 el enemigo 2: mas a menudo con la dificultad 0x0A o mas
+C 0x739A la espera
+C 0x73A6 con dificultad desde 0x0A, cada 4; si no, cada 6
+C 0x73AF la siguiente
+C 0x73B4 su y de la tabla
 C 0x73B7 la y de 0x73C5, a la derecha (0xF7)
+C 0x73BC a la derecha (0xF7)
+C 0x73C0 el 2
 C 0x73CD el enemigo 0x27, de dos en dos cada 8 pasos de scroll
+C 0x73D0 sin nada, fuera
 C 0x73EF el enemigo 6, de tres en tres, por lotes de 8 (0xE497)
 C 0x742B la x siguiente de la tabla de 0x743A (0xE496 & 7)
 C 0x744A los enemigos: las 12 fichas de 0xE800 (0x40 bytes)
@@ -726,7 +1255,6 @@ C 0x601D guarda la mascara de la aparicion poco a poco
 C 0x604E guarda la mascara de la aparicion poco a poco
 C 0x6093 guarda la aparicion poco a poco en marcha (1 o 2)
 C 0x60D0 lee la mascara de la aparicion poco a poco
-C 0x60D4 lee el paso de la aparicion poco a poco
 C 0x60F9 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6120 lee 1 al llegar al final del scroll
 C 0x612E suma_a_hl: HL = HL + A
@@ -836,6 +1364,7 @@ C 0x6ADC apunta a los enemigos (12 de 0x40)
 C 0x6AE7 lee el tipo del enemigo (0: libre)
 C 0x6AEE lee la y del enemigo
 C 0x6B3E lee el tipo del disparo (0: libre)
+C 0x6B5B con IX+18 distinto de 0, no se toca
 C 0x6B6E HL = el punto debil: (IX+13 + IX+3, IX+14 + IX+5), la y en L y la x en H
 C 0x6BAE una bala hacia la nave desde DE (8 mas abajo) (p02:855E)
 C 0x6BCA guarda el jefe vencido (1, o 2 en la fase 4)
@@ -850,11 +1379,8 @@ C 0x6C24 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x6C62 lee_palabra: HL = la palabra A de la tabla HL
 C 0x6C6B escribe_letras: escribe en la VRAM de HL las letras de DE
 C 0x6C70 guarda el marcador cambiado (pausa, mensajes)
-C 0x6CEB el objeto de IX se acaba (p02:8000)
 C 0x6D12 la cabecera GOFE1 (17 bytes de p01:6D54) a 0xEF80
-C 0x6D1A el objeto de IX se acaba (p02:8000)
 C 0x6D20 la cabecera GOFE2 (p01:6D65) a 0xEF80
-C 0x6D28 el objeto de IX se acaba (p02:8000)
 C 0x6D32 lee la ranura del cartucho
 C 0x6D95 guarda la ranura del Game Master 2 (0xFF: no hay)
 C 0x6DB9 lee la ranura del Game Master 2 (0xFF: no hay)
