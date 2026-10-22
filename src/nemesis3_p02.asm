@@ -700,10 +700,24 @@ L_846F:
 	jp 055adh		;8478
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x847b..0x8493  (24 bytes)
-DATA_847B:
-	defb 0b6h,0a8h,0bbh,0a8h,0c0h,0a8h,0c7h,0a8h,0ceh,0a8h,0d3h,0a8h,000h,00ah,0a8h,00ah	; 847b  ................
-	defb 050h,00bh,0f8h,00bh,0a0h,00ch,048h,00dh	; 848b  P.....H.
+; DATOS tabla_847B: tabla que se lee desde HL = 0x847B con un indice
+;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
+;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
+;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
+;   da quien llama; lo leen p02:846F (12 bytes)
+;   0x847b..0x8487  (12 bytes)
+DATA_tabla_847B:
+	defb 0b6h,0a8h,0bbh,0a8h,0c0h,0a8h,0c7h,0a8h,0ceh,0a8h,0d3h,0a8h	; 847b  ............
+
+; ----------------------------------------------------------------------
+; DATOS tabla_8487: tabla que se lee desde HL = 0x8487 con un indice
+;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
+;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
+;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
+;   da quien llama; lo leen p02:8435 (12 bytes)
+;   0x8487..0x8493  (12 bytes)
+DATA_tabla_8487:
+	defb 000h,00ah,0a8h,00ah,050h,00bh,0f8h,00bh,0a0h,00ch,048h,00dh	; 8487  ....P.....H.
 
 ; ======================================================================
 ; CODIGO 0x8493..0x863f  (428 bytes)
@@ -972,16 +986,60 @@ L_8637:
 	ret			;863e
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x863f..0x86b9  (122 bytes)
-DATA_863F:
-	defb 0e6h,03ah,041h,04bh,0ffh,0e6h,03ah,042h,04bh,0ffh,00ch,00dh,0ffh,00bh,039h,018h	; 863f  .:AK..:BK.....9.
-	defb 012h,01eh,016h,000h,000h,020h,027h,016h,023h,0feh,08ah,039h,014h,020h,01fh,025h	; 864f  ..... '.#..9. .%
-	defb 01ah,01fh,026h,016h,000h,000h,017h,006h,0ffh,04ch,039h,021h,01dh,012h,02ah,016h	; 865f  ..&......L9!..*.
-	defb 023h,000h,002h,0ffh,04ah,039h,016h,029h,025h,016h,01fh,015h,000h,021h,01dh,012h	; 866f  #...J9.)%....!..
-	defb 02ah,0feh,08fh,039h,017h,006h,0ffh,0cdh,0adh,086h,0ddh,036h,032h,08fh,0ddh,07eh	; 867f  *..9.......62..~
-	defb 00ch,0ddh,077h,002h,0ddh,036h,00ch,000h,03eh,010h,0ddh,077h,010h,03eh,001h,0ddh	; 868f  ..w..6..>..w.>..
-	defb 077h,013h,0ddh,077h,014h,0ddh,07eh,006h,0e6h,0f8h,0ddh,077h,006h,0c9h,0ddh,077h	; 869f  w..w..~....w...w
-	defb 032h,0ddh,07eh,004h,0e6h,0f8h,0ddh,077h,004h,0c9h	; 86af  2.~....w..
+; DATOS leido_863F: 5 bytes que leen p00:4B07, p00:4B09, p00:4B0C al jugar
+;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
+;   el tamano es lo que se lee seguido); lo leen p00:4B07, p00:4B09, p00:4B0C
+;   (5 bytes)
+;   0x863f..0x8644  (5 bytes)
+DATA_leido_863F:
+	defb 0e6h,03ah,041h,04bh,0ffh	; 863f
+
+; ----------------------------------------------------------------------
+; DATOS texto_8644: texto a la VRAM: direccion, letras ('A' = 0x12), 0xFE y
+;   otra direccion, 0xFF acaba (p00:4B04); lo leen p00:499F (5 bytes)
+;   0x8644..0x8649  (5 bytes)
+DATA_texto_8644:
+	defb 0e6h,03ah,042h,04bh,0ffh	; 8644
+
+; ----------------------------------------------------------------------
+; DATOS letras_8649: letras a la VRAM desde la direccion que ya trae HL, 0xFF
+;   acaba (p00:4B0C); lo leen p00:4AA6 (3 bytes)
+;   0x8649..0x864c  (3 bytes)
+DATA_letras_8649:
+	defb 00ch,00dh,0ffh	; 8649
+
+; ----------------------------------------------------------------------
+; DATOS texto_864C: texto a la VRAM: direccion, letras ('A' = 0x12), 0xFE y
+;   otra direccion, 0xFF acaba (p00:4B04); se solapan 2 bloques: (texto_8659
+;   8659-8668); lo leen p00:4513, p00:4582 (28 bytes)
+;   0x864c..0x8668  (28 bytes)
+DATA_texto_864C:
+	defb 00bh,039h,018h,012h,01eh,016h,000h,000h,020h,027h,016h,023h,0feh,08ah,039h,014h	; 864c  .9...... '.#..9.
+	defb 020h,01fh,025h,01ah,01fh,026h,016h,000h,000h,017h,006h,0ffh	; 865c   .%..&......
+
+; ----------------------------------------------------------------------
+; DATOS texto_8668: texto a la VRAM: direccion, letras ('A' = 0x12), 0xFE y
+;   otra direccion, 0xFF acaba (p00:4B04); lo leen p00:4790, p00:4493 (11
+;   bytes)
+;   0x8668..0x8673  (11 bytes)
+DATA_texto_8668:
+	defb 04ch,039h,021h,01dh,012h,02ah,016h,023h,000h,002h,0ffh	; 8668  L9!..*.#...
+
+; ----------------------------------------------------------------------
+; DATOS texto_8673: texto a la VRAM: direccion, letras ('A' = 0x12), 0xFE y
+;   otra direccion, 0xFF acaba (p00:4B04); lo leen p00:46CD (19 bytes)
+;   0x8673..0x8686  (19 bytes)
+DATA_texto_8673:
+	defb 04ah,039h,016h,029h,025h,016h,01fh,015h,000h,021h,01dh,012h,02ah,0feh,08fh,039h	; 8673  J9.)%....!..*..9
+	defb 017h,006h,0ffh	; 8683
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x8686..0x86b9  (51 bytes)
+DATA_8686:
+	defb 0cdh,0adh,086h,0ddh,036h,032h,08fh,0ddh,07eh,00ch,0ddh,077h,002h,0ddh,036h,00ch	; 8686  ....62..~..w..6.
+	defb 000h,03eh,010h,0ddh,077h,010h,03eh,001h,0ddh,077h,013h,0ddh,077h,014h,0ddh,07eh	; 8696  .>..w.>..w..w..~
+	defb 006h,0e6h,0f8h,0ddh,077h,006h,0c9h,0ddh,077h,032h,0ddh,07eh,004h,0e6h,0f8h,0ddh	; 86a6  ....w...w2.~....
+	defb 077h,004h,0c9h	; 86b6
 
 ; ======================================================================
 ; CODIGO 0x86b9..0x86bf  (6 bytes)
@@ -993,9 +1051,11 @@ L_86B9:
 	call 04093h		;86bc
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x86bf..0x86c7  (8 bytes)
-DATA_86BF:
-	defb 0c7h,086h,02dh,087h,044h,087h,04ch,087h	; 86bf  ..-.D.L.
+; DATOS tabla_86BF: 4 destinos del despachador p00:4093 (call en p02:86BC, el
+;   indice en A): 86C7, 872D, 8744, 874C; lo leen p02:86BC (8 bytes)
+;   0x86bf..0x86c7  (8 bytes)
+DATA_tabla_86BF:
+	defw 086c7h,0872dh,08744h,0874ch	; 86bf  -> L_86C7 L_872D L_8744 L_874C
 
 ; ======================================================================
 ; CODIGO 0x86c7..0x8729  (98 bytes)
@@ -1114,9 +1174,11 @@ L_8794:
 	call 04093h		;879a
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x879d..0x87a5  (8 bytes)
-DATA_879D:
-	defb 0a5h,087h,0b1h,087h,0d9h,087h,0feh,087h	; 879d  ........
+; DATOS tabla_879D: 4 destinos del despachador p00:4093 (call en p02:879A, el
+;   indice en A): 87A5, 87B1, 87D9, 87FE; lo leen p02:879A (8 bytes)
+;   0x879d..0x87a5  (8 bytes)
+DATA_tabla_879D:
+	defw 087a5h,087b1h,087d9h,087feh	; 879d  -> L_87A5 L_87B1 L_87D9 L_87FE
 
 ; ======================================================================
 ; CODIGO 0x87a5..0x8869  (196 bytes)
@@ -1211,9 +1273,11 @@ L_8860:
 	call 04093h		;8866
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8869..0x886d  (4 bytes)
-DATA_8869:
-	defb 06dh,088h,094h,088h	; 8869
+; DATOS tabla_8869: 2 destinos del despachador p00:4093 (call en p02:8866, el
+;   indice en A): 886D, 8894; lo leen p02:8866 (4 bytes)
+;   0x8869..0x886d  (4 bytes)
+DATA_tabla_8869:
+	defw 0886dh,08894h	; 8869  -> L_886D L_8894
 
 ; ======================================================================
 ; CODIGO 0x886d..0x88c4  (87 bytes)
@@ -1269,14 +1333,17 @@ L_88B8:
 	ret			;88c3
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x88c4..0x88e5  (33 bytes)
-DATA_88C4:
+; DATOS leido_88C4: 33 bytes que lee p02:88B9 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p02:88B9 (33 bytes)
+;   0x88c4..0x88e5  (33 bytes)
+DATA_leido_88C4:
 	defb 0e0h,0e1h,0e2h,0e0h,0e1h,0e2h,0e0h,0e1h,0e1h,0e2h,0e0h,0e1h,0e2h,0e0h,0e1h,0e2h	; 88c4  ................
 	defb 0e2h,0e0h,0e1h,0e2h,0e0h,0e1h,0e2h,0e0h,0e0h,0e1h,0e2h,0e0h,0e1h,0e2h,0e0h,0e1h	; 88d4  ................
 	defb 0e0h	; 88e4
 
 ; ======================================================================
-; CODIGO 0x88e5..0x88f4  (15 bytes)
+; CODIGO 0x88e5..0x891f  (58 bytes)
 ; ======================================================================
 
 
@@ -1288,28 +1355,34 @@ L_88E5:
 	add a,(ix+004h)		;88ed
 	ld l,a			;88f0
 	jp 07fbdh		;88f1
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x88f4..0x8919  (37 bytes)
-DATA_88F4:
-	defb 0ddh,07eh,004h,0feh,060h,03eh,001h,006h,0a8h,030h,003h,0afh,006h,0bch,0ddh,077h	; 88f4  .~..`>...0.....w
-	defb 01fh,0ddh,070h,024h,0ddh,036h,010h,018h,0ddh,036h,002h,002h,0ddh,036h,030h,08ch	; 8904  ..p$.6...6...60.
-	defb 0ddh,036h,00bh,001h,0c9h	; 8914
-
-; ======================================================================
-; CODIGO 0x8919..0x891f  (6 bytes)
-; ======================================================================
-
-
+L_88F4:
+	ld a,(ix+004h)		;88f4
+	cp 060h		;88f7
+	ld a,001h		;88f9
+	ld b,0a8h		;88fb
+	jr nc,L_8902		;88fd
+	xor a			;88ff
+	ld b,0bch		;8900
+L_8902:
+	ld (ix+01fh),a		;8902
+	ld (ix+024h),b		;8905
+	ld (ix+010h),018h		;8908
+	ld (ix+002h),002h		;890c
+	ld (ix+030h),08ch		;8910
+	ld (ix+00bh),001h		;8914
+	ret			;8918
 L_8919:
 	ld a,(ix+001h)		;8919
 	call 04093h		;891c
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x891f..0x8931  (18 bytes)
-DATA_891F:
-	defb 05dh,089h,039h,089h,04dh,089h,079h,089h,07fh,089h,0b9h,089h,0dch,089h,039h,089h	; 891f  ].9.M.y.......9.
-	defb 008h,08ah	; 892f
+; DATOS tabla_891F: 9 destinos del despachador p00:4093 (call en p02:891C, el
+;   indice en A): 895D, 8939, 894D, 8979, 897F, 89B9, 89DC, 8939, 8A08; lo
+;   leen p02:891C (18 bytes)
+;   0x891f..0x8931  (18 bytes)
+DATA_tabla_891F:
+	defw 0895dh,08939h,0894dh,08979h,0897fh,089b9h,089dch,08939h	; 891f
+	defw 08a08h	; 892f  -> L_8A08
 
 ; ======================================================================
 ; CODIGO 0x8931..0x8a46  (277 bytes)
@@ -1451,9 +1524,11 @@ L_8A40:
 	call 04093h		;8a43
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8a46..0x8a4c  (6 bytes)
-DATA_8A46:
-	defb 04ch,08ah,05eh,08ah,075h,08ah	; 8a46
+; DATOS tabla_8A46: 3 destinos del despachador p00:4093 (call en p02:8A43, el
+;   indice en A): 8A4C, 8A5E, 8A75; lo leen p02:8A43 (6 bytes)
+;   0x8a46..0x8a4c  (6 bytes)
+DATA_tabla_8A46:
+	defw 08a4ch,08a5eh,08a75h	; 8a46  -> L_8A4C L_8A5E L_8A75
 
 ; ======================================================================
 ; CODIGO 0x8a4c..0x8af0  (164 bytes)
@@ -1539,11 +1614,37 @@ L_8ADF:
 	ret			;8aef
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8af0..0x8b18  (40 bytes)
-DATA_8AF0:
-	defb 0fch,08ah,004h,08bh,008h,08bh,000h,08bh,006h,08bh,010h,08bh,0d0h,0d1h,0d2h,0d3h	; 8af0  ................
-	defb 0d4h,0d5h,0d6h,0d7h,0d0h,0d3h,0d4h,0d7h,0d0h,0d1h,0d2h,0d1h,0d2h,0d1h,0d2h,0d3h	; 8b00  ................
-	defb 0d4h,0d5h,0d6h,0d5h,0d6h,0d5h,0d6h,0d7h	; 8b10  ........
+; DATOS tabla_8AF0: tabla que se lee desde HL = 0x8AF0 con un indice
+;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
+;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
+;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
+;   da quien llama; lo leen p02:8AC5 (6 bytes)
+;   0x8af0..0x8af6  (6 bytes)
+DATA_tabla_8AF0:
+	defb 0fch,08ah,004h,08bh,008h,08bh	; 8af0
+
+; ----------------------------------------------------------------------
+; DATOS tabla_8AF6: tabla que se lee desde HL = 0x8AF6 con un indice
+;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
+;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
+;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
+;   da quien llama; lo leen p02:8AD3 (6 bytes)
+;   0x8af6..0x8afc  (6 bytes)
+DATA_tabla_8AF6:
+	defb 000h,08bh,006h,08bh,010h,08bh	; 8af6
+
+; ----------------------------------------------------------------------
+; DATOS leido_8AFC: 12 bytes que lee p02:8AE6 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p02:8AE6 (12 bytes)
+;   0x8afc..0x8b08  (12 bytes)
+DATA_leido_8AFC:
+	defb 0d0h,0d1h,0d2h,0d3h,0d4h,0d5h,0d6h,0d7h,0d0h,0d3h,0d4h,0d7h	; 8afc  ............
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x8b08..0x8b18  (16 bytes)
+DATA_8B08:
+	defb 0d0h,0d1h,0d2h,0d1h,0d2h,0d1h,0d2h,0d3h,0d4h,0d5h,0d6h,0d5h,0d6h,0d5h,0d6h,0d7h	; 8b08  ................
 
 ; ======================================================================
 ; CODIGO 0x8b18..0x8b35  (29 bytes)
@@ -1565,9 +1666,11 @@ L_8B2C:
 	call 04093h		;8b32
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8b35..0x8b3d  (8 bytes)
-DATA_8B35:
-	defb 03dh,08bh,059h,08bh,06fh,08bh,06fh,08bh	; 8b35  =.Y.o.o.
+; DATOS tabla_8B35: 4 destinos del despachador p00:4093 (call en p02:8B32, el
+;   indice en A): 8B3D, 8B59, 8B6F, 8B6F; lo leen p02:8B32 (8 bytes)
+;   0x8b35..0x8b3d  (8 bytes)
+DATA_tabla_8B35:
+	defw 08b3dh,08b59h,08b6fh,08b6fh	; 8b35  -> L_8B3D L_8B59 L_8B6F L_8B6F
 
 ; ======================================================================
 ; CODIGO 0x8b3d..0x8b7a  (61 bytes)
@@ -1607,25 +1710,42 @@ L_8B70:
 	ret			;8b79
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8b7a..0x8b9a  (32 bytes)
-DATA_8B7A:
-	defb 0a0h,0a4h,0ddh,036h,001h,000h,0ddh,036h,010h,00fh,0ddh,036h,002h,028h,0ddh,036h	; 8b7a  ...6...6...6.(.6
-	defb 006h,0f0h,0ddh,07eh,00ch,0b7h,028h,004h,0ddh,036h,031h,008h,0cdh,0c8h,078h,0c9h	; 8b8a  ...~..(..61...x.
+; DATOS leido_8B7A: 2 bytes que lee p00:4A73 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:4A73 (2 bytes)
+;   0x8b7a..0x8b7c  (2 bytes)
+DATA_leido_8B7A:
+	defb 0a0h,0a4h	; 8b7a
 
 ; ======================================================================
-; CODIGO 0x8b9a..0x8ba3  (9 bytes)
+; CODIGO 0x8b7c..0x8ba3  (39 bytes)
 ; ======================================================================
 
 
+L_8B7C:
+	ld (ix+001h),000h		;8b7c
+	ld (ix+010h),00fh		;8b80
+	ld (ix+002h),028h		;8b84
+	ld (ix+006h),0f0h		;8b88
+	ld a,(ix+00ch)		;8b8c
+	or a			;8b8f
+	jr z,L_8B96		;8b90
+	ld (ix+031h),008h		;8b92
+L_8B96:
+	call 078c8h		;8b96
+L_8B99:
+	ret			;8b99
 L_8B9A:
 	call L_8B70		;8b9a
 	ld a,(ix+001h)		;8b9d
 	call 04093h		;8ba0
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8ba3..0x8bab  (8 bytes)
-DATA_8BA3:
-	defb 0abh,08bh,0c1h,08bh,0d6h,08bh,0dbh,08bh	; 8ba3  ........
+; DATOS tabla_8BA3: 4 destinos del despachador p00:4093 (call en p02:8BA0, el
+;   indice en A): 8BAB, 8BC1, 8BD6, 8BDB; lo leen p02:8BA0 (8 bytes)
+;   0x8ba3..0x8bab  (8 bytes)
+DATA_tabla_8BA3:
+	defw 08babh,08bc1h,08bd6h,08bdbh	; 8ba3  -> L_8BAB L_8BC1 L_8BD6 L_8BDB
 
 ; ======================================================================
 ; CODIGO 0x8bab..0x8be7  (60 bytes)
@@ -1665,8 +1785,12 @@ L_8BDC:
 	jp 06e40h		;8be4
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8be7..0x8c07  (32 bytes)
-DATA_8BE7:
+; DATOS leido_8BE7: 32 bytes que leen p01:6E46, p01:6E48, p01:6E4A, p01:6E4C
+;   al jugar (medido ejecutando el cartucho, tools/cobertura.py y
+;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
+;   p01:6E46, p01:6E48, p01:6E4A, p01:6E4C (32 bytes)
+;   0x8be7..0x8c07  (32 bytes)
+DATA_leido_8BE7:
 	defb 080h,0feh,000h,0ffh,080h,0feh,000h,001h,080h,0ffh,000h,0ffh,080h,0ffh,000h,001h	; 8be7  ................
 	defb 080h,000h,000h,0ffh,080h,000h,000h,001h,080h,000h,000h,000h,080h,0feh,000h,000h	; 8bf7  ................
 
@@ -1714,9 +1838,27 @@ L_8C35:
 	ret			;8c51
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8c52..0x8c5a  (8 bytes)
-DATA_8C52:
-	defb 005h,007h,005h,007h,002h,008h,002h,008h	; 8c52  ........
+; DATOS tabla_8C52: tabla que se lee desde HL = 0x8C52 con un indice
+;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
+;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
+;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
+;   da quien llama; lo leen p02:8C41 (1 bytes)
+;   0x8c52..0x8c53  (1 bytes)
+DATA_tabla_8C52:
+	defb 005h	; 8c52
+
+; ----------------------------------------------------------------------
+; DATOS leido_8C53: 5 bytes que leen p02:8C49, p02:8C47 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p02:8C49, p02:8C47 (5 bytes)
+;   0x8c53..0x8c58  (5 bytes)
+DATA_leido_8C53:
+	defb 007h,005h,007h,002h,008h	; 8c53
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x8c58..0x8c5a  (2 bytes)
+DATA_8C58:
+	defb 002h,008h	; 8c58
 
 ; ======================================================================
 ; CODIGO 0x8c5a..0x8c75  (27 bytes)
@@ -1740,8 +1882,13 @@ L_8C5D:
 	ret			;8c74
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8c75..0x8c9f  (42 bytes)
-DATA_8C75:
+; DATOS tabla_8C75: tabla que se lee desde HL = 0x8C75 con un indice
+;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
+;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
+;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
+;   da quien llama; lo leen p02:8C6A (42 bytes)
+;   0x8c75..0x8c9f  (42 bytes)
+DATA_tabla_8C75:
 	defb 080h,001h,080h,002h,080h,005h,080h,006h,080h,003h,080h,004h,080h,007h,080h,008h	; 8c75  ................
 	defb 080h,001h,080h,080h,002h,080h,003h,080h,080h,004h,080h,001h,080h,002h,080h,005h	; 8c85  ................
 	defb 080h,006h,080h,003h,080h,004h,080h,007h,080h,008h	; 8c95  ..........
@@ -1756,9 +1903,11 @@ L_8C9F:
 	call 04093h		;8ca2
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8ca5..0x8cab  (6 bytes)
-DATA_8CA5:
-	defb 0abh,08ch,0c0h,08ch,070h,08dh	; 8ca5
+; DATOS tabla_8CA5: 3 destinos del despachador p00:4093 (call en p02:8CA2, el
+;   indice en A): 8CAB, 8CC0, 8D70; lo leen p02:8CA2 (6 bytes)
+;   0x8ca5..0x8cab  (6 bytes)
+DATA_tabla_8CA5:
+	defw 08cabh,08cc0h,08d70h	; 8ca5  -> L_8CAB L_8CC0 L_8D70
 
 ; ======================================================================
 ; CODIGO 0x8cab..0x8d1e  (115 bytes)
@@ -1824,17 +1973,36 @@ L_8CE7:
 	ret			;8d1d
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8d1e..0x8d70  (82 bytes)
-DATA_8D1E:
-	defb 010h,000h,000h,000h,010h,028h,000h,000h,0f8h,008h,000h,000h,0f8h,028h,000h,000h	; 8d1e  .....(.......(..
-	defb 00ch,000h,000h,000h,00ch,028h,000h,000h,010h,004h,000h,000h,010h,030h,000h,000h	; 8d2e  .....(.......0..
-	defb 010h,000h,000h,000h,000h,000h,010h,028h,000h,000h,00ch,000h,000h,000h,000h,000h	; 8d3e  .......(........
-	defb 00ch,028h,000h,000h,010h,000h,000h,000h,010h,028h,000h,000h,0f8h,008h,000h,000h	; 8d4e  .(.......(......
-	defb 0f8h,028h,000h,000h,00ch,000h,000h,000h,00ch,028h,000h,000h,010h,004h,000h,000h	; 8d5e  .(.......(......
-	defb 010h,030h	; 8d6e
+; DATOS tabla_8D1E: tabla que se lee desde HL = 0x8D1E con un indice
+;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
+;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
+;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
+;   da quien llama; lo leen p02:8D03 (1 bytes)
+;   0x8d1e..0x8d1f  (1 bytes)
+DATA_tabla_8D1E:
+	defb 010h	; 8d1e
+
+; ----------------------------------------------------------------------
+; DATOS leido_8D1F: 69 bytes que leen p02:8D0B, p02:8D09 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido, con 44 sin leer entre lecturas de la
+;   misma rutina: entradas de la misma tabla que las partidas no han pedido);
+;   lo leen p02:8D0B, p02:8D09 (69 bytes)
+;   0x8d1f..0x8d64  (69 bytes)
+DATA_leido_8D1F:
+	defb 000h,000h,000h,010h,028h,000h,000h,0f8h,008h,000h,000h,0f8h,028h,000h,000h,00ch	; 8d1f  ....(.......(...
+	defb 000h,000h,000h,00ch,028h,000h,000h,010h,004h,000h,000h,010h,030h,000h,000h,010h	; 8d2f  ....(.......0...
+	defb 000h,000h,000h,000h,000h,010h,028h,000h,000h,00ch,000h,000h,000h,000h,000h,00ch	; 8d3f  ......(.........
+	defb 028h,000h,000h,010h,000h,000h,000h,010h,028h,000h,000h,0f8h,008h,000h,000h,0f8h	; 8d4f  (.......(.......
+	defb 028h,000h,000h,00ch,000h	; 8d5f
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x8d64..0x8d70  (12 bytes)
+DATA_8D64:
+	defb 000h,000h,00ch,028h,000h,000h,010h,004h,000h,000h,010h,030h	; 8d64  ...(.......0
 
 ; ======================================================================
-; CODIGO 0x8d70..0x8d81  (17 bytes)
+; CODIGO 0x8d70..0x8dd4  (100 bytes)
 ; ======================================================================
 
 
@@ -1846,17 +2014,11 @@ L_8D70:
 	call L_8C5A		;8d7a
 	dec (ix+001h)		;8d7d
 	ret			;8d80
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8d81..0x8d87  (6 bytes)
-DATA_8D81:
-	defb 03eh,070h,0cdh,065h,078h,0c9h	; 8d81
-
-; ======================================================================
-; CODIGO 0x8d87..0x8dd4  (77 bytes)
-; ======================================================================
-
-
+L_8D81:
+	ld a,070h		;8d81
+	call 07865h		;8d83
+L_8D86:
+	ret			;8d86
 L_8D87:
 	ld hl,0e4d1h		;8d87
 	inc (hl)			;8d8a
@@ -1888,9 +2050,11 @@ L_8DC5:
 	call 04093h		;8dd1
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8dd4..0x8dd8  (4 bytes)
-DATA_8DD4:
-	defb 0d8h,08dh,008h,08eh	; 8dd4
+; DATOS tabla_8DD4: 2 destinos del despachador p00:4093 (call en p02:8DD1, el
+;   indice en A): 8DD8, 8E08; lo leen p02:8DD1 (4 bytes)
+;   0x8dd4..0x8dd8  (4 bytes)
+DATA_tabla_8DD4:
+	defw 08dd8h,08e08h	; 8dd4  -> L_8DD8 L_8E08
 
 ; ======================================================================
 ; CODIGO 0x8dd8..0x8e26  (78 bytes)
@@ -1993,9 +2157,24 @@ L_8E4C:
 	ret			;8e79
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8e7a..0x8e7e  (4 bytes)
-DATA_8E7A:
-	defb 07eh,080h,086h,088h	; 8e7a
+; DATOS tabla_8E7A: tabla que se lee desde HL = 0x8E7A con un indice
+;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
+;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
+;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
+;   da quien llama; lo leen p02:8E6F (1 bytes)
+;   0x8e7a..0x8e7b  (1 bytes)
+DATA_tabla_8E7A:
+	defb 07eh	; 8e7a
+
+; ----------------------------------------------------------------------
+; DATOS leido_8E7B: 3 bytes que lee p02:8E75 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido, con 1 sin leer entre lecturas de la misma rutina: entradas
+;   de la misma tabla que las partidas no han pedido); lo leen p02:8E75 (3
+;   bytes)
+;   0x8e7b..0x8e7e  (3 bytes)
+DATA_leido_8E7B:
+	defb 080h,086h,088h	; 8e7b
 
 ; ======================================================================
 ; CODIGO 0x8e7e..0x8e84  (6 bytes)
@@ -2007,9 +2186,11 @@ L_8E7E:
 	call 04093h		;8e81
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8e84..0x8e88  (4 bytes)
-DATA_8E84:
-	defb 088h,08eh,0c8h,08eh	; 8e84
+; DATOS tabla_8E84: 2 destinos del despachador p00:4093 (call en p02:8E81, el
+;   indice en A): 8E88, 8EC8; lo leen p02:8E81 (4 bytes)
+;   0x8e84..0x8e88  (4 bytes)
+DATA_tabla_8E84:
+	defw 08e88h,08ec8h	; 8e84  -> L_8E88 L_8EC8
 
 ; ======================================================================
 ; CODIGO 0x8e88..0x8ec0  (56 bytes)
@@ -2046,12 +2227,27 @@ L_8E88:
 	ret			;8ebf
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8ec0..0x8ec8  (8 bytes)
-DATA_8EC0:
-	defb 00ch,0f8h,02ch,0f8h,000h,010h,02ch,010h	; 8ec0  ..,...,.
+; DATOS tabla_8EC0: tabla que se lee desde HL = 0x8EC0 con un indice
+;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
+;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
+;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
+;   da quien llama; lo leen p02:8EA5 (2 bytes)
+;   0x8ec0..0x8ec2  (2 bytes)
+DATA_tabla_8EC0:
+	defb 00ch,0f8h	; 8ec0
+
+; ----------------------------------------------------------------------
+; DATOS leido_8EC2: 6 bytes que leen p02:8EAB, p02:8EAD al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido, con 2 sin leer entre lecturas de la misma
+;   rutina: entradas de la misma tabla que las partidas no han pedido); lo
+;   leen p02:8EAB, p02:8EAD (6 bytes)
+;   0x8ec2..0x8ec8  (6 bytes)
+DATA_leido_8EC2:
+	defb 02ch,0f8h,000h,010h,02ch,010h	; 8ec2
 
 ; ======================================================================
-; CODIGO 0x8ec8..0x8ed5  (13 bytes)
+; CODIGO 0x8ec8..0x8fdd  (277 bytes)
 ; ======================================================================
 
 
@@ -2062,19 +2258,23 @@ L_8EC8:
 	call L_8C5A		;8ece
 	dec (ix+001h)		;8ed1
 	ret			;8ed4
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8ed5..0x8efe  (41 bytes)
-DATA_8ED5:
-	defb 0ddh,07eh,004h,0feh,060h,03eh,002h,038h,001h,0afh,0ddh,077h,01fh,0ddh,036h,032h	; 8ed5  .~..`>.8...w..62
-	defb 0c2h,0ddh,036h,013h,001h,0ddh,036h,014h,001h,0ddh,036h,010h,011h,0ddh,036h,002h	; 8ee5  ..6...6...6...6.
-	defb 004h,0ddh,036h,024h,002h,0cdh,012h,059h,0c9h	; 8ef5  ..6$...Y.
-
-; ======================================================================
-; CODIGO 0x8efe..0x8fc0  (194 bytes)
-; ======================================================================
-
-
+L_8ED5:
+	ld a,(ix+004h)		;8ed5
+	cp 060h		;8ed8
+	ld a,002h		;8eda
+	jr c,L_8EDF		;8edc
+	xor a			;8ede
+L_8EDF:
+	ld (ix+01fh),a		;8edf
+	ld (ix+032h),0c2h		;8ee2
+	ld (ix+013h),001h		;8ee6
+	ld (ix+014h),001h		;8eea
+	ld (ix+010h),011h		;8eee
+	ld (ix+002h),004h		;8ef2
+	ld (ix+024h),002h		;8ef6
+	call 05912h		;8efa
+L_8EFD:
+	ret			;8efd
 L_8EFE:
 	call L_8F6F		;8efe
 	call L_8F55		;8f01
@@ -2168,13 +2368,46 @@ L_8FB1:
 	ld (ix+00ah),h		;8fb7
 	call L_8221		;8fba
 	jp 05880h		;8fbd
+L_8FC0:
+	ld (ix+002h),002h		;8fc0
+	ld (ix+01ch),000h		;8fc4
+	ld (ix+010h),008h		;8fc8
+	ld (ix+031h),00fh		;8fcc
+	ret			;8fd0
+L_8FD1:
+	ld (ix+002h),002h		;8fd1
+	xor a			;8fd5
+	ld (ix+01ch),a		;8fd6
+	ld (ix+010h),a		;8fd9
+	ret			;8fdc
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8fc0..0x8fef  (47 bytes)
-DATA_8FC0:
-	defb 0ddh,036h,002h,002h,0ddh,036h,01ch,000h,0ddh,036h,010h,008h,0ddh,036h,031h,00fh	; 8fc0  .6...6...6...61.
-	defb 0c9h,0ddh,036h,002h,002h,0afh,0ddh,077h,01ch,0ddh,077h,010h,0c9h,004h,060h,005h	; 8fd0  ..6....w..w...`.
-	defb 002h,0f8h,00fh,002h,0fch,007h,004h,0ech,008h,002h,0f0h,00fh,002h,0f4h,00fh	; 8fe0  ...............
+; DATOS leido_8FDD: 6 bytes que leen p02:9013, p02:9018, p02:901D al jugar
+;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
+;   el tamano es lo que se lee seguido); lo leen p02:9013, p02:9018, p02:901D
+;   (6 bytes)
+;   0x8fdd..0x8fe3  (6 bytes)
+DATA_leido_8FDD:
+	defb 004h,060h,005h,002h,0f8h,00fh	; 8fdd
+
+; ----------------------------------------------------------------------
+; DATOS tabla_8FE3: tabla que se lee desde HL = 0x8FE3 con un indice
+;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
+;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
+;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
+;   da quien llama; lo leen p02:900A (1 bytes)
+;   0x8fe3..0x8fe4  (1 bytes)
+DATA_tabla_8FE3:
+	defb 002h	; 8fe3
+
+; ----------------------------------------------------------------------
+; DATOS leido_8FE4: 11 bytes que leen p02:9018, p02:901D, p02:9013 al jugar
+;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
+;   el tamano es lo que se lee seguido); lo leen p02:9018, p02:901D, p02:9013
+;   (11 bytes)
+;   0x8fe4..0x8fef  (11 bytes)
+DATA_leido_8FE4:
+	defb 0fch,007h,004h,0ech,008h,002h,0f0h,00fh,002h,0f4h,00fh	; 8fe4  ...........
 
 ; ======================================================================
 ; CODIGO 0x8fef..0x904d  (94 bytes)
@@ -2237,17 +2470,23 @@ L_9045:
 	ret			;904c
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x904d..0x9075  (40 bytes)
+; DATOS sin identificar  0x904d..0x9067  (26 bytes)
 DATA_904D:
 	defb 03ah,00bh,000h,017h,006h,080h,038h,002h,006h,000h,0ddh,07eh,004h,0feh,060h,030h	; 904d  :.....8....~..`0
-	defb 002h,0cbh,0e8h,0ddh,070h,01fh,03eh,005h,018h,002h,03eh,009h,0ddh,077h,010h,03eh	; 905d  ....p.>...>..w.>
-	defb 002h,0ddh,077h,013h,0ddh,077h,014h,0c9h	; 906d  ..w..w..
+	defb 002h,0cbh,0e8h,0ddh,070h,01fh,03eh,005h,018h,002h	; 905d  ....p.>...
 
 ; ======================================================================
-; CODIGO 0x9075..0x9081  (12 bytes)
+; CODIGO 0x9067..0x9179  (274 bytes)
 ; ======================================================================
 
 
+L_9067:
+	ld a,009h		;9067
+	ld (ix+010h),a		;9069
+	ld a,002h		;906c
+	ld (ix+013h),a		;906e
+	ld (ix+014h),a		;9071
+	ret			;9074
 L_9075:
 	call 0711bh		;9075
 	jr z,L_9075		;9078
@@ -2255,22 +2494,41 @@ L_9075:
 	ld hl,0e468h		;907b
 	inc (hl)			;907e
 	jr L_9075		;907f
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9081..0x90be  (61 bytes)
-DATA_9081:
-	defb 0ddh,036h,013h,002h,0ddh,036h,014h,002h,0ddh,036h,010h,00bh,0cdh,094h,090h,006h	; 9081  .6...6...6......
-	defb 000h,018h,02dh,0cdh,0abh,090h,0ddh,036h,027h,000h,0cdh,020h,091h,0cbh,02fh,04fh	; 9091  ..-....6'.. ../O
-	defb 03ah,068h,0e4h,0e6h,003h,081h,0ddh,077h,015h,0c9h,0ddh,04eh,01fh,0afh,0cbh,069h	; 90a1  :h.....w...N...i
-	defb 028h,002h,03eh,002h,0cbh,071h,020h,001h,03ch,0ddh,077h,026h,0c9h	; 90b1  (.>..q .<.w&.
-
-; ======================================================================
-; CODIGO 0x90be..0x9179  (187 bytes)
-; ======================================================================
-
-
+L_9081:
+	ld (ix+013h),002h		;9081
+	ld (ix+014h),002h		;9085
+	ld (ix+010h),00bh		;9089
+	call L_9094		;908d
+	ld b,000h		;9090
+	jr L_90C1		;9092
+L_9094:
+	call L_90AB		;9094
+	ld (ix+027h),000h		;9097
+	call L_9120		;909b
+L_909E:
+	sra a		;909e
+	ld c,a			;90a0
+	ld a,(0e468h)		;90a1
+	and 003h		;90a4
+	add a,c			;90a6
+	ld (ix+015h),a		;90a7
+	ret			;90aa
+L_90AB:
+	ld c,(ix+01fh)		;90ab
+	xor a			;90ae
+	bit 5,c		;90af
+	jr z,L_90B5		;90b1
+	ld a,002h		;90b3
+L_90B5:
+	bit 6,c		;90b5
+	jr nz,L_90BA		;90b7
+	inc a			;90b9
+L_90BA:
+	ld (ix+026h),a		;90ba
+	ret			;90bd
 L_90BE:
 	call 0b348h		;90be
+L_90C1:
 	ld a,(0e361h)		;90c1
 	call L_90DA		;90c4
 	add a,a			;90c7
@@ -2324,6 +2582,7 @@ L_9117:
 	ld e,(ix+004h)		;9117
 	ld d,(ix+006h)		;911a
 	call L_855E		;911d
+L_9120:
 	ld hl,09179h		;9120
 	ld a,(0e366h)		;9123
 	dec a			;9126
@@ -2380,15 +2639,57 @@ L_9175:
 	ret			;9178
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9179..0x91b9  (64 bytes)
-DATA_9179:
-	defb 050h,040h,030h,028h,024h,022h,020h,01eh,01ch,01ah,018h,016h,014h,012h,010h,00ch	; 9179  P@0($" .........
-	defb 000h,000h,000h,000h,002h,002h,005h,005h,067h,064h,061h,05eh,000h,000h,000h,000h	; 9189  ........gda^....
-	defb 05bh,058h,055h,052h,000h,000h,000h,000h,030h,033h,036h,039h,000h,000h,000h,000h	; 9199  [XUR....0369....
-	defb 077h,074h,071h,06eh,084h,08ah,087h,08dh,084h,084h,061h,061h,0ddh,035h,015h,0c0h	; 91a9  wtqn......aa.5..
+; DATOS resto_9179: lo apuntan con el banco puesto p02:9120 (0x9179); el
+;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
+;   p02:9120 (1 bytes)
+;   0x9179..0x917a  (1 bytes)
+DATA_resto_9179:
+	defb 050h	; 9179
+
+; ----------------------------------------------------------------------
+; DATOS leido_917A: 9 bytes que lee p02:9135 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido, con 3 sin leer entre lecturas de la misma rutina: entradas
+;   de la misma tabla que las partidas no han pedido); lo leen p02:9135 (9
+;   bytes)
+;   0x917a..0x9183  (9 bytes)
+DATA_leido_917A:
+	defb 040h,030h,028h,024h,022h,020h,01eh,01ch,01ah	; 917a  @0($" ...
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x9183..0x9185  (2 bytes)
+DATA_9183:
+	defb 018h,016h	; 9183
+
+; ----------------------------------------------------------------------
+; DATOS tabla_9185: tabla que se lee desde HL = 0x9185 con un indice
+;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
+;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
+;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
+;   da quien llama; lo leen p02:90CC (9 bytes)
+;   0x9185..0x918e  (9 bytes)
+DATA_tabla_9185:
+	defb 014h,012h,010h,00ch,000h,000h,000h,000h,002h	; 9185  .........
+
+; ----------------------------------------------------------------------
+; DATOS leido_918E: 39 bytes que lee p02:90D4 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido, con 17 sin leer entre lecturas de la misma rutina:
+;   entradas de la misma tabla que las partidas no han pedido); lo leen
+;   p02:90D4 (39 bytes)
+;   0x918e..0x91b5  (39 bytes)
+DATA_leido_918E:
+	defb 002h,005h,005h,067h,064h,061h,05eh,000h,000h,000h,000h,05bh,058h,055h,052h,000h	; 918e  ...gda^....[XUR.
+	defb 000h,000h,000h,030h,033h,036h,039h,000h,000h,000h,000h,077h,074h,071h,06eh,084h	; 919e  ...0369....wtqn.
+	defb 08ah,087h,08dh,084h,084h,061h,061h	; 91ae
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x91b5..0x91b9  (4 bytes)
+DATA_91B5:
+	defb 0ddh,035h,015h,0c0h	; 91b5
 
 ; ======================================================================
-; CODIGO 0x91b9..0x91d5  (28 bytes)
+; CODIGO 0x91b9..0x920b  (82 bytes)
 ; ======================================================================
 
 
@@ -2406,14 +2707,58 @@ L_91C5:
 	call 07844h		;91ce
 	ld (ix+015h),a		;91d1
 	ret			;91d4
+L_91D5:
+	call 07844h		;91d5
+L_91D8:
+	ld b,000h		;91d8
+	ld a,(ix+004h)		;91da
+	cp 060h		;91dd
+	jr c,L_91E2		;91df
+	inc b			;91e1
+L_91E2:
+	ld (ix+025h),b		;91e2
+	ld a,(0e506h)		;91e5
+	ld (ix+017h),a		;91e8
+	ld (ix+013h),002h		;91eb
+	ld (ix+014h),002h		;91ef
+	call 078c8h		;91f3
+L_91F6:
+	ld de,0fc00h		;91f6
+	call 078b3h		;91f9
+L_91FC:
+	ld a,(0e361h)		;91fc
+	dec a			;91ff
+	ld hl,0920bh		;9200
+	call 04089h		;9203
+L_9206:
+	ld a,(hl)			;9206
+	ld (ix+032h),a		;9207
+	ret			;920a
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x91d5..0x9215  (64 bytes)
-DATA_91D5:
-	defb 0cdh,044h,078h,006h,000h,0ddh,07eh,004h,0feh,060h,038h,001h,004h,0ddh,070h,025h	; 91d5  .Dx...~..`8...p%
-	defb 03ah,006h,0e5h,0ddh,077h,017h,0ddh,036h,013h,002h,0ddh,036h,014h,002h,0cdh,0c8h	; 91e5  :...w..6...6....
-	defb 078h,011h,000h,0fch,0cdh,0b3h,078h,03ah,061h,0e3h,03dh,021h,00bh,092h,0cdh,089h	; 91f5  x.....x:a.=!....
-	defb 040h,07eh,0ddh,077h,032h,0c9h,000h,009h,012h,000h,000h,000h,06ah,000h,06ch,000h	; 9205  @~.w2.......j.l.
+; DATOS tabla_920B: tabla que se lee desde HL = 0x920B con un indice
+;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
+;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
+;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
+;   da quien llama; lo leen p02:9200 (2 bytes)
+;   0x920b..0x920d  (2 bytes)
+DATA_tabla_920B:
+	defb 000h,009h	; 920b
+
+; ----------------------------------------------------------------------
+; DATOS leido_920D: 7 bytes que lee p02:9206 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido, con 4 sin leer entre lecturas de la misma rutina: entradas
+;   de la misma tabla que las partidas no han pedido); lo leen p02:9206 (7
+;   bytes)
+;   0x920d..0x9214  (7 bytes)
+DATA_leido_920D:
+	defb 012h,000h,000h,000h,06ah,000h,06ch	; 920d
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x9214..0x9215  (1 bytes)
+DATA_9214:
+	defb 000h	; 9214
 
 ; ======================================================================
 ; CODIGO 0x9215..0x9221  (12 bytes)
@@ -2427,9 +2772,11 @@ L_9215:
 	call 04093h		;921e
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9221..0x922b  (10 bytes)
-DATA_9221:
-	defb 02bh,092h,05ch,092h,075h,092h,09fh,092h,0cah,092h	; 9221  +.\.u.....
+; DATOS tabla_9221: 5 destinos del despachador p00:4093 (call en p02:921E, el
+;   indice en A): 922B, 925C, 9275, 929F, 92CA; lo leen p02:921E (10 bytes)
+;   0x9221..0x922b  (10 bytes)
+DATA_tabla_9221:
+	defw 0922bh,0925ch,09275h,0929fh,092cah	; 9221
 
 ; ======================================================================
 ; CODIGO 0x922b..0x92db  (176 bytes)
@@ -2516,13 +2863,27 @@ L_92CB:
 	jp 07f7ch		;92d8
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x92db..0x92ef  (20 bytes)
+; DATOS sin identificar  0x92db..0x92df  (4 bytes)
 DATA_92DB:
-	defb 000h,001h,009h,00ah,012h,013h,009h,00ah,009h,00ah,009h,00ah,06ah,06bh,000h,000h	; 92db  ............jk..
-	defb 06ch,06dh,000h,000h	; 92eb
+	defb 000h,001h,009h,00ah	; 92db
+
+; ----------------------------------------------------------------------
+; DATOS leido_92DF: 14 bytes que lee p00:4A73 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido, con 8 sin leer entre lecturas de la misma rutina: entradas
+;   de la misma tabla que las partidas no han pedido); lo leen p00:4A73 (14
+;   bytes)
+;   0x92df..0x92ed  (14 bytes)
+DATA_leido_92DF:
+	defb 012h,013h,009h,00ah,009h,00ah,009h,00ah,06ah,06bh,000h,000h,06ch,06dh	; 92df  ........jk..lm
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x92ed..0x92ef  (2 bytes)
+DATA_92ED:
+	defb 000h,000h	; 92ed
 
 ; ======================================================================
-; CODIGO 0x92ef..0x92fe  (15 bytes)
+; CODIGO 0x92ef..0x954c  (605 bytes)
 ; ======================================================================
 
 
@@ -2534,19 +2895,26 @@ L_92EF:
 	ret nz			;92f7
 	call 07844h		;92f8
 	jp 06e1dh		;92fb
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x92fe..0x932a  (44 bytes)
-DATA_92FE:
-	defb 0ddh,07eh,004h,0feh,050h,011h,0c0h,0ffh,001h,08ch,000h,038h,006h,011h,040h,000h	; 92fe  .~..P......8..@.
-	defb 001h,070h,001h,0ddh,070h,027h,0ddh,071h,030h,0cdh,0f3h,07eh,0ddh,036h,025h,00ah	; 930e  .p..p'.q0..~.6%.
-	defb 0cdh,046h,094h,0cdh,0cdh,078h,011h,000h,002h,0cdh,0b3h,078h	; 931e  .F...x.....x
-
-; ======================================================================
-; CODIGO 0x932a..0x954c  (546 bytes)
-; ======================================================================
-
-
+L_92FE:
+	ld a,(ix+004h)		;92fe
+	cp 050h		;9301
+	ld de,0ffc0h		;9303
+	ld bc,0008ch		;9306
+	jr c,L_9311		;9309
+	ld de,00040h		;930b
+	ld bc,00170h		;930e
+L_9311:
+	ld (ix+027h),b		;9311
+	ld (ix+030h),c		;9314
+	call 07ef3h		;9317
+L_931A:
+	ld (ix+025h),00ah		;931a
+	call L_9446		;931e
+L_9321:
+	call 078cdh		;9321
+L_9324:
+	ld de,00200h		;9324
+	call 078b3h		;9327
 L_932A:
 	ld a,r		;932a
 	and 01fh		;932c
@@ -2814,12 +3182,15 @@ L_9546:
 	jp 07f7ch		;9549
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x954c..0x9554  (8 bytes)
-DATA_954C:
+; DATOS leido_954C: 8 bytes que lee p00:4A73 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:4A73 (8 bytes)
+;   0x954c..0x9554  (8 bytes)
+DATA_leido_954C:
 	defb 088h,08ch,07ch,080h,070h,074h,064h,068h	; 954c  ..|.ptdh
 
 ; ======================================================================
-; CODIGO 0x9554..0x95d9  (133 bytes)
+; CODIGO 0x9554..0x9687  (307 bytes)
 ; ======================================================================
 
 
@@ -2905,17 +3276,14 @@ L_95D4:
 	call 0a8a1h		;95d4
 	or a			;95d7
 	ret			;95d8
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x95d9..0x95e5  (12 bytes)
-DATA_95D9:
-	defb 0cdh,081h,090h,0cdh,04ch,096h,03eh,002h,0ddh,077h,002h,0c9h	; 95d9  ....L.>..w..
-
-; ======================================================================
-; CODIGO 0x95e5..0x9687  (162 bytes)
-; ======================================================================
-
-
+L_95D9:
+	call L_9081		;95d9
+L_95DC:
+	call L_964C		;95dc
+L_95DF:
+	ld a,002h		;95df
+	ld (ix+002h),a		;95e1
+	ret			;95e4
 L_95E5:
 	ld a,(ix+001h)		;95e5
 	dec a			;95e8
@@ -2962,6 +3330,7 @@ L_9643:
 	and 007h		;9646
 	ret nz			;9648
 	call L_90BE		;9649
+L_964C:
 	ld a,b			;964c
 	add a,a			;964d
 	bit 1,(ix+026h)		;964e
@@ -2998,16 +3367,25 @@ L_9682:
 	jp 07647h		;9684
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9687..0x96a0  (25 bytes)
-DATA_9687:
-	defb 0f0h,0f0h,010h,0f0h,0f0h,000h,010h,000h,0f0h,010h,010h,010h,0ddh,036h,002h,020h	; 9687  .............6.
-	defb 0ddh,036h,02fh,000h,0ddh,07eh,01fh,018h,020h	; 9697  .6/..~..
+; DATOS tabla_9687: tabla que se lee desde HL = 0x9687 con un indice
+;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
+;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
+;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
+;   da quien llama; lo leen p02:9669 (12 bytes)
+;   0x9687..0x9693  (12 bytes)
+DATA_tabla_9687:
+	defb 0f0h,0f0h,010h,0f0h,0f0h,000h,010h,000h,0f0h,010h,010h,010h	; 9687  ............
 
 ; ======================================================================
-; CODIGO 0x96a0..0x96cf  (47 bytes)
+; CODIGO 0x9693..0x96cf  (60 bytes)
 ; ======================================================================
 
 
+L_9693:
+	ld (ix+002h),020h		;9693
+	ld (ix+02fh),000h		;9697
+	ld a,(ix+01fh)		;969b
+	jr L_96C0		;969e
 L_96A0:
 	ld bc,00306h		;96a0
 	ld hl,096efh		;96a3
@@ -3022,6 +3400,7 @@ L_96A0:
 	ld (ix+002h),010h		;96b7
 	call 0565ah		;96bb
 	and 007h		;96be
+L_96C0:
 	ld hl,096cfh		;96c0
 	jp 06e40h		;96c3
 L_96C6:
@@ -3030,10 +3409,21 @@ L_96C6:
 	jp 078b3h		;96cc
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x96cf..0x96f5  (38 bytes)
-DATA_96CF:
+; DATOS leido_96CF: 32 bytes que leen p01:6E46, p01:6E48, p01:6E4A, p01:6E4C
+;   al jugar (medido ejecutando el cartucho, tools/cobertura.py y
+;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
+;   p01:6E46, p01:6E48, p01:6E4A, p01:6E4C (32 bytes)
+;   0x96cf..0x96ef  (32 bytes)
+DATA_leido_96CF:
 	defb 000h,0feh,080h,0feh,000h,0feh,080h,001h,080h,0ffh,080h,0feh,080h,0ffh,080h,001h	; 96cf  ................
 	defb 000h,001h,080h,0feh,000h,001h,080h,001h,000h,001h,000h,000h,000h,0feh,000h,000h	; 96df  ................
+
+; ----------------------------------------------------------------------
+; DATOS leido_96EF: 6 bytes que lee p00:4A73 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:4A73 (6 bytes)
+;   0x96ef..0x96f5  (6 bytes)
+DATA_leido_96EF:
 	defb 0a0h,0a4h,0a8h,0ach,0b0h,0b4h	; 96ef
 
 ; ======================================================================
@@ -3060,12 +3450,14 @@ L_9717:
 	call 04093h		;971a
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x971d..0x9721  (4 bytes)
-DATA_971D:
-	defb 021h,097h,03bh,097h	; 971d
+; DATOS tabla_971D: 2 destinos del despachador p00:4093 (call en p02:971A, el
+;   indice en A): 9721, 973B; lo leen p02:971A (4 bytes)
+;   0x971d..0x9721  (4 bytes)
+DATA_tabla_971D:
+	defw 09721h,0973bh	; 971d  -> L_9721 L_973B
 
 ; ======================================================================
-; CODIGO 0x9721..0x974d  (44 bytes)
+; CODIGO 0x9721..0x976f  (78 bytes)
 ; ======================================================================
 
 
@@ -3089,27 +3481,28 @@ L_9745:
 	ld (ix+002h),010h		;9745
 	inc (ix+007h)		;9749
 	ret			;974c
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x974d..0x9766  (25 bytes)
-DATA_974D:
-	defb 03ah,09ah,0e4h,0b7h,0c2h,0d1h,075h,0ddh,036h,002h,010h,0ddh,036h,031h,00dh,011h	; 974d  :.....u.6...61..
-	defb 000h,0fch,021h,000h,000h,0cdh,0d7h,078h,0c9h	; 975d  ..!....x.
-
-; ======================================================================
-; CODIGO 0x9766..0x976f  (9 bytes)
-; ======================================================================
-
-
+L_974D:
+	ld a,(0e49ah)		;974d
+	or a			;9750
+	jp nz,075d1h		;9751
+	ld (ix+002h),010h		;9754
+	ld (ix+031h),00dh		;9758
+	ld de,0fc00h		;975c
+	ld hl,00000h		;975f
+	call 078d7h		;9762
+L_9765:
+	ret			;9765
 L_9766:
 	call L_9827		;9766
 	ld a,(ix+001h)		;9769
 	call 04093h		;976c
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x976f..0x9777  (8 bytes)
-DATA_976F:
-	defb 077h,097h,0f1h,097h,01ah,098h,086h,097h	; 976f  w.......
+; DATOS tabla_976F: 4 destinos del despachador p00:4093 (call en p02:976C, el
+;   indice en A): 9777, 97F1, 981A, 9786; lo leen p02:976C (8 bytes)
+;   0x976f..0x9777  (8 bytes)
+DATA_tabla_976F:
+	defw 09777h,097f1h,0981ah,09786h	; 976f  -> L_9777 L_97F1 L_981A L_9786
 
 ; ======================================================================
 ; CODIGO 0x9777..0x9831  (186 bytes)
@@ -3210,8 +3603,11 @@ L_9827:
 	ret			;9830
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9831..0x9833  (2 bytes)
-DATA_9831:
+; DATOS leido_9831: 2 bytes que lee p00:4A73 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:4A73 (2 bytes)
+;   0x9831..0x9833  (2 bytes)
+DATA_leido_9831:
 	defb 0a0h,0a4h	; 9831
 
 ; ======================================================================
@@ -3367,8 +3763,11 @@ L_9941:
 	ret			;9941
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9942..0x9949  (7 bytes)
-DATA_9942:
+; DATOS leido_9942: 7 bytes que lee p02:9939 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p02:9939 (7 bytes)
+;   0x9942..0x9949  (7 bytes)
+DATA_leido_9942:
 	defb 020h,020h,038h,038h,02ch,02ch,020h	; 9942
 
 ; ======================================================================
@@ -3383,15 +3782,20 @@ L_9949:
 	jr $+17		;994f
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9951..0x9960  (15 bytes)
-DATA_9951:
-	defb 0e8h,018h,0f0h,010h,0f8h,008h,000h,0f0h,0f8h,000h,008h,010h,0ddh,07eh,01fh	; 9951  .............~.
+; DATOS leido_9951: 12 bytes que lee p02:998A al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p02:998A (12 bytes)
+;   0x9951..0x995d  (12 bytes)
+DATA_leido_9951:
+	defb 0e8h,018h,0f0h,010h,0f8h,008h,000h,0f0h,0f8h,000h,008h,010h	; 9951  ............
 
 ; ======================================================================
-; CODIGO 0x9960..0x99af  (79 bytes)
+; CODIGO 0x995d..0x9ae2  (389 bytes)
 ; ======================================================================
 
 
+L_995D:
+	ld a,(ix+01fh)		;995d
 L_9960:
 	cp c			;9960
 	call z,L_9971		;9961
@@ -3437,19 +3841,26 @@ L_99A3:
 L_99AB:
 	ld hl,00000h		;99ab
 	ret			;99ae
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x99af..0x99d8  (41 bytes)
-DATA_99AF:
-	defb 0cdh,044h,078h,0ddh,07eh,004h,0ddh,077h,027h,011h,000h,0fdh,0cdh,0b3h,078h,0ddh	; 99af  .Dx.~..w'.....x.
-	defb 07eh,004h,0feh,060h,011h,000h,008h,021h,000h,0ffh,038h,006h,011h,000h,0f8h,021h	; 99bf  ~..`...!..8....!
-	defb 000h,001h,0cdh,0d8h,099h,0ebh,0c3h,010h,07fh	; 99cf  .........
-
-; ======================================================================
-; CODIGO 0x99d8..0x9a61  (137 bytes)
-; ======================================================================
-
-
+L_99AF:
+	call 07844h		;99af
+L_99B2:
+	ld a,(ix+004h)		;99b2
+	ld (ix+027h),a		;99b5
+	ld de,0fd00h		;99b8
+	call 078b3h		;99bb
+L_99BE:
+	ld a,(ix+004h)		;99be
+	cp 060h		;99c1
+	ld de,00800h		;99c3
+	ld hl,0ff00h		;99c6
+	jr c,L_99D1		;99c9
+	ld de,0f800h		;99cb
+	ld hl,00100h		;99ce
+L_99D1:
+	call L_99D8		;99d1
+L_99D4:
+	ex de,hl			;99d4
+	jp 07f10h		;99d5
 L_99D8:
 	call 078ach		;99d8
 	ex de,hl			;99db
@@ -3512,18 +3923,25 @@ L_9A4F:
 	ld bc,00000h		;9a59
 	ld a,034h		;9a5c
 	jp 07647h		;9a5e
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9a61..0x9a81  (32 bytes)
-DATA_9A61:
-	defb 0cdh,071h,09ah,026h,050h,0ddh,074h,02eh,0ddh,075h,02fh,03eh,0c0h,0c3h,088h,078h	; 9a61  .q.&P.t..u/>...x
-	defb 02eh,0c0h,03ah,006h,0e6h,0c6h,030h,0d8h,0bdh,0d0h,02eh,040h,0bdh,0d8h,06fh,0c9h	; 9a71  ..:...0....@..o.
-
-; ======================================================================
-; CODIGO 0x9a81..0x9ab8  (55 bytes)
-; ======================================================================
-
-
+L_9A61:
+	call L_9A71		;9a61
+	ld h,050h		;9a64
+	ld (ix+02eh),h		;9a66
+	ld (ix+02fh),l		;9a69
+	ld a,0c0h		;9a6c
+	jp 07888h		;9a6e
+L_9A71:
+	ld l,0c0h		;9a71
+	ld a,(0e606h)		;9a73
+	add a,030h		;9a76
+	ret c			;9a78
+	cp l			;9a79
+	ret nc			;9a7a
+	ld l,040h		;9a7b
+	cp l			;9a7d
+	ret c			;9a7e
+	ld l,a			;9a7f
+	ret			;9a80
 L_9A81:
 	call L_9A8B		;9a81
 	ret nc			;9a84
@@ -3556,17 +3974,36 @@ L_9AA8:
 	pop bc			;9ab4
 	djnz L_9AA8		;9ab5
 	ret			;9ab7
+L_9AB8:
+	ld (ix+010h),014h		;9ab8
+	ld (ix+01ch),000h		;9abc
+	ld (ix+01dh),004h		;9ac0
+	ld (ix+002h),003h		;9ac4
+	ld de,00000h		;9ac8
+	call 07f03h		;9acb
+L_9ACE:
+	call 07ef3h		;9ace
+L_9AD1:
+	ld a,(ix+01fh)		;9ad1
+	ld hl,09ae0h		;9ad4
+	call 04a5ah		;9ad7
+L_9ADA:
+	ld d,h			;9ada
+	ld e,000h		;9adb
+	ld h,l			;9add
+	ld l,e			;9ade
+	jp 078d7h		;9adf
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9ab8..0x9aee  (54 bytes)
-DATA_9AB8:
-	defb 0ddh,036h,010h,014h,0ddh,036h,01ch,000h,0ddh,036h,01dh,004h,0ddh,036h,002h,003h	; 9ab8  .6...6...6...6..
-	defb 011h,000h,000h,0cdh,003h,07fh,0cdh,0f3h,07eh,0ddh,07eh,01fh,021h,0e0h,09ah,0cdh	; 9ac8  ........~.~.!...
-	defb 05ah,04ah,054h,01eh,000h,065h,06bh,0c3h,0d7h,078h,003h,0fch,004h,000h,003h,004h	; 9ad8  ZJT..ek..x......
-	defb 0fdh,0fch,0fch,000h,0fdh,004h	; 9ae8
+; DATOS leido_9AE2: 12 bytes que leen p00:4A60, p00:4A62 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (12 bytes)
+;   0x9ae2..0x9aee  (12 bytes)
+DATA_leido_9AE2:
+	defb 003h,0fch,004h,000h,003h,004h,0fdh,0fch,0fch,000h,0fdh,004h	; 9ae2  ............
 
 ; ======================================================================
-; CODIGO 0x9aee..0x9bb2  (196 bytes)
+; CODIGO 0x9aee..0x9bc9  (219 bytes)
 ; ======================================================================
 
 
@@ -3672,13 +4109,28 @@ L_9B9E:
 	cp c			;9baf
 	ccf			;9bb0
 	ret			;9bb1
+L_9BB2:
+	ld hl,0e499h		;9bb2
+	ld a,(hl)			;9bb5
+	inc (hl)			;9bb6
+	and 003h		;9bb7
+	ld hl,09bc9h		;9bb9
+	call 06e40h		;9bbc
+L_9BBF:
+	ld a,r		;9bbf
+	bit 5,a		;9bc1
+	ret z			;9bc3
+	ld (ix+030h),0a8h		;9bc4
+	ret			;9bc8
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9bb2..0x9bd9  (39 bytes)
-DATA_9BB2:
-	defb 021h,099h,0e4h,07eh,034h,0e6h,003h,021h,0c9h,09bh,0cdh,040h,06eh,0edh,05fh,0cbh	; 9bb2  !..~4..!...@n._.
-	defb 06fh,0c8h,0ddh,036h,030h,0a8h,0c9h,000h,000h,000h,006h,000h,0ffh,080h,005h,000h	; 9bc2  o..60...........
-	defb 0feh,000h,005h,000h,0fdh,080h,004h	; 9bd2
+; DATOS leido_9BC9: 16 bytes que leen p01:6E46, p01:6E48, p01:6E4A, p01:6E4C
+;   al jugar (medido ejecutando el cartucho, tools/cobertura.py y
+;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
+;   p01:6E46, p01:6E48, p01:6E4A, p01:6E4C (16 bytes)
+;   0x9bc9..0x9bd9  (16 bytes)
+DATA_leido_9BC9:
+	defb 000h,000h,000h,006h,000h,0ffh,080h,005h,000h,0feh,000h,005h,000h,0fdh,080h,004h	; 9bc9  ................
 
 ; ======================================================================
 ; CODIGO 0x9bd9..0x9c14  (59 bytes)
@@ -3713,9 +4165,22 @@ L_9BEF:
 	jp 04c40h		;9c11
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9c14..0x9c20  (12 bytes)
-DATA_9C14:
-	defb 020h,010h,030h,018h,024h,010h,030h,010h,096h,097h,098h,099h	; 9c14   .0.$.0.....
+; DATOS tabla_9C14: tabla que se lee desde HL = 0x9C14 con un indice
+;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
+;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
+;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
+;   da quien llama; lo leen p02:9C03 (8 bytes)
+;   0x9c14..0x9c1c  (8 bytes)
+DATA_tabla_9C14:
+	defb 020h,010h,030h,018h,024h,010h,030h,010h	; 9c14   .0.$.0.
+
+; ----------------------------------------------------------------------
+; DATOS leido_9C1C: 4 bytes que lee p00:4A73 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:4A73 (4 bytes)
+;   0x9c1c..0x9c20  (4 bytes)
+DATA_leido_9C1C:
+	defb 096h,097h,098h,099h	; 9c1c
 
 ; ======================================================================
 ; CODIGO 0x9c20..0x9ca0  (128 bytes)
@@ -3784,9 +4249,11 @@ L_9C97:
 	call 04093h		;9c9d
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9ca0..0x9caa  (10 bytes)
-DATA_9CA0:
-	defb 0aah,09ch,0c1h,09ch,0edh,09ch,0feh,09ch,044h,09dh	; 9ca0  ........D.
+; DATOS tabla_9CA0: 5 destinos del despachador p00:4093 (call en p02:9C9D, el
+;   indice en A): 9CAA, 9CC1, 9CED, 9CFE, 9D44; lo leen p02:9C9D (10 bytes)
+;   0x9ca0..0x9caa  (10 bytes)
+DATA_tabla_9CA0:
+	defw 09caah,09cc1h,09cedh,09cfeh,09d44h	; 9ca0
 
 ; ======================================================================
 ; CODIGO 0x9caa..0x9ce9  (63 bytes)
@@ -3826,12 +4293,15 @@ L_9CE2:
 	ret			;9ce8
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9ce9..0x9ced  (4 bytes)
-DATA_9CE9:
+; DATOS leido_9CE9: 4 bytes que lee p00:4A73 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:4A73 (4 bytes)
+;   0x9ce9..0x9ced  (4 bytes)
+DATA_leido_9CE9:
 	defb 094h,098h,0f0h,0f4h	; 9ce9
 
 ; ======================================================================
-; CODIGO 0x9ced..0x9d6c  (127 bytes)
+; CODIGO 0x9ced..0x9da8  (187 bytes)
 ; ======================================================================
 
 
@@ -3897,18 +4367,22 @@ L_9D5A:
 	ld (ix+00ah),004h		;9d62
 	ld (ix+004h),a		;9d66
 	jp L_8221		;9d69
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9d6c..0x9d8b  (31 bytes)
-DATA_9D6C:
-	defb 03ah,006h,0e6h,0ddh,0beh,006h,011h,000h,002h,030h,003h,011h,000h,0feh,03ah,004h	; 9d6c  :........0....:.
-	defb 000h,0feh,060h,021h,000h,006h,038h,003h,021h,000h,0fah,0cdh,0d7h,078h,0c9h	; 9d7c  ..`!..8.!....x.
-
-; ======================================================================
-; CODIGO 0x9d8b..0x9da8  (29 bytes)
-; ======================================================================
-
-
+L_9D6C:
+	ld a,(0e606h)		;9d6c
+	cp (ix+006h)		;9d6f
+	ld de,00200h		;9d72
+	jr nc,L_9D7A		;9d75
+	ld de,0fe00h		;9d77
+L_9D7A:
+	ld a,(00004h)		;9d7a
+	cp 060h		;9d7d
+	ld hl,00600h		;9d7f
+	jr c,L_9D87		;9d82
+	ld hl,0fa00h		;9d84
+L_9D87:
+	call 078d7h		;9d87
+L_9D8A:
+	ret			;9d8a
 L_9D8B:
 	call 04857h		;9d8b
 	ld c,000h		;9d8e
@@ -3926,8 +4400,13 @@ L_9D8B:
 	ret			;9da7
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9da8..0x9dac  (4 bytes)
-DATA_9DA8:
+; DATOS tabla_9DA8: tabla que se lee desde HL = 0x9DA8 con un indice
+;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
+;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
+;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
+;   da quien llama; lo leen p02:9D9D (4 bytes)
+;   0x9da8..0x9dac  (4 bytes)
+DATA_tabla_9DA8:
 	defb 0bch,0cch,0b8h,0c8h	; 9da8
 
 ; ======================================================================
@@ -3969,9 +4448,11 @@ L_9DED:
 	call 04093h		;9df3
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9df6..0x9dfe  (8 bytes)
-DATA_9DF6:
-	defb 0feh,09dh,011h,09eh,01ch,09eh,05fh,09eh	; 9df6  ......_.
+; DATOS tabla_9DF6: 4 destinos del despachador p00:4093 (call en p02:9DF3, el
+;   indice en A): 9DFE, 9E11, 9E1C, 9E5F; lo leen p02:9DF3 (8 bytes)
+;   0x9df6..0x9dfe  (8 bytes)
+DATA_tabla_9DF6:
+	defw 09dfeh,09e11h,09e1ch,09e5fh	; 9df6  -> L_9DFE L_9E11 L_9E1C L_9E5F
 
 ; ======================================================================
 ; CODIGO 0x9dfe..0x9e6e  (112 bytes)
@@ -4032,17 +4513,35 @@ L_9E5F:
 	jp L_9DD6		;9e6b
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9e6e..0x9e93  (37 bytes)
+; DATOS sin identificar  0x9e6e..0x9e6f  (1 bytes)
 DATA_9E6E:
-	defb 0c9h,03ah,006h,0e6h,0ddh,0beh,006h,03eh,001h,030h,001h,03dh,0ddh,077h,024h,0ddh	; 9e6e  .:.....>.0.=.w$.
-	defb 07eh,01fh,0b7h,011h,000h,004h,020h,003h,011h,000h,0fch,0cdh,0ach,078h,011h,000h	; 9e7e  ~..... ......x..
-	defb 000h,0cdh,0b3h,078h,0c9h	; 9e8e
+	defb 0c9h	; 9e6e
 
 ; ======================================================================
-; CODIGO 0x9e93..0x9eed  (90 bytes)
+; CODIGO 0x9e6f..0x9f1c  (173 bytes)
 ; ======================================================================
 
 
+L_9E6F:
+	ld a,(0e606h)		;9e6f
+	cp (ix+006h)		;9e72
+	ld a,001h		;9e75
+	jr nc,L_9E7A		;9e77
+	dec a			;9e79
+L_9E7A:
+	ld (ix+024h),a		;9e7a
+	ld a,(ix+01fh)		;9e7d
+	or a			;9e80
+	ld de,00400h		;9e81
+	jr nz,L_9E89		;9e84
+	ld de,0fc00h		;9e86
+L_9E89:
+	call 078ach		;9e89
+L_9E8C:
+	ld de,00000h		;9e8c
+	call 078b3h		;9e8f
+L_9E92:
+	ret			;9e92
 L_9E93:
 	call L_9CD6		;9e93
 	ld a,(ix+001h)		;9e96
@@ -4092,27 +4591,37 @@ L_9EE3:
 	call 078b3h		;9ee6
 	inc (ix+001h)		;9ee9
 	ret			;9eec
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9eed..0x9f16  (41 bytes)
-DATA_9EED:
-	defb 0ddh,036h,010h,00fh,0cdh,0c8h,078h,0ddh,036h,001h,000h,0ddh,036h,002h,001h,006h	; 9eed  .6....x.6...6...
-	defb 000h,0ddh,07eh,004h,0feh,060h,038h,001h,004h,0ddh,070h,024h,0cdh,02fh,09fh,03eh	; 9efd  ..~..`8...p$./.>
-	defb 0b0h,020h,002h,0c6h,010h,0ddh,077h,030h,0c9h	; 9f0d  . ....w0.
-
-; ======================================================================
-; CODIGO 0x9f16..0x9f1c  (6 bytes)
-; ======================================================================
-
-
+L_9EED:
+	ld (ix+010h),00fh		;9eed
+	call 078c8h		;9ef1
+L_9EF4:
+	ld (ix+001h),000h		;9ef4
+	ld (ix+002h),001h		;9ef8
+	ld b,000h		;9efc
+	ld a,(ix+004h)		;9efe
+	cp 060h		;9f01
+	jr c,L_9F06		;9f03
+	inc b			;9f05
+L_9F06:
+	ld (ix+024h),b		;9f06
+	call L_9F2F		;9f09
+L_9F0C:
+	ld a,0b0h		;9f0c
+	jr nz,L_9F12		;9f0e
+	add a,010h		;9f10
+L_9F12:
+	ld (ix+030h),a		;9f12
+	ret			;9f15
 L_9F16:
 	ld a,(ix+001h)		;9f16
 	call 04093h		;9f19
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9f1c..0x9f24  (8 bytes)
-DATA_9F1C:
-	defb 034h,09fh,052h,09fh,071h,09fh,08dh,09fh	; 9f1c  4.R.q...
+; DATOS tabla_9F1C: 4 destinos del despachador p00:4093 (call en p02:9F19, el
+;   indice en A): 9F34, 9F52, 9F71, 9F8D; lo leen p02:9F19 (8 bytes)
+;   0x9f1c..0x9f24  (8 bytes)
+DATA_tabla_9F1C:
+	defw 09f34h,09f52h,09f71h,09f8dh	; 9f1c  -> L_9F34 L_9F52 L_9F71 L_9F8D
 
 ; ======================================================================
 ; CODIGO 0x9f24..0x9f2b  (7 bytes)
@@ -4149,12 +4658,17 @@ L_9F34:
 	jr $-38		;9f4a
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9f4c..0x9f52  (6 bytes)
-DATA_9F4C:
+; DATOS tabla_9F4C: tabla que se lee desde HL = 0x9F4C con un indice
+;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
+;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
+;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
+;   da quien llama; lo leen p02:9F44 (6 bytes)
+;   0x9f4c..0x9f52  (6 bytes)
+DATA_tabla_9F4C:
 	defb 018h,014h,010h,00ch,008h,004h	; 9f4c
 
 ; ======================================================================
-; CODIGO 0x9f52..0x9f8e  (60 bytes)
+; CODIGO 0x9f52..0x9fcc  (122 bytes)
 ; ======================================================================
 
 
@@ -4184,18 +4698,21 @@ L_9F71:
 	jr $-103		;9f8b
 L_9F8D:
 	ret			;9f8d
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9f8e..0x9fad  (31 bytes)
-DATA_9F8E:
-	defb 0ddh,036h,025h,0c0h,011h,000h,002h,0ddh,07eh,006h,0d6h,078h,0d4h,075h,04ah,0cdh	; 9f8e  .6%.....~..x.uJ.
-	defb 0b3h,078h,0ddh,07eh,004h,0d6h,058h,006h,000h,030h,001h,004h,0ddh,070h,01fh	; 9f9e  .x.~..X..0...p.
-
-; ======================================================================
-; CODIGO 0x9fad..0x9fcc  (31 bytes)
-; ======================================================================
-
-
+L_9F8E:
+	ld (ix+025h),0c0h		;9f8e
+	ld de,00200h		;9f92
+	ld a,(ix+006h)		;9f95
+	sub 078h		;9f98
+	call nc,04a75h		;9f9a
+	call 078b3h		;9f9d
+L_9FA0:
+	ld a,(ix+004h)		;9fa0
+	sub 058h		;9fa3
+	ld b,000h		;9fa5
+	jr nc,L_9FAA		;9fa7
+	inc b			;9fa9
+L_9FAA:
+	ld (ix+01fh),b		;9faa
 L_9FAD:
 	ld (ix+02fh),000h		;9fad
 	bit 0,(ix+01fh)		;9fb1
@@ -4211,9 +4728,11 @@ L_9FC6:
 	call 04093h		;9fc9
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9fcc..0x9fd4  (8 bytes)
-DATA_9FCC:
-	defb 0d4h,09fh,018h,0a0h,0d9h,09fh,018h,0a0h	; 9fcc  ........
+; DATOS tabla_9FCC: 4 destinos del despachador p00:4093 (call en p02:9FC9, el
+;   indice en A): 9FD4, A018, 9FD9, A018; lo leen p02:9FC9 (8 bytes)
+;   0x9fcc..0x9fd4  (8 bytes)
+DATA_tabla_9FCC:
+	defw 09fd4h,0a018h,09fd9h,0a018h	; 9fcc  -> L_9FD4 0xa018 L_9FD9 0xa018
 
 ; ======================================================================
 ; CODIGO 0x9fd4..0x9fff  (43 bytes)
@@ -4246,6 +4765,9 @@ L_9FFD:
 	and 0f8h		;9ffd
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9fff..0xa000  (1 bytes)
-DATA_9FFF:
+; DATOS partida_9FFF: los 1 primeros bytes de una instruccion de 3 (DD 77 04)
+;   que sigue en el banco 3: el trazador de un solo banco no puede verla
+;   entera (tools/bancos.py); lo leen p02:9FFF (1 bytes)
+;   0x9fff..0xa000  (1 bytes)
+DATA_partida_9FFF:
 	defb 0ddh	; 9fff

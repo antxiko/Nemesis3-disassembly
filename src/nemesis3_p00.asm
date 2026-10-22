@@ -18,8 +18,12 @@
 l5cf4h:	equ 0x05cf4
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4000..0x402e  (46 bytes)
-DATA_4000:
+; DATOS resto_4000: lo apuntan con el banco puesto p00:4C20 (0x4000), p01:6DAC
+;   (0x4010), p01:6DB6 (0x4011), p19:A9B8 (0x402A); el tamano es lo que hay
+;   hasta lo siguiente, no sale de recorrerlo; lo leen p00:4C20, p01:6DAC,
+;   p01:6DB6, p19:A9B8 (46 bytes)
+;   0x4000..0x402e  (46 bytes)
+DATA_resto_4000:
 	defb 041h,042h,09dh,040h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h	; 4000  AB.@............
 	defb 043h,044h,007h,064h,0b8h,000h,0e3h,004h,061h,0e3h,008h,060h,0e3h,002h,0e3h,000h	; 4010  CD.d....a..`....
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,080h,000h,000h,002h,0ffh,0ffh	; 4020  ..............
@@ -30,146 +34,146 @@ DATA_4000:
 
 
 L_402E:
-	call 0013eh		;402e   ; BIOS RDVDP - Reads VDP status register
-	ld hl,(0e333h)		;4031
+	call 0013eh		;402e   ; BIOS RDVDP - Reads VDP status register | la interrupcion (H.KEYI): primero se lee el estado del VDP, que la da por atendida
+	ld hl,(0e333h)		;4031   ; una cuenta de cuadros en 0xE333
 	inc hl			;4034
-	ld (0e333h),hl		;4035
-	ld hl,(0e339h)		;4038
+	ld (0e333h),hl		;4035   ; sube y se guarda
+	ld hl,(0e339h)		;4038   ; otra cuenta de cuadros en 0xE339
 	inc hl			;403b
-	ld (0e339h),hl		;403c
-	di			;403f
-	ld hl,0e306h		;4040
-	ld a,(hl)			;4043
-	and a			;4044
-	ld (hl),001h		;4045
-	jp nz,L_4084		;4047
-	ld a,00ah		;404a
-	ld (07000h),a		;404c
+	ld (0e339h),hl		;403c   ; sube y se guarda
+	di			;403f   ; sin interrupciones mientras se mira la marca
+	ld hl,0e306h		;4040   ; 0xE306: el sonido ya esta en marcha?
+	ld a,(hl)			;4043   ; lee la marca
+	and a			;4044   ; 0 = libre
+	ld (hl),001h		;4045   ; la marca a 1 mientras suena
+	jp nz,L_4084		;4047   ; si ya estaba, no se vuelve a entrar: fuera
+	ld a,00ah		;404a   ; los bancos 10-11-12 sin tocar sus copias: el sonido
+	ld (07000h),a		;404c   ; el 10 en 0x6000
 	inc a			;404f
-	ld (09000h),a		;4050
+	ld (09000h),a		;4050   ; el 11 en 0x8000
 	inc a			;4053
-	ld (0b000h),a		;4054
-	call 06006h		;4057
-	xor a			;405a
-	ld (0e306h),a		;405b
-	di			;405e
-	ld a,(0f0f1h)		;405f
+	ld (0b000h),a		;4054   ; el 12 en 0xA000
+	call 06006h		;4057   ; p10:6006: el sonido de este cuadro
+	xor a			;405a   ; se acabo el sonido de este cuadro
+	ld (0e306h),a		;405b   ; la marca de sonido a 0
+	di			;405e   ; sin interrupciones para devolver los bancos
+	ld a,(0f0f1h)		;405f   ; lo que habia en 0x6000, segun su copia 0xF0F1
 	ld (07000h),a		;4062
-	ld a,(0f0f2h)		;4065
+	ld a,(0f0f2h)		;4065   ; lo de 0x8000 (0xF0F2)
 	ld (09000h),a		;4068
-	ld a,(0f0f3h)		;406b
+	ld a,(0f0f3h)		;406b   ; lo de 0xA000 (0xF0F3)
 	ld (0b000h),a		;406e
-	ld hl,0e305h		;4071
-	ld a,(hl)			;4074
-	and a			;4075
-	jr nz,L_4084		;4076
-	inc (hl)			;4078
-	ei			;4079
-	call L_4C45		;407a
-	call L_428A		;407d
-	xor a			;4080
-	ld (0e305h),a		;4081
+	ld hl,0e305h		;4071   ; 0xE305: el cuadro del juego ya esta en marcha?
+	ld a,(hl)			;4074   ; lee la marca
+	and a			;4075   ; 0 = libre
+	jr nz,L_4084		;4076   ; si no, solo el sonido
+	inc (hl)			;4078   ; la marca a 1
+	ei			;4079   ; con interrupciones: el cuadro puede durar mas de una
+	call L_4C45		;407a   ; p00:4C45: lee el teclado y el mando
+	call L_428A		;407d   ; p00:428A: el cuadro del juego
+	xor a			;4080   ; el cuadro ha acabado
+	ld (0e305h),a		;4081   ; la marca del cuadro a 0
 L_4084:
-	call 0013eh		;4084   ; BIOS RDVDP - Reads VDP status register
+	call 0013eh		;4084   ; BIOS RDVDP - Reads VDP status register | vuelve leyendo el estado del VDP
 	ei			;4087
 	ret			;4088
 L_4089:
-	add a,l			;4089
-	ld l,a			;408a
-	ret nc			;408b
-	inc h			;408c
+	add a,l			;4089   ; L + A
+	ld l,a			;408a   ; en L
+	ret nc			;408b   ; sin acarreo, ya esta
+	inc h			;408c   ; con acarreo, H + 1
 	ret			;408d
 L_408E:
-	add a,e			;408e
-	ld e,a			;408f
-	ret nc			;4090
-	inc d			;4091
+	add a,e			;408e   ; E + A
+	ld e,a			;408f   ; en E
+	ret nc			;4090   ; sin acarreo, ya esta
+	inc d			;4091   ; con acarreo, D + 1
 	ret			;4092
 L_4093:
-	pop hl			;4093
+	pop hl			;4093   ; el despachador: HL = la tabla que va detras del call (su direccion de vuelta)
 L_4094:
-	add a,a			;4094
-	call L_4089		;4095
-	ld a,(hl)			;4098
-	inc hl			;4099
+	add a,a			;4094   ; A x 2: la palabra A
+	call L_4089		;4095   ; + la tabla
+	ld a,(hl)			;4098   ; la palabra, byte bajo
+	inc hl			;4099   ; byte alto
 	ld h,(hl)			;409a
-	ld l,a			;409b
-	jp (hl)			;409c
+	ld l,a			;409b   ; en HL
+	jp (hl)			;409c   ; y alli se salta
 L_409D:
-	di			;409d
-	im 1		;409e
-	ld sp,0f0d0h		;40a0
-	call L_4109		;40a3
-	call L_4129		;40a6
-	ld hl,0e000h		;40a9
+	di			;409d   ; INIT: lo llama la BIOS al encender, sin interrupciones
+	im 1		;409e   ; modo de interrupcion 1 (salta a 0x0038)
+	ld sp,0f0d0h		;40a0   ; la pila, bajo la pila de bancos de 0xF0D0
+	call L_4109		;40a3   ; p00:4109: el cartucho tambien en 0x8000-0xBFFF (ENASLT)
+	call L_4129		;40a6   ; p00:4129: la ranura del cartucho, en 0xF0F8
+	ld hl,0e000h		;40a9   ; 0xE000-0xEFFF a cero: la RAM del juego
 	ld de,0e001h		;40ac
 	ld bc,00fffh		;40af
 	ld (hl),000h		;40b2
 	ldir		;40b4
-	ld hl,0c400h		;40b6
+	ld hl,0c400h		;40b6   ; 0xC400-0xCFFF a cero
 	ld de,0c401h		;40b9
 	ld bc,00bffh		;40bc
 	ld (hl),000h		;40bf
 	ldir		;40c1
-	ld a,001h		;40c3
+	ld a,001h		;40c3   ; 0xE33B a 1
 	ld (0e33bh),a		;40c5
-	ld hl,0f0f0h		;40c8
+	ld hl,0f0f0h		;40c8   ; el reparto de encendido con sus copias en 0xF0F0-0xF0F3
 	xor a			;40cb
-	ld (05000h),a		;40cc
+	ld (05000h),a		;40cc   ; el 0 en 0x4000 (no se vuelve a tocar)
 	ld (hl),a			;40cf
 	inc a			;40d0
-	ld (07000h),a		;40d1
+	ld (07000h),a		;40d1   ; el 1 en 0x6000
 	inc hl			;40d4
 	ld (hl),a			;40d5
 	inc a			;40d6
-	ld (09000h),a		;40d7
+	ld (09000h),a		;40d7   ; el 2 en 0x8000
 	inc hl			;40da
 	ld (hl),a			;40db
 	inc a			;40dc
-	ld (0b000h),a		;40dd
+	ld (0b000h),a		;40dd   ; el 3 en 0xA000
 	inc hl			;40e0
 	ld (hl),a			;40e1
-	ld hl,0f0d2h		;40e2
+	ld hl,0f0d2h		;40e2   ; la pila de bancos empieza en 0xF0D2
 	ld (0f0d0h),hl		;40e5
-	di			;40e8
-	call L_4BFA		;40e9
+	di			;40e8   ; sin interrupciones
+	call L_4BFA		;40e9   ; p00:4BFA: arranca el sonido y pone el VDP
 	call 06d76h		;40ec
-	ld a,0c3h		;40ef
+	ld a,0c3h		;40ef   ; el gancho H.KEYI (0xFD9A): jp 0x402E, la interrupcion
 	ld (0fd9ah),a		;40f1
 	ld hl,L_402E		;40f4
 	ld (0fd9bh),hl		;40f7
-	ld a,0c9h		;40fa
+	ld a,0c9h		;40fa   ; H.TIMI (0xFD9F) a ret
 	ld (0fd9fh),a		;40fc
-	xor a			;40ff
+	xor a			;40ff   ; 0xF3DB = 0: sin el clic de las teclas
 	ld (0f3dbh),a		;4100
-	call 0013eh		;4103   ; BIOS RDVDP - Reads VDP status register
-	ei			;4106
+	call 0013eh		;4103   ; BIOS RDVDP - Reads VDP status register | lee el estado del VDP
+	ei			;4106   ; con interrupciones
 L_4107:
-	jr L_4107		;4107
+	jr L_4107		;4107   ; y aqui se queda: todo el juego corre en la interrupcion
 L_4109:
-	call 00138h		;4109   ; BIOS RSLREG - Reads the primary slot register
-	rrca			;410c
+	call 00138h		;4109   ; BIOS RSLREG - Reads the primary slot register | RSLREG: la ranura primaria de cada pagina
+	rrca			;410c   ; la de la pagina 1 (0x4000)...
 	rrca			;410d
-	and 003h		;410e
+	and 003h		;410e   ; ...a los bits 0-1
 	ld c,a			;4110
 	ld b,000h		;4111
-	ld hl,0fcc1h		;4113
+	ld hl,0fcc1h		;4113   ; EXPTBL: si esa ranura esta expandida
 	add hl,bc			;4116
 	ld a,(hl)			;4117
-	and 080h		;4118
+	and 080h		;4118   ; bit 7
 	or c			;411a
 	ld c,a			;411b
-	inc hl			;411c
+	inc hl			;411c   ; la tabla SLTTBL, cuatro mas alla
 	inc hl			;411d
 	inc hl			;411e
 	inc hl			;411f
-	ld a,(hl)			;4120
+	ld a,(hl)			;4120   ; la subranura de la pagina 1
 	and 00ch		;4121
 	or c			;4123
-	ld h,080h		;4124
-	jp 00024h		;4126   ; BIOS ENASLT - Switches to specified slot and page definitively
+	ld h,080h		;4124   ; H = 0x80: la pagina 2 (0x8000)
+	jp 00024h		;4126   ; BIOS ENASLT - Switches to specified slot and page definitively | ENASLT: el cartucho tambien en 0x8000
 L_4129:
-	call 00138h		;4129   ; BIOS RSLREG - Reads the primary slot register
+	call 00138h		;4129   ; BIOS RSLREG - Reads the primary slot register | la misma ranura (primaria y subranura de la pagina 1)...
 	rrca			;412c
 	rrca			;412d
 	and 003h		;412e
@@ -186,112 +190,112 @@ L_4129:
 	ld a,(hl)			;413d
 	and 00ch		;413e
 	or c			;4140
-	ld (0f0f8h),a		;4141
+	ld (0f0f8h),a		;4141   ; ...y se guarda en 0xF0F8
 	ret			;4144
 L_4145:
-	call L_41F7		;4145
+	call L_41F7		;4145   ; guarda el reparto en la pila y pone 1-2-3
 L_4148:
-	push af			;4148
+	push af			;4148   ; pone 1-2-3 (sin guardar)
 	ld a,001h		;4149
 	call L_4238		;414b
 	pop af			;414e
 	ret			;414f
 L_4150:
-	push af			;4150
+	push af			;4150   ; el 3 en 0xA000
 	ld a,003h		;4151
 	call L_4281		;4153
 	pop af			;4156
 	ret			;4157
 L_4158:
-	call L_41F7		;4158
+	call L_41F7		;4158   ; guarda el reparto y pone el 4 y el 5 en 0x8000 y 0xA000
 L_415B:
-	push af			;415b
+	push af			;415b   ; el 4 y el 5 (sin guardar)
 	ld a,004h		;415c
 	call L_425F		;415e
 	pop af			;4161
 	ret			;4162
 L_4163:
-	push af			;4163
+	push af			;4163   ; el 5 en 0xA000
 	ld a,005h		;4164
 	call L_4281		;4166
 	pop af			;4169
 	ret			;416a
 L_416B:
-	push af			;416b
+	push af			;416b   ; el 6 y el 7 en 0x8000 y 0xA000
 	ld a,006h		;416c
 	call L_425F		;416e
 	pop af			;4171
 	ret			;4172
 L_4173:
-	push af			;4173
+	push af			;4173   ; el 7 en 0xA000
 	ld a,007h		;4174
 	call L_4281		;4176
 	pop af			;4179
 	ret			;417a
 L_417B:
-	push af			;417b
+	push af			;417b   ; el 8 en 0xA000
 	ld a,008h		;417c
 	call L_4281		;417e
 	pop af			;4181
 	ret			;4182
 L_4183:
-	call L_41F7		;4183
+	call L_41F7		;4183   ; guarda el reparto y pone 16-17-18
 L_4186:
-	push af			;4186
+	push af			;4186   ; 16-17-18 (sin guardar)
 	ld a,010h		;4187
 	call L_4238		;4189
 	pop af			;418c
 	ret			;418d
 L_418E:
-	call L_41F7		;418e
+	call L_41F7		;418e   ; guarda el reparto y pone el 14 y el 15 en 0x6000 y 0x8000
 L_4191:
-	push af			;4191
+	push af			;4191   ; el 14 y el 15 (sin guardar)
 	ld a,00eh		;4192
 	call L_424F		;4194
 	pop af			;4197
 	ret			;4198
 L_4199:
-	push af			;4199
+	push af			;4199   ; el 15 en 0x8000
 	ld a,00fh		;419a
 	call L_4278		;419c
 	pop af			;419f
 	ret			;41a0
 L_41A1:
-	call L_41F7		;41a1
+	call L_41F7		;41a1   ; guarda el reparto y pone 20-21-22
 L_41A4:
-	push af			;41a4
+	push af			;41a4   ; 20-21-22 (sin guardar)
 	ld a,014h		;41a5
 	call L_4238		;41a7
 	pop af			;41aa
 	ret			;41ab
 L_41AC:
-	push af			;41ac
+	push af			;41ac   ; el 22 en 0xA000
 	ld a,016h		;41ad
 	call L_4281		;41af
 	pop af			;41b2
 	ret			;41b3
 L_41B4:
-	push af			;41b4
+	push af			;41b4   ; 23-24-25
 	ld a,017h		;41b5
 	call L_4238		;41b7
 	pop af			;41ba
 	ret			;41bb
 L_41BC:
-	call L_41F7		;41bc
+	call L_41F7		;41bc   ; guarda el reparto y pone 26-27-28
 L_41BF:
-	push af			;41bf
+	push af			;41bf   ; 26-27-28 (sin guardar)
 	ld a,01ah		;41c0
 	call L_4238		;41c2
 	pop af			;41c5
 	ret			;41c6
 L_41C7:
-	push af			;41c7
+	push af			;41c7   ; el 26 en 0x6000
 	ld a,01ah		;41c8
 	call L_426F		;41ca
 	pop af			;41cd
 	ret			;41ce
 L_41CF:
-	push af			;41cf
+	push af			;41cf   ; el 26 en 0x6000 y el 28 en 0xA000
 	ld a,01ah		;41d0
 	call L_426F		;41d2
 	ld a,01ch		;41d5
@@ -299,68 +303,68 @@ L_41CF:
 	pop af			;41da
 	ret			;41db
 L_41DC:
-	push af			;41dc
+	push af			;41dc   ; el 30 y el 31 en 0x8000 y 0xA000
 	ld a,01eh		;41dd
 	call L_425F		;41df
 	pop af			;41e2
 	ret			;41e3
 L_41E4:
-	push af			;41e4
+	push af			;41e4   ; el 29 en 0xA000
 	ld a,01dh		;41e5
 	call L_4281		;41e7
 	pop af			;41ea
 	ret			;41eb
 L_41EC:
-	call L_41F7		;41ec
+	call L_41F7		;41ec   ; guarda el reparto y pone el 19 en 0xA000
 L_41EF:
-	push af			;41ef
+	push af			;41ef   ; el 19 en 0xA000 (sin guardar)
 	ld a,013h		;41f0
 	call L_4281		;41f2
 	pop af			;41f5
 	ret			;41f6
 L_41F7:
-	di			;41f7
+	di			;41f7   ; guarda el reparto: las tres copias 0xF0F1-3 en la pila de 0xF0D0
 	push hl			;41f8
 	push af			;41f9
-	ld hl,(0f0d0h)		;41fa
-	ld a,(0f0f1h)		;41fd
+	ld hl,(0f0d0h)		;41fa   ; el puntero de la pila
+	ld a,(0f0f1h)		;41fd   ; la copia de 0x6000
 	ld (hl),a			;4200
 	inc hl			;4201
-	ld a,(0f0f2h)		;4202
+	ld a,(0f0f2h)		;4202   ; la de 0x8000
 	ld (hl),a			;4205
 	inc hl			;4206
-	ld a,(0f0f3h)		;4207
+	ld a,(0f0f3h)		;4207   ; la de 0xA000
 	ld (hl),a			;420a
 	inc hl			;420b
-	ld (0f0d0h),hl		;420c
+	ld (0f0d0h),hl		;420c   ; el puntero, tres bytes mas arriba
 	pop af			;420f
 	pop hl			;4210
 	ei			;4211
 	ret			;4212
 L_4213:
-	di			;4213
+	di			;4213   ; saca de la pila el ultimo reparto guardado y lo vuelve a poner
 	push hl			;4214
 	push af			;4215
-	ld hl,(0f0d0h)		;4216
-	dec hl			;4219
+	ld hl,(0f0d0h)		;4216   ; el puntero de la pila
+	dec hl			;4219   ; el de 0xA000, el ultimo que se metio
 	ld a,(hl)			;421a
-	ld (0f0f3h),a		;421b
-	ld (0b000h),a		;421e
-	dec hl			;4221
+	ld (0f0f3h),a		;421b   ; en su copia...
+	ld (0b000h),a		;421e   ; ...y en el mapper
+	dec hl			;4221   ; el de 0x8000
 	ld a,(hl)			;4222
 	ld (0f0f2h),a		;4223
 	ld (09000h),a		;4226
-	dec hl			;4229
+	dec hl			;4229   ; el de 0x6000
 	ld a,(hl)			;422a
 	ld (0f0f1h),a		;422b
 	ld (07000h),a		;422e
-	ld (0f0d0h),hl		;4231
+	ld (0f0d0h),hl		;4231   ; el puntero, tres bytes mas abajo
 	pop af			;4234
 	pop hl			;4235
 	ei			;4236
 	ret			;4237
 L_4238:
-	di			;4238
+	di			;4238   ; pone A, A+1 y A+2 en 0x6000, 0x8000 y 0xA000, con sus copias
 	ld (07000h),a		;4239
 	ld (0f0f1h),a		;423c
 	inc a			;423f
@@ -372,7 +376,7 @@ L_4238:
 	ei			;424d
 	ret			;424e
 L_424F:
-	di			;424f
+	di			;424f   ; pone A y A+1 en 0x6000 y 0x8000
 	ld (07000h),a		;4250
 	ld (0f0f1h),a		;4253
 	inc a			;4256
@@ -381,7 +385,7 @@ L_424F:
 	ei			;425d
 	ret			;425e
 L_425F:
-	di			;425f
+	di			;425f   ; pone A y A+1 en 0x8000 y 0xA000
 	ld (09000h),a		;4260
 	ld (0f0f2h),a		;4263
 	inc a			;4266
@@ -390,41 +394,44 @@ L_425F:
 	ei			;426d
 	ret			;426e
 L_426F:
-	di			;426f
+	di			;426f   ; pone A en 0x6000
 	ld (07000h),a		;4270
 	ld (0f0f1h),a		;4273
 	ei			;4276
 	ret			;4277
 L_4278:
-	di			;4278
+	di			;4278   ; pone A en 0x8000
 	ld (09000h),a		;4279
 	ld (0f0f2h),a		;427c
 	ei			;427f
 	ret			;4280
 L_4281:
-	di			;4281
+	di			;4281   ; pone A en 0xA000
 	ld (0b000h),a		;4282
 	ld (0f0f3h),a		;4285
 	ei			;4288
 	ret			;4289
 L_428A:
-	ld hl,0e303h		;428a
+	ld hl,0e303h		;428a   ; el cuadro del juego: 0xE303 cuenta los cuadros
 	inc (hl)			;428d
-	call L_429A		;428e
-	ld a,(0e300h)		;4291
+	call L_429A		;428e   ; p00:429A: lo del estado en curso
+	ld a,(0e300h)		;4291   ; en los estados 0-2 (logo, titulo, historia)...
 	cp 003h		;4294
-	call c,L_472D		;4296
+	call c,L_472D		;4296   ; ...p00:472D
 	ret			;4299
 L_429A:
-	ld bc,(0e300h)		;429a
+	ld bc,(0e300h)		;429a   ; B = el paso (0xE301) y C = el estado (0xE300)
 	ld a,c			;429e
-	call L_4093		;429f
+	call L_4093		;429f   ; por el estado: 0 logo, 1 titulo, 2 historia, 3 eleccion de nave, 4 empieza la fase, 5 se juega, 6 muerte, 7 fin de la partida, 8-10
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x42a2..0x42b8  (22 bytes)
-DATA_42A2:
-	defb 0b8h,042h,0eeh,042h,04bh,043h,09ah,043h,058h,044h,0a1h,044h,0c7h,044h,005h,045h	; 42a2  .B.BKC.CXD.D.D.E
-	defb 085h,045h,01ch,046h,09eh,046h	; 42b2
+; DATOS tabla_42A2: 11 destinos del despachador p00:4093 (call en p00:429F, el
+;   indice en A): 42B8, 42EE, 434B, 439A, 4458, 44A1, 44C7, 4505, 4585, 461C,
+;   469E; lo leen p00:429F (22 bytes)
+;   0x42a2..0x42b8  (22 bytes)
+DATA_tabla_42A2:
+	defw 042b8h,042eeh,0434bh,0439ah,04458h,044a1h,044c7h,04505h	; 42a2
+	defw 04585h,0461ch,0469eh	; 42b2  -> L_4585 L_461C L_469E
 
 ; ======================================================================
 ; CODIGO 0x42b8..0x434f  (151 bytes)
@@ -507,9 +514,11 @@ L_434B:
 	call L_4093		;434c
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x434f..0x4357  (8 bytes)
-DATA_434F:
-	defb 057h,043h,071h,043h,082h,043h,08fh,043h	; 434f  WCqC.C.C
+; DATOS tabla_434F: 4 destinos del despachador p00:4093 (call en p00:434C, el
+;   indice en A): 4357, 4371, 4382, 438F; lo leen p00:434C (8 bytes)
+;   0x434f..0x4357  (8 bytes)
+DATA_tabla_434F:
+	defw 04357h,04371h,04382h,0438fh	; 434f  -> L_4357 L_4371 L_4382 L_438F
 
 ; ======================================================================
 ; CODIGO 0x4357..0x439e  (71 bytes)
@@ -551,10 +560,13 @@ L_439A:
 	call L_4093		;439b
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x439e..0x43b2  (20 bytes)
-DATA_439E:
-	defb 0b2h,043h,0bah,043h,0d6h,043h,0eeh,043h,0f7h,043h,0fdh,043h,00dh,044h,036h,044h	; 439e  .C.C.C.C.C.C.D6D
-	defb 04ah,044h,050h,044h	; 43ae
+; DATOS tabla_439E: 10 destinos del despachador p00:4093 (call en p00:439B, el
+;   indice en A): 43B2, 43BA, 43D6, 43EE, 43F7, 43FD, 440D, 4436, 444A, 4450;
+;   lo leen p00:439B (20 bytes)
+;   0x439e..0x43b2  (20 bytes)
+DATA_tabla_439E:
+	defw 043b2h,043bah,043d6h,043eeh,043f7h,043fdh,0440dh,04436h	; 439e
+	defw 0444ah,04450h	; 43ae  -> L_444A L_4450
 
 ; ======================================================================
 ; CODIGO 0x43b2..0x4589  (471 bytes)
@@ -801,9 +813,11 @@ L_4585:
 	call L_4093		;4586
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4589..0x458f  (6 bytes)
-DATA_4589:
-	defb 08fh,045h,0f0h,045h,00ch,046h	; 4589
+; DATOS tabla_4589: 3 destinos del despachador p00:4093 (call en p00:4586, el
+;   indice en A): 458F, 45F0, 460C; lo leen p00:4586 (6 bytes)
+;   0x4589..0x458f  (6 bytes)
+DATA_tabla_4589:
+	defw 0458fh,045f0h,0460ch	; 4589  -> L_458F L_45F0 L_460C
 
 ; ======================================================================
 ; CODIGO 0x458f..0x4620  (145 bytes)
@@ -881,9 +895,11 @@ L_461C:
 	call L_4093		;461d
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4620..0x4628  (8 bytes)
-DATA_4620:
-	defb 028h,046h,03ah,046h,08bh,046h,096h,046h	; 4620  (F:F.F.F
+; DATOS tabla_4620: 4 destinos del despachador p00:4093 (call en p00:461D, el
+;   indice en A): 4628, 463A, 468B, 4696; lo leen p00:461D (8 bytes)
+;   0x4620..0x4628  (8 bytes)
+DATA_tabla_4620:
+	defw 04628h,0463ah,0468bh,04696h	; 4620  -> L_4628 L_463A L_468B L_4696
 
 ; ======================================================================
 ; CODIGO 0x4628..0x479c  (372 bytes)
@@ -1067,10 +1083,19 @@ L_4786:
 	jp 0004dh		;4799   ; BIOS WRTVRM - Writes data in VRAM
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x479c..0x47b3  (23 bytes)
-DATA_479C:
-	defb 06dh,03ah,002h,000h,021h,01dh,012h,02ah,016h,023h,0ffh,0adh,03ah,003h,000h,021h	; 479c  m:..!..*.#..:..!
-	defb 01dh,012h,02ah,016h,023h,024h,0ffh	; 47ac
+; DATOS texto_479C: texto a la VRAM: direccion, letras ('A' = 0x12), 0xFE y
+;   otra direccion, 0xFF acaba (p00:4B04); lo leen p00:4345 (11 bytes)
+;   0x479c..0x47a7  (11 bytes)
+DATA_texto_479C:
+	defb 06dh,03ah,002h,000h,021h,01dh,012h,02ah,016h,023h,0ffh	; 479c  m:..!..*.#.
+
+; ----------------------------------------------------------------------
+; DATOS texto_47A7: texto a la VRAM: direccion, letras ('A' = 0x12), 0xFE y
+;   otra direccion, 0xFF acaba (p00:4B04); lo leen p00:43D0, p00:43D3 (12
+;   bytes)
+;   0x47a7..0x47b3  (12 bytes)
+DATA_texto_47A7:
+	defb 0adh,03ah,003h,000h,021h,01dh,012h,02ah,016h,023h,024h,0ffh	; 47a7  .:..!..*.#$.
 
 ; ======================================================================
 ; CODIGO 0x47b3..0x4806  (83 bytes)
@@ -1122,7 +1147,7 @@ DATA_4806:
 	defb 013h,042h	; 4816
 
 ; ======================================================================
-; CODIGO 0x4818..0x484e  (54 bytes)
+; CODIGO 0x4818..0x48cd  (181 bytes)
 ; ======================================================================
 
 
@@ -1150,17 +1175,12 @@ L_4845:
 	call L_4145		;4845
 	call 0639fh		;4848
 	jp L_4213		;484b
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x484e..0x4857  (9 bytes)
-DATA_484E:
-	defb 0cdh,045h,041h,0cdh,0a9h,06bh,0c3h,013h,042h	; 484e  .EA..k..B
-
-; ======================================================================
-; CODIGO 0x4857..0x487b  (36 bytes)
-; ======================================================================
-
-
+L_484E:
+	call L_4145		;484e
+L_4851:
+	call 06ba9h		;4851
+L_4854:
+	jp L_4213		;4854
 L_4857:
 	call L_41EC		;4857
 	call 0b28ah		;485a
@@ -1177,18 +1197,18 @@ L_4872:
 	call L_41EC		;4872
 	call 0b1b4h		;4875
 	jp L_4213		;4878
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x487b..0x488d  (18 bytes)
-DATA_487B:
-	defb 0cdh,045h,041h,0cdh,044h,078h,0c3h,013h,042h,0cdh,045h,041h,0cdh,0efh,092h,0c3h	; 487b  .EA.Dx..B.EA....
-	defb 013h,042h	; 488b
-
-; ======================================================================
-; CODIGO 0x488d..0x48cd  (64 bytes)
-; ======================================================================
-
-
+L_487B:
+	call L_4145		;487b
+L_487E:
+	call 07844h		;487e
+L_4881:
+	jp L_4213		;4881
+L_4884:
+	call L_4145		;4884
+L_4887:
+	call 092efh		;4887
+L_488A:
+	jp L_4213		;488a
 L_488D:
 	ld hl,0e360h		;488d
 	ld bc,00c9fh		;4890
@@ -1222,8 +1242,11 @@ L_489B:
 	ret			;48cc
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x48cd..0x48cf  (2 bytes)
-DATA_48CD:
+; DATOS leido_48CD: 2 bytes que lee p00:48AF al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:48AF (2 bytes)
+;   0x48cd..0x48cf  (2 bytes)
+DATA_leido_48CD:
 	defb 003h,001h	; 48cd
 
 ; ======================================================================
@@ -1377,8 +1400,12 @@ L_499F:
 	jr $+47		;49a5
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x49a7..0x49cd  (38 bytes)
-DATA_49A7:
+; DATOS rle_49A7: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80
+;   repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n &
+;   0x7F bytes; se solapan 2 bloques: (rle_vram_49A7 49A7-49CD); lo leen
+;   p00:4990, p00:4B3C (38 bytes)
+;   0x49a7..0x49cd  (38 bytes)
+DATA_rle_49A7:
 	defb 002h,04eh,010h,000h,08ch,04eh,058h,04fh,050h,051h,052h,053h,054h,055h,056h,057h	; 49a7  .N...NXOPQRSTUVW
 	defb 058h,004h,04eh,087h,04ah,000h,000h,04eh,000h,04bh,04eh,009h,000h,083h,04eh,04ch	; 49b7  X.N.J..N.KN...NL
 	defb 04dh,009h,000h,002h,04eh,000h	; 49c7
@@ -1547,13 +1574,13 @@ L_4AA3:
 	ld de,08649h		;4aa3
 	jp L_4B0C		;4aa6
 L_4AA9:
-	call L_48EF		;4aa9
+	call L_48EF		;4aa9   ; p00:48EF y la tabla de nombres (0x3800, 0x300 bytes) a cero: la pantalla en blanco
 	ld hl,03800h		;4aac
 	ld bc,00300h		;4aaf
 	xor a			;4ab2
 	jp 00056h		;4ab3   ; BIOS FILVRM - Fills VRAM with value
 L_4AB6:
-	ex af,af'			;4ab6
+	ex af,af'			;4ab6   ; la direccion de VRAM de HL para escribir (SETWRT), y en C' el puerto de datos del VDP (de 0x0007)
 	call 00053h		;4ab7   ; BIOS SETWRT - Enables VDP to write
 	exx			;4aba
 	ld a,(00007h)		;4abb
@@ -1615,88 +1642,88 @@ DATA_4AF4:
 
 
 L_4B04:
-	ld c,0ffh		;4b04
+	ld c,0ffh		;4b04   ; texto a la VRAM: DE apunta a la direccion; las letras tal cual (C = 0xFF)
 L_4B06:
-	ex de,hl			;4b06
+	ex de,hl			;4b06   ; HL = la direccion de VRAM que trae el texto...
 	ld e,(hl)			;4b07
 	inc hl			;4b08
 	ld d,(hl)			;4b09
 	ex de,hl			;4b0a
-	inc de			;4b0b
+	inc de			;4b0b   ; ...y DE en la primera letra
 L_4B0C:
-	ld a,(de)			;4b0c
+	ld a,(de)			;4b0c   ; la letra
 	inc de			;4b0d
-	ld b,a			;4b0e
+	ld b,a			;4b0e   ; 0xFF + 1 = 0: se acabo
 	inc b			;4b0f
 	ret z			;4b10
-	inc b			;4b11
+	inc b			;4b11   ; 0xFE + 2 = 0: otra direccion
 	jr z,L_4B06		;4b12
-	and c			;4b14
-	call 0004dh		;4b15   ; BIOS WRTVRM - Writes data in VRAM
-	inc hl			;4b18
+	and c			;4b14   ; la letra, o 0 si C = 0 (borrar)
+	call 0004dh		;4b15   ; BIOS WRTVRM - Writes data in VRAM | a la VRAM
+	inc hl			;4b18   ; la casilla siguiente
 	jr L_4B0C		;4b19
 L_4B1B:
-	ld c,000h		;4b1b
+	ld c,000h		;4b1b   ; el mismo texto con C = 0: lo borra
 	jr L_4B06		;4b1d
 L_4B1F:
-	ld c,0ffh		;4b1f
+	ld c,0ffh		;4b1f   ; texto a la RAM: HL apunta al destino y luego las letras (C = 0xFF)
 L_4B21:
-	ld e,(hl)			;4b21
+	ld e,(hl)			;4b21   ; DE = el destino
 	inc hl			;4b22
 	ld d,(hl)			;4b23
 	inc hl			;4b24
 L_4B25:
-	ld a,(hl)			;4b25
+	ld a,(hl)			;4b25   ; la letra
 	inc hl			;4b26
-	ld b,a			;4b27
+	ld b,a			;4b27   ; 0xFF: se acabo
 	inc b			;4b28
 	ret z			;4b29
-	inc b			;4b2a
+	inc b			;4b2a   ; 0xFE: otro destino
 	jr z,L_4B21		;4b2b
 	and c			;4b2d
-	ld (de),a			;4b2e
+	ld (de),a			;4b2e   ; a la RAM
 	inc de			;4b2f
 	jr L_4B25		;4b30
 L_4B32:
-	ld c,000h		;4b32
+	ld c,000h		;4b32   ; el mismo texto a la RAM con C = 0: lo borra
 	jr L_4B21		;4b34
 L_4B36:
-	ex de,hl			;4b36
+	ex de,hl			;4b36   ; RLE con direccion delante: HL = la direccion de VRAM...
 	ld e,(hl)			;4b37
 	inc hl			;4b38
 	ld d,(hl)			;4b39
 	ex de,hl			;4b3a
-	inc de			;4b3b
+	inc de			;4b3b   ; ...y DE en el primer byte del RLE
 L_4B3C:
-	call L_4AB6		;4b3c
+	call L_4AB6		;4b3c   ; RLE a la VRAM desde HL: SETWRT
 L_4B3F:
-	ld a,(de)			;4b3f
+	ld a,(de)			;4b3f   ; el byte de control
 	and a			;4b40
-	ret z			;4b41
+	ret z			;4b41   ; 0: se acabo
 	inc de			;4b42
-	ld b,a			;4b43
-	and 07fh		;4b44
-	cp b			;4b46
-	jr z,L_4B57		;4b47
-	and a			;4b49
-	jr z,L_4B36		;4b4a
-	ld b,a			;4b4c
+	ld b,a			;4b43   ; B = el byte
+	and 07fh		;4b44   ; sin el bit 7...
+	cp b			;4b46   ; ...es igual? (bit 7 a 0)
+	jr z,L_4B57		;4b47   ; si: n veces el byte que viene
+	and a			;4b49   ; 0x80 a secas...
+	jr z,L_4B36		;4b4a   ; ...trae otra direccion de VRAM
+	ld b,a			;4b4c   ; 0x81-0xFF: n & 0x7F bytes tal cual
 L_4B4D:
-	ld a,(de)			;4b4d
+	ld a,(de)			;4b4d   ; el byte
 	inc de			;4b4e
 	exx			;4b4f
-	out (c),a		;4b50
+	out (c),a		;4b50   ; al VDP
 	exx			;4b52
-	djnz L_4B4D		;4b53
+	djnz L_4B4D		;4b53   ; los n
 	jr L_4B3F		;4b55
 L_4B57:
-	ld a,(de)			;4b57
+	ld a,(de)			;4b57   ; el byte que se repite
 	inc de			;4b58
 L_4B59:
 	exx			;4b59
-	out (c),a		;4b5a
+	out (c),a		;4b5a   ; al VDP
 	exx			;4b5c
-	djnz L_4B59		;4b5d
+	djnz L_4B59		;4b5d   ; n veces
 	jr L_4B3F		;4b5f
 L_4B61:
 	call L_4B6D		;4b61
@@ -1828,21 +1855,24 @@ L_4BFA:
 	xor a			;4c23
 	call 00056h		;4c24   ; BIOS FILVRM - Fills VRAM with value
 L_4C27:
-	ld hl,04c38h		;4c27
+	ld hl,04c38h		;4c27   ; los ocho registros del VDP desde la tabla de 0x4C38
 	ld d,008h		;4c2a
 	ld c,000h		;4c2c
 L_4C2E:
-	ld b,(hl)			;4c2e
-	call 00047h		;4c2f   ; BIOS WRTVDP - Writes data in the VDP-register
+	ld b,(hl)			;4c2e   ; el valor
+	call 00047h		;4c2f   ; BIOS WRTVDP - Writes data in the VDP-register | al registro C
 	inc hl			;4c32
-	inc c			;4c33
+	inc c			;4c33   ; el registro siguiente
 	dec d			;4c34
 	jr nz,L_4C2E		;4c35
 	ret			;4c37
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4c38..0x4c40  (8 bytes)
-DATA_4C38:
+; DATOS leido_4C38: 8 bytes que lee p00:4C2E al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:4C2E (8 bytes)
+;   0x4c38..0x4c40  (8 bytes)
+DATA_leido_4C38:
 	defb 002h,0e2h,00eh,07fh,007h,076h,003h,0efh	; 4c38  .....v..
 
 ; ======================================================================
@@ -1851,65 +1881,65 @@ DATA_4C38:
 
 
 L_4C40:
-	ld c,007h		;4c40
+	ld c,007h		;4c40   ; B al registro 7: el color del borde
 	jp 00047h		;4c42   ; BIOS WRTVDP - Writes data in the VDP-register
 L_4C45:
-	call L_4C5D		;4c45
-	call L_4C53		;4c48
-	call L_4C99		;4c4b
-	ld hl,0e311h		;4c4e
+	call L_4C5D		;4c45   ; los mandos: lo pulsado (p00:4C5D)...
+	call L_4C53		;4c48   ; ...en 0xE309, y lo recien pulsado en 0xE308
+	call L_4C99		;4c4b   ; las teclas de funcion y demas (p00:4C99)...
+	ld hl,0e311h		;4c4e   ; ...en 0xE311, y lo recien pulsado en 0xE310
 	jr L_4C56		;4c51
 L_4C53:
-	ld hl,0e309h		;4c53
+	ld hl,0e309h		;4c53   ; HL = lo pulsado del cuadro anterior
 L_4C56:
-	ld c,(hl)			;4c56
-	ld (hl),a			;4c57
-	xor c			;4c58
-	and (hl)			;4c59
+	ld c,(hl)			;4c56   ; lo de antes
+	ld (hl),a			;4c57   ; lo de ahora se guarda
+	xor c			;4c58   ; lo que cambia...
+	and (hl)			;4c59   ; ...y esta pulsado ahora: lo recien pulsado
 	dec hl			;4c5a
-	ld (hl),a			;4c5b
+	ld (hl),a			;4c5b   ; en el byte de antes
 	ret			;4c5c
 L_4C5D:
-	ld e,08fh		;4c5d
+	ld e,08fh		;4c5d   ; el registro 15 del PSG a 0x8F: el puerto del mando 1
 	ld a,00fh		;4c5f
 	call 00093h		;4c61   ; BIOS WRTPSG - Writes data to PSG-register
-	ld a,00eh		;4c64
+	ld a,00eh		;4c64   ; el registro 14: el mando
 	di			;4c66
 	call 00096h		;4c67   ; BIOS RDPSG - Reads value from PSG-register
 	ei			;4c6a
-	cpl			;4c6b
-	and 03fh		;4c6c
+	cpl			;4c6b   ; a 1 lo pulsado
+	and 03fh		;4c6c   ; arriba, abajo, izquierda, derecha y los dos botones
 	push af			;4c6e
-	ld a,004h		;4c6f
+	ld a,004h		;4c6f   ; la fila 4 del teclado
 	call 00141h		;4c71   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
-	cpl			;4c74
-	and 00ch		;4c75
-	ld e,a			;4c77
-	jr z,L_4C7C		;4c78
-	ld e,020h		;4c7a
+	cpl			;4c74   ; a 1 lo pulsado
+	and 00ch		;4c75   ; M y N
+	ld e,a			;4c77   ; en E
+	jr z,L_4C7C		;4c78   ; si no, E = 0
+	ld e,020h		;4c7a   ; con cualquiera, el bit 5: el boton 2
 L_4C7C:
-	ld a,008h		;4c7c
+	ld a,008h		;4c7c   ; la fila 8 del teclado: espacio y cursores
 	call 00141h		;4c7e   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
-	cpl			;4c81
-	rrca			;4c82
+	cpl			;4c81   ; a 1 lo pulsado
+	rrca			;4c82   ; corrida dos bits: la izquierda queda en el bit 2
 	rrca			;4c83
 	ld b,a			;4c84
-	and 004h		;4c85
-	or e			;4c87
+	and 004h		;4c85   ; la izquierda...
+	or e			;4c87   ; ...con el boton 2
 	ld c,a			;4c88
 	ld a,b			;4c89
-	rrca			;4c8a
+	rrca			;4c8a   ; dos bits mas: la derecha en el 3 y el espacio en el 4
 	rrca			;4c8b
 	ld b,a			;4c8c
-	and 018h		;4c8d
+	and 018h		;4c8d   ; la derecha y el espacio (boton 1)
 	or c			;4c8f
 	ld c,a			;4c90
-	ld a,b			;4c91
+	ld a,b			;4c91   ; uno mas: arriba en el 0 y abajo en el 1
 	rrca			;4c92
-	and 003h		;4c93
+	and 003h		;4c93   ; arriba y abajo
 	or c			;4c95
-	pop bc			;4c96
-	or b			;4c97
+	pop bc			;4c96   ; y lo del mando
+	or b			;4c97   ; todo junto, con el mismo orden de bits que el mando
 	ret			;4c98
 L_4C99:
 	ld a,006h		;4c99
@@ -1928,51 +1958,51 @@ L_4C99:
 	and 01fh		;4cae
 	ret			;4cb0
 L_4CB1:
-	ld a,(ix+000h)		;4cb1
+	ld a,(ix+000h)		;4cb1   ; lista de graficos de IX, de 6 en 6: el primer byte dice que tercios de la pantalla y de que banco; 0 acaba
 	and a			;4cb4
 	ret z			;4cb5
-	bit 3,a		;4cb6
+	bit 3,a		;4cb6   ; bit 3: los graficos estan en otro banco
 	jr z,L_4CC4		;4cb8
-	bit 4,a		;4cba
+	bit 4,a		;4cba   ; bit 4: cual
 	push af			;4cbc
-	call z,L_4186		;4cbd
+	call z,L_4186		;4cbd   ; sin el bit 4: 16-17-18
 	pop af			;4cc0
-	call nz,L_4199		;4cc1
+	call nz,L_4199		;4cc1   ; con el: el 15 en 0x8000
 L_4CC4:
-	bit 0,(ix+000h)		;4cc4
+	bit 0,(ix+000h)		;4cc4   ; bit 0: el tercio de abajo (0x1000)
 	ld de,01000h		;4cc8
 	call nz,L_4CE9		;4ccb
-	bit 1,(ix+000h)		;4cce
+	bit 1,(ix+000h)		;4cce   ; bit 1: el del medio (0x0800)
 	ld de,00800h		;4cd2
 	call nz,L_4CE9		;4cd5
-	bit 2,(ix+000h)		;4cd8
+	bit 2,(ix+000h)		;4cd8   ; bit 2: el de arriba (0x0000)
 	ld de,00000h		;4cdc
 	call nz,L_4CE9		;4cdf
-	ld de,00006h		;4ce2
+	ld de,00006h		;4ce2   ; la entrada siguiente
 	add ix,de		;4ce5
 	jr L_4CB1		;4ce7
 L_4CE9:
-	ld l,(ix+003h)		;4ce9
+	ld l,(ix+003h)		;4ce9   ; el primer caracter (IX+3)...
 	ld h,000h		;4cec
-	add hl,hl			;4cee
+	add hl,hl			;4cee   ; ...por 8: su sitio en la tabla del tercio
 	add hl,hl			;4cef
 	add hl,hl			;4cf0
 	add hl,de			;4cf1
 	push hl			;4cf2
-	ld de,02000h		;4cf3
+	ld de,02000h		;4cf3   ; + 0x2000: los dibujos
 	add hl,de			;4cf6
-	ld e,(ix+001h)		;4cf7
+	ld e,(ix+001h)		;4cf7   ; el RLE de los dibujos (IX+1)
 	ld d,(ix+002h)		;4cfa
 	push ix		;4cfd
-	call L_4B3C		;4cff
+	call L_4B3C		;4cff   ; a la VRAM
 	pop ix		;4d02
 	pop hl			;4d04
-	ld de,00000h		;4d05
+	ld de,00000h		;4d05   ; + 0: los colores
 	add hl,de			;4d08
-	ld e,(ix+004h)		;4d09
+	ld e,(ix+004h)		;4d09   ; el RLE de los colores (IX+4)
 	ld d,(ix+005h)		;4d0c
 	push ix		;4d0f
-	call L_4B3C		;4d11
+	call L_4B3C		;4d11   ; a la VRAM
 	pop ix		;4d14
 	ret			;4d16
 L_4D17:
@@ -2944,8 +2974,13 @@ L_5423:
 	ret			;5427
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5428..0x5448  (32 bytes)
-DATA_5428:
+; DATOS tabla_5428: tabla que se lee desde HL = 0x5428 con un indice
+;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
+;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
+;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
+;   da quien llama; lo leen p00:5409 (32 bytes)
+;   0x5428..0x5448  (32 bytes)
+DATA_tabla_5428:
 	defb 002h,00fh,005h,013h,00ah,001h,00dh,006h,011h,008h,00bh,002h,010h,007h,00dh,005h	; 5428  ................
 	defb 012h,00ch,002h,012h,009h,00eh,014h,011h,002h,005h,00dh,00ah,013h,006h,00fh,009h	; 5438  ................
 
@@ -2979,9 +3014,22 @@ L_5461:
 	jp 0004dh		;5470   ; BIOS WRTVRM - Writes data in VRAM
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5473..0x547b  (8 bytes)
-DATA_5473:
-	defb 0ffh,000h,0ffh,0ffh,000h,0ffh,0ffh,0ffh	; 5473  ........
+; DATOS tabla_5473: tabla que se lee desde HL = 0x5473 con un indice
+;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
+;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
+;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
+;   da quien llama; lo leen p00:544D (1 bytes)
+;   0x5473..0x5474  (1 bytes)
+DATA_tabla_5473:
+	defb 0ffh	; 5473
+
+; ----------------------------------------------------------------------
+; DATOS leido_5474: 7 bytes que leen p00:5456, p00:5454 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p00:5456, p00:5454 (7 bytes)
+;   0x5474..0x547b  (7 bytes)
+DATA_leido_5474:
+	defb 000h,0ffh,0ffh,000h,0ffh,0ffh,0ffh	; 5474
 
 ; ======================================================================
 ; CODIGO 0x547b..0x559b  (288 bytes)
@@ -3125,8 +3173,11 @@ L_5592:
 	jp L_5583		;5598
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x559b..0x55a9  (14 bytes)
-DATA_559B:
+; DATOS resto_559B: lo apuntan con el banco puesto p00:5566 (0x559B); el
+;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
+;   p00:5566 (14 bytes)
+;   0x559b..0x55a9  (14 bytes)
+DATA_resto_559B:
 	defb 012h,000h,015h,004h,002h,00eh,00ch,00fh,00bh,013h,005h,008h,003h,0ffh	; 559b  ..............
 
 ; ======================================================================
@@ -3477,14 +3528,33 @@ L_578B:
 	ret			;5793
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5794..0x57ea  (86 bytes)
-DATA_5794:
+; DATOS leido_5794: 22 bytes que leen p00:4A60, p00:4A62 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido, con 2 sin leer entre lecturas de la misma
+;   rutina: entradas de la misma tabla que las partidas no han pedido); lo
+;   leen p00:4A60, p00:4A62 (22 bytes)
+;   0x5794..0x57aa  (22 bytes)
+DATA_leido_5794:
 	defb 0aah,057h,0aeh,057h,0b2h,057h,0bch,057h,0bch,057h,0c3h,057h,0cah,057h,0d1h,057h	; 5794  .W.W.W.W.W.W.W.W
-	defb 0d8h,057h,0e2h,057h,0e6h,057h,006h,068h,001h,005h,007h,088h,001h,005h,004h,080h	; 57a4  .W.W.W.h........
-	defb 000h,008h,088h,001h,005h,0d8h,001h,001h,004h,080h,000h,00ch,0e8h,001h,005h,004h	; 57b4  ................
-	defb 060h,000h,044h,088h,001h,005h,004h,060h,000h,045h,088h,001h,005h,004h,060h,000h	; 57c4  `.D....`.E....`.
-	defb 046h,0f8h,001h,005h,004h,040h,000h,00dh,0b0h,001h,005h,03ch,002h,001h,047h,040h	; 57d4  F....@.....<..G@
-	defb 002h,005h,00eh,09dh,000h,001h	; 57e4
+	defb 0d8h,057h,0e2h,057h,0e6h,057h	; 57a4
+
+; ----------------------------------------------------------------------
+; DATOS leido_57AA: 63 bytes que leen p00:576A, p00:576D, p00:5770 al jugar
+;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
+;   el tamano es lo que se lee seguido, con 5 sin leer entre lecturas de la
+;   misma rutina: entradas de la misma tabla que las partidas no han pedido);
+;   lo leen p00:576A, p00:576D, p00:5770 (63 bytes)
+;   0x57aa..0x57e9  (63 bytes)
+DATA_leido_57AA:
+	defb 006h,068h,001h,005h,007h,088h,001h,005h,004h,080h,000h,008h,088h,001h,005h,0d8h	; 57aa  .h..............
+	defb 001h,001h,004h,080h,000h,00ch,0e8h,001h,005h,004h,060h,000h,044h,088h,001h,005h	; 57ba  ..........`.D...
+	defb 004h,060h,000h,045h,088h,001h,005h,004h,060h,000h,046h,0f8h,001h,005h,004h,040h	; 57ca  .`.E....`.F....@
+	defb 000h,00dh,0b0h,001h,005h,03ch,002h,001h,047h,040h,002h,005h,00eh,09dh,000h	; 57da  .....<..G@.....
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x57e9..0x57ea  (1 bytes)
+DATA_57E9:
+	defb 001h	; 57e9
 
 ; ======================================================================
 ; CODIGO 0x57ea..0x57f2  (8 bytes)
@@ -3634,7 +3704,7 @@ DATA_5898:
 	defb 03eh,02ah	; 5898
 
 ; ======================================================================
-; CODIGO 0x589a..0x58cd  (51 bytes)
+; CODIGO 0x589a..0x5916  (124 bytes)
 ; ======================================================================
 
 
@@ -3667,59 +3737,51 @@ L_589A:
 	pop hl			;58ca
 	ei			;58cb
 	ret			;58cc
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x58cd..0x58d1  (4 bytes)
-DATA_58CD:
-	defb 03eh,02bh,018h,0c9h	; 58cd
-
-; ======================================================================
-; CODIGO 0x58d1..0x5912  (65 bytes)
-; ======================================================================
-
-
+L_58CD:
+	ld a,02bh		;58cd
+	jr L_589A		;58cf
 L_58D1:
 	ld a,02ch		;58d1
-	jr $-57		;58d3
+	jr L_589A		;58d3
 L_58D5:
 	ld a,02dh		;58d5
-	jr $-61		;58d7
+	jr L_589A		;58d7
 L_58D9:
 	ld a,02eh		;58d9
-	jr $-65		;58db
+	jr L_589A		;58db
 L_58DD:
 	ld a,02fh		;58dd
-	jr $-69		;58df
+	jr L_589A		;58df
 L_58E1:
 	ld a,030h		;58e1
-	jr $-73		;58e3
+	jr L_589A		;58e3
 L_58E5:
 	ld a,031h		;58e5
-	jr $-77		;58e7
+	jr L_589A		;58e7
 L_58E9:
 	ld a,032h		;58e9
-	jr $-81		;58eb
+	jr L_589A		;58eb
 L_58ED:
 	ld a,033h		;58ed
-	jr $-85		;58ef
+	jr L_589A		;58ef
 L_58F1:
 	ld a,034h		;58f1
-	jr $-89		;58f3
+	jr L_589A		;58f3
 L_58F5:
 	ld a,035h		;58f5
-	jr $-93		;58f7
+	jr L_589A		;58f7
 L_58F9:
 	ld a,036h		;58f9
-	jr $-97		;58fb
+	jr L_589A		;58fb
 L_58FD:
 	ld a,04dh		;58fd
-	jr $-101		;58ff
+	jr L_589A		;58ff
 L_5901:
 	ld a,04eh		;5901
-	jr $-105		;5903
+	jr L_589A		;5903
 L_5905:
 	ld a,037h		;5905
-	jr $-109		;5907
+	jr L_589A		;5907
 L_5909:
 	ld a,038h		;5909
 L_590B:
@@ -3727,14 +3789,17 @@ L_590B:
 L_590E:
 	ld a,039h		;590e
 	jr L_590B		;5910
+L_5912:
+	ld a,03ah		;5912
+	jr L_590B		;5914
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5912..0x591a  (8 bytes)
-DATA_5912:
-	defb 03eh,03ah,018h,0f5h,03eh,03bh,018h,0f1h	; 5912  >:..>...
+; DATOS sin identificar  0x5916..0x591a  (4 bytes)
+DATA_5916:
+	defb 03eh,03bh,018h,0f1h	; 5916
 
 ; ======================================================================
-; CODIGO 0x591a..0x5927  (13 bytes)
+; CODIGO 0x591a..0x5955  (59 bytes)
 ; ======================================================================
 
 
@@ -3746,17 +3811,9 @@ L_591E:
 	call L_590B		;5920
 	ld a,051h		;5923
 	jr $-26		;5925
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5927..0x592b  (4 bytes)
-DATA_5927:
-	defb 03eh,03ch,018h,0e0h	; 5927
-
-; ======================================================================
-; CODIGO 0x592b..0x5955  (42 bytes)
-; ======================================================================
-
-
+L_5927:
+	ld a,03ch		;5927
+	jr $-30		;5929
 L_592B:
 	ld a,083h		;592b
 	call L_590B		;592d
@@ -4176,9 +4233,20 @@ L_5C8E:
 	ret			;5ca4
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5ca5..0x5cb4  (15 bytes)
-DATA_5CA5:
-	defb 001h,000h,000h,000h,04ah,000h,050h,000h,000h,000h,000h,000h,001h,001h,000h	; 5ca5  ....J.P........
+; DATOS leido_5CA5: 12 bytes que lee p00:5C97 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:5C97 (12 bytes)
+;   0x5ca5..0x5cb1  (12 bytes)
+DATA_leido_5CA5:
+	defb 001h,000h,000h,000h,04ah,000h,050h,000h,000h,000h,000h,000h	; 5ca5  ....J.P.....
+
+; ----------------------------------------------------------------------
+; DATOS leido_5CB1: 3 bytes que lee p00:5CA2 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:5CA2 (3 bytes)
+;   0x5cb1..0x5cb4  (3 bytes)
+DATA_leido_5CB1:
+	defb 001h,001h,000h	; 5cb1
 
 ; ======================================================================
 ; CODIGO 0x5cb4..0x5cf5  (65 bytes)
@@ -4227,8 +4295,13 @@ L_5CF4:
 	ret			;5cf4
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5cf5..0x5d00  (11 bytes)
-DATA_5CF5:
+; DATOS leido_5CF5: 11 bytes que lee p00:4A73 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido, con 1 sin leer entre lecturas de la misma rutina: entradas
+;   de la misma tabla que las partidas no han pedido); lo leen p00:4A73 (11
+;   bytes)
+;   0x5cf5..0x5d00  (11 bytes)
+DATA_leido_5CF5:
 	defb 05bh,060h,0ffh,060h,090h,05eh,072h,060h,063h,066h,060h	; 5cf5  [`.`.^r`cf`
 
 ; ======================================================================
@@ -4485,10 +4558,92 @@ L_5EB2:
 	ret			;5eb7
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5eb8..0x5ed4  (28 bytes)
-DATA_5EB8:
-	defb 001h,07eh,006h,001h,037h,001h,060h,020h,001h,080h,080h,007h,000h,0b0h,061h,008h	; 5eb8  .~..7.` ......a.
-	defb 062h,058h,067h,095h,067h,001h,07fh,007h,080h,080h,007h,000h	; 5ec8  bXg.g.......
+; DATOS leido_5EB8: 1 bytes que lee p01:6020 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p01:6020 (1 bytes)
+;   0x5eb8..0x5eb9  (1 bytes)
+DATA_leido_5EB8:
+	defb 001h	; 5eb8
+
+; ----------------------------------------------------------------------
+; DATOS leido_5EB9: 1 bytes que lee p01:60A5 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p01:60A5 (1 bytes)
+;   0x5eb9..0x5eba  (1 bytes)
+DATA_leido_5EB9:
+	defb 07eh	; 5eb9
+
+; ----------------------------------------------------------------------
+; DATOS leido_5EBA: 2 bytes que leen p01:6026, p01:6020 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p01:6026, p01:6020 (2 bytes)
+;   0x5eba..0x5ebc  (2 bytes)
+DATA_leido_5EBA:
+	defb 006h,001h	; 5eba
+
+; ----------------------------------------------------------------------
+; DATOS leido_5EBC: 1 bytes que lee p01:60A5 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p01:60A5 (1 bytes)
+;   0x5ebc..0x5ebd  (1 bytes)
+DATA_leido_5EBC:
+	defb 037h	; 5ebc
+
+; ----------------------------------------------------------------------
+; DATOS leido_5EBD: 2 bytes que leen p01:6026, p01:6020 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p01:6026, p01:6020 (2 bytes)
+;   0x5ebd..0x5ebf  (2 bytes)
+DATA_leido_5EBD:
+	defb 001h,060h	; 5ebd
+
+; ----------------------------------------------------------------------
+; DATOS leido_5EBF: 1 bytes que lee p01:60A5 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p01:60A5 (1 bytes)
+;   0x5ebf..0x5ec0  (1 bytes)
+DATA_leido_5EBF:
+	defb 020h	; 5ebf
+
+; ----------------------------------------------------------------------
+; DATOS leido_5EC0: 2 bytes que leen p01:6026, p01:6020 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p01:6026, p01:6020 (2 bytes)
+;   0x5ec0..0x5ec2  (2 bytes)
+DATA_leido_5EC0:
+	defb 001h,080h	; 5ec0
+
+; ----------------------------------------------------------------------
+; DATOS leido_5EC2: 1 bytes que lee p01:60A5 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p01:60A5 (1 bytes)
+;   0x5ec2..0x5ec3  (1 bytes)
+DATA_leido_5EC2:
+	defb 080h	; 5ec2
+
+; ----------------------------------------------------------------------
+; DATOS leido_5EC3: 2 bytes que leen p01:6026, p01:6020 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p01:6026, p01:6020 (2 bytes)
+;   0x5ec3..0x5ec5  (2 bytes)
+DATA_leido_5EC3:
+	defb 007h,000h	; 5ec3
+
+; ----------------------------------------------------------------------
+; DATOS leido_5EC5: 4 bytes que lee p00:5EDA al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:5EDA (4 bytes)
+;   0x5ec5..0x5ec9  (4 bytes)
+DATA_leido_5EC5:
+	defb 0b0h,061h,008h,062h	; 5ec5
+
+; ----------------------------------------------------------------------
+; DATOS resto_5EC9: lo apuntan con el banco puesto p00:5C05 (0x5EC9), p27:8A40
+;   (0x5ECD); el tamano es lo que hay hasta lo siguiente, no sale de
+;   recorrerlo; lo leen p00:5C05, p27:8A40 (11 bytes)
+;   0x5ec9..0x5ed4  (11 bytes)
+DATA_resto_5EC9:
+	defb 058h,067h,095h,067h,001h,07fh,007h,080h,080h,007h,000h	; 5ec9  Xg.g.......
 
 ; ======================================================================
 ; CODIGO 0x5ed4..0x5ffe  (298 bytes)
@@ -4662,6 +4817,9 @@ L_5FF9:
 	jr L_5FC3		;5ffc
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5ffe..0x6000  (2 bytes)
+; DATOS partida_5FFE: los 2 primeros bytes de una instruccion de 3 (22 1C E5)
+;   que sigue en el banco 1: el trazador de un solo banco no puede verla
+;   entera (tools/bancos.py); lo leen p00:5FFE (2 bytes)
+;   0x5ffe..0x6000  (2 bytes)
 L_5FFE:
 	defb 022h,01ch	; 5ffe

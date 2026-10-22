@@ -1,0 +1,515 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x8017 0x801D tabla_8017  3 destinos del despachador p00:4093 (call en p30:8014, el indice en A): 802A, 80C6, 815A; lo leen p30:8014 (6 bytes)
+F 0x8017 w3
+D 0x8035 0x8043 tabla_8035  7 destinos del despachador p00:4093 (call en p30:8032, el indice en A): 8043, 8057, 806C, 807D, 808E, 80A2, 80B5; lo leen p30:8032 (14 bytes)
+F 0x8035 w7
+D 0x80CA 0x80D6 tabla_80CA  6 destinos del despachador p00:4093 (call en p30:80C7, el indice en A): 80D6, 80E1, 8102, 811B, 8132, 8143; lo leen p30:80C7 (12 bytes)
+F 0x80CA w6
+D 0x815E 0x818C tabla_815E  23 destinos del despachador p00:4093 (call en p30:815B, el indice en A): 818C, 81A6, 81AE, 81C3, 81CE, 81EB, 81FA, 8225, 8237, 8267, 8284, 82B3, 82C4, 82F1, 8315, 835E, 8366, 8377, 8382, 83AA, 83B2, 83C3, 83CE; lo leen p30:815B (46 bytes)
+F 0x815E w8
+D 0x8221 0x8225 tabla_8221  tabla que se lee desde HL = 0x8221 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p30:820D (4 bytes)
+F 0x8221 16
+D 0x8420 0x8432 leido_8420  18 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A73 (18 bytes)
+F 0x8420 16
+D 0x8483 0x84C1 tabla_8483  tabla que se lee desde HL = 0x8483 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p30:8479 (62 bytes)
+F 0x8483 16
+D 0x85A3 0x85BD tabla_85A3  13 destinos del despachador p00:4093 (call en p30:85A0, el indice en A): 85BD, 85D3, 860A, 8649, 866F, 8680, 8690, 86C2, 86D1, 86E0, 86EF, 8701, 870F; lo leen p30:85A0 (26 bytes)
+F 0x85A3 w8
+D 0x8781 0x8791 tabla_8781  tabla que se lee desde HL = 0x8781 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p30:8764 (16 bytes)
+F 0x8781 16
+D 0x887A 0x88C0 rle_ram2_887A  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (70 bytes)
+F 0x887A 16
+D 0x892E 0x893B tabla_892E  tabla que se lee desde HL = 0x892E con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p30:8805 (13 bytes)
+F 0x892E 16
+D 0x89CA 0x89D2 leido_89CA  8 bytes que lee p30:856F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p30:856F (8 bytes)
+F 0x89CA 16
+D 0x89D2 0x89D6 tabla_89D2  tabla que se lee desde HL = 0x89D2 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p30:8468 (4 bytes)
+F 0x89D2 16
+D 0x89D6 0x8A4C leido_89D6  118 bytes que leen p30:846E, p30:8470, p30:8472, p30:8474 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p30:846E, p30:8470, p30:8472, p30:8474 (118 bytes)
+F 0x89D6 16
+D 0x8A4C 0x8A4D tabla_8A4C  tabla que se lee desde HL = 0x8A4C con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p30:844D (1 bytes)
+F 0x8A4C 16
+D 0x8A4D 0x8A4E leido_8A4D  1 bytes que lee p30:8474 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p30:8474 (1 bytes)
+F 0x8A4D 16
+D 0x8A4E 0x8A8A leido_8A4E  60 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (60 bytes)
+F 0x8A4E 16
+D 0x8A8A 0x8ABF rle_ram2_8A8A  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (53 bytes)
+F 0x8A8A 16
+D 0x8ABF 0x8B27 rle_ram2_8ABF  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (104 bytes)
+F 0x8ABF 16
+D 0x8B27 0x8B64 rle_ram2_8B27  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (61 bytes)
+F 0x8B27 16
+D 0x8B64 0x8B9C rle_ram2_8B64  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (56 bytes)
+F 0x8B64 16
+D 0x8B9C 0x8BB8 rle_ram2_8B9C  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (28 bytes)
+F 0x8B9C 16
+D 0x8BB8 0x8BFD rle_ram2_8BB8  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (69 bytes)
+F 0x8BB8 16
+D 0x8BFD 0x8C48 rle_ram2_8BFD  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (75 bytes)
+F 0x8BFD 16
+D 0x8C48 0x8C72 rle_ram2_8C48  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (42 bytes)
+F 0x8C48 16
+D 0x8C72 0x8CA1 rle_ram2_8C72  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (47 bytes)
+F 0x8C72 16
+D 0x8CA1 0x8CF2 rle_ram2_8CA1  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (81 bytes)
+F 0x8CA1 16
+D 0x8CF2 0x8D3E rle_ram2_8CF2  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (76 bytes)
+F 0x8CF2 16
+D 0x8D3E 0x8DA6 rle_ram2_8D3E  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (104 bytes)
+F 0x8D3E 16
+D 0x8DA6 0x8DE3 rle_ram2_8DA6  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (61 bytes)
+F 0x8DA6 16
+D 0x8DE3 0x8E36 rle_ram2_8DE3  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (83 bytes)
+F 0x8DE3 16
+D 0x8E36 0x8E75 rle_ram2_8E36  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (63 bytes)
+F 0x8E36 16
+D 0x8E75 0x8EBC rle_ram2_8E75  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (71 bytes)
+F 0x8E75 16
+D 0x8EBC 0x8EED rle_ram2_8EBC  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (49 bytes)
+F 0x8EBC 16
+D 0x8EED 0x8F0A rle_ram2_8EED  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (29 bytes)
+F 0x8EED 16
+D 0x8F0A 0x8F46 rle_ram2_8F0A  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (60 bytes)
+F 0x8F0A 16
+D 0x8F46 0x8F9B rle_ram2_8F46  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (85 bytes)
+F 0x8F46 16
+D 0x8F9B 0x8FCA rle_ram2_8F9B  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (47 bytes)
+F 0x8F9B 16
+D 0x8FCA 0x8FED rle_ram2_8FCA  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (35 bytes)
+F 0x8FCA 16
+D 0x8FED 0x9060 rle_ram2_8FED  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (115 bytes)
+F 0x8FED 16
+D 0x9060 0x9082 rle_ram2_9060  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (34 bytes)
+F 0x9060 16
+D 0x9082 0x90D2 rle_ram2_9082  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (80 bytes)
+F 0x9082 16
+D 0x90D2 0x9131 rle_ram2_90D2  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (95 bytes)
+F 0x90D2 16
+D 0x9131 0x91A1 rle_ram2_9131  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (112 bytes)
+F 0x9131 16
+D 0x91A1 0x91F9 rle_ram2_91A1  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (88 bytes)
+F 0x91A1 16
+D 0x91F9 0x924B rle_ram2_91F9  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (82 bytes)
+F 0x91F9 16
+D 0x924B 0x9298 rle_ram2_924B  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (77 bytes)
+F 0x924B 16
+D 0x9298 0x92D4 leido_9298  60 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (60 bytes)
+F 0x9298 16
+D 0x92D4 0x92D5 leido_92D4  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x92D4 16
+D 0x92D5 0x92DA leido_92D5  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x92D5 16
+D 0x92DA 0x92DB leido_92DA  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x92DA 16
+D 0x92DB 0x92DC leido_92DB  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x92DB 16
+D 0x92DC 0x92DD leido_92DC  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x92DC 16
+D 0x92DD 0x92E0 leido_92DD  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x92DD 16
+D 0x92E0 0x92E1 leido_92E0  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x92E0 16
+D 0x92E1 0x92E6 leido_92E1  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x92E1 16
+D 0x92E6 0x92E7 leido_92E6  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x92E6 16
+D 0x92E7 0x92E8 leido_92E7  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x92E7 16
+D 0x92E8 0x92E9 leido_92E8  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x92E8 16
+D 0x92E9 0x92EC leido_92E9  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x92E9 16
+D 0x92EC 0x92ED leido_92EC  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x92EC 16
+D 0x92ED 0x92F0 leido_92ED  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x92ED 16
+D 0x92F0 0x92F1 leido_92F0  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x92F0 16
+D 0x92F1 0x92F4 leido_92F1  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x92F1 16
+D 0x92F4 0x92F5 leido_92F4  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x92F4 16
+D 0x92F5 0x92FA leido_92F5  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x92F5 16
+D 0x92FA 0x92FB leido_92FA  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x92FA 16
+D 0x92FB 0x92FC leido_92FB  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x92FB 16
+D 0x92FC 0x92FD leido_92FC  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x92FC 16
+D 0x92FD 0x9300 leido_92FD  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x92FD 16
+D 0x9300 0x9301 leido_9300  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x9300 16
+D 0x9301 0x9304 leido_9301  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x9301 16
+D 0x9304 0x9305 leido_9304  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9304 16
+D 0x9305 0x930A leido_9305  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x9305 16
+D 0x930A 0x930B leido_930A  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x930A 16
+D 0x930B 0x930C leido_930B  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x930B 16
+D 0x930C 0x930D leido_930C  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x930C 16
+D 0x930D 0x9312 leido_930D  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x930D 16
+D 0x9312 0x9313 leido_9312  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9312 16
+D 0x9313 0x9314 leido_9313  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x9313 16
+D 0x9314 0x9315 leido_9314  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x9314 16
+D 0x9315 0x9318 leido_9315  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x9315 16
+D 0x9318 0x9319 leido_9318  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9318 16
+D 0x9319 0x931E leido_9319  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x9319 16
+D 0x931E 0x931F leido_931E  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x931E 16
+D 0x931F 0x9320 leido_931F  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x931F 16
+D 0x9320 0x9321 leido_9320  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x9320 16
+D 0x9321 0x9324 leido_9321  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x9321 16
+D 0x9324 0x9325 leido_9324  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9324 16
+D 0x9325 0x932A leido_9325  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x9325 16
+D 0x932A 0x932B leido_932A  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x932A 16
+D 0x932B 0x932C leido_932B  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x932B 16
+D 0x932C 0x932D leido_932C  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x932C 16
+D 0x932D 0x9330 leido_932D  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x932D 16
+D 0x9330 0x9331 leido_9330  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9330 16
+D 0x9331 0x9336 leido_9331  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x9331 16
+D 0x9336 0x9337 leido_9336  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9336 16
+D 0x9337 0x9338 leido_9337  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x9337 16
+D 0x9338 0x9339 leido_9338  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x9338 16
+D 0x9339 0x933C leido_9339  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x9339 16
+D 0x933C 0x933D leido_933C  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x933C 16
+D 0x933D 0x9342 leido_933D  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x933D 16
+D 0x9342 0x9343 leido_9342  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9342 16
+D 0x9343 0x9344 leido_9343  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x9343 16
+D 0x9344 0x9345 leido_9344  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x9344 16
+D 0x9345 0x9348 leido_9345  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x9345 16
+D 0x9348 0x9349 leido_9348  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9348 16
+D 0x9349 0x934E leido_9349  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x9349 16
+D 0x934E 0x934F leido_934E  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x934E 16
+D 0x934F 0x9350 leido_934F  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x934F 16
+D 0x9350 0x9351 leido_9350  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x9350 16
+D 0x9351 0x9354 leido_9351  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x9351 16
+D 0x9354 0x9355 leido_9354  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9354 16
+D 0x9355 0x935A leido_9355  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x9355 16
+D 0x935A 0x935B leido_935A  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x935A 16
+D 0x935B 0x935C leido_935B  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x935B 16
+D 0x935C 0x935D leido_935C  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x935C 16
+D 0x935D 0x9360 leido_935D  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x935D 16
+D 0x9360 0x9361 leido_9360  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x9360 16
+D 0x9361 0x9364 leido_9361  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x9361 16
+D 0x9364 0x9365 leido_9364  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9364 16
+D 0x9365 0x936A leido_9365  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x9365 16
+D 0x936A 0x936B leido_936A  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x936A 16
+D 0x936B 0x936C leido_936B  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x936B 16
+D 0x936C 0x936D leido_936C  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x936C 16
+D 0x936D 0x9370 leido_936D  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x936D 16
+D 0x9370 0x9371 leido_9370  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9370 16
+D 0x9371 0x9376 leido_9371  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x9371 16
+D 0x9376 0x9377 leido_9376  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9376 16
+D 0x9377 0x9378 leido_9377  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x9377 16
+D 0x9378 0x9379 leido_9378  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9378 16
+D 0x9379 0x937E leido_9379  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x9379 16
+D 0x937E 0x937F leido_937E  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x937E 16
+D 0x937F 0x9380 leido_937F  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x937F 16
+D 0x9380 0x9381 leido_9380  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x9380 16
+D 0x9381 0x9384 leido_9381  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x9381 16
+D 0x9384 0x9385 leido_9384  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9384 16
+D 0x9385 0x938A leido_9385  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x9385 16
+D 0x938A 0x938B leido_938A  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x938A 16
+D 0x938B 0x938C leido_938B  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x938B 16
+D 0x938C 0x938D leido_938C  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x938C 16
+D 0x938D 0x9390 leido_938D  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x938D 16
+D 0x9390 0x9391 leido_9390  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9390 16
+D 0x9391 0x9396 leido_9391  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x9391 16
+D 0x9396 0x9397 leido_9396  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9396 16
+D 0x9397 0x9398 leido_9397  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x9397 16
+D 0x9398 0x9399 leido_9398  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x9398 16
+D 0x9399 0x939C leido_9399  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x9399 16
+D 0x939C 0x939D leido_939C  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x939C 16
+D 0x939D 0x93A2 leido_939D  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x939D 16
+D 0x93A2 0x93A3 leido_93A2  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x93A2 16
+D 0x93A3 0x93A4 leido_93A3  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x93A3 16
+D 0x93A4 0x93A5 leido_93A4  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x93A4 16
+D 0x93A5 0x93AA leido_93A5  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x93A5 16
+D 0x93AA 0x93AB leido_93AA  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x93AA 16
+D 0x93AB 0x93AC leido_93AB  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x93AB 16
+D 0x93AC 0x93AD leido_93AC  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x93AC 16
+D 0x93AD 0x93B0 leido_93AD  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x93AD 16
+D 0x93B0 0x93B1 leido_93B0  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x93B0 16
+D 0x93B1 0x93B6 leido_93B1  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x93B1 16
+D 0x93B6 0x93B7 leido_93B6  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x93B6 16
+D 0x93B7 0x93B8 leido_93B7  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x93B7 16
+D 0x93B8 0x93B9 leido_93B8  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x93B8 16
+D 0x93B9 0x93BC leido_93B9  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x93B9 16
+D 0x93BC 0x93BD leido_93BC  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x93BC 16
+D 0x93BD 0x93C0 leido_93BD  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x93BD 16
+D 0x93C0 0x93C1 leido_93C0  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x93C0 16
+D 0x93C1 0x93C6 leido_93C1  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x93C1 16
+D 0x93C6 0x93C7 leido_93C6  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x93C6 16
+D 0x93C7 0x93C8 leido_93C7  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x93C7 16
+D 0x93C8 0x93C9 leido_93C8  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x93C8 16
+D 0x93C9 0x93CC leido_93C9  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x93C9 16
+D 0x93CC 0x93CD leido_93CC  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x93CC 16
+D 0x93CD 0x93D2 leido_93CD  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x93CD 16
+D 0x93D2 0x93D3 leido_93D2  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x93D2 16
+D 0x93D3 0x93D4 leido_93D3  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x93D3 16
+D 0x93D4 0x93D5 leido_93D4  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x93D4 16
+D 0x93D5 0x93D8 leido_93D5  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x93D5 16
+D 0x93D8 0x93D9 leido_93D8  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x93D8 16
+D 0x93D9 0x93DC leido_93D9  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x93D9 16
+D 0x93DC 0x93DD leido_93DC  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x93DC 16
+D 0x93DD 0x93E2 leido_93DD  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x93DD 16
+D 0x93E2 0x93E3 leido_93E2  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x93E2 16
+D 0x93E3 0x93E4 leido_93E3  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x93E3 16
+D 0x93E4 0x93E5 leido_93E4  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x93E4 16
+D 0x93E5 0x93E8 leido_93E5  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x93E5 16
+D 0x93E8 0x93E9 leido_93E8  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x93E8 16
+D 0x93E9 0x93EE leido_93E9  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x93E9 16
+D 0x93EE 0x93EF leido_93EE  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x93EE 16
+D 0x93EF 0x93F0 leido_93EF  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x93EF 16
+D 0x93F0 0x93F1 leido_93F0  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x93F0 16
+D 0x93F1 0x93F4 leido_93F1  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x93F1 16
+D 0x93F4 0x93F5 leido_93F4  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x93F4 16
+D 0x93F5 0x93FA leido_93F5  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x93F5 16
+D 0x93FA 0x93FB leido_93FA  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x93FA 16
+D 0x93FB 0x93FC leido_93FB  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x93FB 16
+D 0x93FC 0x93FD leido_93FC  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x93FC 16
+D 0x93FD 0x9400 leido_93FD  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x93FD 16
+D 0x9400 0x9401 leido_9400  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9400 16
+D 0x9401 0x9406 leido_9401  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x9401 16
+D 0x9406 0x9407 leido_9406  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9406 16
+D 0x9407 0x9408 leido_9407  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x9407 16
+D 0x9408 0x9409 leido_9408  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x9408 16
+D 0x9409 0x940C leido_9409  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x9409 16
+D 0x940C 0x940D leido_940C  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x940C 16
+D 0x940D 0x9412 leido_940D  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x940D 16
+D 0x9412 0x9413 leido_9412  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9412 16
+D 0x9413 0x9414 leido_9413  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x9413 16
+D 0x9414 0x9415 leido_9414  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x9414 16
+D 0x9415 0x9418 leido_9415  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x9415 16
+D 0x9418 0x9419 leido_9418  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x9418 16
+D 0x9419 0x941C leido_9419  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x9419 16
+D 0x941C 0x941D leido_941C  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x941C 16
+D 0x941D 0x9420 leido_941D  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x941D 16
+D 0x9420 0x9421 leido_9420  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9420 16
+D 0x9421 0x9426 leido_9421  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x9421 16
+D 0x9426 0x9427 leido_9426  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9426 16
+D 0x9427 0x9428 leido_9427  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x9427 16
+D 0x9428 0x9429 leido_9428  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x9428 16
+D 0x9429 0x942C leido_9429  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x9429 16
+D 0x942C 0x942D leido_942C  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x942C 16
+D 0x942D 0x9430 leido_942D  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x942D 16
+D 0x9430 0x9431 leido_9430  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9430 16
+D 0x9431 0x9436 leido_9431  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x9431 16
+D 0x9436 0x9437 leido_9436  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9436 16
+D 0x9437 0x9438 leido_9437  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x9437 16
+D 0x9438 0x9439 leido_9438  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9438 16
+D 0x9439 0x943E leido_9439  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x9439 16
+D 0x943E 0x943F leido_943E  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x943E 16
+D 0x943F 0x9440 leido_943F  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x943F 16
+D 0x9440 0x9441 leido_9440  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0x9440 16
+D 0x9441 0x9444 leido_9441  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0x9441 16
+D 0x9444 0x9445 leido_9444  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x9444 16
+D 0x9445 0x944A leido_9445  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x9445 16
+D 0x944A 0x944B leido_944A  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x944A 16
+D 0x944B 0x944C leido_944B  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x944B 16
+D 0x944C 0x9682 rle_vram_944C  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (566 bytes)
+F 0x944C 16
+D 0x9682 0x9829 rle_vram_9682  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (423 bytes)
+F 0x9682 16
+D 0x9829 0x99A4 rle_vram_9829  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (379 bytes)
+F 0x9829 16
+D 0x99A4 0x9A81 rle_vram_99A4  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (221 bytes)
+F 0x99A4 16
+D 0x9A81 0x9B2F rle_vram_9A81  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (174 bytes)
+F 0x9A81 16
+D 0x9B2F 0x9B8A rle_vram_9B2F  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (91 bytes)
+F 0x9B2F 16
+D 0x9B8A 0x9C4A rle_vram_9B8A  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (192 bytes)
+F 0x9B8A 16
+D 0x9C4A 0x9C9B rle_vram_9C4A  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (81 bytes)
+F 0x9C4A 16
+D 0x9C9B 0x9DB5 rle_vram_9C9B  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (282 bytes)
+F 0x9C9B 16
+D 0x9DB5 0x9EA7 rle_vram_9DB5  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (242 bytes)
+F 0x9DB5 16
+D 0x9EA7 0x9F5F rle_vram_9EA7  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (184 bytes)
+F 0x9EA7 16
+D 0x9F5F 0x9FCD rle_vram_9F5F  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (110 bytes)
+F 0x9F5F 16
+D 0x9FCD 0xA000 rle_vram_9FCD  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0 (sigue en el banco 31, en 0xA000); lo leen p00:4B3C (51 bytes)
+F 0x9FCD 16
+D 0x81BF 0x81C3 resto_81BF  lo apuntan con el banco puesto p30:81B5 (0x81BF); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p30:81B5 (4 bytes)
+F 0x81BF 16
+D 0x825F 0x8267 resto_825F  lo apuntan con el banco puesto p30:8250 (0x825F), p30:8255 (0x8263); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p30:8250, p30:8255 (8 bytes)
+F 0x825F 16
+D 0x82EA 0x82F1 resto_82EA  lo apuntan con el banco puesto p30:82D4 (0x82EA), p30:836D (0x82EA), p30:83B9 (0x82EA), p30:82DD (0x82EE); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p30:82D4, p30:836D, p30:83B9, p30:82DD (7 bytes)
+F 0x82EA 16
+D 0x866B 0x866F resto_866B  lo apuntan con el banco puesto p30:8662 (0x866B); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p30:8662 (4 bytes)
+F 0x866B 16
+D 0x86B2 0x86C2 resto_86B2  lo apuntan con el banco puesto p30:86A7 (0x86B2), p30:86C6 (0x86B6), p30:86D5 (0x86BA), p30:86E4 (0x86BE); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p30:86A7, p30:86C6, p30:86D5, p30:86E4 (16 bytes)
+F 0x86B2 16
+D 0x88C0 0x892E resto_88C0  lo apuntan con el banco puesto p30:85E1 (0x88C0), p30:8618 (0x88C0), p30:85F5 (0x88E0), p30:862C (0x88E0), p30:8651 (0x890A); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p30:85E1, p30:8618, p30:85F5, p30:862C, p30:8651 (110 bytes)
+F 0x88C0 16
+D 0x893B 0x89CA resto_893B  lo apuntan con el banco puesto p30:8684 (0x893B), p30:87DE (0x89B2); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p30:8684, p30:87DE (143 bytes)
+F 0x893B 16
+# --- fin de los bloques de bloques.py ---

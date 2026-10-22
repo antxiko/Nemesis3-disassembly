@@ -1,0 +1,23 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x6000 0x6016 bloques_por_fase  un puntero por fase a su tabla de bloques de 4 x 4 (p00:537E: 0x5FFE + 2 x fase); lo leen p00:5381 (22 bytes)
+F 0x6000 w8
+D 0x6016 0x6021 bloques_grandes  uno por fase: cuantos bloques de la fase son de 16 bytes (los demas son de 8; 0xFB: todos) (p00:539E: 0x6015 + fase); lo leen p00:53A5 (11 bytes)
+F 0x6016 11
+D 0x6021 0x6061 bloques_comunes  los cuatro bloques comunes (0-3) de 4 x 4 caracteres, de 16 bytes (p00:5394); lo leen p00:53E6 (64 bytes)
+F 0x6021 16
+D 0x6061 0x6589 bloques_6061  los bloques de 4 x 4 caracteres de la fase 1 y 2: 76 de 16 bytes y 13 de 8 (p00:53B4 completa estos con ceros); van hasta la tabla siguiente; lo leen p00:53E6 (1320 bytes)
+F 0x6061 16
+D 0x6589 0x6B41 bloques_6589  los bloques de 4 x 4 caracteres de la fase 3: 82 de 16 bytes y 19 de 8 (p00:53B4 completa estos con ceros); van hasta la tabla siguiente; lo leen p00:53E6 (1464 bytes)
+F 0x6589 16
+D 0x6B41 0x6F61 bloques_6B41  los bloques de 4 x 4 caracteres de la fase 4 y 5: 56 de 16 bytes y 20 de 8 (p00:53B4 completa estos con ceros); van hasta la tabla siguiente; lo leen p00:53E6 (1056 bytes)
+F 0x6B41 16
+D 0x6F61 0x7239 bloques_6F61  los bloques de 4 x 4 caracteres de la fase 6: 41 de 16 bytes y 9 de 8 (p00:53B4 completa estos con ceros); van hasta la tabla siguiente; lo leen p00:53E6 (728 bytes)
+F 0x6F61 16
+D 0x7239 0x77B9 bloques_7239  los bloques de 4 x 4 caracteres de la fase 7: 73 de 16 bytes y 30 de 8 (p00:53B4 completa estos con ceros); van hasta la tabla siguiente; lo leen p00:53E6 (1408 bytes)
+F 0x7239 16
+D 0x77B9 0x7DB1 bloques_77B9  los bloques de 4 x 4 caracteres de la fase 8: 92 de 16 bytes y 7 de 8 (p00:53B4 completa estos con ceros); van hasta la tabla siguiente; lo leen p00:53E6 (1528 bytes)
+F 0x77B9 16
+D 0x7DB1 0x8000 bloques_7DB1  los bloques de 4 x 4 caracteres de la fase 9: 125 de 16 bytes y 0 de 8 (p00:53B4 completa estos con ceros); van hasta la tabla siguiente (sigue en el banco 24, en 0x8000); lo leen p00:53E6 (591 bytes)
+F 0x7DB1 16
+# --- fin de los bloques de bloques.py ---

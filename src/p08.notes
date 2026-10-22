@@ -1,0 +1,49 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0xA000 0xA652 leido_A000  1618 bytes que lee p02:8242 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 60 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:8242 (1618 bytes)
+F 0xA000 16
+D 0xA713 0xAA83 leido_A713  880 bytes que lee p02:8242 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 72 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:8242 (880 bytes)
+F 0xA713 16
+D 0xAABB 0xAEFB leido_AABB  1088 bytes que lee p02:8242 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 96 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:8242 (1088 bytes)
+F 0xAABB 16
+D 0xAF61 0xB2CF leido_AF61  878 bytes que lee p02:8242 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 28 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:8242 (878 bytes)
+F 0xAF61 16
+D 0xB307 0xB41F leido_B307  280 bytes que lee p02:8242 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 16 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:8242 (280 bytes)
+F 0xB307 16
+D 0xB41F 0xB6EF leido_B41F  720 bytes que lee p02:82DE al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:82DE (720 bytes)
+F 0xB41F 16
+D 0xB6EF 0xB834 leido_B6EF  325 bytes que lee p02:8242 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 1 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:8242 (325 bytes)
+F 0xB6EF 16
+D 0xB834 0xB99C leido_B834  360 bytes que leen p02:8232, p02:8234 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 70 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:8232, p02:8234 (360 bytes)
+F 0xB834 16
+D 0xB99C 0xB9CC leido_B99C  48 bytes que leen p02:82C2, p02:82C4 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:82C2, p02:82C4 (48 bytes)
+F 0xB99C 16
+D 0xB9CC 0xB9D4 leido_B9CC  8 bytes que leen p02:8232, p02:8234 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:8232, p02:8234 (8 bytes)
+F 0xB9CC 16
+D 0xB9D4 0xBA04 leido_B9D4  48 bytes que leen p02:82C2, p02:82C4 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:82C2, p02:82C4 (48 bytes)
+F 0xB9D4 16
+D 0xBA04 0xBA32 leido_BA04  46 bytes que leen p02:8232, p02:8234 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 6 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:8232, p02:8234 (46 bytes)
+F 0xBA04 16
+D 0xBA32 0xBA33 tabla_BA32  tabla que se lee desde HL = 0xBA32 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p01:6F1F (1 bytes)
+F 0xBA32 16
+D 0xBA33 0xBA34 leido_BA33  1 bytes que lee p02:8234 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:8234 (1 bytes)
+F 0xBA33 16
+D 0xBA34 0xBA3A leido_BA34  6 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (6 bytes)
+F 0xBA34 16
+D 0xBA3A 0xBA6A leido_BA3A  48 bytes que lee p01:6F30 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:6F30 (48 bytes)
+F 0xBA3A 16
+D 0xBA72 0xBAEE leido_BA72  124 bytes que lee p01:7A2A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 46 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p01:7A2A (124 bytes)
+F 0xBA72 16
+D 0xBB1A 0xBB30 leido_BB1A  22 bytes que lee p01:7A2A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:7A2A (22 bytes)
+F 0xBB1A 16
+D 0xBB60 0xBCAC leido_BB60  332 bytes que lee p01:7A2A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 54 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p01:7A2A (332 bytes)
+F 0xBB60 16
+D 0xBD0C 0xBD4C leido_BD0C  64 bytes que lee p01:7A2A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 8 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p01:7A2A (64 bytes)
+F 0xBD0C 16
+D 0xBD50 0xBE6C leido_BD50  284 bytes que leen p00:4A6A, p00:4A6C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 104 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4A6A, p00:4A6C (284 bytes)
+F 0xBD50 16
+D 0xBE6C 0xC000 relleno_ff  404 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (404 bytes)
+F 0xBE6C 16
+D 0xBD4C 0xBD50 resto_BD4C  lo apuntan con el banco puesto p01:79FA (0xBD4C); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p01:79FA (4 bytes)
+F 0xBD4C 16
+# --- fin de los bloques de bloques.py ---

@@ -41,6 +41,17 @@ PILA_BANCOS = (0x41F7, 0x4213)
 # Las rutinas de banco que vuelven con A intacto.
 NO_TOCAN_A = ()
 
+# Las rutinas de banco no tocan HL ni DE (solo A, que guardan con push af, y
+# el mapper): las de p00:4145-41F6 (y su segunda entrada, tres bytes detras
+# del `call 41F7`), la pila (p00:41F7, 4213: push hl / pop hl) y las que
+# reciben el banco en A. Los puentes de p01 cargan HL, ponen un banco y hacen
+# `call` a un `jp (hl)` (p01:7535-753E).
+NO_TOCAN_HL = (0x4145, 0x4148, 0x4150, 0x4158, 0x415B, 0x4163, 0x416B, 0x4173,
+               0x417B, 0x4183, 0x4186, 0x418E, 0x4191, 0x4199, 0x41A1, 0x41A4,
+               0x41AC, 0x41B4, 0x41BC, 0x41BF, 0x41C7, 0x41CF, 0x41DC, 0x41E4,
+               0x41EC, 0x41EF, 0x41F7, 0x4213, 0x4238, 0x424F, 0x425F, 0x426F,
+               0x4278, 0x4281)
+
 # Para tools/reconocimiento.py: las rutinas que escriben un registro del
 # mapper con el banco que les llega en A, y el primer registro que escriben
 # (las de dos y tres encadenan `inc a` hacia las ranuras siguientes).

@@ -1,0 +1,249 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x6000 0x6007 graficos_6000  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:4FB3 (7 bytes)
+F 0x6000 6
+D 0x6007 0x601A graficos_6007  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; se solapan 2 bloques: (graficos_6013 6013-601A); lo leen p00:4FC0, p00:4FCD (19 bytes)
+F 0x6007 6
+D 0x601A 0x6179 rle_601A  los dibujos de una entrada de la lista de graficos de 14:6000, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_601A 601A-6179); lo leen p00:4CFF, p00:4B3C (351 bytes)
+F 0x601A 16
+D 0x6179 0x62F9 rle_6179  los colores de una entrada de la lista de graficos de 14:6000, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6179 6179-62F9); lo leen p00:4D11, p00:4B3C (384 bytes)
+F 0x6179 16
+D 0x62F9 0x6333 rle_62F9  los dibujos de una entrada de la lista de graficos de 14:6007, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_62F9 62F9-6333); lo leen p00:4CFF, p00:4B3C (58 bytes)
+F 0x62F9 16
+D 0x6333 0x63A3 rle_6333  los dibujos de una entrada de la lista de graficos de 14:6007, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6333 6333-63A3); lo leen p00:4CFF, p00:4B3C (112 bytes)
+F 0x6333 16
+D 0x63A3 0x63D4 rle_63A3  los dibujos de una entrada de la lista de graficos de 14:6007, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_63A3 63A3-63D4); lo leen p00:4CFF, p00:4B3C (49 bytes)
+F 0x63A3 16
+D 0x63D4 0x6405 rle_63D4  los colores de una entrada de la lista de graficos de 14:6007, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_63D4 63D4-6405); lo leen p00:4D11, p00:4B3C (49 bytes)
+F 0x63D4 16
+D 0x6405 0x6440 rle_6405  los colores de una entrada de la lista de graficos de 14:6007, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6405 6405-6440); lo leen p00:4D11, p00:4B3C (59 bytes)
+F 0x6405 16
+D 0x6440 0x646C rle_6440  los colores de una entrada de la lista de graficos de 14:6007, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6440 6440-646C); lo leen p00:4D11, p00:4B3C (44 bytes)
+F 0x6440 16
+D 0x646C 0x64B4 tabla_646C  tabla que se lee desde HL = 0x646C con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p00:4F6E (72 bytes)
+F 0x646C 16
+D 0x64B4 0x6544 leido_64B4  144 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (144 bytes)
+F 0x64B4 16
+D 0x66F4 0x673C leido_66F4  72 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (72 bytes)
+F 0x66F4 16
+D 0x6784 0x67CC leido_6784  72 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (72 bytes)
+F 0x6784 16
+D 0x6814 0x685C leido_6814  72 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (72 bytes)
+F 0x6814 16
+D 0x6AE4 0x6B74 leido_6AE4  144 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (144 bytes)
+F 0x6AE4 16
+D 0x6C4C 0x6C94 leido_6C4C  72 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (72 bytes)
+F 0x6C4C 16
+D 0x6ED4 0x6EE2 leido_6ED4  14 bytes que leen p00:50C2, p00:50C6, p00:50C8 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:50C2, p00:50C6, p00:50C8 (14 bytes)
+F 0x6ED4 16
+D 0x6EE2 0x6EE3 leido_6EE2  1 bytes que lee p00:4E5A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A (1 bytes)
+F 0x6EE2 16
+D 0x6EE3 0x6EE6 leido_6EE3  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x6EE3 16
+D 0x6EE6 0x6EEB leido_6EE6  5 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (5 bytes)
+F 0x6EE6 16
+D 0x6EEB 0x6EED leido_6EEB  2 bytes que leen p00:4EDE, p00:4EF0 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0 (2 bytes)
+F 0x6EEB 16
+D 0x6EED 0x6EEE tabla_6EED  tabla que se lee desde HL = 0x6EED con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p00:50B6 (1 bytes)
+F 0x6EED 16
+D 0x6EEE 0x6EEF leido_6EEE  1 bytes que lee p00:4E5A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A (1 bytes)
+F 0x6EEE 16
+D 0x6EEF 0x6F05 leido_6EEF  22 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 2 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4A60, p00:4A62 (22 bytes)
+F 0x6EEF 16
+D 0x6F05 0x6FAA leido_6F05  165 bytes que leen p00:50C2, p00:50C6, p00:50C8 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 4 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:50C2, p00:50C6, p00:50C8 (165 bytes)
+F 0x6F05 16
+D 0x6FAA 0x6FAB tabla_6FAA  tabla que se lee desde HL = 0x6FAA con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p00:50EC (1 bytes)
+F 0x6FAA 16
+D 0x6FAB 0x6FAC leido_6FAB  1 bytes que lee p00:50C2 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:50C2 (1 bytes)
+F 0x6FAB 16
+D 0x6FAC 0x6FC2 leido_6FAC  22 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 2 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4A60, p00:4A62 (22 bytes)
+F 0x6FAC 16
+D 0x6FC2 0x6FC7 leido_6FC2  5 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (5 bytes)
+F 0x6FC2 16
+D 0x6FC7 0x6FCA leido_6FC7  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x6FC7 16
+D 0x6FCA 0x6FD1 leido_6FCA  7 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (7 bytes)
+F 0x6FCA 16
+D 0x6FD1 0x6FD4 leido_6FD1  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x6FD1 16
+D 0x6FD4 0x6FDD leido_6FD4  9 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (9 bytes)
+F 0x6FD4 16
+D 0x6FDD 0x6FE0 leido_6FDD  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x6FDD 16
+D 0x6FE0 0x6FE3 leido_6FE0  3 bytes que lee p00:4E5A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 1 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4E5A (3 bytes)
+F 0x6FE0 16
+D 0x6FE3 0x6FE6 leido_6FE3  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x6FE3 16
+D 0x6FE6 0x6FE7 leido_6FE6  1 bytes que lee p00:4E5A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A (1 bytes)
+F 0x6FE6 16
+D 0x6FE7 0x6FEA leido_6FE7  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x6FE7 16
+D 0x6FEA 0x6FEC leido_6FEA  2 bytes que lee p00:4E5A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A (2 bytes)
+F 0x6FEA 16
+D 0x6FEC 0x6FEF leido_6FEC  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x6FEC 16
+D 0x6FEF 0x6FF4 leido_6FEF  5 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (5 bytes)
+F 0x6FEF 16
+D 0x6FF4 0x6FF7 leido_6FF4  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x6FF4 16
+D 0x6FF7 0x7000 leido_6FF7  9 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (9 bytes)
+F 0x6FF7 16
+D 0x7000 0x700D leido_7000  13 bytes que leen p00:4E6E, p00:4E76, p00:4E85, p00:4E5A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E6E, p00:4E76, p00:4E85, p00:4E5A (13 bytes)
+F 0x7000 16
+D 0x700D 0x7010 leido_700D  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x700D 16
+D 0x7010 0x7011 leido_7010  1 bytes que lee p00:4E5A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A (1 bytes)
+F 0x7010 16
+D 0x7011 0x7014 leido_7011  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x7011 16
+D 0x7014 0x7016 leido_7014  2 bytes que lee p00:4E5A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A (2 bytes)
+F 0x7014 16
+D 0x7016 0x7019 leido_7016  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x7016 16
+D 0x7019 0x701A leido_7019  1 bytes que lee p00:4E5A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A (1 bytes)
+F 0x7019 16
+D 0x701A 0x701D leido_701A  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x701A 16
+D 0x701D 0x701E leido_701D  1 bytes que lee p00:4E5A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A (1 bytes)
+F 0x701D 16
+D 0x701E 0x7021 leido_701E  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x701E 16
+D 0x7021 0x7023 leido_7021  2 bytes que lee p00:4E5A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A (2 bytes)
+F 0x7021 16
+D 0x7023 0x7026 leido_7023  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x7023 16
+D 0x7026 0x702B leido_7026  5 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (5 bytes)
+F 0x7026 16
+D 0x702B 0x702E leido_702B  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x702B 16
+D 0x702E 0x7033 leido_702E  5 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (5 bytes)
+F 0x702E 16
+D 0x7033 0x7036 leido_7033  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x7033 16
+D 0x7036 0x7037 leido_7036  1 bytes que lee p00:4E5A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A (1 bytes)
+F 0x7036 16
+D 0x7037 0x703A leido_7037  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x7037 16
+D 0x703A 0x7047 leido_703A  13 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (13 bytes)
+F 0x703A 16
+D 0x7047 0x704A leido_7047  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x7047 16
+D 0x704A 0x7050 leido_704A  6 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (6 bytes)
+F 0x704A 16
+D 0x7050 0x7053 leido_7050  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x7050 16
+D 0x7053 0x7055 leido_7053  2 bytes que lee p00:4E5A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A (2 bytes)
+F 0x7053 16
+D 0x7055 0x7082 rle_7055  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; se solapan 2 bloques: (rle_vram_7055 7055-7082); lo leen p00:5010, p00:4B3C (45 bytes)
+F 0x7055 16
+D 0x7082 0x70CB rle_7082  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; se solapan 2 bloques: (rle_vram_7082 7082-70CB); lo leen p00:5029, p00:4B3C (73 bytes)
+F 0x7082 16
+D 0x70CB 0x7166 rle_70CB  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; lo leen p00:503A (155 bytes)
+F 0x70CB 16
+D 0x71D1 0x72A6 rle_71D1  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; lo leen p00:504B (213 bytes)
+F 0x71D1 16
+D 0x7365 0x7447 rle_7365  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; se solapan 2 bloques: (rle_vram_7365 7365-7447); lo leen p00:5057, p00:4B3C (226 bytes)
+F 0x7365 16
+D 0x7447 0x74A4 rle_7447  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; se solapan 2 bloques: (rle_vram_7447 7447-74A4); lo leen p00:5066, p00:4B3C (93 bytes)
+F 0x7447 16
+D 0x74A4 0x74D8 rle_74A4  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; se solapan 2 bloques: (rle_vram_74A4 74A4-74D8); lo leen p00:5089, p00:4B3C (52 bytes)
+F 0x74A4 16
+D 0x74D8 0x7537 rle_74D8  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; se solapan 2 bloques: (rle_vram_74D8 74D8-7537); lo leen p00:5098, p00:4B3C (95 bytes)
+F 0x74D8 16
+D 0x7537 0x7576 rle_7537  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; lo leen p00:507A (63 bytes)
+F 0x7537 16
+D 0x7576 0x75D5 rle_vram_7576  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (95 bytes)
+F 0x7576 16
+D 0x75D5 0x7613 rle_vram_75D5  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (62 bytes)
+F 0x75D5 16
+D 0x7613 0x76C4 rle_vram_7613  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (177 bytes)
+F 0x7613 16
+D 0x76C4 0x76CE rle_vram_76C4  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (10 bytes)
+F 0x76C4 16
+D 0x76CE 0x770F rle_vram_76CE  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (65 bytes)
+F 0x76CE 16
+D 0x770F 0x774C rle_vram_770F  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (61 bytes)
+F 0x770F 16
+D 0x774C 0x776E rle_vram_774C  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (34 bytes)
+F 0x774C 16
+D 0x776E 0x77D0 rle_vram_776E  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (98 bytes)
+F 0x776E 16
+D 0x77D0 0x782E rle_vram_77D0  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (94 bytes)
+F 0x77D0 16
+D 0x782E 0x7870 rle_vram_782E  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (66 bytes)
+F 0x782E 16
+D 0x7870 0x788D rle_vram_7870  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (29 bytes)
+F 0x7870 16
+D 0x788D 0x78CF rle_vram_788D  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (66 bytes)
+F 0x788D 16
+D 0x78CF 0x78D7 rle_vram_78CF  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (8 bytes)
+F 0x78CF 16
+D 0x78D7 0x78F9 rle_vram_78D7  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (34 bytes)
+F 0x78D7 16
+D 0x78F9 0x7904 rle_vram_78F9  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (11 bytes)
+F 0x78F9 16
+D 0x7904 0x7966 rle_vram_7904  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (98 bytes)
+F 0x7904 16
+D 0x7966 0x79E6 rle_vram_7966  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (128 bytes)
+F 0x7966 16
+D 0x79E6 0x7A1A rle_vram_79E6  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (52 bytes)
+F 0x79E6 16
+D 0x7A1A 0x7A5C rle_vram_7A1A  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (66 bytes)
+F 0x7A1A 16
+D 0x7A5C 0x7A9D rle_vram_7A5C  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (65 bytes)
+F 0x7A5C 16
+D 0x7A9D 0x7ACA rle_vram_7A9D  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (45 bytes)
+F 0x7A9D 16
+D 0x7ACA 0x7B00 rle_vram_7ACA  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (54 bytes)
+F 0x7ACA 16
+D 0x7B00 0x7B4E rle_vram_7B00  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (78 bytes)
+F 0x7B00 16
+D 0x7B4E 0x7BAD rle_vram_7B4E  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (95 bytes)
+F 0x7B4E 16
+D 0x7BAD 0x7BEA rle_vram_7BAD  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (61 bytes)
+F 0x7BAD 16
+D 0x7BEA 0x7C36 rle_vram_7BEA  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (76 bytes)
+F 0x7BEA 16
+D 0x7C36 0x7C58 rle_vram_7C36  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (34 bytes)
+F 0x7C36 16
+D 0x7C58 0x7C64 rle_vram_7C58  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (12 bytes)
+F 0x7C58 16
+D 0x7C64 0x7C6F rle_vram_7C64  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (11 bytes)
+F 0x7C64 16
+D 0x7CBF 0x7D01 rle_vram_7CBF  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (66 bytes)
+F 0x7CBF 16
+D 0x7D01 0x7D23 rle_vram_7D01  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (34 bytes)
+F 0x7D01 16
+D 0x7D23 0x7D2F rle_vram_7D23  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (12 bytes)
+F 0x7D23 16
+D 0x7D2F 0x7D67 rle_vram_7D2F  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (56 bytes)
+F 0x7D2F 16
+D 0x7D67 0x7DA1 rle_vram_7D67  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (58 bytes)
+F 0x7D67 16
+D 0x7DA1 0x7DC0 rle_vram_7DA1  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (31 bytes)
+F 0x7DA1 16
+D 0x7DC0 0x7DEC rle_vram_7DC0  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (44 bytes)
+F 0x7DC0 16
+D 0x7E0E 0x7E83 rle_vram_7E0E  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (117 bytes)
+F 0x7E0E 16
+D 0x7E83 0x7EDD rle_vram_7E83  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (90 bytes)
+F 0x7E83 16
+D 0x7EDD 0x7F15 rle_vram_7EDD  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (56 bytes)
+F 0x7EDD 16
+D 0x7F15 0x7F2C rle_vram_7F15  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (23 bytes)
+F 0x7F15 16
+D 0x7F2C 0x7F4E rle_vram_7F2C  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (34 bytes)
+F 0x7F2C 16
+D 0x7F4E 0x7F70 rle_vram_7F4E  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (34 bytes)
+F 0x7F4E 16
+D 0x7F70 0x7F90 rle_vram_7F70  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (32 bytes)
+F 0x7F70 16
+D 0x7F90 0x7FED rle_vram_7F90  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (93 bytes)
+F 0x7F90 16
+D 0x7FED 0x8000 rle_vram_7FED  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0 (sigue en el banco 15, en 0x8000); lo leen p00:4B3C (19 bytes)
+F 0x7FED 16
+D 0x7166 0x71D1 resto_7166  lo apuntan con el banco puesto p00:5032 (0x7166); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p00:5032 (107 bytes)
+F 0x7166 16
+D 0x72A6 0x7365 resto_72A6  lo apuntan con el banco puesto p00:5043 (0x72A6); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p00:5043 (191 bytes)
+F 0x72A6 16
+# --- fin de los bloques de bloques.py ---

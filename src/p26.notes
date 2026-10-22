@@ -1,0 +1,259 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x6108 0x610E leido_6108  6 bytes que lee p26:60FF al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:60FF (6 bytes)
+F 0x6108 16
+D 0x611C 0x612A tabla_611C  tabla que se lee desde HL = 0x611C con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:6114 (14 bytes)
+F 0x611C 16
+D 0x61F3 0x620A leido_61F3  23 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6154, p26:615F, p26:6161, p26:6163 (23 bytes)
+F 0x61F3 16
+D 0x626A 0x628C leido_626A  34 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6154, p26:615F, p26:6161, p26:6163 (34 bytes)
+F 0x626A 16
+D 0x6497 0x64A1 tabla_6497  5 destinos del despachador p00:4093 (call en p26:6494, el indice en A): 64A1, 6541, 662E, 6700, 67C5; lo leen p26:6494 (10 bytes)
+F 0x6497 w5
+D 0x64A5 0x64AF tabla_64A5  5 destinos del despachador p00:4093 (call en p26:64A2, el indice en A): 64AF, 64F7, 6515, 6521, 652F; lo leen p26:64A2 (10 bytes)
+F 0x64A5 w5
+D 0x64E3 0x64F7 texto_ram_64E3  texto a la RAM: direccion, letras, 0xFE y otra direccion, 0xFF acaba (p00:4B1F); lo leen p26:64D6 (20 bytes)
+F 0x64E3 16
+D 0x6545 0x654B tabla_6545  3 destinos del despachador p00:4093 (call en p26:6542, el indice en A): 654B, 6592, 65A7; lo leen p26:6542 (6 bytes)
+F 0x6545 w3
+D 0x65F0 0x6600 tabla_65F0  tabla que se lee desde HL = 0x65F0 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:65CC, p26:65D8 (16 bytes)
+F 0x65F0 16
+D 0x6632 0x663C tabla_6632  5 destinos del despachador p00:4093 (call en p26:662F, el indice en A): 663C, 664C, 665B, 6671, 6680; lo leen p26:662F (10 bytes)
+F 0x6632 w5
+D 0x66DD 0x66F5 tabla_66DD  tabla que se lee desde HL = 0x66DD con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:66AA, p26:66C3, p26:6779, p26:6792 (24 bytes)
+F 0x66DD 16
+D 0x6704 0x670C tabla_6704  4 destinos del despachador p00:4093 (call en p26:6701, el indice en A): 670C, 671C, 672B, 675A; lo leen p26:6701 (8 bytes)
+F 0x6704 w4
+D 0x67C9 0x67CF tabla_67C9  3 destinos del despachador p00:4093 (call en p26:67C6, el indice en A): 67CF, 67DB, 67E7; lo leen p26:67C6 (6 bytes)
+F 0x67C9 w3
+D 0x69D8 0x69D9 tabla_69D8  tabla que se lee desde HL = 0x69D8 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:69C1 (1 bytes)
+F 0x69D8 16
+D 0x69D9 0x69F0 leido_69D9  23 bytes que leen p26:69C7, p26:69D0, p26:69D2, p26:69C5 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:69C7, p26:69D0, p26:69D2, p26:69C5 (23 bytes)
+F 0x69D9 16
+D 0x6A21 0x6A33 tabla_6A21  tabla que se lee desde HL = 0x6A21 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:6A0B (18 bytes)
+F 0x6A21 16
+D 0x6A33 0x6A45 leido_6A33  18 bytes que lee p00:59B3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:59B3 (18 bytes)
+F 0x6A33 16
+D 0x6A79 0x6A7A tabla_6A79  tabla que se lee desde HL = 0x6A79 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:6A69 (1 bytes)
+F 0x6A79 16
+D 0x6A7A 0x6A89 leido_6A7A  15 bytes que leen p26:6A6F, p26:6A71, p26:6A73, p26:6A6D al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6A6F, p26:6A71, p26:6A73, p26:6A6D (15 bytes)
+F 0x6A7A 16
+D 0x6ABC 0x6AC0 tabla_6ABC  tabla que se lee desde HL = 0x6ABC con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:65C2 (4 bytes)
+F 0x6ABC 16
+D 0x6AC7 0x6AC8 leido_6AC7  1 bytes que lee p26:78B8 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:78B8 (1 bytes)
+F 0x6AC7 16
+D 0x6AC8 0x6ACA leido_6AC8  2 bytes que leen p26:78F6, p26:7905 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:78F6, p26:7905 (2 bytes)
+F 0x6AC8 16
+D 0x6ACA 0x6ACB leido_6ACA  1 bytes que lee p26:78B8 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:78B8 (1 bytes)
+F 0x6ACA 16
+D 0x6B57 0x6B58 leido_6B57  1 bytes que lee p26:7988 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7988 (1 bytes)
+F 0x6B57 16
+D 0x6B58 0x6B61 leido_6B58  9 bytes que leen p26:79C1, p26:79B7, p26:7988 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:79C1, p26:79B7, p26:7988 (9 bytes)
+F 0x6B58 16
+D 0x6B6A 0x6B6B leido_6B6A  1 bytes que lee p26:7AF6 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7AF6 (1 bytes)
+F 0x6B6A 16
+D 0x6B6B 0x6B6D leido_6B6B  2 bytes que leen p26:7B33, p26:7B42 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7B33, p26:7B42 (2 bytes)
+F 0x6B6B 16
+D 0x6B6D 0x6B6E leido_6B6D  1 bytes que lee p26:7AF6 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7AF6 (1 bytes)
+F 0x6B6D 16
+D 0x6B83 0x6B84 leido_6B83  1 bytes que lee p26:7988 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7988 (1 bytes)
+F 0x6B83 16
+D 0x6B84 0x6B87 leido_6B84  3 bytes que leen p26:79C1, p26:79B7, p26:7988 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:79C1, p26:79B7, p26:7988 (3 bytes)
+F 0x6B84 16
+D 0x6B87 0x6B8A leido_6B87  3 bytes que leen p26:7B7A, p26:7B80, p26:7B86 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7B7A, p26:7B80, p26:7B86 (3 bytes)
+F 0x6B87 16
+D 0x6B8A 0x6B8B leido_6B8A  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x6B8A 16
+D 0x6B8B 0x6B90 leido_6B8B  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x6B8B 16
+D 0x6B90 0x6B91 leido_6B90  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x6B90 16
+D 0x6B91 0x6B92 leido_6B91  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x6B91 16
+D 0x6B92 0x6B93 leido_6B92  1 bytes que lee p26:7B69 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7B69 (1 bytes)
+F 0x6B92 16
+D 0x6BC7 0x6BC8 leido_6BC7  1 bytes que lee p26:7988 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7988 (1 bytes)
+F 0x6BC7 16
+D 0x6BC8 0x6BD5 leido_6BC8  13 bytes que leen p26:79C1, p26:79B7, p26:7988 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:79C1, p26:79B7, p26:7988 (13 bytes)
+F 0x6BC8 16
+D 0x6BD5 0x6BD8 leido_6BD5  3 bytes que leen p26:7B7A, p26:7B80, p26:7B86 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7B7A, p26:7B80, p26:7B86 (3 bytes)
+F 0x6BD5 16
+D 0x6BD8 0x6BD9 leido_6BD8  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x6BD8 16
+D 0x6BD9 0x6BDE leido_6BD9  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x6BD9 16
+D 0x6BDE 0x6BDF leido_6BDE  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x6BDE 16
+D 0x6BDF 0x6BE4 leido_6BDF  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x6BDF 16
+D 0x6BE4 0x6BE5 leido_6BE4  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x6BE4 16
+D 0x6BE5 0x6BE6 leido_6BE5  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x6BE5 16
+D 0x6BE6 0x6BE7 leido_6BE6  1 bytes que lee p26:7B69 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7B69 (1 bytes)
+F 0x6BE6 16
+D 0x6BE7 0x6BEA leido_6BE7  3 bytes que leen p26:7B7A, p26:7B80, p26:7B86 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7B7A, p26:7B80, p26:7B86 (3 bytes)
+F 0x6BE7 16
+D 0x6BEA 0x6BEB leido_6BEA  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x6BEA 16
+D 0x6BEB 0x6BF0 leido_6BEB  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x6BEB 16
+D 0x6BF0 0x6BF1 leido_6BF0  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x6BF0 16
+D 0x6BF1 0x6BF6 leido_6BF1  5 bytes que leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CF7, p00:4CFA, p00:4CE9, p00:4D09, p00:4D0C (5 bytes)
+F 0x6BF1 16
+D 0x6BF6 0x6BF7 leido_6BF6  1 bytes que lee p00:4CB1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4CB1 (1 bytes)
+F 0x6BF6 16
+D 0x6BF7 0x6BF8 leido_6BF7  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0x6BF7 16
+D 0x6BF8 0x6BF9 leido_6BF8  1 bytes que lee p26:7B69 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7B69 (1 bytes)
+F 0x6BF8 16
+D 0x6C5A 0x6C79 rle_6C5A  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; se solapan 2 bloques: (rle_vram_6C5A 6C5A-6C79); lo leen p26:6C56, p00:4B3C (31 bytes)
+F 0x6C5A 16
+D 0x6CD6 0x6CDC tabla_6CD6  3 destinos del despachador p00:4093 (call en p26:6CD3, el indice en A): 6CDC, 6CE3, 6D05; lo leen p26:6CD3 (6 bytes)
+F 0x6CD6 w3
+D 0x6CF8 0x6CF9 leido_6CF8  1 bytes que lee p26:78B8 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:78B8 (1 bytes)
+F 0x6CF8 16
+D 0x6CF9 0x6CFB leido_6CF9  2 bytes que leen p26:78F6, p26:7905 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:78F6, p26:7905 (2 bytes)
+F 0x6CF9 16
+D 0x6CFB 0x6CFC leido_6CFB  1 bytes que lee p26:78B8 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:78B8 (1 bytes)
+F 0x6CFB 16
+D 0x6CFC 0x6CFE leido_6CFC  2 bytes que leen p26:78F6, p26:7905 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:78F6, p26:7905 (2 bytes)
+F 0x6CFC 16
+D 0x6CFE 0x6CFF leido_6CFE  1 bytes que lee p26:78B8 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:78B8 (1 bytes)
+F 0x6CFE 16
+D 0x6CFF 0x6D01 leido_6CFF  2 bytes que leen p26:78F6, p26:7905 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:78F6, p26:7905 (2 bytes)
+F 0x6CFF 16
+D 0x6D01 0x6D02 leido_6D01  1 bytes que lee p26:78B8 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:78B8 (1 bytes)
+F 0x6D01 16
+D 0x6D02 0x6D03 leido_6D02  1 bytes que lee p26:7929 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7929 (1 bytes)
+F 0x6D02 16
+D 0x6D03 0x6D04 leido_6D03  1 bytes que lee p26:795A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:795A (1 bytes)
+F 0x6D03 16
+D 0x6D04 0x6D05 leido_6D04  1 bytes que lee p26:7929 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7929 (1 bytes)
+F 0x6D04 16
+D 0x6D1C 0x6D24 tabla_6D1C  4 destinos del despachador p00:4093 (call en p26:6D19, el indice en A): 6D24, 6D50, 6D6D, 6D7A; lo leen p26:6D19 (8 bytes)
+F 0x6D1C w4
+D 0x6D77 0x6D78 leido_6D77  1 bytes que lee p26:7929 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7929 (1 bytes)
+F 0x6D77 16
+D 0x6D78 0x6D79 leido_6D78  1 bytes que lee p26:795A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:795A (1 bytes)
+F 0x6D78 16
+D 0x6D79 0x6D7A leido_6D79  1 bytes que lee p26:7929 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7929 (1 bytes)
+F 0x6D79 16
+D 0x6DC2 0x6DCA tabla_6DC2  4 destinos del despachador p00:4093 (call en p26:6DBF, el indice en A): 6DCA, 6DE1, 6E05, 6E26; lo leen p26:6DBF (8 bytes)
+F 0x6DC2 w4
+D 0x6E31 0x6E39 tabla_6E31  4 destinos del despachador p00:4093 (call en p26:6E2E, el indice en A): 6CCB, 6D14, 6E39, 6DB7; lo leen p26:6E2E (8 bytes)
+F 0x6E31 w4
+D 0x6E44 0x6E5E tabla_6E44  13 destinos del despachador p00:4093 (call en p26:6E41, el indice en A): 6E5E, 6E71, 6E8D, 6E9C, 6EAD, 6EC8, 6EF4, 6F25, 6F25, 6F2B, 6F56, 6F5F, 6F72; lo leen p26:6E41 (26 bytes)
+F 0x6E44 w8
+D 0x6F3D 0x6F56 texto_ram_6F3D  texto a la RAM: direccion, letras, 0xFE y otra direccion, 0xFF acaba (p00:4B1F); lo leen p26:6F31 (25 bytes)
+F 0x6F3D 16
+D 0x6FA9 0x6FB0 tabla_6FA9  tabla que se lee desde HL = 0x6FA9 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:6FA2 (7 bytes)
+F 0x6FA9 16
+D 0x7045 0x7069 tabla_7045  tabla que se lee desde HL = 0x7045 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:6FC9 (36 bytes)
+F 0x7045 16
+D 0x720C 0x730A tabla_720C  tabla que se lee desde HL = 0x720C con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:71E2 (254 bytes)
+F 0x720C 16
+D 0x73E0 0x73F9 graficos_73E0  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p26:73B3 (25 bytes)
+F 0x73E0 6
+D 0x73F9 0x7406 copias_73F9  lista de copias de caracteres con la vuelta dada (p00:4D1B): de 4 en 4 (origen, destino, tercios y vuelta, cuantos) y un 0; lo leen p26:73BA (13 bytes)
+F 0x73F9 4
+D 0x7406 0x7407 leido_7406  1 bytes que lee p00:4E5A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A (1 bytes)
+F 0x7406 16
+D 0x7407 0x740A leido_7407  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x7407 16
+D 0x740A 0x740F leido_740A  5 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (5 bytes)
+F 0x740A 16
+D 0x740F 0x7412 leido_740F  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x740F 16
+D 0x7412 0x7417 leido_7412  5 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (5 bytes)
+F 0x7412 16
+D 0x7417 0x741A leido_7417  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x7417 16
+D 0x741A 0x741F leido_741A  5 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (5 bytes)
+F 0x741A 16
+D 0x741F 0x7422 leido_741F  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x741F 16
+D 0x7422 0x7427 leido_7422  5 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (5 bytes)
+F 0x7422 16
+D 0x7427 0x742A leido_7427  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x7427 16
+D 0x742A 0x742F leido_742A  5 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (5 bytes)
+F 0x742A 16
+D 0x742F 0x7432 leido_742F  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x742F 16
+D 0x7432 0x7433 leido_7432  1 bytes que lee p00:4E5A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A (1 bytes)
+F 0x7432 16
+D 0x7433 0x7436 leido_7433  3 bytes que leen p00:4EDE, p00:4EF0, p00:4EE3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4EDE, p00:4EF0, p00:4EE3 (3 bytes)
+F 0x7433 16
+D 0x7436 0x743B leido_7436  5 bytes que leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4E5A, p00:4E6E, p00:4E76, p00:4E85 (5 bytes)
+F 0x7436 16
+D 0x7573 0x757B tabla_7573  tabla que se lee desde HL = 0x7573 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:7477 (8 bytes)
+F 0x7573 16
+D 0x757B 0x75FB leido_757B  128 bytes que lee p00:59B3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:59B3 (128 bytes)
+F 0x757B 16
+D 0x75FB 0x7603 tabla_75FB  tabla que se lee desde HL = 0x75FB con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:7492 (8 bytes)
+F 0x75FB 16
+D 0x7603 0x764B leido_7603  72 bytes que lee p00:59B3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:59B3 (72 bytes)
+F 0x7603 16
+D 0x764B 0x7653 tabla_764B  tabla que se lee desde HL = 0x764B con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:74AD (8 bytes)
+F 0x764B 16
+D 0x7653 0x76A3 leido_7653  80 bytes que lee p00:59B3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:59B3 (80 bytes)
+F 0x7653 16
+D 0x76A3 0x76B7 tabla_76A3  tabla que se lee desde HL = 0x76A3 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:755C (20 bytes)
+F 0x76A3 16
+D 0x76B7 0x76BF tabla_76B7  tabla que se lee desde HL = 0x76B7 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:74C8 (8 bytes)
+F 0x76B7 16
+D 0x76BF 0x7713 leido_76BF  84 bytes que lee p00:59B3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:59B3 (84 bytes)
+F 0x76BF 16
+D 0x7713 0x7719 leido_7713  6 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (6 bytes)
+F 0x7713 16
+D 0x7719 0x7734 leido_7719  27 bytes que leen p26:751C, p26:7525 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:751C, p26:7525 (27 bytes)
+F 0x7719 16
+D 0x7734 0x773E leido_7734  10 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (10 bytes)
+F 0x7734 16
+D 0x773E 0x775B leido_773E  29 bytes que leen p26:751C, p26:7525 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:751C, p26:7525 (29 bytes)
+F 0x773E 16
+D 0x775B 0x776B leido_775B  16 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (16 bytes)
+F 0x775B 16
+D 0x776B 0x778F leido_776B  36 bytes que leen p26:751C, p26:7525 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:751C, p26:7525 (36 bytes)
+F 0x776B 16
+D 0x778F 0x779F leido_778F  16 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (16 bytes)
+F 0x778F 16
+D 0x779F 0x77C3 leido_779F  36 bytes que leen p26:751C, p26:7525 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:751C, p26:7525 (36 bytes)
+F 0x779F 16
+D 0x77C3 0x77D7 leido_77C3  20 bytes que lee p00:59B3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:59B3 (20 bytes)
+F 0x77C3 16
+D 0x77D7 0x77DF tabla_77D7  tabla que se lee desde HL = 0x77D7 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:7533 (8 bytes)
+F 0x77D7 16
+D 0x77DF 0x783F leido_77DF  96 bytes que lee p26:753F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:753F (96 bytes)
+F 0x77DF 16
+D 0x7D4E 0x7D56 tabla_7D4E  4 destinos del despachador p00:4093 (call en p26:7D4B, el indice en A): 6CCB, 6D14, 7D56, 6DB7; lo leen p26:7D4B (8 bytes)
+F 0x7D4E w4
+D 0x7D6E 0x7D7C tabla_7D6E  7 destinos del despachador p00:4093 (call en p26:7D6B, el indice en A): 7D7C, 7D94, 7DB7, 7DCE, 7DD8, 7DE0, 7DE8; lo leen p26:7D6B (14 bytes)
+F 0x7D6E w7
+D 0x7DB1 0x7DB7 tabla_7DB1  tabla que se lee desde HL = 0x7DB1 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:7DA4 (6 bytes)
+F 0x7DB1 16
+D 0x7E23 0x7E2A graficos_7E23  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p26:7E1C (7 bytes)
+F 0x7E23 6
+D 0x7EB9 0x7EC5 tabla_7EB9  tabla que se lee desde HL = 0x7EB9 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:7E76 (12 bytes)
+F 0x7EB9 16
+D 0x7EDB 0x7EF1 tabla_7EDB  11 destinos del despachador p00:4093 (call en p26:7ED8, el indice en A): 7EF1, 7EFE, 7F17, 7F39, 7F63, 7F6E, 7F7A, 7F93, 7FA3, 7FB8, 7FC8; lo leen p26:7ED8 (22 bytes)
+F 0x7EDB w8
+D 0x6102 0x6108 resto_6102  lo apuntan con el banco puesto p27:8181 (0x6102), p27:8856 (0x6102), p30:8297 (0x6102); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p27:8181, p27:8856, p30:8297 (6 bytes)
+F 0x6102 16
+D 0x610E 0x6114 resto_610E  lo apuntan con el banco puesto p27:8386 (0x610E); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p27:8386 (6 bytes)
+F 0x610E 16
+D 0x6193 0x61F3 resto_6193  lo apuntan con el banco puesto p27:819F (0x6193), p27:83A9 (0x61B4), p26:7DCE (0x61D8), p26:7F2F (0x61E5), p26:7F43 (0x61EA); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p27:819F, p27:83A9, p26:7DCE, p26:7F2F, p26:7F43 (96 bytes)
+F 0x6193 16
+D 0x620A 0x626A resto_620A  lo apuntan con el banco puesto p27:847A (0x620A), p27:84B4 (0x6213), p27:8517 (0x621C), p27:85AC (0x6225), p27:86AE (0x622E), p27:86F0 (0x6233); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p27:847A, p27:84B4, p27:8517, p27:85AC, p27:86AE, p27:86F0 (96 bytes)
+F 0x620A 16
+D 0x6F6F 0x6F72 resto_6F6F  lo apuntan con el banco puesto p26:6F65 (0x6F6F); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p26:6F65 (3 bytes)
+F 0x6F6F 16
+D 0x6F90 0x6F94 resto_6F90  lo apuntan con el banco puesto p26:6F89 (0x6F90); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p26:6F89 (4 bytes)
+F 0x6F90 16
+D 0x6F9B 0x6FA2 resto_6F9B  lo apuntan con el banco puesto p26:6F94 (0x6F9B); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p26:6F94 (7 bytes)
+F 0x6F9B 16
+D 0x7073 0x7199 resto_7073  lo apuntan con el banco puesto p26:706C (0x7073); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p26:706C (294 bytes)
+F 0x7073 16
+# --- fin de los bloques de bloques.py ---

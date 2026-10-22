@@ -118,6 +118,9 @@ from cartucho import (DESPACHADOR, DESPACHADORES, RANURA_REG, SOMBRA,
 import cartucho as _cartucho
 # Subrutinas que vuelven con A intacto (las de banco de algunos cartuchos).
 NO_TOCAN_A = getattr(_cartucho, "NO_TOCAN_A", ())
+# Subrutinas que vuelven con HL y DE intactos (las de banco): tras ellas se
+# sigue sabiendo HL, y un `call` a un `jp (hl)` se puede seguir.
+NO_TOCAN_HL = set(getattr(_cartucho, "NO_TOCAN_HL", ()))
 # Llamadas a otro cartucho (otra ranura): no se siguen.
 LLAMADAS_AJENAS = getattr(_cartucho, "LLAMADAS_AJENAS", set())
 # Subrutinas que guardan el banco de una ranura en una casilla de la sombra
@@ -551,6 +554,11 @@ class TrazadorDeBancos:
                     t = self.word(pc + 1, s)
                     self.llamadas.append((t, b, pc, s, hl, de))
                     self._ir(t, s, sombra, pila, b, pc, "call")
+                    if hl is not None and self.byte(t, s) == 0xE9:
+                        # `call` a un `jp (hl)` con HL sabido: es un call a HL
+                        self.llamadas.append((hl, b, pc, s, None, de))
+                        self._ir(hl, s, sombra, pila, b, pc,
+                                 "call al jp (hl) de 0x%04X con HL = 0x%04X" % (t, hl))
                     if empuja(t, self.c.rom):
                         sombra = mete(s, sombra)
                     if PILA_BANCOS and t == PILA_BANCOS[1]:
@@ -590,7 +598,10 @@ class TrazadorDeBancos:
                 elif op == 0xC9:
                     para = True
                 elif op == 0xE9:
-                    self.ciegos.add((b, pc, "JP (HL)"))
+                    if hl is not None:
+                        self._ir(hl, s, sombra, pila, b, pc, "jp (hl) con HL = 0x%04X" % hl)
+                    else:
+                        self.ciegos.add((b, pc, "JP (HL)"))
                     para = True
                 elif op in (0xDD, 0xFD) and self.byte(pc + 1, s) == 0xE9:
                     self.ciegos.add((b, pc, "JP (IX/IY)"))
@@ -621,7 +632,8 @@ class TrazadorDeBancos:
                     llama_t = self.word(pc + 1, s) if (op == 0xCD or op in CALL_CC) else None
                     sigue_a = llama_t not in NO_TOCAN_A
                     nueva_a = None if sigue_a else a
-                    nuevo_hl = nuevo_de = None
+                    if llama_t not in NO_TOCAN_HL:
+                        nuevo_hl = nuevo_de = None
                 pc, a, hl, de = nxt, nueva_a, nuevo_hl, nuevo_de
 
     # ------------------------------------------------ resumen de subrutinas
@@ -1016,7 +1028,10 @@ def escribe_ficheros(t, src):
             # de dos cifras BCD; en el banco 12 esos mismos bytes son basura.
             propias[p] = fuera
             continue
+        partidas = {pc for b_, pc, _ in t.partidas if b_ == p}
         for a in sorted(t.entradas[p]):
+            if a in partidas:
+                continue        # empieza en un banco y acaba en el otro: va como datos (partida_)
             just = t.porque.get((p, a), "?")
             de_otro = just.startswith("p") and just[:3] != nombre(p)
             de_tabla = "tabla" in just

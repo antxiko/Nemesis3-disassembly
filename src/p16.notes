@@ -1,0 +1,237 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x6000 0x6016 por_fase_6000  una palabra por fase (las 11; la fase 1 es la primera): graficos; lo leen p00:4FE1 (22 bytes)
+F 0x6000 w8
+D 0x6016 0x602C por_fase_6016  una palabra por fase (las 11; la fase 1 es la primera): copias; lo leen p00:4FFB (22 bytes)
+F 0x6016 w8
+D 0x602C 0x6042 por_fase_602C  una palabra por fase (las 11; la fase 1 es la primera): 51EE; lo leen p00:51F4 (22 bytes)
+F 0x602C w8
+D 0x6042 0x6044 cambios_6042  los cambios de graficos a mitad de la fase 1 (p00:51EE): de 7 en 7, la posicion del scroll, la lista de graficos, la de copias y el byte de 0xE405; acaba en 0xFFFF; lo leen p00:51F7 (2 bytes)
+F 0x6042 7
+D 0x6044 0x604D cambios_6044  los cambios de graficos a mitad de la fase 2 (p00:51EE): de 7 en 7, la posicion del scroll, la lista de graficos, la de copias y el byte de 0xE405; acaba en 0xFFFF; lo leen p00:51F7 (9 bytes)
+F 0x6044 7
+D 0x604D 0x6064 cambios_604D  los cambios de graficos a mitad de la fase 3 (p00:51EE): de 7 en 7, la posicion del scroll, la lista de graficos, la de copias y el byte de 0xE405; acaba en 0xFFFF; se solapan 2 bloques: (cambios_6062 6062-6064); lo leen p00:51F7 (23 bytes)
+F 0x604D 7
+D 0x6064 0x6074 cambios_6064  los cambios de graficos a mitad de la fase 5 (p00:51EE): de 7 en 7, la posicion del scroll, la lista de graficos, la de copias y el byte de 0xE405; acaba en 0xFFFF; lo leen p00:51F7 (16 bytes)
+F 0x6064 7
+D 0x6074 0x60B7 graficos_6074  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:4FE1 (67 bytes)
+F 0x6074 6
+D 0x60B7 0x6108 copias_60B7  lista de copias de caracteres con la vuelta dada de la fase 1 (p00:4D1B); lo leen p00:4FFB (81 bytes)
+F 0x60B7 4
+D 0x6108 0x612D graficos_6108  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:4FE1 (37 bytes)
+F 0x6108 6
+D 0x612D 0x6152 graficos_612D  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:521F (37 bytes)
+F 0x612D 6
+D 0x6152 0x619B copias_6152  lista de copias de caracteres con la vuelta dada de la fase 2 (p00:4D1B); lo leen p00:4FFB (73 bytes)
+F 0x6152 4
+D 0x619B 0x61B0 copias_619B  lista de copias de caracteres con la vuelta dada (p00:4D1B), de un cambio de graficos a mitad de la fase 2; lo leen p00:522B (21 bytes)
+F 0x619B 4
+D 0x61B0 0x61C3 graficos_61B0  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:4FE1 (19 bytes)
+F 0x61B0 6
+D 0x61C3 0x61E8 graficos_61C3  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:521F (37 bytes)
+F 0x61C3 6
+D 0x61E8 0x6201 graficos_61E8  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:521F (25 bytes)
+F 0x61E8 6
+D 0x6201 0x6208 graficos_6201  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:521F (7 bytes)
+F 0x6201 6
+D 0x6208 0x6235 copias_6208  lista de copias de caracteres con la vuelta dada de la fase 3 (p00:4D1B); lo leen p00:4FFB (45 bytes)
+F 0x6208 4
+D 0x6235 0x6256 copias_6235  lista de copias de caracteres con la vuelta dada (p00:4D1B), de un cambio de graficos a mitad de la fase 3; lo leen p00:522B (33 bytes)
+F 0x6235 4
+D 0x6256 0x627B copias_6256  lista de copias de caracteres con la vuelta dada (p00:4D1B), de un cambio de graficos a mitad de la fase 3; lo leen p00:522B (37 bytes)
+F 0x6256 4
+D 0x627B 0x628C copias_627B  lista de copias de caracteres con la vuelta dada (p00:4D1B), de un cambio de graficos a mitad de la fase 3; lo leen p00:522B (17 bytes)
+F 0x627B 4
+D 0x628C 0x628D graficos_628C  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:4FE1 (1 bytes)
+F 0x628C 6
+D 0x628D 0x628E copias_628D  lista de copias de caracteres con la vuelta dada de la fase 4 (p00:4D1B); lo leen p00:4FFB (1 bytes)
+F 0x628D 4
+D 0x628E 0x62C5 graficos_628E  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:4FE1 (55 bytes)
+F 0x628E 6
+D 0x62C5 0x62FC graficos_62C5  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:521F (55 bytes)
+F 0x62C5 6
+D 0x62FC 0x6333 graficos_62FC  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:521F (55 bytes)
+F 0x62FC 6
+D 0x6333 0x636C copias_6333  lista de copias de caracteres con la vuelta dada de la fase 5 (p00:4D1B); lo leen p00:4FFB (57 bytes)
+F 0x6333 4
+D 0x636C 0x639D copias_636C  lista de copias de caracteres con la vuelta dada (p00:4D1B), de un cambio de graficos a mitad de la fase 5; lo leen p00:522B (49 bytes)
+F 0x636C 4
+D 0x639D 0x63CE copias_639D  lista de copias de caracteres con la vuelta dada (p00:4D1B), de un cambio de graficos a mitad de la fase 5; lo leen p00:522B (49 bytes)
+F 0x639D 4
+D 0x63CE 0x63D7 cambios_63CE  los cambios de graficos a mitad de la fase 8 (p00:51EE): de 7 en 7, la posicion del scroll, la lista de graficos, la de copias y el byte de 0xE405; acaba en 0xFFFF; lo leen p00:51F7 (9 bytes)
+F 0x63CE 7
+D 0x63D7 0x63E7 cambios_63D7  los cambios de graficos a mitad de la fase 9 (p00:51EE): de 7 en 7, la posicion del scroll, la lista de graficos, la de copias y el byte de 0xE405; acaba en 0xFFFF; lo leen p00:51F7 (16 bytes)
+F 0x63D7 7
+D 0x63E7 0x63E9 cambios_63E7  los cambios de graficos a mitad de la fase 7 (p00:51EE): de 7 en 7, la posicion del scroll, la lista de graficos, la de copias y el byte de 0xE405; acaba en 0xFFFF; lo leen p00:51F7 (2 bytes)
+F 0x63E7 7
+D 0x63E9 0x63F2 cambios_63E9  los cambios de graficos a mitad de la fase 10 (p00:51EE): de 7 en 7, la posicion del scroll, la lista de graficos, la de copias y el byte de 0xE405; acaba en 0xFFFF; lo leen p00:51F7 (9 bytes)
+F 0x63E9 7
+D 0x63F2 0x6429 graficos_63F2  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:4FE1 (55 bytes)
+F 0x63F2 6
+D 0x6429 0x6452 copias_6429  lista de copias de caracteres con la vuelta dada de la fase 6 (p00:4D1B); lo leen p00:4FFB (41 bytes)
+F 0x6429 4
+D 0x6452 0x6454 cambios_6452  los cambios de graficos a mitad de la fase 6 (p00:51EE): de 7 en 7, la posicion del scroll, la lista de graficos, la de copias y el byte de 0xE405; acaba en 0xFFFF; lo leen p00:51F7 (2 bytes)
+F 0x6452 7
+D 0x6454 0x6491 graficos_6454  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:4FE1 (61 bytes)
+F 0x6454 6
+D 0x6491 0x64DA copias_6491  lista de copias de caracteres con la vuelta dada de la fase 7 (p00:4D1B); lo leen p00:4FFB (73 bytes)
+F 0x6491 4
+D 0x64DA 0x6511 graficos_64DA  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:4FE1 (55 bytes)
+F 0x64DA 6
+D 0x6511 0x651E graficos_6511  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:521F (13 bytes)
+F 0x6511 6
+D 0x651E 0x654F copias_651E  lista de copias de caracteres con la vuelta dada de la fase 8 (p00:4D1B); lo leen p00:4FFB (49 bytes)
+F 0x651E 4
+D 0x654F 0x6574 copias_654F  lista de copias de caracteres con la vuelta dada (p00:4D1B), de un cambio de graficos a mitad de la fase 8; lo leen p00:522B (37 bytes)
+F 0x654F 4
+D 0x6574 0x65BD graficos_6574  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:4FE1 (73 bytes)
+F 0x6574 6
+D 0x65BD 0x65FA copias_65BD  lista de copias de caracteres con la vuelta dada de la fase 9 (p00:4D1B); lo leen p00:4FFB (61 bytes)
+F 0x65BD 4
+D 0x65FA 0x662B graficos_65FA  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:521F (49 bytes)
+F 0x65FA 6
+D 0x662B 0x6648 copias_662B  lista de copias de caracteres con la vuelta dada (p00:4D1B), de un cambio de graficos a mitad de la fase 9; lo leen p00:522B (29 bytes)
+F 0x662B 4
+D 0x6648 0x666D graficos_6648  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:521F (37 bytes)
+F 0x6648 6
+D 0x666D 0x66D2 copias_666D  lista de copias de caracteres con la vuelta dada (p00:4D1B), de un cambio de graficos a mitad de la fase 9; lo leen p00:522B (101 bytes)
+F 0x666D 4
+D 0x66D2 0x6703 graficos_66D2  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:4FE1 (49 bytes)
+F 0x66D2 6
+D 0x6703 0x6722 graficos_6703  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:521F (31 bytes)
+F 0x6703 6
+D 0x6722 0x6747 copias_6722  lista de copias de caracteres con la vuelta dada de la fase 10 (p00:4D1B); lo leen p00:4FFB (37 bytes)
+F 0x6722 4
+D 0x6747 0x6758 copias_6747  lista de copias de caracteres con la vuelta dada (p00:4D1B), de un cambio de graficos a mitad de la fase 10; lo leen p00:522B (17 bytes)
+F 0x6747 4
+D 0x6758 0x6795 graficos_6758  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:4FE1 (61 bytes)
+F 0x6758 6
+D 0x6795 0x67AE copias_6795  lista de copias de caracteres con la vuelta dada de la fase 11 (p00:4D1B); lo leen p00:4FFB (25 bytes)
+F 0x6795 4
+D 0x67DD 0x6CDA tabla_67DD  tabla que se lee desde HL = 0x67DD con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p00:51A2 (1277 bytes)
+F 0x67DD 16
+D 0x6CDA 0x6CDC tabla_6CDA  tabla que se lee desde HL = 0x6CDA con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p00:56E7 (2 bytes)
+F 0x6CDA 16
+D 0x6CDC 0x6D4D leido_6CDC  113 bytes que leen p00:56EE, p00:56F0, p00:56F7, p00:56F9 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 67 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:56EE, p00:56F0, p00:56F7, p00:56F9 (113 bytes)
+F 0x6CDC 16
+D 0x6D5C 0x6D5D tabla_6D5C  tabla que se lee desde HL = 0x6D5C con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p00:56C7 (1 bytes)
+F 0x6D5C 16
+D 0x6D5D 0x6D68 leido_6D5D  11 bytes que lee p00:56CD al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 1 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:56CD (11 bytes)
+F 0x6D5D 16
+D 0x6D68 0x6DF9 rle_6D68  los dibujos de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6D68 6D68-6DF9); lo leen p00:4CFF, p00:4B3C (145 bytes)
+F 0x6D68 16
+D 0x6DF9 0x6E1A rle_6DF9  los colores de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6DF9 6DF9-6E1A); lo leen p00:4D11, p00:4B3C (33 bytes)
+F 0x6DF9 16
+D 0x6E1A 0x6E77 rle_6E1A  los dibujos de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6E1A 6E1A-6E77); lo leen p00:4CFF, p00:4B3C (93 bytes)
+F 0x6E1A 16
+D 0x6E77 0x6E7A rle_6E77  los colores de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6E77 6E77-6E7A); lo leen p00:4D11, p00:4B3C (3 bytes)
+F 0x6E77 16
+D 0x6E7A 0x6F00 rle_6E7A  los dibujos de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6E7A 6E7A-6F00); lo leen p00:4CFF, p00:4B3C (134 bytes)
+F 0x6E7A 16
+D 0x6F00 0x6F05 rle_6F00  los colores de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6F00 6F00-6F05); lo leen p00:4D11, p00:4B3C (5 bytes)
+F 0x6F00 16
+D 0x6F05 0x6F93 rle_6F05  los dibujos de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6F05 6F05-6F93); lo leen p00:4CFF, p00:4B3C (142 bytes)
+F 0x6F05 16
+D 0x6F93 0x6FA2 rle_6F93  los colores de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6F93 6F93-6FA2); lo leen p00:4D11, p00:4B3C (15 bytes)
+F 0x6F93 16
+D 0x6FA2 0x6FC3 rle_6FA2  los dibujos de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6FA2 6FA2-6FC3); lo leen p00:4CFF, p00:4B3C (33 bytes)
+F 0x6FA2 16
+D 0x6FC3 0x6FD0 rle_6FC3  los colores de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6FC3 6FC3-6FD0); lo leen p00:4D11, p00:4B3C (13 bytes)
+F 0x6FC3 16
+D 0x6FD0 0x7010 rle_6FD0  los dibujos de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6FD0 6FD0-7010); lo leen p00:4CFF, p00:4B3C (64 bytes)
+F 0x6FD0 16
+D 0x7010 0x7029 rle_7010  los colores de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7010 7010-7029); lo leen p00:4D11, p00:4B3C (25 bytes)
+F 0x7010 16
+D 0x7029 0x706B rle_7029  los dibujos de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7029 7029-706B); lo leen p00:4CFF, p00:4B3C (66 bytes)
+F 0x7029 16
+D 0x706B 0x707A rle_706B  los colores de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_706B 706B-707A); lo leen p00:4D11, p00:4B3C (15 bytes)
+F 0x706B 16
+D 0x707A 0x7158 rle_707A  los dibujos de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_707A 707A-7158); lo leen p00:4CFF, p00:4B3C (222 bytes)
+F 0x707A 16
+D 0x7158 0x716F rle_7158  los colores de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7158 7158-716F); lo leen p00:4D11, p00:4B3C (23 bytes)
+F 0x7158 16
+D 0x716F 0x734A rle_716F  los dibujos de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_716F 716F-734A); lo leen p00:4CFF, p00:4B3C (475 bytes)
+F 0x716F 16
+D 0x734A 0x736D rle_734A  los colores de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_734A 734A-736D); lo leen p00:4D11, p00:4B3C (35 bytes)
+F 0x734A 16
+D 0x736D 0x7460 rle_736D  los dibujos de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_736D 736D-7460); lo leen p00:4CFF, p00:4B3C (243 bytes)
+F 0x736D 16
+D 0x7460 0x747D rle_7460  los colores de una entrada de la lista de graficos de 16:6074, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7460 7460-747D); lo leen p00:4D11, p00:4B3C (29 bytes)
+F 0x7460 16
+D 0x74FB 0x755C rle_74FB  los dibujos de una entrada de la lista de graficos de 16:6108, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_74FB 74FB-755C); lo leen p00:4CFF, p00:4B3C (97 bytes)
+F 0x74FB 16
+D 0x755C 0x75AF rle_755C  los colores de una entrada de la lista de graficos de 16:6108, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_755C 755C-75AF); lo leen p00:4D11, p00:4B3C (83 bytes)
+F 0x755C 16
+D 0x75B9 0x75FB rle_75B9  los dibujos de una entrada de la lista de graficos de 16:66D2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_75B9 75B9-75FB); lo leen p00:4CFF, p00:4B3C (66 bytes)
+F 0x75B9 16
+D 0x763D 0x767D rle_763D  los dibujos de una entrada de la lista de graficos de 16:628E, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_763D 763D-767D); lo leen p00:4CFF, p00:4B3C (64 bytes)
+F 0x763D 16
+D 0x767D 0x76BD rle_767D  los dibujos de una entrada de la lista de graficos de 16:628E, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_767D 767D-76BD); lo leen p00:4CFF, p00:4B3C (64 bytes)
+F 0x767D 16
+D 0x76C6 0x76CF rle_76C6  los dibujos de una entrada de la lista de graficos de 16:62FC, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_76C6 76C6-76CF); lo leen p00:4CFF, p00:4B3C (9 bytes)
+F 0x76C6 16
+D 0x77AF 0x77EA rle_77AF  los colores de una entrada de la lista de graficos de 16:66D2, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_77AF 77AF-77EA); lo leen p00:4D11, p00:4B3C (59 bytes)
+F 0x77AF 16
+D 0x782C 0x7868 rle_782C  los colores de una entrada de la lista de graficos de 16:628E, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_782C 782C-7868); lo leen p00:4D11, p00:4B3C (60 bytes)
+F 0x782C 16
+D 0x7868 0x78A5 rle_7868  los colores de una entrada de la lista de graficos de 16:628E, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7868 7868-78A5); lo leen p00:4D11, p00:4B3C (61 bytes)
+F 0x7868 16
+D 0x78C6 0x78D1 rle_78C6  los colores de una entrada de la lista de graficos de 16:62FC, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_78C6 78C6-78D1); lo leen p00:4D11, p00:4B3C (11 bytes)
+F 0x78C6 16
+D 0x78D1 0x7911 rle_78D1  los dibujos de una entrada de la lista de graficos de 16:6574, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_78D1 78D1-7911); lo leen p00:4CFF, p00:4B3C (64 bytes)
+F 0x78D1 16
+D 0x7911 0x7951 rle_7911  los dibujos de una entrada de la lista de graficos de 16:6574, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7911 7911-7951); lo leen p00:4CFF, p00:4B3C (64 bytes)
+F 0x7911 16
+D 0x7951 0x798D rle_7951  los colores de una entrada de la lista de graficos de 16:6574, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7951 7951-798D); lo leen p00:4D11, p00:4B3C (60 bytes)
+F 0x7951 16
+D 0x798D 0x79C8 rle_798D  los colores de una entrada de la lista de graficos de 16:6574, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_798D 798D-79C8); lo leen p00:4D11, p00:4B3C (59 bytes)
+F 0x798D 16
+D 0x79C8 0x79F8 rle_79C8  los dibujos de una entrada de la lista de graficos de 16:6454, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_79C8 79C8-79F8); lo leen p00:4CFF, p00:4B3C (48 bytes)
+F 0x79C8 16
+D 0x79F8 0x7A29 rle_79F8  los colores de una entrada de la lista de graficos de 16:6454, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_79F8 79F8-7A29); lo leen p00:4D11, p00:4B3C (49 bytes)
+F 0x79F8 16
+D 0x7A29 0x7A59 rle_7A29  los dibujos de una entrada de la lista de graficos de 16:6454, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7A29 7A29-7A59); lo leen p00:4CFF, p00:4B3C (48 bytes)
+F 0x7A29 16
+D 0x7A59 0x7A89 rle_7A59  los colores de una entrada de la lista de graficos de 16:6454, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7A59 7A59-7A89); lo leen p00:4D11, p00:4B3C (48 bytes)
+F 0x7A59 16
+D 0x7A89 0x7A9B rle_7A89  los dibujos de una entrada de la lista de graficos de 16:61B0, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7A89 7A89-7A9B); lo leen p00:4CFF, p00:4B3C (18 bytes)
+F 0x7A89 16
+D 0x7A9B 0x7AA8 rle_7A9B  los colores de una entrada de la lista de graficos de 16:61B0, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7A9B 7A9B-7AA8); lo leen p00:4D11, p00:4B3C (13 bytes)
+F 0x7A9B 16
+D 0x7AA8 0x7ACA rle_7AA8  los dibujos de una entrada de la lista de graficos de 16:65FA, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7AA8 7AA8-7ACA); lo leen p00:4CFF, p00:4B3C (34 bytes)
+F 0x7AA8 16
+D 0x7ACA 0x7AEB rle_7ACA  los colores de una entrada de la lista de graficos de 16:65FA, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7ACA 7ACA-7AEB); lo leen p00:4D11, p00:4B3C (33 bytes)
+F 0x7ACA 16
+D 0x7AEB 0x7B65 rle_7AEB  los dibujos de una entrada de la lista de graficos de 16:61C3, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7AEB 7AEB-7B65); lo leen p00:4CFF, p00:4B3C (122 bytes)
+F 0x7AEB 16
+D 0x7B65 0x7BC3 rle_7B65  los colores de una entrada de la lista de graficos de 16:61C3, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7B65 7B65-7BC3); lo leen p00:4D11, p00:4B3C (94 bytes)
+F 0x7B65 16
+D 0x7BC3 0x7BCA rle_7BC3  los dibujos de una entrada de la lista de graficos de 16:65FA, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7BC3 7BC3-7BCA); lo leen p00:4CFF, p00:4B3C (7 bytes)
+F 0x7BC3 16
+D 0x7BCA 0x7BCD rle_7BCA  los colores de una entrada de la lista de graficos de 16:65FA, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7BCA 7BCA-7BCD); lo leen p00:4D11, p00:4B3C (3 bytes)
+F 0x7BCA 16
+D 0x7BCD 0x7CC8 rle_7BCD  los dibujos de una entrada de la lista de graficos de 16:6108, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7BCD 7BCD-7CC8); lo leen p00:4CFF, p00:4B3C (251 bytes)
+F 0x7BCD 16
+D 0x7CC8 0x7D34 rle_7CC8  los colores de una entrada de la lista de graficos de 16:6108, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7CC8 7CC8-7D34); lo leen p00:4D11, p00:4B3C (108 bytes)
+F 0x7CC8 16
+D 0x7D34 0x7D46 rle_7D34  los dibujos de una entrada de la lista de graficos de 16:612D, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7D34 7D34-7D46); lo leen p00:4CFF, p00:4B3C (18 bytes)
+F 0x7D34 16
+D 0x7D46 0x7D57 rle_7D46  los colores de una entrada de la lista de graficos de 16:612D, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7D46 7D46-7D57); lo leen p00:4D11, p00:4B3C (17 bytes)
+F 0x7D46 16
+D 0x7D57 0x7D69 rle_7D57  los dibujos de una entrada de la lista de graficos de 16:6108, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7D57 7D57-7D69); lo leen p00:4CFF, p00:4B3C (18 bytes)
+F 0x7D57 16
+D 0x7D69 0x7D77 rle_7D69  los colores de una entrada de la lista de graficos de 16:6108, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7D69 7D69-7D77); lo leen p00:4D11, p00:4B3C (14 bytes)
+F 0x7D69 16
+D 0x7D77 0x7E89 rle_7D77  los dibujos de una entrada de la lista de graficos de 16:6108, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7D77 7D77-7E89); lo leen p00:4CFF, p00:4B3C (274 bytes)
+F 0x7D77 16
+D 0x7E89 0x7F51 rle_7E89  los colores de una entrada de la lista de graficos de 16:6108, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7E89 7E89-7F51); lo leen p00:4D11, p00:4B3C (200 bytes)
+F 0x7E89 16
+D 0x7F51 0x7F5A rle_7F51  los dibujos de una entrada de la lista de graficos de 16:612D, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7F51 7F51-7F5A); lo leen p00:4CFF, p00:4B3C (9 bytes)
+F 0x7F51 16
+D 0x7F5A 0x7F5D rle_7F5A  los colores de una entrada de la lista de graficos de 16:612D, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_7F5A 7F5A-7F5D); lo leen p00:4D11, p00:4B3C (3 bytes)
+F 0x7F5A 16
+D 0x7F5D 0x8000 rle_7F5D  los dibujos de una entrada de la lista de graficos de 16:612D, en RLE (p00:4B3C) (sigue en el banco 17, en 0x8000); se solapan 2 bloques: (rle_vram_7F5D 7F5D-8000); lo leen p00:4CFF, p00:4B3C (163 bytes)
+F 0x7F5D 16
+D 0x67AE 0x67DD resto_67AE  lo apuntan con el banco puesto p00:571B (0x67AE); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p00:571B (47 bytes)
+F 0x67AE 16
+# --- fin de los bloques de bloques.py ---

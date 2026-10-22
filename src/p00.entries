@@ -12,10 +12,12 @@
 #
 # Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
 0x402E   # gancho de interrupcion H.KEYI: INIT escribe 0xC3 en 0xFD9A y esta direccion en 0xFD9B (p00:40EF-p00:40F7)
-0x4089   # p02:80FE call
+0x4093   # p19:AED7 call
 0x4094   # p01:7757 call
 0x409D   # cabecera AB: INIT
+0x4148   # p01:7652 call
 0x4150   # p04:9230 call
+0x415B   # p01:7EDE jp
 0x4163   # p02:8503 call
 0x416B   # p01:711B call
 0x4173   # p02:8325 call
@@ -24,9 +26,9 @@
 0x41C7   # p30:8515 call
 0x41CF   # p30:82F1 call
 0x41E4   # p27:8A17 call
-0x41EC   # p01:769E call
-0x41EF   # p02:80ED call
-0x4213   # p01:76B2 call
+0x41EF   # p01:7812 call
+0x41F7   # p01:643E call
+0x4213   # p01:644D call
 0x42B8   # p00:429F entrada 0 de la tabla de 0x42A2 (call 0x4093 en 0x429F)
 0x42EE   # p00:429F entrada 1 de la tabla de 0x42A2 (call 0x4093 en 0x429F)
 0x434B   # p00:429F entrada 2 de la tabla de 0x42A2 (call 0x4093 en 0x429F)
@@ -73,16 +75,25 @@
 0x4833   # p05:BE83 call
 0x483C   # p28:BC2E call
 0x4845   # p28:BC36 call
-0x4857   # p02:9D8B call
+0x484E   # p05:B25D call
+0x4851   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:414F (ret)
+0x4854   # se ejecuta jugando (tools/cobertura.py): se llega desde p01:764E (ret)
+0x4857   # p19:AF7C jp
 0x4860   # p19:ACBD call
 0x4869   # p05:A04F call
 0x4872   # p05:BE04 call
-0x48F9   # p01:6536 call
-0x4A46   # p02:8287 call
-0x4A5A   # p02:80F6 call
+0x487B   # p19:ACC1 call
+0x487E   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:414F (ret)
+0x4881   # se ejecuta jugando (tools/cobertura.py): se llega desde p01:7854 (ret)
+0x4884   # p19:ACED call
+0x4887   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:414F (ret)
+0x488A   # se ejecuta jugando (tools/cobertura.py): se llega desde p02:92F3 (salto)
+0x48F9   # p01:6BD0 call
+0x4A46   # p19:B2AC call
+0x4A5A   # p19:AE21 call
 0x4A65   # p03:A358 call
-0x4A6E   # p03:BB54 call
-0x4A75   # p01:63E3 call cc
+0x4A6E   # p01:7F8C call
+0x4A75   # p01:78F3 call
 0x4A7D   # p26:6DF2 call
 0x4B1F   # p26:62BC call
 0x4B32   # p26:618F call
@@ -101,7 +112,7 @@
 0x55AD   # p26:60AD call
 0x55CD   # p27:8E2A call
 0x5636   # p27:8987 call
-0x563C   # p26:608F call
+0x563C   # p01:646B call
 0x565A   # p02:8BDC call
 0x5669   # p05:A0D1 call
 0x56BC   # p01:60F2 call
@@ -145,16 +156,17 @@
 0x5888   # p05:A0AB jp
 0x588C   # p01:6BB8 call
 0x5890   # p04:99AB call
-0x5894   # p05:B369 jp
+0x5894   # p19:AC81 jp
+0x58CD   # p19:AF95 call
 0x58D1   # p05:A4AA jp
-0x58D5   # p05:A3E3 jp
+0x58D5   # p05:AE91 call
 0x58D9   # p05:B692 jp
 0x58DD   # p04:9868 jp
 0x58E1   # p03:A540 call
 0x58E5   # p01:6AC5 jp
 0x58E9   # p02:9B9B jp
-0x58ED   # p03:B0DE call
-0x58F1   # p05:B0A8 call
+0x58ED   # p19:B212 jp
+0x58F1   # p19:ABB8 jp
 0x58F5   # p02:9C0C call
 0x58F9   # p04:829A call cc
 0x58FD   # p27:8669 call
@@ -162,8 +174,10 @@
 0x5905   # p02:885C call
 0x5909   # p05:A61F call
 0x590E   # p05:AF6E call cc
+0x5912   # p02:8EFA call
 0x591A   # p27:8685 call
 0x591E   # p30:863F call
+0x5927   # p19:AE96 jp
 0x5934   # p26:6E61 call
 0x5938   # p26:6DE6 call
 0x5941   # p27:8A2C call

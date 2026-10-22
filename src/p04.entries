@@ -106,4 +106,5 @@
 0x9EDF   # p05:B62E jp cc
 0x9F11   # p05:B5F6 call
 0x9F9C   # p05:B5FE jp cc
+0x9FA5   # p05:A003 jr cc
 0x9FA7   # p05:B937 call

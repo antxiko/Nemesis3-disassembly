@@ -1,0 +1,25 @@
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x8000 0x8581 bloques_7DB1_cola  los bloques de 4 x 4 caracteres de la fase 9: 125 de 16 bytes y 0 de 8 (p00:53B4 completa estos con ceros); van hasta la tabla siguiente (sigue del banco 23); lo leen p00:53E6 (1409 bytes)
+F 0x8000 16
+D 0x8581 0x8E71 bloques_8581  los bloques de 4 x 4 caracteres de la fase 10: 143 de 16 bytes y 0 de 8 (p00:53B4 completa estos con ceros); van hasta la tabla siguiente; lo leen p00:53E6 (2288 bytes)
+F 0x8581 16
+D 0x8E71 0x946F bloques_8E71  los bloques de 4 x 4 caracteres de la fase 11: 96 de 16 bytes y 0 de 8 (p00:53B4 completa estos con ceros); van hasta la tabla siguiente (sus 2 ultimos bytes, p24:946F-9470, van con la tabla de mapas: son su palabra 0, sin uso); lo leen p00:53E6 (1534 bytes)
+F 0x8E71 16
+D 0x946F 0x9487 mapas_por_fase  un puntero por fase al mapa del decorado (p00:535B: 0x946F + 2 x fase; la palabra 0 no la pide nadie: la fase va de 1 a 11; las fases 1 y 2, y la 4 y la 5, comparten mapa); lo leen p00:5361 (24 bytes)
+F 0x946F w8
+D 0x9487 0x9697 mapa_9487  el mapa del decorado de la fase 1 y 2: 88 columnas de 6 bloques (p00:5388 lee una columna cada 4 pasos de scroll); va hasta el mapa siguiente; lo leen p00:5388 (528 bytes)
+F 0x9487 6
+D 0x9697 0x97E7 mapa_9697  el mapa del decorado de la fase 3: 56 columnas de 6 bloques (p00:5388 lee una columna cada 4 pasos de scroll); va hasta el mapa siguiente; lo leen p00:5388 (336 bytes)
+F 0x9697 6
+D 0x97E7 0x99F7 mapa_97E7  el mapa del decorado de la fase 4 y 5: 88 columnas de 6 bloques (p00:5388 lee una columna cada 4 pasos de scroll); va hasta el mapa siguiente; lo leen p00:5388 (528 bytes)
+F 0x97E7 6
+D 0x99F7 0x9BA7 mapa_99F7  el mapa del decorado de la fase 6: 72 columnas de 6 bloques (p00:5388 lee una columna cada 4 pasos de scroll); va hasta el mapa siguiente; lo leen p00:5388 (432 bytes)
+F 0x99F7 6
+D 0x9BA7 0x9D87 mapa_9BA7  el mapa del decorado de la fase 7: 80 columnas de 6 bloques (p00:5388 lee una columna cada 4 pasos de scroll); va hasta el mapa siguiente; lo leen p00:5388 (480 bytes)
+F 0x9BA7 6
+D 0x9D87 0x9FF7 mapa_9D87  el mapa del decorado de la fase 8: 104 columnas de 6 bloques (p00:5388 lee una columna cada 4 pasos de scroll); va hasta el mapa siguiente; lo leen p00:5388 (624 bytes)
+F 0x9D87 6
+D 0x9FF7 0xA000 mapa_9FF7  el mapa del decorado de la fase 9: 120 columnas de 6 bloques (p00:5388 lee una columna cada 4 pasos de scroll); va hasta el mapa siguiente (sigue en el banco 25, en 0xA000); lo leen p00:5388 (9 bytes)
+F 0x9FF7 6
+# --- fin de los bloques de bloques.py ---
