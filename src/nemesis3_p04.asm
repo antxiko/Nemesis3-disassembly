@@ -4441,7 +4441,7 @@ L_9F71:
 	cp 004h		;9f8d
 	jr z,L_9F99		;9f8f
 	ld b,0f8h		;9f91   ; el tope: 0xF8 con el 4, 0xC0 los demas (0xE0 y 0xE8 antes)
-	cp 004h		;9f93
+	cp 004h		;9f93   ; FALLO DEL JUEGO: el jefe 4 ya salto a 0x9F99 en 0x9F8F con B = 0xE8 (ld b no toca las banderas): este cp 4 nunca da igual, y el tope 0xF8 de la linea de arriba no se alcanza; el jefe 4 queda con 0xE8
 	jr z,L_9F99		;9f95
 	ld b,0c0h		;9f97
 L_9F99:

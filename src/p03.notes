@@ -1185,3 +1185,4 @@ C 0xBDD0 una aparicion en la ficha de 0xEAC0 (la ultima): quita lo que hubiera (
 C 0xBDE5 carga_fuente: carga la fuente en los tres tercios (bancos 20-22)
 C 0xBDEB escribe_texto: escribe en la VRAM el texto de DE (direccion y letras)
 # --- fin de las anotaciones de anota.py ---
+C 0xB5E3 FALLO DEL JUEGO: tras el and 0x1F y el ret nz, A vale siempre 0: este cp 0x80 deja C = 1 siempre, el ret c de abajo siempre vuelve, y el scf / ret z / or a de 0xB5E6-0xB5E9 no se alcanzan nunca; la mitad de abajo (Y >= 0x80) no se distingue

@@ -3325,7 +3325,7 @@ L_B5DB:
 	sub 010h		;b5de
 	and 01fh		;b5e0
 	ret nz			;b5e2
-	cp 080h		;b5e3
+	cp 080h		;b5e3   ; FALLO DEL JUEGO: tras el and 0x1F y el ret nz, A vale siempre 0: este cp 0x80 deja C = 1 siempre, el ret c de abajo siempre vuelve, y el scf / ret z / or a de 0xB5E6-0xB5E9 no se alcanzan nunca; la mitad de abajo (Y >= 0x80) no se distingue
 	ret c			;b5e5
 	scf			;b5e6
 	ret z			;b5e7

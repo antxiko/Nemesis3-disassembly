@@ -95,3 +95,22 @@ commented as such in the listing.
 - `p02:9D7A` reads BIOS address 0x0004 where `IX+4` would be expected: the
   enemy always goes up.
 - `p27:869D` stores HL where it looks like it should store A.
+
+## Two comparisons that cannot be met
+
+Both have the same shape and come from reading the code: a condition checked
+when it can no longer give any other answer.
+
+**Boss 4's limit.** To stop the boss on screen, the code sets a limit per boss:
+0xE0 for boss 3, 0xE8 for 0x0F and for 4, and then another, 0xF8, "for 4"
+(`p04:9F91`). But boss 4 has already left with 0xE8 at `p04:9F8F`, and the
+`cp 4` at `p04:9F93` repeats a question that can no longer be equal: the 0xF8
+is never used. Boss 4 ends up with 0xE8.
+
+**The lower half, which is not looked at.** An enemy at `p03:B5DB` waits to
+cross a 32-row line and wants to signal with the carry only in the lower half
+(Y from 0x80). But it compares with 0x80 after the `and 0x1F`, where A is
+always 0: the carry is always 1, the `ret c` always returns and the following
+four instructions (`p03:B5E6-B5E9`) never run. *Both proofs are logical: inside
+that block, the value is what it is. What was wanted for the lower half is an
+assumption from the comment.*

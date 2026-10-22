@@ -95,3 +95,22 @@ enemigos que tocan el decorado (`p01:7B76`), poner el ordenador de a bordo desde
 - `p02:9D7A` lee la dirección 0x0004 de la BIOS donde tocaría `IX+4`: el
   enemigo siempre sube.
 - `p27:869D` guarda HL donde parece que tocaba guardar A.
+
+## Dos comparaciones que no pueden cumplirse
+
+Las dos tienen la misma forma y salen de leer el código: una condición que se
+comprueba cuando ya no puede dar otro resultado.
+
+**El tope del jefe 4.** Para frenar al jefe en pantalla, el código pone un tope
+según el jefe: 0xE0 con el 3, 0xE8 con el 0x0F y con el 4, y después otro, 0xF8,
+«con el 4» (`p04:9F91`). Pero el jefe 4 ya ha salido con 0xE8 en `p04:9F8F`, y el
+`cp 4` de `p04:9F93` repite una pregunta que ya no puede dar igual: el 0xF8 no
+se usa nunca. El jefe 4 queda con 0xE8.
+
+**La mitad de abajo, que no se mira.** Un enemigo de `p03:B5DB` espera a cruzar
+una fila de 32 y quiere avisar con el acarreo solo en la mitad de abajo
+(Y a partir de 0x80). Pero compara con 0x80 después del `and 0x1F`, y ahí A es
+siempre 0: el acarreo sale siempre a 1, el `ret c` siempre vuelve y las cuatro
+instrucciones siguientes (`p03:B5E6-B5E9`) no se ejecutan nunca. *Las dos
+pruebas son lógicas: dentro de ese bloque, el valor es el que es. Lo que se
+quería en la mitad de abajo es una suposición a partir del comentario.*

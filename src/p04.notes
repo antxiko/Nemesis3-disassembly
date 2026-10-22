@@ -1393,3 +1393,4 @@ C 0x9FDC guarda la x del jefe (alto)
 C 0x9FE4 lee la y del jefe (alto)
 C 0x9FF8 lee la y del jefe (alto)
 # --- fin de las anotaciones de anota.py ---
+C 0x9F93 FALLO DEL JUEGO: el jefe 4 ya salto a 0x9F99 en 0x9F8F con B = 0xE8 (ld b no toca las banderas): este cp 4 nunca da igual, y el tope 0xF8 de la linea de arriba no se alcanza; el jefe 4 queda con 0xE8
