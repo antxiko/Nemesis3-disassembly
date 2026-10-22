@@ -55,6 +55,8 @@ def corre(nombre):
         return j, []
     if nombre == "remolino":
         return remolino()
+    if nombre == "fase4":
+        return fase4()
     f = int(nombre[1:])
     j = Juego().hasta_partida(f, inmortal=True, dispara=True)
     if nombre.startswith("b"):
@@ -108,6 +110,32 @@ def remolino():
                     break
         if k % 300 == 0:
             j.foto().save(os.path.join(FOTOS, "remolino_%05d.png" % k))
+    j.juega(BCUADROS, mira)
+    return j, eventos
+
+
+def fase4():
+    """A la fase 4 se llega acabando la 3 SIN tocar un remolino: tocarlo
+    (p02:85BB, la secuencia 1) devuelve la nave al principio de la 3. Se
+    juega la 3 con p02:85BB saltado (como la muerte con `inmortal`) y,
+    despues, lo que venga, BCUADROS cuadros."""
+    j = Juego().hasta_partida(3, inmortal=True, dispara=True)
+    j.sin.add((2, 0x85BB))
+    j.barre = 90
+    ini = j.cuadro
+    eventos = []
+    previo = [None]
+    os.makedirs(FOTOS, exist_ok=True)
+
+    def mira(j):
+        k = j.cuadro - ini
+        st = (j.mem[ESTADO], j.mem[PASO] if j.mem[ESTADO] != 5 else 0, j.mem[FASE])
+        if st != previo[0]:
+            eventos.append((k,) + st)
+            previo[0] = st
+            print("fase4", k, st, flush=True)
+        if k % 300 == 0:
+            j.foto().save(os.path.join(FOTOS, "fase4_%05d.png" % k))
     j.juega(BCUADROS, mira)
     return j, eventos
 

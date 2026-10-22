@@ -45,11 +45,14 @@ class Juego(Partida):
         self.inmortal = False
         self.dispara = False
         self.barre = 0
+        # rutinas que se saltan (`ret` en la entrada): {(banco, direccion)}
+        self.sin = set()
         self.arranca_cartucho(0x409D)
 
     def paso(self):
-        if (self.inmortal and self.pc == MUERE[1]
-                and self.bancos[0x8000] == MUERE[0]):
+        if ((self.inmortal and self.pc == MUERE[1] and self.bancos[0x8000] == MUERE[0])
+                or (self.sin and 0x4000 <= self.pc < 0xC000
+                    and (self.bancos[self.pc & 0xE000], self.pc) in self.sin)):
             self.pc = self._pop()          # `ret` en la entrada: no muere
             return
         super().paso()

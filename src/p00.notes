@@ -576,7 +576,7 @@ C 0x52DB 22 filas del bufer...
 C 0x52E4 ...cada una 31 bytes a la izquierda
 C 0x52E9 la fila siguiente (0x40 bytes)
 C 0x52F6 la fase 4: avanza cada 8 cuadros
-C 0x5309 y otro scroll que baja (0xE53B)
+C 0x5309 y otra posicion de scroll que va hacia atras (0xE53B)
 C 0x5310 se pinta el bufer entero con ese scroll
 C 0x5320 32 columnas
 C 0x5323 la columna (p00:5404)
@@ -817,7 +817,7 @@ C 0x5BDD los graficos de la fase
 C 0x5BE0 y la pantalla entera
 C 0x5BE3 en la fase 4...
 C 0x5BEA ...y en la 11 (con los sprites fuera)...
-C 0x5BF0 ...la nave en x 0x4A, y 0x50
+C 0x5BF0 ...la nave en y 0x4A, x 0x50
 C 0x5BFD la fase 11: 0xE413 = 1
 C 0x5C02 con 16-17-18, p00:5ED4 con la lista de 0x5EC9
 C 0x5C0E prepara la fase: el borde a 0xE0
@@ -842,7 +842,7 @@ C 0x5C79 0xE538 = 0xFF00
 C 0x5C7F la velocidad del scroll (0xE362): 0x80 en la fase 4, 1 en las demas
 C 0x5C8E la ficha de la nave: 12 bytes de 0x5CA5 a 0xE600
 C 0x5C99 y 3 de 0x5CB1 a 0xE630
-C 0x5CB4 la estela de la nave (0xE660): 16 veces su x y su y (0xE604, 0xE606)
+C 0x5CB4 la estela de la nave (0xE660): 16 veces su y y su x (0xE604, 0xE606)
 C 0x5CC4 0xE60B = 0
 C 0x5CC8 la dificultad: 0xE36A x 4...
 C 0x5CCE ...+ la fase - 1...
@@ -1499,8 +1499,8 @@ C 0x5B75 guarda el marcador cambiado (pausa, mensajes) y el byte siguiente (16 b
 C 0x5B7E bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x5B95 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x5BCF guarda la posicion del scroll (16 bits)
-C 0x5BF2 guarda la x de la nave
-C 0x5BF7 guarda la y de la nave
+C 0x5BF2 guarda la y de la nave (el primer byte de su sprite, p01:797C)
+C 0x5BF7 guarda la x de la nave
 C 0x5C0B bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x5C10 color_del_borde: B al registro 7 del VDP
 C 0x5C44 guarda la dificultad de la fase (0 a 0x0F)
@@ -1509,7 +1509,7 @@ C 0x5C65 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x5C71 guarda el paso del final de la fase
 C 0x5C8A guarda la velocidad del scroll (se rota: avanza con el bit 0)
 C 0x5C91 apunta a el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
-C 0x5CB9 apunta a la x de la nave
+C 0x5CB9 apunta a la y de la nave (el primer byte de su sprite, p01:797C)
 C 0x5CF1 guarda el caracter del fondo de la fase
 C 0x5D23 bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
 C 0x5D2C bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)

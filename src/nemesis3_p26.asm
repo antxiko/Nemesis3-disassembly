@@ -2326,9 +2326,9 @@ DATA_tabla_6D1C:
 
 L_6D24:
 	call 05938h		;6d24   ; orden_83_y_sonido_50: manda la orden 0x83 al motor y pide el sonido 0x50
-	ld hl,(0e604h)		;6d27   ; lee la x de la nave y el byte siguiente (16 bits)
+	ld hl,(0e604h)		;6d27   ; lee la y de la nave (el primer byte de su sprite, p01:797C) y el byte siguiente (16 bits)
 	ld (0e7e8h),hl		;6d2a
-	ld hl,(0e606h)		;6d2d   ; lee la y de la nave y el byte siguiente (16 bits)
+	ld hl,(0e606h)		;6d2d   ; lee la x de la nave y el byte siguiente (16 bits)
 	ld (0e7eah),hl		;6d30
 	ld de,08040h		;6d33
 	ld a,040h		;6d36
@@ -2404,11 +2404,11 @@ L_6D89:
 	ld hl,0e7e7h		;6d89
 	inc (hl)			;6d8c
 	call L_6DA0		;6d8d
-	ld a,(0e604h)		;6d90   ; lee la x de la nave
+	ld a,(0e604h)		;6d90   ; lee la y de la nave (el primer byte de su sprite, p01:797C)
 	sub 030h		;6d93
 	cp 021h		;6d95
 	ret nc			;6d97
-	ld a,(0e606h)		;6d98   ; lee la y de la nave
+	ld a,(0e606h)		;6d98   ; lee la x de la nave
 	sub 070h		;6d9b
 	cp 021h		;6d9d
 	ret			;6d9f
@@ -2476,9 +2476,9 @@ L_6E05:
 	dec (hl)			;6e0e
 	ret nz			;6e0f
 	ld hl,(0e7e8h)		;6e10
-	ld (0e604h),hl		;6e13   ; guarda la x de la nave y el byte siguiente (16 bits)
+	ld (0e604h),hl		;6e13   ; guarda la y de la nave (el primer byte de su sprite, p01:797C) y el byte siguiente (16 bits)
 	ld hl,(0e7eah)		;6e16
-	ld (0e606h),hl		;6e19   ; guarda la y de la nave y el byte siguiente (16 bits)
+	ld (0e606h),hl		;6e19   ; guarda la x de la nave y el byte siguiente (16 bits)
 	call 05959h		;6e1c
 	call L_6028		;6e1f
 	call L_6CC1		;6e22

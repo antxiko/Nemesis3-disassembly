@@ -202,10 +202,10 @@ RAM = {
     0xE465: ("cuantos sprites usan los enemigos (tope 12)", "p01:76A9"),
     0xE468: ("la aparicion siguiente de la lista de la fase", "p01:711E"),
     0xE46A: ("B de lo que aparece", "p01:767C"),
-    0xE472: ("la velocidad en x hacia la nave (16 bits)", "p01:63E6"),
-    0xE474: ("la velocidad en y hacia la nave (16 bits)", "p01:63F9"),
+    0xE472: ("la velocidad en y hacia la nave (16 bits; IX+7 de quien la usa)", "p01:63E6, p01:786E"),
+    0xE474: ("la velocidad en x hacia la nave (16 bits; IX+9 de quien la usa)", "p01:63F9, p01:7875"),
     0xE476: ("la direccion hacia la nave (0 a 0x3F)", "p01:644A"),
-    0xE478: ("la x y la y de lo que aparece", "p01:7674"),
+    0xE478: ("la y y la x de lo que aparece (IX+4 e IX+6 de su ficha)", "p01:7674"),
     0xE47B: ("la entrada siguiente de la lista de p19:A000", "p01:718E"),
     0xE4B0: ("la pieza siguiente de la lista de la fase", "p01:7C7D"),
     0xE4B1: ("cuantas piezas de 0xED00 estan en uso", "p01:7A5F"),
@@ -223,9 +223,9 @@ RAM = {
     0xE5C3: ("el color de los dibujos sueltos", "p00:4F4C"),
     0xE5C7: ("el siguiente caracter libre de cada tercio", "p00:4F22"),
     0xE601: ("los golpes que le quedan al escudo", "p01:68DF"),
-    0xE604: ("la x de la nave", "p01:63FF"),
-    0xE606: ("la y de la nave", "p01:6405"),
-    0xE660: ("la estela de la nave (16 x y y)", "p00:5CB4"),
+    0xE604: ("la y de la nave (el primer byte de su sprite, p01:797C)", "p01:63FF"),
+    0xE606: ("la x de la nave", "p01:6405"),
+    0xE660: ("la estela de la nave (16 veces y y x)", "p00:5CB4"),
     0xE680: ("los disparos de la nave (9 de 0x20)", "p01:64C6"),
     0xE800: ("los enemigos (12 de 0x40)", "p01:744A"),
     0xEB00: ("las balas (10 de 0x10)", "p01:67CA"),
@@ -245,4 +245,164 @@ RAM = {
 
 RAM16 = {}
 
-FICHAS = ()
+# Los campos del canal de sonido (IX = 0xE000 + 0x40 x k, 8 canales): el
+# interprete de p10:6428, las ordenes 0xD0-0xFF (tablas de p10:6E37 y 6B52),
+# las envolventes (p10:6756, 691E), el deslizamiento (p10:685E) y la onda
+# que cambia del SCC (p10:6A1A, 738F).
+CAMPOS_CANAL = {
+    0x00: "el sonido del canal (0: callado; p10:612B)",
+    0x01: "la prioridad del sonido del canal (p10:6125)",
+    0x02: "por donde va la partitura (bajo)",
+    0x03: "por donde va la partitura (alto)",
+    0x04: "la cuenta de la nota",
+    0x05: "la cuenta del bucle de la orden 0xFB",
+    0x06: "la cuenta del bucle de la orden 0xFC",
+    0x07: "la vuelta de la orden 0xF9 (bajo)",
+    0x08: "la vuelta de la orden 0xF9 (alto)",
+    0x09: "el modo del canal (orden 0xFE)",
+    0x0A: "el periodo (bajo)",
+    0x0B: "el periodo (alto)",
+    0x0C: "el volumen de ahora",
+    0x0D: "las marcas IX+0D (bits 0-1 tono y ruido, 2-3 la envolvente del PSG, 4-7 la onda que cambia)",
+    0x0E: "las marcas IX+0E (bateria, desafinado, vibrato, periodo del SCC, volumen restado)",
+    0x0F: "las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)",
+    0x10: "el divisor de la nota (bajo)",
+    0x11: "el divisor de la nota (alto)",
+    0x12: "el volumen de la nota",
+    0x13: "la duracion fija (ordenes 0xE0-0xE3)",
+    0x14: "la unidad de duracion (orden 0xE9)",
+    0x15: "el volumen (orden 0xEA)",
+    0x16: "la octava (ordenes 0xD0-0xD5)",
+    0x17: "por donde va el guion de bateria (bajo)",
+    0x18: "por donde va el guion de bateria (alto)",
+    0x19: "la cuenta del golpe de bateria",
+    0x1A: "la espera del vibrato (orden 0xF2)",
+    0x1B: "el paso del vibrato (orden 0xF1)",
+    0x1C: "cuanto mueve el vibrato (orden 0xF1)",
+    0x1D: "hacia donde va el vibrato",
+    0x1E: "la cuenta del vibrato",
+    0x1F: "la cuenta de la envolvente",
+    0x20: "la segunda cuenta de la envolvente",
+    0x21: "los cuadros del ataque (orden 0xEB)",
+    0x22: "cada cuantos cuadros baja la envolvente (ordenes 0xEB y 0xDD)",
+    0x23: "cuanto baja la envolvente (ordenes 0xEB y 0xDD)",
+    0x24: "cuando empieza la caida final (ordenes 0xEB y 0xDD)",
+    0x25: "el volumen de arranque (orden 0xED)",
+    0x26: "lo que se suma al periodo (orden 0xEE)",
+    0x27: "la forma de onda del SCC (orden 0xF8, bajo)",
+    0x28: "la forma de onda del SCC (orden 0xF8, alto)",
+    0x29: "la octava, para elegir el guion de bateria",
+    0x2A: "IX+0E guardado (orden 0xFE)",
+    0x2B: "IX+0F guardado (orden 0xFE)",
+    0x2C: "la cuenta de la nota (alto)",
+    0x2F: "lo que se resta al volumen (orden 0xF7)",
+    0x30: "las marcas IX+30 (la envolvente: ataque, bajada, segunda envolvente)",
+    0x31: "por donde va la onda que cambia (0-0x1F)",
+    0x32: "la velocidad de la onda que cambia (orden 0xF8)",
+    0x33: "la cuenta de la onda que cambia",
+    0x34: "el volumen minimo (orden 0xDB)",
+    0x35: "cuanto baja el volumen de arranque (orden 0xED)",
+    0x36: "lo que queda por debajo del volumen de la nota (orden 0xEA)",
+    0x37: "el volumen con decimales de la segunda envolvente",
+    0x38: "la diferencia de IX+23 e IX+24 (orden 0xDD)",
+    0x39: "el paso del deslizamiento (ordenes 0xD6 y 0xD7)",
+    0x3A: "la cuenta del deslizamiento",
+    0x3B: "los cuadros del deslizamiento",
+    0x3C: "las marcas del deslizamiento (bit 6 en marcha, 7 hacia arriba)",
+}
+CARGAS_CANAL = tuple(0xE000 + 0x40 * k for k in range(8))
+# Las fichas de los enemigos (0xE800, 12 de 0x40), sus campos comunes: los
+# que pone la aparicion (p01:76CA-7748) y los que leen las rutinas de todos
+# (p01:7461-75FD: el movimiento, el scroll, quitarlo; p01:7972 los sprites).
+CAMPOS_ENEMIGO = {
+    0x00: "el tipo del enemigo (0: libre)",  # p01:76CA
+    0x01: "el paso del enemigo",
+    0x02: "la cuenta del enemigo",
+    0x03: "la y del enemigo (decimales)",  # p01:758F
+    0x04: "la y del enemigo",  # p01:797C
+    0x05: "la x del enemigo (decimales)",  # p01:758F
+    0x06: "la x del enemigo",  # p01:7981
+    0x0B: "los sprites del enemigo (bits 0-5; bit 6 de caracteres, bit 7 con sprites)",  # p01:7972
+    0x0D: "las vidas del enemigo",  # p01:76EF
+    0x0E: "el alto del enemigo para los choques",  # p01:64F1
+    0x0F: "el ancho del enemigo para los choques",  # p01:6507
+    0x10: "las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll)",  # p01:7562
+    0x30: "el dibujo del primer sprite del enemigo",  # p01:7986
+    0x31: "el color del primer sprite del enemigo",  # p01:798B
+}
+# Las fichas de las piezas (0xED00, 8 de 0x20): lo que pone p01:7C18 al
+# crearlas y lo que leen las rutinas de todas (p01:7A7A, p02:8221-8245).
+CAMPOS_PIEZA = {
+    0x00: "el tipo de la pieza (0: libre)",  # p01:7C3A
+    0x01: "el paso de la pieza",
+    0x02: "la cuenta de la pieza",  # p01:7C3F
+    0x04: "la y de la pieza",  # p01:7C51
+    0x06: "la x de la pieza",  # p01:7C55
+    0x07: "el dibujo de la pieza",  # p02:8221
+    0x08: "las vidas de la pieza",  # p01:66E5
+    0x09: "las filas de la pieza",  # p02:8239
+    0x0A: "las columnas de la pieza",  # p02:823D
+    0x0B: "el B de la pieza",  # p01:7C5A
+    0x0D: "como se toca la pieza (bit 7: no se toca)",
+    0x12: "las marcas de la pieza",  # p01:7A88
+}
+CARGAS_PIEZA = tuple(0xED00 + 0x20 * k for k in range(8))
+# Las partes del jefe (0xEC00, 4 de 0x20): p04:9DC6 (al empezar), p04:9E67
+# (la caja), p04:9F11 (el movimiento), p05:A24A (el dibujo en el bufer).
+CAMPOS_JEFE = {
+    0x03: "la y del jefe (bajo)",  # p04:9E67
+    0x04: "la y del jefe (alto)",
+    0x05: "la x del jefe (bajo)",  # p04:9E7D
+    0x06: "la x del jefe (alto)",
+    0x07: "el primer dibujo del jefe",
+    0x08: "el segundo dibujo del jefe",  # p04:9E96
+    0x09: "el tercer dibujo del jefe",
+    0x12: "las vidas del jefe",  # p04:9DC6
+    0x13: "las filas del jefe en el bufer",  # p05:A24A
+    0x14: "las columnas del jefe en el bufer",  # p05:A24A
+    0x15: "hacia donde va el jefe (1 arriba, 2 abajo, 3 izquierda, 4 derecha)",  # p04:9F21
+}
+CARGAS_JEFE = (0xEC00, 0xEC20, 0xEC40, 0xEC60)
+CARGAS_ENEMIGO = tuple(0xE800 + 0x40 * k for k in range(12))
+
+
+def semillas_fichas():
+    """Donde IX es cada clase de ficha: los cuerpos de los bucles y las
+    tablas de sus tipos (tools/duenos.py sigue el flujo desde aqui)."""
+    from duenos import destinos, tabla_rom
+    return {
+        "enemigo": [(1, 0x7461)]
+        # p01:7747-775B: lo de empezar cada tipo, la palabra del tipo desde 0x775A
+        + destinos(1, tabla_rom(1, 0x775C, 74), trio)
+        + destinos(1, [int(x, 16) for x in (
+            "96A0 AD3A 754E BAE3 8B9A A295 9BD9 7549 7544 9334 BAC1 9E93 90E5 A0E5 8B2C 755D "
+            "BAEC A207 9215 99DF 7553 7558 A609 9766 A9E5 A831 7511 AB6B AD3A AFD6 B0CA BDE1 "
+            "9FC6 B72E BA20 BAC1 8EFE 753F B516 95E5 9D8B 752A A649 7510 B315 8919 B29A B37D "
+            "9F16 7510 B6FF 9A81 9AEE A1D2 AC49 7516 86B9 7532 86B9 7525 8FEF 7510 7510 B285 "
+            "B48A 7510 7520 8FF3 BAC1 B1E7 A9F3 B847 751B 90E5").split()], trio),
+        "pieza": [(1, 0x7A7A), (1, 0x7C96)]
+        # las tablas de p01:7AD4 (cada cuadro) y p01:7C9A (al empezar), por sus puentes
+        + destinos(1, [int(x, 16) for x in (
+            "7B64 7B5F 7B42 7B48 7B50 7B69 7B55 7B5A 7B43 "
+            "7D2E 7D29 7D12 7D1A 7D33 7D1F 7D24 7D0D 7D08").split()], trio),
+        "jefe": [(4, 0x9D9B)],
+    }
+
+
+_TRAMOS = None
+
+
+def tramos_fichas():
+    global _TRAMOS
+    if _TRAMOS is None:
+        from duenos import reparto
+        _TRAMOS = reparto(semillas_fichas(), trio, BANCOS)[0]
+    return _TRAMOS
+
+
+# p10:6400-73A8: IX es un canal salvo donde se carga otra cosa (0xE284 en
+# p10:608E, las marcas 0xE2A0 en p10:709F y 71F6)
+FICHAS = ((CARGAS_CANAL, {10: ((0x6400, 0x73A9),)}, CAMPOS_CANAL),
+          (CARGAS_ENEMIGO, tramos_fichas().get("enemigo", {}), CAMPOS_ENEMIGO),
+          (CARGAS_PIEZA, tramos_fichas().get("pieza", {}), CAMPOS_PIEZA),
+          (CARGAS_JEFE, tramos_fichas().get("jefe", {}), CAMPOS_JEFE))

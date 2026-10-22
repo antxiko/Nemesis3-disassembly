@@ -2803,7 +2803,7 @@ L_52F6:
 	inc hl			;5305
 	ld (0e363h),hl		;5306   ; guarda la posicion del scroll (16 bits)
 L_5309:
-	ld hl,(0e53bh)		;5309   ; y otro scroll que baja (0xE53B)
+	ld hl,(0e53bh)		;5309   ; y otra posicion de scroll que va hacia atras (0xE53B)
 	dec hl			;530c
 	ld (0e53bh),hl		;530d
 	ld hl,(0e363h)		;5310   ; se pinta el bufer entero con ese scroll
@@ -4153,10 +4153,10 @@ L_5BA5:
 	ret nz			;5bec
 	call L_5648		;5bed
 L_5BF0:
-	ld a,04ah		;5bf0   ; ...la nave en x 0x4A, y 0x50
-	ld (0e604h),a		;5bf2   ; guarda la x de la nave
+	ld a,04ah		;5bf0   ; ...la nave en y 0x4A, x 0x50
+	ld (0e604h),a		;5bf2   ; guarda la y de la nave (el primer byte de su sprite, p01:797C)
 	ld a,050h		;5bf5
-	ld (0e606h),a		;5bf7   ; guarda la y de la nave
+	ld (0e606h),a		;5bf7   ; guarda la x de la nave
 	jp L_5CB4		;5bfa
 L_5BFD:
 	ld a,001h		;5bfd   ; la fase 11: 0xE413 = 1
@@ -4252,10 +4252,10 @@ DATA_leido_5CB1:
 
 
 L_5CB4:
-	ld de,0e660h		;5cb4   ; la estela de la nave (0xE660): 16 veces su x y su y (0xE604, 0xE606)
+	ld de,0e660h		;5cb4   ; la estela de la nave (0xE660): 16 veces su y y su x (0xE604, 0xE606)
 	ld a,010h		;5cb7
 L_5CB9:
-	ld hl,0e604h		;5cb9   ; apunta a la x de la nave
+	ld hl,0e604h		;5cb9   ; apunta a la y de la nave (el primer byte de su sprite, p01:797C)
 	ldi		;5cbc
 	inc l			;5cbe
 	ldi		;5cbf

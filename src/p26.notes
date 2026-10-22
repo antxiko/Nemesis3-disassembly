@@ -324,15 +324,15 @@ C 0x6CD3 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6CE3 apunta a un temporizador
 C 0x6D19 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6D24 orden_83_y_sonido_50: manda la orden 0x83 al motor y pide el sonido 0x50
-C 0x6D27 lee la x de la nave y el byte siguiente (16 bits)
-C 0x6D2D lee la y de la nave y el byte siguiente (16 bits)
-C 0x6D90 lee la x de la nave
-C 0x6D98 lee la y de la nave
+C 0x6D27 lee la y de la nave (el primer byte de su sprite, p01:797C) y el byte siguiente (16 bits)
+C 0x6D2D lee la x de la nave y el byte siguiente (16 bits)
+C 0x6D90 lee la y de la nave (el primer byte de su sprite, p01:797C)
+C 0x6D98 lee la x de la nave
 C 0x6DBF despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6DD1 orden_sonido_84: manda la orden 0x84 al motor de sonido
 C 0x6DE6 orden_83_y_sonido_50: manda la orden 0x83 al motor y pide el sonido 0x50
-C 0x6E13 guarda la x de la nave y el byte siguiente (16 bits)
-C 0x6E19 guarda la y de la nave y el byte siguiente (16 bits)
+C 0x6E13 guarda la y de la nave (el primer byte de su sprite, p01:797C) y el byte siguiente (16 bits)
+C 0x6E19 guarda la x de la nave y el byte siguiente (16 bits)
 C 0x6E2E despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6E41 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6E61 sonido_4F: pide el sonido 0x4F

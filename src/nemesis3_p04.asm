@@ -40,10 +40,10 @@ L_8017:
 	ld de,00030h		;801a
 	add hl,de			;801d
 	ld (0e60eh),hl		;801e
-	ld de,(0e605h)		;8021   ; ...la y de 16 bits (0xE605) sube...
+	ld de,(0e605h)		;8021   ; ...la x de 16 bits (0xE605) crece...
 	add hl,de			;8025
 	ld (0e605h),hl		;8026
-	ld a,h			;8029   ; ...hasta salir (0xF0): se acaba
+	ld a,h			;8029   ; ...hasta salir por la derecha (0xF0): se acaba
 	cp 0f0h		;802a
 	ret c			;802c
 	xor a			;802d
@@ -91,12 +91,12 @@ L_806D:
 	call L_807E		;807a
 	ret			;807d
 L_807E:
-	ld a,(0e604h)		;807e   ; x de la nave + dx...
+	ld a,(0e604h)		;807e   ; la y de la nave + dy...
 	add a,(hl)			;8081
 	ld (de),a			;8082
 	inc e			;8083
 	inc hl			;8084
-	ld a,(0e606h)		;8085   ; ...y + dy...
+	ld a,(0e606h)		;8085   ; ...la x + dx...
 	add a,(hl)			;8088
 	ld (de),a			;8089
 	inc e			;808a
@@ -184,11 +184,11 @@ DATA_resto_80F8:
 
 
 L_81B8:
-	call L_81D6		;81b8   ; la nave dentro de la pantalla: en y...
+	call L_81D6		;81b8   ; la nave dentro de la pantalla: en x...
 	call L_81BF		;81bb
 	ret			;81be
 L_81BF:
-	ld hl,0e604h		;81bf   ; ...y en x, entre 0 y 0xA5
+	ld hl,0e604h		;81bf   ; ...y en y, entre 0 y 0xA5
 	ld a,(hl)			;81c2
 	add a,010h		;81c3
 	cp 010h		;81c5
@@ -203,8 +203,8 @@ L_81D2:
 	ld (hl),a			;81d4
 	ret			;81d5
 L_81D6:
-	ld c,000h		;81d6   ; en y entre 8 y 0xD8 (C = 1 si toca arriba)
-	ld hl,0e606h		;81d8   ; apunta a la y de la nave
+	ld c,000h		;81d6   ; en x entre 8 y 0xD8 (C = 1 si toca la izquierda)
+	ld hl,0e606h		;81d8   ; apunta a la x de la nave
 	ld a,(hl)			;81db
 	cp 008h		;81dc
 	jr nc,L_81E3		;81de
@@ -257,10 +257,10 @@ L_821E:
 	ld de,(0ef84h)		;8223
 	ret			;8227
 L_8228:
-	ld hl,(0e603h)		;8228   ; la x de 16 bits (0xE603) + DE...
+	ld hl,(0e603h)		;8228   ; la y de 16 bits (0xE603) + DE...
 	add hl,de			;822b
 	ld (0e603h),hl		;822c
-	ld hl,(0e605h)		;822f   ; ...y la y (0xE605) + BC
+	ld hl,(0e605h)		;822f   ; ...y la x (0xE605) + BC
 	add hl,bc			;8232
 	ld (0e605h),hl		;8233
 	ret			;8236
@@ -284,8 +284,8 @@ L_8237:
 	pop af			;8257
 	ld hl,0e411h		;8258   ; 0xE411 = 1
 	ld (hl),001h		;825b
-	cp 002h		;825d   ; 0x59-0x5A la empujan 2 a la izquierda...
-	ld hl,0e604h		;825f   ; apunta a la x de la nave
+	cp 002h		;825d   ; 0x59-0x5A la empujan 2 hacia arriba...
+	ld hl,0e604h		;825f   ; apunta a la y de la nave (el primer byte de su sprite, p01:797C)
 	jr nc,L_826C		;8262
 	ld a,(hl)			;8264
 	sub 002h		;8265
@@ -295,15 +295,15 @@ L_826A:
 	ld (hl),a			;826a
 	ret			;826b
 L_826C:
-	ld a,(hl)			;826c   ; ...0x5B-0x5C a la derecha
+	ld a,(hl)			;826c   ; ...0x5B-0x5C hacia abajo
 	add a,002h		;826d
 	ld (hl),a			;826f
 	ret			;8270
 L_8271:
-	ld a,(0e604h)		;8271   ; el caracter del bufer bajo la nave (y el de al lado si va entre dos filas)
+	ld a,(0e604h)		;8271   ; el caracter del bufer bajo la nave (y el de al lado si va entre dos columnas)
 	add a,008h		;8274
 	ld l,a			;8276
-	ld a,(0e606h)		;8277   ; lee la y de la nave
+	ld a,(0e606h)		;8277   ; lee la x de la nave
 	ld h,a			;827a
 	and 007h		;827b
 	cp 004h		;827d
@@ -367,7 +367,7 @@ L_82DF:
 	ld (0e411h),a		;82e8
 	ret			;82eb
 L_82EC:
-	call L_82F3		;82ec   ; la nave arrastrada: x + 0xE643, y + 0xE645 (16 bits, sin salirse)
+	call L_82F3		;82ec   ; la nave arrastrada: y + 0xE643, x + 0xE645 (16 bits, sin salirse)
 	call L_8312		;82ef
 	ret			;82f2
 L_82F3:
@@ -449,7 +449,7 @@ L_8355:
 	ld a,(0e604h)		;8374   ; el de la nave (+8, +0x10)
 	add a,008h		;8377
 	ld e,a			;8379
-	ld a,(0e606h)		;837a   ; lee la y de la nave
+	ld a,(0e606h)		;837a   ; lee la x de la nave
 	add a,010h		;837d
 	ld d,a			;837f
 	call L_83AA		;8380   ; a menos de 0x10, nada (C)
@@ -501,10 +501,10 @@ L_83CF:
 	ld a,(0e411h)		;83cf   ; con 0xE411 = 2, sobre los caracteres 0x58-0xF4: la nave cambia de dibujo (0xE61B, 0xE61F)
 	cp 002h		;83d2
 	ret nz			;83d4
-	ld a,(0e604h)		;83d5   ; lee la x de la nave
+	ld a,(0e604h)		;83d5   ; lee la y de la nave (el primer byte de su sprite, p01:797C)
 	add a,008h		;83d8
 	ld l,a			;83da
-	ld a,(0e606h)		;83db   ; lee la y de la nave
+	ld a,(0e606h)		;83db   ; lee la x de la nave
 	add a,008h		;83de
 	ld h,a			;83e0
 	call 04a46h		;83e1
@@ -587,9 +587,9 @@ L_8469:
 	ld a,(hl)			;846f
 	ld (0e641h),a		;8470
 	inc hl			;8473
-	ld a,(0e604h)		;8474   ; lee la x de la nave
+	ld a,(0e604h)		;8474   ; lee la y de la nave (el primer byte de su sprite, p01:797C)
 	ld c,a			;8477
-	ld a,(0e606h)		;8478   ; lee la y de la nave
+	ld a,(0e606h)		;8478   ; lee la x de la nave
 	ld b,a			;847b
 	ld de,0e618h		;847c
 	call L_8495		;847f
@@ -754,14 +754,14 @@ L_858C:
 	cp 00fh		;85a9
 	ret z			;85ab
 L_85AC:
-	ld hl,0e660h		;85ac   ; su x e y en la estela de 0xE660 (16 posiciones en circulo)
+	ld hl,0e660h		;85ac   ; su y y su x en la estela de 0xE660 (16 posiciones en circulo)
 	ld a,(0e60bh)		;85af
 	add a,a			;85b2
 	add a,l			;85b3
 	ld l,a			;85b4
-	ld a,(0e604h)		;85b5   ; lee la x de la nave
+	ld a,(0e604h)		;85b5   ; lee la y de la nave (el primer byte de su sprite, p01:797C)
 	ld (hl),a			;85b8
-	ld a,(0e606h)		;85b9   ; lee la y de la nave
+	ld a,(0e606h)		;85b9   ; lee la x de la nave
 	inc l			;85bc
 	ld (hl),a			;85bd
 	ld hl,0e60bh		;85be
@@ -789,7 +789,7 @@ L_85D6:
 	add a,010h		;85e8
 L_85EA:
 	add a,a			;85ea
-	ld de,0e660h		;85eb   ; apunta a la estela de la nave (16 x y y)
+	ld de,0e660h		;85eb   ; apunta a la estela de la nave (16 veces y y x)
 	add a,e			;85ee
 	ld e,a			;85ef
 	ld a,(de)			;85f0
@@ -819,7 +819,7 @@ L_8615:
 	call L_8619		;8615
 	ret			;8618
 L_8619:
-	ld hl,0e604h		;8619   ; la x de la nave + dx del paso, la y + dy, sin salirse
+	ld hl,0e604h		;8619   ; la y de la nave + el paso en y, la x + el de x, sin salirse
 	ld de,08647h		;861c
 	add a,a			;861f
 	call 0408eh		;8620   ; suma_a_de: DE = DE + A
@@ -895,7 +895,7 @@ DATA_8688:
 
 
 L_868C:
-	ld a,(0e604h)		;868c   ; x de la nave + L, entre 0 y 0xA5
+	ld a,(0e604h)		;868c   ; la y de la nave + L, entre 0 y 0xA5
 	add a,l			;868f
 	ld (ix+004h),a		;8690
 	cp 0e0h		;8693
@@ -937,7 +937,7 @@ L_86C7:
 	djnz L_86C7		;86d4
 	ret			;86d6
 L_86D7:
-	ld a,(iy+000h)		;86d7   ; por la derecha (x >= 0xB0) se acaban
+	ld a,(iy+000h)		;86d7   ; por abajo (y desde 0xB0) se acaban
 	or a			;86da
 	ret z			;86db
 	ld a,(iy+003h)		;86dc
@@ -1176,7 +1176,7 @@ L_8896:
 	ld de,00808h		;8898
 L_889B:
 	call L_8DF1		;889b
-	ld a,(iy+005h)		;889e   ; la y en multiplo de 8
+	ld a,(iy+005h)		;889e   ; la x en multiplo de 8
 	and 0f8h		;88a1
 	ld (iy+005h),a		;88a3
 	ld d,001h		;88a6   ; la velocidad
@@ -1186,13 +1186,13 @@ L_889B:
 	call 0582bh		;88b3   ; sonido_0F: pide el sonido 0x0F
 	ret			;88b6
 L_88B7:
-	ld a,(iy+005h)		;88b7   ; se mueve 12 abajo (fuera, se acaba)
+	ld a,(iy+005h)		;88b7   ; se mueve 12 a la derecha (fuera, se acaba)
 	add a,00ch		;88ba
 	ld (iy+005h),a		;88bc
 	call c,L_86E2		;88bf
 	ret			;88c2
 L_88C3:
-	ld a,(iy+005h)		;88c3   ; o 12 arriba
+	ld a,(iy+005h)		;88c3   ; o 12 a la izquierda
 	sub 00ch		;88c6
 	ld (iy+005h),a		;88c8
 	call c,L_86E2		;88cb
@@ -1226,7 +1226,7 @@ L_88FD:
 	call 0582fh		;8909   ; sonido_10: pide el sonido 0x10
 	ret			;890c
 L_890D:
-	ld a,(iy+003h)		;890d   ; avanza 6 en x (fuera, se acaba)...
+	ld a,(iy+003h)		;890d   ; baja 6 (fuera, se acaba)...
 	add a,006h		;8910
 	cp 0b0h		;8912
 	ld (iy+003h),a		;8914
@@ -1239,7 +1239,7 @@ L_891E:
 	ld (iy+003h),a		;8923
 	jp c,L_86E2		;8926
 L_8929:
-	ld a,(iy+005h)		;8929   ; ...y baja 6
+	ld a,(iy+005h)		;8929   ; ...y 6 a la derecha
 	add a,006h		;892c
 	jp c,L_86E2		;892e
 	ld (iy+005h),a		;8931
@@ -1287,7 +1287,7 @@ L_8983:
 	call 0583bh		;8990   ; sonido_13: pide el sonido 0x13
 	ret			;8993
 L_8994:
-	ld (hl),a			;8994   ; un disparo de caracteres del tipo A desde la nave o la opcion (x + 8, y + 0x10, en multiplos de 8)
+	ld (hl),a			;8994   ; un disparo de caracteres del tipo A desde la nave o la opcion (y + 8, x + 0x10, en multiplos de 8)
 	inc l			;8995
 	ld (hl),000h		;8996
 	ld a,(ix+004h)		;8998
@@ -1444,7 +1444,7 @@ L_8AC0:
 	call L_8A53		;8aeb
 	ret			;8aee
 L_8AEF:
-	ld a,(iy+003h)		;8aef   ; hacia la izquierda 6 (fuera, se acaba)
+	ld a,(iy+003h)		;8aef   ; hacia arriba 6 (fuera, se acaba)
 	sub 006h		;8af2
 	jp c,L_86E2		;8af4
 L_8AF7:
@@ -1453,7 +1453,7 @@ L_8AF7:
 	call L_8E0B		;8afc
 	ret			;8aff
 L_8B00:
-	ld a,(iy+003h)		;8b00   ; hacia la derecha 6
+	ld a,(iy+003h)		;8b00   ; hacia abajo 6
 	add a,006h		;8b03
 	cp 0b0h		;8b05
 	jp nc,L_86E2		;8b07
@@ -1502,7 +1502,7 @@ L_8B39:
 	call 05847h		;8b64   ; sonido_16: pide el sonido 0x16
 	ret			;8b67
 L_8B68:
-	ld a,(iy+010h)		;8b68   ; con IY+10, baja hasta acabar su vida (IY+11)
+	ld a,(iy+010h)		;8b68   ; con IY+10, a la derecha hasta acabar su vida (IY+11)
 	or a			;8b6b
 	jr z,L_8B80		;8b6c
 	dec (iy+011h)		;8b6e
@@ -1513,7 +1513,7 @@ L_8B68:
 	ld (iy+005h),a		;8b7c
 	ret			;8b7f
 L_8B80:
-	ld a,(iy+005h)		;8b80   ; baja 8 y cada 4 cuadros crece...
+	ld a,(iy+005h)		;8b80   ; 8 a la derecha y cada 4 cuadros crece...
 	add a,008h		;8b83
 	ld (iy+005h),a		;8b85
 	jp c,L_86E2		;8b88
@@ -1648,7 +1648,7 @@ L_8C83:
 	jr c,L_8CA5		;8c9f
 	ld (iy+001h),001h		;8ca1
 L_8CA5:
-	ld a,(iy+005h)		;8ca5   ; recortado por abajo (0x21 filas)
+	ld a,(iy+005h)		;8ca5   ; recortado por la derecha (0x21 columnas)
 	rra			;8ca8
 	rra			;8ca9
 	rra			;8caa
@@ -1682,7 +1682,7 @@ L_8CC3:
 	call L_8CA5		;8ce4
 	jp 0584bh		;8ce7   ; sonido_17: pide el sonido 0x17
 L_8CEA:
-	ld c,(iy+008h)		;8cea   ; su sitio: el de quien lo lanza (+6 o +2 en x, +0x10 en y)
+	ld c,(iy+008h)		;8cea   ; su sitio: el de quien lo lanza (+6 o +2 en y, +0x10 en x)
 	ld b,(iy+009h)		;8ced
 	push bc			;8cf0
 	pop ix		;8cf1
@@ -1715,7 +1715,7 @@ L_8D17:
 	ld (hl),018h		;8d25
 	inc l			;8d27
 	ld (hl),000h		;8d28
-	ld a,(ix+004h)		;8d2a   ; su largo hacia la izquierda segun donde este la nave
+	ld a,(ix+004h)		;8d2a   ; su largo hacia arriba segun la y de la nave
 	and 0f8h		;8d2d
 	sub 028h		;8d2f
 	ld c,a			;8d31
@@ -1740,7 +1740,7 @@ L_8D46:
 	ld b,a			;8d52
 	ld c,000h		;8d53
 L_8D55:
-	ld (iy+003h),c		;8d55   ; x, largo (IY+10) y caja
+	ld (iy+003h),c		;8d55   ; y, largo (IY+10) y caja
 	ld (iy+010h),b		;8d58
 	ld a,b			;8d5b
 	add a,a			;8d5c
@@ -1749,7 +1749,7 @@ L_8D55:
 	ld (iy+00dh),a		;8d5f
 	ld (iy+00ch),000h		;8d62
 	ld (iy+00ah),000h		;8d66
-	ld (iy+00bh),010h		;8d6a   ; 0x10 de vida, la y de la nave
+	ld (iy+00bh),010h		;8d6a   ; 0x10 de vida, la x de la nave + 0x10
 	ld a,(ix+006h)		;8d6e
 	and 0f8h		;8d71
 	add a,010h		;8d73
@@ -1817,7 +1817,7 @@ L_8DED:
 	or a			;8def
 	ret			;8df0
 L_8DF1:
-	ld a,(ix+004h)		;8df1   ; el disparo en la posicion de quien lo lanza + DE (x, y)
+	ld a,(ix+004h)		;8df1   ; el disparo en la posicion de quien lo lanza + DE (D en y, E en x)
 	add a,d			;8df4
 	ld (iy+003h),a		;8df5
 	ld a,(ix+006h)		;8df8
@@ -1827,7 +1827,7 @@ L_8DF1:
 	ld (iy+004h),000h		;8e03
 	ret			;8e07
 L_8E08:
-	ld a,(ix+004h)		;8e08   ; el dibujo: D + (x / 2) & 3
+	ld a,(ix+004h)		;8e08   ; el dibujo: D + (y / 2) & 3
 L_8E0B:
 	rra			;8e0b
 	and 003h		;8e0c
@@ -1878,7 +1878,7 @@ L_8E50:
 	jr c,L_8E5D		;8e59
 	ld c,044h		;8e5b
 L_8E5D:
-	ld a,(0e380h)		;8e5d   ; con la opcion 3 por la izquierda, tambien detras
+	ld a,(0e380h)		;8e5d   ; con 0xE380 = 3 y la y por debajo de 0x50, tambien detras
 	cp 003h		;8e60
 	ret nz			;8e62
 	ld a,(ix+004h)		;8e63
@@ -1935,7 +1935,7 @@ L_8EAE:
 	ld (iy+006h),c		;8ec0
 	ld (iy+009h),b		;8ec3
 	call L_8DF1		;8ec6
-	ld (iy+00ch),008h		;8ec9   ; caja 8 x 8, x en multiplo de 4 (a 0, se acaba)
+	ld (iy+00ch),008h		;8ec9   ; caja 8 x 8, y en multiplo de 4 (a 0, se acaba)
 	ld (iy+00dh),008h		;8ecd
 	ld a,(iy+003h)		;8ed1
 	and 0fch		;8ed4
@@ -2043,7 +2043,7 @@ L_8FBE:
 	ld b,004h		;8fc5
 	jp L_9014		;8fc7
 L_8FCA:
-	ld a,(0e420h)		;8fca   ; con scroll vertical, sube 8
+	ld a,(0e420h)		;8fca   ; con scroll, 8 a la izquierda
 	or a			;8fcd
 	ret z			;8fce
 	ld b,008h		;8fcf
@@ -2081,7 +2081,7 @@ L_9006:
 	ld b,004h		;900f
 	jp L_9054		;9011
 L_9014:
-	call L_8E9D		;9014   ; baja B (la mitad si es lento); por abajo se acaba
+	call L_8E9D		;9014   ; a la derecha B (la mitad si es lento); por la derecha se acaba
 	jr nc,L_901B		;9017
 	srl b		;9019
 L_901B:
@@ -2092,7 +2092,7 @@ L_901B:
 	ld (iy+000h),000h		;9023
 	ret			;9027
 L_9028:
-	call L_8E9D		;9028   ; sube B
+	call L_8E9D		;9028   ; a la izquierda B
 	jr nc,L_902F		;902b
 	srl b		;902d
 L_902F:
@@ -2103,7 +2103,7 @@ L_902F:
 	ld (iy+000h),000h		;9037
 	ret			;903b
 L_903C:
-	call L_8E9D		;903c   ; avanza B; por la derecha se acaba
+	call L_8E9D		;903c   ; baja B; por abajo se acaba
 	jr nc,L_9043		;903f
 	srl b		;9041
 L_9043:
@@ -2118,7 +2118,7 @@ L_904E:
 	scf			;9052
 	ret			;9053
 L_9054:
-	call L_8E9D		;9054   ; retrocede B; por la izquierda se acaba
+	call L_8E9D		;9054   ; sube B; por arriba se acaba
 	jr nc,L_905B		;9057
 	srl b		;9059
 L_905B:
@@ -2295,7 +2295,7 @@ L_9178:
 	inc a			;9194
 	and 003h		;9195
 	call z,L_91E5		;9197
-	ld a,(iy+004h)		;919a   ; y + la velocidad en y (16 bits); por abajo se acaba
+	ld a,(iy+004h)		;919a   ; x + la velocidad en x (16 bits); por la derecha se acaba
 	add a,(iy+014h)		;919d
 	ld (iy+004h),a		;91a0
 	ld a,(iy+005h)		;91a3
@@ -2303,7 +2303,7 @@ L_9178:
 	ld (iy+005h),a		;91a9
 	cp 0f8h		;91ac
 	jp nc,L_904E		;91ae
-	ld a,(iy+002h)		;91b1   ; x + la velocidad en x; por la derecha se acaba
+	ld a,(iy+002h)		;91b1   ; y + la velocidad en y; por abajo se acaba
 	add a,(iy+012h)		;91b4
 	ld (iy+002h),a		;91b7
 	ld a,(iy+003h)		;91ba
@@ -2356,7 +2356,7 @@ L_9209:
 	call 0639fh		;921d
 	ld (iy+014h),e		;9220
 	ld (iy+015h),d		;9223
-	ld hl,(0e472h)		;9226   ; lee la velocidad en x hacia la nave (16 bits)
+	ld hl,(0e472h)		;9226   ; lee la velocidad en y hacia la nave (16 bits; IX+7 de quien la usa)
 	ld (iy+012h),l		;9229
 	ld (iy+013h),h		;922c
 	ret			;922f
@@ -2407,7 +2407,7 @@ L_9286:
 	ld (iy+005h),a		;9286
 	jr L_929C		;9289
 L_928B:
-	dec (iy+010h)		;928b   ; cuenta, sube con el scroll y su animacion
+	dec (iy+010h)		;928b   ; cuenta, va con el scroll y su animacion
 	jp z,L_904E		;928e
 	call L_8FCA		;9291
 	ret c			;9294
@@ -2793,7 +2793,7 @@ DATA_tabla_96A5:
 
 
 L_96D5:
-	ld a,(iy+005h)		;96d5   ; el doble: mira 8 arriba y en su sitio
+	ld a,(iy+005h)		;96d5   ; el doble: mira 8 a la izquierda y en su sitio
 	sub 008h		;96d8
 	ld h,a			;96da
 	ld l,(iy+003h)		;96db
@@ -3070,10 +3070,10 @@ L_98B2:
 	cp 004h		;98ba
 	ret nc			;98bc
 L_98BD:
-	ld a,(0e604h)		;98bd   ; lee la x de la nave
+	ld a,(0e604h)		;98bd   ; lee la y de la nave (el primer byte de su sprite, p01:797C)
 	add a,008h		;98c0
 	ld l,a			;98c2
-	ld a,(0e606h)		;98c3   ; lee la y de la nave
+	ld a,(0e606h)		;98c3   ; lee la x de la nave
 	ld h,a			;98c6
 	and 007h		;98c7
 	cp 004h		;98c9
@@ -3153,10 +3153,10 @@ L_990B:
 	ret nc			;9917
 	jp 047c5h		;9918   ; lo toca: estalla
 L_991B:
-	ld a,(0e604h)		;991b   ; el caracter bajo la nave (y el de al lado si va entre dos filas)
+	ld a,(0e604h)		;991b   ; el caracter bajo la nave (y el de al lado si va entre dos columnas)
 	add a,008h		;991e
 	ld l,a			;9920
-	ld a,(0e606h)		;9921   ; lee la y de la nave
+	ld a,(0e606h)		;9921   ; lee la x de la nave
 	ld h,a			;9924
 	and 007h		;9925
 	cp 004h		;9927
@@ -3301,7 +3301,7 @@ L_99F5:
 	call L_9A0C		;9a08
 	ret			;9a0b
 L_9A0C:
-	ld a,(hl)			;9a0c   ; la opcion: x, y, dibujo y color
+	ld a,(hl)			;9a0c   ; la opcion: y, x, dibujo y color
 	or a			;9a0d
 	jr z,$+128		;9a0e
 	ld a,l			;9a10
@@ -3325,10 +3325,10 @@ L_9A29:
 	or a			;9a2c
 	ret z			;9a2d
 	ld de,0ef10h		;9a2e
-	ld a,(0e604h)		;9a31   ; lee la x de la nave
+	ld a,(0e604h)		;9a31   ; lee la y de la nave (el primer byte de su sprite, p01:797C)
 	ld (de),a			;9a34
 	inc de			;9a35
-	ld a,(0e606h)		;9a36   ; lee la y de la nave
+	ld a,(0e606h)		;9a36   ; lee la x de la nave
 	add a,010h		;9a39
 	ld (de),a			;9a3b
 	inc de			;9a3c
@@ -3959,7 +3959,7 @@ L_9E32:
 	ld (0e443h),hl		;9e3a
 	jp L_9DC1		;9e3d
 L_9E40:
-	xor a			;9e40   ; cada 8 cuadros (0xE456 = 1) sube 8 (16 bits en IX+5) y lo compara con C
+	xor a			;9e40   ; cada 8 cuadros (0xE456 = 1) va 8 a la izquierda (16 bits en IX+5) y lo compara con C
 	ld (0e456h),a		;9e41
 	and a			;9e44
 	dec (ix+002h)		;9e45
@@ -3967,19 +3967,19 @@ L_9E40:
 	ld (ix+002h),008h		;9e49
 	ld a,001h		;9e4d
 	ld (0e456h),a		;9e4f
-	ld l,(ix+005h)		;9e52
-	ld h,(ix+006h)		;9e55
+	ld l,(ix+005h)		;9e52   ; lee la x del jefe (bajo)
+	ld h,(ix+006h)		;9e55   ; lee la x del jefe (alto)
 	ld de,0fff8h		;9e58
 	add hl,de			;9e5b
-	ld (ix+005h),l		;9e5c
-	ld (ix+006h),h		;9e5f
+	ld (ix+005h),l		;9e5c   ; guarda la x del jefe (bajo)
+	ld (ix+006h),h		;9e5f   ; guarda la x del jefe (alto)
 	ld e,c			;9e62
 	ld d,000h		;9e63
 	rst 20h			;9e65
 	ret			;9e66
 L_9E67:
-	ld l,(ix+003h)		;9e67   ; la caja del jefe: x + A en IX+0A e IX+0E, y + B en IX+0C, y + C en IX+10
-	ld h,(ix+004h)		;9e6a
+	ld l,(ix+003h)		;9e67   ; la caja del jefe: y + A en IX+0A e IX+0E, x + B en IX+0C, x + C en IX+10
+	ld h,(ix+004h)		;9e6a   ; lee la y del jefe (alto)
 	ld d,000h		;9e6d
 	ld e,a			;9e6f
 	add hl,de			;9e70
@@ -3987,8 +3987,8 @@ L_9E67:
 	ld (ix+00bh),h		;9e74
 	ld (ix+00eh),l		;9e77
 	ld (ix+00fh),h		;9e7a
-	ld l,(ix+005h)		;9e7d
-	ld h,(ix+006h)		;9e80
+	ld l,(ix+005h)		;9e7d   ; lee la x del jefe (bajo)
+	ld h,(ix+006h)		;9e80   ; lee la x del jefe (alto)
 	ld e,b			;9e83
 	push hl			;9e84
 	add hl,de			;9e85
@@ -4009,7 +4009,7 @@ L_9E99:
 	inc c			;9e9f
 	jr L_9E99		;9ea0
 L_9EA2:
-	ld (ix+008h),c		;9ea2
+	ld (ix+008h),c		;9ea2   ; guarda el segundo dibujo del jefe
 	ret			;9ea5
 L_9EA6:
 	ld a,(ix+004h)		;9ea6   ; hacia donde va (IX+15): segun su velocidad o la posicion de la nave
@@ -4020,10 +4020,10 @@ L_9EA6:
 	dec a			;9eb1
 	jr L_9EDF		;9eb2
 L_9EB4:
-	ld a,(0e606h)		;9eb4   ; lee la y de la nave
+	ld a,(0e606h)		;9eb4   ; lee la x de la nave
 	cp 080h		;9eb7
 	jr c,L_9EC4		;9eb9
-	ld a,(ix+005h)		;9ebb
+	ld a,(ix+005h)		;9ebb   ; lee la x del jefe (bajo)
 	cp 060h		;9ebe
 	ld a,004h		;9ec0
 	jr c,L_9EDF		;9ec2
@@ -4033,10 +4033,10 @@ L_9EC4:
 	ld hl,09f0dh		;9ec8
 	call 04089h		;9ecb   ; suma_a_hl: HL = HL + A
 	ld c,(hl)			;9ece
-	ld a,(ix+003h)		;9ecf
+	ld a,(ix+003h)		;9ecf   ; lee la y del jefe (bajo)
 	add a,c			;9ed2
 	jr c,L_9EDD		;9ed3
-	ld hl,0e604h		;9ed5   ; apunta a la x de la nave
+	ld hl,0e604h		;9ed5   ; apunta a la y de la nave (el primer byte de su sprite, p01:797C)
 	cp (hl)			;9ed8
 	ld a,002h		;9ed9
 	jr c,L_9EDF		;9edb
@@ -4087,7 +4087,7 @@ L_9F11:
 	ret nc			;9f1a
 	dec (ix+016h)		;9f1b   ; ...un paso menos (al acabar, C)...
 	jp z,L_9FA5		;9f1e
-	ld a,(ix+015h)		;9f21   ; ...y 8 hacia donde va (IX+15: 1 izquierda, 2 derecha, 3 arriba, 4 abajo)
+	ld a,(ix+015h)		;9f21   ; ...y 8 hacia donde va (IX+15: 1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 	and a			;9f24
 	ret z			;9f25
 	dec a			;9f26
@@ -4096,22 +4096,22 @@ L_9F11:
 	jr z,L_9F48		;9f2a
 	dec a			;9f2c
 	jr z,L_9F3A		;9f2d
-	ld a,(ix+005h)		;9f2f   ; abajo, hasta 0xB0
+	ld a,(ix+005h)		;9f2f   ; a la derecha, hasta 0xB0
 	add a,008h		;9f32
 	cp 0b0h		;9f34
 	jr nc,L_9FA5		;9f36
 	jr L_9F43		;9f38
 L_9F3A:
-	ld a,(ix+005h)		;9f3a   ; arriba, hasta 0x19
+	ld a,(ix+005h)		;9f3a   ; a la izquierda, hasta 0x19
 	sub 008h		;9f3d
 	cp 019h		;9f3f
 	jr c,L_9FA5		;9f41
 L_9F43:
-	ld (ix+005h),a		;9f43
+	ld (ix+005h),a		;9f43   ; guarda la x del jefe (bajo)
 	and a			;9f46
 	ret			;9f47
 L_9F48:
-	ld hl,(0ec03h)		;9f48   ; a la derecha, hasta su tope (0x68 los jefes 3, 0x90 el 4 y el 0x0F, 0x80 los demas)
+	ld hl,(0ec03h)		;9f48   ; abajo, hasta su tope (0x68 los jefes 3, 0x90 el 4 y el 0x0F, 0x80 los demas)
 	ld de,00008h		;9f4b
 	add hl,de			;9f4e
 	ld a,h			;9f4f
@@ -4135,7 +4135,7 @@ L_9F6C:
 	and a			;9f6f
 	ret			;9f70
 L_9F71:
-	ld hl,(0ec03h)		;9f71   ; a la izquierda, hasta su tope (0xE0, 0xE8, 0xF8 o 0xC0)
+	ld hl,(0ec03h)		;9f71   ; arriba, hasta su tope (0xE0, 0xE8, 0xF8 o 0xC0)
 	ld de,0fff8h		;9f74
 	add hl,de			;9f77
 	ld (0ec03h),hl		;9f78
@@ -4162,7 +4162,7 @@ L_9F99:
 L_9F9C:
 	ld a,(ix+015h)		;9f9c   ; al tope, da la vuelta
 	xor 003h		;9f9f
-	ld (ix+015h),a		;9fa1
+	ld (ix+015h),a		;9fa1   ; guarda hacia donde va el jefe (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 	ret			;9fa4
 L_9FA5:
 	scf			;9fa5   ; C: se acabo el paso
@@ -4177,8 +4177,8 @@ L_9FA7:
 	jr z,L_9FF5		;9fb0
 	dec a			;9fb2
 	jr z,L_9FC7		;9fb3
-	ld l,(ix+005h)		;9fb5
-	ld h,(ix+006h)		;9fb8
+	ld l,(ix+005h)		;9fb5   ; lee la x del jefe (bajo)
+	ld h,(ix+006h)		;9fb8   ; lee la x del jefe (alto)
 	ld de,00008h		;9fbb
 	add hl,de			;9fbe
 	ld de,00030h		;9fbf
@@ -4186,8 +4186,8 @@ L_9FA7:
 	jr z,L_9FA5		;9fc3
 	jr L_9FD9		;9fc5
 L_9FC7:
-	ld l,(ix+005h)		;9fc7
-	ld h,(ix+006h)		;9fca
+	ld l,(ix+005h)		;9fc7   ; lee la x del jefe (bajo)
+	ld h,(ix+006h)		;9fca   ; lee la x del jefe (alto)
 	ld de,00008h		;9fcd
 	or a			;9fd0
 	sbc hl,de		;9fd1
@@ -4195,13 +4195,13 @@ L_9FC7:
 	rst 20h			;9fd6
 	jr z,L_9FA5		;9fd7
 L_9FD9:
-	ld (ix+005h),l		;9fd9
-	ld (ix+006h),h		;9fdc
+	ld (ix+005h),l		;9fd9   ; guarda la x del jefe (bajo)
+	ld (ix+006h),h		;9fdc   ; guarda la x del jefe (alto)
 	or a			;9fdf
 	ret			;9fe0
 L_9FE1:
-	ld l,(ix+003h)		;9fe1
-	ld h,(ix+004h)		;9fe4
+	ld l,(ix+003h)		;9fe1   ; lee la y del jefe (bajo)
+	ld h,(ix+004h)		;9fe4   ; lee la y del jefe (alto)
 	ld de,00008h		;9fe7
 	or a			;9fea
 	sbc hl,de		;9feb
@@ -4210,8 +4210,8 @@ L_9FE1:
 	jr z,L_9FA5		;9ff1
 	jr $+18		;9ff3
 L_9FF5:
-	ld l,(ix+003h)		;9ff5
-	ld h,(ix+004h)		;9ff8
+	ld l,(ix+003h)		;9ff5   ; lee la y del jefe (bajo)
+	ld h,(ix+004h)		;9ff8   ; lee la y del jefe (alto)
 	ld de,00008h		;9ffb
 	add hl,de			;9ffe
 
