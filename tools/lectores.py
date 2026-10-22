@@ -104,6 +104,7 @@ def todo():
     paletas()
     demostracion()
     tipos_de_enemigo()
+    nombres_de_armas()
     sonido()
 
 
@@ -742,6 +743,36 @@ def paletas():
                   "las %d paletas que se alternan en la fase %d (p00:56F2)" % (n, f), "p00:56F7", F="w8")
         for k in range(n):
             paleta(v, v.w(lst + 2 * k), "p00:56FB", "la %d de la fase %d" % (k, f))
+
+
+# ------------------------------------------------- los nombres del marcador
+#
+# p00:4F52 (con 14-15) copia a la VRAM de 0x3278 los 0x48 bytes (nueve
+# caracteres) del nombre A de la tabla p14:646C (p00:4F64: lee_palabra y 0x48
+# outi). El numero lo elige p04:95CC (nave, casilla y nivel, tabla p04:95F9) y
+# p04:95E7 (el escudo): 36 nombres, del 0 (EMPTY) al 0x23.
+
+NOMBRES_ARMAS = ("EMPTY", "SPEED UP #1", "SPEED UP #2", "SPEED UP #3", "SPEED UP #4",
+                 "SPEED UP #5", "SPEED UP #6", "SPEED UP #7", "MULTIPLE #1", "MULTIPLE #2",
+                 "SHIELD", "FORCE FIELD", "MISSILE", "HOWK MISSILE", "PHOTON MISSILE",
+                 "PHOTON HOWK", "NAPALM MISSILE", "NAPALM HOWK", "2WAY MISSILE", "2WAY HOWK",
+                 "GUIDED MISSILE", "BEAM", "TAIL BEAM", "UP DOUBLE", "DOWN DOUBLE", "UP LASER",
+                 "DOWN LASER", "LASER", "METEOR LASER", "SCREW LASER", "TWINKLE LASER",
+                 "FIRE BLASTER", "EXTEND BLASTER", "VECTOR LASER", "RIPPLE LASER",
+                 "GALACTIC LASER")
+
+
+def nombres_de_armas():
+    v = B.Ventana((14, 15, 3))
+    n = len(NOMBRES_ARMAS)
+    B.declara(v, 0x646C, 0x646C + 2 * n, "nombres_del_marcador",
+              "un puntero por nombre del marcador (36: p00:4F6E, 0x646C + 2 x A), al dibujo de sus "
+              "nueve caracteres", "p00:4F71", F="w8")
+    for k, nombre in enumerate(NOMBRES_ARMAS):
+        a = v.w(0x646C + 2 * k)
+        B.declara(v, a, a + 0x48, "nombre_%02X" % k,
+                  "el nombre %d del marcador, %s: nueve caracteres de 8 bytes que p00:4F76 copia a "
+                  "la VRAM de 0x3278" % (k, nombre), "p00:4F76", F=8)
 
 
 # ------------------------------------------------- la demostracion

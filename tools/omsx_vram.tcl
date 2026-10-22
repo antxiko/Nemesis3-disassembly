@@ -22,6 +22,9 @@
 #   VRAM_DEBIL    "direccion valor": pasados los volcados de VRAM_JEFE, ese
 #                 byte se escribe cada 0.5 s mientras siga el jefe (p. ej.
 #                 "0xEC12 1": las vidas del jefe, para que caiga y salga otro)
+#   VRAM_SECRETA  "t tipo": a ese segundo, una entrada secreta del tipo dado
+#                 delante de la nave (0xE7E0: tipo, y + 6, x + 0x18, y + 6; la
+#                 nave la coge a +-4 de su y + 6, p02:813B), como tools/cobertura.py
 #   VRAM_SIN      "banco:pc ...": esas rutinas vuelven nada mas entrar (el banco
 #                 de su ventana se mira en su copia 0xF0F1-3), como Juego.sin
 #   VRAM_JUEGA    "desde barre": desde ese segundo, el espacio pulsado un cuadro
@@ -36,6 +39,8 @@
 #   VRAM_WP       "direccion ...": el PC de cada escritura, en wp.txt
 #   VRAM_ESCRITURAS 1: cada escritura a la VRAM por la BIOS (WRTVRM, FILVRM,
 #                 LDIRVM) o por las rachas de p00:4B3C, en escrituras.txt
+#   VRAM_SONIDOS  1: cada sonido pedido (p00:589A, pide_sonido, con A) en
+#                 sonidos.txt, con el segundo, el estado, la fase y el jefe
 #   VRAM_CUADROS  "desde hasta": la VRAM y los registros de cada cuadro en
 #                 cuadros.bin (16 KB + 8 + 8 de texto con el segundo)
 proc opcion {nombre porDefecto} {
@@ -103,6 +108,13 @@ foreach k [opcion VRAM_SIN {}] {
     set copia [expr {0xF0F1 + (($pc - 0x6000) >> 13)}]
     debug set_bp $pc "\[peek $copia\] == $b" vuelve
 }
+proc pon_secreta {tipo} {
+    set y [expr {([peek 0xE604] + 6) & 0xFF}]
+    set x [expr {([peek 0xE606] + 0x18) & 0xFF}]
+    poke 0xE7E0 $tipo; poke 0xE7E1 $y; poke 0xE7E2 $x; poke 0xE7E3 $y
+}
+set ::SECRETA [opcion VRAM_SECRETA {}]
+if {$::SECRETA ne ""} { after time [lindex $::SECRETA 0] "pon_secreta [lindex $::SECRETA 1]" }
 set ::JUEGA [opcion VRAM_JUEGA {}]
 set ::CUADRO 0
 proc juega {} {
@@ -158,6 +170,14 @@ proc apunta_escritura {} {
 if {[opcion VRAM_ESCRITURAS {}] ne ""} {
     set ::ESLOG [open [file join $::SALIDA "escrituras.txt"] w]
     foreach pc {0x004D 0x0056 0x005C 0x4B3C} { debug set_bp $pc {} apunta_escritura }
+}
+proc apunta_sonido {} {
+    puts $::SNLOG [format {%02X t=%.3f estado=%02X paso=%02X fase=%02X jefe=%02X} [reg A] [machine_info time] [peek 0xE300] [peek 0xE301] [peek 0xE361] [peek 0xE440]]
+    flush $::SNLOG
+}
+if {[opcion VRAM_SONIDOS {}] ne ""} {
+    set ::SNLOG [open [file join $::SALIDA "sonidos.txt"] w]
+    debug set_bp 0x589A {} apunta_sonido
 }
 set ::CUADROS [opcion VRAM_CUADROS {}]
 proc cuadro {} {
