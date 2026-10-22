@@ -46,7 +46,7 @@ PIEZAS = [
     P(0x05, "Los jefes", "The bosses", "p00:5792, al final de cada lista"),
     P(0x4C, "Cae un jefe", "A boss falls", "p05:A0A6"),
     P(0x50, "La nave se va al acabar la fase", "The ship flies off at the end of a stage", "p04:800A"),
-    P(0x3F, "La consola y el arma secreta", "The console and the secret weapon", "p27:817B y p26:7EFE"),
+    P(0x3F, "El ordenador de a bordo y el arma secreta", "The on-board computer and the secret weapon", "p27:817B y p26:7EFE"),
     P(0x4F, "El plano del arma secreta", "The secret weapon blueprint", "p26:6E5E"),
     P(0x42, "El final: el rescate de James Burton", "The ending: rescuing James Burton", "p27:843A"),
     P(0x40, "El final: el mensaje de Venom", "The ending: Venom's message", "p27:873C"),

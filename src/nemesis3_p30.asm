@@ -400,15 +400,15 @@ L_827D:
 	call historia_subpaso_siguiente		;8280   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;8283
 L_8284:
-	ld de,007a8h		;8284   ; subpaso 0x0A: a los 0x7A8, los sprites fuera, la consola con el contador de 0x6102 y la secuencia 4
+	ld de,007a8h		;8284   ; subpaso 0x0A: a los 0x7A8, los sprites fuera, el ordenador de a bordo con el contador de 0x6102 y la secuencia 4
 	call 05737h		;8287   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 	ret c			;828a
 	call 05730h		;828b   ; cuenta_e339_a_cero: la cuenta de 0xE339 a cero
 	call 05648h		;828e   ; sprites_fuera: los atributos de sprite de 0xEF00 a 0xE0: fuera de la pantalla
 	call 041cfh		;8291   ; bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
-	call 060dfh		;8294   ; consola: la consola (p26:730A) con su animacion cada 8 cuadros
+	call 060dfh		;8294   ; ordenador: el ordenador de a bordo (p26:730A) con su animacion cada 8 cuadros
 	ld hl,06102h		;8297
-	call 060f9h		;829a   ; contador_de_hl: las 6 cifras del contador de la consola, de HL
+	call 060f9h		;829a   ; contador_de_hl: las 6 cifras del contador del ordenador de a bordo, de HL
 	call 041dch		;829d   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ld a,004h		;82a0
 	call 04818h		;82a2   ; secuencia_empieza: empieza la secuencia de dibujos A (p26:6114, con los bancos 26-27-28)
@@ -419,8 +419,8 @@ L_8284:
 	call historia_subpaso_siguiente		;82af   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;82b2
 L_82B3:
-	call 041cfh		;82b3   ; subpaso 0x0B: la consola hasta que aparezca
-	call 07320h		;82b6   ; consola_cuadro: la consola, un cuadro
+	call 041cfh		;82b3   ; subpaso 0x0B: el ordenador de a bordo hasta que aparezca
+	call 07320h		;82b6   ; ordenador_cuadro: el ordenador de a bordo, un cuadro
 	call 041dch		;82b9   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	call aparece_con_pausas_cuadro		;82bc   ; aparece_con_pausas_cuadro: lo mismo, un cuadro (NZ mientras siga)
 	ret nz			;82bf
@@ -428,7 +428,7 @@ L_82B3:
 	ret			;82c3
 L_82C4:
 	call 041cfh		;82c4   ; subpaso 0x0C: a los 0x2C0, se borra lo de 0x82EA y los sprites de 0x82EE
-	call 07320h		;82c7   ; consola_cuadro: la consola, un cuadro
+	call 07320h		;82c7   ; ordenador_cuadro: el ordenador de a bordo, un cuadro
 	call 041dch		;82ca   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ld de,002c0h		;82cd
 	call 05737h		;82d0   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
@@ -457,8 +457,8 @@ DATA_resto_82EA:
 
 
 L_82F1:
-	call 041cfh		;82f1   ; subpaso 0x0D: la consola hasta que se borren; los sprites fuera y el bufer a cero
-	call 07320h		;82f4   ; consola_cuadro: la consola, un cuadro
+	call 041cfh		;82f1   ; subpaso 0x0D: el ordenador de a bordo hasta que se borren; los sprites fuera y el bufer a cero
+	call 07320h		;82f4   ; ordenador_cuadro: el ordenador de a bordo, un cuadro
 	call 041dch		;82f7   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	call 041c7h		;82fa   ; bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
 	call 078ach		;82fd   ; borrado_cuadro: el borrado fila a fila, cada 4 cuadros

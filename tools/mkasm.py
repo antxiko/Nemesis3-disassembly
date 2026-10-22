@@ -268,7 +268,7 @@ def emit_data(data, org, a, b, dataranges, notes, names):
     que lo cubre, de modo que una tabla declarada DENTRO de otra zona mas
     amplia sale con su cabecera y su etiqueta en su sitio, y la zona que la
     contiene sale partida en dos. Ningun rango declarado se queda sin publicar
-    -antes los anidados se perdian con solo un aviso por consola- y ninguna
+    -antes los anidados se perdian con solo un aviso en pantalla- y ninguna
     cabecera dice un tamano que no es el del trozo que lleva debajo.
     """
     out = []

@@ -39,7 +39,7 @@ DATA_leido_8012:
 
 
 L_801E:
-	ld a,(0e303h)		;801e   ; el cuadro animado de la consola: cada 4 cuadros los caracteres 0xEC-0xEF corridos uno...
+	ld a,(0e303h)		;801e   ; el cuadro animado del ordenador de a bordo: cada 4 cuadros los caracteres 0xEC-0xEF corridos uno...
 	rra			;8021   ; cada 4 cuadros...
 	rra			;8022
 	and 003h		;8023
@@ -69,7 +69,7 @@ L_8046:
 	djnz L_8030		;8047
 	ret			;8049
 L_804A:
-	ld bc,(0e7e4h)		;804a   ; la consola de las entradas secretas desde la 0x0C: por el paso (0xE7E4); 0, 1 y 3 como las demas
+	ld bc,(0e7e4h)		;804a   ; el ordenador de a bordo de las entradas secretas desde la 0x0C: por el paso (0xE7E4); 0, 1 y 3 como las demas
 	ld a,c			;804e   ; por el paso
 	call 04093h		;804f   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -86,13 +86,13 @@ DATA_tabla_8052:
 
 
 L_805A:
-	push bc			;805a   ; paso 2: los sprites y la pantalla a la VRAM, la consola cada cuadro y por el subpaso
+	push bc			;805a   ; paso 2: los sprites y la pantalla a la VRAM, el ordenador de a bordo cada cuadro y por el subpaso
 	call 05de9h		;805b   ; los sprites y la pantalla a la VRAM
 	call 05985h		;805e   ; bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
 	pop af			;8061
-	or a			;8062   ; desde el subpaso 1, la consola
+	or a			;8062   ; desde el subpaso 1, el ordenador de a bordo
 	push af			;8063
-	call nz,07320h		;8064   ; consola_cuadro: la consola, un cuadro
+	call nz,07320h		;8064   ; ordenador_cuadro: el ordenador de a bordo, un cuadro
 	pop af			;8067   ; y por el subpaso
 	call 04093h		;8068   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -140,7 +140,7 @@ L_80AE:
 	call 07dedh		;80b3   ; la vuelta
 	ret			;80b6
 L_80B7:
-	ld bc,(0e7e4h)		;80b7   ; la consola de la entrada secreta 0x0B: por el paso; 0, 1 y 3 como las demas
+	ld bc,(0e7e4h)		;80b7   ; el ordenador de a bordo de la entrada secreta 0x0B: por el paso; 0, 1 y 3 como las demas
 	ld a,c			;80bb   ; por el paso
 	call 04093h		;80bc   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -161,9 +161,9 @@ L_80C7:
 	call 05de9h		;80c8   ; los sprites y la pantalla a la VRAM
 	call 05985h		;80cb   ; bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
 	pop af			;80ce
-	or a			;80cf   ; desde el subpaso 1, la consola
+	or a			;80cf   ; desde el subpaso 1, el ordenador de a bordo
 	push af			;80d0
-	call nz,07320h		;80d1   ; consola_cuadro: la consola, un cuadro
+	call nz,07320h		;80d1   ; ordenador_cuadro: el ordenador de a bordo, un cuadro
 	pop af			;80d4   ; y por el subpaso
 	call 04093h		;80d5   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -239,19 +239,19 @@ L_8138:
 	ld bc,0090ch		;8147
 	jp 059a1h		;814a   ; copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 L_814D:
-	ld a,(0e321h)		;814d   ; el estado 8, paso 1 (la consola entre fases): tras la fase 3 (0xE321 = 1) el radar, tras la 4 p27:836A
+	ld a,(0e321h)		;814d   ; el estado 8, paso 1 (el ordenador de a bordo entre fases): tras la fase 3 (0xE321 = 1) el radar, tras la 4 p27:836A
 	dec a			;8150   ; tras la fase 3?
 	jr z,L_8156		;8151
 	jp L_836A		;8153   ; si no, tras la 4
 L_8156:
-	call 05de9h		;8156   ; los sprites y la pantalla a la VRAM; en los subpasos 1-3 la consola cada cuadro; por el subpaso (0xE322)
+	call 05de9h		;8156   ; los sprites y la pantalla a la VRAM; en los subpasos 1-3 el ordenador de a bordo cada cuadro; por el subpaso (0xE322)
 	call 05985h		;8159   ; la pantalla a la VRAM
 	ld bc,(0e322h)		;815c   ; el paso (C) y el subpaso (B)
 	push bc			;8160
-	ld a,c			;8161   ; en los pasos 1-3, la consola
+	ld a,c			;8161   ; en los pasos 1-3, el ordenador de a bordo
 	sub 001h		;8162
 	cp 003h		;8164
-	call c,07320h		;8166   ; consola_cuadro: la consola, un cuadro
+	call c,07320h		;8166   ; ordenador_cuadro: el ordenador de a bordo, un cuadro
 	pop bc			;8169
 	ld a,c			;816a   ; por el paso
 	call 04093h		;816b   ; despacha: salta a la palabra A de la tabla que va detras del call
@@ -269,18 +269,18 @@ DATA_tabla_816E:
 
 
 L_8178:
-	call 0594dh		;8178   ; paso 0: la orden 0x83, el sonido 0x3F, la consola con el contador de 0x6102
+	call 0594dh		;8178   ; paso 0: la orden 0x83, el sonido 0x3F, el ordenador de a bordo con el contador de 0x6102
 	call 0580eh		;817b   ; sonido_3F: pide el sonido 0x3F
-	call L_8188		;817e   ; el siguiente, la espera y la consola
+	call L_8188		;817e   ; el siguiente, la espera y el ordenador de a bordo
 	ld hl,06102h		;8181   ; con el contador de 0x6102
-	call 060f9h		;8184   ; contador_de_hl: las 6 cifras del contador de la consola, de HL
+	call 060f9h		;8184   ; contador_de_hl: las 6 cifras del contador del ordenador de a bordo, de HL
 	ret			;8187
 L_8188:
-	call consola_paso_siguiente		;8188   ; al subpaso siguiente, 0xE5C0-0xE5DF a cero, 0xB4 cuadros y la consola
+	call ordenador_paso_siguiente		;8188   ; al subpaso siguiente, 0xE5C0-0xE5DF a cero, 0xB4 cuadros y el ordenador de a bordo
 	call L_83DC		;818b   ; 0xE5C0-0xE5DF a cero
 	ld a,0b4h		;818e   ; 0xB4 cuadros
 	ld (0e5c0h),a		;8190
-	call 060dfh		;8193   ; la consola
+	call 060dfh		;8193   ; el ordenador de a bordo
 	ret			;8196
 L_8197:
 	ld hl,0e5c0h		;8197   ; paso 1: al acabar la espera, el radar (p27:81F4) y la secuencia de 0x6193
@@ -289,7 +289,7 @@ L_8197:
 	call L_81F4		;819c   ; el radar
 	ld hl,06193h		;819f   ; y la secuencia de 0x6193
 	call 0612ah		;81a2   ; secuencia_de_hl: empieza la secuencia de dibujos de HL
-	call consola_paso_siguiente		;81a5   ; consola_paso_siguiente: el paso siguiente de la consola entre fases (0xE322)
+	call ordenador_paso_siguiente		;81a5
 	ret			;81a8
 L_81A9:
 	call L_81CC		;81a9   ; paso 2: con un boton se salta; si no, el radar se mueve (p27:820F) hasta acabar la secuencia...
@@ -301,13 +301,13 @@ L_81A9:
 	call L_838C		;81b7   ; el contador baja
 	ld a,03ch		;81ba   ; 0x3C cuadros
 	ld (0e5c0h),a		;81bc
-	call consola_paso_siguiente		;81bf   ; consola_paso_siguiente: el paso siguiente de la consola entre fases (0xE322)
+	call ordenador_paso_siguiente		;81bf
 	ret			;81c2
 L_81C3:
 	ld hl,0e5c0h		;81c3   ; paso 3: la espera
 	dec (hl)			;81c6   ; la espera
 	ret nz			;81c7
-	call consola_paso_siguiente		;81c8   ; consola_paso_siguiente: el paso siguiente de la consola entre fases (0xE322)
+	call ordenador_paso_siguiente		;81c8
 	ret			;81cb
 L_81CC:
 	ld a,(0e308h)		;81cc   ; un boton (bits 4-5): al paso 4 (0xE322 = 4)
@@ -322,7 +322,7 @@ L_81D9:
 	call 0578bh		;81dc   ; subpaso 0: la orden 0x84...
 	ld a,078h		;81df   ; ...0x78 cuadros
 	ld (0e402h),a		;81e1   ; guarda un temporizador
-	jp consola_subpaso_siguiente		;81e4   ; consola_subpaso_siguiente: el subpaso siguiente de la consola (0xE323)
+	jp ordenador_subpaso_siguiente		;81e4
 L_81E7:
 	ld hl,0e402h		;81e7   ; ...al acabar, la pantalla en blanco y 0xE321 = 0
 	dec (hl)			;81ea   ; la espera
@@ -582,10 +582,10 @@ DATA_tabla_8378:
 
 
 L_8380:
-	call 0580eh		;8380   ; paso 0: el sonido 0x3F, la consola con el contador de 0x610E y a bajar
-	call L_8188		;8383   ; el siguiente, la espera y la consola
+	call 0580eh		;8380   ; paso 0: el sonido 0x3F, el ordenador de a bordo con el contador de 0x610E y a bajar
+	call L_8188		;8383   ; el siguiente, la espera y el ordenador de a bordo
 	ld hl,0610eh		;8386   ; con el contador de 0x610E
-	call 060f9h		;8389   ; contador_de_hl: las 6 cifras del contador de la consola, de HL
+	call 060f9h		;8389   ; contador_de_hl: las 6 cifras del contador del ordenador de a bordo, de HL
 L_838C:
 	ld a,002h		;838c   ; el contador baja (0xE54C = 2) de uno en uno (0xE54D = 1)
 	ld (0e54ch),a		;838e   ; 0xE54C = 2: baja
@@ -593,24 +593,24 @@ L_838C:
 	ld (0e54dh),hl		;8394
 	ret			;8397
 L_8398:
-	call 07320h		;8398   ; paso 1: la consola hasta que el contador llegue (p27:8C9B); luego quieto, el de 0x6108 y la secuencia de 0x61B4
+	call 07320h		;8398   ; paso 1: el ordenador de a bordo hasta que el contador llegue (p27:8C9B); luego quieto, el de 0x6108 y la secuencia de 0x61B4
 	call L_8C9B		;839b   ; hasta 6644
 	ret nz			;839e
 	xor a			;839f   ; quieto
 	ld (0e54ch),a		;83a0
 	ld hl,06108h		;83a3   ; con el de 0x6108
-	call 060f9h		;83a6   ; contador_de_hl: las 6 cifras del contador de la consola, de HL
+	call 060f9h		;83a6   ; contador_de_hl: las 6 cifras del contador del ordenador de a bordo, de HL
 	ld hl,061b4h		;83a9   ; la secuencia de 0x61B4
 	call 0612ah		;83ac   ; secuencia_de_hl: empieza la secuencia de dibujos de HL
-	call consola_paso_siguiente		;83af   ; consola_paso_siguiente: el paso siguiente de la consola entre fases (0xE322)
+	call ordenador_paso_siguiente		;83af
 	ret			;83b2
 L_83B3:
-	call L_83C2		;83b3   ; paso 2: con un boton se salta; si no, la consola hasta acabar la secuencia
+	call L_83C2		;83b3   ; paso 2: con un boton se salta; si no, el ordenador de a bordo hasta acabar la secuencia
 	ret nz			;83b6   ; un boton: se salta
-	call 07320h		;83b7   ; la consola
+	call 07320h		;83b7   ; el ordenador de a bordo
 	call 06135h		;83ba   ; hasta acabar la secuencia
 	ret nz			;83bd
-	call consola_paso_siguiente		;83be   ; consola_paso_siguiente: el paso siguiente de la consola entre fases (0xE322)
+	call ordenador_paso_siguiente		;83be
 	ret			;83c1
 L_83C2:
 	ld a,(0e308h)		;83c2   ; un boton: al paso 3
@@ -619,13 +619,13 @@ L_83C2:
 	ld hl,00003h		;83c8   ; al paso 3
 	ld (0e322h),hl		;83cb
 	ret			;83ce
-consola_paso_siguiente:		; el paso siguiente de la consola entre fases (0xE322)
+ordenador_paso_siguiente:		; el paso siguiente del ordenador de a bordo entre fases (0xE322)
 	ld hl,0e322h		;83cf   ; el paso siguiente (0xE322), con el subpaso a 0
 	inc (hl)			;83d2   ; el paso + 1, el subpaso a 0
 	inc hl			;83d3
 	ld (hl),000h		;83d4
 	ret			;83d6
-consola_subpaso_siguiente:		; el subpaso siguiente de la consola (0xE323)
+ordenador_subpaso_siguiente:		; el subpaso siguiente del ordenador de a bordo (0xE323)
 	ld hl,0e323h		;83d7   ; el subpaso siguiente (0xE323)
 	inc (hl)			;83da
 	ret			;83db
@@ -675,10 +675,10 @@ final_subpaso_siguiente:		; el subpaso siguiente del final (0xE32A)
 	inc (hl)			;841b
 	ret			;841c
 L_841D:
-	push bc			;841d   ; paso 0: desde el subpaso 1 la consola cada cuadro; por el subpaso
-	ld a,b			;841e   ; desde el subpaso 1, la consola
+	push bc			;841d   ; paso 0: desde el subpaso 1 el ordenador de a bordo cada cuadro; por el subpaso
+	ld a,b			;841e   ; desde el subpaso 1, el ordenador de a bordo
 	or a			;841f
-	call nz,07320h		;8420   ; consola_cuadro: la consola, un cuadro
+	call nz,07320h		;8420   ; ordenador_cuadro: el ordenador de a bordo, un cuadro
 	pop af			;8423
 	call 04093h		;8424   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -696,14 +696,14 @@ DATA_tabla_8427:
 
 
 L_8437:
-	call 0594dh		;8437   ; subpaso 0: la orden 0x83, el sonido 0x42, la paleta, la pantalla en blanco, la consola y 0x78 cuadros
+	call 0594dh		;8437   ; subpaso 0: la orden 0x83, el sonido 0x42, la paleta, la pantalla en blanco, el ordenador de a bordo y 0x78 cuadros
 	call 05827h		;843a   ; sonido_42: pide el sonido 0x42
 	call 05718h		;843d   ; la paleta
 	call 04aa9h		;8440   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
 	call 06033h		;8443   ; los dibujos de sprite a cero
-	call 060dfh		;8446   ; la consola
+	call 060dfh		;8446   ; el ordenador de a bordo
 	ld hl,06108h		;8449   ; con el contador de 0x6108
-	call 060f9h		;844c   ; contador_de_hl: las 6 cifras del contador de la consola, de HL
+	call 060f9h		;844c   ; contador_de_hl: las 6 cifras del contador del ordenador de a bordo, de HL
 	ld a,078h		;844f   ; 0x78 cuadros
 	ld (0e40ch),a		;8451
 	call final_subpaso_siguiente		;8454   ; final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
@@ -938,11 +938,11 @@ L_8609:
 	call final_paso_siguiente		;860d   ; final_paso_siguiente: el paso siguiente del final (0xE329)
 	ret			;8610
 L_8611:
-	push bc			;8611   ; paso 2: desde el subpaso 4 la consola y p27:8CBF cada cuadro; por el subpaso
+	push bc			;8611   ; paso 2: desde el subpaso 4 el ordenador de a bordo y p27:8CBF cada cuadro; por el subpaso
 	ld a,b			;8612   ; desde el subpaso 4...
 	cp 004h		;8613
 	jr c,L_861D		;8615
-	call 07320h		;8617   ; ...la consola y el contador loco
+	call 07320h		;8617   ; ...el ordenador de a bordo y el contador loco
 	call contador_loco		;861a   ; contador_loco: el contador cambia al azar cada 4 cuadros
 L_861D:
 	pop af			;861d   ; y por el subpaso
@@ -1000,11 +1000,11 @@ L_8670:
 	call final_subpaso_siguiente		;8688   ; final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 	ret			;868b
 L_868C:
-	call 060dfh		;868c   ; subpaso 3: la consola (cada 3 cuadros) con el contador de 0x6108, p27:8CDD y 0x3C cuadros
-	ld a,003h		;868f   ; la consola, cada 3 cuadros
+	call 060dfh		;868c   ; subpaso 3: el ordenador de a bordo (cada 3 cuadros) con el contador de 0x6108, p27:8CDD y 0x3C cuadros
+	ld a,003h		;868f   ; el ordenador de a bordo, cada 3 cuadros
 	ld (0e540h),a		;8691
 	ld hl,06108h		;8694   ; con el contador de 0x6108
-	call 060f9h		;8697   ; contador_de_hl: las 6 cifras del contador de la consola, de HL
+	call 060f9h		;8697   ; contador_de_hl: las 6 cifras del contador del ordenador de a bordo, de HL
 	call L_8CDD		;869a   ; los graficos de p29:AACE
 	ld a,03ch		;869d   ; carga A = 0x3C pero guarda HL: la espera es lo que deje HL (L en 0xE40C)
 	ld (0e40ch),hl		;869f
@@ -1129,14 +1129,14 @@ L_8793:
 	call final_paso_siguiente		;8793   ; final_paso_siguiente: el paso siguiente del final (0xE329)
 	ret			;8796
 L_8797:
-	push bc			;8797   ; paso 3: hasta el subpaso 5 p27:8CBF y hasta el 7 la consola; por el subpaso
+	push bc			;8797   ; paso 3: hasta el subpaso 5 p27:8CBF y hasta el 7 el ordenador de a bordo; por el subpaso
 	push bc			;8798   ; hasta el subpaso 5, el contador loco
 	ld a,b			;8799
 	cp 006h		;879a
 	call c,contador_loco		;879c   ; contador_loco: el contador cambia al azar cada 4 cuadros
 	pop af			;879f
-	cp 008h		;87a0   ; hasta el 7, la consola
-	call c,07320h		;87a2   ; consola_cuadro: la consola, un cuadro
+	cp 008h		;87a0   ; hasta el 7, el ordenador de a bordo
+	call c,07320h		;87a2   ; ordenador_cuadro: el ordenador de a bordo, un cuadro
 	pop af			;87a5   ; y por el subpaso
 	call 04093h		;87a6   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -1178,9 +1178,9 @@ L_87E8:
 	call 05730h		;87f3   ; la cuenta de 0xE339 a cero
 	call L_8E4C		;87f6   ; los graficos de p29:BD4D...
 	call L_8E63		;87f9   ; ...y el dibujo de 0x8E70
-	ld hl,00000h		;87fc   ; el cuadro 0 y 8 cuadros por paso de la consola
+	ld hl,00000h		;87fc   ; el cuadro 0 y 8 cuadros por paso del ordenador de a bordo
 	ld (0e5d0h),hl		;87ff   ; el cuadro 0
-	ld a,008h		;8802   ; la consola cada 8 cuadros
+	ld a,008h		;8802   ; el ordenador de a bordo cada 8 cuadros
 	ld (0e540h),a		;8804
 	call final_subpaso_siguiente		;8807   ; final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 	ret			;880a
@@ -1226,7 +1226,7 @@ L_8852:
 	call L_8CA3		;8852   ; subpaso 7: hasta que el contador llegue (p27:8CA3); luego quieto, el de 0x6102 y 0x78 cuadros
 	ret nz			;8855   ; hasta llegar
 	ld hl,06102h		;8856   ; con el de 0x6102
-	call 060f9h		;8859   ; contador_de_hl: las 6 cifras del contador de la consola, de HL
+	call 060f9h		;8859   ; contador_de_hl: las 6 cifras del contador del ordenador de a bordo, de HL
 	xor a			;885c   ; quieto
 	ld (0e54ch),a		;885d
 	ld a,078h		;8860   ; 0x78 cuadros
@@ -1387,15 +1387,15 @@ DATA_tabla_8921:
 
 
 L_893F:
-	call contador_loco		;893f   ; subpaso 0: p27:8CBF, la consola y la secuencia de 0x6258
-	call 07320h		;8942   ; la consola
+	call contador_loco		;893f   ; subpaso 0: p27:8CBF, el ordenador de a bordo y la secuencia de 0x6258
+	call 07320h		;8942   ; el ordenador de a bordo
 	ld hl,06258h		;8945   ; la secuencia de 0x6258
 	call 0612ah		;8948   ; secuencia_de_hl: empieza la secuencia de dibujos de HL
 	call final_subpaso_siguiente		;894b   ; final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 	ret			;894e
 L_894F:
 	call contador_loco		;894f   ; subpaso 1: hasta acabarla; luego el bufer a cero, los sprites fuera y la orden 0x84
-	call 07320h		;8952   ; la consola
+	call 07320h		;8952   ; el ordenador de a bordo
 	call 06135h		;8955   ; hasta acabarla
 	ret nz			;8958
 	call 05959h		;8959   ; el bufer a cero

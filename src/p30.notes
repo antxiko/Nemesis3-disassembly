@@ -33,10 +33,10 @@ C 0x81FA subpaso 6: a los 0xA8 (p00:572B), el plano de la nave (p26:6FB0), su li
 C 0x8225 subpaso 7: hasta que aparezca
 C 0x8237 subpaso 8: a los 0xA8 (0x1A4 con la nave 3), se borra lo de 0x825F (0x8263 con la 3)
 C 0x8267 subpaso 9: al acabar, el cuadro a cero y la nave siguiente; las cuatro: el bufer a cero
-C 0x8284 subpaso 0x0A: a los 0x7A8, los sprites fuera, la consola con el contador de 0x6102 y la secuencia 4
-C 0x82B3 subpaso 0x0B: la consola hasta que aparezca
+C 0x8284 subpaso 0x0A: a los 0x7A8, los sprites fuera, el ordenador de a bordo con el contador de 0x6102 y la secuencia 4
+C 0x82B3 subpaso 0x0B: el ordenador de a bordo hasta que aparezca
 C 0x82C4 subpaso 0x0C: a los 0x2C0, se borra lo de 0x82EA y los sprites de 0x82EE
-C 0x82F1 subpaso 0x0D: la consola hasta que se borren; los sprites fuera y el bufer a cero
+C 0x82F1 subpaso 0x0D: el ordenador de a bordo hasta que se borren; los sprites fuera y el bufer a cero
 C 0x8315 subpaso 0x0E: a los 0x2F0, la paleta 3, los graficos de p22:B40B, el dibujo de p22:B421 (8 x 0x0A en 0xCA8B) y la secuencia 5
 C 0x835E subpaso 0x0F: hasta que aparezca
 C 0x8366 subpaso 0x10: a los 0x580, se borra
@@ -738,18 +738,18 @@ C 0x8287 cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 C 0x828B cuenta_e339_a_cero: la cuenta de 0xE339 a cero
 C 0x828E sprites_fuera: los atributos de sprite de 0xEF00 a 0xE0: fuera de la pantalla
 C 0x8291 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
-C 0x8294 consola: la consola (p26:730A) con su animacion cada 8 cuadros
-C 0x829A contador_de_hl: las 6 cifras del contador de la consola, de HL
+C 0x8294 ordenador: el ordenador de a bordo (p26:730A) con su animacion cada 8 cuadros
+C 0x829A contador_de_hl: las 6 cifras del contador del ordenador de a bordo, de HL
 C 0x829D bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 C 0x82A2 secuencia_empieza: empieza la secuencia de dibujos A (p26:6114, con los bancos 26-27-28)
 C 0x82A5 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 C 0x82AC aparece_con_pausas: la lista HL aparece fila a fila con pausas
 C 0x82AF historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
-C 0x82B6 consola_cuadro: la consola, un cuadro
+C 0x82B6 ordenador_cuadro: el ordenador de a bordo, un cuadro
 C 0x82B9 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 C 0x82BC aparece_con_pausas_cuadro: lo mismo, un cuadro (NZ mientras siga)
 C 0x82C0 historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
-C 0x82C7 consola_cuadro: la consola, un cuadro
+C 0x82C7 ordenador_cuadro: el ordenador de a bordo, un cuadro
 C 0x82CA bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 C 0x82D0 cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 C 0x82D7 borra_fila_a_fila: la lista HL se borra fila a fila
@@ -757,7 +757,7 @@ C 0x82DA bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
 C 0x82E0 borrado_sprites_empieza: empieza a borrar fila a fila los sprites de HL
 C 0x82E3 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 C 0x82E6 historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
-C 0x82F4 consola_cuadro: la consola, un cuadro
+C 0x82F4 ordenador_cuadro: el ordenador de a bordo, un cuadro
 C 0x82F7 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 C 0x82FA bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
 C 0x82FD borrado_cuadro: el borrado fila a fila, cada 4 cuadros

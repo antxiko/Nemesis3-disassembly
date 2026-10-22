@@ -787,7 +787,7 @@ def nombres_de_armas():
 # ------------------------------------------------- los dibujos de las secuencias
 #
 # p26:62A6 pone el dibujo A (0xE5C2) de las pantallas de la historia, la
-# consola y el final: su palabra en la tabla p27:8F02 (p00:4A65), y
+# ordenador de a bordo y el final: su palabra en la tabla p27:8F02 (p00:4A65), y
 # p26:6349 lo desempaqueta a 0xCE00 trozo a trozo: dos bytes, uno con
 # cuantos caracteres (bits 0-4), el tercio (bits 5-6) y si es el ultimo (bit
 # 7), y los caracteres: antes del dibujo 0x40, de 8 en 8 detras de una mascara

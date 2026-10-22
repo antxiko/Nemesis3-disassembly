@@ -19,8 +19,8 @@ Escenarios (cada uno una partida nueva):
   secretaN   (N de 1 a 0x0C, en hexadecimal) una entrada secreta del tipo N
              puesta delante de la nave en la fase 2 (0xE7E0: tipo, y + 6, x, y + 6;
              como la pone p02:80E5) y lo que abre, SCUADROS cuadros
-  consola0 / consola3   la fase 9 acabada sin ninguna marca o con las tres
-             (0xE393-0xE395 = 1): la consola y la fase a la que manda
+  mapas0 / mapas3   la fase 9 acabada sin ninguna marca o con las tres
+             (0xE393-0xE395 = 1): el ordenador de a bordo y la fase a la que manda
   final0B    la fase 11 con la entrada 0x0B cogida (0xE396 = 1, p27:8786)
   japones    el titulo y la historia con la BIOS japonesa (0x002B = 0)
 
@@ -68,7 +68,7 @@ def corre(nombre):
         return j, []
     if nombre.startswith("secreta"):
         return secreta(int(nombre[7:], 16))
-    if nombre in ("consola0", "consola3", "final0B"):
+    if nombre in ("mapas0", "mapas3", "final0B"):
         return marcas(nombre)
     if nombre == "remolino":
         return remolino()
@@ -192,7 +192,7 @@ def marcas(nombre):
     fase = 11 if nombre == "final0B" else 9
     j = Juego().hasta_partida(fase, inmortal=True, dispara=True)
     j.barre = 90
-    if nombre == "consola3":
+    if nombre == "mapas3":
         j.mem[0xE393:0xE396] = bytes((1, 1, 1))
     if nombre == "final0B":
         j.mem[0xE396] = 1

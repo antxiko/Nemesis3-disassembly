@@ -1140,12 +1140,12 @@ L_47FD:
 	call 0638bh		;4800
 	jp devuelve_reparto		;4803   ; devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
 L_4806:
-	call guarda_y_bancos_26_27_28		;4806   ; nadie la llama: con 26-27-28, p26:6012, que salta a p26:730A (pone la consola)...
+	call guarda_y_bancos_26_27_28		;4806   ; nadie la llama: con 26-27-28, p26:6012, que salta a p26:730A (pone el ordenador de a bordo)...
 	call 06012h		;4809
 	jp devuelve_reparto		;480c   ; ...y el reparto de antes
 L_480F:
-	call guarda_y_bancos_26_27_28		;480f   ; nadie la llama: con 26-27-28, p26:6015 (la consola, un cuadro)...
-	call 06015h		;4812   ; la entrada de p00:480F, que no llama nadie: la consola, un cuadro (p26:6015)
+	call guarda_y_bancos_26_27_28		;480f   ; nadie la llama: con 26-27-28, p26:6015 (el ordenador de a bordo, un cuadro)...
+	call 06015h		;4812   ; la entrada de p00:480F, que no llama nadie: el ordenador de a bordo, un cuadro (p26:6015)
 	jp devuelve_reparto		;4815   ; ...y el reparto de antes
 secuencia_empieza:		; empieza la secuencia de dibujos A (p26:6114, con los bancos 26-27-28)
 	call guarda_y_bancos_26_27_28		;4818   ; guarda_y_bancos_26_27_28: guarda el reparto en la pila y pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)

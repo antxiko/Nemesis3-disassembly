@@ -50,7 +50,7 @@ DATA_no_visto_600F:
 L_6012:
 	jp L_730A		;6012
 L_6015:
-	jp consola_cuadro		;6015   ; la entrada de p00:480F, que no llama nadie: la consola, un cuadro
+	jp ordenador_cuadro		;6015   ; la entrada de p00:480F, que no llama nadie: el ordenador de a bordo, un cuadro
 L_6018:
 	jp secuencia		;6018   ; empieza una secuencia de dibujos (desde p30, p00:4818)
 L_601B:
@@ -149,11 +149,11 @@ L_60D4:
 	xor a			;60da
 	call 00056h		;60db   ; BIOS FILVRM - Fills VRAM with value
 	ret			;60de
-consola:		; la consola (p26:730A) con su animacion cada 8 cuadros
+ordenador:		; el ordenador de a bordo (p26:730A) con su animacion cada 8 cuadros
 	call L_60EB		;60df   ; 0xE540-0xE55F a cero, 0xE540 = 8 y p26:730A
 	ld a,008h		;60e2   ; cada 8 cuadros la animacion (0xE540)...
 	ld (0e540h),a		;60e4
-	call L_730A		;60e7   ; ...y la consola
+	call L_730A		;60e7   ; ...y el ordenador de a bordo
 	ret			;60ea
 L_60EB:
 	ld hl,0e540h		;60eb   ; 0x20 bytes a 0
@@ -162,7 +162,7 @@ L_60EB:
 	ld (hl),000h		;60f4
 	ldir		;60f6
 	ret			;60f8
-contador_de_hl:		; las 6 cifras del contador de la consola, de HL
+contador_de_hl:		; las 6 cifras del contador del ordenador de a bordo, de HL
 	ld de,0e54fh		;60f9   ; 6 bytes de HL a 0xE54F
 	ld bc,00006h		;60fc   ; 6 bytes: las cifras del contador
 	ldir		;60ff
@@ -2164,7 +2164,7 @@ L_6C79:
 	call 041bfh		;6ca0   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	ret			;6ca3
 L_6CA4:
-	ld a,(0e31eh)		;6ca4   ; el estado 9 (una entrada secreta, 0xE31E su tipo): 1-7 el arma secreta (p26:6E29), 8-0x0A la consola (p26:7D46), 0x0B p27:80B7, los demas p27:804A
+	ld a,(0e31eh)		;6ca4   ; el estado 9 (una entrada secreta, 0xE31E su tipo): 1-7 el arma secreta (p26:6E29), 8-0x0A el ordenador de a bordo (p26:7D46), 0x0B p27:80B7, los demas p27:804A
 	or a			;6ca7
 	ret z			;6ca8
 	cp 008h		;6ca9
@@ -2450,8 +2450,8 @@ DATA_tabla_6DC2:
 
 
 L_6DCA:
-	ld a,(0e31eh)		;6dca   ; subpaso 0: la espera, 0x78 cuadros (con la orden 0x84) desde la consola, 1 desde el arma
-	cp 008h		;6dcd   ; desde la consola (tipo 8 o mas)...
+	ld a,(0e31eh)		;6dca   ; subpaso 0: la espera, 0x78 cuadros (con la orden 0x84) desdel ordenador de a bordo, 1 desde el arma
+	cp 008h		;6dcd   ; desdel ordenador de a bordo (tipo 8 o mas)...
 	jr c,L_6DD8		;6dcf
 	call 05951h		;6dd1   ; orden_sonido_84: manda la orden 0x84 al motor de sonido
 	ld a,078h		;6dd4   ; ...0x78 cuadros
@@ -3341,7 +3341,7 @@ DATA_trozo_7303:
 
 
 L_730A:
-	ld a,002h		;730a   ; la consola: la paleta 2, sus graficos (p26:73AF), el bufer a cero (p00:518E), su dibujo (p26:7344) y todo una vez (p26:743B)
+	ld a,002h		;730a   ; el ordenador de a bordo: la paleta 2, sus graficos (p26:73AF), el bufer a cero (p00:518E), su dibujo (p26:7344) y todo una vez (p26:743B)
 	call 05709h		;730c   ; la paleta 2 (p00:5709)
 	xor a			;730f   ; el contador quieto (0xE54C = 0)
 	ld (0e54ch),a		;7310
@@ -3350,8 +3350,8 @@ L_730A:
 	call L_7344		;7319   ; el dibujo
 	call L_743B		;731c   ; y todo una vez
 	ret			;731f
-consola_cuadro:		; la consola, un cuadro
-	call L_783F		;7320   ; la consola, cada cuadro: el contador (p26:783F), sus cifras (p26:7542) y, cada 0xE540 cuadros, la animacion
+ordenador_cuadro:		; el ordenador de a bordo, un cuadro
+	call L_783F		;7320   ; el ordenador de a bordo, cada cuadro: el contador (p26:783F), sus cifras (p26:7542) y, cada 0xE540 cuadros, la animacion
 	call L_7542		;7323   ; las cifras
 	call L_732A		;7326   ; y la animacion
 	ret			;7329
@@ -3367,7 +3367,7 @@ L_732A:
 	call L_7528		;7340   ; seis sprites del cuadro siguiente (0xE54B, 4) de la tabla de 0x77D7, en 0xEF1C
 	ret			;7343
 L_7344:
-	ld hl,0a8c8h		;7344   ; el dibujo de la consola: el RLE de p28:A8C8 (0x0D filas de 0x14 en 0xCA26) y el de p28:A935 (7 de 0x1E en 0xCC01)...
+	ld hl,0a8c8h		;7344   ; el dibujo del ordenador de a bordo: el RLE de p28:A8C8 (0x0D filas de 0x14 en 0xCA26) y el de p28:A935 (7 de 0x1E en 0xCC01)...
 	ld de,0cd00h		;7347   ; a 0xCD00...
 	call 055adh		;734a   ; rle_a_ram: descomprime a la RAM de DE el RLE de HL
 	ld hl,0cd00h		;734d   ; ...y al bufer: 0x0D filas de 0x14 en 0xCA26
@@ -3407,7 +3407,7 @@ L_7344:
 	call 059a1h		;73ab   ; copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 	ret			;73ae
 L_73AF:
-	ld ix,073e0h		;73af   ; los graficos de la consola: las listas de 0x73E0 y 0x73F9, los dibujos de sprite de p28:AF44 y p28:B0C2, los espejos de 0x7406 (p00:4E5A) y p28:B0F5 en 0x1E00
+	ld ix,073e0h		;73af   ; los graficos del ordenador de a bordo: las listas de 0x73E0 y 0x73F9, los dibujos de sprite de p28:AF44 y p28:B0C2, los espejos de 0x7406 (p00:4E5A) y p28:B0F5 en 0x1E00
 	call 04cb1h		;73b3   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 	ld ix,073f9h		;73b6   ; las copias de 0x73F9
 	call 04d1bh		;73ba   ; copia_con_vuelta: copia caracteres de la VRAM dandoles la vuelta (lista IX)
@@ -4684,7 +4684,7 @@ L_7D3B:
 	djnz L_7D3B		;7d43
 	ret			;7d45
 L_7D46:
-	ld bc,(0e7e4h)		;7d46   ; la consola (0xE31E de 8 a 0x0A): por el paso (0xE7E4)
+	ld bc,(0e7e4h)		;7d46   ; el ordenador de a bordo (0xE31E de 8 a 0x0A): por el paso (0xE7E4)
 	ld a,c			;7d4a   ; por el paso
 	call 04093h		;7d4b   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -4701,13 +4701,13 @@ DATA_tabla_7D4E:
 
 
 L_7D56:
-	push bc			;7d56   ; paso 2: los sprites a la VRAM, la pantalla, la consola cada cuadro (p26:7320) y, desde el subpaso 2, p26:7E6B
+	push bc			;7d56   ; paso 2: los sprites a la VRAM, la pantalla, el ordenador de a bordo cada cuadro (p26:7320) y, desde el subpaso 2, p26:7E6B
 	call 05de9h		;7d57   ; los sprites y la pantalla a la VRAM
 	call 05985h		;7d5a   ; bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
 	pop af			;7d5d
-	or a			;7d5e   ; desde el subpaso 1, la consola cada cuadro
+	or a			;7d5e   ; desde el subpaso 1, el ordenador de a bordo cada cuadro
 	push af			;7d5f
-	call nz,consola_cuadro		;7d60   ; consola_cuadro: la consola, un cuadro
+	call nz,ordenador_cuadro		;7d60
 	pop af			;7d63
 	push af			;7d64
 	cp 002h		;7d65   ; desde el 2, los colores de las marcas
@@ -4729,12 +4729,12 @@ DATA_tabla_7D6E:
 
 
 L_7D7C:
-	call 0580eh		;7d7c   ; subpaso 0: el sonido 0x3F, la paleta, la consola (p26:60DF) con el contador de 0x6108, y 0x78 cuadros
+	call 0580eh		;7d7c   ; subpaso 0: el sonido 0x3F, la paleta, el ordenador de a bordo (p26:60DF) con el contador de 0x6108, y 0x78 cuadros
 	call estado9_subpaso_siguiente		;7d7f   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	call 05718h		;7d82   ; la paleta
-	call consola		;7d85   ; la consola
+	call ordenador		;7d85   ; el ordenador de a bordo
 	ld hl,06108h		;7d88   ; con el contador de 0x6108
-	call contador_de_hl		;7d8b   ; contador_de_hl: las 6 cifras del contador de la consola, de HL
+	call contador_de_hl		;7d8b   ; contador_de_hl: las 6 cifras del contador del ordenador de a bordo, de HL
 	ld a,078h		;7d8e   ; 0x78 cuadros
 	ld (0e5c0h),a		;7d90
 	ret			;7d93
@@ -4940,13 +4940,13 @@ DATA_leido_7EBA:
 
 
 L_7EC5:
-	ld a,(0e327h)		;7ec5   ; el estado 8, paso 2 (la consola entre fases): desde el subpaso 3, la consola cada cuadro; por el subpaso (0xE327)
+	ld a,(0e327h)		;7ec5   ; el estado 8, paso 2 (el ordenador de a bordo entre fases): desde el subpaso 3, el ordenador de a bordo cada cuadro; por el subpaso (0xE327)
 	cp 003h		;7ec8   ; desde el subpaso 3...
 	jr c,L_7ED7		;7eca
 	push af			;7ecc
-	call 05de9h		;7ecd   ; ...los sprites y la pantalla a la VRAM y la consola
+	call 05de9h		;7ecd   ; ...los sprites y la pantalla a la VRAM y el ordenador de a bordo
 	call 05985h		;7ed0   ; bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
-	call consola_cuadro		;7ed3   ; consola_cuadro: la consola, un cuadro
+	call ordenador_cuadro		;7ed3
 	pop af			;7ed6
 L_7ED7:
 	dec a			;7ed7   ; y por el subpaso (desde 1)
@@ -4973,12 +4973,12 @@ L_7EF1:
 	call estado8_subpaso_siguiente		;7efa   ; estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
 	ret			;7efd
 L_7EFE:
-	call 0580eh		;7efe   ; subpaso 2: el sonido 0x3F, la pantalla en blanco, la consola con el contador de 0x6108 y los graficos de p29
+	call 0580eh		;7efe   ; subpaso 2: el sonido 0x3F, la pantalla en blanco, el ordenador de a bordo con el contador de 0x6108 y los graficos de p29
 	call 04aa9h		;7f01   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
 	call L_6033		;7f04   ; los dibujos de sprite a cero
-	call consola		;7f07   ; la consola
+	call ordenador		;7f07   ; el ordenador de a bordo
 	ld hl,06108h		;7f0a   ; con el contador de 0x6108
-	call contador_de_hl		;7f0d   ; contador_de_hl: las 6 cifras del contador de la consola, de HL
+	call contador_de_hl		;7f0d   ; contador_de_hl: las 6 cifras del contador del ordenador de a bordo, de HL
 	call L_7DFD		;7f10   ; y los graficos de p29
 	call estado8_subpaso_siguiente		;7f13   ; estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
 	ret			;7f16

@@ -276,9 +276,9 @@ C 0x478D ...el texto PLAYER 1
 C 0x4794 y si es el segundo...
 C 0x4796 ...un 2 (0x03) encima del 1
 C 0x47B3 los puentes: guardan el reparto, ponen el de la rutina, la llaman y lo devuelven
-C 0x4806 nadie la llama: con 26-27-28, p26:6012, que salta a p26:730A (pone la consola)...
+C 0x4806 nadie la llama: con 26-27-28, p26:6012, que salta a p26:730A (pone el ordenador de a bordo)...
 C 0x480C ...y el reparto de antes
-C 0x480F nadie la llama: con 26-27-28, p26:6015 (la consola, un cuadro)...
+C 0x480F nadie la llama: con 26-27-28, p26:6015 (el ordenador de a bordo, un cuadro)...
 C 0x4815 ...y el reparto de antes
 C 0x488D la partida a cero: 0xE360-0xEFFF...
 C 0x4895 ...o desde 0xE355
@@ -1392,7 +1392,7 @@ C 0x47F7 un byte de la tabla de 0x94D0 por 0xE36F x 8 + 0xEF80 (p04:94BD)
 C 0x47FA devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
 C 0x47FD guarda_y_bancos_1_2_3: guarda el reparto en la pila y pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x4803 devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
-C 0x4812 la entrada de p00:480F, que no llama nadie: la consola, un cuadro (p26:6015)
+C 0x4812 la entrada de p00:480F, que no llama nadie: el ordenador de a bordo, un cuadro (p26:6015)
 C 0x4818 guarda_y_bancos_26_27_28: guarda el reparto en la pila y pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x481B empieza una secuencia de dibujos (desde p30, p00:4818) (p26:6018)
 C 0x481E devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner

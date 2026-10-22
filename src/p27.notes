@@ -5,7 +5,7 @@ C 0x8000 el color de tres sprites (0xEF37, 0xEF3B, 0xEF3F): 0 o 8 segun el bit 2
 C 0x8002 bit 2 a 0: color 0 (no se ven)
 C 0x8006 a 1: color 8
 C 0x8008 a los tres
-C 0x801E el cuadro animado de la consola: cada 4 cuadros los caracteres 0xEC-0xEF corridos uno...
+C 0x801E el cuadro animado del ordenador de a bordo: cada 4 cuadros los caracteres 0xEC-0xEF corridos uno...
 C 0x8021 cada 4 cuadros...
 C 0x8025 ...el primero de 0xEC a 0xEF
 C 0x8027 ...0x0B filas de 0x10 en 0xCA48, cada fila uno mas
@@ -15,11 +15,11 @@ C 0x8033 el siguiente; despues de 0xEF, 0xEC
 C 0x803A la fila
 C 0x803D la fila siguiente
 C 0x803E la siguiente empieza uno mas alla
-C 0x804A la consola de las entradas secretas desde la 0x0C: por el paso (0xE7E4); 0, 1 y 3 como las demas
+C 0x804A el ordenador de a bordo de las entradas secretas desde la 0x0C: por el paso (0xE7E4); 0, 1 y 3 como las demas
 C 0x804E por el paso
-C 0x805A paso 2: los sprites y la pantalla a la VRAM, la consola cada cuadro y por el subpaso
+C 0x805A paso 2: los sprites y la pantalla a la VRAM, el ordenador de a bordo cada cuadro y por el subpaso
 C 0x805B los sprites y la pantalla a la VRAM
-C 0x8062 desde el subpaso 1, la consola
+C 0x8062 desde el subpaso 1, el ordenador de a bordo
 C 0x8067 y por el subpaso
 C 0x8073 subpaso 1: al acabar la espera, los graficos de p29:BFB8 y BFC5, un rectangulo de 5 x 8 (p29:BFCE en 0xCAAC) y la secuencia de 0x626A
 C 0x8076 la espera
@@ -33,11 +33,11 @@ C 0x80A6 sin espera
 C 0x80AE subpaso 3: la espera y la vuelta (p26:7DED)
 C 0x80B1 la espera
 C 0x80B3 la vuelta
-C 0x80B7 la consola de la entrada secreta 0x0B: por el paso; 0, 1 y 3 como las demas
+C 0x80B7 el ordenador de a bordo de la entrada secreta 0x0B: por el paso; 0, 1 y 3 como las demas
 C 0x80BB por el paso
 C 0x80C7 paso 2: lo mismo, por el subpaso
 C 0x80C8 los sprites y la pantalla a la VRAM
-C 0x80CF desde el subpaso 1, la consola
+C 0x80CF desde el subpaso 1, el ordenador de a bordo
 C 0x80D4 y por el subpaso
 C 0x80E0 subpaso 1: al acabar la espera, sus graficos (p27:8104) y la secuencia de 0x61FD
 C 0x80E3 la espera
@@ -59,21 +59,21 @@ C 0x8128 las copias de 0x812F
 C 0x8138 el dibujo de p29:B87E (segundo formato) en 0xCA6A, 9 filas de 0x0C
 C 0x813B a 0xCD00...
 C 0x8141 ...y al bufer
-C 0x814D el estado 8, paso 1 (la consola entre fases): tras la fase 3 (0xE321 = 1) el radar, tras la 4 p27:836A
+C 0x814D el estado 8, paso 1 (el ordenador de a bordo entre fases): tras la fase 3 (0xE321 = 1) el radar, tras la 4 p27:836A
 C 0x8150 tras la fase 3?
 C 0x8153 si no, tras la 4
-C 0x8156 los sprites y la pantalla a la VRAM; en los subpasos 1-3 la consola cada cuadro; por el subpaso (0xE322)
+C 0x8156 los sprites y la pantalla a la VRAM; en los subpasos 1-3 el ordenador de a bordo cada cuadro; por el subpaso (0xE322)
 C 0x8159 la pantalla a la VRAM
 C 0x815C el paso (C) y el subpaso (B)
-C 0x8161 en los pasos 1-3, la consola
+C 0x8161 en los pasos 1-3, el ordenador de a bordo
 C 0x816A por el paso
-C 0x8178 paso 0: la orden 0x83, el sonido 0x3F, la consola con el contador de 0x6102
-C 0x817E el siguiente, la espera y la consola
+C 0x8178 paso 0: la orden 0x83, el sonido 0x3F, el ordenador de a bordo con el contador de 0x6102
+C 0x817E el siguiente, la espera y el ordenador de a bordo
 C 0x8181 con el contador de 0x6102
-C 0x8188 al subpaso siguiente, 0xE5C0-0xE5DF a cero, 0xB4 cuadros y la consola
+C 0x8188 al subpaso siguiente, 0xE5C0-0xE5DF a cero, 0xB4 cuadros y el ordenador de a bordo
 C 0x818B 0xE5C0-0xE5DF a cero
 C 0x818E 0xB4 cuadros
-C 0x8193 la consola
+C 0x8193 el ordenador de a bordo
 C 0x8197 paso 1: al acabar la espera, el radar (p27:81F4) y la secuencia de 0x6193
 C 0x819A la espera
 C 0x819C el radar
@@ -148,20 +148,20 @@ C 0x8364 ...+ 0xCA00
 C 0x836A tras la fase 4: los sprites y la pantalla a la VRAM; por el subpaso (0xE322)
 C 0x836D la pantalla a la VRAM
 C 0x8370 por el paso
-C 0x8380 paso 0: el sonido 0x3F, la consola con el contador de 0x610E y a bajar
-C 0x8383 el siguiente, la espera y la consola
+C 0x8380 paso 0: el sonido 0x3F, el ordenador de a bordo con el contador de 0x610E y a bajar
+C 0x8383 el siguiente, la espera y el ordenador de a bordo
 C 0x8386 con el contador de 0x610E
 C 0x838C el contador baja (0xE54C = 2) de uno en uno (0xE54D = 1)
 C 0x838E 0xE54C = 2: baja
 C 0x8391 de uno en uno
-C 0x8398 paso 1: la consola hasta que el contador llegue (p27:8C9B); luego quieto, el de 0x6108 y la secuencia de 0x61B4
+C 0x8398 paso 1: el ordenador de a bordo hasta que el contador llegue (p27:8C9B); luego quieto, el de 0x6108 y la secuencia de 0x61B4
 C 0x839B hasta 6644
 C 0x839F quieto
 C 0x83A3 con el de 0x6108
 C 0x83A9 la secuencia de 0x61B4
-C 0x83B3 paso 2: con un boton se salta; si no, la consola hasta acabar la secuencia
+C 0x83B3 paso 2: con un boton se salta; si no, el ordenador de a bordo hasta acabar la secuencia
 C 0x83B6 un boton: se salta
-C 0x83B7 la consola
+C 0x83B7 el ordenador de a bordo
 C 0x83BA hasta acabar la secuencia
 C 0x83C2 un boton: al paso 3
 C 0x83C5 los botones
@@ -177,12 +177,12 @@ C 0x83FE por el paso
 C 0x8410 el paso siguiente (0xE329), con el subpaso a 0
 C 0x8413 el paso + 1, el subpaso a 0
 C 0x8418 el subpaso siguiente (0xE32A)
-C 0x841D paso 0: desde el subpaso 1 la consola cada cuadro; por el subpaso
-C 0x841E desde el subpaso 1, la consola
-C 0x8437 subpaso 0: la orden 0x83, el sonido 0x42, la paleta, la pantalla en blanco, la consola y 0x78 cuadros
+C 0x841D paso 0: desde el subpaso 1 el ordenador de a bordo cada cuadro; por el subpaso
+C 0x841E desde el subpaso 1, el ordenador de a bordo
+C 0x8437 subpaso 0: la orden 0x83, el sonido 0x42, la paleta, la pantalla en blanco, el ordenador de a bordo y 0x78 cuadros
 C 0x843D la paleta
 C 0x8443 los dibujos de sprite a cero
-C 0x8446 la consola
+C 0x8446 el ordenador de a bordo
 C 0x8449 con el contador de 0x6108
 C 0x844F 0x78 cuadros
 C 0x8458 subpaso 1: al acabar, la paleta 4, los graficos de p29:A1D6 y A225, p27:84A7 con 0 y la secuencia de 0x620A
@@ -262,9 +262,9 @@ C 0x85F7 0x5A cuadros mas
 C 0x85F9 el bufer a cero
 C 0x85FC uno menos; acabados, al paso 2
 C 0x8602 el cuadro anterior (hacia atras)
-C 0x8611 paso 2: desde el subpaso 4 la consola y p27:8CBF cada cuadro; por el subpaso
+C 0x8611 paso 2: desde el subpaso 4 el ordenador de a bordo y p27:8CBF cada cuadro; por el subpaso
 C 0x8612 desde el subpaso 4...
-C 0x8617 ...la consola y el contador loco
+C 0x8617 ...el ordenador de a bordo y el contador loco
 C 0x861D y por el subpaso
 C 0x8645 subpaso 0: las estrellas; al acabar, 0x78 cuadros
 C 0x8648 la espera
@@ -278,8 +278,8 @@ C 0x8670 subpaso 2: el borde cambia de color cada cuadro (la cuenta); al acabar,
 C 0x8673 el color del borde: la cuenta & 0x0F
 C 0x867B la espera
 C 0x8680 negro otra vez
-C 0x868C subpaso 3: la consola (cada 3 cuadros) con el contador de 0x6108, p27:8CDD y 0x3C cuadros
-C 0x868F la consola, cada 3 cuadros
+C 0x868C subpaso 3: el ordenador de a bordo (cada 3 cuadros) con el contador de 0x6108, p27:8CDD y 0x3C cuadros
+C 0x868F el ordenador de a bordo, cada 3 cuadros
 C 0x8694 con el contador de 0x6108
 C 0x869A los graficos de p29:AACE
 C 0x869D carga A = 0x3C pero guarda HL: la espera es lo que deje HL (L en 0xE40C)
@@ -330,9 +330,9 @@ C 0x8781 subpaso 0x11: la paleta 2; con 0xE396 al paso 3, sin ella dos pasos (al
 C 0x8783 la paleta 2
 C 0x8789 la entrada secreta 0x0B (0xE396)?
 C 0x878C sin ella, se salta el paso 3
-C 0x8797 paso 3: hasta el subpaso 5 p27:8CBF y hasta el 7 la consola; por el subpaso
+C 0x8797 paso 3: hasta el subpaso 5 p27:8CBF y hasta el 7 el ordenador de a bordo; por el subpaso
 C 0x8798 hasta el subpaso 5, el contador loco
-C 0x87A0 hasta el 7, la consola
+C 0x87A0 hasta el 7, el ordenador de a bordo
 C 0x87A5 y por el subpaso
 C 0x87CF subpaso 0: la secuencia de 0x6246
 C 0x87D2 la secuencia de 0x6246
@@ -344,9 +344,9 @@ C 0x87EB la espera
 C 0x87F3 la cuenta de 0xE339 a cero
 C 0x87F6 los graficos de p29:BD4D...
 C 0x87F9 ...y el dibujo de 0x8E70
-C 0x87FC el cuadro 0 y 8 cuadros por paso de la consola
+C 0x87FC el cuadro 0 y 8 cuadros por paso del ordenador de a bordo
 C 0x87FF el cuadro 0
-C 0x8802 la consola cada 8 cuadros
+C 0x8802 el ordenador de a bordo cada 8 cuadros
 C 0x880B subpaso 3: cada 0x1E cuadros p27:8E8E y el cuadro siguiente; al cuarto, 0x3C cuadros
 C 0x880E la espera
 C 0x8810 los sprites del cuadro...
@@ -395,11 +395,11 @@ C 0x8908 subpaso 0x0E: la orden 0x83 y el sonido 1
 C 0x890B la espera
 C 0x8918 subpaso 0x0F: 0xE328 = 0, el final acabado
 C 0x891D paso 4: por el subpaso
-C 0x893F subpaso 0: p27:8CBF, la consola y la secuencia de 0x6258
-C 0x8942 la consola
+C 0x893F subpaso 0: p27:8CBF, el ordenador de a bordo y la secuencia de 0x6258
+C 0x8942 el ordenador de a bordo
 C 0x8945 la secuencia de 0x6258
 C 0x894F subpaso 1: hasta acabarla; luego el bufer a cero, los sprites fuera y la orden 0x84
-C 0x8952 la consola
+C 0x8952 el ordenador de a bordo
 C 0x8955 hasta acabarla
 C 0x8959 el bufer a cero
 C 0x895C los sprites fuera
@@ -885,14 +885,14 @@ F 0x9FC4 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
-L 0x83CF consola_paso_siguiente el paso siguiente de la consola entre fases (0xE322)
-L 0x83D7 consola_subpaso_siguiente el subpaso siguiente de la consola (0xE323)
+L 0x83CF ordenador_paso_siguiente el paso siguiente del ordenador de a bordo entre fases (0xE322)
+L 0x83D7 ordenador_subpaso_siguiente el subpaso siguiente del ordenador de a bordo (0xE323)
 L 0x8410 final_paso_siguiente el paso siguiente del final (0xE329)
 L 0x8418 final_subpaso_siguiente el subpaso siguiente del final (0xE32A)
 L 0x8CBF contador_loco el contador cambia al azar cada 4 cuadros
 C 0x804F despacha: salta a la palabra A de la tabla que va detras del call
 C 0x805E bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
-C 0x8064 consola_cuadro: la consola, un cuadro
+C 0x8064 ordenador_cuadro: el ordenador de a bordo, un cuadro
 C 0x8068 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x8078 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x807F carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
@@ -904,7 +904,7 @@ C 0x809E estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 C 0x80AA estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 C 0x80BC despacha: salta a la palabra A de la tabla que va detras del call
 C 0x80CB bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
-C 0x80D1 consola_cuadro: la consola, un cuadro
+C 0x80D1 ordenador_cuadro: el ordenador de a bordo, un cuadro
 C 0x80D5 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x80EB secuencia_de_hl: empieza la secuencia de dibujos de HL
 C 0x80EE estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
@@ -917,16 +917,12 @@ C 0x8125 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su dir
 C 0x812C copia_con_vuelta_ce00: copia caracteres con espejo usando el bufer de 0xCE00 (lista IX)
 C 0x813E rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 C 0x814A copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
-C 0x8166 consola_cuadro: la consola, un cuadro
+C 0x8166 ordenador_cuadro: el ordenador de a bordo, un cuadro
 C 0x816B despacha: salta a la palabra A de la tabla que va detras del call
 C 0x817B sonido_3F: pide el sonido 0x3F
-C 0x8184 contador_de_hl: las 6 cifras del contador de la consola, de HL
+C 0x8184 contador_de_hl: las 6 cifras del contador del ordenador de a bordo, de HL
 C 0x81A2 secuencia_de_hl: empieza la secuencia de dibujos de HL
-C 0x81A5 consola_paso_siguiente: el paso siguiente de la consola entre fases (0xE322)
-C 0x81BF consola_paso_siguiente: el paso siguiente de la consola entre fases (0xE322)
-C 0x81C8 consola_paso_siguiente: el paso siguiente de la consola entre fases (0xE322)
 C 0x81E1 guarda un temporizador
-C 0x81E4 consola_subpaso_siguiente: el subpaso siguiente de la consola (0xE323)
 C 0x81EC pantalla_en_blanco: borra la tabla de nombres (0x3800)
 C 0x81F8 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 C 0x821D cada 4 cuadros, al azar (registro R): IX+1 + 8 o - 8, IX+0 - 8 o + 8
@@ -942,18 +938,16 @@ C 0x82B1 la direccion del bufer de 0xCA00 de HL (L fila, H columna, en puntos)
 C 0x82F1 la direccion del bufer de 0xCA00 de HL (L fila, H columna, en puntos)
 C 0x8339 la direccion del bufer de 0xCA00 de HL (L fila, H columna, en puntos)
 C 0x8375 despacha: salta a la palabra A de la tabla que va detras del call
-C 0x8389 contador_de_hl: las 6 cifras del contador de la consola, de HL
-C 0x83A6 contador_de_hl: las 6 cifras del contador de la consola, de HL
+C 0x8389 contador_de_hl: las 6 cifras del contador del ordenador de a bordo, de HL
+C 0x83A6 contador_de_hl: las 6 cifras del contador del ordenador de a bordo, de HL
 C 0x83AC secuencia_de_hl: empieza la secuencia de dibujos de HL
-C 0x83AF consola_paso_siguiente: el paso siguiente de la consola entre fases (0xE322)
-C 0x83BE consola_paso_siguiente: el paso siguiente de la consola entre fases (0xE322)
 C 0x83FB bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
 C 0x8403 despacha: salta a la palabra A de la tabla que va detras del call
-C 0x8420 consola_cuadro: la consola, un cuadro
+C 0x8420 ordenador_cuadro: el ordenador de a bordo, un cuadro
 C 0x8424 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x843A sonido_42: pide el sonido 0x42
 C 0x8440 pantalla_en_blanco: borra la tabla de nombres (0x3800)
-C 0x844C contador_de_hl: las 6 cifras del contador de la consola, de HL
+C 0x844C contador_de_hl: las 6 cifras del contador del ordenador de a bordo, de HL
 C 0x8454 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x845F paleta: la paleta A de p16:6B74
 C 0x8462 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
@@ -1001,7 +995,7 @@ C 0x8678 color_del_borde: B al registro 7 del VDP
 C 0x8682 color_del_borde: B al registro 7 del VDP
 C 0x8685 sonido_52: pide el sonido 0x52
 C 0x8688 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
-C 0x8697 contador_de_hl: las 6 cifras del contador de la consola, de HL
+C 0x8697 contador_de_hl: las 6 cifras del contador del ordenador de a bordo, de HL
 C 0x86A2 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x86B1 secuencia_de_hl: empieza la secuencia de dibujos de HL
 C 0x86B4 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
@@ -1029,7 +1023,7 @@ C 0x8786 lee 1 si se cogio la entrada secreta 0x0B (el final con un paso mas)
 C 0x878F final_paso_siguiente: el paso siguiente del final (0xE329)
 C 0x8793 final_paso_siguiente: el paso siguiente del final (0xE329)
 C 0x879C contador_loco: el contador cambia al azar cada 4 cuadros
-C 0x87A2 consola_cuadro: la consola, un cuadro
+C 0x87A2 ordenador_cuadro: el ordenador de a bordo, un cuadro
 C 0x87A6 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x87D5 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x87DD orden_sonido_84: manda la orden 0x84 al motor de sonido
@@ -1041,7 +1035,7 @@ C 0x8827 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x8836 secuencia_de_hl: empieza la secuencia de dibujos de HL
 C 0x8839 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x8847 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
-C 0x8859 contador_de_hl: las 6 cifras del contador de la consola, de HL
+C 0x8859 contador_de_hl: las 6 cifras del contador del ordenador de a bordo, de HL
 C 0x8865 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x8871 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x8880 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
