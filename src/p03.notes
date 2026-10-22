@@ -1,4 +1,327 @@
 
+
+# --- A MANO: comentarios escritos leyendo el codigo ---
+C 0xA002 al paso siguiente, IX+10 = 0x0B, 0x10 cuadros
+C 0xA00E paso 2: sube (-0x200)
+C 0xA018 espera y vuelve atras con IX+10 = 7
+C 0xA025 el dibujo segun la direccion (tabla de 0xA0B9)
+C 0xA032 C segun la velocidad en x (0-3)
+C 0xA046 la direccion del dibujo: + 4 mirando al otro lado (bit 0 de IX+1F)
+C 0xA058 dispara una vez (IX+2F) con los dibujos 0xB4 o 0xC4: 4 balas en abanico
+C 0xA07F las velocidades del abanico: dos tablas segun la dificultad (0x0A)
+C 0xA0C1 1 x 4 caracteres, IX+10 = 8, sin sprite
+C 0xA0D1 la espera: 0x30 - la dificultad
+C 0xA0DB del otro lado, el caracter 0x23
+C 0xA0E5 por el paso IX+1 (tabla de detras)
+C 0xA0F5 paso 0: espera y sale (sprite, IX+10 = 0x0B)
+C 0xA109 paso 1: crece (2 de ancho) y se corre 8 a su lado
+C 0xA12B paso 2: cada 4 cuadros gira el caracter hacia la nave...
+C 0xA143 ...y al apuntarle dispara (0x36)
+C 0xA155 paso 3: cada 4 cuadros vuelve a su caracter de reposo
+C 0xA16C y encoge (1 de ancho)
+C 0xA18E paso 4: espera y vuelve a empezar
+C 0xA199 el caracter que apunta a la nave: el angulo (0xE477) en 5 escalones
+C 0xA1BF IX+10 = 0x15, la vida: 0x20 - la dificultad, hacia la nave con el paso 0x60
+C 0xA1D2 al acabar se quita y deja el 0x12 en su sitio
+C 0xA1ED 0x20 cuadros, IX+10 = 0x19, 1 x 1 (caja de 8)
+C 0xA207 la animacion de crecer y menguar por la cuenta
+C 0xA246 1 x 3 con el caracter 0x22
+C 0xA24B 1 x 2 con el 0x21
+C 0xA250 1 x 1 con el 0x20
+C 0xA259 y + B
+C 0xA261 x + B
+C 0xA269 la velocidad de la dificultad, 0x0A en IX+37, la animacion desde 0
+C 0xA274 el primer dibujo y su segundo sprite
+C 0xA27A sube mas deprisa pasado el scroll 0xA0
+C 0xA28C y en diagonal (p02:99D1)
+C 0xA295 dispara, acelera hasta el tope y frena
+C 0xA2A1 cada IX+1D cuadros el dibujo siguiente
+C 0xA2A5 6 dibujos: la espera de 0xA2CB y los dos dibujos de 0xA2D1
+C 0xA2DD el segundo sprite, desplazado segun la tabla de 0xA2F3
+C 0xA301 la pieza 6 (una que anda): sin tocar, IX+12 = 0xA1, la animacion desde 0
+C 0xA314 el dibujo 0x4B
+C 0xA318 sus cuatro patas (p03:A352)
+C 0xA31B el tamano segun IX+0B (tabla de 0xA338)
+C 0xA32A IX+16 segun su numero en la lista (tabla de 0xA33E)
+C 0xA352 el guion de pasos de su tipo (tabla de 0xA365), las patas y su dibujo
+C 0xA36B por su tipo (tabla de detras)
+C 0xA377 su sitio en el bufer
+C 0xA37A el cuerpo (p06/p07: lista de 0xA91C por IX+1F) en el bufer
+C 0xA383 y sus cuatro patas
+C 0xA390 el guion de pasos: cada IX+1A cuadros el paso siguiente
+C 0xA39E 0xFF: vuelta al principio, del otro pie (IX+15)
+C 0xA3AB la espera (cifra alta) y la postura (cifra baja)
+C 0xA3B5 la postura: 5 bytes de 0xA419 a IX+1B
+C 0xA3D1 del otro pie, las patas cambiadas de lado
+C 0xA469 el dibujo de la pieza: 0x50 o 0x54 + IX+1F
+C 0xA47C la pata 1 (lista de 0xAA64 por IX+1B) en su sitio del bufer
+C 0xA485 desplazada BC desde IX+18
+C 0xA490 la pata 2 (0xAACF por IX+1C)
+C 0xA49B la pata 3 (0xAB32 por IX+1D)
+C 0xA4A6 la pata 4 (0xABDD por IX+1E)
+C 0xA4B1 otra pieza: el dibujo de 0xAC71
+C 0xA4BF otra: el dibujo de 0xACD4
+C 0xA4CD su sitio en el bufer, en IX+18
+C 0xA4D7 borra la pieza del bufer segun su tipo (tabla de detras)
+C 0xA4E3 sus cuatro patas: rectangulos de C x B desplazados DE
+C 0xA518 borra un rectangulo de B x C desde IX+18 + DE
+C 0xA530 al acabar cada paso...
+C 0xA535 ...si toca disparar (p03:A5A9)...
+C 0xA53C ...y la pata se ve (p03:A584)...
+C 0xA540 ...el sonido 0x30 y un disparo desde la pata B (tabla de 0xA578)
+C 0xA554 IX+16: 0 nada, 1 uno, 2 tres
+C 0xA566 uno apuntado (si la nave esta cerca) con el 0x17
+C 0xA584 la pata B dentro de la pantalla? (Z)
+C 0xA597 la nave a menos de 0x14 de DE? (NC)
+C 0xA5A9 que pata dispara segun el paso del guion (IX+17) y el pie
+C 0xA5DA la velocidad, y con el bit 6 de IX+1F una direccion de 0xA5F9...
+C 0xA5F3 ...o hacia la nave, con el paso 0x60
+C 0xA609 dispara y la animacion de 3 dibujos de 0xA615
+C 0xA617 el dibujo segun donde esta la nave en x (0xA65B) y su movimiento (0xA65E)
+C 0xA62E IX+2F: 0, 1 o 2 si la nave esta a su izquierda, enfrente o a su derecha
+C 0xA649 por debajo de la nave, si la nave cambia de lado, cambia de dibujo
+C 0xA66A una explosion grande en una de las 4 de 0xE4B2 (C si hay hueco)
+C 0xA67B x dentro de la pantalla...
+C 0xA684 ...e y
+C 0xA697 la crea (p01:67AA) y el juego de graficos de p00:5159
+C 0xA69F las explosiones grandes: cada 4 cuadros menguan (IX+6) hasta acabar
+C 0xA6C5 las explosiones grandes en el bufer
+C 0xA6D8 en uso: su dibujo (p03:A6F8)...
+C 0xA6E0 ...12 filas de 12 caracteres en su sitio
+C 0xA6F8 el dibujo IX+6 (tabla de 0xA70B) en RLE a 0xCA00
+C 0xA822 IX+10 = 0x18 y una espera al azar (0-0x3F), parado
+C 0xA831 por el paso IX+1 (tabla de detras)
+C 0xA83B paso 0: dentro de la pantalla, al acabar la espera...
+C 0xA845 ...deja su hueco en el decorado (los caracteres 0x63 o 0x64 segun el lado)...
+C 0xA869 ...y sale hacia la nave con un paso al azar de 0xA8DF
+C 0xA877 la velocidad / 16 como aceleracion (p03:A8B3)
+C 0xA888 se ve (sprite) y al paso 1
+C 0xA894 paso 1: la animacion, acelera y se mueve
+C 0xA89D al chocar con el decorado...
+C 0xA8A1 ...se quita en una explosion (0x3D)
+C 0xA8B3 HL / 16 con su signo
+C 0xA8CB la animacion de su lado (0xA8DB), 7 dibujos cada 4 cuadros
+C 0xA8E3 una columna que crece: su tipo (IX+0B / 2) en la tabla de 0xA93B (3 bytes)
+C 0xA8F4 el dibujo: + 0x1C en la derecha
+C 0xA909 el paso del dibujo (IX+15) y el alto final (IX+1A)
+C 0xA912 1 x 1, IX+18 = 6, sin tocar
+C 0xA941 la animacion (p03:A985) y por el paso IX+1
+C 0xA950 paso 0: con el scroll crece una fila hasta IX+1A
+C 0xA963 paso 1: hasta llegar arriba (y < 8)
+C 0xA96D paso 2: con el scroll baja y mengua hasta desaparecer
+C 0xA985 cada 4 cuadros (o con el scroll) el dibujo siguiente, 6 y vuelta al primero
+C 0xA9AB una torreta que se mueve: el lado x 32 en IX+1F
+C 0xA9B6 como p02:9081
+C 0xA9B9 el tipo 0x19 se mueve en x: hacia un lado (0x20) u otro (-0x1C0)
+C 0xA9D7 y la aceleracion igual
+C 0xA9DA no baja con el scroll (IX+10: bit 2 si, bit 3 no)
+C 0xA9E5 apunta y dispara (p02:90E5); en el paso 0...
+C 0xA9ED ...si hay decorado delante segun su lado...
+C 0xAA0F ...sigue; si no, se mueve hacia el otro lado
+C 0xAA25 baja con el scroll y al paso 1
+C 0xAA2D sin tocar, 0x18 cuadros
+C 0xAA3A cada 0x28 cuadros (si se ve) suelta dos 0x19: uno arriba y otro abajo
+C 0xAA69 el 0x19 hacia el centro
+C 0xAA78 4 x 4, sin tocar, IX+12 = 0x82
+C 0xAA91 por el paso IX+1 (tabla de detras)
+C 0xAA9B paso 0: espera y se pinta con el dibujo 0xA6
+C 0xAAB3 paso 1: cada 4 cuadros el dibujo de al lado, de 0xA6 a 0xAC y vuelta
+C 0xAAE7 IX+12 = 0x83 y el dibujo 0xCF, -1
+C 0xAAEE con el bit 0 de IX+0B: 0x41, 8 pasos, 4 x 4
+C 0xAB0A 4 pasos, 2 x 4
+C 0xAB24 por el paso IX+1 (tabla de detras)
+C 0xAB2E paso 0: al subir por encima de 0x71 se pinta
+C 0xAB40 paso 1: cada 8 cuadros el dibujo siguiente; al acabar se quita
+C 0xAB6B paso 0: la espera con dos dibujos (0xE8/0x07 y 0xE4/0x05)
+C 0xAB8D al acabar, 0xE488 = 0, se ve y va hacia la nave (0x30 + 4 x la dificultad)
+C 0xABA7 0x20 vidas, 8 x 0x14, el dibujo 0x29, 9 golpes, 8 disparos
+C 0xABC4 por el paso IX+1 (tabla de detras)
+C 0xABCE paso 0: espera 0x0C y abre
+C 0xABDD paso 1: dispara (p03:ABEF), espera y cierra
+C 0xABEF cada 8 cuadros cinco 0x37 desde x + 0x10
+C 0xAC11 su dibujo (IX+30) y su velocidad de la tabla de 0xAC2B (5 bytes por IX+1F)
+C 0xAC49 la animacion; al tocar el decorado se quita
+C 0xAC5D al morir: el sonido 0x26 y deja el dibujo 0x2B
+C 0xAC67 el dibujo 8 o 9 segun IX+0B, 0x30 cuadros
+C 0xAC7A cada IX+2 cuadros...
+C 0xAC7E ...la espera siguiente (p03:AC9E)...
+C 0xAC81 ...y dispara un 0x1D desde su boca (+0x18 o +8 en x, +0x20 en y)
+C 0xAC9E la espera de 0xACB8 por turnos; cada 4, vuelve a apuntar
+C 0xACBC hacia donde esta la nave: 0, 1 o 2 (y + 3 del otro lado)
+C 0xACD6 el angulo hacia la nave en tres escalones (0x32 y 0x1C)
+C 0xACEA 0x20 cuadros; el dibujo (0xAD1C), el movimiento (0xAD22) y la caja (0xAD10) de IX+1F
+C 0xAD3A el color gira entre 3 (tabla de 0xAD5A)
+C 0xAD4F al acabar IX+2F, como p03:A89D (choca y estalla)
+C 0xAD5D 0x18 cuadros; la direccion de 0xE49E (+3 cada vez) en tres trozos
+C 0xAD75 el dibujo (0xAD92) y el movimiento (0xAD95) de esa direccion
+C 0xAD86 los de lado, caja de 7 x 0x0F
+C 0xADA1 el dibujo 0x0C (y 0xB2), 8 vidas, sin tocar, 3 x 3, IX+12 = 0x83
+C 0xADC1 si esta en su sitio de la lista de la fase (p03:AE98)
+C 0xADC5 visible?, la animacion y, sin scroll y con el bit 0 de IX+0B, se mueve
+C 0xADDA por encima de 0xE8 se puede tocar
+C 0xADE5 parpadea entre dos dibujos; cada 4, el de IX+1E tambien
+C 0xAE01 cada 4 cuadros se mueve 8 hacia su lado...
+C 0xAE1C ...pinta su dibujo y su rastro en el bufer
+C 0xAE23 el lado: a la derecha por debajo de 0x30, a la izquierda por encima de 0x70
+C 0xAE34 3 x 7 caracteres de 0xAE83 en su sitio del bufer
+C 0xAE57 su rastro: dos columnas del caracter IX+1E en el bufer
+C 0xAE98 IX+1B = 1 si el scroll esta en la posicion de 0xAEAF + 2 x 0xE381
+C 0xAEB7 en su sitio (IX+1B): la entrada secreta 6 en su centro (p02:80D6)
+C 0xAECD un nido: el dibujo 0x13 o 0x14, la espera 1 o 0x19, la caja 1 o 2
+C 0xAEE5 8 vidas, 4 x 8, sin tocar
+C 0xAF04 dentro de la pantalla se puede tocar (p03:AF1D)
+C 0xAF0B cada 0x30 cuadros suelta 6 (p03:AF58)
+C 0xAF1D C: 0x80 fuera, o los golpes que aguanta dentro (0x28/0x29)
+C 0xAF33 B para el que sale: bit 6 alterno, bit 7 el lado, bit 5 la altura, bits 0-2 la cuenta
+C 0xAF58 sale un 0x1E por su boca
+C 0xAF7C cuantos han salido
+C 0xAF83 lo que sale del nido: 8 cuadros y su movimiento de 0xAFB6 segun B
+C 0xAFD6 acelera; al acabar la cuenta, como p03:A89D
+C 0xAFE4 al morir el nido: borra su hueco en el bufer (2 filas de 4)
+C 0xB009 otro nido: el dibujo 0x11 o 0x12, 6 de alto, 0x20 vidas
+C 0xB02D dentro de la pantalla, cada cierto tiempo (p03:B084)...
+C 0xB038 ...suelta un 0x1F desde una de 4 alturas (0xB071)
+C 0xB075 C: 0x80 fuera de la pantalla, 0 dentro
+C 0xB084 la espera siguiente de las 8 de 0xB096
+C 0xB09E lo que sale de este: 0x14 cuadros y el movimiento de 0xB0AA
+C 0xB0CA acelera y, pasada la espera, si choca con el decorado...
+C 0xB0DB ...marca el sitio (0xFF), el sonido 0x33 y se quita
+C 0xB0E4 choca con el decorado? dentro de la pantalla, el caracter del bufer
+C 0xB10D mayor que el fondo, en las cuatro esquinas
+C 0xB11F el dibujo 0x1E, 8 x 8, sin tocar, 4 cuadros, IX+1F = 0x20
+C 0xB140 la animacion de 4 dibujos de 0xB14A cada 4 cuadros
+C 0xB14E el que es la entrada secreta: por turnos (0xE4A1), si coincide con 0xE381 (tabla de 0xB16A)
+C 0xB165 el dibujo 0x22
+C 0xB175 si no es la secreta, la animacion de 0xB182
+C 0xB186 cada 0x10 cuadros suelta un 0x46 (p03:B19C)
+C 0xB19C el 0x46 en espiral desde su centro (+0x20, +0x20): angulo y radio en IX+2C-2F
+C 0xB1DE IX+10 = 0x10, sin sprite
+C 0xB1E7 el 0x46: gira y se aleja; al salir se quita
+C 0xB201 el radio + 4 y el angulo +1 o -2 segun el lado
+C 0xB21E la posicion: el centro mas el seno y el coseno por el radio
+C 0xB241 el centro (IX+2E) y la y que baja (IX+2F)
+C 0xB24B seno y coseno del angulo C con el radio B (tabla de p01:6479)
+C 0xB277 el valor de la tabla de 0x6479 por el radio (p00:563C)
+C 0xB285 choca con el decorado (desde 0x1A): marca 0xFD y se quita
+C 0xB291 0x20 cuadros, IX+10 = 8
+C 0xB29A con el bit 7 de IX+1F, estalla ya
+C 0xB2A0 paso 0: espera y se ve
+C 0xB2B6 paso 1: parpadea entre 0x8C y 0x90 y estalla
+C 0xB2C8 estalla: se quita y suelta un 0x2D
+C 0xB2E1 una torreta de caracteres, 1 x 2, IX+10 = 0x0B
+C 0xB2F5 el lado y el caracter de 0xB30C
+C 0xB315 en el paso 1 apunta y dispara (p02:90E5)
+C 0xB31C paso 0: crece y se corre 8 a su lado
+C 0xB348 B = el angulo hacia la nave en tres escalones de 0x2A
+C 0xB362 el dibujo 0xE0 o 0xE8 segun el lado, 0x10 cuadros, subiendo
+C 0xB37D se mueve, dispara cada IX+15 cuadros
+C 0xB39E dispara y la proxima en 0x40 cuadros
+C 0xB3A6 por abajo, sube (-0x280)
+C 0xB3B2 cada 8 cuadros el dibujo de al lado
+C 0xB3C1 rebota en y: +0x180 o -0x280
+C 0xB3D0 el decorado por debajo o por arriba (segun va)? C
+C 0xB3ED 8 vidas; el dibujo 0xE8, 2 x 2
+C 0xB402 parpadea y suelta trozos al perder vidas; por su paso
+C 0xB40F paso 0: con menos de 5 vidas, el dibujo 0xEA, 3 x 3
+C 0xB41F paso 1: con menos de 3, crece hacia arriba a la izquierda (0xEC, 4 x 4)
+C 0xB43D cada 4 cuadros el dibujo de al lado
+C 0xB44C cada 3 vidas perdidas suelta un 0x41
+C 0xB467 con IX+1F, el dibujo 0xDC y al paso 1
+C 0xB474 0x10 cuadros y una direccion de 0xB4E9 por turnos (0xE49C), con el paso 0x40
+C 0xB48A paso 1: espera y el dibujo 8 menos
+C 0xB4A4 paso 0: parpadea; si ha soltado menos de 5...
+C 0xB4B5 ...suelta un 0x41 detras y otra direccion
+C 0xB4DA cada 4 cuadros el dibujo de al lado
+C 0xB4F9 el lado (IX+2F = 1 o 2), IX+10 = 0x1D, el color 0x0F
+C 0xB516 baja hasta arriba del todo y por su paso
+C 0xB520 paso 0: al cruzar una columna de 32...
+C 0xB524 ...la espera, IX+10 = 0x19, el dibujo 0xBC
+C 0xB533 la espera de 0xB545, alterna
+C 0xB547 paso 1: parpadea; al acabar la espera, gira y la animacion
+C 0xB559 el color: 0x0F o 0x0A cuadro si, cuadro no
+C 0xB568 la direccion + 1 o - 1 segun el lado
+C 0xB576 entre el scroll 0x1C4 y 0x1F8 de su fila, cambia de sentido
+C 0xB5A1 el scroll de su fila: el scroll - 0x20 + y / 8
+C 0xB5B3 el movimiento (0xB5CB) y el dibujo 0xB4 o 0xB8 segun la direccion
+C 0xB5DB al cruzar una columna de 32 (x - 0x10)? C en la mitad derecha
+C 0xB5EA arriba del todo: IX+10 = 9 y al paso 2
+C 0xB5F9 2 x 4, IX+12 = 0x83, sin tocar, el dibujo 0x1C, 8 cuadros
+C 0xB611 el sentido (+1 o -1) en IX+14, 0x0E pasos
+C 0xB623 cada 8 cuadros avanza 8 hacia su lado
+C 0xB641 al acabar los pasos da la vuelta
+C 0xB64F el dibujo 0x1C o 0x1D cuadro si, cuadro no
+C 0xB65D los disparos del tipo 5 de la nave contra el: los 9 de 0xE680
+C 0xB67A el disparo 5: la altura en IX+16
+C 0xB682 solo si esta entre x 0x38 y 0x68
+C 0xB68E en su columna o en la de al lado?
+C 0xB6A4 y por encima de el
+C 0xB6CF entonces suelta un 0x33 en la x del disparo
+C 0xB6FF lo de cada cuadro de la pieza 0x2F (p03:B8F1)
+C 0xB702 una torreta de 2 x 2: el caracter de 0xB728 por IX+1F, 0x20 cuadros, azar en IX+2F
+C 0xB72E por el paso: 0 se mueve y busca a tiro (p03:B7CA); 1 espera
+C 0xB74C hacia donde se mueve (IX+2F): en vertical segun el decorado de arriba y de al lado
+C 0xB772 en horizontal entre los topes de 0xB790
+C 0xB798 cada 2 cuadros se mueve 8 (en x o en y segun IX+1F)
+C 0xB7CA por debajo de 0x30, al acabar la espera dispara un 0x48 desde su boca (0xB7F1)
+C 0xB7FD el caracter 0x46 o 0x47, el sonido 0x2D
+C 0xB810 su caja en x o en y
+C 0xB821 4 cuadros, IX+10 = 9, 1 x 1
+C 0xB83D IX+14 filas (y la caja de alto)
+C 0xB847 por IX+1F (tabla de detras)
+C 0xB859 paso 0: crece hacia la izquierda de 2 en 2 hasta 0x40
+C 0xB879 paso 1: se corre a la izquierda hasta el borde
+C 0xB88A paso 2: mengua hasta desaparecer
+C 0xB899 el que va a la derecha: crece y se corre hasta salir
+C 0xB8C3 el que crece hacia abajo
+C 0xB8E0 baja de 16 en 16 hasta salir
+C 0xB8F1 la pieza 0x2F: p03:B902 y baja con el scroll
+C 0xB902 paso 0: crece hacia arriba, IX+2C veces; paso 1 solo se ajusta
+C 0xB91C sube 16; por arriba, recorta su alto o desaparece
+C 0xB93D cuantas filas tiene decorado debajo...
+C 0xB966 ...ninguna: se quita; si no, ese alto
+C 0xB983 cuantas columnas libres tiene a la derecha (IX+2D = 1 si topa)
+C 0xB9AF 1 x 1, sin tocar, 0x0F cuadros
+C 0xB9C4 cada 0x0F cuadros (sin scroll y por debajo de 0x20) suelta un 0x23 encima
+C 0xB9F0 IX+10 = 0x0F, quieto; x, vidas y dibujo de 0xBA1A o 0xBA1D segun IX+1F
+C 0xBA20 el color (p03:BAB7) y por el paso IX+1
+C 0xBA35 la espera
+C 0xBA39 paso 0: el dibujo 0xA0; si no hay decorado delante (dos puntos), se mueve
+C 0xBA5F paso 1: su dibujo, 2 cuadros
+C 0xBA69 paso 2: al acabar, sale hacia la nave (0x60 + 4 x la dificultad) con el dibujo 0xA4
+C 0xBA82 paso 3: al tocar el decorado, se para y engancha (bit 3 de IX+10)
+C 0xBA9F paso 4: el dibujo 0xB0, sin scroll
+C 0xBAB0 paso 5: se quita
+C 0xBAB7 el color de 4 de 0xBABD por turnos
+C 0xBAC1 la animacion de color; al tocar decorado se quita
+C 0xBACE el color siguiente de la tabla HL (IX+24 & 3)
+C 0xBAF5 un brazo que se estira: IX+12 = 0x8F, 8 vidas, sin tocar, 10 de alto
+C 0xBB1F cada 8 cuadros se estira o encoge (de 0 a 9)
+C 0xBB4E el ancho segun lo estirado (0xBBEC)
+C 0xBB5B se pinta: la x de 0xBBF7, y su dibujo de p06:AD3F
+C 0xBB7E sus vidas y su caja segun lo estirado (0xBC23 o 0xBC2E)
+C 0xBBAC a veces (azar) dispara desde la punta (0xBC02/0xBC0D y 0xBC18)
+C 0xBC39 con scroll vertical baja 8; por arriba del todo, IX+12 bit 6
+C 0xBC4C con el bit 0 de IX+0B, el dibujo de p06:AE50
+C 0xBC55 se puede tocar en cuanto entra por debajo de 0xA0 (y ya siempre)
+C 0xBC6E 4 x 4, IX+12 = 0x81, sin tocar, el dibujo 0x17
+C 0xBC82 con el bit 1 de 0xE381, en x 0x60
+C 0xBC8D 2 x 2, IX+12 = 0x83, 8 vidas, el dibujo 0x0A
+C 0xBCAC un cuello que sigue a la nave: IX+12 = 0x8F, sin tocar, 8 vidas, su x en IX+1F
+C 0xBCC2 la postura 4 (de frente)
+C 0xBCCB baja con el scroll, gira hacia la nave, su tamano y sus vidas
+C 0xBCD8 cada 0x10 cuadros, una postura hacia la nave (p03:BD14)
+C 0xBCE3 con el bit 0 de IX+0B, al reves
+C 0xBCED si la nave esta por debajo, las posturas de abajo (8 - B)
+C 0xBD05 de una en una hacia la postura buscada
+C 0xBD14 B = 4 a 0 segun la x de la nave (desde 0x48, de 0x10 en 0x10)
+C 0xBD2A se pinta: la x de la postura, y su dibujo (p06:AF5E o B070)
+C 0xBD43 la x: la suya + el desplazamiento de la postura (0xBD5D)
+C 0xBD66 el tamano de la postura (0xBD76)
+C 0xBD88 dentro de la pantalla, las vidas de la postura (0xBDAE) o 0x25
+C 0xBDB7 al morir, con el bit 1 de IX+0B: un 0x20 que cae segun el scroll
+C 0xBDE2 la pantalla de HINT: en blanco, la fuente...
+C 0xBDE8 ...y el texto de p03:BDEF
+# --- fin de lo escrito a mano ---
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA002 partida_A000  los 2 ultimos bytes de la instruccion de p02:9FFF (DD 77 04), que empieza en el banco 2; lo leen p02:9FFF (2 bytes)
 F 0xA000 2
@@ -187,71 +510,47 @@ F 0xBEBD 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
-C 0xA07F lee la dificultad de la fase (0 a 0x0F)
 C 0xA08E lee_palabra: HL = la palabra A de la tabla HL
 C 0xA091 guarda la velocidad en y hacia la nave (16 bits)
 C 0xA09E lee_palabra: HL = la palabra A de la tabla HL
 C 0xA0A1 guarda la velocidad en x hacia la nave (16 bits)
-C 0xA0D1 lee la dificultad de la fase (0 a 0x0F)
 C 0xA0E8 despacha: salta a la palabra A de la tabla que va detras del call
-C 0xA12B lee la cuenta de cuadros del juego
-C 0xA155 lee la cuenta de cuadros del juego
 C 0xA1C3 lee la dificultad de la fase (0 a 0x0F)
-C 0xA27A lee la posicion del scroll (16 bits)
 C 0xA2C1 lee_palabra: HL = la palabra A de la tabla HL
 C 0xA2E3 lee_palabra: HL = la palabra A de la tabla HL
 C 0xA321 lee_palabra: HL = la palabra A de la tabla HL
-C 0xA32A lee la pieza siguiente de la lista de la fase
 C 0xA36E despacha: salta a la palabra A de la tabla que va detras del call
 C 0xA4DA despacha: salta a la palabra A de la tabla que va detras del call
-C 0xA540 sonido_30: pide el sonido 0x30
 C 0xA547 lee_palabra: HL = la palabra A de la tabla HL
-C 0xA597 lee la y de la nave
 C 0xA5A0 lee la x de la nave
 C 0xA5EA lee_palabra: HL = la palabra A de la tabla HL
-C 0xA62E lee la x de la nave
-C 0xA649 lee la y de la nave
-C 0xA66A apunta a las explosiones grandes (4 de 8 bytes)
-C 0xA69F apunta a las explosiones grandes (4 de 8 bytes)
-C 0xA6C5 apunta a las explosiones grandes (4 de 8 bytes)
 C 0xA6FE lee_palabra: HL = la palabra A de la tabla HL
 C 0xA701 apunta a un bufer de trabajo
 C 0xA704 rle_a_ram: descomprime a la RAM de DE el RLE de HL
 C 0xA707 apunta a un bufer de trabajo
 C 0xA834 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xA870 suma_a_hl: HL = HL + A
-C 0xA877 lee la velocidad en x hacia la nave (16 bits)
 C 0xA87E lee la velocidad en y hacia la nave (16 bits)
 C 0xA8D2 suma_a_hl: HL = HL + A
 C 0xA8EE suma_a_hl: HL = HL + A
 C 0xA947 despacha: salta a la palabra A de la tabla que va detras del call
-C 0xA950 lee 1 si este cuadro hay scroll
-C 0xA96D lee 1 si este cuadro hay scroll
 C 0xA98A lee 1 si este cuadro hay scroll
 C 0xAA94 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xAB27 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xAB98 lee la dificultad de la fase (0 a 0x0F)
 C 0xABC7 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xAC1B suma_a_hl: HL = HL + A
-C 0xAC5D sonido_26: pide el sonido 0x26
 C 0xAD06 lee_palabra: HL = la palabra A de la tabla HL
 C 0xADCB lee 1 si este cuadro hay scroll
 C 0xAE9E lee_palabra: HL = la palabra A de la tabla HL
 C 0xAEA1 lee la posicion del scroll (16 bits)
 C 0xB0DE sonido_33: pide el sonido 0x33
 C 0xB107 suma_a_de: DE = DE + A
-C 0xB10D lee el caracter del fondo de la fase
 C 0xB156 suma_a_hl: HL = HL + A
 C 0xB27A suma_a_hl: HL = HL + A
-C 0xB2B6 lee la cuenta de cuadros del juego
-C 0xB3B2 lee la cuenta de cuadros del juego
 C 0xB3E2 lee el caracter del fondo de la fase
-C 0xB43D lee la cuenta de cuadros del juego
 C 0xB482 lee_palabra: HL = la palabra A de la tabla HL
-C 0xB4DA lee la cuenta de cuadros del juego
-C 0xB559 lee la cuenta de cuadros del juego
 C 0xB5AE lee la posicion del scroll (16 bits)
-C 0xB64F lee la cuenta de cuadros del juego
 C 0xB662 apunta a los disparos de la nave (9 de 0x20)
 C 0xB762 lee el caracter del fondo de la fase
 C 0xB7DD lee_palabra: HL = la palabra A de la tabla HL
@@ -263,12 +562,9 @@ C 0xB98C lee el caracter del fondo de la fase
 C 0xB9CB lee 1 si este cuadro hay scroll
 C 0xBA26 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xBA75 lee la dificultad de la fase (0 a 0x0F)
-C 0xBC39 lee 1 si este cuadro hay scroll
-C 0xBCED lee la y de la nave
 C 0xBD16 lee la x de la nave
 C 0xBD6C lee_palabra: HL = la palabra A de la tabla HL
 C 0xBDBC lee la posicion del scroll (16 bits)
-C 0xBDE2 pantalla_en_blanco: borra la tabla de nombres (0x3800)
 C 0xBDE5 carga_fuente: carga la fuente en los tres tercios (bancos 20-22)
 C 0xBDEB escribe_texto: escribe en la VRAM el texto de DE (direccion y letras)
 # --- fin de las anotaciones de anota.py ---

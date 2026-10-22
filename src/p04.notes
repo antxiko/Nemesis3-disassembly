@@ -1,4 +1,367 @@
 
+
+# --- A MANO: comentarios escritos leyendo el codigo ---
+C 0x8000 la nave se va (0xE60D): 1 empieza, 2 se va
+C 0x800A empieza: velocidad 0x40, al paso 2, la orden 0x83 y el sonido 0x50
+C 0x8017 se va acelerando (+0x30 cada cuadro)...
+C 0x8021 ...la y de 16 bits (0xE605) sube...
+C 0x8029 ...hasta salir (0xF0): se acaba
+C 0x8032 solo el dibujo
+C 0x8036 la nave, cada cuadro: yendose, solo el dibujo
+C 0x803C estallando: p04:845D; sin nave: nada
+C 0x8044 el movimiento con el mando (p04:81EB)...
+C 0x8047 ...se suma...
+C 0x804A ...lo de la fase 3 (p04:8237)
+C 0x804D p04:829E
+C 0x8050 dentro de la pantalla
+C 0x8053 el dibujo (p04:805A)
+C 0x8056 p04:83CF
+C 0x805A el dibujo de la nave: su juego de sprites (p04:8091)...
+C 0x805D ...segun arriba/abajo de los mandos
+C 0x8064 arriba (bit 0) o abajo (bit 1); los dos a la vez, como ninguno
+C 0x806D 8 bytes cada postura
+C 0x8074 dos sprites en 0xE618
+C 0x807E x de la nave + dx...
+C 0x8085 ...y + dy...
+C 0x808C ...el dibujo y el color
+C 0x8091 el juego de sprites segun 0xE600: 1 sin escudo (0x80E0)
+C 0x809A 3: el escudo grande (0x8158/0x8170, o 0x8188/0x81A0 con un golpe), parpadeando cada 4 cuadros
+C 0x80BB 2: el escudo de delante (0x80F8/0x8110, o 0x8128/0x8140)
+C 0x81B8 la nave dentro de la pantalla: en y...
+C 0x81BF ...y en x, entre 0 y 0xA5
+C 0x81D6 en y entre 8 y 0xD8 (C = 1 si toca arriba)
+C 0x81EB el movimiento: la direccion de los mandos (0x83F3: dx y dy de 16 bits)...
+C 0x8204 ...por la velocidad (0xE602 + 3)
+C 0x820D dx x velocidad...
+C 0x8215 ...dy x velocidad
+C 0x8228 la x de 16 bits (0xE603) + DE...
+C 0x822F ...y la y (0xE605) + BC
+C 0x8237 la fase 3 (la de agua):
+C 0x823D entre el scroll 0x80 y 0x170, las corrientes:
+C 0x824F la nave sobre una corriente (caracteres 0x59-0x5C, p04:8271)?
+C 0x8254 el sonido del agua
+C 0x8258 0xE411 = 1
+C 0x825D 0x59-0x5A la empujan 2 a la izquierda...
+C 0x826C ...0x5B-0x5C a la derecha
+C 0x8271 el caracter del bufer bajo la nave (y el de al lado si va entre dos filas)
+C 0x828F es una corriente? (0x59-0x5C: C)
+C 0x8295 cada 16 cuadros, el sonido 0x36
+C 0x829E la fase 3, entre el scroll 0x180 y 0x1D8: los remolinos atraen la nave (p04:8342)
+C 0x82B7 la atraccion, el arrastre (p04:82EC) y el sonido
+C 0x82C1 pasado 0x1D8, el arrastre se apaga poco a poco (0x80 por cuadro)
+C 0x82E6 0xE411 = 3
+C 0x82EC la nave arrastrada: x + 0xE643, y + 0xE645 (16 bits, sin salirse)
+C 0x8342 las piezas 0x0C de 0xED00 (los remolinos)
+C 0x8355 el remolino (sin IX+1D, visible)
+C 0x8365 su centro (+0x20, +0x20)
+C 0x8374 el de la nave (+8, +0x10)
+C 0x8380 a menos de 0x10, nada (C)
+C 0x8384 si no, 0xE411 = 2 y la direccion hacia el centro (p04:9D35)
+C 0x8393 se suma al arrastre, con tope 0x400
+C 0x83AA a menos de 0x10 en x e y? C
+C 0x83BC |HL| con tope 0x400
+C 0x83CF con 0xE411 = 2, sobre los caracteres 0x58-0xF4: la nave cambia de dibujo (0xE61B, 0xE61F)
+C 0x8433 se acaba la muerte: el borde a 0xE0...
+C 0x8438 ...y la nave ya no esta en la fase (0xE31A = 0)
+C 0x843D la nave estalla (si no estaba ya)
+C 0x8516 las opciones (si la nave no estalla): la estela (p04:858C)
+C 0x851E cuantas opciones (0xE608): ninguna, nada
+C 0x8523 su animacion y su sitio
+C 0x852A cada 2 cuadros el dibujo siguiente (0xE60A)
+C 0x8536 la segunda (0xE622) si hay dos...
+C 0x8542 ...y la primera (0xE612)
+C 0x8549 el dibujo y el color de las opciones: tabla de 0x856C por el tipo (0xE380, 8 bytes) y la animacion
+C 0x8562 con 0xE49A, el color 0x0E
+C 0x858C la estela de la nave (solo con el tipo de opcion 0, 0xE37E)
+C 0x8591 se apunta si la nave se mueve, o con 0xE411 o 0xE60D
+C 0x859D arriba y abajo a la vez o izquierda y derecha a la vez no cuentan
+C 0x85AC su x e y en la estela de 0xE660 (16 posiciones en circulo)
+C 0x85C9 donde van las opciones, por el tipo (0xE37E): 0 detras, 1 fijas, 2 girando
+C 0x85D6 tipo 0: siguen la estela, la segunda 8 posiciones mas atras
+C 0x85F8 tipo 2: giran alrededor de la nave (tabla de 0x8647), una a 8 pasos de la otra
+C 0x8619 la x de la nave + dx del paso, la y + dy, sin salirse
+C 0x8667 tipo 1: fijas respecto a la nave
+C 0x8676 la opcion de IX: su desplazamiento (tabla de 0x8686 por IX+0)
+C 0x868C x de la nave + L, entre 0 y 0xA5
+C 0x86A4 y de la nave + H
+C 0x86B3 los disparos de la nave: se mueven (A = 1, sin choques)...
+C 0x86B9 ...o se mueven y chocan con el decorado (A = 0)
+C 0x86C1 los 9 de 0xE680
+C 0x86D7 por la derecha (x >= 0xB0) se acaban
+C 0x86E7 se mueve (p04:86FF) y...
+C 0x86EF ...el 0x18 y los 5-0x0E chocan con el decorado (p04:8E13)
+C 0x86FF un disparo: si toca moverlo este cuadro (p04:873F), por su tipo (tabla de detras)
+C 0x873F los tipos 0x0F-0x17 se mueven en la otra pasada
+C 0x8756 0xE639 = 0 (la cuenta del disparo automatico)
+C 0x875B B = 1 si la nave esta (no estalla ni falta)
+C 0x8764 en la fase 3 entre el scroll 0x100 y 0x180, con 0xE49A: no se dispara (NZ)
+C 0x8781 disparar: con la nave...
+C 0x8786 ...el boton recien pulsado dispara ya
+C 0x878D sin pulsar: la cuenta a cero
+C 0x8794 pulsado: con el automatico (bit 0 de 0xE638), cada 16 cuadros otro
+C 0x87A4 se dispara, si se puede
+C 0x87AB la nave y sus dos opciones (0xE600, 0xE610, 0xE620), de 0x10 en 0x10
+C 0x87B1 tres veces, y 0x60 mas cada vez en 0xE634 (los disparos de cada una)
+C 0x87D7 con la capsula de 0xE5E0, solo la nave (p04:8D17)
+C 0x87E6 con 0xE5E1, nada
+C 0x87EB las tres armas de 0xE630-0xE632
+C 0x8800 el arma (0 ninguna) por su numero (tabla de detras)
+C 0x883A el disparo normal: el primero de la nave...
+C 0x8841 ...0xE637 = 0
+C 0x8845 con el arma de 0xE631 de 3 o 4, si hay hueco (p04:887C)
+C 0x8852 un hueco de disparo (p04:8DC9)
+C 0x8856 sale (p04:8896)
+C 0x885F las opciones disparan si lo hizo la nave
+C 0x886F el doble hacia arriba: tipo 2, velocidad 0x800
+C 0x887C hay dos huecos seguidos? 0xE63A = 0 si
+C 0x8896 el disparo normal: tipo 1, 8 x 8
+C 0x889E la y en multiplo de 8
+C 0x88A6 la velocidad
+C 0x88AB la caja 8 x 2 y el sonido 0x0F
+C 0x88B7 se mueve 12 abajo (fuera, se acaba)
+C 0x88C3 o 12 arriba
+C 0x88CF el tipo 4 (si hay dos huecos): el dibujo 0x54
+C 0x88E8 el tipo 3: el dibujo 0x50
+C 0x88FD el color 7, caja 8 x 2, el sonido 0x10
+C 0x890D avanza 6 en x (fuera, se acaba)...
+C 0x891E ...o retrocede 6...
+C 0x8929 ...y baja 6
+C 0x8935 el tipo 5: 8 x 0x10
+C 0x8951 apunta a la opcion que lo lanza (IY+8)
+C 0x8954 caja 0 x 2, el sonido 0x11
+C 0x8968 IY+8 = IX (de quien sale)
+C 0x8972 el tipo 8
+C 0x8983 el tipo 6, el dibujo 9 y el sonido 0x13
+C 0x8994 un disparo de caracteres del tipo A desde la nave o la opcion (x + 8, y + 0x10, en multiplos de 8)
+C 0x89AC de quien sale, largo 0, 0x1C de vida, caja 0 x 8
+C 0x89C0 el tipo 7: desde x, caja 0 x 0x10, el sonido 0x14
+C 0x89F2 el tipo 0x0D (dos huecos): 8 x 0, velocidad 5, largo 2, caja 0x10 x 8, el sonido 0x12
+C 0x8A1F el tipo 0x0E igual
+C 0x8A29 el laser: por su paso IY+1
+C 0x8A32 paso 0: pegado a quien lo lanza...
+C 0x8A49 ...(por abajo de la pantalla se acaba)...
+C 0x8A53 ...crece 4 por cuadro mientras quede (IY+0B)...
+C 0x8A6C ...y mientras se mantenga el boton
+C 0x8A73 al soltar, se suelta: paso 1
+C 0x8A77 recortado por la izquierda de la pantalla
+C 0x8A93 paso 1: avanza (p04:8AB7) hasta salir o quedarse sin largo
+C 0x8AA4 paso 2: avanza y mengua de 5 en 5
+C 0x8AB7 avanza 0x20
+C 0x8AC0 el otro laser: por su paso; en el 0 pegado a quien lo lanza
+C 0x8AEF hacia la izquierda 6 (fuera, se acaba)
+C 0x8B00 hacia la derecha 6
+C 0x8B0E cada 4 cuadros crece...
+C 0x8B39 el tipo 0x0A: largo 2, caja 0x10 x 0x10, el sonido 0x16
+C 0x8B68 con IY+10, baja hasta acabar su vida (IY+11)
+C 0x8B80 baja 8 y cada 4 cuadros crece...
+C 0x8BA8 ...recortado por abajo
+C 0x8BC0 el tipo 9: el dibujo 0x11, largo 2, el sonido 0x18
+C 0x8BF3 el del tipo 9: igual que el 0x0A, con su vida
+C 0x8C4B el tipo 0x0C (caja 0x10)...
+C 0x8C59 ...y el 0x0B: un rayo pegado a quien lo lanza
+C 0x8C62 su sitio, el dibujo 0x10, de quien sale
+C 0x8C72 largo y caja a cero, alto 8, el sonido 0x17
+C 0x8C83 el rayo: si quien lo lanza ya no esta, se acaba
+C 0x8C8E paso 0: crece hasta 8, pegado a quien lo lanza
+C 0x8CA5 recortado por abajo (0x21 filas)
+C 0x8CC3 paso 1: mengua hasta acabar...
+C 0x8CCC ...y si es el arma en curso y se vuelve a pulsar, otra vez crece (el sonido 0x17)
+C 0x8CEA su sitio: el de quien lo lanza (+6 o +2 en x, +0x10 en y)
+C 0x8D17 la capsula de 0xE5E0: un rayo grande de la nave (el tipo 0x18), 0xE5E1 = 1
+C 0x8D2A su largo hacia la izquierda segun donde este la nave
+C 0x8D55 x, largo (IY+10) y caja
+C 0x8D6A 0x10 de vida, la y de la nave
+C 0x8D83 el sonido 0x19
+C 0x8D87 el rayo grande: paso 0 crece, paso 1 baja hasta salir
+C 0x8DB9 acabado: 0xE5E1 = 0 y los dibujos de sprite de antes (p00:5080)
+C 0x8DC3 un hueco de disparo de los de 0xE6A0 (los segundos)...
+C 0x8DC9 ...o de 0xE680, para quien dispara (0xE634): NZ si no hay o esta fuera
+C 0x8DE7 libre: la cuenta del automatico a cero
+C 0x8DF1 el disparo en la posicion de quien lo lanza + DE (x, y)
+C 0x8E08 el dibujo: D + (x / 2) & 3
+C 0x8E13 la caja del disparo segun su largo: los tipos 9 y 0x0A en alto, los demas en ancho
+C 0x8E30 un hueco en los de 0xE6C0 (las opciones)
+C 0x8E50 la nave contra el decorado: el caracter que pisa (p04:8E98)
+C 0x8E5D con la opcion 3 por la izquierda, tambien detras
+C 0x8E80 el dibujo del misil: 0x48 o 0x28
+C 0x8E8B 0x44 o 0x2C
+C 0x8E94 en IY+6
+C 0x8E98 el arma de 0xE642...
+C 0x8E9D ...o el tipo del disparo: 0x11-0x12 o 0x15-0x16 (C: misiles lentos)
+C 0x8EAA el misil: un hueco de opcion, su tipo y dibujo (tabla de 0x8EBF por el arma)
+C 0x8EBD el dibujo segun el decorado (p04:8E50)
+C 0x8EC9 caja 8 x 8, x en multiplo de 4 (a 0, se acaba)
+C 0x8EEF el misil doble: el primero y otro hacia el otro lado (p04:9108)
+C 0x8EFE el misil que baja (o sube con el bit 0 de IY+9): sigue el suelo
+C 0x8F05 libre abajo? baja...
+C 0x8F0B ...en diagonal...
+C 0x8F11 ...o avanza; sin salida, se acaba
+C 0x8F33 el misil que se pega al suelo: paso 0 cae, paso 1 lo recorre
+C 0x8F66 paso 1: sin suelo, vuelve a caer; con pared, se acaba
+C 0x8FCA con scroll vertical, sube 8
+C 0x9014 baja B (la mitad si es lento); por abajo se acaba
+C 0x9028 sube B
+C 0x903C avanza B; por la derecha se acaba
+C 0x9054 retrocede B; por la izquierda se acaba
+C 0x906A el caracter del bufer en su sitio: decorado (mayor que el fondo - 1)? C
+C 0x9079 los puntos de alrededor del misil para mirar el decorado
+C 0x9108 el misil que busca: la pieza mas cercana de las 8 de 0xED00
+C 0x9122 la hay: la apunta (IY+10) y va hacia ella
+C 0x9135 no la hay: el misil normal (tipo - 3)
+C 0x913E una pieza tocable y visible: su distancia (x + y) contra la mejor
+C 0x9178 el misil que busca: si su pieza sigue, cada 4 cuadros vuelve a apuntar
+C 0x919A y + la velocidad en y (16 bits); por abajo se acaba
+C 0x91B1 x + la velocidad en x; por la derecha se acaba
+C 0x91C8 al tocar el decorado...
+C 0x91CC ...o perder la pieza: el misil normal
+C 0x91ED apunta al centro de la pieza (o al de su caja de p03:BE18)
+C 0x9213 la direccion hacia ella con el paso 0xC0
+C 0x9257 el disparo 0x0F (lo de p01:65CB): 0x1E cuadros, caja 0x18, el dibujo 0x30
+C 0x9273 8 arriba a la izquierda
+C 0x928B cuenta, sube con el scroll y su animacion
+C 0x929C el segundo sprite segun el paso (tabla de 0x92B4)
+C 0x92BC el dibujo de 4 en 4 de 0x30 a 0x3C; al dar la vuelta, el paso siguiente
+C 0x92D8 comprar arma: con la nave y el boton 2 recien pulsado
+C 0x92E3 la casilla marcada (0xE430; 0: ninguna)
+C 0x92EC si esa arma ya esta al maximo (bit 7 de 0xE433 + casilla), nada
+C 0x92F4 la marca a cero, el arma (p04:9302) y el marcador
+C 0x9302 lo que hace cada casilla segun la nave elegida (0xE380: tabla de 0x9316)
+C 0x9312 y el sonido 0x1C
+C 0x94BD un byte de la tabla de 0x94D0 por 0xE36F x 8 + 0xEF80
+C 0x9511 el marcador de armas al empezar: a cero...
+C 0x9514 ...la marca si se tenia...
+C 0x9517 ...los colores del medidor...
+C 0x951A ...sus caracteres...
+C 0x951D ...las casillas...
+C 0x9520 ...y el nombre de la marcada
+C 0x9524 0xE430-0xE43C a cero
+C 0x9531 con 0xE36F por debajo de 3, la casilla 4 (0xE438) llena
+C 0x953D con 0xE36B o 0xE36D, la marca en la casilla 1
+C 0x954E los colores de los 9 caracteres del medidor (0x1278): 0xE0 y 7 de 0xA0
+C 0x956B los 9 caracteres del medidor en 0x3AD4 (del 0x4F en adelante)
+C 0x957D las 8 casillas en 0x3AC2, de dos caracteres
+C 0x9591 la casilla: llena (0xFF) o no, y marcada o no
+C 0x9599 llena: 0x3C, o 0x3E si es la marcada
+C 0x95A2 vacia: 0x38, o 0x3A si es la marcada
+C 0x95AC los dos caracteres
+C 0x95B6 el nombre de la casilla marcada: ninguna...
+C 0x95BD ...o la 8
+C 0x95C1 el arma de esa casilla (0xE433 + casilla): sin tener nada (0xFF), ningun nombre
+C 0x95CC el nombre segun la nave (0xE380: tabla de 0x95F9) y la casilla...
+C 0x95D9 ...y lo que ya se tiene
+C 0x95DD en 0xE43C, y se pinta (p00:4F52)
+C 0x95E7 la casilla 8: con 0xE43B lleno, nada; si no, el nombre 0x0A u 0x0B segun 0xE37F
+C 0x9660 una opcion menos (0xE608) y el marcador
+C 0x966E la casilla de 0xE43A: de llena a 1, si no a 0
+C 0x967B 0xE43B a cero y el marcador
+C 0x9686 los disparos de la nave contra el decorado: el fondo en C
+C 0x969D por su tipo (tabla de detras)
+C 0x96D5 el doble: mira 8 arriba y en su sitio
+C 0x96F0 el sencillo: en su sitio
+C 0x96FA si toca decorado (p04:98AB)...
+C 0x96FE ...se acaba, y con jefe le hace dano (p04:999D); si no, rompe el decorado (p04:993D)
+C 0x970D el laser: su largo contra el decorado, desde su punta
+C 0x9728 cada caracter del laser: decorado?
+C 0x9736 rompible: lo rompe y sigue
+C 0x9745 con jefe, le hace dano
+C 0x974C el laser se recorta donde toca
+C 0x975A y pasa a menguar (paso 1 o 2)
+C 0x976A el caracter de HL es decorado (>= C)? C
+C 0x976E el laser hacia atras igual
+C 0x9793 el rayo vertical: hacia abajo, cada fila de su largo
+C 0x97CB el tipo 0x0A se para en el primer decorado que no rompe
+C 0x97D9 con scroll, la columna de al lado tambien
+C 0x9814 la caja segun el largo
+C 0x981E con jefe, dano; y el rayo se queda 4 cuadros (IY+10/11)
+C 0x982B lo que rompen los disparos: con jefe aparte; en la fase 1 y la 7...
+C 0x9832 ...la fase 1 (el sol: p04:9864) y la 7 (los caracteres 0xE0-0xE2)
+C 0x9864 lo que toca: se acaba y el sonido 0x2F
+C 0x986B con los jefes 0x0F y 0x10, el disparo le hace dano
+C 0x9881 el caracter delante del disparo (segun su sentido, IY+9)
+C 0x98A5 el disparo se acaba (C)
+C 0x98AB el caracter de HL es decorado? (>= C: C)
+C 0x98B2 los jefes 1-4 y 0x0F: la nave contra sus caracteres...
+C 0x98D5 ...la toca: estalla (p00:47C5)
+C 0x98E0 los caracteres que matan de cada jefe (de 0x9903-0x990A)
+C 0x990B la nave contra el decorado (si vive)
+C 0x9918 lo toca: estalla
+C 0x991B el caracter bajo la nave (y el de al lado si va entre dos filas)
+C 0x993D el decorado que se rompe: en la fase 2 y en la 8
+C 0x994A fase 2: segun el scroll, los caracteres 0xFE-0xFF con el sonido 0x23 o 0x24
+C 0x9967 fase 8: los 0x1A-0x7F (sonido 0x25) o 0x04-0xBF (0x23)
+C 0x9982 en el rango: se borra y suena (una vez por cuadro, 0xE408)
+C 0x999D el jefe tocado: el sonido 0x28 (una vez por cuadro, 0xE409), salvo con el bit 7 de 0xEC12
+C 0x99B0 el disparo se acaba
+C 0x99B5 los sprites de la nave y sus opciones a 0xEF00
+C 0x99BC la nave: con escudo o sin el, sus dos sprites (0xE618)
+C 0x99E0 sin nave, 4 fuera
+C 0x99E8 estallando: los de 0xE618 y 0xE628
+C 0x99F5 las dos opciones a 0xEF08
+C 0x9A0C la opcion: x, y, dibujo y color
+C 0x9A22 los disparos de las opciones y el rayo grande a 0xEF10
+C 0x9A29 el rayo grande (0xE5E0): su sprite bajo la nave, con 3 dibujos de 0x9A5C cada 4 cuadros
+C 0x9A5F los disparos de 0xE6A0 de cada opcion, dos por cada una
+C 0x9A7F los tipos 3-4 y 0x0F-0x17 son sprites; los demas, fuera
+C 0x9AB4 los disparos de caracteres en el bufer de 0xCE00
+C 0x9ACA por su tipo (tabla de detras)
+C 0x9B02 guarda en 0xCE00 el caracter del bufer donde va el disparo
+C 0x9B08 los de su largo (en horizontal)
+C 0x9B16 dos filas de su largo
+C 0x9B33 en vertical, una columna de su largo
+C 0x9B45 su sitio en el bufer, en IX+0E/IX+0F
+C 0x9B55 devuelve al bufer lo guardado en 0xCE00 (el decorado de debajo)
+C 0x9B6B por su tipo (tabla de detras)
+C 0x9BA3 un caracter
+C 0x9BAE una fila de su largo
+C 0x9BC1 dos filas
+C 0x9BE1 una columna
+C 0x9BFA borra un rectangulo de IX+0A x IX+10
+C 0x9C1A pinta los disparos de caracteres en el bufer
+C 0x9C2D por su tipo (tabla de detras)
+C 0x9C65 un caracter: el dibujo (IX+6)
+C 0x9C70 una fila del dibujo, de su largo
+C 0x9C84 el laser de dos filas: los caracteres 0x0A y 0x0B
+C 0x9CA5 el de 0x10 en dos filas
+C 0x9CC4 el rayo vertical: 0x0D arriba, 0x0E en medio y 0x0F abajo
+C 0x9D05 una columna del caracter 0x11
+C 0x9D16 un rectangulo del caracter 0x34 (IX+0A x IX+10)
+C 0x9D35 la direccion de DE a HL con la tabla de p22:B906 (con el 22 puesto)
+C 0x9D41 la distancia en y (bit 0 de C si es negativa)...
+C 0x9D4C ...y en x (bit 1)
+C 0x9D55 x / 16 e y & 0xF0: el indice de la tabla
+C 0x9D68 la velocidad en x, con su signo
+C 0x9D76 y la de y, con el indice al reves
+C 0x9D97 el jefe: la parte de 0xEC00 por el jefe (tabla de detras)
+C 0x9DC1 el paso siguiente del jefe (0xE441)
+C 0x9DC6 el jefe empieza: IX+12 = A y 10 bytes de HL a su ficha
+C 0x9DD1 0xEC20 = 0, 0xE454 = 1
+C 0x9DD9 el caracter de fondo del jefe (tabla de 0x9DF1)
+C 0x9DE5 la paleta de p16:67AE
+C 0x9DE8 los graficos del jefe (p00:50FE), salvo el 0x0E
+C 0x9E03 el 0x0E con 0xE455 = 1, tambien
+C 0x9E0B la espera del jefe (0xE443): con el 0x0D sin mas...
+C 0x9E12 ...el 0x0E segun 0xE455 y 0xEC21...
+C 0x9E21 ...los demas, cuando no queden enemigos ni balas y la nave viva
+C 0x9E2A la cuenta de 0xE443
+C 0x9E32 vencido: 0x30 cuadros y el paso siguiente
+C 0x9E40 cada 8 cuadros (0xE456 = 1) sube 8 (16 bits en IX+5) y lo compara con C
+C 0x9E67 la caja del jefe: x + A en IX+0A e IX+0E, y + B en IX+0C, y + C en IX+10
+C 0x9E96 IX+8 = cuantas veces cabe B en IX+12
+C 0x9EA6 hacia donde va (IX+15): segun su velocidad o la posicion de la nave
+C 0x9EC4 por delante o por detras de la nave (con el margen de 0x9F0D por jefe)
+C 0x9EDF y la espera hasta cambiar (azar)
+C 0x9EF6 la velocidad: 0x40 + 2 x la dificultad
+C 0x9F11 el jefe se mueve: la cuenta + la velocidad; cada vuelta...
+C 0x9F1B ...un paso menos (al acabar, C)...
+C 0x9F21 ...y 8 hacia donde va (IX+15: 1 izquierda, 2 derecha, 3 arriba, 4 abajo)
+C 0x9F2F abajo, hasta 0xB0
+C 0x9F3A arriba, hasta 0x19
+C 0x9F48 a la derecha, hasta su tope (0x68 los jefes 3, 0x90 el 4 y el 0x0F, 0x80 los demas)
+C 0x9F71 a la izquierda, hasta su tope (0xE0, 0xE8, 0xF8 o 0xC0)
+C 0x9F9C al tope, da la vuelta
+C 0x9FA5 C: se acabo el paso
+C 0x9FA7 lo mismo con la posicion de 16 bits (IX+3 e IX+5), sin pasar de +-0x30/0x28
+# --- fin de lo escrito a mano ---
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x80E0 0x80F8 leido_80E0  24 bytes que leen p04:8081, p04:8088, p04:808C, p04:808E al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p04:8081, p04:8088, p04:808C, p04:808E (24 bytes)
 F 0x80E0 16
@@ -59,66 +422,38 @@ F 0x8647 16
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
 L 0x843D mata_la_nave la nave estalla: 0xFF en 0xE600
 C 0x8014 orden_83_y_sonido_50: manda la orden 0x83 al motor y pide el sonido 0x50
-C 0x803C lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
-C 0x805D apunta a lo pulsado (mando y cursores)
-C 0x807E lee la x de la nave
-C 0x8085 lee la y de la nave
-C 0x8091 lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
-C 0x809A lee los golpes que le quedan al escudo
 C 0x80A4 lee la cuenta de cuadros del juego
 C 0x80B1 lee la cuenta de cuadros del juego
-C 0x80BB lee los golpes que le quedan al escudo
 C 0x80C5 lee la cuenta de cuadros del juego
 C 0x80D2 lee la cuenta de cuadros del juego
-C 0x81BF apunta a la x de la nave
 C 0x81D8 apunta a la y de la nave
-C 0x81EB lee lo pulsado (mando y cursores)
-C 0x8237 lee la fase (1 a 11)
-C 0x823D lee la posicion del scroll (16 bits)
 C 0x825F apunta a la x de la nave
-C 0x8271 lee la x de la nave
 C 0x8277 lee la y de la nave
-C 0x8295 lee la cuenta de cuadros del juego
 C 0x829A sonido_36: pide el sonido 0x36
-C 0x829E lee la fase (1 a 11)
 C 0x82A9 lee la posicion del scroll (16 bits)
-C 0x8342 apunta a las piezas (8 de 0x20)
-C 0x8374 lee la x de la nave
 C 0x837A lee la y de la nave
 C 0x83D5 lee la x de la nave
 C 0x83DB lee la y de la nave
 C 0x8435 color_del_borde: B al registro 7 del VDP
 C 0x8439 guarda 1 mientras la nave esta en la fase
-C 0x843D apunta a el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 C 0x8456 orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0x8459 orden_83_y_sonido_4B: manda la orden 0x83 al motor y pide el sonido 0x4B
 C 0x846C lee_palabra: HL = la palabra A de la tabla HL
 C 0x8474 lee la x de la nave
 C 0x8478 lee la y de la nave
 C 0x84B5 suma_a_hl: HL = HL + A
-C 0x8516 lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 C 0x8552 suma_a_hl: HL = HL + A
 C 0x855B suma_a_hl: HL = HL + A
-C 0x859D lee lo pulsado (mando y cursores)
-C 0x85AC apunta a la estela de la nave (16 x y y)
 C 0x85B5 lee la x de la nave
 C 0x85B9 lee la y de la nave
 C 0x85EB apunta a la estela de la nave (16 x y y)
 C 0x85FD lee la cuenta de cuadros del juego
 C 0x860A lee la cuenta de cuadros del juego
-C 0x8619 apunta a la x de la nave
 C 0x8620 suma_a_de: DE = DE + A
 C 0x867E lee_palabra: HL = la palabra A de la tabla HL
-C 0x868C lee la x de la nave
-C 0x86A4 lee la y de la nave
-C 0x86C1 apunta a los disparos de la nave (9 de 0x20)
 C 0x870C despacha: salta a la palabra A de la tabla que va detras del call
 C 0x875D lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
-C 0x8764 lee la fase (1 a 11)
 C 0x876B lee la posicion del scroll (16 bits)
-C 0x8786 lee lo recien pulsado (mando y cursores)
-C 0x878D lee lo pulsado (mando y cursores)
-C 0x87AB apunta a el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 C 0x8807 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x88B3 sonido_0F: pide el sonido 0x0F
 C 0x8909 sonido_10: pide el sonido 0x10
@@ -127,17 +462,13 @@ C 0x897F sonido_15: pide el sonido 0x15
 C 0x8990 sonido_13: pide el sonido 0x13
 C 0x89EE sonido_14: pide el sonido 0x14
 C 0x8A1B sonido_12: pide el sonido 0x12
-C 0x8A6C lee lo pulsado (mando y cursores)
 C 0x8B64 sonido_16: pide el sonido 0x16
 C 0x8BEF sonido_18: pide el sonido 0x18
 C 0x8C80 sonido_17: pide el sonido 0x17
 C 0x8CD9 lee lo recien pulsado (mando y cursores)
 C 0x8CE7 sonido_17: pide el sonido 0x17
 C 0x8D1F apunta a los disparos de la nave (9 de 0x20)
-C 0x8D83 sonido_19: pide el sonido 0x19
-C 0x8DC9 apunta a los disparos de la nave (9 de 0x20)
 C 0x8EB4 lee_palabra: HL = la palabra A de la tabla HL
-C 0x8FCA lee 1 si este cuadro hay scroll
 C 0x9073 lee el caracter del fondo de la fase
 C 0x9110 apunta a las piezas (8 de 0x20)
 C 0x9191 lee la cuenta de cuadros del juego
@@ -146,79 +477,48 @@ C 0x9230 bancos_3: pone el 3 (y sus copias en 0xF0F1-3)
 C 0x9238 suma_a_hl: HL = HL + A
 C 0x9252 bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
 C 0x92A2 lee_palabra: HL = la palabra A de la tabla HL
-C 0x92D8 lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 C 0x92DD lee lo recien pulsado (mando y cursores)
-C 0x92E3 apunta a la marca de armas (1 a 8)
 C 0x92F5 guarda la marca de armas (1 a 8)
 C 0x9308 lee_palabra: HL = la palabra A de la tabla HL
-C 0x9312 sonido_1C: pide el sonido 0x1C
-C 0x9524 apunta a la marca de armas (1 a 8)
 C 0x954A guarda la marca de armas (1 a 8)
 C 0x9564 suma_a_hl: HL = HL + A
 C 0x956E vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
 C 0x9580 vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
 C 0x9595 lee la marca de armas (1 a 8)
-C 0x95A2 lee la marca de armas (1 a 8)
-C 0x95B6 lee la marca de armas (1 a 8)
 C 0x95D2 lee_palabra: HL = la palabra A de la tabla HL
 C 0x95D6 lee_palabra: HL = la palabra A de la tabla HL
-C 0x9686 lee el caracter del fondo de la fase
 C 0x968A apunta a los disparos de la nave (9 de 0x20)
 C 0x96A2 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x9702 lee el jefe en curso (0: ninguno)
-C 0x9736 lee el jefe en curso (0: ninguno)
-C 0x9745 lee el jefe en curso (0: ninguno)
 C 0x9782 lee el jefe en curso (0: ninguno)
 C 0x97B4 lee el jefe en curso (0: ninguno)
 C 0x97C6 suma_a_hl: HL = HL + A
-C 0x97D9 lee 1 si este cuadro hay scroll
 C 0x97EF lee el jefe en curso (0: ninguno)
 C 0x9801 suma_a_hl: HL = HL + A
-C 0x982B lee el jefe en curso (0: ninguno)
-C 0x9832 lee la fase (1 a 11)
 C 0x9868 sonido_2F: pide el sonido 0x2F
-C 0x986B lee el jefe en curso (0: ninguno)
-C 0x98B2 lee el jefe en curso (0: ninguno)
 C 0x98BD lee la x de la nave
 C 0x98C3 lee la y de la nave
-C 0x98E0 lee el jefe en curso (0: ninguno)
-C 0x990B lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 C 0x9910 lee el caracter del fondo de la fase
-C 0x991B lee la x de la nave
 C 0x9921 lee la y de la nave
-C 0x993D lee la fase (1 a 11)
 C 0x994B lee la posicion del scroll (16 bits)
 C 0x9968 lee la posicion del scroll (16 bits)
 C 0x9999 pide_sonido: pide al motor (p10:6003) el sonido A
 C 0x99AB sonido_28: pide el sonido 0x28
-C 0x99BC apunta a los atributos de sprite (32 x 4)
 C 0x99BF lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
-C 0x99F5 lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 C 0x9A31 lee la x de la nave
 C 0x9A36 lee la y de la nave
 C 0x9A40 lee la cuenta de cuadros del juego
-C 0x9AB4 apunta a los disparos de la nave (9 de 0x20)
 C 0x9ACF despacha: salta a la palabra A de la tabla que va detras del call
-C 0x9B55 apunta a los disparos de la nave (9 de 0x20)
 C 0x9B70 despacha: salta a la palabra A de la tabla que va detras del call
-C 0x9C1A apunta a los disparos de la nave (9 de 0x20)
 C 0x9C32 despacha: salta a la palabra A de la tabla que va detras del call
-C 0x9D35 guarda_reparto: guarda las tres copias del mapper en la pila de 0xF0D0
 C 0x9D38 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
 C 0x9D3E devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
-C 0x9D97 apunta a las partes del jefe (4 de 0x20)
 C 0x9D9B despacha: salta a la palabra A de la tabla que va detras del call
-C 0x9DD9 lee el jefe en curso (0: ninguno)
 C 0x9DE2 guarda el caracter del fondo de la fase
-C 0x9DE8 lee el jefe en curso (0: ninguno)
-C 0x9E0B lee el jefe en curso (0: ninguno)
 C 0x9E25 lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
-C 0x9E32 lee el jefe vencido (1, o 2 en la fase 4)
 C 0x9EB4 lee la y de la nave
-C 0x9EC4 lee el jefe en curso (0: ninguno)
 C 0x9ECB suma_a_hl: HL = HL + A
 C 0x9ED5 apunta a la x de la nave
-C 0x9EF6 lee la dificultad de la fase (0 a 0x0F)
 C 0x9F53 lee el jefe en curso (0: ninguno)
 C 0x9F7E lee el jefe en curso (0: ninguno)
 # --- fin de las anotaciones de anota.py ---
