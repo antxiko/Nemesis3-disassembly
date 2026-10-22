@@ -1136,7 +1136,7 @@ L_6737:
 	ret			;6782
 L_6783:
 	call 041efh		;6783   ; el tipo 7: con el 19, p19:ACB9
-	call 0acb9h		;6786
+	call 0acb9h		;6786   ; el dibujo 0x2D (p00:4860) (p19:ACB9)
 	call 04148h		;6789   ; bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 	ret			;678c
 L_678D:

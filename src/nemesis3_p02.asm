@@ -262,7 +262,7 @@ L_818C:
 	ld a,(0e39ch)		;818c   ; con 0xE39C o 0xE397, la entrada se ve: el caracter 0x35 cada 4 cuadros
 	or a			;818f
 	jr nz,L_8197		;8190
-	ld a,(0e397h)		;8192
+	ld a,(0e397h)		;8192   ; lee 1 si se cogio la entrada secreta 0x0C (las entradas se ven)
 	or a			;8195
 	ret z			;8196
 L_8197:
@@ -384,7 +384,7 @@ L_823C:
 	cp 005h		;8258   ; el tipo 5: con el 19, p19:AE73
 	ret nz			;825a
 	call 041efh		;825b   ; bancos_19: pone el 19 (y sus copias en 0xF0F1-3)
-	call 0ae73h		;825e
+	call 0ae73h		;825e   ; la de B = 1, con 5 o mas por crecer, el caracter 0xA8 en la fila de abajo (p19:AE73)
 	jp 04148h		;8261   ; bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 L_8264:
 	ld a,(ix+000h)		;8264   ; los de dibujo propio: 0x2F, 0x1E, 0x2E, 0x0D y 0x30

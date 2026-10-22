@@ -323,7 +323,7 @@ DATA_leido_A6AC:
 
 
 L_A8FB:
-	xor a			;a8fb
+	xor a			;a8fb   ; el scroll de la fase: sin final, y sus 6 bytes de la tabla de 0xA90F (fase x 6) a 0xE421
 	ld (0e427h),a		;a8fc   ; guarda 1 al llegar al final del scroll
 	ld a,(0e361h)		;a8ff   ; lee la fase (1 a 11)
 	add a,a			;a902
@@ -332,7 +332,7 @@ L_A8FB:
 	add a,c			;a905
 	ld hl,la90fh		;a906
 	call 04089h		;a909   ; suma_a_hl: HL = HL + A
-	ld de,0e421h		;a90c
+	ld de,0e421h		;a90c   ; 0xE421-0xE426: donde empieza y acaba el mapa (p00:5345)
 L_A90F:
 	ld bc,00006h		;a90f
 	ldir		;a912
@@ -356,15 +356,15 @@ DATA_leido_A915:
 
 
 L_A957:
-	ld a,(0e31fh)		;a957   ; lee la secuencia en marcha (p01:6274)
+	ld a,(0e31fh)		;a957   ; el scroll desde donde se vuelve tras morir: sin secuencia y salvo en la fase 4...
 	or a			;a95a
 	ret nz			;a95b
 	ld a,(0e361h)		;a95c   ; lee la fase (1 a 11)
 	cp 004h		;a95f
 	ret z			;a961
-	ld hl,L_A972+2		;a962
+	ld hl,L_A972+2		;a962   ; ...el punto de vuelta de la fase (tabla de 0xA974)...
 	call 04a5ah		;a965   ; lee_palabra: HL = la palabra A de la tabla HL
-	ld de,(0e363h)		;a968   ; lee la posicion del scroll (16 bits)
+	ld de,(0e363h)		;a968   ; ...si ya se paso; si no, desde 0x20
 	rst 20h			;a96c
 	jr c,L_A972		;a96d
 	ld hl,00020h		;a96f
@@ -389,17 +389,17 @@ DATA_leido_A976:
 
 
 L_A98C:
-	ld (ix+008h),008h		;a98c   ; las vidas de la pieza = 0x08
+	ld (ix+008h),008h		;a98c   ; una pieza que se abre (desde p01:7D3F): 8 vidas, 4 x 6, el dibujo 0x3F y no se toca (0x80)
 	ld (ix+009h),004h		;a990   ; las filas de la pieza = 0x04
 	ld (ix+00ah),006h		;a994   ; las columnas de la pieza = 0x06
 	ld (ix+00eh),003h		;a998
 	ld de,03f80h		;a99c
 L_A99F:
-	ld (ix+007h),d		;a99f   ; guarda el dibujo de la pieza
+	ld (ix+007h),d		;a99f   ; el dibujo D y como se toca E
 	ld (ix+00dh),e		;a9a2   ; guarda como se toca la pieza (bit 7: no se toca)
 	ret			;a9a5
 L_A9A6:
-	ld a,(ix+001h)		;a9a6   ; lee el paso de la pieza
+	ld a,(ix+001h)		;a9a6   ; cada cuadro, por su paso
 	call 04093h		;a9a9   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -415,61 +415,61 @@ DATA_tabla_A9AC:
 
 
 L_A9B4:
-	call L_AA0C		;a9b4
+	call L_AA0C		;a9b4   ; paso 0: si un disparo de las opciones toca su caja de arriba, se abre (0x40, 0x2A)
 	ret nc			;a9b7
 	ld de,0402ah		;a9b8
-	call L_A99F		;a9bb
+	call L_A99F		;a9bb   ; el dibujo D y como se toca E
 	inc (ix+001h)		;a9be   ; suma 1 a el paso de la pieza
 	ret			;a9c1
 L_A9C2:
-	call L_AA16		;a9c2
+	call L_AA16		;a9c2   ; paso 1: si la toca por abajo, el disparo se acaba y 0x0C cuadros
 	ret nc			;a9c5
 	ld (hl),000h		;a9c6
 	ld (ix+002h),00ch		;a9c8   ; la cuenta de la pieza = 0x0C
 	inc (ix+001h)		;a9cc   ; suma 1 a el paso de la pieza
 	ret			;a9cf
 L_A9D0:
-	ld a,(ix+002h)		;a9d0   ; lee la cuenta de la pieza
+	ld a,(ix+002h)		;a9d0   ; paso 2: la cuenta; a los 4, cerrada otra vez...
 	dec a			;a9d3
 	jr z,L_A9E3		;a9d4
 	ld (ix+002h),a		;a9d6   ; guarda la cuenta de la pieza
 	cp 004h		;a9d9
 	ret nz			;a9db
 	ld de,03f80h		;a9dc
-	call L_A99F		;a9df
+	call L_A99F		;a9df   ; el dibujo D y como se toca E
 	ret			;a9e2
 L_A9E3:
-	ld de,0282bh		;a9e3
-	call L_A99F		;a9e6
+	ld de,0282bh		;a9e3   ; ...al acabar, el dibujo 0x28 (se toca 0x2B) y 0x21 cuadros
+	call L_A99F		;a9e6   ; el dibujo D y como se toca E
 	ld (ix+002h),021h		;a9e9   ; la cuenta de la pieza = 0x21
 	inc (ix+001h)		;a9ed   ; suma 1 a el paso de la pieza
 	ret			;a9f0
 L_A9F1:
-	ld a,(ix+002h)		;a9f1   ; lee la cuenta de la pieza
+	ld a,(ix+002h)		;a9f1   ; paso 3: cada 8 cuadros dispara (p19:AA20); al acabar, cerrada y al paso 0
 	dec a			;a9f4
 	jr z,L_AA01		;a9f5
 	ld (ix+002h),a		;a9f7   ; guarda la cuenta de la pieza
 	and 007h		;a9fa
 	ret nz			;a9fc
-	call L_AA20		;a9fd
+	call L_AA20		;a9fd   ; un enemigo 8 desde y, x + 0x14
 	ret			;aa00
 L_AA01:
 	ld de,03f80h		;aa01
-	call L_A99F		;aa04
+	call L_A99F		;aa04   ; el dibujo D y como se toca E
 	ld (ix+001h),000h		;aa07   ; el paso de la pieza = 0x00
 	ret			;aa0b
 L_AA0C:
-	ld de,0e008h		;aa0c
+	ld de,0e008h		;aa0c   ; su caja de arriba: y - 0x20, x + 8, 0x10 x 0x18
 	ld bc,01018h		;aa0f
-	call L_AADA		;aa12
+	call L_AADA		;aa12   ; alguno de los 3 disparos de las opciones (0xE6C0, de 0x60 en 0x60) toca la caja de DE (sobre la pieza) de B x C? C, y HL el disparo
 	ret			;aa15
 L_AA16:
-	ld de,0f818h		;aa16
+	ld de,0f818h		;aa16   ; la de abajo: y - 8, x + 0x18, 0x10 x 8
 	ld bc,01008h		;aa19
-	call L_AADA		;aa1c
+	call L_AADA		;aa1c   ; alguno de los 3 disparos de las opciones (0xE6C0, de 0x60 en 0x60) toca la caja de DE (sobre la pieza) de B x C? C, y HL el disparo
 	ret			;aa1f
 L_AA20:
-	ld a,(ix+006h)		;aa20   ; lee la x de la pieza
+	ld a,(ix+006h)		;aa20   ; un enemigo 8 desde y, x + 0x14
 	add a,014h		;aa23
 	ld d,a			;aa25
 	ld e,(ix+004h)		;aa26   ; lee la y de la pieza
@@ -478,19 +478,19 @@ L_AA20:
 	call 0764fh		;aa2d
 	ret			;aa30
 L_AA31:
-	ld (ix+01eh),006h		;aa31
+	ld (ix+01eh),006h		;aa31   ; un enemigo que gira hacia la nave (desde p01:781B): 6 de 8 posturas y 8 cuadros
 	call L_AA8A		;aa35
 	ld (ix+002h),008h		;aa38   ; la cuenta del enemigo = 0x08
 	ret			;aa3c
 L_AA3D:
-	dec (ix+002h)		;aa3d   ; resta 1 a la cuenta del enemigo
+	dec (ix+002h)		;aa3d   ; cada 8 cuadros gira un paso hacia la nave
 	ret nz			;aa40
 	ld (ix+002h),008h		;aa41   ; la cuenta del enemigo = 0x08
-	call L_AA4C		;aa45
+	call L_AA4C		;aa45   ; la postura hacia la nave (p19:AA73) contra la suya: una mas o una menos, la mas corta
 	call L_AA8A		;aa48
 	ret			;aa4b
 L_AA4C:
-	call L_AA73		;aa4c
+	call L_AA73		;aa4c   ; la postura hacia la nave (p19:AA73) contra la suya: una mas o una menos, la mas corta
 	ld b,(ix+01eh)		;aa4f
 	ld c,b			;aa52
 	cp b			;aa53
@@ -519,32 +519,32 @@ L_AA6C:
 	jr nc,L_AA68		;aa6f
 	jr L_AA60		;aa71
 L_AA73:
-	ld e,(ix+004h)		;aa73   ; lee la y del enemigo
+	ld e,(ix+004h)		;aa73   ; el angulo hacia la nave en 8 posturas (0xE477 + 0x10) / 32, en IX+2F
 	ld d,(ix+006h)		;aa76   ; lee la x del enemigo
 	call 063ffh		;aa79   ; la distancia a la nave (0xE604 la y, 0xE606 la x) (p01:63FF)
 L_AA7C:
-	ld a,(0e477h)		;aa7c
+	ld a,(0e477h)		;aa7c   ; el angulo hacia la nave + 0x10...
 	add a,010h		;aa7f
-	rlca			;aa81
+	rlca			;aa81   ; ...en 8 posturas (/ 32)
 	rlca			;aa82
 	rlca			;aa83
 	and 007h		;aa84
 	ld (ix+02fh),a		;aa86
 	ret			;aa89
 L_AA8A:
-	ld a,(ix+01eh)		;aa8a
+	ld a,(ix+01eh)		;aa8a   ; la postura IX+1E: el dibujo 0xC0 + 4 x postura...
 	ld b,a			;aa8d
 	add a,a			;aa8e
 	add a,a			;aa8f
 	add a,0c0h		;aa90
 	ld (ix+030h),a		;aa92   ; guarda el dibujo del primer sprite del enemigo
-	ld a,b			;aa95
+	ld a,b			;aa95   ; ...su caja (tabla de 0xAACA)...
 	ld hl,0aacah		;aa96
 	call 04a5ah		;aa99   ; lee_palabra: HL = la palabra A de la tabla HL
 L_AA9C:
 	ld (ix+00eh),l		;aa9c   ; guarda el alto del enemigo para los choques
 	ld (ix+00fh),h		;aa9f   ; guarda el ancho del enemigo para los choques
-	ld a,b			;aaa2
+	ld a,b			;aaa2   ; ...y su sitio (tabla de 0xAAAA, p01:6E40)
 	ld hl,0aaaah		;aaa3
 	call 06e40h		;aaa6   ; la entrada A (de 4 bytes) de la tabla HL: DE y HL, y p01:78D7 (p01:6E40)
 L_AAA9:
@@ -576,7 +576,7 @@ DATA_tabla_AACA:
 
 
 L_AADA:
-	ld a,(ix+006h)		;aada   ; lee la x de la pieza
+	ld a,(ix+006h)		;aada   ; alguno de los 3 disparos de las opciones (0xE6C0, de 0x60 en 0x60) toca la caja de DE (sobre la pieza) de B x C? C, y HL el disparo
 	add a,d			;aadd
 	ld d,a			;aade
 	ld a,(ix+004h)		;aadf   ; lee la y de la pieza
@@ -587,30 +587,30 @@ L_AADA:
 	ld de,00060h		;aae8
 	ld b,003h		;aaeb
 L_AAED:
-	push hl			;aaed
+	push hl			;aaed   ; cada uno
 	exx			;aaee
 	pop hl			;aaef
-	call L_AAFA		;aaf0
+	call L_AAFA		;aaf0   ; libre: no
 	exx			;aaf3
 	ret c			;aaf4
 	add hl,de			;aaf5
 	djnz L_AAED		;aaf6
-	or a			;aaf8
+	or a			;aaf8   ; ninguno: NC
 	ret			;aaf9
 L_AAFA:
-	ld a,(hl)			;aafa
+	ld a,(hl)			;aafa   ; libre: no
 	or a			;aafb
 	ret z			;aafc
-	inc l			;aafd
+	inc l			;aafd   ; su y (+3)...
 	inc l			;aafe
 	inc l			;aaff
-	ld a,(hl)			;ab00
+	ld a,(hl)			;ab00   ; ...dentro de E a E + C...
 	sub e			;ab01
 	ccf			;ab02
 	ret nc			;ab03
 	sub c			;ab04
 	ret nc			;ab05
-	inc l			;ab06
+	inc l			;ab06   ; ...y su x (+5) dentro de D a D + B: C
 	inc l			;ab07
 	ld a,(hl)			;ab08
 	sub d			;ab09
@@ -619,13 +619,13 @@ L_AAFA:
 	sub b			;ab0c
 	ret			;ab0d
 L_AB0E:
-	ld (ix+007h),02fh		;ab0e   ; el dibujo de la pieza = 0x2F
+	ld (ix+007h),02fh		;ab0e   ; una columna que sube y baja (desde p01:7D3F): el dibujo 0x2F, 4 x 2, no se toca, 4 cuadros
 	ld (ix+009h),004h		;ab12   ; las filas de la pieza = 0x04
 	ld (ix+00ah),002h		;ab16   ; las columnas de la pieza = 0x02
 	ld (ix+00dh),080h		;ab1a   ; como se toca la pieza (bit 7: no se toca) = 0x80
 	ld (ix+002h),004h		;ab1e   ; la cuenta de la pieza = 0x04
 	ld (ix+01eh),001h		;ab22
-	ld a,(ix+009h)		;ab26   ; lee las filas de la pieza
+	ld a,(ix+009h)		;ab26   ; su base: la y + 8 x filas, en IX+1F
 	add a,a			;ab29
 	add a,a			;ab2a
 	add a,a			;ab2b
@@ -633,19 +633,19 @@ L_AB0E:
 	ld (ix+01fh),a		;ab2f
 	jr L_AB71		;ab32
 L_AB34:
-	call L_AB3E		;ab34
-	call L_AB71		;ab37
-	call L_ABA2		;ab3a
+	call L_AB3E		;ab34   ; cada cuadro: crece o mengua, sus filas y el sonido
+	call L_AB71		;ab37   ; sus filas: de la y a la base, / 8 + 1
+	call L_ABA2		;ab3a   ; el sonido 0x34 cada 3 pasos de scroll (0xE4A0)
 L_AB3D:
 	ret			;ab3d
 L_AB3E:
-	dec (ix+002h)		;ab3e   ; resta 1 a la cuenta de la pieza
+	dec (ix+002h)		;ab3e   ; cada 4 cuadros...
 	ret nz			;ab41
 	ld (ix+002h),004h		;ab42   ; la cuenta de la pieza = 0x04
-	call L_AB8E		;ab46
-	bit 0,(ix+00bh)		;ab49   ; mira el bit 0 de el B de la pieza
+	call L_AB8E		;ab46   ; ...hacia donde va (p19:AB8E)...
+	bit 0,(ix+00bh)		;ab49   ; ...las que cuelgan (bit 0 de B) mueven su base; las demas, su y
 	jr nz,L_AB60		;ab4d
-	bit 0,(ix+01eh)		;ab4f
+	bit 0,(ix+01eh)		;ab4f   ; 8 abajo o arriba segun IX+1E
 	ld a,008h		;ab53
 	jr z,L_AB59		;ab55
 	ld a,0f8h		;ab57
@@ -663,7 +663,7 @@ L_AB6A:
 	ld (ix+01fh),a		;ab6d
 	ret			;ab70
 L_AB71:
-	ld a,(ix+01fh)		;ab71
+	ld a,(ix+01fh)		;ab71   ; sus filas: de la y a la base, / 8 + 1
 	sub (ix+004h)		;ab74   ; le resta la y de la pieza
 	rrca			;ab77
 	rrca			;ab78
@@ -671,14 +671,14 @@ L_AB71:
 	and 01fh		;ab7a
 	inc a			;ab7c
 	ld (ix+009h),a		;ab7d   ; guarda las filas de la pieza
-	bit 0,(ix+00bh)		;ab80   ; mira el bit 0 de el B de la pieza
+	bit 0,(ix+00bh)		;ab80   ; las que cuelgan: el dibujo 0x40 - filas
 	ret z			;ab84
 	ld a,040h		;ab85
 	sub (ix+009h)		;ab87   ; le resta las filas de la pieza
 	ld (ix+007h),a		;ab8a   ; guarda el dibujo de la pieza
 	ret			;ab8d
 L_AB8E:
-	ld a,(ix+009h)		;ab8e   ; lee las filas de la pieza
+	ld a,(ix+009h)		;ab8e   ; con menos de 5 filas, a crecer (IX+1E = 1); desde 0x0F, a menguar (0)
 	sub 005h		;ab91
 	jr c,L_AB9D		;ab93
 	sub 00ah		;ab95
@@ -689,7 +689,7 @@ L_AB9D:
 	ld (ix+01eh),001h		;ab9d
 	ret			;aba1
 L_ABA2:
-	ld hl,0e4a0h		;aba2
+	ld hl,0e4a0h		;aba2   ; el sonido 0x34 cada 3 pasos de scroll (0xE4A0)
 	ld a,(hl)			;aba5
 	add a,a			;aba6
 	add a,(hl)			;aba7
@@ -703,7 +703,7 @@ L_ABAE:
 	inc (hl)			;abb7
 	jp 058f1h		;abb8   ; sonido_34: pide el sonido 0x34
 L_ABBB:
-	ld a,(ix+004h)		;abbb   ; lee la y de la pieza
+	ld a,(ix+004h)		;abbb   ; una pieza (desde p01:7B75): el dibujo 0x15 arriba o 0x16 abajo (y 0x40), 4 vidas, 4 x 4, no se toca
 	sub 040h		;abbe
 	ld a,015h		;abc0
 	jr c,L_ABC5		;abc2
@@ -718,7 +718,7 @@ L_ABC5:
 	ld (ix+00dh),080h		;abd8   ; como se toca la pieza (bit 7: no se toca) = 0x80
 	ret			;abdc
 L_ABDD:
-	ld b,080h		;abdd
+	ld b,080h		;abdd   ; se puede tocar solo con la x entre 0x20 y 0xE0
 	ld a,(ix+006h)		;abdf   ; lee la x de la pieza
 	cp 0e0h		;abe2
 	jr nc,L_ABEC		;abe4
@@ -729,7 +729,7 @@ L_ABEC:
 	ld (ix+00dh),b		;abec   ; guarda como se toca la pieza (bit 7: no se toca)
 	ret			;abef
 L_ABF0:
-	ld (ix+012h),081h		;abf0   ; las marcas de la pieza = 0x81
+	ld (ix+012h),081h		;abf0   ; otra (desde p01:7D3F): 0x10 vidas, 2 x 4, 4 cuadros, el dibujo 0x0F, no se toca
 	ld (ix+008h),010h		;abf4   ; las vidas de la pieza = 0x10
 	ld (ix+009h),002h		;abf8   ; las filas de la pieza = 0x02
 	ld (ix+00ah),004h		;abfc   ; las columnas de la pieza = 0x04
@@ -738,7 +738,7 @@ L_ABF0:
 	ld (ix+00dh),080h		;ac08   ; como se toca la pieza (bit 7: no se toca) = 0x80
 	ret			;ac0c
 L_AC0D:
-	call L_AC3E		;ac0d
+	call L_AC3E		;ac0d   ; cada cuadro: la toca? y por su paso
 	ld a,(ix+001h)		;ac10   ; lee el paso de la pieza
 	call 04093h		;ac13   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -755,11 +755,11 @@ DATA_tabla_AC16:
 
 
 L_AC1A:
-	dec (ix+002h)		;ac1a   ; resta 1 a la cuenta de la pieza
+	dec (ix+002h)		;ac1a   ; paso 0: cada 4 cuadros el dibujo siguiente...
 	ret nz			;ac1d
 	ld (ix+002h),004h		;ac1e   ; la cuenta de la pieza = 0x04
 	inc (ix+007h)		;ac22   ; suma 1 a el dibujo de la pieza
-	bit 6,(ix+012h)		;ac25   ; mira el bit 6 de las marcas de la pieza
+	bit 6,(ix+012h)		;ac25   ; ...si se ve, un enemigo 3 en su sitio...
 	jr nz,L_AC3A		;ac29
 	ld e,(ix+004h)		;ac2b   ; lee la y de la pieza
 	ld a,(ix+006h)		;ac2e   ; lee la x de la pieza
@@ -768,10 +768,10 @@ L_AC1A:
 	ld a,003h		;ac35
 	call 0764fh		;ac37
 L_AC3A:
-	inc (ix+001h)		;ac3a   ; suma 1 a el paso de la pieza
+	inc (ix+001h)		;ac3a   ; ...y al paso 1
 	ret			;ac3d
 L_AC3E:
-	ld a,(ix+00dh)		;ac3e   ; lee como se toca la pieza (bit 7: no se toca)
+	ld a,(ix+00dh)		;ac3e   ; se puede tocar desde que su x baja de 0xE0
 	rla			;ac41
 	ret nc			;ac42
 	ld a,(ix+006h)		;ac43   ; lee la x de la pieza
@@ -780,36 +780,36 @@ L_AC3E:
 	ld (ix+00dh),000h		;ac49   ; como se toca la pieza (bit 7: no se toca) = 0x00
 	ret			;ac4d
 L_AC4E:
-	dec (ix+002h)		;ac4e   ; resta 1 a la cuenta de la pieza
+	dec (ix+002h)		;ac4e   ; paso 1: cada 4 cuadros el dibujo anterior y al paso 0
 	ret nz			;ac51
 	ld (ix+002h),004h		;ac52   ; la cuenta de la pieza = 0x04
 	dec (ix+007h)		;ac56   ; resta 1 a el dibujo de la pieza
 	dec (ix+001h)		;ac59   ; resta 1 a el paso de la pieza
 	ret			;ac5c
 L_AC5D:
-	call 078c8h		;ac5d
+	call 078c8h		;ac5d   ; un enemigo que sale al azar (desde p01:781B): parado...
 L_AC60:
 	call 07ee1h		;ac60   ; la aceleracion a cero (IX+18 a IX+1B) (p01:7EE1)
 L_AC63:
-	ld a,r		;ac63
+	ld a,r		;ac63   ; ...su velocidad y su aceleracion al azar (tabla de 0xAC84, 8 de 4 bytes)...
 	and 007h		;ac65
 	add a,a			;ac67
 	add a,a			;ac68
 	ld hl,0ac84h		;ac69
 	call 04089h		;ac6c   ; suma_a_hl: HL = HL + A
 L_AC6F:
-	ld c,(hl)			;ac6f
+	ld c,(hl)			;ac6f   ; la velocidad en x...
 	inc hl			;ac70
 	ld b,(hl)			;ac71
 	inc hl			;ac72
-	ld e,(hl)			;ac73
+	ld e,(hl)			;ac73   ; ...y en y
 	inc hl			;ac74
 	ld d,(hl)			;ac75
-	ld h,b			;ac76
+	ld h,b			;ac76   ; en HL y DE (p01:78D7)
 	ld l,c			;ac77
 	call 078d7h		;ac78
 L_AC7B:
-	ld de,000c0h		;ac7b
+	ld de,000c0h		;ac7b   ; ...con tope 0xC0 y el sonido 0x29
 	call 07ef3h		;ac7e
 L_AC81:
 	jp 05894h		;ac81   ; sonido_29: pide el sonido 0x29
@@ -845,7 +845,7 @@ DATA_AC88:
 
 
 L_ACA4:
-	call L_ACAE		;aca4
+	call L_ACAE		;aca4   ; cada cuadro: frena (p19:ACAE) y se mueve
 L_ACA7:
 	call 07f1ch		;aca7   ; la velocidad en y += la aceleracion (p01:7F1C)
 L_ACAA:
@@ -853,7 +853,7 @@ L_ACAA:
 L_ACAD:
 	ret			;acad
 L_ACAE:
-	ld hl,0acb7h		;acae
+	ld hl,0acb7h		;acae   ; la aceleracion segun la velocidad (tabla de 0xACB7, p01:7F7C)
 	ld bc,00702h		;acb1
 	jp 07f7ch		;acb4
 
@@ -871,17 +871,17 @@ DATA_leido_ACB7:
 
 
 L_ACB9:
-	ld (ix+007h),02dh		;acb9
+	ld (ix+007h),02dh		;acb9   ; el dibujo 0x2D (p00:4860)
 	call 04860h		;acbd
 	ret			;acc0
 L_ACC1:
-	call 0487bh		;acc1
+	call 0487bh		;acc1   ; otro (desde p01:781B): p00:487B, con velocidad, en x 0xB0, paso 0
 L_ACC4:
 	ld (ix+010h),007h		;acc4   ; las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll) = 0x07
 	ld (ix+006h),0b0h		;acc8   ; la x del enemigo = 0xB0
 	ld (ix+001h),000h		;accc   ; el paso del enemigo = 0x00
 	ld (ix+002h),001h		;acd0   ; la cuenta del enemigo = 0x01
-	call 078c8h		;acd4
+	call 078c8h		;acd4   ; parado; arriba (y 0) o abajo (0xA0) segun su y (0x50): IX+24
 L_ACD7:
 	ld b,000h		;acd7
 	ld a,(ix+004h)		;acd9   ; lee la y del enemigo
@@ -894,28 +894,28 @@ L_ACE9:
 	ld (ix+024h),b		;ace9
 	ret			;acec
 L_ACED:
-	call 04884h		;aced
+	call 04884h		;aced   ; cada cuadro: p00:4884, sus trozos (p19:AD73) y por su paso
 L_ACF0:
-	call L_AD73		;acf0
-	call L_AD08		;acf3
+	call L_AD73		;acf0   ; cada 8 cuadros el dibujo cambia entre 0xA0 y 0xA4
+	call L_AD08		;acf3   ; la espera: Z al acabar
 	ret nz			;acf6
 	ld a,(ix+001h)		;acf7   ; lee el paso del enemigo
 	cp 015h		;acfa
 	ret nc			;acfc
-	call L_AD36		;acfd
-	call L_AD0C		;ad00
+	call L_AD36		;acfd   ; a partir del paso 0x15, nada; si no, la velocidad del paso...
+	call L_AD0C		;ad00   ; ...al reves en y si empezo abajo
 	call nz,078ddh		;ad03   ; la velocidad en y, al reves (p01:78DD)
 L_AD06:
 	jr L_AD11		;ad06
 L_AD08:
-	dec (ix+002h)		;ad08   ; resta 1 a la cuenta del enemigo
+	dec (ix+002h)		;ad08   ; la espera: Z al acabar
 	ret			;ad0b
 L_AD0C:
-	ld a,(ix+024h)		;ad0c
+	ld a,(ix+024h)		;ad0c   ; empezo abajo? (IX+24)
 	or a			;ad0f
 	ret			;ad10
 L_AD11:
-	ld a,(ix+001h)		;ad11   ; lee el paso del enemigo
+	ld a,(ix+001h)		;ad11   ; la espera del paso (tabla de 0xAD21) y al siguiente
 	ld hl,0ad21h		;ad14
 	call 04a6eh		;ad17   ; lee_byte: A = el byte A de la tabla HL
 L_AD1A:
@@ -940,7 +940,7 @@ DATA_tabla_AD21:
 
 
 L_AD36:
-	call 078c8h		;ad36
+	call 078c8h		;ad36   ; parado y la velocidad del paso (tabla de 0xAD49): IX+0A y IX+8
 L_AD39:
 	ld a,(ix+001h)		;ad39   ; lee el paso del enemigo
 	ld hl,0ad49h		;ad3c
@@ -968,7 +968,7 @@ DATA_tabla_AD49:
 
 
 L_AD73:
-	ld a,(0e303h)		;ad73   ; lee la cuenta de cuadros del juego
+	ld a,(0e303h)		;ad73   ; cada 8 cuadros el dibujo cambia entre 0xA0 y 0xA4
 	and 007h		;ad76
 	ret nz			;ad78
 	bit 2,(ix+030h)		;ad79   ; mira el bit 2 de el dibujo del primer sprite del enemigo
@@ -979,7 +979,7 @@ L_AD83:
 	ld (ix+030h),a		;ad83   ; guarda el dibujo del primer sprite del enemigo
 	ret			;ad86
 L_AD87:
-	ld (ix+010h),007h		;ad87   ; las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll) = 0x07
+	ld (ix+010h),007h		;ad87   ; otro igual (desde p01:781B): en x 0x40, arriba o abajo segun su y (0x60)
 	ld (ix+006h),040h		;ad8b   ; la x del enemigo = 0x40
 	ld (ix+001h),000h		;ad8f   ; el paso del enemigo = 0x00
 	ld (ix+002h),001h		;ad93   ; la cuenta del enemigo = 0x01
@@ -994,25 +994,25 @@ L_ADA4:
 	ld (ix+024h),b		;ada4
 	ret			;ada7
 L_ADA8:
-	call L_ADBD		;ada8
+	call L_ADBD		;ada8   ; cada cuadro: hasta el paso 0x10, la velocidad de cada paso (al reves en y si va abajo)
 	ret nz			;adab
 	ld a,(ix+001h)		;adac   ; lee el paso del enemigo
 	cp 010h		;adaf
 	ret nc			;adb1
-	call L_ADDE		;adb2
-	call L_ADC1		;adb5
+	call L_ADDE		;adb2   ; parado y la velocidad del paso (tabla de 0xADF1)
+	call L_ADC1		;adb5   ; abajo? (IX+24)
 	call nz,078ddh		;adb8   ; la velocidad en y, al reves (p01:78DD)
 L_ADBB:
 	jr L_ADC6		;adbb
 L_ADBD:
-	dec (ix+002h)		;adbd   ; resta 1 a la cuenta del enemigo
+	dec (ix+002h)		;adbd   ; la espera: Z al acabar
 	ret			;adc0
 L_ADC1:
-	ld a,(ix+024h)		;adc1
+	ld a,(ix+024h)		;adc1   ; abajo? (IX+24)
 	or a			;adc4
 	ret			;adc5
 L_ADC6:
-	ld a,(ix+001h)		;adc6   ; lee el paso del enemigo
+	ld a,(ix+001h)		;adc6   ; la espera del paso (tabla de 0xADD6) y al siguiente
 	ld hl,0add6h		;adc9
 	call 04a6eh		;adcc   ; lee_byte: A = el byte A de la tabla HL
 L_ADCF:
@@ -1036,7 +1036,7 @@ DATA_tabla_ADD6:
 
 
 L_ADDE:
-	call 078c8h		;adde
+	call 078c8h		;adde   ; parado y la velocidad del paso (tabla de 0xADF1)
 L_ADE1:
 	ld a,(ix+001h)		;ade1   ; lee el paso del enemigo
 	ld hl,0adf1h		;ade4
@@ -1062,23 +1062,23 @@ DATA_tabla_ADF1:
 
 
 L_AE01:
-	ld (ix+01fh),009h		;ae01
+	ld (ix+01fh),009h		;ae01   ; una pieza que crece (desde p01:7D3F): 9 de cuenta del sonido, IX+12 = 1, no se toca...
 	ld (ix+012h),001h		;ae05   ; las marcas de la pieza = 0x01
 	ld (ix+00dh),080h		;ae09   ; como se toca la pieza (bit 7: no se toca) = 0x80
-	ld a,(ix+00bh)		;ae0d   ; lee el B de la pieza
+	ld a,(ix+00bh)		;ae0d   ; ...su dibujo y lo que crece por su B (tabla de 0xAE35)...
 	ld b,a			;ae10
 	ld hl,0ae35h		;ae11
 	call 04a5ah		;ae14   ; lee_palabra: HL = la palabra A de la tabla HL
 L_AE17:
 	ld (ix+007h),l		;ae17   ; guarda el dibujo de la pieza
 	ld (ix+00ch),h		;ae1a
-	ld a,b			;ae1d
+	ld a,b			;ae1d   ; ...sus filas y columnas (0xAE3D)...
 	ld hl,0ae3dh		;ae1e
 	call 04a5ah		;ae21   ; lee_palabra: HL = la palabra A de la tabla HL
 L_AE24:
 	ld (ix+009h),l		;ae24   ; guarda las filas de la pieza
 	ld (ix+00ah),h		;ae27   ; guarda las columnas de la pieza
-	ld a,b			;ae2a
+	ld a,b			;ae2a   ; ...y su espera (0xAE45)
 	ld hl,0ae45h		;ae2b
 	call 04a6eh		;ae2e   ; lee_byte: A = el byte A de la tabla HL
 L_AE31:
@@ -1121,8 +1121,8 @@ DATA_tabla_AE45:
 
 
 L_AE49:
-	call L_AE89		;ae49
-	dec (ix+002h)		;ae4c   ; resta 1 a la cuenta de la pieza
+	call L_AE89		;ae49   ; cada cuadro: el sonido mientras crece...
+	dec (ix+002h)		;ae4c   ; ...cada 8 cuadros una fila mas...
 	ret nz			;ae4f
 	ld (ix+002h),008h		;ae50   ; la cuenta de la pieza = 0x08
 	ld a,(ix+00ch)		;ae54
@@ -1130,7 +1130,7 @@ L_AE49:
 	ret z			;ae58
 	dec (ix+00ch)		;ae59
 	inc (ix+009h)		;ae5c   ; suma 1 a las filas de la pieza
-	ld a,(ix+00bh)		;ae5f   ; lee el B de la pieza
+	ld a,(ix+00bh)		;ae5f   ; ...hacia arriba (y - 8), o con B = 3 el dibujo siguiente
 	cp 003h		;ae62
 	jr z,L_AE6F		;ae64
 	ld a,(ix+004h)		;ae66   ; lee la y de la pieza
@@ -1141,7 +1141,7 @@ L_AE6F:
 	inc (ix+007h)		;ae6f   ; suma 1 a el dibujo de la pieza
 	ret			;ae72
 L_AE73:
-	ld a,(ix+00bh)		;ae73
+	ld a,(ix+00bh)		;ae73   ; la de B = 1, con 5 o mas por crecer, el caracter 0xA8 en la fila de abajo
 	dec a			;ae76
 	ret nz			;ae77
 	ld a,(ix+00ch)		;ae78
@@ -1153,7 +1153,7 @@ L_AE73:
 	ld (hl),0a8h		;ae86
 	ret			;ae88
 L_AE89:
-	ld a,(ix+00ch)		;ae89
+	ld a,(ix+00ch)		;ae89   ; mientras crece, cada 9 cuadros el sonido 0x3C
 	or a			;ae8c
 	ret z			;ae8d
 	dec (ix+01fh)		;ae8e
@@ -1161,14 +1161,14 @@ L_AE89:
 	ld (ix+01fh),009h		;ae92
 	jp 05927h		;ae96   ; sonido_3C: pide el sonido 0x3C
 L_AE99:
-	ld (ix+009h),004h		;ae99   ; las filas de la pieza = 0x04
+	ld (ix+009h),004h		;ae99   ; otra (desde p01:7D33): 4 x 4, 0x30 cuadros, no se toca, 8 vidas
 	ld (ix+00ah),004h		;ae9d   ; las columnas de la pieza = 0x04
 	ld (ix+002h),030h		;aea1   ; la cuenta de la pieza = 0x30
 	ld (ix+00dh),080h		;aea5   ; como se toca la pieza (bit 7: no se toca) = 0x80
 	ld (ix+008h),008h		;aea9   ; las vidas de la pieza = 0x08
 	ld (ix+00ch),004h		;aead
 	ld (ix+014h),008h		;aeb1
-	ld a,(ix+00bh)		;aeb5   ; lee el B de la pieza
+	ld a,(ix+00bh)		;aeb5   ; el dibujo de su B (tabla de 0xAEC3)
 	ld hl,0aec3h		;aeb8
 	call 04089h		;aebb   ; suma_a_hl: HL = HL + A
 L_AEBE:
@@ -1192,13 +1192,13 @@ DATA_tabla_AEC3:
 
 
 L_AEC6:
-	ld a,(ix+006h)		;aec6   ; lee la x de la pieza
+	ld a,(ix+006h)		;aec6   ; se puede tocar desde la x 0xE0
 	cp 0e0h		;aec9
 	ret nc			;aecb
 	res 7,(ix+00dh)		;aecc   ; pone a cero el bit 7 de como se toca la pieza (bit 7: no se toca)
 	ret			;aed0
 L_AED1:
-	call L_AEC6		;aed1
+	call L_AEC6		;aed1   ; cada cuadro: la toca? y por su paso
 	ld a,(ix+001h)		;aed4   ; lee el paso de la pieza
 	call 04093h		;aed7   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -1215,7 +1215,7 @@ DATA_tabla_AEDA:
 
 
 L_AEE0:
-	dec (ix+002h)		;aee0   ; resta 1 a la cuenta de la pieza
+	dec (ix+002h)		;aee0   ; paso 0: al acabar, 0x28 cuadros, el dibujo siguiente, 0xE482 = 0 y al paso 1
 	ret nz			;aee3
 	ld (ix+002h),028h		;aee4   ; la cuenta de la pieza = 0x28
 	inc (ix+007h)		;aee8   ; suma 1 a el dibujo de la pieza
@@ -1225,32 +1225,32 @@ L_AEEF:
 	inc (ix+001h)		;aeef   ; suma 1 a el paso de la pieza
 	ret			;aef2
 L_AEF3:
-	ld a,(ix+006h)		;aef3   ; lee la x de la pieza
+	ld a,(ix+006h)		;aef3   ; paso 1: por la izquierda (x por debajo de 0x20) o al acabar...
 	cp 020h		;aef6
 	jr c,L_AEFF		;aef8
 	dec (ix+002h)		;aefa   ; resta 1 a la cuenta de la pieza
 	jr nz,L_AF10		;aefd
 L_AEFF:
-	dec (ix+007h)		;aeff   ; resta 1 a el dibujo de la pieza
+	dec (ix+007h)		;aeff   ; ...el dibujo anterior, 0x30 cuadros, 8 y 4 disparos, y al paso 0
 	ld (ix+002h),030h		;af02   ; la cuenta de la pieza = 0x30
 	ld (ix+014h),008h		;af06
 	ld (ix+00ch),004h		;af0a
 	jr L_AEEF		;af0e
 L_AF10:
-	ld a,(ix+00ch)		;af10
+	ld a,(ix+00ch)		;af10   ; con disparos, cada 8 cuadros uno...
 	or a			;af13
 	ret z			;af14
 	dec (ix+014h)		;af15
 	ret nz			;af18
 	ld (ix+014h),008h		;af19
 	dec (ix+00ch)		;af1d
-	ld a,(ix+004h)		;af20   ; lee la y de la pieza
+	ld a,(ix+004h)		;af20   ; ...hacia arriba (y desde 0x60) o abajo...
 	cp 060h		;af23
 	ld b,001h		;af25
 	jr c,L_AF2B		;af27
 	ld b,000h		;af29
 L_AF2B:
-	ld a,(ix+007h)		;af2b   ; lee el dibujo de la pieza
+	ld a,(ix+007h)		;af2b   ; ...desde y - 8 (y + 0x18 con el dibujo 0xAF)...
 	cp 0afh		;af2e
 	ld c,0f8h		;af30
 	jr nz,L_AF36		;af32
@@ -1260,7 +1260,7 @@ L_AF36:
 	ld a,(ix+004h)		;af39   ; lee la y de la pieza
 	add a,c			;af3c
 	ld e,a			;af3d
-	ld a,(0e363h)		;af3e   ; lee la posicion del scroll (16 bits)
+	ld a,(0e363h)		;af3e   ; ...el enemigo 0x10 con el bit del scroll
 	and 001h		;af41
 	ld c,a			;af43
 	ld a,010h		;af44
@@ -1268,13 +1268,13 @@ L_AF36:
 L_AF49:
 	ret			;af49
 L_AF4A:
-	dec (ix+002h)		;af4a   ; resta 1 a la cuenta de la pieza
+	dec (ix+002h)		;af4a   ; paso 2: la espera; al acabar, al paso 0
 	ret nz			;af4d
 	ld (ix+002h),030h		;af4e   ; la cuenta de la pieza = 0x30
 	ld (ix+001h),000h		;af52   ; el paso de la pieza = 0x00
 	ret			;af56
 L_AF57:
-	ld a,(ix+004h)		;af57   ; lee la y del enemigo
+	ld a,(ix+004h)		;af57   ; hacia el centro en y (0x60): +-0x300...
 	cp 060h		;af5a
 	ld de,00300h		;af5c
 	jr c,L_AF64		;af5f
@@ -1282,7 +1282,7 @@ L_AF57:
 L_AF64:
 	call 078ach		;af64   ; la velocidad en y (IX+7, 16 bits) (p01:78AC)
 L_AF67:
-	ld a,(0e606h)		;af67   ; lee la x de la nave
+	ld a,(0e606h)		;af67   ; ...y hacia la nave en x
 	cp (ix+006h)		;af6a   ; compara con la x del enemigo
 	ld de,00300h		;af6d
 	jr nc,L_AF75		;af70
@@ -1292,11 +1292,11 @@ L_AF75:
 L_AF78:
 	ret			;af78
 L_AF79:
-	call L_AF7F		;af79
+	call L_AF7F		;af79   ; frena (p19:AF7F) y p00:4857
 L_AF7C:
 	jp 04857h		;af7c
 L_AF7F:
-	ld hl,0af93h		;af7f
+	ld hl,0af93h		;af7f   ; la aceleracion segun la velocidad en x (tabla de 0xAF93 o 0xAF91)
 	ld a,(ix+00ah)		;af82
 	rla			;af85
 	jr nc,L_AF8B		;af86
@@ -1319,26 +1319,26 @@ DATA_leido_AF91:
 
 
 L_AF95:
-	call 058cdh		;af95   ; sonido_2B: pide el sonido 0x2B
+	call 058cdh		;af95   ; un enemigo de cuatro trozos (desde p01:7532): el sonido 0x2B
 L_AF98:
-	ld a,(ix+006h)		;af98   ; lee la x del enemigo
+	ld a,(ix+006h)		;af98   ; su x - 0x20 en IX+29
 	sub 020h		;af9b
 	ld (ix+029h),a		;af9d
-	ld a,0e0h		;afa0
+	ld a,0e0h		;afa0   ; los otros tres trozos fuera (0xE0)
 	ld (ix+034h),a		;afa2
 	ld (ix+038h),a		;afa5
 	ld (ix+03ch),a		;afa8
-	ld (ix+024h),008h		;afab
+	ld (ix+024h),008h		;afab   ; 8 cuadros
 	xor a			;afaf
 	ld (0e453h),a		;afb0
-	inc a			;afb3
+	inc a			;afb3   ; con velocidad, un trozo, 2 y 2
 	ld (ix+010h),a		;afb4   ; guarda las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll)
 	ld (ix+025h),a		;afb7
 	inc a			;afba
 	ld (ix+02bh),a		;afbb
 	ld (ix+02ch),a		;afbe
 L_AFC1:
-	inc (ix+02bh)		;afc1
+	inc (ix+02bh)		;afc1   ; el color siguiente de 16 (tabla de 0xAFDC) en sus cuatro sprites
 	ld a,(ix+02bh)		;afc4
 	and 00fh		;afc7
 	ld hl,0afdch		;afc9
@@ -1365,7 +1365,7 @@ DATA_tabla_AFDC:
 
 
 L_AFEC:
-	call L_AFC1		;afec
+	call L_AFC1		;afec   ; cada cuadro: el color; cada 2 cuadros (en el paso 0, cada cuadro) por su paso
 	dec (ix+02ch)		;afef
 	ret nz			;aff2
 	ld (ix+02ch),002h		;aff3
@@ -1389,11 +1389,11 @@ DATA_tabla_B003:
 
 
 L_B00B:
-	dec (ix+024h)		;b00b
-	jr z,L_B024		;b00e
-	bit 0,(ix+024h)		;b010
+	dec (ix+024h)		;b00b   ; paso 0: la cuenta; cuadro si cuadro no el dibujo siguiente (0xD0-0xE3)...
+	jr z,L_B024		;b00e   ; acabada la cuenta: p19:B024
+	bit 0,(ix+024h)		;b010   ; cuadro si, cuadro no...
 	ret z			;b014
-	ld a,(ix+030h)		;b015   ; lee el dibujo del primer sprite del enemigo
+	ld a,(ix+030h)		;b015   ; ...el dibujo siguiente, de 0xD0 a 0xE3
 	add a,004h		;b018
 	cp 0e4h		;b01a
 	jr nz,L_B020		;b01c
@@ -1402,53 +1402,53 @@ L_B020:
 	ld (ix+030h),a		;b020   ; guarda el dibujo del primer sprite del enemigo
 	ret			;b023
 L_B024:
-	ld a,(ix+006h)		;b024   ; lee la x del enemigo
-	sub 010h		;b027
+	ld a,(ix+006h)		;b024   ; ...al acabar, 0x10 a la izquierda, su y en IX+2A, su postura y al paso 1
+	sub 010h		;b027   ; 0x10 a la izquierda
 	ld (ix+006h),a		;b029   ; guarda la x del enemigo
 	ld a,(ix+004h)		;b02c   ; lee la y del enemigo
-	ld (ix+02ah),a		;b02f
-	call L_B09D		;b032
+	ld (ix+02ah),a		;b02f   ; su y en IX+2A
+	call L_B09D		;b032   ; su postura y su paso
 	ld b,001h		;b035
-	call L_B0E7		;b037
+	call L_B0E7		;b037   ; el paso de su dibujo (0xD0-...) en la tabla de 0xB0FF o 0xB104
 L_B03A:
 	inc (ix+001h)		;b03a   ; suma 1 a el paso del enemigo
 	ret			;b03d
 L_B03E:
-	call L_B057		;b03e
-	ld a,(ix+025h)		;b041
+	call L_B057		;b03e   ; paso 1: los trozos siguen; a los 4, al paso 2
+	ld a,(ix+025h)		;b041   ; un trozo mas (IX+25), hasta 4
 	inc a			;b044
 	cp 004h		;b045
 	jr z,L_B03A		;b047
 	ld (ix+025h),a		;b049
 	ret			;b04c
 L_B04D:
-	ld a,(ix+03dh)		;b04d
-	cp 009h		;b050
+	ld a,(ix+03dh)		;b04d   ; paso 2: hasta el trozo 9, el primero se va al de detras y se mueve
+	cp 009h		;b050   ; hasta que el ultimo trozo tenga 9...
 	jr c,L_B03A		;b052
-	call L_B072		;b054
+	call L_B072		;b054   ; los datos del segundo trozo (IX+34-37) pasan al enemigo y los de detras se corren
 L_B057:
-	call L_B109		;b057
-	push af			;b05a
+	call L_B109		;b057   ; el byte siguiente del guion al sprite del trozo IX+25
+	push af			;b05a   ; ...se mueve el primero
 	call L_B12E		;b05b
 	pop af			;b05e
 	ld b,001h		;b05f
 	jp L_B0E7		;b061
 L_B064:
-	call L_B072		;b064
-	dec (ix+025h)		;b067
+	call L_B072		;b064   ; paso 3: el primero se va; sin trozos, se quita
+	dec (ix+025h)		;b067   ; un trozo menos; sin trozos, se quita
 	jp m,075d1h		;b06a
-	ld (ix+03ch),0e0h		;b06d
+	ld (ix+03ch),0e0h		;b06d   ; el ultimo fuera (0xE0)
 	ret			;b071
 L_B072:
-	ld a,(ix+034h)		;b072
+	ld a,(ix+034h)		;b072   ; los datos del segundo trozo (IX+34-37) pasan al enemigo y los de detras se corren
 	ld (ix+004h),a		;b075   ; guarda la y del enemigo
-	ld a,(ix+035h)		;b078
+	ld a,(ix+035h)		;b078   ; la x...
 	ld (ix+006h),a		;b07b   ; guarda la x del enemigo
-	ld a,(ix+036h)		;b07e
+	ld a,(ix+036h)		;b07e   ; ...el dibujo...
 	ld (ix+030h),a		;b081   ; guarda el dibujo del primer sprite del enemigo
-	ld a,(ix+037h)		;b084
+	ld a,(ix+037h)		;b084   ; ...y el color del segundo trozo
 	ld (ix+031h),a		;b087   ; guarda el color del primer sprite del enemigo
-	push ix		;b08a
+	push ix		;b08a   ; los de detras se corren 4 bytes
 	pop de			;b08c
 	ld a,034h		;b08d
 	call 0408eh		;b08f   ; suma_a_de: DE = DE + A
@@ -1460,12 +1460,12 @@ L_B072:
 	ldir		;b09a
 	ret			;b09c
 L_B09D:
-	ld hl,0e453h		;b09d
-	inc (hl)			;b0a0
+	ld hl,0e453h		;b09d   ; su postura: 3 de cada 4 veces hacia la nave en y (tabla de 0xB0DD), 1 al azar
+	inc (hl)			;b0a0   ; la cuenta 0xE453: 1 de cada 4, al azar
 	ld a,(hl)			;b0a1
 	and 003h		;b0a2
 	jr z,L_B0D6		;b0a4
-	ld bc,00500h		;b0a6
+	ld bc,00500h		;b0a6   ; 5 escalones; por encima de la nave desde la tabla, por debajo 5 mas alla
 	ld hl,0b0ddh		;b0a9
 	ld a,(0e604h)		;b0ac   ; lee la y de la nave (el primer byte de su sprite, p01:797C)
 	sub (ix+004h)		;b0af   ; le resta la y del enemigo
@@ -1474,7 +1474,7 @@ L_B09D:
 	ld c,e			;b0b7
 	add hl,de			;b0b8
 L_B0B9:
-	cp (hl)			;b0b9
+	cp (hl)			;b0b9   ; el escalon de la distancia en y
 	jr c,L_B0C1		;b0ba
 	inc c			;b0bc
 	inc hl			;b0bd
@@ -1483,8 +1483,8 @@ L_B0B9:
 L_B0C1:
 	ld a,c			;b0c1
 L_B0C2:
-	add a,a			;b0c2
-	add a,a			;b0c3
+	add a,a			;b0c2   ; la postura x 8 en la tabla de 0xB162: el dibujo y su guion (IX+26/27)
+	add a,a			;b0c3   ; x 8: la postura
 	add a,a			;b0c4
 	ld hl,0b162h		;b0c5
 	call 04a6eh		;b0c8   ; lee_byte: A = el byte A de la tabla HL
@@ -1494,7 +1494,7 @@ L_B0C2:
 	ld (ix+030h),a		;b0d2   ; guarda el dibujo del primer sprite del enemigo
 	ret			;b0d5
 L_B0D6:
-	call 07fadh		;b0d6   ; un numero al azar: el registro R y la cuenta de cuadros (p01:7FAD)
+	call 07fadh		;b0d6   ; al azar: una de 8
 	and 007h		;b0d9
 	jr L_B0C2		;b0db
 
@@ -1514,7 +1514,7 @@ DATA_leido_B0DD:
 
 
 L_B0E7:
-	sub 0d0h		;b0e7
+	sub 0d0h		;b0e7   ; el paso de su dibujo (0xD0-...) en la tabla de 0xB0FF o 0xB104
 	rra			;b0e9
 	rra			;b0ea
 	and 03fh		;b0eb
@@ -1553,7 +1553,7 @@ DATA_tabla_B104:
 
 
 L_B109:
-	ld a,(ix+025h)		;b109
+	ld a,(ix+025h)		;b109   ; el byte siguiente del guion al sprite del trozo IX+25
 	dec a			;b10c
 	ld hl,0b12bh		;b10d
 	call 04a6eh		;b110   ; lee_byte: A = el byte A de la tabla HL
@@ -1586,8 +1586,8 @@ DATA_tabla_B12B:
 
 
 L_B12E:
-	ld b,000h		;b12e
-	call L_B0E7		;b130
+	ld b,000h		;b12e   ; la y del trozo: IX+2A + el paso, sin pasar de 0xD0...
+	call L_B0E7		;b130   ; el paso de su dibujo (0xD0-...) en la tabla de 0xB0FF o 0xB104
 	ld b,a			;b133
 	ld a,(ix+02ah)		;b134
 	add a,(ix+028h)		;b137
@@ -1596,7 +1596,7 @@ L_B12E:
 	jr c,L_B141		;b13d
 	ld a,0e0h		;b13f
 L_B141:
-	ld (ix+02ah),a		;b141
+	ld (ix+02ah),a		;b141   ; ...y su x, 0x10 menos cada trozo
 	ld c,a			;b144
 	push ix		;b145
 	pop hl			;b147
@@ -1686,10 +1686,10 @@ DATA_B1B3:
 
 
 L_B1B4:
-	ld de,0f000h		;b1b4
+	ld de,0f000h		;b1b4   ; un enemigo 0x3A 0x10 a la izquierda (desde p05:BDFC)
 	ld b,001h		;b1b7
 L_B1B9:
-	push bc			;b1b9
+	push bc			;b1b9   ; un enemigo 0x3A desde y + E, x - 0x10...
 	ld a,(ix+005h)		;b1ba
 	add a,d			;b1bd
 	ld d,a			;b1be
@@ -1700,11 +1700,11 @@ L_B1B9:
 	ld a,03ah		;b1c7
 	call 0764fh		;b1c9
 	pop bc			;b1cc
-	ld e,040h		;b1cd
+	ld e,040h		;b1cd   ; ...y otro 0x40 mas abajo (B veces)
 	djnz L_B1B9		;b1cf
 	ret			;b1d1
 L_B1D2:
-	ld a,(0e604h)		;b1d2   ; lee la y de la nave (el primer byte de su sprite, p01:797C)
+	ld a,(0e604h)		;b1d2   ; hacia la nave: su sitio, el paso 0x80 + 2 x la dificultad...
 	ld (0ef80h),a		;b1d5
 	ld a,(0e606h)		;b1d8   ; lee la x de la nave
 	ld (0ef81h),a		;b1db
@@ -1712,7 +1712,7 @@ L_B1D2:
 	add a,a			;b1e1
 	add a,080h		;b1e2
 	ld (0e46eh),a		;b1e4
-	ld e,(ix+004h)		;b1e7   ; lee la y del enemigo
+	ld e,(ix+004h)		;b1e7   ; ...la direccion y la velocidad (p01:640B, 639D, 786E)
 	ld d,(ix+006h)		;b1ea   ; lee la x del enemigo
 	call 0640bh		;b1ed   ; 0xE470: 1 si la nave esta mas arriba (p01:640B)
 L_B1F0:
@@ -1722,7 +1722,7 @@ L_B1F3:
 L_B1F6:
 	ret			;b1f6
 L_B1F7:
-	call L_B215		;b1f7
+	call L_B215		;b1f7   ; frena; si le toca decorado a su izquierda (p01:7FBD)...
 L_B1FA:
 	ld a,(ix+006h)		;b1fa   ; lee la x del enemigo
 	sub 008h		;b1fd
@@ -1731,7 +1731,7 @@ L_B1FA:
 	call 07fbdh		;b203
 L_B206:
 	ret nc			;b206
-	inc hl			;b207
+	inc hl			;b207   ; ...deja un caracter roto al azar (0xBC-0xBF), se quita y el sonido 0x33
 	ld a,r		;b208
 	and 003h		;b20a
 	add a,0bch		;b20c
@@ -1740,7 +1740,7 @@ L_B206:
 L_B212:
 	jp 058edh		;b212   ; sonido_33: pide el sonido 0x33
 L_B215:
-	ld hl,0b21eh		;b215
+	ld hl,0b21eh		;b215   ; la aceleracion segun la velocidad (tabla de 0xB21E)
 	ld bc,00704h		;b218
 	jp 07f7ch		;b21b
 
@@ -1758,14 +1758,14 @@ DATA_leido_B21E:
 
 
 L_B222:
-	ld (ix+02eh),004h		;b222
+	ld (ix+02eh),004h		;b222   ; un enemigo de cuatro sprites que rebota (desde p01:753F): 4 y 0
 	ld (ix+02fh),000h		;b226
 	ld (ix+010h),007h		;b22a   ; las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll) = 0x07
-	ld de,0fc00h		;b22e
+	ld de,0fc00h		;b22e   ; en diagonal: -0x400 en x, +0x400 en y
 	ld hl,00400h		;b231
 	call 078d7h		;b234
 L_B237:
-	ld a,(ix+030h)		;b237   ; lee el dibujo del primer sprite del enemigo
+	ld a,(ix+030h)		;b237   ; sus otros tres sprites: el mismo dibujo, el color 0x0F y fuera (0xE0)
 	ld (ix+036h),a		;b23a
 	ld (ix+03ah),a		;b23d
 	ld (ix+03eh),a		;b240
@@ -1777,35 +1777,35 @@ L_B237:
 	ld (ix+034h),a		;b250
 	ld (ix+038h),a		;b253
 	ld (ix+03ch),a		;b256
-	ld a,(ix+01fh)		;b259
+	ld a,(ix+01fh)		;b259   ; su estela de 9 posiciones: en 0xEBC0 o, con IX+1F, en 0xEBD2...
 	or a			;b25c
 	ld hl,0ebc0h		;b25d
 	jr z,L_B265		;b260
 	ld hl,0ebd2h		;b262
 L_B265:
-	ld e,(ix+004h)		;b265   ; lee la y del enemigo
+	ld e,(ix+004h)		;b265   ; ...todas en su sitio
 	ld d,(ix+006h)		;b268   ; lee la x del enemigo
 	ld b,009h		;b26b
 L_B26D:
-	ld (hl),e			;b26d
+	ld (hl),e			;b26d   ; 9 posiciones iguales
 	inc hl			;b26e
 	ld (hl),d			;b26f
 	inc hl			;b270
 	djnz L_B26D		;b271
 	ret			;b273
 L_B274:
-	call L_B395		;b274
+	call L_B395		;b274   ; cada cuadro: los otros sprites (p19:B395), la estela (p19:B324) y por su paso
 	call L_B324		;b277
 	ld a,(ix+001h)		;b27a   ; lee el paso del enemigo
 	dec a			;b27d
 	jr z,L_B28A		;b27e
-	ld a,(ix+006h)		;b280   ; lee la x del enemigo
+	ld a,(ix+006h)		;b280   ; paso 0: entra hasta la x 0xF0
 	cp 0f0h		;b283
 	ret nc			;b285
 	inc (ix+001h)		;b286   ; suma 1 a el paso del enemigo
 	ret			;b289
 L_B28A:
-	ld c,000h		;b28a
+	ld c,000h		;b28a   ; paso 1: rebota en el borde de arriba (4) y de abajo (0xA0)...
 	ld a,(ix+004h)		;b28c   ; lee la y del enemigo
 	cp 004h		;b28f
 	jr c,L_B2F0		;b291
@@ -1813,7 +1813,7 @@ L_B28A:
 	jr nc,L_B2F0		;b295
 	ld l,a			;b297
 	inc c			;b298
-	ld a,(0e363h)		;b299   ; lee la posicion del scroll (16 bits)
+	ld a,(0e363h)		;b299   ; ...en los lados solo con el scroll antes de 0xD0
 	cp 0d0h		;b29c
 	ld a,(ix+006h)		;b29e   ; lee la x del enemigo
 	jr nc,L_B2AB		;b2a1
@@ -1822,14 +1822,14 @@ L_B28A:
 	cp 0f0h		;b2a7
 	jr nc,L_B2F0		;b2a9
 L_B2AB:
-	ld h,a			;b2ab
+	ld h,a			;b2ab   ; su sitio en el bufer
 	call 04a46h		;b2ac   ; sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 L_B2AF:
 	ld (ix+02ch),l		;b2af
 	ld (ix+02dh),h		;b2b2
 	ld a,(0e405h)		;b2b5   ; lee el caracter del fondo de la fase
 	ld c,000h		;b2b8
-	bit 7,(ix+008h)		;b2ba
+	bit 7,(ix+008h)		;b2ba   ; hacia arriba mira la columna de al lado, hacia abajo la fila de abajo (0x81)
 	jr z,L_B2C6		;b2be
 	inc hl			;b2c0
 	cp (hl)			;b2c1
@@ -1842,7 +1842,7 @@ L_B2C6:
 	jr c,L_B2F0		;b2cb
 L_B2CD:
 	inc c			;b2cd
-	bit 7,(ix+00ah)		;b2ce
+	bit 7,(ix+00ah)		;b2ce   ; hacia la izquierda la fila de abajo (0x40), hacia la derecha 0x42
 	jr z,L_B2E2		;b2d2
 	ld l,(ix+02ch)		;b2d4
 	ld h,(ix+02dh)		;b2d7
@@ -1852,7 +1852,7 @@ L_B2CD:
 	jr c,L_B2F0		;b2df
 	ret			;b2e1
 L_B2E2:
-	ld l,(ix+02ch)		;b2e2
+	ld l,(ix+02ch)		;b2e2   ; hacia la derecha: la columna 2 mas alla
 	ld h,(ix+02dh)		;b2e5
 	ld de,00042h		;b2e8
 	add hl,de			;b2eb
@@ -1860,7 +1860,7 @@ L_B2E2:
 	jr c,L_B2F0		;b2ed
 	ret			;b2ef
 L_B2F0:
-	ld a,c			;b2f0
+	ld a,c			;b2f0   ; rebota en x: 4 hacia atras y la velocidad en x al reves
 	or a			;b2f1
 	jr z,L_B30C		;b2f2
 	bit 7,(ix+00ah)		;b2f4
@@ -1875,7 +1875,7 @@ L_B2FE:
 L_B30B:
 	ret			;b30b
 L_B30C:
-	bit 7,(ix+008h)		;b30c
+	bit 7,(ix+008h)		;b30c   ; rebota en y: 4 hacia atras y la velocidad en y al reves
 	ld a,0fch		;b310
 	jr z,L_B316		;b312
 	ld a,004h		;b314
@@ -1887,7 +1887,7 @@ L_B316:
 L_B323:
 	ret			;b323
 L_B324:
-	ld a,(ix+01fh)		;b324
+	ld a,(ix+01fh)		;b324   ; la estela se corre una posicion (8 de 2 bytes)...
 	or a			;b327
 	ld hl,0ebceh		;b328
 	jr z,L_B330		;b32b
@@ -1895,7 +1895,7 @@ L_B324:
 L_B330:
 	ld b,008h		;b330
 L_B332:
-	ld e,(hl)			;b332
+	ld e,(hl)			;b332   ; cada posicion pasa a la siguiente (8)
 	inc hl			;b333
 	ld d,(hl)			;b334
 	inc hl			;b335
@@ -1908,7 +1908,7 @@ L_B332:
 	dec l			;b33c
 	dec l			;b33d
 	djnz L_B332		;b33e
-	ld a,(ix+01fh)		;b340
+	ld a,(ix+01fh)		;b340   ; ...la de ahora la primera...
 	or a			;b343
 	ld hl,0ebc0h		;b344
 	jr z,L_B34C		;b347
@@ -1919,7 +1919,7 @@ L_B34C:
 	ld (hl),e			;b352
 	inc hl			;b353
 	ld (hl),d			;b354
-	ld a,(ix+01fh)		;b355
+	ld a,(ix+01fh)		;b355   ; ...y los otros sprites en las posiciones 2, 4 y 6
 	or a			;b358
 	ld hl,0ebc4h		;b359
 	jr z,L_B361		;b35c
@@ -1931,7 +1931,7 @@ L_B361:
 	ld (ix+034h),e		;b364
 	ld (ix+035h),d		;b367
 	ld a,(ix+01fh)		;b36a
-	or a			;b36d
+	or a			;b36d   ; el tercer sprite, en la posicion 6
 	ld hl,0ebcah		;b36e
 	jr z,L_B376		;b371
 	ld hl,0ebdch		;b373
@@ -1941,20 +1941,20 @@ L_B376:
 	ld d,(hl)			;b378
 	ld (ix+038h),e		;b379
 	ld (ix+039h),d		;b37c
-	ld a,(ix+01fh)		;b37f
+	ld a,(ix+01fh)		;b37f   ; y el cuarto, en la 8
 	or a			;b382
 	ld hl,0ebd0h		;b383
 	jr z,L_B38B		;b386
 	ld hl,0ebe2h		;b388
 L_B38B:
-	ld e,(hl)			;b38b
+	ld e,(hl)			;b38b   ; la de la posicion 8
 	inc hl			;b38c
 	ld d,(hl)			;b38d
 	ld (ix+03ch),e		;b38e
 	ld (ix+03dh),d		;b391
 	ret			;b394
 L_B395:
-	ld a,(0e303h)		;b395   ; lee la cuenta de cuadros del juego
+	ld a,(0e303h)		;b395   ; los colores parpadean cada 2 cuadros: 5 y 0x0B o 7 y 0x0E
 	bit 1,a		;b398
 	ld bc,0050bh		;b39a
 	jr z,L_B3A2		;b39d
@@ -1966,65 +1966,65 @@ L_B3A2:
 	ld (ix+03fh),c		;b3ab
 	ret			;b3ae
 L_B3AF:
-	push hl			;b3af
+	push hl			;b3af   ; la clave a cero (cuantas, la ultima y las 8 teclas)
 	push bc			;b3b0
 	ld hl,00000h		;b3b1
-	ld (0e520h),hl		;b3b4
-	ld hl,0e522h		;b3b7
+	ld (0e520h),hl		;b3b4   ; guarda cuantas teclas lleva la clave de la pausa y el byte siguiente (16 bits)
+	ld hl,0e522h		;b3b7   ; apunta a las teclas de la clave de la pausa (8)
 	ld b,008h		;b3ba
 L_B3BC:
-	ld (hl),000h		;b3bc
+	ld (hl),000h		;b3bc   ; 8 teclas a 0
 	inc hl			;b3be
 	djnz L_B3BC		;b3bf
 	pop bc			;b3c1
 	pop hl			;b3c2
 	ret			;b3c3
 L_B3C4:
-	ld a,(0e39ah)		;b3c4
+	ld a,(0e39ah)		;b3c4   ; las claves en la pausa (desde p01:6C1E): solo una por partida (0xE39A)...
 	and a			;b3c7
 	ret nz			;b3c8
-	ld a,(0e600h)		;b3c9   ; lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
+	ld a,(0e600h)		;b3c9   ; ...con la nave
 	dec a			;b3cc
 	ret m			;b3cd
-	call L_B461		;b3ce
+	call L_B461		;b3ce   ; la tecla pulsada (p19:B461): ninguna o la misma de antes, nada
 	and a			;b3d1
 	ret z			;b3d2
-	ld hl,0e521h		;b3d3
+	ld hl,0e521h		;b3d3   ; apunta a la ultima tecla pulsada en la pausa
 	cp (hl)			;b3d6
 	ret z			;b3d7
 	ld (hl),a			;b3d8
 	ld c,a			;b3d9
-	cp 00dh		;b3da
+	cp 00dh		;b3da   ; RETURN (0x0D): a comparar
 	jr z,L_B3EE		;b3dc
-	ld hl,0e520h		;b3de
+	ld hl,0e520h		;b3de   ; si no, se apunta (hasta 8)
 	ld a,(hl)			;b3e1
 	cp 008h		;b3e2
 	ret nc			;b3e4
 	inc (hl)			;b3e5
-	ld hl,0e522h		;b3e6
+	ld hl,0e522h		;b3e6   ; apunta a las teclas de la clave de la pausa (8)
 	call 04089h		;b3e9   ; suma_a_hl: HL = HL + A
 	ld (hl),c			;b3ec
 	ret			;b3ed
 L_B3EE:
-	ld hl,L_B3AF		;b3ee
+	ld hl,L_B3AF		;b3ee   ; al acabar, la clave a cero
 	push hl			;b3f1
-	ld bc,00400h		;b3f2
+	ld bc,00400h		;b3f2   ; las 4 claves: FIND, EXPAND, GOOD y HARD
 L_B3F5:
 	push bc			;b3f5
 	call L_B400		;b3f6
 	pop bc			;b3f9
-	jr nc,L_B416		;b3fa
+	jr nc,L_B416		;b3fa   ; esta? p19:B416
 	inc c			;b3fc
 	djnz L_B3F5		;b3fd
 	ret			;b3ff
 L_B400:
-	ld hl,0b443h		;b400
+	ld hl,0b443h		;b400   ; la clave C (tabla de 0xB443)...
 	ld a,c			;b403
 	call 04a5ah		;b404   ; lee_palabra: HL = la palabra A de la tabla HL
 	ex de,hl			;b407
-	ld hl,0e522h		;b408
+	ld hl,0e522h		;b408   ; apunta a las teclas de la clave de la pausa (8)
 L_B40B:
-	ld a,(de)			;b40b
+	ld a,(de)			;b40b   ; ...letra a letra contra lo tecleado, hasta el RETURN: NC si es esa
 	cp 00dh		;b40c
 	ret z			;b40e
 	cp (hl)			;b40f
@@ -2034,8 +2034,8 @@ L_B40B:
 	scf			;b414
 	ret			;b415
 L_B416:
-	ld a,001h		;b416
-	ld (0e39ah),a		;b418
+	ld a,001h		;b416   ; usada (0xE39A = 1) y lo suyo:
+	ld (0e39ah),a		;b418   ; guarda 1 si ya se tecleo una clave en la pausa
 	ld a,c			;b41b
 	call 04093h		;b41c   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -2052,20 +2052,20 @@ DATA_tabla_B41F:
 
 
 L_B427:
-	ld a,001h		;b427
-	ld (0e39ch),a		;b429
+	ld a,001h		;b427   ; FIND: 0xE39C = 1, las entradas secretas se ven
+	ld (0e39ch),a		;b429   ; guarda la clave FIND: las entradas secretas se ven
 	ret			;b42c
 L_B42D:
-	ld a,001h		;b42d
-	ld (0e39eh),a		;b42f
+	ld a,001h		;b42d   ; EXPAND: 0xE39E = 1 (ninguna instruccion lo lee)
+	ld (0e39eh),a		;b42f   ; guarda la clave EXPAND (ninguna instruccion la lee)
 	ret			;b432
 L_B433:
-	ld a,002h		;b433
+	ld a,002h		;b433   ; GOOD: 0xE39D = 2, la dificultad sube la mitad
 	ld (0e39dh),a		;b435
 	ret			;b438
 L_B439:
-	xor a			;b439
-	ld (0e39bh),a		;b43a
+	xor a			;b439   ; HARD: 0xE39B = 0 y 0xE39D = 1, la dificultad sube el doble
+	ld (0e39bh),a		;b43a   ; guarda puesto a 0 por la clave HARD (ninguna instruccion lo lee)
 	ld a,001h		;b43d
 	ld (0e39dh),a		;b43f
 	ret			;b442
@@ -2087,7 +2087,7 @@ DATA_tabla_B443:
 
 
 L_B461:
-	ld b,008h		;b461
+	ld b,008h		;b461   ; la tecla pulsada: la primera fila del teclado con algo (SNSMAT 0-7)...
 	ld e,000h		;b463
 L_B465:
 	ld a,e			;b465
@@ -2098,10 +2098,10 @@ L_B465:
 	inc e			;b46d
 	djnz L_B465		;b46e
 	xor a			;b470
-	ld (0e521h),a		;b471
+	ld (0e521h),a		;b471   ; guarda la ultima tecla pulsada en la pausa
 	ret			;b474
 L_B475:
-	ld b,a			;b475
+	ld b,a			;b475   ; ...su letra de la tabla de 0xB489 (8 por fila), por el primer bit a 1
 	ld a,e			;b476
 	add a,a			;b477
 	add a,a			;b478
@@ -2138,13 +2138,13 @@ DATA_tabla_B489:
 
 
 L_B4D1:
-	xor a			;b4d1
+	xor a			;b4d1   ; la demostracion empieza: sin mandos, la nave en la fase, su equipo (p19:B4FE)...
 	ld (0e309h),a		;b4d2   ; guarda lo pulsado (mando y cursores)
 	ld (0e33ch),a		;b4d5
 	inc a			;b4d8
 	ld (0e31ah),a		;b4d9   ; guarda 1 mientras la nave esta en la fase
-	call L_B4FE		;b4dc
-	ld hl,00001h		;b4df
+	call L_B4FE		;b4dc   ; las opciones, el escudo, la nave y la vuelta de la fase (tabla de 0xB50E, 4 bytes) a 0xE37E
+	ld hl,00001h		;b4df   ; ...la grabacion desde el principio, el registro R y la cuenta a 0, el scroll en 0x20
 	ld (0e340h),hl		;b4e2   ; guarda los cuadros que quedan de la pulsacion de la demostracion y el byte siguiente (16 bits)
 	xor a			;b4e5
 	ld r,a		;b4e6
@@ -2157,7 +2157,7 @@ L_B4D1:
 	ld (0e363h),hl		;b4fa   ; guarda la posicion del scroll (16 bits)
 	ret			;b4fd
 L_B4FE:
-	ld a,(0e361h)		;b4fe   ; lee la fase (1 a 11)
+	ld a,(0e361h)		;b4fe   ; las opciones, el escudo, la nave y la vuelta de la fase (tabla de 0xB50E, 4 bytes) a 0xE37E
 	add a,a			;b501
 	add a,a			;b502
 	ld hl,0b50eh		;b503
@@ -2178,7 +2178,7 @@ DATA_B512:
 
 
 L_B51E:
-	xor a			;b51e
+	xor a			;b51e   ; su equipo: sin arma secreta, dos opciones, la nave normal, velocidad 2...
 	ld (0e36fh),a		;b51f   ; guarda el nivel del arma secreta (0 a 7)
 	inc a			;b522
 	ld (0e610h),a		;b523
@@ -2188,9 +2188,9 @@ L_B51E:
 	inc a			;b52d
 	ld (0e600h),a		;b52e   ; guarda el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 	ld (0e602h),a		;b531   ; guarda la velocidad de la nave
-	ld a,07fh		;b534
+	ld a,07fh		;b534   ; ...el escudo con 0x7F golpes...
 	ld (0e601h),a		;b536   ; guarda los golpes que le quedan al escudo
-	ld a,(0e361h)		;b539   ; lee la fase (1 a 11)
+	ld a,(0e361h)		;b539   ; ...sus tres armas (tabla de 0xB556 por fase)...
 	ld b,a			;b53c
 	add a,a			;b53d
 	add a,b			;b53e
@@ -2199,7 +2199,7 @@ L_B51E:
 	ld de,0e630h		;b545   ; apunta a el primer arma (el disparo)
 	ld bc,00003h		;b548
 	ldir		;b54b
-	ld hl,0b562h		;b54d
+	ld hl,0b562h		;b54d   ; ...y las casillas (0xB562)
 	ld de,0e434h		;b550   ; apunta a el nivel de la casilla 1, la velocidad (0xFF al maximo)
 	ld bc,00008h		;b553
 L_B556:

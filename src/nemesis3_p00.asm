@@ -989,12 +989,12 @@ L_46DA:
 	ld a,l			;46e1
 	or h			;46e2
 	jr z,L_471F		;46e3
-	ld a,(0e310h)		;46e5   ; lee lo recien pulsado (teclas de funcion)
+	ld a,(0e310h)		;46e5   ; tras el final, EXTEND PLAY con F5: la dificultad sube (0xE36A)...
 	bit 4,a		;46e8
 	ret z			;46ea
 	ld hl,0e36ah		;46eb
 	inc (hl)			;46ee
-	ld hl,0e38ch		;46ef
+	ld hl,0e38ch		;46ef   ; ...las entradas secretas cogidas se olvidan (0xE38C-0xE397)...
 	ld de,0e38dh		;46f2
 	ld bc,0000bh		;46f5
 	ld (hl),000h		;46f8
@@ -1005,7 +1005,7 @@ L_46DA:
 	call 09517h		;4705
 	call bancos_1_2_3		;4708   ; bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 	call L_5683		;470b
-	ld a,001h		;470e
+	ld a,001h		;470e   ; ...y otra vuelta desde la fase 1
 	ld (0e37dh),a		;4710   ; guarda la fase siguiente (0: la de despues)
 	call L_5612		;4713   ; la fase acabada: 0xE366 cuenta las vueltas (sin pasar de 0xFF)
 	xor a			;4716
@@ -1195,7 +1195,7 @@ L_4869:
 	jp devuelve_reparto		;486f   ; devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
 L_4872:
 	call guarda_y_bancos_19		;4872   ; guarda_y_bancos_19: guarda el reparto en la pila y pone el 19 (y sus copias en 0xF0F1-3)
-	call 0b1b4h		;4875
+	call 0b1b4h		;4875   ; un enemigo 0x3A 0x10 a la izquierda (desde p05:BDFC) (p19:B1B4)
 	jp devuelve_reparto		;4878   ; devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
 L_487B:
 	call guarda_y_bancos_1_2_3		;487b   ; guarda_y_bancos_1_2_3: guarda el reparto en la pila y pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
@@ -4100,7 +4100,7 @@ L_5B6F:
 	ld hl,03c00h		;5b72   ; 0xE403 = 0x3C00
 	ld (0e403h),hl		;5b75   ; guarda el marcador cambiado (pausa, mensajes) y el byte siguiente (16 bits)
 	call bancos_19		;5b78   ; con el 19 en 0xA000, p19:B3AF
-	call 0b3afh		;5b7b
+	call 0b3afh		;5b7b   ; la clave a cero (cuantas, la ultima y las 8 teclas) (p19:B3AF)
 	call bancos_1_2_3		;5b7e   ; bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 	call orden_sonido_82		;5b81   ; la orden 0x82 al sonido
 	or 0ffh		;5b84   ; vuelve con NZ: en pausa
@@ -4198,7 +4198,7 @@ L_5C47:
 L_5C59:
 	call L_5CE8		;5c59   ; el byte de 0xE405 de la fase (p00:5CE8)
 	call bancos_19		;5c5c   ; con el 19 en 0xA000, p19:A8FB y p19:A957
-	call 0a8fbh		;5c5f
+	call 0a8fbh		;5c5f   ; el scroll de la fase: sin final, y sus 6 bytes de la tabla de 0xA90F (fase x 6) a 0xE421 (p19:A8FB)
 	call 0a957h		;5c62
 	call bancos_1_2_3		;5c65   ; bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 	xor a			;5c68   ; 0xE643, 0xE645 y 0xE365 a cero

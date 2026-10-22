@@ -803,6 +803,7 @@ C 0x6707 lee_palabra: HL = la palabra A de la tabla HL
 C 0x6723 una explosion grande en DE (E la y, D la x): dentro de la pantalla
 C 0x672C sonido_22: pide el sonido 0x22
 C 0x6731 sonido_26: pide el sonido 0x26
+C 0x6786 el dibujo 0x2D (p00:4860) (p19:ACB9)
 C 0x6789 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x67B8 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0x67E4 lee la x de la nave

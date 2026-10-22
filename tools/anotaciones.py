@@ -218,6 +218,14 @@ for _a, _n in _ATAJOS:
     RUTINAS.setdefault((0, _a), (_nom, _txt))
 
 RAM = {
+    0xE397: ("1 si se cogio la entrada secreta 0x0C (las entradas se ven)", "p02:8157, p02:8192"),
+    0xE39A: ("1 si ya se tecleo una clave en la pausa", "p19:B418"),
+    0xE39B: ("puesto a 0 por la clave HARD (ninguna instruccion lo lee)", "p19:B43A"),
+    0xE39C: ("la clave FIND: las entradas secretas se ven", "p19:B429, p02:818C"),
+    0xE39E: ("la clave EXPAND (ninguna instruccion la lee)", "p19:B42F"),
+    0xE520: ("cuantas teclas lleva la clave de la pausa", "p19:B3DE"),
+    0xE521: ("la ultima tecla pulsada en la pausa", "p19:B3D8"),
+    0xE522: ("las teclas de la clave de la pausa (8)", "p19:B3E6"),
     0xE434: ("el nivel de la casilla 1, la velocidad (0xFF al maximo)", "p04:935E"),
     0xE435: ("el nivel de la casilla 2 (0xFF al maximo)", "p04:9370"),
     0xE436: ("el nivel de la casilla 3 (0xFF al maximo)", "p04:93A1"),
