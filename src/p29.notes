@@ -222,4 +222,6 @@ D 0xBFC5 0xBFCE copias_BFC5  lista de copias de caracteres con la vuelta dada (p
 F 0xBFC5 4
 D 0xBFCE 0xBFF6 leido_BFCE  40 bytes que lee p00:59B3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:59B3 (40 bytes)
 F 0xBFCE 16
+D 0xBFF6 0xC000 relleno_ff  10 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (10 bytes)
+F 0xBFF6 16
 # --- fin de los bloques de bloques.py ---

@@ -97,7 +97,7 @@
 0x758F   # p02:851A call
 0x75D1   # p19:B20F call
 0x7626   # p03:BDD0 call
-0x764F   # p19:AF46 call
+0x764F   # p05:B53D call
 0x77F1   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x77FB   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x7800   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))

@@ -13,7 +13,7 @@
 # Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
 0x402E   # gancho de interrupcion H.KEYI: INIT escribe 0xC3 en 0xFD9A y esta direccion en 0xFD9B (p00:40EF-p00:40F7)
 0x408E   # p04:8620 call
-0x4093   # p19:AED7 call
+0x4093   # p05:B50D call
 0x4094   # p01:7757 call
 0x409D   # cabecera AB: INIT
 0x4148   # p01:7652 call
@@ -27,7 +27,10 @@
 0x41C7   # p30:8515 call
 0x41CF   # p30:82F1 call
 0x41E4   # p27:8A17 call
+0x41EC   # p01:769E call
 0x41EF   # p01:7812 call
+0x41F7   # p01:643E call
+0x4213   # p01:644D call
 0x42B8   # p00:429F entrada 0 de la tabla de 0x42A2 (call 0x4093 en 0x429F)
 0x42EE   # p00:429F entrada 1 de la tabla de 0x42A2 (call 0x4093 en 0x429F)
 0x434B   # p00:429F entrada 2 de la tabla de 0x42A2 (call 0x4093 en 0x429F)
@@ -91,8 +94,8 @@
 0x4A46   # p19:B2AC call
 0x4A5A   # p19:AE21 call
 0x4A65   # p03:A358 call
-0x4A6E   # p04:9414 call
-0x4A75   # p01:78F3 call
+0x4A6E   # p01:6447 call
+0x4A75   # p01:63E3 call cc
 0x4A7D   # p05:A4B0 call
 0x4B1F   # p26:62BC call
 0x4B32   # p26:618F call

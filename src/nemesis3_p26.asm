@@ -271,42 +271,26 @@ DATA_6197:
 	defb 005h,045h,02ch,001h,006h,046h,02ch,001h,007h,047h,02ch,001h,0ffh	; 61a7  .E,..F,..G,..
 
 ; ----------------------------------------------------------------------
-; DATOS leido_61B4: 49 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163
+; DATOS leido_61B4: 181 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163
 ;   al jugar (medido ejecutando el cartucho, tools/cobertura.py y
 ;   tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 17 sin leer
 ;   entre lecturas de la misma rutina: entradas de la misma tabla que las
 ;   partidas no han pedido); lo leen p26:6154, p26:615F, p26:6161, p26:6163
-;   (49 bytes)
-;   0x61b4..0x61e5  (49 bytes)
+;   (181 bytes)
+;   0x61b4..0x6269  (181 bytes)
 DATA_leido_61B4:
 	defb 008h,048h,02ch,001h,009h,049h,02ch,001h,00ah,04ah,02ch,001h,00bh,04bh,02ch,001h	; 61b4  .H,..I,..J,..K,.
 	defb 00ch,04ch,02ch,001h,0ffh,00dh,04dh,02ch,001h,0ffh,00eh,04eh,02ch,001h,0ffh,00fh	; 61c4  .L,...M,...N,...
 	defb 04fh,02ch,001h,0ffh,010h,050h,02ch,001h,011h,051h,02ch,001h,012h,052h,02ch,001h	; 61d4  O,...P,..Q,..R,.
-	defb 0ffh	; 61e4
-
-; ----------------------------------------------------------------------
-; DATOS resto_61E5: lo apuntan con el banco puesto p26:7F2F (0x61E5), p26:7F43
-;   (0x61EA); el tamano es lo que hay hasta lo siguiente, no sale de
-;   recorrerlo; lo leen p26:7F2F, p26:7F43 (14 bytes)
-;   0x61e5..0x61f3  (14 bytes)
-DATA_resto_61E5:
-	defb 013h,053h,02ch,001h,0ffh,014h,054h,02ch,001h,015h,055h,02ch,001h,0ffh	; 61e5  .S,...T,..U,..
-
-; ----------------------------------------------------------------------
-; DATOS leido_61F3: 118 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163
-;   al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p26:6154, p26:615F, p26:6161, p26:6163 (118 bytes)
-;   0x61f3..0x6269  (118 bytes)
-DATA_leido_61F3:
-	defb 016h,056h,02ch,001h,0ffh,017h,057h,02ch,001h,0ffh,018h,058h,02ch,001h,019h,059h	; 61f3  .V,...W,...X,..Y
-	defb 02ch,001h,01ah,05ah,02ch,001h,0ffh,01bh,05bh,02ch,001h,01ch,05ch,02ch,001h,0ffh	; 6203  ,..Z,...[,..\,..
-	defb 01dh,05dh,02ch,001h,01eh,05eh,02ch,001h,0ffh,01fh,05fh,02ch,001h,020h,060h,02ch	; 6213  .],..^,..._,. `,
-	defb 001h,0ffh,021h,061h,02ch,001h,022h,062h,02ch,001h,0ffh,023h,063h,02ch,001h,0ffh	; 6223  ..!a,."b,..#c,..
-	defb 024h,064h,02ch,001h,0ffh,025h,065h,02ch,001h,026h,066h,02ch,001h,0ffh,027h,067h	; 6233  $d,..%e,.&f,..'g
-	defb 02ch,001h,0ffh,028h,068h,02ch,001h,029h,069h,02ch,001h,0ffh,02ah,06ah,02ch,001h	; 6243  ,..(h,.)i,..*j,.
-	defb 02bh,06bh,02ch,001h,0ffh,02ch,06ch,02ch,001h,02dh,06dh,02ch,001h,02eh,06eh,02ch	; 6253  +k,..,l,.-m,..n,
-	defb 001h,0ffh,02fh,06fh,02ch,001h	; 6263
+	defb 0ffh,013h,053h,02ch,001h,0ffh,014h,054h,02ch,001h,015h,055h,02ch,001h,0ffh,016h	; 61e4  ..S,...T,..U,...
+	defb 056h,02ch,001h,0ffh,017h,057h,02ch,001h,0ffh,018h,058h,02ch,001h,019h,059h,02ch	; 61f4  V,...W,...X,..Y,
+	defb 001h,01ah,05ah,02ch,001h,0ffh,01bh,05bh,02ch,001h,01ch,05ch,02ch,001h,0ffh,01dh	; 6204  ..Z,...[,..\,...
+	defb 05dh,02ch,001h,01eh,05eh,02ch,001h,0ffh,01fh,05fh,02ch,001h,020h,060h,02ch,001h	; 6214  ],..^,..._,. `,.
+	defb 0ffh,021h,061h,02ch,001h,022h,062h,02ch,001h,0ffh,023h,063h,02ch,001h,0ffh,024h	; 6224  .!a,."b,..#c,..$
+	defb 064h,02ch,001h,0ffh,025h,065h,02ch,001h,026h,066h,02ch,001h,0ffh,027h,067h,02ch	; 6234  d,..%e,.&f,..'g,
+	defb 001h,0ffh,028h,068h,02ch,001h,029h,069h,02ch,001h,0ffh,02ah,06ah,02ch,001h,02bh	; 6244  ..(h,.)i,..*j,.+
+	defb 06bh,02ch,001h,0ffh,02ch,06ch,02ch,001h,02dh,06dh,02ch,001h,02eh,06eh,02ch,001h	; 6254  k,..,l,.-m,..n,.
+	defb 0ffh,02fh,06fh,02ch,001h	; 6264
 
 ; ----------------------------------------------------------------------
 ; DATOS sin identificar  0x6269..0x626a  (1 bytes)

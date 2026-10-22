@@ -348,9 +348,54 @@ DATA_copias_A8F1:
 	defb 000h	; a8f9
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xa8fa..0xa906  (12 bytes)
-DATA_A8FA:
-	defb 007h,003h,0aah,030h,06ah,0aah,000h,030h,040h,03ch,00fh,000h	; a8fa  ...0j..0@<..
+; DATOS leido_A8FA: 1 bytes que lee p00:5F51 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:5F51 (1 bytes)
+;   0xa8fa..0xa8fb  (1 bytes)
+DATA_leido_A8FA:
+	defb 007h	; a8fa
+
+; ----------------------------------------------------------------------
+; DATOS leido_A8FB: 5 bytes que leen p00:5F99, p00:5F9C, p00:5F86, p00:5FAB,
+;   p00:5FAE al jugar (medido ejecutando el cartucho, tools/cobertura.py y
+;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
+;   p00:5F99, p00:5F9C, p00:5F86, p00:5FAB, p00:5FAE (5 bytes)
+;   0xa8fb..0xa900  (5 bytes)
+DATA_leido_A8FB:
+	defb 003h,0aah,030h,06ah,0aah	; a8fb
+
+; ----------------------------------------------------------------------
+; DATOS leido_A900: 1 bytes que lee p00:5F51 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:5F51 (1 bytes)
+;   0xa900..0xa901  (1 bytes)
+DATA_leido_A900:
+	defb 000h	; a900
+
+; ----------------------------------------------------------------------
+; DATOS leido_A901: 1 bytes que lee p00:4D1F al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:4D1F (1 bytes)
+;   0xa901..0xa902  (1 bytes)
+DATA_leido_A901:
+	defb 030h	; a901
+
+; ----------------------------------------------------------------------
+; DATOS leido_A902: 1 bytes que lee p00:4DC3 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:4DC3 (1 bytes)
+;   0xa902..0xa903  (1 bytes)
+DATA_leido_A902:
+	defb 040h	; a902
+
+; ----------------------------------------------------------------------
+; DATOS leido_A903: 3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar
+;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
+;   el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F
+;   (3 bytes)
+;   0xa903..0xa906  (3 bytes)
+DATA_leido_A903:
+	defb 03ch,00fh,000h	; a903
 
 ; ----------------------------------------------------------------------
 ; DATOS graficos_A906: lista de graficos (p00:4CB1): entradas de 6 bytes
@@ -402,7 +447,8 @@ DATA_rle_A974:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_A977: los dibujos de una entrada de la lista de graficos de
-;   22:A8D8, en RLE (p00:4B3C); lo leen p00:4CFF (135 bytes)
+;   22:A8D8, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A977
+;   A977-A9FE); lo leen p00:4CFF, p00:4B3C (135 bytes)
 ;   0xa977..0xa9fe  (135 bytes)
 DATA_rle_A977:
 	defb 084h,0ffh,000h,0ffh,000h,006h,0ffh,082h,000h,0ffh,004h,000h,002h,0ffh,083h,000h	; a977  ................
@@ -417,14 +463,19 @@ DATA_rle_A977:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_A9FE: los colores de una entrada de la lista de graficos de
-;   22:A8D8, en RLE (p00:4B3C); lo leen p00:4D11 (5 bytes)
+;   22:A8D8, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A9FE
+;   A9FE-AA03); lo leen p00:4D11, p00:4B3C (5 bytes)
 ;   0xa9fe..0xaa03  (5 bytes)
 DATA_rle_A9FE:
 	defb 07fh,0f0h,031h,0f0h,000h	; a9fe
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xaa03..0xaaaf  (172 bytes)
-DATA_AA03:
+; DATOS leido_AA03: 172 bytes que leen p00:5FC3, p00:5FE5, p00:5FCE al jugar
+;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
+;   el tamano es lo que se lee seguido); lo leen p00:5FC3, p00:5FE5, p00:5FCE
+;   (172 bytes)
+;   0xaa03..0xaaaf  (172 bytes)
+DATA_leido_AA03:
 	defb 006h,000h,095h,002h,004h,02ch,01ch,058h,058h,070h,024h,008h,098h,045h,0a5h,0a5h	; aa03  .....,.XXp$..E..
 	defb 025h,0e2h,022h,002h,002h,02bh,05bh,05dh,004h,0bdh,004h,0beh,002h,05eh,083h,05fh	; aa13  %."..+[].....^._
 	defb 02fh,02fh,003h,058h,090h,030h,014h,044h,02ch,036h,01ah,002h,030h,00ch,00eh,006h	; aa23  //.X.0.D,6..0...
@@ -439,7 +490,8 @@ DATA_AA03:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_AAAF: los dibujos de una entrada de la lista de graficos de
-;   22:A8D8, en RLE (p00:4B3C); lo leen p00:4CFF (878 bytes)
+;   22:A8D8, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_AAAF
+;   AAAF-AE1D); lo leen p00:4CFF, p00:4B3C (878 bytes)
 ;   0xaaaf..0xae1d  (878 bytes)
 DATA_rle_AAAF:
 	defb 004h,0f5h,081h,000h,003h,0ffh,088h,0f8h,0f0h,0e0h,0c0h,08fh,010h,00fh,000h,004h	; aaaf  ................
@@ -500,7 +552,8 @@ DATA_rle_AAAF:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_AE1D: los colores de una entrada de la lista de graficos de
-;   22:A8D8, en RLE (p00:4B3C); lo leen p00:4D11 (169 bytes)
+;   22:A8D8, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_AE1D
+;   AE1D-AEC6); lo leen p00:4D11, p00:4B3C (169 bytes)
 ;   0xae1d..0xaec6  (169 bytes)
 DATA_rle_AE1D:
 	defb 005h,0f0h,081h,090h,008h,080h,007h,0f0h,084h,090h,080h,060h,080h,003h,060h,081h	; ae1d  ...........`..`.
@@ -518,7 +571,8 @@ DATA_rle_AE1D:
 ; ----------------------------------------------------------------------
 ; DATOS rle_AEC6: graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80
 ;   repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n &
-;   0x7F bytes; lo leen p30:858C (76 bytes)
+;   0x7F bytes; se solapan 2 bloques: (rle_vram_AEC6 AEC6-AF12); lo leen
+;   p30:858C, p00:4B3C (76 bytes)
 ;   0xaec6..0xaf12  (76 bytes)
 DATA_rle_AEC6:
 	defb 009h,000h,081h,0f0h,004h,010h,082h,030h,0e0h,010h,000h,089h,0f0h,0e3h,0e2h,0c4h	; aec6  .......0........

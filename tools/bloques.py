@@ -218,8 +218,37 @@ def partidas():
                             lectores=["%s:%04X" % (nombre(b), pc)], F=pc + n - fin_banco))
 
 
-def relleno(minimo=16):
-    """La cola de 0xFF de cada banco, cuando es larga: relleno."""
+def relleno(minimo=8, interior=32):
+    """La cola de 0xFF de cada banco, desde `minimo` bytes, y los tramos de
+    0xFF de `interior` bytes o mas dentro del banco que no son codigo trazado
+    ni caen en un bloque ya declarado: relleno."""
+    import lectores
+    leido = lectores.leido_en_campana()
+    for p in range(N_PAGINAS):
+        cod = codigo_trazado(p)
+        ocupado = bytearray(TAM_PAGINA)
+        for (b, a) in leido:
+            if b == p and ORG[p] <= a < ORG[p] + TAM_PAGINA:
+                ocupado[a - ORG[p]] = 1
+        for x in BLOQUES:
+            if x["p"] == p:
+                for i in range(x["ini"] - ORG[p], x["fin"] - ORG[p]):
+                    ocupado[i] = 1
+        i = 0
+        while i < TAM_PAGINA:
+            j = i
+            while (j < TAM_PAGINA and ROM[p * TAM_PAGINA + j] == 0xFF and not cod[j]
+                   and not ocupado[j]):
+                j += 1
+            if j - i >= interior and j < TAM_PAGINA:
+                BLOQUES.append(dict(p=p, ini=ORG[p] + i, fin=ORG[p] + j, nombre="relleno_ff",
+                                    texto="%d bytes a 0xFF entre dos bloques, que no lee nadie: "
+                                    "relleno" % (j - i), lectores=["nadie"], F=16))
+            i = max(j, i + 1)
+    _cola(minimo)
+
+
+def _cola(minimo):
     for p in range(N_PAGINAS):
         fin = ORG[p] + TAM_PAGINA
         a = fin

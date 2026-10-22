@@ -876,11 +876,11 @@ L_8649:
 	jp L_85CE		;8668
 
 ; ----------------------------------------------------------------------
-; DATOS resto_866B: lo apuntan con el banco puesto p30:8662 (0x866B); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p30:8662 (4 bytes)
+; DATOS leido_866B: 4 bytes que lee p00:5EDA al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:5EDA (4 bytes)
 ;   0x866b..0x866f  (4 bytes)
-DATA_resto_866B:
+DATA_leido_866B:
 	defb 0fah,0a8h,001h,0a9h	; 866b
 
 ; ======================================================================
@@ -919,13 +919,21 @@ L_8690:
 	jp L_85CE		;86af
 
 ; ----------------------------------------------------------------------
-; DATOS resto_86B2: lo apuntan con el banco puesto p30:86A7 (0x86B2), p30:86C6
-;   (0x86B6), p30:86D5 (0x86BA), p30:86E4 (0x86BE); el tamano es lo que hay
-;   hasta lo siguiente, no sale de recorrerlo; lo leen p30:86A7, p30:86C6,
-;   p30:86D5, p30:86E4 (16 bytes)
-;   0x86b2..0x86c2  (16 bytes)
-DATA_resto_86B2:
-	defb 001h,0a4h,002h,000h,001h,0a6h,010h,000h,001h,0b6h,00dh,000h,001h,0c3h,010h,000h	; 86b2  ................
+; DATOS leido_86B2: 1 bytes que lee p26:7988 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p26:7988 (1 bytes)
+;   0x86b2..0x86b3  (1 bytes)
+DATA_leido_86B2:
+	defb 001h	; 86b2
+
+; ----------------------------------------------------------------------
+; DATOS leido_86B3: 15 bytes que leen p26:79C1, p26:79B7, p26:7988 al jugar
+;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
+;   el tamano es lo que se lee seguido); lo leen p26:79C1, p26:79B7, p26:7988
+;   (15 bytes)
+;   0x86b3..0x86c2  (15 bytes)
+DATA_leido_86B3:
+	defb 0a4h,002h,000h,001h,0a6h,010h,000h,001h,0b6h,00dh,000h,001h,0c3h,010h,000h	; 86b3  ...............
 
 ; ======================================================================
 ; CODIGO 0x86c2..0x8781  (191 bytes)
@@ -1177,12 +1185,11 @@ DATA_rle_ram2_887A:
 	defb 048h,042h,037h,058h,01eh,000h	; 88ba
 
 ; ----------------------------------------------------------------------
-; DATOS resto_88C0: lo apuntan con el banco puesto p30:85E1 (0x88C0), p30:8618
-;   (0x88C0), p30:85F5 (0x88E0), p30:862C (0x88E0), p30:8651 (0x890A); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p30:85E1, p30:8618, p30:85F5, p30:862C, p30:8651 (110 bytes)
+; DATOS leido_88C0: 110 bytes que lee p30:8841 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p30:8841 (110 bytes)
 ;   0x88c0..0x892e  (110 bytes)
-DATA_resto_88C0:
+DATA_leido_88C0:
 	defb 012h,013h,014h,008h,008h,008h,008h,008h,008h,008h,008h,008h,008h,024h,023h,022h	; 88c0  .............$#"
 	defb 000h,000h,015h,009h,009h,009h,009h,009h,009h,009h,009h,009h,009h,025h,000h,000h	; 88d0  .............%..
 	defb 000h,00bh,000h,000h,000h,000h,00ch,00dh,000h,000h,000h,000h,016h,019h,000h,00eh	; 88e0  ................
@@ -1192,21 +1199,25 @@ DATA_resto_88C0:
 	defb 04bh,046h,000h,039h,037h,047h,049h,000h,000h,000h,038h,048h,000h,000h	; 8920  KF.97GI...8H..
 
 ; ----------------------------------------------------------------------
-; DATOS tabla_892E: tabla que se lee desde HL = 0x892E con un indice
-;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
-;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
-;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p30:8805 (13 bytes)
+; DATOS rle_ram2_892E: datos comprimidos a la RAM (p00:55CD): 0 acaba; bits
+;   7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte
+;   de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia
+;   los n de detras; empieza donde la campana de tools/cobertura.py lee su
+;   primer byte de control y se recorre hasta su 0; lo leen p00:55CD (13
+;   bytes)
 ;   0x892e..0x893b  (13 bytes)
-DATA_tabla_892E:
+DATA_rle_ram2_892E:
 	defb 052h,0a4h,0c3h,000h,0b6h,000h,045h,0b7h,0c1h,000h,057h,0bch,000h	; 892e  R.....E...W..
 
 ; ----------------------------------------------------------------------
-; DATOS resto_893B: lo apuntan con el banco puesto p30:8684 (0x893B), p30:87DE
-;   (0x89B2); el tamano es lo que hay hasta lo siguiente, no sale de
-;   recorrerlo; lo leen p30:8684, p30:87DE (143 bytes)
-;   0x893b..0x89ca  (143 bytes)
-DATA_resto_893B:
+; DATOS rle_ram2_893B: datos comprimidos a la RAM (p00:55CD): 0 acaba; bits
+;   7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte
+;   de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia
+;   los n de detras; empieza donde la campana de tools/cobertura.py lee su
+;   primer byte de control y se recorre hasta su 0; lo leen p00:55CD (119
+;   bytes)
+;   0x893b..0x89b2  (119 bytes)
+DATA_rle_ram2_893B:
 	defb 004h,000h,0c3h,05bh,05fh,073h,015h,000h,0c1h,06dh,003h,06ah,0c4h,069h,072h,074h	; 893b  ...[_s...m.j.irt
 	defb 06ch,002h,06ah,0c7h,06bh,056h,019h,000h,00fh,01dh,026h,002h,000h,044h,084h,044h	; 894b  l.j.kV....&..D.D
 	defb 094h,002h,000h,044h,075h,0c2h,05ch,06eh,042h,079h,0c4h,076h,07bh,060h,050h,082h	; 895b  ...Du.\nBy.v{`P.
@@ -1214,8 +1225,16 @@ DATA_resto_893B:
 	defb 0c1h,07ch,042h,063h,0cah,05eh,059h,057h,07dh,05dh,06fh,051h,053h,055h,026h,042h	; 897b  .|Bc.^YW}]oQSU&B
 	defb 080h,044h,08ch,044h,09ch,0c2h,000h,062h,002h,067h,0c2h,065h,07eh,002h,000h,083h	; 898b  .D.D...b.g.e~...
 	defb 068h,0c2h,07fh,061h,042h,010h,002h,02bh,0c1h,027h,042h,082h,044h,090h,044h,0a0h	; 899b  h..aB..+.'B.D.D.
-	defb 01ah,000h,042h,0d3h,0c1h,000h,000h,03bh,070h,000h,008h,03bh,070h,00ch,001h,055h	; 89ab  ..B.....p...p..U
-	defb 070h,004h,008h,055h,070h,014h,006h,04fh,090h,008h,008h,04fh,090h,010h,001h	; 89bb  p..Up..O...O...
+	defb 01ah,000h,042h,0d3h,0c1h,000h,000h	; 89ab
+
+; ----------------------------------------------------------------------
+; DATOS leido_89B2: 24 bytes que lee p30:87E7 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p30:87E7 (24 bytes)
+;   0x89b2..0x89ca  (24 bytes)
+DATA_leido_89B2:
+	defb 03bh,070h,000h,008h,03bh,070h,00ch,001h,055h,070h,004h,008h,055h,070h,014h,006h	; 89b2  .p...p..Up..Up..
+	defb 04fh,090h,008h,008h,04fh,090h,010h,001h	; 89c2  O...O...
 
 ; ----------------------------------------------------------------------
 ; DATOS leido_89CA: 8 bytes que lee p30:856F al jugar (medido ejecutando el

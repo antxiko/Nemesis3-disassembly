@@ -471,82 +471,80 @@ D 0x74EA 0x7504 partitura_74EA  partitura que lee el motor de sonido (p10:644C, 
 F 0x74EA 16
 D 0x7504 0x75AC sonidos  un puntero por sonido a su cabecera (p10:6079: 0x7504 + 2 x numero, del 1 al 0x53; la palabra 0 no la pide nadie); lo leen p10:6082 (168 bytes)
 F 0x7504 w8
-D 0x75AC 0x7912 cabeceras  las cabeceras de los sonidos: p10:6089 copia 18 bytes de cada una ([canales][prioridad] y una palabra por canal, la partitura); se solapan porque cada una solo usa 2 + 2 x canales; lo leen p10:608C (870 bytes)
+D 0x75AC 0x7A1C cabeceras  las cabeceras de los sonidos: p10:6089 copia 18 bytes de cada una ([canales][prioridad] y una palabra por canal, la partitura); se solapan porque cada una solo usa 2 + 2 x canales; se solapan 2 bloques: (ondas_del_scc 7904-7A1C); lo leen p10:608C, p10:6D68 (1136 bytes)
 F 0x75AC 18
-D 0x7916 0x791C partitura_7916  partitura que lee el motor de sonido (p10:6D68, p10:6D6D) al tocar los sonidos 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:6D68, p10:6D6D (6 bytes)
-F 0x7916 16
-D 0x791E 0x7920 partitura_791E  partitura que lee el motor de sonido (p10:6D68, p10:6D6D) al tocar los sonidos 0x04, 0x05, 0x06, 0x0D, 0x10, 0x12, 0x14, 0x42 y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:6D68, p10:6D6D (2 bytes)
-F 0x791E 16
-D 0x7928 0x792A partitura_7928  partitura que lee el motor de sonido (p10:6D68, p10:6D6D) al tocar los sonidos 0x0A, 0x40 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:6D68, p10:6D6D (2 bytes)
-F 0x7928 16
-D 0x792C 0x7938 partitura_792C  partitura que lee el motor de sonido (p10:6D68, p10:6D6D) al tocar los sonidos 0x03, 0x04, 0x06, 0x07, 0x08, 0x0C, 0x0D, 0x11 y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:6D68, p10:6D6D (12 bytes)
-F 0x792C 16
-D 0x793A 0x7940 partitura_793A  partitura que lee el motor de sonido (p10:6D68, p10:6D6D) al tocar los sonidos 0x04, 0x07, 0x0C, 0x16, 0x1A, 0x1E, 0x25, 0x2A y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:6D68, p10:6D6D (6 bytes)
-F 0x793A 16
-D 0x794A 0x7956 partitura_794A  partitura que lee el motor de sonido (p10:6D68, p10:6D6D) al tocar los sonidos 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:6D68, p10:6D6D (12 bytes)
-F 0x794A 16
-D 0x7958 0x795A partitura_7958  partitura que lee el motor de sonido (p10:6D68, p10:6D6D) al tocar los sonidos 0x0F, 0x2A, 0x44, 0x4D, 0x4E (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:6D68, p10:6D6D (2 bytes)
-F 0x7958 16
-D 0x79AA 0x79AE partitura_79AA  partitura que lee el motor de sonido (p10:6D68, p10:6D6D) al tocar los sonidos 0x04, 0x3E, 0x3F, 0x41, 0x46, 0x49 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:6D68, p10:6D6D (4 bytes)
-F 0x79AA 16
-D 0x79B6 0x79B8 partitura_79B6  partitura que lee el motor de sonido (p10:6D68, p10:6D6D) al tocar los sonidos 0x04, 0x06, 0x0D, 0x1C, 0x1D, 0x47, 0x49 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:6D68, p10:6D6D (2 bytes)
-F 0x79B6 16
-D 0x79BC 0x79BE partitura_79BC  partitura que lee el motor de sonido (p10:6D68, p10:6D6D) al tocar los sonidos 0x3F, 0x40, 0x42, 0x48, 0x49 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:6D68, p10:6D6D (2 bytes)
-F 0x79BC 16
-D 0x79CC 0x79CE partitura_79CC  partitura que lee el motor de sonido (p10:6D68, p10:6D6D) al tocar los sonidos 0x0A, 0x45, 0x47 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:6D68, p10:6D6D (2 bytes)
-F 0x79CC 16
-D 0x7A3C 0x7ADC partitura_7A3C  partitura que lee el motor de sonido (p10:737B) al tocar los sonidos 0x04, 0x06, 0x0A, 0x0D, 0x1C, 0x1D, 0x3E, 0x3F y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:737B (160 bytes)
+D 0x7A1C 0x7A3C onda_7A1C  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7A1C 16
+D 0x7A3C 0x7A5C onda_7A3C  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
 F 0x7A3C 16
-D 0x7B44 0x7B64 partitura_7B44  partitura que lee el motor de sonido (p10:737B) al tocar los sonidos 0x04, 0x05, 0x08, 0x0A, 0x0B, 0x0C, 0x0E, 0x28 y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:737B (32 bytes)
+D 0x7A5C 0x7A7C onda_7A5C  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7A5C 16
+D 0x7A7C 0x7A9C onda_7A7C  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7A7C 16
+D 0x7A9C 0x7ABC onda_7A9C  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7A9C 16
+D 0x7ABC 0x7ADC onda_7ABC  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7ABC 16
+D 0x7ADC 0x7AFC onda_7ADC  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7ADC 16
+D 0x7B44 0x7B64 onda_7B44  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
 F 0x7B44 16
-D 0x7B84 0x7BA9 partitura_7B84  partitura que lee el motor de sonido (p10:737B, p10:7396) al tocar los sonidos 0x04, 0x05, 0x08, 0x09, 0x0B, 0x24, 0x32, 0x33 y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:737B, p10:7396 (37 bytes)
+D 0x7B64 0x7B84 onda_7B64  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7B64 16
+D 0x7B84 0x7BA4 onda_7B84  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
 F 0x7B84 16
-D 0x7BAA 0x7BAD partitura_7BAA  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (3 bytes)
-F 0x7BAA 16
-D 0x7BAE 0x7BAF partitura_7BAE  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (1 bytes)
-F 0x7BAE 16
-D 0x7BB0 0x7BB3 partitura_7BB0  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (3 bytes)
-F 0x7BB0 16
-D 0x7BB4 0x7BB9 partitura_7BB4  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (5 bytes)
-F 0x7BB4 16
-D 0x7BBA 0x7BBF partitura_7BBA  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (5 bytes)
-F 0x7BBA 16
-D 0x7BC0 0x7BC1 partitura_7BC0  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (1 bytes)
-F 0x7BC0 16
-D 0x7BC2 0x7BC7 partitura_7BC2  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (5 bytes)
-F 0x7BC2 16
-D 0x7BC8 0x7BCB partitura_7BC8  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (3 bytes)
-F 0x7BC8 16
-D 0x7BCC 0x7BCD partitura_7BCC  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (1 bytes)
-F 0x7BCC 16
-D 0x7BCF 0x7BD3 partitura_7BCF  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (4 bytes)
-F 0x7BCF 16
-D 0x7BD4 0x7BD6 partitura_7BD4  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (2 bytes)
-F 0x7BD4 16
-D 0x7BD8 0x7BDA partitura_7BD8  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (2 bytes)
-F 0x7BD8 16
-D 0x7BDB 0x7BDD partitura_7BDB  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (2 bytes)
-F 0x7BDB 16
-D 0x7BDE 0x7BE2 partitura_7BDE  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (4 bytes)
-F 0x7BDE 16
-D 0x7BE3 0x7C45 partitura_7BE3  partitura que lee el motor de sonido (p10:737B, p10:7396) al tocar los sonidos 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:737B, p10:7396 (98 bytes)
-F 0x7BE3 16
-D 0x7C47 0x7C49 partitura_7C47  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (2 bytes)
-F 0x7C47 16
-D 0x7C4A 0x7C4B partitura_7C4A  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (1 bytes)
-F 0x7C4A 16
-D 0x7C4C 0x7C4D partitura_7C4C  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (1 bytes)
-F 0x7C4C 16
-D 0x7C4F 0x7C51 partitura_7C4F  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (2 bytes)
-F 0x7C4F 16
-D 0x7C53 0x7C57 partitura_7C53  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (4 bytes)
-F 0x7C53 16
-D 0x7C5C 0x7C5E partitura_7C5C  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (2 bytes)
-F 0x7C5C 16
-D 0x7C60 0x7C62 partitura_7C60  partitura que lee el motor de sonido (p10:7396) al tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:7396 (2 bytes)
-F 0x7C60 16
-D 0x7C64 0x8000 partitura_7C64  partitura que lee el motor de sonido (p10:644C, p10:6508, p10:6B9D, p10:6C34 y otras) al tocar los sonidos 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08 y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6508, p10:6B9D, p10:6C34, p10:6C3F, p10:6C66, p10:6C9A, p10:6CDE (924 bytes)
+D 0x7BA4 0x7BC4 onda_7BA4  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7BA4 16
+D 0x7BC4 0x7BE4 onda_7BC4  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7BC4 16
+D 0x7BE4 0x7C04 onda_7BE4  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7BE4 16
+D 0x7C04 0x7C24 onda_7C04  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7C04 16
+D 0x7C24 0x7C44 onda_7C24  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7C24 16
+D 0x7C44 0x7C64 onda_7C44  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7C44 16
+D 0x7C64 0x7C84 onda_7C64  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
 F 0x7C64 16
+D 0x7C84 0x7CA4 onda_7C84  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7C84 16
+D 0x7CA4 0x7CC4 onda_7CA4  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7CA4 16
+D 0x7CC4 0x7CE4 onda_7CC4  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7CC4 16
+D 0x7CE4 0x7D04 onda_7CE4  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7CE4 16
+D 0x7D04 0x7D24 onda_7D04  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7D04 16
+D 0x7D24 0x7D44 onda_7D24  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7D24 16
+D 0x7D44 0x7D64 onda_7D44  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7D44 16
+D 0x7D64 0x7D84 onda_7D64  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7D64 16
+D 0x7D84 0x7DA4 onda_7D84  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7D84 16
+D 0x7DA4 0x7DC4 onda_7DA4  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7DA4 16
+D 0x7DC4 0x7DE4 onda_7DC4  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7DC4 16
+D 0x7DE4 0x7E04 onda_7DE4  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7DE4 16
+D 0x7E04 0x7E24 onda_7E04  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7E04 16
+D 0x7E24 0x7E44 onda_7E24  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7E24 16
+D 0x7E44 0x7E64 onda_7E44  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7E44 16
+D 0x7E64 0x7E84 onda_7E64  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7E64 16
+D 0x7E84 0x7EA4 onda_7E84  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7E84 16
+D 0x7EA4 0x7EC4 onda_7EA4  una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen p10:737B (32 bytes)
+F 0x7EA4 16
+D 0x7EC4 0x8000 partitura_7EC4  partitura que lee el motor de sonido (p10:644C, p10:6508, p10:6B9D, p10:6CDE y otras) al tocar los sonidos 0x0F, 0x10, 0x11 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6508, p10:6B9D, p10:6CDE, p10:6D4A, p10:6DC5, p10:6DCC, p10:6DCE (316 bytes)
+F 0x7EC4 16
 D 0x748E 0x74E4 resto_748E  lo apuntan con el banco puesto p10:65C0 (0x748E), p10:65D1 (0x74A2), p10:65D5 (0x74BA), p10:65E6 (0x74D2), p10:65EA (0x74D2); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p10:65C0, p10:65D1, p10:65D5, p10:65E6, p10:65EA (86 bytes)
 F 0x748E 16
 # --- fin de los bloques de bloques.py ---

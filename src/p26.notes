@@ -1065,10 +1065,8 @@ D 0x611C 0x612A tabla_611C  tabla que se lee desde HL = 0x611C con un indice (p0
 F 0x611C 16
 D 0x6193 0x6197 leido_6193  4 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6154, p26:615F, p26:6161, p26:6163 (4 bytes)
 F 0x6193 16
-D 0x61B4 0x61E5 leido_61B4  49 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 17 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p26:6154, p26:615F, p26:6161, p26:6163 (49 bytes)
+D 0x61B4 0x6269 leido_61B4  181 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 17 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p26:6154, p26:615F, p26:6161, p26:6163 (181 bytes)
 F 0x61B4 16
-D 0x61F3 0x6269 leido_61F3  118 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6154, p26:615F, p26:6161, p26:6163 (118 bytes)
-F 0x61F3 16
 D 0x626A 0x628C leido_626A  34 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6154, p26:615F, p26:6161, p26:6163 (34 bytes)
 F 0x626A 16
 D 0x6497 0x64A1 tabla_6497  5 destinos del despachador p00:4093 (call en p26:6494, el indice en A): 64A1, 6541, 662E, 6700, 67C5; lo leen p26:6494 (10 bytes)
@@ -1331,8 +1329,6 @@ D 0x7EBA 0x7EC5 leido_7EBA  11 bytes que leen p26:7E91, p26:7EA5, p26:7E7D al ju
 F 0x7EBA 16
 D 0x7EDB 0x7EF1 tabla_7EDB  11 destinos del despachador p00:4093 (call en p26:7ED8, el indice en A): 7EF1, 7EFE, 7F17, 7F39, 7F63, 7F6E, 7F7A, 7F93, 7FA3, 7FB8, 7FC8; lo leen p26:7ED8 (22 bytes)
 F 0x7EDB w8
-D 0x61E5 0x61F3 resto_61E5  lo apuntan con el banco puesto p26:7F2F (0x61E5), p26:7F43 (0x61EA); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p26:7F2F, p26:7F43 (14 bytes)
-F 0x61E5 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---

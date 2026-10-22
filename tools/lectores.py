@@ -106,6 +106,8 @@ def todo():
     tipos_de_enemigo()
     nombres_de_armas()
     dibujos_de_secuencia()
+    ondas()
+    tablas_de_la_nave()
     sonido()
 
 
@@ -833,6 +835,46 @@ def dibujos_de_secuencia():
               "los caracteres de los dibujos de las secuencias: 8 bytes cada uno, del 0 al 0x155 (el "
               "mayor que piden los dibujos de p27:8F02); p00:4F0B lee el de DE y p00:4F3D lo copia "
               "a la VRAM", "p00:4F3D", F=8)
+
+
+# ------------------------------------------------- las ondas del SCC
+#
+# La orden 0xF8 de la partitura elige la forma de onda de un canal del SCC: la
+# palabra A de la tabla p10:7904 (p10:6D5F; A x 2 en 8 bits, asi que solo
+# cuentan las 128 primeras). p10:737B copia sus 32 muestras al SCC; con el
+# bit 7, la onda que cambia, p10:7396 las toma salteadas (de IX+31 en IX+31).
+# La tabla acaba donde empieza la primera onda a la que apunta (0x7A1C).
+
+def ondas():
+    v = B.Ventana((10, 11, 12))
+    ps = [v.w(0x7904 + 2 * k) for k in range(0x8C)]
+    tope = min(ps)
+    n = (tope - 0x7904) // 2
+    B.declara(v, 0x7904, tope, "ondas_del_scc",
+              "un puntero por forma de onda del SCC (p10:6D5F, 0x7904 + 2 x A; solo se leen las 128 "
+              "primeras); acaba donde empieza la primera onda a la que apunta", "p10:6D68", F="w8")
+    for p in sorted(set(ps[:n])):
+        B.declara(v, p, p + 0x20, "onda_%04X" % p,
+                  "una forma de onda del SCC: 32 muestras que p10:737B copia al canal (o, en la onda "
+                  "que cambia, p10:7396 de IX+31 en IX+31)", ["p10:737B"], F=16)
+
+
+# ------------------------------------------------- tablas de la nave (p04)
+
+def tablas_de_la_nave():
+    v = B.Ventana((1, 4, 5))
+    B.declara(v, 0x83F3, 0x83F3 + 4 * 16, "movimiento",
+              "el paso de la nave por cada direccion de la palanca (los 4 bits de 0xE309): dy y dx "
+              "de 16 bits, 4 bytes por direccion (p04:81EB)", ["p04:81F9", "p04:81FD"], F=4)
+    B.declara(v, 0x931E, 0x935E, "compras_por_nave",
+              "lo que compra cada casilla, una lista de 8 rutinas por nave (p04:9302: la palabra "
+              "0xE380 de 0x9316 y la casilla - 1, por p00:4094)", "p00:4098", F="w8")
+    # 0x94D0 + 8 x nivel + casilla, con la casilla de 1 a 8: 0x94D0 es el
+    # ret de la rutina de antes
+    B.declara(v, 0x94D1, 0x94D1 + 8 * 8, "topes_por_arma_secreta",
+              "cuanto se puede subir cada casilla con cada nivel del arma secreta: 8 bytes por "
+              "nivel (0xE36F de 0 a 7), uno por casilla de 1 a 8 (p04:94BD: 0x94D0 + 8 x nivel + "
+              "casilla)", "p04:94CF", F=8)
 
 
 # ------------------------------------------------- la demostracion

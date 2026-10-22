@@ -1426,6 +1426,8 @@ DATA_leido_BFCE:
 	defb 082h,000h,083h,084h,08bh,08ah,000h,089h	; bfee  ........
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbff6..0xc000  (10 bytes)
-DATA_BFF6:
+; DATOS relleno_ff: 10 bytes a 0xFF hasta el final del banco: relleno; lo leen
+;   nadie (10 bytes)
+;   0xbff6..0xc000  (10 bytes)
+DATA_relleno_ff:
 	defb 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh	; bff6  ..........

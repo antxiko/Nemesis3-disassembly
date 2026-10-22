@@ -266,7 +266,7 @@ D 0xAFDC 0xAFEC tabla_AFDC  tabla que se lee desde HL = 0xAFDC con un indice (p0
 F 0xAFDC 16
 D 0xB003 0xB00B tabla_B003  4 destinos del despachador p00:4093 (call en p19:B000, el indice en A): B00B, B03E, B04D, B064; lo leen p19:B000 (8 bytes)
 F 0xB003 w4
-D 0xB0DD 0xB0E7 leido_B0DD  10 bytes que lee p19:B0B9 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 3 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p19:B0B9 (10 bytes)
+D 0xB0DD 0xB0E7 leido_B0DD  10 bytes que lee p19:B0B9 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 2 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p19:B0B9 (10 bytes)
 F 0xB0DD 16
 D 0xB0FF 0xB104 tabla_B0FF  tabla que se lee desde HL = 0xB0FF con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p19:B0EF (5 bytes)
 F 0xB0FF 16
@@ -276,7 +276,7 @@ D 0xB12B 0xB12E tabla_B12B  tabla que se lee desde HL = 0xB12B con un indice (p0
 F 0xB12B 16
 D 0xB162 0xB163 tabla_B162  tabla que se lee desde HL = 0xB162 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p19:B0C5 (1 bytes)
 F 0xB162 16
-D 0xB163 0xB173 leido_B163  16 bytes que lee p19:B121 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p19:B121 (16 bytes)
+D 0xB163 0xB17B leido_B163  24 bytes que lee p19:B121 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p19:B121 (24 bytes)
 F 0xB163 16
 D 0xB192 0xB193 leido_B192  1 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A73 (1 bytes)
 F 0xB192 16

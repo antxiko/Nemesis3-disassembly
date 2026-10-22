@@ -605,8 +605,8 @@ D 0x8FE3 0x8FE4 tabla_8FE3  tabla que se lee desde HL = 0x8FE3 con un indice (p0
 F 0x8FE3 16
 D 0x8FE4 0x8FEF leido_8FE4  11 bytes que leen p02:9018, p02:901D, p02:9013 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p02:9018, p02:901D, p02:9013 (11 bytes)
 F 0x8FE4 16
-D 0x917A 0x9183 leido_917A  9 bytes que lee p02:9135 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 1 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:9135 (9 bytes)
-F 0x917A 16
+D 0x9179 0x9183 leido_9179  10 bytes que lee p02:9135 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 1 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:9135 (10 bytes)
+F 0x9179 16
 D 0x9185 0x918E tabla_9185  tabla que se lee desde HL = 0x9185 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p02:90CC (9 bytes)
 F 0x9185 16
 D 0x918E 0x91B5 leido_918E  39 bytes que lee p02:90D4 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 17 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p02:90D4 (39 bytes)
@@ -661,8 +661,6 @@ D 0x9FCC 0x9FD4 tabla_9FCC  4 destinos del despachador p00:4093 (call en p02:9FC
 F 0x9FCC w4
 D 0x9FFF 0xA000 partida_9FFF  los 1 primeros bytes de una instruccion de 3 (DD 77 04) que sigue en el banco 3: el trazador de un solo banco no puede verla entera (tools/bancos.py); lo leen p02:9FFF (1 bytes)
 F 0x9FFF 1
-D 0x9179 0x917A resto_9179  lo apuntan con el banco puesto p02:9120 (0x9179); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p02:9120 (1 bytes)
-F 0x9179 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---

@@ -522,30 +522,26 @@ L_83CF:
 	ret			;83f2
 
 ; ----------------------------------------------------------------------
-; DATOS tabla_83F3: tabla que se lee desde HL = 0x83F3 con un indice
-;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
-;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
-;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p04:81F5 (1 bytes)
-;   0x83f3..0x83f4  (1 bytes)
-DATA_tabla_83F3:
-	defb 000h	; 83f3
-
-; ----------------------------------------------------------------------
-; DATOS leido_83F4: 11 bytes que leen p04:81FB, p04:81FD, p04:81FF, p04:81F9
-;   al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p04:81FB, p04:81FD, p04:81FF, p04:81F9 (11 bytes)
-;   0x83f4..0x83ff  (11 bytes)
-DATA_leido_83F4:
-	defb 000h,000h,000h,080h,0ffh,000h,000h,080h,000h,000h,000h	; 83f4  ...........
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x83ff..0x8433  (52 bytes)
-DATA_83FF:
-	defb 000h,000h,000h,000h,000h,000h,080h,0ffh,080h,0ffh,080h,0ffh,080h,000h,080h,0ffh	; 83ff  ................
-	defb 000h,000h,080h,0ffh,000h,000h,080h,000h,080h,0ffh,080h,000h,080h,000h,080h,000h	; 840f  ................
-	defb 000h,000h,080h,000h,000h,000h,000h,000h,080h,0ffh,000h,000h,080h,000h,000h,000h	; 841f  ................
+; DATOS movimiento: el paso de la nave por cada direccion de la palanca (los 4
+;   bits de 0xE309): dy y dx de 16 bits, 4 bytes por direccion (p04:81EB); lo
+;   leen p04:81F9, p04:81FD (64 bytes)
+;   0x83f3..0x8433  (64 bytes)
+DATA_movimiento:
+	defb 000h,000h,000h,000h	; 83f3
+	defb 080h,0ffh,000h,000h	; 83f7
+	defb 080h,000h,000h,000h	; 83fb
+	defb 000h,000h,000h,000h	; 83ff
+	defb 000h,000h,080h,0ffh	; 8403
+	defb 080h,0ffh,080h,0ffh	; 8407
+	defb 080h,000h,080h,0ffh	; 840b
+	defb 000h,000h,080h,0ffh	; 840f
+	defb 000h,000h,080h,000h	; 8413
+	defb 080h,0ffh,080h,000h	; 8417
+	defb 080h,000h,080h,000h	; 841b
+	defb 000h,000h,080h,000h	; 841f
+	defb 000h,000h,000h,000h	; 8423
+	defb 080h,0ffh,000h,000h	; 8427
+	defb 080h,000h,000h,000h	; 842b
 	defb 000h,000h,000h,000h	; 842f
 
 ; ======================================================================
@@ -2540,22 +2536,15 @@ DATA_tabla_9316:
 	defb 01eh,093h,02eh,093h,03eh,093h,04eh,093h	; 9316  ....>.N.
 
 ; ----------------------------------------------------------------------
-; DATOS leido_931E: 14 bytes que leen p00:4098, p00:409A al jugar (medido
-;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
-;   tamano es lo que se lee seguido, con 2 sin leer entre lecturas de la misma
-;   rutina: entradas de la misma tabla que las partidas no han pedido); lo
-;   leen p00:4098, p00:409A (14 bytes)
-;   0x931e..0x932c  (14 bytes)
-DATA_leido_931E:
-	defb 05eh,093h,06dh,093h,09eh,093h,0d1h,093h,004h,094h,02eh,094h,075h,094h	; 931e  ^.m.........u.
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x932c..0x935e  (50 bytes)
-DATA_932C:
-	defb 08dh,094h,05eh,093h,06dh,093h,09eh,093h,0d1h,093h,004h,094h,02eh,094h,075h,094h	; 932c  ..^.m.........u.
-	defb 08dh,094h,05eh,093h,06dh,093h,09eh,093h,0d1h,093h,004h,094h,02eh,094h,075h,094h	; 933c  ..^.m.........u.
-	defb 08dh,094h,05eh,093h,06dh,093h,09eh,093h,0d1h,093h,004h,094h,02eh,094h,075h,094h	; 934c  ..^.m.........u.
-	defb 08dh,094h	; 935c
+; DATOS compras_por_nave: lo que compra cada casilla, una lista de 8 rutinas
+;   por nave (p04:9302: la palabra 0xE380 de 0x9316 y la casilla - 1, por
+;   p00:4094); lo leen p00:4098 (64 bytes)
+;   0x931e..0x935e  (64 bytes)
+DATA_compras_por_nave:
+	defw 0935eh,0936dh,0939eh,093d1h,09404h,0942eh,09475h,0948dh	; 931e
+	defw 0935eh,0936dh,0939eh,093d1h,09404h,0942eh,09475h,0948dh	; 932e
+	defw 0935eh,0936dh,0939eh,093d1h,09404h,0942eh,09475h,0948dh	; 933e
+	defw 0935eh,0936dh,0939eh,093d1h,09404h,0942eh,09475h,0948dh	; 934e
 
 ; ======================================================================
 ; CODIGO 0x935e..0x9392  (52 bytes)
@@ -2851,27 +2840,20 @@ L_94D0:
 	ret			;94d0
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x94d1..0x94d2  (1 bytes)
-DATA_94D1:
-	defb 007h	; 94d1
-
-; ----------------------------------------------------------------------
-; DATOS leido_94D2: 13 bytes que lee p04:94CF al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido, con 6 sin leer entre lecturas de la misma rutina: entradas
-;   de la misma tabla que las partidas no han pedido); lo leen p04:94CF (13
-;   bytes)
-;   0x94d2..0x94df  (13 bytes)
-DATA_leido_94D2:
-	defb 001h,002h,001h,000h,001h,002h,001h,007h,001h,002h,001h,000h,002h	; 94d2  .............
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x94df..0x9511  (50 bytes)
-DATA_94DF:
-	defb 002h,001h,007h,001h,002h,001h,000h,003h,002h,001h,007h,001h,002h,001h,001h,003h	; 94df  ................
-	defb 002h,001h,007h,001h,002h,001h,002h,003h,002h,001h,007h,001h,002h,002h,002h,003h	; 94ef  ................
-	defb 002h,001h,007h,002h,002h,002h,002h,003h,002h,001h,007h,003h,002h,002h,002h,003h	; 94ff  ................
-	defb 002h,001h	; 950f
+; DATOS topes_por_arma_secreta: cuanto se puede subir cada casilla con cada
+;   nivel del arma secreta: 8 bytes por nivel (0xE36F de 0 a 7), uno por
+;   casilla de 1 a 8 (p04:94BD: 0x94D0 + 8 x nivel + casilla); lo leen
+;   p04:94CF (64 bytes)
+;   0x94d1..0x9511  (64 bytes)
+DATA_topes_por_arma_secreta:
+	defb 007h,001h,002h,001h,000h,001h,002h,001h	; 94d1  ........
+	defb 007h,001h,002h,001h,000h,002h,002h,001h	; 94d9  ........
+	defb 007h,001h,002h,001h,000h,003h,002h,001h	; 94e1  ........
+	defb 007h,001h,002h,001h,001h,003h,002h,001h	; 94e9  ........
+	defb 007h,001h,002h,001h,002h,003h,002h,001h	; 94f1  ........
+	defb 007h,001h,002h,002h,002h,003h,002h,001h	; 94f9  ........
+	defb 007h,002h,002h,002h,002h,003h,002h,001h	; 9501  ........
+	defb 007h,003h,002h,002h,002h,003h,002h,001h	; 9509  ........
 
 ; ======================================================================
 ; CODIGO 0x9511..0x95f9  (232 bytes)

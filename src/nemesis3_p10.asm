@@ -2848,9 +2848,9 @@ DATA_sonidos:
 ; ----------------------------------------------------------------------
 ; DATOS cabeceras: las cabeceras de los sonidos: p10:6089 copia 18 bytes de
 ;   cada una ([canales][prioridad] y una palabra por canal, la partitura); se
-;   solapan porque cada una solo usa 2 + 2 x canales; lo leen p10:608C (870
-;   bytes)
-;   0x75ac..0x7912  (870 bytes)
+;   solapan porque cada una solo usa 2 + 2 x canales; se solapan 2 bloques:
+;   (ondas_del_scc 7904-7A1C); lo leen p10:608C, p10:6D68 (1136 bytes)
+;   0x75ac..0x7a1c  (1136 bytes)
 DATA_cabeceras:
 	defb 0ffh,0ffh,0b9h,07eh,0b9h,07eh,0b9h,07eh,0b9h,07eh,0b9h,07eh,0b9h,07eh,0b9h,07eh,0b9h,07eh	; 75ac  ...~.~.~.~.~.~.~.~
 	defb 0ffh,0e0h,0b9h,07eh,0b9h,07eh,0b9h,07eh,0b9h,07eh,0b9h,07eh,0b9h,07eh,0b9h,07eh,0b9h,07eh	; 75be  ...~.~.~.~.~.~.~.~
@@ -2900,200 +2900,89 @@ DATA_cabeceras:
 	defb 0ffh,0e0h,0a6h,0adh,0a7h,0adh,0a8h,0adh,0a9h,0adh,0beh,0adh,0d6h,0adh,0e4h,0adh,0eeh,0adh	; 78d6  ..................
 	defb 030h,010h,090h,0aeh,091h,0aeh,0ffh,0e0h,092h,0aeh,00fh,0afh,03ah,0afh,065h,0afh,093h,0afh	; 78e8  0...........:.e...
 	defb 0c3h,0afh,0f3h,0afh,0fbh,0afh,010h,010h,011h,0b1h,044h,07bh,044h,07bh,044h,07bh,064h,07bh	; 78fa  ..........D{D{D{d{
-	defb 064h,07bh,084h,07bh,0a4h,07bh	; 790c
+	defb 064h,07bh,084h,07bh,0a4h,07bh,0c4h,07bh,0e4h,07bh,0e4h,07bh,004h,07ch,024h,07ch,044h,07ch	; 790c  d{.{.{.{.{.{.|$|D|
+	defb 064h,07ch,084h,07ch,084h,07ch,084h,07ch,084h,07ch,084h,07ch,084h,07ch,0a4h,07ch,0c4h,07ch	; 791e  d|.|.|.|.|.|.|.|.|
+	defb 0e4h,07ch,004h,07dh,024h,07dh,044h,07dh,064h,07dh,064h,07dh,084h,07dh,0a4h,07dh,0c4h,07dh	; 7930  .|.}$}D}d}d}.}.}.}
+	defb 0c4h,07dh,0c4h,07dh,0c4h,07dh,0c4h,07dh,0c4h,07dh,0e4h,07dh,004h,07eh,024h,07eh,044h,07eh	; 7942  .}.}.}.}.}.}.~$~D~
+	defb 064h,07eh,084h,07eh,084h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh	; 7954  d~.~.~.~.~.~.~.~.~
+	defb 0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh	; 7966  .~.~.~.~.~.~.~.~.~
+	defb 0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,01ch,07ah,01ch,07ah,01ch,07ah	; 7978  .~.~.~.~.~.~.z.z.z
+	defb 01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah	; 798a  .z.z.z.z.z.z.z.z.z
+	defb 01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,03ch,07ah,05ch,07ah	; 799c  .z.z.z.z.z.z.z<z\z
+	defb 07ch,07ah,07ch,07ah,07ch,07ah,07ch,07ah,07ch,07ah,09ch,07ah,09ch,07ah,09ch,07ah,0bch,07ah	; 79ae  |z|z|z|z|z.z.z.z.z
+	defb 0bch,07ah,0bch,07ah,0bch,07ah,0bch,07ah,0bch,07ah,0bch,07ah,0bch,07ah,0dch,07ah,01ch,07ah	; 79c0  .z.z.z.z.z.z.z.z.z
+	defb 01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah	; 79d2  .z.z.z.z.z.z.z.z.z
+	defb 01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah	; 79e4  .z.z.z.z.z.z.z.z.z
+	defb 03ch,07ah,05ch,07ah,07ch,07ah,07ch,07ah,07ch,07ah,07ch,07ah,07ch,07ah,09ch,07ah,09ch,07ah	; 79f6  <z\z|z|z|z|z|z.z.z
+	defb 09ch,07ah,0bch,07ah,0bch,07ah,0bch,07ah,0bch,07ah,0bch,07ah,0bch,07ah,0bch,07ah,0bch,07ah	; 7a08  .z.z.z.z.z.z.z.z.z
+	defb 0dch,07ah	; 7a1a
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7912..0x7916  (4 bytes)
-DATA_7912:
-	defb 0c4h,07bh,0e4h,07bh	; 7912
+; DATOS onda_7A1C: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7a1c..0x7a3c  (32 bytes)
+DATA_onda_7A1C:
+	defb 080h,0d0h,020h,07fh,040h,000h,0c0h,080h,0d0h,020h,07fh,030h,0d0h,080h,0d0h,030h	; 7a1c  .. .@.... .0...0
+	defb 07fh,030h,0d0h,080h,0b0h,0e0h,018h,0e0h,0b0h,080h,090h,0a0h,0b0h,0a0h,090h,080h	; 7a2c  .0..............
 
 ; ----------------------------------------------------------------------
-; DATOS partitura_7916: partitura que lee el motor de sonido (p10:6D68,
-;   p10:6D6D) al tocar los sonidos 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A,
-;   0x0B y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano
-;   es lo que se lee seguido); lo leen p10:6D68, p10:6D6D (6 bytes)
-;   0x7916..0x791c  (6 bytes)
-DATA_partitura_7916:
-	defb 0e4h,07bh,004h,07ch,024h,07ch	; 7916
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x791c..0x791e  (2 bytes)
-DATA_791C:
-	defb 044h,07ch	; 791c
-
-; ----------------------------------------------------------------------
-; DATOS partitura_791E: partitura que lee el motor de sonido (p10:6D68,
-;   p10:6D6D) al tocar los sonidos 0x04, 0x05, 0x06, 0x0D, 0x10, 0x12, 0x14,
-;   0x42 y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano
-;   es lo que se lee seguido); lo leen p10:6D68, p10:6D6D (2 bytes)
-;   0x791e..0x7920  (2 bytes)
-DATA_partitura_791E:
-	defb 064h,07ch	; 791e
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7920..0x7928  (8 bytes)
-DATA_7920:
-	defb 084h,07ch,084h,07ch,084h,07ch,084h,07ch	; 7920  .|.|.|.|
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7928: partitura que lee el motor de sonido (p10:6D68,
-;   p10:6D6D) al tocar los sonidos 0x0A, 0x40 (medido ejecutando el motor,
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:6D68, p10:6D6D (2 bytes)
-;   0x7928..0x792a  (2 bytes)
-DATA_partitura_7928:
-	defb 084h,07ch	; 7928
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x792a..0x792c  (2 bytes)
-DATA_792A:
-	defb 084h,07ch	; 792a
-
-; ----------------------------------------------------------------------
-; DATOS partitura_792C: partitura que lee el motor de sonido (p10:6D68,
-;   p10:6D6D) al tocar los sonidos 0x03, 0x04, 0x06, 0x07, 0x08, 0x0C, 0x0D,
-;   0x11 y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano
-;   es lo que se lee seguido); lo leen p10:6D68, p10:6D6D (12 bytes)
-;   0x792c..0x7938  (12 bytes)
-DATA_partitura_792C:
-	defb 0a4h,07ch,0c4h,07ch,0e4h,07ch,004h,07dh,024h,07dh,044h,07dh	; 792c  .|.|.|.}$}D}
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7938..0x793a  (2 bytes)
-DATA_7938:
-	defb 064h,07dh	; 7938
-
-; ----------------------------------------------------------------------
-; DATOS partitura_793A: partitura que lee el motor de sonido (p10:6D68,
-;   p10:6D6D) al tocar los sonidos 0x04, 0x07, 0x0C, 0x16, 0x1A, 0x1E, 0x25,
-;   0x2A y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano
-;   es lo que se lee seguido); lo leen p10:6D68, p10:6D6D (6 bytes)
-;   0x793a..0x7940  (6 bytes)
-DATA_partitura_793A:
-	defb 064h,07dh,084h,07dh,0a4h,07dh	; 793a
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7940..0x794a  (10 bytes)
-DATA_7940:
-	defb 0c4h,07dh,0c4h,07dh,0c4h,07dh,0c4h,07dh,0c4h,07dh	; 7940  .}.}.}.}.}
-
-; ----------------------------------------------------------------------
-; DATOS partitura_794A: partitura que lee el motor de sonido (p10:6D68,
-;   p10:6D6D) al tocar los sonidos 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A,
-;   0x0B y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano
-;   es lo que se lee seguido); lo leen p10:6D68, p10:6D6D (12 bytes)
-;   0x794a..0x7956  (12 bytes)
-DATA_partitura_794A:
-	defb 0c4h,07dh,0e4h,07dh,004h,07eh,024h,07eh,044h,07eh,064h,07eh	; 794a  .}.}.~$~D~d~
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7956..0x7958  (2 bytes)
-DATA_7956:
-	defb 084h,07eh	; 7956
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7958: partitura que lee el motor de sonido (p10:6D68,
-;   p10:6D6D) al tocar los sonidos 0x0F, 0x2A, 0x44, 0x4D, 0x4E (medido
-;   ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee
-;   seguido); lo leen p10:6D68, p10:6D6D (2 bytes)
-;   0x7958..0x795a  (2 bytes)
-DATA_partitura_7958:
-	defb 084h,07eh	; 7958
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x795a..0x79aa  (80 bytes)
-DATA_795A:
-	defb 0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh	; 795a  .~.~.~.~.~.~.~.~
-	defb 0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh	; 796a  .~.~.~.~.~.~.~.~
-	defb 0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh,01ch,07ah,01ch,07ah,01ch,07ah	; 797a  .~.~.~.~.~.z.z.z
-	defb 01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah	; 798a  .z.z.z.z.z.z.z.z
-	defb 01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah	; 799a  .z.z.z.z.z.z.z.z
-
-; ----------------------------------------------------------------------
-; DATOS partitura_79AA: partitura que lee el motor de sonido (p10:6D68,
-;   p10:6D6D) al tocar los sonidos 0x04, 0x3E, 0x3F, 0x41, 0x46, 0x49 (medido
-;   ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee
-;   seguido); lo leen p10:6D68, p10:6D6D (4 bytes)
-;   0x79aa..0x79ae  (4 bytes)
-DATA_partitura_79AA:
-	defb 03ch,07ah,05ch,07ah	; 79aa
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x79ae..0x79b6  (8 bytes)
-DATA_79AE:
-	defb 07ch,07ah,07ch,07ah,07ch,07ah,07ch,07ah	; 79ae  |z|z|z|z
-
-; ----------------------------------------------------------------------
-; DATOS partitura_79B6: partitura que lee el motor de sonido (p10:6D68,
-;   p10:6D6D) al tocar los sonidos 0x04, 0x06, 0x0D, 0x1C, 0x1D, 0x47, 0x49
-;   (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se
-;   lee seguido); lo leen p10:6D68, p10:6D6D (2 bytes)
-;   0x79b6..0x79b8  (2 bytes)
-DATA_partitura_79B6:
-	defb 07ch,07ah	; 79b6
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x79b8..0x79bc  (4 bytes)
-DATA_79B8:
-	defb 09ch,07ah,09ch,07ah	; 79b8
-
-; ----------------------------------------------------------------------
-; DATOS partitura_79BC: partitura que lee el motor de sonido (p10:6D68,
-;   p10:6D6D) al tocar los sonidos 0x3F, 0x40, 0x42, 0x48, 0x49 (medido
-;   ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee
-;   seguido); lo leen p10:6D68, p10:6D6D (2 bytes)
-;   0x79bc..0x79be  (2 bytes)
-DATA_partitura_79BC:
-	defb 09ch,07ah	; 79bc
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x79be..0x79cc  (14 bytes)
-DATA_79BE:
-	defb 0bch,07ah,0bch,07ah,0bch,07ah,0bch,07ah,0bch,07ah,0bch,07ah,0bch,07ah	; 79be  .z.z.z.z.z.z.z
-
-; ----------------------------------------------------------------------
-; DATOS partitura_79CC: partitura que lee el motor de sonido (p10:6D68,
-;   p10:6D6D) al tocar los sonidos 0x0A, 0x45, 0x47 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:6D68, p10:6D6D (2 bytes)
-;   0x79cc..0x79ce  (2 bytes)
-DATA_partitura_79CC:
-	defb 0bch,07ah	; 79cc
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x79ce..0x7a3c  (110 bytes)
-DATA_79CE:
-	defb 0dch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah	; 79ce  .z.z.z.z.z.z.z.z
-	defb 01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah	; 79de  .z.z.z.z.z.z.z.z
-	defb 01ch,07ah,01ch,07ah,01ch,07ah,01ch,07ah,03ch,07ah,05ch,07ah,07ch,07ah,07ch,07ah	; 79ee  .z.z.z.z<z\z|z|z
-	defb 07ch,07ah,07ch,07ah,07ch,07ah,09ch,07ah,09ch,07ah,09ch,07ah,0bch,07ah,0bch,07ah	; 79fe  |z|z|z.z.z.z.z.z
-	defb 0bch,07ah,0bch,07ah,0bch,07ah,0bch,07ah,0bch,07ah,0bch,07ah,0dch,07ah,080h,0d0h	; 7a0e  .z.z.z.z.z.z.z..
-	defb 020h,07fh,040h,000h,0c0h,080h,0d0h,020h,07fh,030h,0d0h,080h,0d0h,030h,07fh,030h	; 7a1e   .@.... .0...0.0
-	defb 0d0h,080h,0b0h,0e0h,018h,0e0h,0b0h,080h,090h,0a0h,0b0h,0a0h,090h,080h	; 7a2e  ..............
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7A3C: partitura que lee el motor de sonido (p10:737B) al
-;   tocar los sonidos 0x04, 0x06, 0x0A, 0x0D, 0x1C, 0x1D, 0x3E, 0x3F y otros
-;   (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se
-;   lee seguido); lo leen p10:737B (160 bytes)
-;   0x7a3c..0x7adc  (160 bytes)
-DATA_partitura_7A3C:
+; DATOS onda_7A3C: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7a3c..0x7a5c  (32 bytes)
+DATA_onda_7A3C:
 	defb 0a0h,090h,0a0h,0ach,0f0h,00ah,016h,000h,090h,000h,020h,040h,060h,050h,038h,01ch	; 7a3c  .......... @`P8.
 	defb 0f2h,0e2h,0d6h,0d0h,0d0h,0dah,0dch,0e0h,0e2h,0e2h,0e2h,0e0h,0dch,0d8h,0d0h,0b0h	; 7a4c  ................
+
+; ----------------------------------------------------------------------
+; DATOS onda_7A5C: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7a5c..0x7a7c  (32 bytes)
+DATA_onda_7A5C:
 	defb 080h,0aah,0c8h,000h,024h,040h,05ch,070h,07fh,06ah,04ah,026h,000h,0d0h,0a8h,08ch	; 7a5c  ....$@\p.jJ&....
 	defb 080h,0aah,0c8h,000h,024h,040h,05ch,070h,07fh,06ah,04ah,026h,000h,0d0h,0a8h,08ch	; 7a6c  ....$@\p.jJ&....
+
+; ----------------------------------------------------------------------
+; DATOS onda_7A7C: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7a7c..0x7a9c  (32 bytes)
+DATA_onda_7A7C:
 	defb 000h,068h,040h,004h,000h,026h,040h,0f5h,010h,040h,020h,0d0h,0f0h,000h,0c0h,080h	; 7a7c  .h@..&@..@ .....
 	defb 0d0h,030h,0c0h,0a0h,0b0h,0c0h,080h,0d0h,0f0h,040h,010h,0c0h,0d4h,000h,0c0h,0e0h	; 7a8c  .0.......@......
+
+; ----------------------------------------------------------------------
+; DATOS onda_7A9C: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7a9c..0x7abc  (32 bytes)
+DATA_onda_7A9C:
 	defb 090h,088h,090h,09ch,0b0h,0c0h,0e0h,026h,070h,07ch,070h,056h,040h,020h,010h,0fch	; 7a9c  .......&p|pV@ ..
 	defb 0e0h,0fch,010h,024h,040h,054h,072h,07fh,070h,026h,0e0h,0c0h,0b0h,09ch,090h,088h	; 7aac  ...$@Tr.p&......
+
+; ----------------------------------------------------------------------
+; DATOS onda_7ABC: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7abc..0x7adc  (32 bytes)
+DATA_onda_7ABC:
 	defb 080h,080h,0e8h,018h,038h,066h,078h,07fh,080h,080h,080h,080h,080h,080h,080h,09ch	; 7abc  ....8fx.........
 	defb 080h,0dch,080h,020h,0d0h,080h,07fh,080h,0d0h,020h,080h,0dch,080h,09ch,080h,088h	; 7acc  ... ..... ......
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7adc..0x7b44  (104 bytes)
-DATA_7ADC:
+; DATOS onda_7ADC: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7adc..0x7afc  (32 bytes)
+DATA_onda_7ADC:
 	defb 044h,07bh,044h,07bh,044h,07bh,064h,07bh,064h,07bh,084h,07bh,0a4h,07bh,0c4h,07bh	; 7adc  D{D{D{d{d{.{.{.{
 	defb 0e4h,07bh,0e4h,07bh,004h,07ch,024h,07ch,044h,07ch,064h,07ch,084h,07ch,084h,07ch	; 7aec  .{.{.|$|D|d|.|.|
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x7afc..0x7b44  (72 bytes)
+DATA_7AFC:
 	defb 084h,07ch,084h,07ch,084h,07ch,084h,07ch,0a4h,07ch,0c4h,07ch,0e4h,07ch,004h,07dh	; 7afc  .|.|.|.|.|.|.|.}
 	defb 024h,07dh,044h,07dh,064h,07dh,064h,07dh,084h,07dh,0a4h,07dh,0c4h,07dh,0c4h,07dh	; 7b0c  $}D}d}d}.}.}.}.}
 	defb 0c4h,07dh,0c4h,07dh,0c4h,07dh,0c4h,07dh,0e4h,07dh,004h,07eh,024h,07eh,044h,07eh	; 7b1c  .}.}.}.}.}.~$~D~
@@ -3101,398 +2990,265 @@ DATA_7ADC:
 	defb 0a4h,07eh,0a4h,07eh,0a4h,07eh,0a4h,07eh	; 7b3c  .~.~.~.~
 
 ; ----------------------------------------------------------------------
-; DATOS partitura_7B44: partitura que lee el motor de sonido (p10:737B) al
-;   tocar los sonidos 0x04, 0x05, 0x08, 0x0A, 0x0B, 0x0C, 0x0E, 0x28 y otros
-;   (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se
-;   lee seguido); lo leen p10:737B (32 bytes)
+; DATOS onda_7B44: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
 ;   0x7b44..0x7b64  (32 bytes)
-DATA_partitura_7B44:
+DATA_onda_7B44:
 	defb 000h,0f8h,0f0h,0e8h,0e0h,0d8h,0d0h,0c8h,0c0h,0b8h,0b0h,0a8h,0a0h,098h,090h,088h	; 7b44  ................
 	defb 080h,078h,070h,068h,060h,058h,050h,048h,040h,038h,030h,028h,020h,018h,010h,008h	; 7b54  .xph`XPH@80( ...
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7b64..0x7b84  (32 bytes)
-DATA_7B64:
+; DATOS onda_7B64: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7b64..0x7b84  (32 bytes)
+DATA_onda_7B64:
 	defb 000h,04eh,062h,06dh,075h,07ah,07dh,07eh,07fh,07eh,07dh,07ah,075h,06dh,062h,04eh	; 7b64  .Nbmuz}~.~}zumbN
 	defb 000h,0b1h,09dh,092h,08ah,085h,082h,081h,080h,081h,082h,085h,08ah,092h,09dh,0b1h	; 7b74  ................
 
 ; ----------------------------------------------------------------------
-; DATOS partitura_7B84: partitura que lee el motor de sonido (p10:737B,
-;   p10:7396) al tocar los sonidos 0x04, 0x05, 0x08, 0x09, 0x0B, 0x24, 0x32,
-;   0x33 y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano
-;   es lo que se lee seguido); lo leen p10:737B, p10:7396 (37 bytes)
-;   0x7b84..0x7ba9  (37 bytes)
-DATA_partitura_7B84:
+; DATOS onda_7B84: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7b84..0x7ba4  (32 bytes)
+DATA_onda_7B84:
 	defb 000h,019h,031h,047h,05ah,06ah,075h,07dh,07fh,07dh,075h,06ah,05ah,047h,031h,019h	; 7b84  ..1GZju}.}ujZG1.
 	defb 000h,0e7h,0cfh,0b9h,0a6h,096h,08bh,083h,080h,083h,08bh,096h,0a6h,0b9h,0cfh,0e7h	; 7b94  ................
-	defb 000h,0f0h,0e0h,0d0h,0c0h	; 7ba4
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7ba9..0x7baa  (1 bytes)
-DATA_7BA9:
-	defb 0b0h	; 7ba9
+; DATOS onda_7BA4: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7ba4..0x7bc4  (32 bytes)
+DATA_onda_7BA4:
+	defb 000h,0f0h,0e0h,0d0h,0c0h,0b0h,0a0h,090h,080h,090h,0a0h,0b0h,0c0h,0d0h,0e0h,0f0h	; 7ba4  ................
+	defb 000h,010h,020h,030h,040h,050h,060h,070h,07fh,070h,060h,050h,040h,030h,020h,010h	; 7bb4  .. 0@P`p.p`P@0 .
 
 ; ----------------------------------------------------------------------
-; DATOS partitura_7BAA: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (3 bytes)
-;   0x7baa..0x7bad  (3 bytes)
-DATA_partitura_7BAA:
-	defb 0a0h,090h,080h	; 7baa
+; DATOS onda_7BC4: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7bc4..0x7be4  (32 bytes)
+DATA_onda_7BC4:
+	defb 000h,0e0h,0c0h,0a0h,080h,0a0h,0c0h,0e0h,000h,020h,040h,060h,07fh,060h,040h,020h	; 7bc4  ......... @`.`@
+	defb 000h,0e0h,0c0h,0a0h,080h,0a0h,0c0h,0e0h,000h,020h,040h,060h,07fh,060h,040h,020h	; 7bd4  ......... @`.`@
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7bad..0x7bae  (1 bytes)
-DATA_7BAD:
-	defb 090h	; 7bad
+; DATOS onda_7BE4: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7be4..0x7c04  (32 bytes)
+DATA_onda_7BE4:
+	defb 000h,019h,031h,047h,05ah,06ah,075h,07dh,07fh,07dh,075h,06ah,05ah,047h,031h,019h	; 7be4  ..1GZju}.}ujZG1.
+	defb 000h,0e0h,0c0h,0a0h,080h,0a0h,0c0h,0e0h,000h,020h,040h,060h,07fh,060h,040h,020h	; 7bf4  ......... @`.`@
 
 ; ----------------------------------------------------------------------
-; DATOS partitura_7BAE: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (1 bytes)
-;   0x7bae..0x7baf  (1 bytes)
-DATA_partitura_7BAE:
-	defb 0a0h	; 7bae
+; DATOS onda_7C04: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7c04..0x7c24  (32 bytes)
+DATA_onda_7C04:
+	defb 000h,019h,031h,047h,05ah,06ah,075h,07dh,07fh,07dh,075h,06ah,05ah,047h,031h,019h	; 7c04  ..1GZju}.}ujZG1.
+	defb 080h,090h,0a0h,0b0h,0c0h,0d0h,0e0h,0f0h,000h,010h,020h,030h,040h,050h,060h,070h	; 7c14  .......... 0@P`p
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7baf..0x7bb0  (1 bytes)
-DATA_7BAF:
-	defb 0b0h	; 7baf
+; DATOS onda_7C24: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7c24..0x7c44  (32 bytes)
+DATA_onda_7C24:
+	defb 000h,019h,031h,047h,05ah,06ah,075h,07dh,07fh,07dh,075h,06ah,05ah,047h,031h,019h	; 7c24  ..1GZju}.}ujZG1.
+	defb 080h,0a0h,0c0h,0e0h,000h,020h,040h,060h,080h,0a0h,0c0h,0e0h,000h,020h,040h,060h	; 7c34  ..... @`..... @`
 
 ; ----------------------------------------------------------------------
-; DATOS partitura_7BB0: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (3 bytes)
-;   0x7bb0..0x7bb3  (3 bytes)
-DATA_partitura_7BB0:
-	defb 0c0h,0d0h,0e0h	; 7bb0
+; DATOS onda_7C44: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7c44..0x7c64  (32 bytes)
+DATA_onda_7C44:
+	defb 001h,02ah,040h,050h,05ch,068h,070h,078h,07fh,078h,070h,068h,05ch,050h,040h,02ah	; 7c44  .*@P\hpx.xph\P@*
+	defb 0ffh,0d6h,0c0h,0b0h,0a4h,098h,090h,088h,081h,088h,090h,098h,0a4h,0b0h,0c0h,0d6h	; 7c54  ................
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7bb3..0x7bb4  (1 bytes)
-DATA_7BB3:
-	defb 0f0h	; 7bb3
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7BB4: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (5 bytes)
-;   0x7bb4..0x7bb9  (5 bytes)
-DATA_partitura_7BB4:
-	defb 000h,010h,020h,030h,040h	; 7bb4
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7bb9..0x7bba  (1 bytes)
-DATA_7BB9:
-	defb 050h	; 7bb9
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7BBA: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (5 bytes)
-;   0x7bba..0x7bbf  (5 bytes)
-DATA_partitura_7BBA:
-	defb 060h,070h,07fh,070h,060h	; 7bba
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7bbf..0x7bc0  (1 bytes)
-DATA_7BBF:
-	defb 050h	; 7bbf
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7BC0: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (1 bytes)
-;   0x7bc0..0x7bc1  (1 bytes)
-DATA_partitura_7BC0:
-	defb 040h	; 7bc0
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7bc1..0x7bc2  (1 bytes)
-DATA_7BC1:
-	defb 030h	; 7bc1
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7BC2: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (5 bytes)
-;   0x7bc2..0x7bc7  (5 bytes)
-DATA_partitura_7BC2:
-	defb 020h,010h,000h,0e0h,0c0h	; 7bc2
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7bc7..0x7bc8  (1 bytes)
-DATA_7BC7:
-	defb 0a0h	; 7bc7
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7BC8: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (3 bytes)
-;   0x7bc8..0x7bcb  (3 bytes)
-DATA_partitura_7BC8:
-	defb 080h,0a0h,0c0h	; 7bc8
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7bcb..0x7bcc  (1 bytes)
-DATA_7BCB:
-	defb 0e0h	; 7bcb
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7BCC: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (1 bytes)
-;   0x7bcc..0x7bcd  (1 bytes)
-DATA_partitura_7BCC:
-	defb 000h	; 7bcc
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7bcd..0x7bcf  (2 bytes)
-DATA_7BCD:
-	defb 020h,040h	; 7bcd
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7BCF: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (4 bytes)
-;   0x7bcf..0x7bd3  (4 bytes)
-DATA_partitura_7BCF:
-	defb 060h,07fh,060h,040h	; 7bcf
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7bd3..0x7bd4  (1 bytes)
-DATA_7BD3:
-	defb 020h	; 7bd3
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7BD4: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (2 bytes)
-;   0x7bd4..0x7bd6  (2 bytes)
-DATA_partitura_7BD4:
-	defb 000h,0e0h	; 7bd4
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7bd6..0x7bd8  (2 bytes)
-DATA_7BD6:
-	defb 0c0h,0a0h	; 7bd6
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7BD8: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (2 bytes)
-;   0x7bd8..0x7bda  (2 bytes)
-DATA_partitura_7BD8:
-	defb 080h,0a0h	; 7bd8
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7bda..0x7bdb  (1 bytes)
-DATA_7BDA:
-	defb 0c0h	; 7bda
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7BDB: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (2 bytes)
-;   0x7bdb..0x7bdd  (2 bytes)
-DATA_partitura_7BDB:
-	defb 0e0h,000h	; 7bdb
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7bdd..0x7bde  (1 bytes)
-DATA_7BDD:
-	defb 020h	; 7bdd
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7BDE: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (4 bytes)
-;   0x7bde..0x7be2  (4 bytes)
-DATA_partitura_7BDE:
-	defb 040h,060h,07fh,060h	; 7bde
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7be2..0x7be3  (1 bytes)
-DATA_7BE2:
-	defb 040h	; 7be2
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7BE3: partitura que lee el motor de sonido (p10:737B,
-;   p10:7396) al tocar los sonidos 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A,
-;   0x0B y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano
-;   es lo que se lee seguido); lo leen p10:737B, p10:7396 (98 bytes)
-;   0x7be3..0x7c45  (98 bytes)
-DATA_partitura_7BE3:
-	defb 020h,000h,019h,031h,047h,05ah,06ah,075h,07dh,07fh,07dh,075h,06ah,05ah,047h,031h	; 7be3   ..1GZju}.}ujZG1
-	defb 019h,000h,0e0h,0c0h,0a0h,080h,0a0h,0c0h,0e0h,000h,020h,040h,060h,07fh,060h,040h	; 7bf3  .......... @`.`@
-	defb 020h,000h,019h,031h,047h,05ah,06ah,075h,07dh,07fh,07dh,075h,06ah,05ah,047h,031h	; 7c03   ..1GZju}.}ujZG1
-	defb 019h,080h,090h,0a0h,0b0h,0c0h,0d0h,0e0h,0f0h,000h,010h,020h,030h,040h,050h,060h	; 7c13  ........... 0@P`
-	defb 070h,000h,019h,031h,047h,05ah,06ah,075h,07dh,07fh,07dh,075h,06ah,05ah,047h,031h	; 7c23  p..1GZju}.}ujZG1
-	defb 019h,080h,0a0h,0c0h,0e0h,000h,020h,040h,060h,080h,0a0h,0c0h,0e0h,000h,020h,040h	; 7c33  ...... @`..... @
-	defb 060h,001h	; 7c43
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7c45..0x7c47  (2 bytes)
-DATA_7C45:
-	defb 02ah,040h	; 7c45
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7C47: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (2 bytes)
-;   0x7c47..0x7c49  (2 bytes)
-DATA_partitura_7C47:
-	defb 050h,05ch	; 7c47
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7c49..0x7c4a  (1 bytes)
-DATA_7C49:
-	defb 068h	; 7c49
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7C4A: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (1 bytes)
-;   0x7c4a..0x7c4b  (1 bytes)
-DATA_partitura_7C4A:
-	defb 070h	; 7c4a
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7c4b..0x7c4c  (1 bytes)
-DATA_7C4B:
-	defb 078h	; 7c4b
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7C4C: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (1 bytes)
-;   0x7c4c..0x7c4d  (1 bytes)
-DATA_partitura_7C4C:
-	defb 07fh	; 7c4c
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7c4d..0x7c4f  (2 bytes)
-DATA_7C4D:
-	defb 078h,070h	; 7c4d
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7C4F: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (2 bytes)
-;   0x7c4f..0x7c51  (2 bytes)
-DATA_partitura_7C4F:
-	defb 068h,05ch	; 7c4f
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7c51..0x7c53  (2 bytes)
-DATA_7C51:
-	defb 050h,040h	; 7c51
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7C53: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (4 bytes)
-;   0x7c53..0x7c57  (4 bytes)
-DATA_partitura_7C53:
-	defb 02ah,0ffh,0d6h,0c0h	; 7c53
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7c57..0x7c5c  (5 bytes)
-DATA_7C57:
-	defb 0b0h,0a4h,098h,090h,088h	; 7c57
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7C5C: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (2 bytes)
-;   0x7c5c..0x7c5e  (2 bytes)
-DATA_partitura_7C5C:
-	defb 081h,088h	; 7c5c
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7c5e..0x7c60  (2 bytes)
-DATA_7C5E:
-	defb 090h,098h	; 7c5e
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7C60: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
-;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:7396 (2 bytes)
-;   0x7c60..0x7c62  (2 bytes)
-DATA_partitura_7C60:
-	defb 0a4h,0b0h	; 7c60
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7c62..0x7c64  (2 bytes)
-DATA_7C62:
-	defb 0c0h,0d6h	; 7c62
-
-; ----------------------------------------------------------------------
-; DATOS partitura_7C64: partitura que lee el motor de sonido (p10:644C,
-;   p10:6508, p10:6B9D, p10:6C34 y otras) al tocar los sonidos 0x01, 0x02,
-;   0x03, 0x04, 0x05, 0x06, 0x07, 0x08 y otros (medido ejecutando el motor,
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p10:644C, p10:6508, p10:6B9D, p10:6C34, p10:6C3F, p10:6C66, p10:6C9A,
-;   p10:6CDE (924 bytes)
-;   0x7c64..0x8000  (924 bytes)
-DATA_partitura_7C64:
+; DATOS onda_7C64: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7c64..0x7c84  (32 bytes)
+DATA_onda_7C64:
 	defb 000h,040h,07fh,040h,001h,0c0h,081h,0c0h,001h,040h,07fh,040h,001h,0c0h,001h,040h	; 7c64  .@.@.....@.@...@
 	defb 001h,0e0h,001h,020h,001h,0f0h,001h,010h,001h,0ffh,0ffh,0ffh,0ffh,040h,040h,040h	; 7c74  ... .........@@@
+
+; ----------------------------------------------------------------------
+; DATOS onda_7C84: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7c84..0x7ca4  (32 bytes)
+DATA_onda_7C84:
 	defb 000h,0f0h,0e0h,0d0h,0c0h,0b0h,0a0h,090h,080h,080h,080h,080h,080h,080h,080h,080h	; 7c84  ................
 	defb 080h,080h,080h,080h,080h,080h,080h,080h,07fh,070h,060h,050h,040h,030h,020h,010h	; 7c94  .........p`P@0 .
+
+; ----------------------------------------------------------------------
+; DATOS onda_7CA4: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7ca4..0x7cc4  (32 bytes)
+DATA_onda_7CA4:
 	defb 000h,030h,050h,060h,070h,060h,050h,030h,000h,0d0h,0b0h,0a0h,090h,0a0h,0b0h,0d0h	; 7ca4  .0P`p`P0........
 	defb 000h,040h,060h,070h,060h,040h,000h,0c0h,0a0h,090h,0a0h,0c0h,000h,070h,000h,090h	; 7cb4  .@`p`@.......p..
+
+; ----------------------------------------------------------------------
+; DATOS onda_7CC4: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7cc4..0x7ce4  (32 bytes)
+DATA_onda_7CC4:
 	defb 030h,050h,050h,030h,000h,000h,010h,040h,060h,070h,060h,030h,0f0h,0e0h,0e0h,000h	; 7cc4  0PP0...@`p`0....
 	defb 020h,020h,010h,0c0h,0a0h,090h,0a0h,0c0h,000h,000h,0d0h,0b0h,0b0h,0d0h,000h,000h	; 7cd4    ..............
+
+; ----------------------------------------------------------------------
+; DATOS onda_7CE4: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7ce4..0x7d04  (32 bytes)
+DATA_onda_7CE4:
 	defb 0a0h,090h,090h,0a0h,0a0h,0b0h,0b0h,0b0h,0c0h,0c0h,0d0h,0d0h,0e0h,0e0h,0f0h,0f0h	; 7ce4  ................
 	defb 000h,000h,010h,010h,020h,020h,030h,030h,040h,040h,050h,050h,060h,060h,060h,050h	; 7cf4  ....  00@@PP```P
+
+; ----------------------------------------------------------------------
+; DATOS onda_7D04: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7d04..0x7d24  (32 bytes)
+DATA_onda_7D04:
 	defb 000h,07fh,000h,080h,0a0h,0c0h,0d8h,0f0h,008h,020h,030h,040h,050h,060h,070h,078h	; 7d04  ......... 0@P`px
 	defb 07ch,07fh,07ch,078h,070h,060h,050h,040h,030h,020h,008h,0f0h,0d8h,0c0h,0a0h,080h	; 7d14  |.|xp`P@0 ......
+
+; ----------------------------------------------------------------------
+; DATOS onda_7D24: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7d24..0x7d44  (32 bytes)
+DATA_onda_7D24:
 	defb 07fh,080h,07fh,080h,07fh,080h,07fh,080h,07fh,080h,07fh,080h,07fh,080h,07fh,080h	; 7d24  ................
 	defb 07fh,080h,07fh,080h,07fh,080h,07fh,080h,07fh,080h,07fh,080h,07fh,080h,07fh,080h	; 7d34  ................
+
+; ----------------------------------------------------------------------
+; DATOS onda_7D44: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7d44..0x7d64  (32 bytes)
+DATA_onda_7D44:
 	defb 07fh,080h,07fh,080h,07fh,080h,07fh,080h,000h,000h,000h,000h,000h,000h,000h,000h	; 7d44  ................
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,07fh,080h,07fh,080h,07fh,080h,07fh,080h	; 7d54  ................
+
+; ----------------------------------------------------------------------
+; DATOS onda_7D64: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7d64..0x7d84  (32 bytes)
+DATA_onda_7D64:
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,07fh,080h,07fh,080h,07fh,080h,07fh,080h	; 7d64  ................
 	defb 07fh,080h,07fh,080h,07fh,080h,07fh,080h,000h,000h,000h,000h,000h,000h,000h,000h	; 7d74  ................
+
+; ----------------------------------------------------------------------
+; DATOS onda_7D84: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7d84..0x7da4  (32 bytes)
+DATA_onda_7D84:
 	defb 080h,08eh,0a0h,0c0h,0e0h,000h,020h,03fh,03eh,03ch,03ah,037h,031h,029h,020h,01ch	; 7d84  ...... ?><:71) .
 	defb 010h,000h,0e6h,0c0h,0d0h,000h,020h,03fh,010h,0e0h,080h,0c0h,000h,020h,000h,090h	; 7d94  ...... ?..... ..
+
+; ----------------------------------------------------------------------
+; DATOS onda_7DA4: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7da4..0x7dc4  (32 bytes)
+DATA_onda_7DA4:
 	defb 000h,070h,050h,020h,050h,070h,030h,000h,050h,07fh,060h,010h,030h,040h,000h,0b0h	; 7da4  .pP Pp0.P.`.0@..
 	defb 010h,060h,000h,0e0h,0f0h,000h,0b0h,090h,0c0h,010h,0e0h,0a0h,0c0h,0f0h,0c0h,0a0h	; 7db4  .`..............
+
+; ----------------------------------------------------------------------
+; DATOS onda_7DC4: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7dc4..0x7de4  (32 bytes)
+DATA_onda_7DC4:
 	defb 080h,0b0h,0c0h,010h,01ah,02ah,02ch,01ah,000h,0e0h,0d0h,0e0h,022h,053h,070h,075h	; 7dc4  .....*,....."Spu
 	defb 070h,031h,0eah,080h,088h,08ah,08ch,08eh,000h,07fh,075h,073h,062h,000h,0c0h,090h	; 7dd4  p1........usb...
+
+; ----------------------------------------------------------------------
+; DATOS onda_7DE4: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7de4..0x7e04  (32 bytes)
+DATA_onda_7DE4:
 	defb 000h,020h,030h,040h,050h,058h,060h,068h,070h,068h,060h,058h,050h,040h,030h,020h	; 7de4  . 0@PX`hph`XP@0
 	defb 000h,0e0h,0d0h,0c0h,0b0h,0a0h,098h,090h,088h,090h,098h,0a0h,0b0h,0c0h,0d0h,0e0h	; 7df4  ................
+
+; ----------------------------------------------------------------------
+; DATOS onda_7E04: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7e04..0x7e24  (32 bytes)
+DATA_onda_7E04:
 	defb 000h,000h,000h,000h,000h,070h,070h,000h,000h,080h,080h,080h,000h,000h,000h,000h	; 7e04  .....pp.........
 	defb 070h,070h,070h,000h,080h,080h,000h,000h,000h,000h,070h,070h,000h,000h,080h,080h	; 7e14  ppp.......pp....
+
+; ----------------------------------------------------------------------
+; DATOS onda_7E24: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7e24..0x7e44  (32 bytes)
+DATA_onda_7E24:
 	defb 000h,000h,000h,080h,000h,070h,070h,070h,000h,000h,000h,080h,000h,000h,000h,080h	; 7e24  .....ppp........
 	defb 080h,080h,080h,000h,080h,000h,000h,000h,000h,080h,080h,080h,000h,080h,080h,080h	; 7e34  ................
+
+; ----------------------------------------------------------------------
+; DATOS onda_7E44: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7e44..0x7e64  (32 bytes)
+DATA_onda_7E44:
 	defb 000h,030h,0f0h,030h,040h,050h,060h,060h,070h,079h,070h,078h,040h,000h,000h,00eh	; 7e44  .0.0@P``pypx@...
 	defb 070h,083h,060h,050h,000h,000h,000h,026h,074h,082h,084h,065h,064h,0e4h,093h,084h	; 7e54  p.`P...&t..ed...
+
+; ----------------------------------------------------------------------
+; DATOS onda_7E64: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7e64..0x7e84  (32 bytes)
+DATA_onda_7E64:
 	defb 070h,070h,070h,070h,070h,070h,070h,070h,080h,080h,080h,080h,080h,080h,080h,080h	; 7e64  pppppppp........
 	defb 070h,070h,070h,080h,080h,080h,070h,070h,070h,070h,080h,080h,080h,080h,080h,080h	; 7e74  ppp...pppp......
+
+; ----------------------------------------------------------------------
+; DATOS onda_7E84: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7e84..0x7ea4  (32 bytes)
+DATA_onda_7E84:
 	defb 070h,070h,060h,080h,090h,090h,080h,080h,040h,040h,030h,080h,090h,090h,080h,080h	; 7e84  pp`.....@@0.....
 	defb 020h,020h,010h,080h,090h,090h,080h,080h,000h,000h,0f0h,080h,090h,090h,080h,080h	; 7e94    ..............
+
+; ----------------------------------------------------------------------
+; DATOS onda_7EA4: una forma de onda del SCC: 32 muestras que p10:737B copia
+;   al canal (o, en la onda que cambia, p10:7396 de IX+31 en IX+31); lo leen
+;   p10:737B (32 bytes)
+;   0x7ea4..0x7ec4  (32 bytes)
+DATA_onda_7EA4:
 	defb 0feh,001h,0f8h,015h,0eah,00fh,0e9h,001h,0d1h,0ebh,001h,088h,004h,074h,044h,074h	; 7ea4  .............tDt
 	defb 0ebh,001h,023h,0d0h,009h,0ffh,0feh,002h,0e0h,002h,0e2h,001h,031h,000h,030h,0f0h	; 7eb4  ..#.........1.0.
+
+; ----------------------------------------------------------------------
+; DATOS partitura_7EC4: partitura que lee el motor de sonido (p10:644C,
+;   p10:6508, p10:6B9D, p10:6CDE y otras) al tocar los sonidos 0x0F, 0x10,
+;   0x11 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo
+;   que se lee seguido); lo leen p10:644C, p10:6508, p10:6B9D, p10:6CDE,
+;   p10:6D4A, p10:6DC5, p10:6DCC, p10:6DCE (316 bytes)
+;   0x7ec4..0x8000  (316 bytes)
+DATA_partitura_7EC4:
 	defb 030h,0e0h,030h,0d0h,030h,0c0h,030h,0b0h,030h,0a0h,030h,090h,030h,080h,030h,070h	; 7ec4  0.0.0.0.0.0.0.0p
 	defb 030h,0c0h,030h,0b0h,030h,0a0h,030h,090h,030h,080h,030h,070h,020h,0c0h,020h,0b0h	; 7ed4  0.0.0.0.0.0p . .
 	defb 020h,0a0h,020h,090h,020h,080h,020h,070h,010h,0c0h,010h,0b0h,010h,0a0h,010h,090h	; 7ee4   . . . p........

@@ -4582,13 +4582,13 @@ DATA_texto_BDEF:
 	defb 00eh,015h,02dh,0feh,0cdh,039h,02ch,00eh,01ah,00eh,015h,02dh,0ffh	; be0f  ..-..9,....-.
 
 ; ----------------------------------------------------------------------
-; DATOS leido_BE1C: 97 bytes que leen p01:6649, p01:6665, p01:6655, p01:6670
+; DATOS leido_BE1C: 99 bytes que leen p01:6649, p01:6665, p01:6655, p01:6670
 ;   al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 15 sin leer
+;   tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 8 sin leer
 ;   entre lecturas de la misma rutina: entradas de la misma tabla que las
 ;   partidas no han pedido); lo leen p01:6649, p01:6665, p01:6655, p01:6670
-;   (97 bytes)
-;   0xbe1c..0xbe7d  (97 bytes)
+;   (99 bytes)
+;   0xbe1c..0xbe7f  (99 bytes)
 DATA_leido_BE1C:
 	defb 014h,00ch,00ch,00ch,014h,02ch,00ch,00ch,008h,00ch,00ch,00ch,008h,02ch,00ch,00ch	; be1c  .....,.......,..
 	defb 000h,00ch,00ch,00ch,000h,02ch,00ch,00ch,008h,00ch,00ch,00ch,008h,024h,00ch,00ch	; be2c  .....,.......$..
@@ -4596,23 +4596,23 @@ DATA_leido_BE1C:
 	defb 00dh,000h,008h,008h,000h,000h,008h,008h,01bh,008h,008h,008h,02bh,008h,008h,008h	; be4c  ............+...
 	defb 038h,010h,008h,008h,000h,038h,008h,008h,005h,040h,008h,008h,003h,048h,008h,008h	; be5c  8....8...@...H..
 	defb 00dh,048h,008h,008h,000h,048h,008h,008h,01bh,040h,008h,008h,02bh,040h,008h,008h	; be6c  .H...H...@..+@..
-	defb 038h	; be7c
+	defb 038h,038h,008h	; be7c
 
 ; ----------------------------------------------------------------------
-; DATOS resto_BE7D: lo apuntan con el banco puesto p01:7D08 (0xBE94); el
+; DATOS resto_BE7F: lo apuntan con el banco puesto p01:7D08 (0xBE94); el
 ;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p01:7D08 (27 bytes)
-;   0xbe7d..0xbe98  (27 bytes)
-DATA_resto_BE7D:
-	defb 038h,008h,008h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h	; be7d  8...............
-	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h	; be8d  ...........
+;   p01:7D08 (25 bytes)
+;   0xbe7f..0xbe98  (25 bytes)
+DATA_resto_BE7F:
+	defb 008h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h	; be7f  ................
+	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h	; be8f  .........
 
 ; ----------------------------------------------------------------------
-; DATOS leido_BE98: 38 bytes que leen p01:6649, p01:6655, p01:6665, p01:6670
+; DATOS leido_BE98: 38 bytes que leen p01:6649, p01:6665, p01:6655, p01:6670
 ;   al jugar (medido ejecutando el cartucho, tools/cobertura.py y
-;   tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 8 sin leer
+;   tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 3 sin leer
 ;   entre lecturas de la misma rutina: entradas de la misma tabla que las
-;   partidas no han pedido); lo leen p01:6649, p01:6655, p01:6665, p01:6670
+;   partidas no han pedido); lo leen p01:6649, p01:6665, p01:6655, p01:6670
 ;   (38 bytes)
 ;   0xbe98..0xbebe  (38 bytes)
 DATA_leido_BE98:

@@ -566,6 +566,8 @@ C 0x8E8E los sprites del dibujo 0xE5D0 (tabla de 0x8EB2: cuantos bytes y ellos) 
 C 0x8EA4 0x18 bytes de sprites fuera (0xE0)
 # --- fin de lo escrito a mano ---
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x8012 0x801E leido_8012  12 bytes que lee p26:7FFA al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7FFA (12 bytes)
+F 0x8012 16
 D 0x8052 0x805A tabla_8052  4 destinos del despachador p00:4093 (call en p27:804F, el indice en A): 6CCB, 6D14, 805A, 6DB7; lo leen p27:804F (8 bytes)
 F 0x8052 w4
 D 0x806B 0x8073 tabla_806B  4 destinos del despachador p00:4093 (call en p27:8068, el indice en A): 7D7C, 8073, 80A2, 80AE; lo leen p27:8068 (8 bytes)
@@ -596,6 +598,12 @@ D 0x88C4 0x88C5 leido_88C4  1 bytes que lee p26:7988 al jugar (medido ejecutando
 F 0x88C4 16
 D 0x88C5 0x88C8 leido_88C5  3 bytes que leen p26:79C1, p26:79B7, p26:7988 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:79C1, p26:79B7, p26:7988 (3 bytes)
 F 0x88C5 16
+D 0x88E8 0x88E9 leido_88E8  1 bytes que lee p26:78B8 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:78B8 (1 bytes)
+F 0x88E8 16
+D 0x88E9 0x88EB leido_88E9  2 bytes que leen p26:78F6, p26:7905 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:78F6, p26:7905 (2 bytes)
+F 0x88E9 16
+D 0x88EB 0x88EC leido_88EB  1 bytes que lee p26:78B8 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:78B8 (1 bytes)
+F 0x88EB 16
 D 0x8921 0x893F tabla_8921  15 destinos del despachador p00:4093 (call en p27:891E, el indice en A): 893F, 894F, 896A, 897C, 8997, 89A3, 89B8, 89CC, 89DD, 89ED, 8A17, 8A2C, 8A38, 8A4A, 8A5F; lo leen p27:891E (30 bytes)
 F 0x8921 w8
 D 0x89B4 0x89B5 leido_89B4  1 bytes que lee p26:78B8 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:78B8 (1 bytes)
@@ -874,10 +882,6 @@ D 0x9F8E 0x9FC4 dibujo_72  el dibujo de secuencia 0x72 (p26:6349): trozos de dos
 F 0x9F8E 16
 D 0x9FC4 0xA000 dibujo_73  el dibujo de secuencia 0x73 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits (sigue en el banco 28, en 0xA000); lo leen p26:634C, p26:6350, p26:6392 (60 bytes)
 F 0x9FC4 16
-D 0x8012 0x801E resto_8012  lo apuntan con el banco puesto p26:7FF1 (0x8012); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p26:7FF1 (12 bytes)
-F 0x8012 16
-D 0x88E8 0x88EC resto_88E8  lo apuntan con el banco puesto p27:88DE (0x88E8); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p27:88DE (4 bytes)
-F 0x88E8 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---

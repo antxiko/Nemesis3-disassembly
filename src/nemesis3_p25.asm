@@ -320,7 +320,9 @@ DATA_leido_A687:
 	defb 061h,05fh,04ah,04ch,058h,05bh,062h,04eh,048h,04bh,05ah,057h,000h,000h,049h,04dh	; a6a7  a_JLX[bNHKZW..IM
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xa6b7..0xa800  (329 bytes)
+; DATOS relleno_ff: 329 bytes a 0xFF entre dos bloques, que no lee nadie:
+;   relleno; lo leen nadie (329 bytes)
+;   0xa6b7..0xa800  (329 bytes)
 DATA_A6B7:
 	defb 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh	; a6b7  ................
 	defb 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh	; a6c7  ................
@@ -853,6 +855,8 @@ DATA_partitura_AE92:
 	defb 000h	; bff2
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbff3..0xc000  (13 bytes)
+; DATOS relleno_ff: 13 bytes a 0xFF hasta el final del banco: relleno; lo leen
+;   nadie (13 bytes)
+;   0xbff3..0xc000  (13 bytes)
 DATA_BFF3:
 	defb 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh	; bff3  .............

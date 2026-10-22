@@ -120,12 +120,24 @@ D 0x8483 0x84C1 tabla_8483  tabla que se lee desde HL = 0x8483 con un indice (p0
 F 0x8483 16
 D 0x85A3 0x85BD tabla_85A3  13 destinos del despachador p00:4093 (call en p30:85A0, el indice en A): 85BD, 85D3, 860A, 8649, 866F, 8680, 8690, 86C2, 86D1, 86E0, 86EF, 8701, 870F; lo leen p30:85A0 (26 bytes)
 F 0x85A3 w8
+D 0x866B 0x866F leido_866B  4 bytes que lee p00:5EDA al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:5EDA (4 bytes)
+F 0x866B 16
+D 0x86B2 0x86B3 leido_86B2  1 bytes que lee p26:7988 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7988 (1 bytes)
+F 0x86B2 16
+D 0x86B3 0x86C2 leido_86B3  15 bytes que leen p26:79C1, p26:79B7, p26:7988 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:79C1, p26:79B7, p26:7988 (15 bytes)
+F 0x86B3 16
 D 0x8781 0x8791 tabla_8781  tabla que se lee desde HL = 0x8781 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p30:8764 (16 bytes)
 F 0x8781 16
 D 0x887A 0x88C0 rle_ram2_887A  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (70 bytes)
 F 0x887A 16
-D 0x892E 0x893B tabla_892E  tabla que se lee desde HL = 0x892E con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p30:8805 (13 bytes)
+D 0x88C0 0x892E leido_88C0  110 bytes que lee p30:8841 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p30:8841 (110 bytes)
+F 0x88C0 16
+D 0x892E 0x893B rle_ram2_892E  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (13 bytes)
 F 0x892E 16
+D 0x893B 0x89B2 rle_ram2_893B  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (119 bytes)
+F 0x893B 16
+D 0x89B2 0x89CA leido_89B2  24 bytes que lee p30:87E7 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p30:87E7 (24 bytes)
+F 0x89B2 16
 D 0x89CA 0x89D2 leido_89CA  8 bytes que lee p30:856F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p30:856F (8 bytes)
 F 0x89CA 16
 D 0x89D2 0x89D6 tabla_89D2  tabla que se lee desde HL = 0x89D2 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p30:8468 (4 bytes)
@@ -608,14 +620,6 @@ D 0x825F 0x8267 resto_825F  lo apuntan con el banco puesto p30:8250 (0x825F), p3
 F 0x825F 16
 D 0x82EA 0x82F1 resto_82EA  lo apuntan con el banco puesto p30:82D4 (0x82EA), p30:836D (0x82EA), p30:83B9 (0x82EA), p30:82DD (0x82EE); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p30:82D4, p30:836D, p30:83B9, p30:82DD (7 bytes)
 F 0x82EA 16
-D 0x866B 0x866F resto_866B  lo apuntan con el banco puesto p30:8662 (0x866B); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p30:8662 (4 bytes)
-F 0x866B 16
-D 0x86B2 0x86C2 resto_86B2  lo apuntan con el banco puesto p30:86A7 (0x86B2), p30:86C6 (0x86B6), p30:86D5 (0x86BA), p30:86E4 (0x86BE); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p30:86A7, p30:86C6, p30:86D5, p30:86E4 (16 bytes)
-F 0x86B2 16
-D 0x88C0 0x892E resto_88C0  lo apuntan con el banco puesto p30:85E1 (0x88C0), p30:8618 (0x88C0), p30:85F5 (0x88E0), p30:862C (0x88E0), p30:8651 (0x890A); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p30:85E1, p30:8618, p30:85F5, p30:862C, p30:8651 (110 bytes)
-F 0x88C0 16
-D 0x893B 0x89CA resto_893B  lo apuntan con el banco puesto p30:8684 (0x893B), p30:87DE (0x89B2); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p30:8684, p30:87DE (143 bytes)
-F 0x893B 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---

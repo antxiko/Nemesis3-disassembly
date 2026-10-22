@@ -32,11 +32,14 @@ DATA_dibujo_74:
 	defb 0dch,0cfh,01ah,016h,06fh,0cbh,0aah,08ch,0cbh,04dh,04fh,09ch,053h,018h,030h	; a069  ....o....MO.S.0
 
 ; ----------------------------------------------------------------------
-; DATOS resto_A078: lo apuntan con el banco puesto p26:7F4D (0xA078); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p26:7F4D (60 bytes)
+; DATOS rle_ram2_A078: datos comprimidos a la RAM (p00:55CD): 0 acaba; bits
+;   7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte
+;   de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia
+;   los n de detras; empieza donde la campana de tools/cobertura.py lee su
+;   primer byte de control y se recorre hasta su 0; lo leen p00:55CD (60
+;   bytes)
 ;   0xa078..0xa0b4  (60 bytes)
-DATA_resto_A078:
+DATA_rle_ram2_A078:
 	defb 045h,0c3h,009h,000h,042h,0c8h,002h,0c9h,0c2h,0cah,000h,043h,0cbh,0c1h,000h,043h	; a078  E...B......C...C
 	defb 0ceh,0c2h,000h,0d1h,003h,0c9h,04bh,0d2h,003h,0c9h,0c1h,0d2h,049h,0ddh,042h,0d2h	; a088  ......K.....I.B.
 	defb 002h,0d3h,04ah,0d4h,042h,0d2h,002h,0d3h,0c2h,0deh,000h,043h,0dfh,0c1h,000h,043h	; a098  ..J.B......C...C

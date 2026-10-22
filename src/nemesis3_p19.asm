@@ -1501,7 +1501,7 @@ L_B0D6:
 ; ----------------------------------------------------------------------
 ; DATOS leido_B0DD: 10 bytes que lee p19:B0B9 al jugar (medido ejecutando el
 ;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido, con 3 sin leer entre lecturas de la misma rutina: entradas
+;   se lee seguido, con 2 sin leer entre lecturas de la misma rutina: entradas
 ;   de la misma tabla que las partidas no han pedido); lo leen p19:B0B9 (10
 ;   bytes)
 ;   0xb0dd..0xb0e7  (10 bytes)
@@ -1625,18 +1625,19 @@ DATA_tabla_B162:
 	defb 0dch	; b162
 
 ; ----------------------------------------------------------------------
-; DATOS leido_B163: 16 bytes que lee p19:B121 al jugar (medido ejecutando el
+; DATOS leido_B163: 24 bytes que lee p19:B121 al jugar (medido ejecutando el
 ;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p19:B121 (16 bytes)
-;   0xb163..0xb173  (16 bytes)
+;   se lee seguido); lo leen p19:B121 (24 bytes)
+;   0xb163..0xb17b  (24 bytes)
 DATA_leido_B163:
 	defb 0d0h,0dch,0d0h,0d0h,0dch,0d0h,0dch,0dch,0d0h,0dch,0d4h,0d0h,0dch,0dch,0d0h,0dch	; b163  ................
+	defb 0d4h,0dch,0d0h,0dch,0dch,0d0h,0d4h,0d0h	; b173  ........
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xb173..0xb192  (31 bytes)
-DATA_B173:
-	defb 0d4h,0dch,0d0h,0dch,0dch,0d0h,0d4h,0d0h,0dch,0d0h,0d8h,0dch,0d4h,0d0h,0dch,0d0h	; b173  ................
-	defb 0dch,0d8h,0dch,0e0h,0d0h,0d8h,0dch,0dch,0e0h,0d4h,0dch,0d0h,0d8h,0e0h,0d0h	; b183  ...............
+; DATOS sin identificar  0xb17b..0xb192  (23 bytes)
+DATA_B17B:
+	defb 0dch,0d0h,0d8h,0dch,0d4h,0d0h,0dch,0d0h,0dch,0d8h,0dch,0e0h,0d0h,0d8h,0dch,0dch	; b17b  ................
+	defb 0e0h,0d4h,0dch,0d0h,0d8h,0e0h,0d0h	; b18b
 
 ; ----------------------------------------------------------------------
 ; DATOS leido_B192: 1 bytes que lee p00:4A73 al jugar (medido ejecutando el

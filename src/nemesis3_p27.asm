@@ -26,11 +26,11 @@ L_8008:
 	ret			;8011
 
 ; ----------------------------------------------------------------------
-; DATOS resto_8012: lo apuntan con el banco puesto p26:7FF1 (0x8012); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p26:7FF1 (12 bytes)
+; DATOS leido_8012: 12 bytes que lee p26:7FFA al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p26:7FFA (12 bytes)
 ;   0x8012..0x801e  (12 bytes)
-DATA_resto_8012:
+DATA_leido_8012:
 	defb 03fh,050h,0c0h,008h,03eh,08dh,0c0h,008h,036h,0b1h,0c0h,008h	; 8012  ?P..>...6...
 
 ; ======================================================================
@@ -1314,12 +1314,28 @@ L_88D4:
 	ret			;88e7
 
 ; ----------------------------------------------------------------------
-; DATOS resto_88E8: lo apuntan con el banco puesto p27:88DE (0x88E8); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p27:88DE (4 bytes)
-;   0x88e8..0x88ec  (4 bytes)
-DATA_resto_88E8:
-	defb 007h,001h,0ffh,000h	; 88e8
+; DATOS leido_88E8: 1 bytes que lee p26:78B8 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p26:78B8 (1 bytes)
+;   0x88e8..0x88e9  (1 bytes)
+DATA_leido_88E8:
+	defb 007h	; 88e8
+
+; ----------------------------------------------------------------------
+; DATOS leido_88E9: 2 bytes que leen p26:78F6, p26:7905 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p26:78F6, p26:7905 (2 bytes)
+;   0x88e9..0x88eb  (2 bytes)
+DATA_leido_88E9:
+	defb 001h,0ffh	; 88e9
+
+; ----------------------------------------------------------------------
+; DATOS leido_88EB: 1 bytes que lee p26:78B8 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p26:78B8 (1 bytes)
+;   0x88eb..0x88ec  (1 bytes)
+DATA_leido_88EB:
+	defb 000h	; 88eb
 
 ; ======================================================================
 ; CODIGO 0x88ec..0x8921  (53 bytes)

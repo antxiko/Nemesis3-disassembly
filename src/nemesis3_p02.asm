@@ -2668,22 +2668,14 @@ L_9175:
 	ret			;9178
 
 ; ----------------------------------------------------------------------
-; DATOS resto_9179: lo apuntan con el banco puesto p02:9120 (0x9179); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p02:9120 (1 bytes)
-;   0x9179..0x917a  (1 bytes)
-DATA_resto_9179:
-	defb 050h	; 9179
-
-; ----------------------------------------------------------------------
-; DATOS leido_917A: 9 bytes que lee p02:9135 al jugar (medido ejecutando el
+; DATOS leido_9179: 10 bytes que lee p02:9135 al jugar (medido ejecutando el
 ;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
 ;   se lee seguido, con 1 sin leer entre lecturas de la misma rutina: entradas
-;   de la misma tabla que las partidas no han pedido); lo leen p02:9135 (9
+;   de la misma tabla que las partidas no han pedido); lo leen p02:9135 (10
 ;   bytes)
-;   0x917a..0x9183  (9 bytes)
-DATA_leido_917A:
-	defb 040h,030h,028h,024h,022h,020h,01eh,01ch,01ah	; 917a  @0($" ...
+;   0x9179..0x9183  (10 bytes)
+DATA_leido_9179:
+	defb 050h,040h,030h,028h,024h,022h,020h,01eh,01ch,01ah	; 9179  P@0($" ...
 
 ; ----------------------------------------------------------------------
 ; DATOS sin identificar  0x9183..0x9185  (2 bytes)

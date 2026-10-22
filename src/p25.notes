@@ -8,6 +8,8 @@ D 0xA5F7 0xA687 mapa_A5F7  el mapa del decorado de la fase 11: 24 columnas de 6 
 F 0xA5F7 6
 D 0xA687 0xA6B7 leido_A687  48 bytes que lee p00:5388 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:5388 (48 bytes)
 F 0xA687 16
+D 0xA6B7 0xA800 relleno_ff  329 bytes a 0xFF entre dos bloques, que no lee nadie: relleno; lo leen nadie (329 bytes)
+F 0xA6B7 16
 D 0xA800 0xABF8 partitura_A800  partitura que lee el motor de sonido (p10:644C, p10:6508, p10:6B9D, p10:6BC5 y otras) al tocar los sonidos 0x4B, 0x4C, 0x4D (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6508, p10:6B9D, p10:6BC5, p10:6CDE, p10:6D4A, p10:6DC5, p10:6DCC (1016 bytes)
 F 0xA800 16
 D 0xABF9 0xAC95 partitura_ABF9  partitura que lee el motor de sonido (p10:644C, p10:6508, p10:6B9D, p10:6D43 y otras) al tocar los sonidos 0x4D, 0x4E (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6508, p10:6B9D, p10:6D43, p10:6D4A, p10:6DC5, p10:6DCC, p10:6DCE (156 bytes)
@@ -26,4 +28,6 @@ D 0xAD28 0xAE90 partitura_AD28  partitura que lee el motor de sonido (p10:644C, 
 F 0xAD28 16
 D 0xAE92 0xBFF3 partitura_AE92  partitura que lee el motor de sonido (p10:6333, p10:6335, p10:634B, p10:644C y otras) al tocar los sonidos 0x51, 0x52, 0x53 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:6333, p10:6335, p10:634B, p10:644C, p10:6508, p10:6B9D, p10:6BC5, p10:6CDE (4449 bytes)
 F 0xAE92 16
+D 0xBFF3 0xC000 relleno_ff  13 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (13 bytes)
+F 0xBFF3 16
 # --- fin de los bloques de bloques.py ---

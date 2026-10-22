@@ -549,9 +549,9 @@ D 0xBDAE 0xBDB7 tabla_BDAE  tabla que se lee desde HL = 0xBDAE con un indice (p0
 F 0xBDAE 16
 D 0xBDEF 0xBE1C texto_BDEF  texto a la VRAM: direccion, letras ('A' = 0x12), 0xFE y otra direccion, 0xFF acaba (p00:4B04); lo leen p03:BDEB (45 bytes)
 F 0xBDEF 16
-D 0xBE1C 0xBE7D leido_BE1C  97 bytes que leen p01:6649, p01:6665, p01:6655, p01:6670 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 15 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p01:6649, p01:6665, p01:6655, p01:6670 (97 bytes)
+D 0xBE1C 0xBE7F leido_BE1C  99 bytes que leen p01:6649, p01:6665, p01:6655, p01:6670 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 8 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p01:6649, p01:6665, p01:6655, p01:6670 (99 bytes)
 F 0xBE1C 16
-D 0xBE98 0xBEBE leido_BE98  38 bytes que leen p01:6649, p01:6655, p01:6665, p01:6670 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 8 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p01:6649, p01:6655, p01:6665, p01:6670 (38 bytes)
+D 0xBE98 0xBEBE leido_BE98  38 bytes que leen p01:6649, p01:6665, p01:6655, p01:6670 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 3 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p01:6649, p01:6665, p01:6655, p01:6670 (38 bytes)
 F 0xBE98 16
 D 0xBEBE 0xBEC8 leido_BEBE  10 bytes que leen p01:6655, p01:6649, p01:6665, p01:6670 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 1 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p01:6655, p01:6649, p01:6665, p01:6670 (10 bytes)
 F 0xBEBE 16
@@ -559,8 +559,8 @@ D 0xBEC8 0xBF0A tabla_BEC8  tabla que se lee desde HL = 0xBEC8 con un indice (p0
 F 0xBEC8 16
 D 0xBF0A 0xC000 relleno_ff  246 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (246 bytes)
 F 0xBF0A 16
-D 0xBE7D 0xBE98 resto_BE7D  lo apuntan con el banco puesto p01:7D08 (0xBE94); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p01:7D08 (27 bytes)
-F 0xBE7D 16
+D 0xBE7F 0xBE98 resto_BE7F  lo apuntan con el banco puesto p01:7D08 (0xBE94); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p01:7D08 (25 bytes)
+F 0xBE7F 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---

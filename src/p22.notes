@@ -46,6 +46,18 @@ D 0xA8D8 0xA8F1 graficos_A8D8  lista de graficos (p00:4CB1): entradas de 6 bytes
 F 0xA8D8 6
 D 0xA8F1 0xA8FA copias_A8F1  lista de copias de caracteres con la vuelta dada (p00:4D1B): de 4 en 4 (origen, destino, tercios y vuelta, cuantos) y un 0; lo leen p30:8583 (9 bytes)
 F 0xA8F1 4
+D 0xA8FA 0xA8FB leido_A8FA  1 bytes que lee p00:5F51 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:5F51 (1 bytes)
+F 0xA8FA 16
+D 0xA8FB 0xA900 leido_A8FB  5 bytes que leen p00:5F99, p00:5F9C, p00:5F86, p00:5FAB, p00:5FAE al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:5F99, p00:5F9C, p00:5F86, p00:5FAB, p00:5FAE (5 bytes)
+F 0xA8FB 16
+D 0xA900 0xA901 leido_A900  1 bytes que lee p00:5F51 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:5F51 (1 bytes)
+F 0xA900 16
+D 0xA901 0xA902 leido_A901  1 bytes que lee p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D1F (1 bytes)
+F 0xA901 16
+D 0xA902 0xA903 leido_A902  1 bytes que lee p00:4DC3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4DC3 (1 bytes)
+F 0xA902 16
+D 0xA903 0xA906 leido_A903  3 bytes que leen p00:4D24, p00:4D2E, p00:4D1F al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4D24, p00:4D2E, p00:4D1F (3 bytes)
+F 0xA903 16
 D 0xA906 0xA919 graficos_A906  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p30:8548 (19 bytes)
 F 0xA906 6
 D 0xA919 0xA94F rle_A919  los dibujos de una entrada de la lista de graficos de 22:A8D8, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A919 A919-A94F); lo leen p00:4CFF, p00:4B3C (54 bytes)
@@ -56,15 +68,17 @@ D 0xA952 0xA974 rle_A952  los dibujos de una entrada de la lista de graficos de 
 F 0xA952 16
 D 0xA974 0xA977 rle_A974  los colores de una entrada de la lista de graficos de 22:A8D8, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A974 A974-A977); lo leen p00:4D11, p00:4B3C (3 bytes)
 F 0xA974 16
-D 0xA977 0xA9FE rle_A977  los dibujos de una entrada de la lista de graficos de 22:A8D8, en RLE (p00:4B3C); lo leen p00:4CFF (135 bytes)
+D 0xA977 0xA9FE rle_A977  los dibujos de una entrada de la lista de graficos de 22:A8D8, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A977 A977-A9FE); lo leen p00:4CFF, p00:4B3C (135 bytes)
 F 0xA977 16
-D 0xA9FE 0xAA03 rle_A9FE  los colores de una entrada de la lista de graficos de 22:A8D8, en RLE (p00:4B3C); lo leen p00:4D11 (5 bytes)
+D 0xA9FE 0xAA03 rle_A9FE  los colores de una entrada de la lista de graficos de 22:A8D8, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A9FE A9FE-AA03); lo leen p00:4D11, p00:4B3C (5 bytes)
 F 0xA9FE 16
-D 0xAAAF 0xAE1D rle_AAAF  los dibujos de una entrada de la lista de graficos de 22:A8D8, en RLE (p00:4B3C); lo leen p00:4CFF (878 bytes)
+D 0xAA03 0xAAAF leido_AA03  172 bytes que leen p00:5FC3, p00:5FE5, p00:5FCE al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:5FC3, p00:5FE5, p00:5FCE (172 bytes)
+F 0xAA03 16
+D 0xAAAF 0xAE1D rle_AAAF  los dibujos de una entrada de la lista de graficos de 22:A8D8, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_AAAF AAAF-AE1D); lo leen p00:4CFF, p00:4B3C (878 bytes)
 F 0xAAAF 16
-D 0xAE1D 0xAEC6 rle_AE1D  los colores de una entrada de la lista de graficos de 22:A8D8, en RLE (p00:4B3C); lo leen p00:4D11 (169 bytes)
+D 0xAE1D 0xAEC6 rle_AE1D  los colores de una entrada de la lista de graficos de 22:A8D8, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_AE1D AE1D-AEC6); lo leen p00:4D11, p00:4B3C (169 bytes)
 F 0xAE1D 16
-D 0xAEC6 0xAF12 rle_AEC6  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; lo leen p30:858C (76 bytes)
+D 0xAEC6 0xAF12 rle_AEC6  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; se solapan 2 bloques: (rle_vram_AEC6 AEC6-AF12); lo leen p30:858C, p00:4B3C (76 bytes)
 F 0xAEC6 16
 D 0xAF12 0xB14E rle_AF12  los dibujos de una entrada de la lista de graficos de 22:A906, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_AF12 AF12-B14E); lo leen p00:4CFF, p00:4B3C (572 bytes)
 F 0xAF12 16

@@ -926,10 +926,8 @@ C 0x9FF5 abajo...
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x80E0 0x80F8 leido_80E0  24 bytes que leen p04:8081, p04:8088, p04:808C, p04:808E al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p04:8081, p04:8088, p04:808C, p04:808E (24 bytes)
 F 0x80E0 16
-D 0x83F3 0x83F4 tabla_83F3  tabla que se lee desde HL = 0x83F3 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p04:81F5 (1 bytes)
-F 0x83F3 16
-D 0x83F4 0x83FF leido_83F4  11 bytes que leen p04:81FB, p04:81FD, p04:81FF, p04:81F9 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p04:81FB, p04:81FD, p04:81FF, p04:81F9 (11 bytes)
-F 0x83F4 16
+D 0x83F3 0x8433 movimiento  el paso de la nave por cada direccion de la palanca (los 4 bits de 0xE309): dy y dx de 16 bits, 4 bytes por direccion (p04:81EB); lo leen p04:81F9, p04:81FD (64 bytes)
+F 0x83F3 4
 D 0x84B9 0x84C1 tabla_84B9  tabla que se lee desde HL = 0x84B9 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p04:8469 (8 bytes)
 F 0x84B9 16
 D 0x84C1 0x8502 leido_84C1  65 bytes que leen p04:846F, p04:8495, p04:849E, p04:84A3, p04:84A7 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 3 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p04:846F, p04:8495, p04:849E, p04:84A3, p04:84A7 (65 bytes)
@@ -948,8 +946,8 @@ D 0x92B4 0x92BC tabla_92B4  tabla que se lee desde HL = 0x92B4 con un indice (p0
 F 0x92B4 16
 D 0x9316 0x931E tabla_9316  tabla que se lee desde HL = 0x9316 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p04:9305 (8 bytes)
 F 0x9316 16
-D 0x931E 0x932C leido_931E  14 bytes que leen p00:4098, p00:409A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 2 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4098, p00:409A (14 bytes)
-F 0x931E 16
+D 0x931E 0x935E compras_por_nave  lo que compra cada casilla, una lista de 8 rutinas por nave (p04:9302: la palabra 0xE380 de 0x9316 y la casilla - 1, por p00:4094); lo leen p00:4098 (64 bytes)
+F 0x931E w8
 D 0x9392 0x9393 leido_9392  1 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A73 (1 bytes)
 F 0x9392 16
 D 0x93CF 0x93D1 leido_93CF  2 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A73 (2 bytes)
@@ -958,8 +956,8 @@ D 0x9402 0x9403 leido_9402  1 bytes que lee p00:4A73 al jugar (medido ejecutando
 F 0x9402 16
 D 0x9469 0x946A leido_9469  1 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A73 (1 bytes)
 F 0x9469 16
-D 0x94D2 0x94DF leido_94D2  13 bytes que lee p04:94CF al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 6 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p04:94CF (13 bytes)
-F 0x94D2 16
+D 0x94D1 0x9511 topes_por_arma_secreta  cuanto se puede subir cada casilla con cada nivel del arma secreta: 8 bytes por nivel (0xE36F de 0 a 7), uno por casilla de 1 a 8 (p04:94BD: 0x94D0 + 8 x nivel + casilla); lo leen p04:94CF (64 bytes)
+F 0x94D1 8
 D 0x95F9 0x9639 tabla_95F9  tabla que se lee desde HL = 0x95F9 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p04:95CF (64 bytes)
 F 0x95F9 16
 D 0x9639 0x965F leido_9639  38 bytes que lee p04:95DC al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 25 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p04:95DC (38 bytes)

@@ -993,6 +993,8 @@ D 0xB430 0xB436 tabla_B430  3 destinos del despachador p00:4093 (call en p05:B42
 F 0xB430 w3
 D 0xB49F 0xB4A3 tabla_B49F  2 destinos del despachador p00:4093 (call en p05:B49C, el indice en A): B4A3, B4D2; lo leen p05:B49C (4 bytes)
 F 0xB49F w2
+D 0xB510 0xB514 tabla_B510  2 destinos del despachador p00:4093 (call en p05:B50D, el indice en A): B514, B544; lo leen p05:B50D (4 bytes)
+F 0xB510 w2
 D 0xB57B 0xB589 tabla_B57B  7 destinos del despachador p00:4093 (call en p05:B578, el indice en A): B589, B5B3, B5CB, A042, A087, A0AE, A0CD; lo leen p05:B578 (14 bytes)
 F 0xB57B w7
 D 0xB5A9 0xB5B3 leido_B5A9  10 bytes que lee p04:9DCF al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p04:9DCF (10 bytes)
@@ -1330,6 +1332,15 @@ C 0xB4D6 resta 1 a el dibujo de la pieza
 C 0xB4E3 apunta a la nave: la velocidad en y en IX+7 y en x en IX+9 (p01:7865)
 C 0xB4F2 el dibujo mirando a un lado u otro hacia la nave (0xB0 o 0xB8)
 C 0xB506 apunta a la nave: la velocidad en y en IX+7 y en x en IX+9 (p01:7865)
+C 0xB50D despacha: salta a la palabra A de la tabla que va detras del call
+C 0xB51C lee el dibujo del primer sprite del enemigo
+C 0xB521 guarda el dibujo del primer sprite del enemigo
+C 0xB524 lee el dibujo del primer sprite del enemigo
+C 0xB52E le suma la x del enemigo
+C 0xB532 lee la y del enemigo
+C 0xB54C lee el dibujo del primer sprite del enemigo
+C 0xB551 guarda el dibujo del primer sprite del enemigo
+C 0xB558 lee la cuenta de cuadros del juego
 C 0xB564 lee la x de la nave
 C 0xB567 compara con la x del enemigo
 C 0xB571 guarda el dibujo del primer sprite del enemigo

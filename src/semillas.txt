@@ -318,3 +318,6 @@ p10 0x6F94 10 11 12  # orden 0xDF: tabla p10:6E37, palabra 0x0F
 # (topes p04:94D0) y la 8 (el escudo) no la compro la campana.
 p04 0x9404 1 4 5  # casilla 5: tabla p04:931E, palabra 4
 p04 0x948D 1 4 5  # casilla 8, el escudo: tabla p04:931E, palabra 7
+# El puente p01:7520 (ld hl,0xB4F6 y p00:415B, jp (hl) en p01:753E) lleva al
+# tipo de enemigo de p05:B4F6; ninguna partida de la campana lo saco.
+p05 0xB4F6 1 4 5  # p01:7520: HL = 0xB4F6 y salta con los bancos 4-5

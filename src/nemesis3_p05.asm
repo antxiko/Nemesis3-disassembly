@@ -3011,7 +3011,7 @@ DATA_tabla_B49F:
 	defw 0b4a3h,0b4d2h	; b49f  -> L_B4A3 L_B4D2
 
 ; ======================================================================
-; CODIGO 0xb4a3..0xb4f6  (83 bytes)
+; CODIGO 0xb4a3..0xb510  (109 bytes)
 ; ======================================================================
 
 
@@ -3054,17 +3054,9 @@ L_B4E6:
 	ld (ix+015h),020h		;b4ee
 	call L_B55E		;b4f2   ; el dibujo mirando a un lado u otro hacia la nave (0xB0 o 0xB8)
 	ret			;b4f5
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0xb4f6..0xb4fc  (6 bytes)
-DATA_B4F6:
-	defb 0cdh,00ah,0b5h,0cdh,058h,0b5h	; b4f6
-
-; ======================================================================
-; CODIGO 0xb4fc..0xb50a  (14 bytes)
-; ======================================================================
-
-
+L_B4F6:
+	call L_B50A		;b4f6
+	call L_B558		;b4f9
 L_B4FC:
 	dec (ix+024h)		;b4fc   ; cada 0x10 cuadros vuelve a apuntar
 	ret nz			;b4ff
@@ -3073,22 +3065,58 @@ L_B4FC:
 	call 07865h		;b506   ; apunta a la nave: la velocidad en y en IX+7 y en x en IX+9 (p01:7865)
 L_B509:
 	ret			;b509
+L_B50A:
+	ld a,(ix+025h)		;b50a
+	call 04093h		;b50d   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xb50a..0xb55e  (84 bytes)
-DATA_B50A:
-	defb 0ddh,07eh,025h,0cdh,093h,040h,014h,0b5h,044h,0b5h,0ddh,035h,015h,0c0h,0ddh,036h	; b50a  .~%..@..D..5...6
-	defb 015h,008h,0ddh,07eh,030h,0c6h,004h,0ddh,077h,030h,0ddh,07eh,030h,0feh,0b8h,03eh	; b51a  ...~0...w0.~0..>
-	defb 00ch,030h,001h,0afh,0ddh,086h,006h,057h,0ddh,07eh,004h,0c6h,00ch,05fh,03eh,045h	; b52a  .0.....W.~..._>E
-	defb 001h,000h,000h,0cdh,04fh,076h,0ddh,034h,025h,0c9h,0ddh,035h,015h,0c0h,0ddh,036h	; b53a  ....Ov.4%..5...6
-	defb 015h,018h,0ddh,07eh,030h,0d6h,004h,0ddh,077h,030h,0ddh,035h,025h,0c9h,03ah,003h	; b54a  ...~0...w0.5%.:.
-	defb 0e3h,0e6h,007h,0c0h	; b55a
+; DATOS tabla_B510: 2 destinos del despachador p00:4093 (call en p05:B50D, el
+;   indice en A): B514, B544; lo leen p05:B50D (4 bytes)
+;   0xb510..0xb514  (4 bytes)
+DATA_tabla_B510:
+	defw 0b514h,0b544h	; b510  -> L_B514 L_B544
 
 ; ======================================================================
-; CODIGO 0xb55e..0xb57b  (29 bytes)
+; CODIGO 0xb514..0xb57b  (103 bytes)
 ; ======================================================================
 
 
+L_B514:
+	dec (ix+015h)		;b514
+	ret nz			;b517
+	ld (ix+015h),008h		;b518
+	ld a,(ix+030h)		;b51c   ; lee el dibujo del primer sprite del enemigo
+	add a,004h		;b51f
+	ld (ix+030h),a		;b521   ; guarda el dibujo del primer sprite del enemigo
+	ld a,(ix+030h)		;b524   ; lee el dibujo del primer sprite del enemigo
+	cp 0b8h		;b527
+	ld a,00ch		;b529
+	jr nc,L_B52E		;b52b
+	xor a			;b52d
+L_B52E:
+	add a,(ix+006h)		;b52e   ; le suma la x del enemigo
+	ld d,a			;b531
+	ld a,(ix+004h)		;b532   ; lee la y del enemigo
+	add a,00ch		;b535
+	ld e,a			;b537
+	ld a,045h		;b538
+	ld bc,00000h		;b53a
+	call 0764fh		;b53d
+	inc (ix+025h)		;b540
+	ret			;b543
+L_B544:
+	dec (ix+015h)		;b544
+	ret nz			;b547
+	ld (ix+015h),018h		;b548
+	ld a,(ix+030h)		;b54c   ; lee el dibujo del primer sprite del enemigo
+	sub 004h		;b54f
+	ld (ix+030h),a		;b551   ; guarda el dibujo del primer sprite del enemigo
+	dec (ix+025h)		;b554
+	ret			;b557
+L_B558:
+	ld a,(0e303h)		;b558   ; lee la cuenta de cuadros del juego
+	and 007h		;b55b
+	ret nz			;b55d
 L_B55E:
 	ld a,(ix+030h)		;b55e   ; el dibujo mirando a un lado u otro hacia la nave (0xB0 o 0xB8)
 	and 004h		;b561   ; mirando a la nave en x (bit 2 de su dibujo)...
