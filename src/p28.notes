@@ -1,4 +1,89 @@
 
+
+# --- A MANO: comentarios escritos leyendo el codigo ---
+C 0xBBE9 las estrellas del final: que salgan del centro (0x7E48)...
+C 0xBBEE ...o que vayan a el (0x7E5D)
+C 0xBBF1 el centro en 0xE5ED
+C 0xBBF4 la primera ya (0xE5EC = 0x100)
+C 0xBBF7 y el numero 0
+C 0xBBFA las 24 fichas de 0xC880 (0x10 bytes) a cero
+C 0xBC08 cada cuadro, saliendo: se mueven, sale otra y a los sprites
+C 0xBC0B sale otra
+C 0xBC0E y a los sprites
+C 0xBC12 cada cuadro, entrando: lo mismo hacia el centro
+C 0xBC15 entra otra
+C 0xBC1C sale una desde el centro hacia un punto al azar...
+C 0xBC1F sin hueco, nada
+C 0xBC20 ...en una ficha libre
+C 0xBC21 el numero siguiente y su punto
+C 0xBC24 un punto al azar
+C 0xBC27 hacia alli desde el centro (p01:640B)...
+C 0xBC2A desde el centro
+C 0xBC31 ...con un paso al azar (p01:639F)
+C 0xBC34 sin azar
+C 0xBC39 su sitio, el centro
+C 0xBC3D la ficha libre
+C 0xBC43 entra una desde un punto al azar hacia el centro...
+C 0xBC46 sin hueco, nada
+C 0xBC48 ...el centro es el destino...
+C 0xBC4E un punto al azar...
+C 0xBC55 ...y sale de alli
+C 0xBC56 ...hacia el centro
+C 0xBC5C con azar
+C 0xBC64 su sitio, el punto
+C 0xBC67 el dibujo pequeno (0xF8)
+C 0xBC6C cada 3 cuadros una ficha libre (NZ si no hay)
+C 0xBC6F la espera
+C 0xBC71 cada 3 cuadros
+C 0xBC73 24 fichas
+C 0xBC79 las 24
+C 0xBC7C una libre: Z y HL
+C 0xBC81 ninguna libre: la espera a 1 y NZ
+C 0xBC88 el numero siguiente (0xE5EB), de 0 a 0x0F
+C 0xBC8B el siguiente, de 0 a 0x0F
+C 0xBC94 el punto de ese numero (tabla de 0xBCA7) mas un azar de 0 a 0x1F en cada eje
+C 0xBC9A un azar de 0 a 0x1F en la y...
+C 0xBCA0 ...y otro en la x
+C 0xBCC7 el paso, al azar: de 0x20 a 0x9F
+C 0xBCC9 de 0 a 0x7F...
+C 0xBCCB ...+ 0x20: el paso
+C 0xBCD1 la ficha: el numero, la y (16 bits, la parte alta C), la x (B)...
+C 0xBCD4 desde 1
+C 0xBCE6 ...la velocidad en y (HL) y en x (DE)...
+C 0xBCF2 ...el dibujo grande (0xF0) y un color al azar (tabla de 0xBD07)
+C 0xBCF6 un color al azar de los 8 de 0xBD07
+C 0xBD0F se mueven: las que salen de la pantalla (y desde 0xC0, x fuera) se quitan
+C 0xBD13 las 24
+C 0xBD18 libre: la siguiente
+C 0xBD1B la y...
+C 0xBD1E por abajo (y desde 0xC0): fuera
+C 0xBD23 ...y la x
+C 0xBD26 por los lados (x desde 0xF8 o por debajo de 8): fuera
+C 0xBD2D su dibujo segun lo lejos que estan, y lo que hay debajo
+C 0xBD30 lo que hay debajo
+C 0xBD33 la siguiente
+C 0xBD3B fuera
+C 0xBD41 lo mismo entrando: las que llegan al centro (y 0x58-0x67, x 0x78-0x87) se quitan
+C 0xBD45 las 24
+C 0xBD4A libre: la siguiente
+C 0xBD4D la y...
+C 0xBD50 ...en la del centro (0x58-0x67)?
+C 0xBD57 la x...
+C 0xBD5A ...en la del centro (0x78-0x87)? fuera
+C 0xBD61 su dibujo y lo de debajo
+C 0xBD67 la siguiente
+C 0xBD6F llegada: fuera
+C 0xBD75 la y + su velocidad (16 bits)
+C 0xBD89 la x + la suya
+C 0xBD9C el dibujo: lejos del centro 0xF8, mas cerca 0xF4, en el centro 0xF0
+C 0xBDCA el caracter del bufer donde esta (IX+0B: 0 si es el fondo)
+C 0xBDD8 la direccion de 0xCA00 de HL (L la y, H la x)
+C 0xBDEC las estrellas a los sprites desde 0xEF20: las que no tapa nada (IX+0B a 0)
+C 0xBE07 la y, la x, el dibujo y el color
+C 0xBE20 tapada: se salta
+C 0xBE26 los sprites de 0xEF20 a cero (0x60 bytes)
+C 0xBE34 el RLE de 0xBE3B, con su direccion
+# --- fin de lo escrito a mano ---
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA0B4 0xA0F6 rle_A0B4  los dibujos de una entrada de la lista de graficos de 27:8208, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A0B4 A0B4-A0F6); lo leen p00:4CFF, p00:4B3C (66 bytes)
 F 0xA0B4 16
@@ -73,6 +158,49 @@ F 0xB2BC 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+C 0xBC18 las estrellas a los sprites desde 0xEF20: las que no tapa nada (IX+0B a 0)
+C 0xBC2E direccion_hacia: la direccion de DE hacia 0xEF80 (p01:640B con 1-2-3)
+C 0xBC36 velocidad_hacia: la velocidad por esa direccion (p01:639F con 1-2-3)
+C 0xBC51 el punto de ese numero (tabla de 0xBCA7) mas un azar de 0 a 0x1F en cada eje
+C 0xBC59 el paso, al azar: de 0x20 a 0x9F
+C 0xBC5E velocidad_hacia: la velocidad por esa direccion (p01:639F con 1-2-3)
 C 0xBC97 lee_palabra: HL = la palabra A de la tabla HL
+C 0xBCD5 guarda el numero de la estrella (0: libre)
+C 0xBCD8 la y de la estrella (decimales) = 0x00
+C 0xBCDC guarda la y de la estrella
+C 0xBCDF la x de la estrella (decimales) = 0x00
+C 0xBCE3 guarda la x de la estrella
+C 0xBCE9 guarda la velocidad en y de la estrella (alto)
+C 0xBCEC guarda la velocidad en x de la estrella (bajo)
+C 0xBCEF guarda la velocidad en x de la estrella (alto)
+C 0xBCFD lee_byte: A = el byte A de la tabla HL
+C 0xBD00 guarda el color de la estrella
+C 0xBD03 guarda lo que hay en el bufer bajo la estrella
+C 0xBD15 lee el numero de la estrella (0: libre)
+C 0xBD47 lee el numero de la estrella (0: libre)
+C 0xBD64 el caracter del bufer donde esta (IX+0B: 0 si es el fondo)
+C 0xBD78 lee la y de la estrella
+C 0xBD7B lee la velocidad en y de la estrella (bajo)
+C 0xBD7E lee la velocidad en y de la estrella (alto)
+C 0xBD82 guarda la y de la estrella (decimales)
+C 0xBD85 guarda la y de la estrella
+C 0xBD8C lee la x de la estrella
+C 0xBD8F lee la velocidad en x de la estrella (bajo)
+C 0xBD92 lee la velocidad en x de la estrella (alto)
+C 0xBD96 guarda la x de la estrella (decimales)
+C 0xBD99 guarda la x de la estrella
+C 0xBD9E lee la y de la estrella
+C 0xBDA7 lee la x de la estrella
+C 0xBDB2 lee la y de la estrella
+C 0xBDBB lee la x de la estrella
+C 0xBDC6 guarda el dibujo de la estrella
+C 0xBDCD lee la x de la estrella
+C 0xBDD0 la direccion de 0xCA00 de HL (L la y, H la x)
+C 0xBDD4 guarda lo que hay en el bufer bajo la estrella
+C 0xBDFB lee el numero de la estrella (0: libre)
+C 0xBE01 lee lo que hay en el bufer bajo la estrella
+C 0xBE0C lee la x de la estrella
+C 0xBE11 lee el dibujo de la estrella
+C 0xBE16 lee el color de la estrella
 C 0xBE37 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
 # --- fin de las anotaciones de anota.py ---

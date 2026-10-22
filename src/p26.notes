@@ -1336,11 +1336,46 @@ F 0x61E5 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+L 0x601E pantalla_limpia los sprites fuera, el bufer de 0xCA00 a cero y los colores
+L 0x60C0 borra_cuadro_ca48 borra en el bufer 0x0B x 0x10 desde 0xCA48
+L 0x60CA borra_cuadro_cc22 borra en el bufer 5 x 0x1C desde 0xCC22
+L 0x60DF consola la consola (p26:730A) con su animacion cada 8 cuadros
+L 0x60F9 contador_de_hl las 6 cifras del contador de la consola, de HL
+L 0x6114 secuencia empieza la secuencia de dibujos A
+L 0x612A secuencia_de_hl empieza la secuencia de dibujos de HL
+L 0x6135 secuencia_sigue la secuencia de dibujos, un cuadro (NZ mientras siga)
+L 0x67F9 eleccion_paso_siguiente el paso siguiente de la eleccion (0xE31B)
+L 0x6801 eleccion_subpaso_siguiente el subpaso siguiente de la eleccion (0xE31C)
+L 0x6806 eleccion_subpaso_anterior el subpaso anterior de la eleccion
+L 0x6CB9 estado9_paso_siguiente el paso siguiente del estado 9 (0xE7E4)
+L 0x6CC1 estado9_subpaso_siguiente el subpaso siguiente del estado 9 (0xE7E5)
+L 0x7320 consola_cuadro la consola, un cuadro
+L 0x78A2 borrado_empieza empieza a borrar fila a fila la lista HL
+L 0x78AC borrado_cuadro el borrado fila a fila, cada 4 cuadros
+L 0x7913 borrado_sprites_empieza empieza a borrar fila a fila los sprites de HL
+L 0x791D borrado_sprites_cuadro el borrado de sprites, cada 4 cuadros
+L 0x796B llenado_con_pausas empieza a llenar fila a fila con pausas la lista HL con el byte C
+L 0x7978 llenado_empieza empieza a llenar fila a fila la lista HL con el byte C
+L 0x79CF llenado_con_pausas_cuadro el llenado con pausas, un cuadro
+L 0x7A3D llenado_cuadro el llenado fila a fila, cada 4 cuadros
+L 0x7AAD llenado2_empieza otro llenado fila a fila (0xE569) de la lista HL con C
+L 0x7ABB llenado3_empieza otro llenado fila a fila (0xE56E) de la lista HL con C
+L 0x7AC9 llenado2_cuadro el llenado de 0xE569, cada 4 cuadros
+L 0x7ADB llenado3_cuadro el llenado de 0xE56E, cada 4 cuadros
+L 0x7B52 vuelve_empieza guarda y borra los trozos de IX para que vuelvan fila a fila
+L 0x7C0A vuelve_cuadro lo guardado vuelve fila a fila, cada 4 cuadros
+L 0x7C85 sprites_aparecen empieza la aparicion fila a fila de los sprites de HL
+L 0x7CCC sprites_aparecen_cuadro la aparicion de sprites, cada 4 cuadros
+L 0x7DED estado9_vuelta los sprites fuera, la pantalla de la fase y al paso siguiente
+L 0x7FE8 estado8_subpaso_siguiente el subpaso siguiente del estado 8 (0xE327)
+C 0x608F multiplica: HL = H x E
 C 0x6099 suma_a_hl: HL = HL + A
 C 0x60A7 suma_a_hl: HL = HL + A
 C 0x60AD rle_a_ram: descomprime a la RAM de DE el RLE de HL
 C 0x60B6 suma_a_hl: HL = HL + A
 C 0x60BC rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x60C6 borra_rectangulo: borra B filas de C bytes desde DE (filas de 0x20)
+C 0x60D0 borra_rectangulo: borra B filas de C bytes desde DE (filas de 0x20)
 C 0x613D lee una cuenta de cuadros (16 bits)
 C 0x6151 suma_a_hl: HL = HL + A
 C 0x616B guarda una cuenta de cuadros (16 bits)
@@ -1351,68 +1386,123 @@ C 0x62D6 lee el dibujo de la secuencia en pantalla
 C 0x62F6 lee el dibujo de la secuencia en pantalla
 C 0x6317 guarda el color de los dibujos sueltos
 C 0x633F guarda el siguiente caracter libre de cada tercio
+C 0x6369 los caracteres del trozo: de 8 en 8 con una mascara (los dibujos bajos) o de 6 bits de 3 en 3
 C 0x63F9 lee el dibujo de la secuencia en pantalla
 C 0x6414 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 C 0x6494 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x64A2 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x64B4 paleta: la paleta A de p16:6B74
+C 0x64BD eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 C 0x64D0 carga_fuente: carga la fuente en los tres tercios (bancos 20-22)
 C 0x64D6 texto_a_ram: copia a la RAM el texto de HL
 C 0x6518 lee el llenado fila a fila en marcha
+C 0x651D eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
+C 0x652B eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 C 0x6538 lee el llenado fila a fila en marcha
 C 0x6542 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6551 lee lo recien pulsado (mando y cursores)
+C 0x655D eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
+C 0x6560 eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
+C 0x6598 vuelve_cuadro: lo guardado vuelve fila a fila, cada 4 cuadros
+C 0x659B llenado_cuadro: el llenado fila a fila, cada 4 cuadros
 C 0x65AA lee el borrado fila a fila en marcha
+C 0x65C5 lee_byte: A = el byte A de la tabla HL
 C 0x65CF suma_a_hl: HL = HL + A
 C 0x65DB suma_a_hl: HL = HL + A
+C 0x65E0 llenado3_empieza: otro llenado fila a fila (0xE56E) de la lista HL con C
 C 0x65E6 lee la nave elegida (0 a 3)
 C 0x662F despacha: salta a la palabra A de la tabla que va detras del call
+C 0x6648 eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 C 0x6652 lee los graficos que vuelven fila a fila, en marcha
+C 0x6657 eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 C 0x6661 lee lo recien pulsado (mando y cursores)
+C 0x666A eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
+C 0x666D eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 C 0x6677 lee el borrado fila a fila en marcha
+C 0x667C eleccion_subpaso_anterior: el subpaso anterior de la eleccion
 C 0x6683 lee el borrado fila a fila en marcha
 C 0x6688 lee el escudo elegido (0 SHIELD, 1 FORCE FIELD)
+C 0x668D borra el escudo A con su marco (dos mas de alto y de ancho)
 C 0x6690 lee la nave elegida (0 a 3)
 C 0x66AD suma_a_hl: HL = HL + A
 C 0x66B0 lee la nave elegida (0 a 3)
 C 0x66BE lee el escudo elegido (0 SHIELD, 1 FORCE FIELD)
 C 0x66C6 suma_a_hl: HL = HL + A
 C 0x66C9 lee la nave elegida (0 a 3)
+C 0x66D6 llenado2_empieza: otro llenado fila a fila (0xE569) de la lista HL con C
 C 0x6701 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x6718 eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 C 0x6722 lee los graficos que vuelven fila a fila, en marcha
+C 0x6727 eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
+C 0x6731 eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 C 0x6734 lee lo recien pulsado (mando y cursores)
+C 0x6756 la opcion A: el RLE de p28:A1C3 a 0xE800 y su rectangulo de 6 x 8 en el bufer
+C 0x6760 llenado2_cuadro: el llenado de 0xE569, cada 4 cuadros
 C 0x6763 lee el borrado fila a fila en marcha
+C 0x6768 eleccion_subpaso_anterior: el subpaso anterior de la eleccion
 C 0x677C suma_a_hl: HL = HL + A
 C 0x677F lee la nave elegida (0 a 3)
 C 0x678D lee las opciones elegidas (0 SHADOW, 1 FIXED, 2 ROLLING)
 C 0x6795 suma_a_hl: HL = HL + A
 C 0x6798 lee la nave elegida (0 a 3)
+C 0x67A5 llenado2_empieza: otro llenado fila a fila (0xE569) de la lista HL con C
 C 0x67C6 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x67D7 eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 C 0x67DE lee el borrado fila a fila en marcha
+C 0x67E3 eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
+C 0x67ED el bufer de 0xC400 a cero (0x300 bytes)
 C 0x67F5 guarda el paso de la eleccion de nave
 C 0x680C guarda la nave elegida (0 a 3)
 C 0x680F guarda el escudo elegido (0 SHIELD, 1 FORCE FIELD)
 C 0x6812 guarda las opciones elegidas (0 SHADOW, 1 FIXED, 2 ROLLING)
 C 0x681E lee una cuenta de cuadros (16 bits)
+C 0x6830 0x1800 bytes a 0
 C 0x683F vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
 C 0x6843 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
+C 0x687D la esquina de arriba (C) y la siguiente (C + 2)
+C 0x688C la esquina de arriba (C) y la siguiente (C + 2)
+C 0x689B la esquina de arriba (C) y la siguiente (C + 2)
+C 0x68B6 la esquina de arriba (C) y la siguiente (C + 2)
+C 0x68C5 la esquina de arriba (C) y la siguiente (C + 2)
+C 0x68E7 la esquina de arriba (C) y la siguiente (C + 2)
+C 0x68F2 la esquina de arriba (C) y la siguiente (C + 2)
+C 0x68FD la esquina de arriba (C) y la siguiente (C + 2)
+C 0x690E la esquina de arriba (C) y la siguiente (C + 2)
 C 0x695E apunta a los enemigos (12 de 0x40)
 C 0x6961 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 C 0x696A apunta a los enemigos (12 de 0x40)
 C 0x696D suma_a_hl: HL = HL + A
 C 0x698B suma_a_hl: HL = HL + A
+C 0x69A2 la opcion A: el RLE de p28:A1C3 a 0xE800 y su rectangulo de 6 x 8 en el bufer
 C 0x69AE apunta a los enemigos (12 de 0x40)
 C 0x69B1 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x69F4 copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
+C 0x69F9 el escudo A: 0 SHIELD (0xC445, de 0x6A21) o 1 FORCE FIELD (0xC455, de 0x6A33), 3 x 6
+C 0x69FC copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
+C 0x6A4A la nave A: el RLE de p28:A23E a 0xE800 y su rectangulo de 6 x 0x0E en el bufer (tabla de 0x6A79)
 C 0x6A56 apunta a los enemigos (12 de 0x40)
 C 0x6A59 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 C 0x6A9E lee la nave elegida (0 a 3)
+C 0x6AC3 borrado_empieza: empieza a borrar fila a fila la lista HL
 C 0x6ADF lee la nave elegida (0 a 3)
 C 0x6AF0 lee el escudo elegido (0 SHIELD, 1 FORCE FIELD)
+C 0x6B10 borrado_empieza: empieza a borrar fila a fila la lista HL
 C 0x6B28 lee la nave elegida (0 a 3)
+C 0x6B4A borrado_empieza: empieza a borrar fila a fila la lista HL
+C 0x6B53 llenado_empieza: empieza a llenar fila a fila la lista HL con el byte C
+C 0x6B66 llenado2_empieza: otro llenado fila a fila (0xE569) de la lista HL con C
 C 0x6B71 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
+C 0x6B79 llenado_empieza: empieza a llenar fila a fila la lista HL con el byte C
+C 0x6B7F vuelve_empieza: guarda y borra los trozos de IX para que vuelvan fila a fila
 C 0x6B99 guarda la nave elegida (0 a 3)
 C 0x6BA0 guarda la nave elegida (0 a 3)
 C 0x6BA7 lee la nave elegida (0 a 3)
 C 0x6BB9 lee la nave elegida (0 a 3)
+C 0x6BC3 vuelve_empieza: guarda y borra los trozos de IX para que vuelvan fila a fila
+C 0x6C02 el RLE de colores de 0x6C5A en la VRAM de HL
+C 0x6C08 el RLE de colores de 0x6C5A en la VRAM de HL
+C 0x6C0E el RLE de colores de 0x6C5A en la VRAM de HL
+C 0x6C14 el RLE de colores de 0x6C5A en la VRAM de HL
 C 0x6C1E guarda la nave elegida (0 a 3)
 C 0x6C25 guarda la nave elegida (0 a 3)
 C 0x6C56 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
@@ -1423,101 +1513,215 @@ C 0x6C9D rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x6CA0 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x6CC7 guarda el tipo de la entrada secreta cogida (al estado 9)
 C 0x6CD3 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x6CDF estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
+C 0x6CEB borrado_empieza: empieza a borrar fila a fila la lista HL
+C 0x6CF1 borrado_sprites_empieza: empieza a borrar fila a fila los sprites de HL
+C 0x6CF4 estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 C 0x6D0B lee el borrado fila a fila en marcha
+C 0x6D15 sprites_a_vram_tal_cual: los 32 sprites a la VRAM (0x3B00) tal cual
 C 0x6D19 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6D27 lee la y de la nave (el primer byte de su sprite, p01:797C) y el byte siguiente (16 bits)
 C 0x6D2D lee la x de la nave y el byte siguiente (16 bits)
+C 0x6D4C estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
+C 0x6D73 estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
+C 0x6D85 estado9_paso_siguiente: el paso siguiente del estado 9 (0xE7E4)
+C 0x6D8D la nave: y + 0xE7EC, x + 0xE7EE (16 bits)
 C 0x6D90 lee la y de la nave (el primer byte de su sprite, p01:797C)
 C 0x6D98 lee la x de la nave
+C 0x6DBB bufer_a_vram_sin_marcador: el bufer de 0xCA00 a la tabla de nombres, sin las dos filas del marcador
 C 0x6DBF despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6DD1 orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0x6DDD estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 C 0x6DE6 orden_83_y_sonido_50: manda la orden 0x83 al motor y pide el sonido 0x50
+C 0x6DE9 los dibujos de sprite a cero (0x1800, 0x800 bytes)
+C 0x6DEC dibujos_de_sprite: los dibujos de sprite de p14:7055 (RLE) en 0x1800
+C 0x6DF2 niega_hl: HL = -HL
+C 0x6DFB niega_hl: HL = -HL
+C 0x6E01 estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
+C 0x6E08 el dibujo de la nave segun hacia donde va (p00:47D7)
 C 0x6E13 guarda la y de la nave (el primer byte de su sprite, p01:797C) y el byte siguiente (16 bits)
 C 0x6E19 guarda la x de la nave y el byte siguiente (16 bits)
+C 0x6E1C bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
+C 0x6E1F la tabla de nombres a cero (0x3800, 0x2C0 bytes)
+C 0x6E22 estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 C 0x6E2E despacha: salta a la palabra A de la tabla que va detras del call
+C 0x6E3D bufer_a_vram_sin_marcador: el bufer de 0xCA00 a la tabla de nombres, sin las dos filas del marcador
 C 0x6E41 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6E61 sonido_4F: pide el sonido 0x4F
+C 0x6E6D estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 C 0x6E74 lee el llenado fila a fila en marcha
 C 0x6E79 lee el nivel del arma secreta (0 a 7)
+C 0x6E7F los de los trozos hasta el nivel 0xE36F (sin el 0); 0xE7F1 = cuantos sprites
+C 0x6E83 los sprites de los siete trozos
+C 0x6E89 estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
+C 0x6E98 estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
+C 0x6EA9 estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 C 0x6EB4 apunta a el nivel del arma secreta (0 a 7)
+C 0x6EBE estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 C 0x6EC4 guarda el subpaso del estado 9
+C 0x6ED6 los sprites del trozo del nivel 0xE36F con el color A (0xE7F0), desde el sprite 0xE7F1
+C 0x6EF0 estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
+C 0x6F02 estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
+C 0x6F0C lee_byte: A = el byte A de la tabla HL
 C 0x6F1B suma_a_hl: HL = HL + A
 C 0x6F27 guarda el subpaso del estado 9
 C 0x6F31 texto_a_ram: copia a la RAM el texto de HL
+C 0x6F39 estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
+C 0x6F5B estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
+C 0x6F68 borrado_sprites_empieza: empieza a borrar fila a fila los sprites de HL
+C 0x6F6B estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 C 0x6F78 lee el borrado fila a fila en marcha
+C 0x6F80 sprites_a_vram_tal_cual: los 32 sprites a la VRAM (0x3B00) tal cual
+C 0x6F8C llenado_empieza: empieza a llenar fila a fila la lista HL con el byte C
+C 0x6F97 sprites_aparecen: empieza la aparicion fila a fila de los sprites de HL
+C 0x6FA5 sprites_aparecen: empieza la aparicion fila a fila de los sprites de HL
 C 0x6FB6 lee_palabra: HL = la palabra A de la tabla HL
 C 0x6FBE rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x6FC5 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x6FCC lee la nave elegida (0 a 3)
 C 0x6FCF lee_palabra: HL = la palabra A de la tabla HL
 C 0x6FD2 lee el nivel del arma secreta (0 a 7)
+C 0x700D lee_byte: A = el byte A de la tabla HL
 C 0x7014 suma_a_hl: HL = HL + A
 C 0x7025 vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
 C 0x7028 lee la cuenta de cuadros del juego
+C 0x706F un rectangulo de la tabla HL (palabra A) a 0xCD00 y al bufer: DE el destino, B filas, C bytes (p00:59A1)
 C 0x71A1 apunta a los atributos de sprite (32 x 4)
 C 0x71A4 suma_a_de: DE = DE + A
 C 0x71A7 lee el nivel del arma secreta (0 a 7)
+C 0x71AD los sprites del nivel 0xEF80 de la nave (tabla de 0x720C): cuantos, y por cada uno y, x y dibujo; el color 0xE7F0 (1 con el dibujo 0x6C)
+C 0x71B3 los sprites de los niveles A a 1, con el color 0x0B, desde 0xEF00
 C 0x71BB lee el nivel del arma secreta (0 a 7)
+C 0x71C2 los sprites de los niveles A a 1, con el color 0x0B, desde 0xEF00
 C 0x71D2 apunta a los atributos de sprite (32 x 4)
 C 0x71E5 lee_palabra: HL = la palabra A de la tabla HL
 C 0x71EB lee_palabra: HL = la palabra A de la tabla HL
+C 0x732E el aparato 1: su cuadro siguiente (0xE542, 4), 8 x 4 de la tabla de 0x7573 en 0xCA42
+C 0x7331 el aparato 2: 0xE543, 6 x 3 de 0x75FB en 0xCB42
+C 0x7334 el aparato 3: 0xE544, 2 x 0x0A de 0x764B en 0xCBC6
+C 0x7337 el aparato 4: 0xE54A, 4 x 4 de 0x76B7 en 0xCAFA
+C 0x733D cuatro grupos de sprites: 0xE546 (3 cuadros, 0x7713), 0xE547 (5, 0x7734), 0xE548 (8, 0x775B) y 0xE549 (8, 0x778F)
+C 0x7340 seis sprites del cuadro siguiente (0xE54B, 4) de la tabla de 0x77D7, en 0xEF1C
 C 0x734A rle_a_ram: descomprime a la RAM de DE el RLE de HL
+C 0x7356 copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 C 0x735F rle_a_ram: descomprime a la RAM de DE el RLE de HL
+C 0x736B copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
+C 0x739F copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
+C 0x73AB copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 C 0x73B3 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 C 0x73BA copia_con_vuelta: copia caracteres de la VRAM dandoles la vuelta (lista IX)
 C 0x73C3 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x73CC rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x73D3 sprites copiados con espejo: la lista de IX de 4 en 4, hasta un 0 (p00:4E5A)
 C 0x73DC rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x7441 el aparato 3: 0xE544, 2 x 0x0A de 0x764B en 0xCBC6
+C 0x7444 el aparato 4: 0xE54A, 4 x 4 de 0x76B7 en 0xCAFA
+C 0x744D seis sprites del cuadro siguiente (0xE54B, 4) de la tabla de 0x77D7, en 0xEF1C
 C 0x747A lee_palabra: HL = la palabra A de la tabla HL
+C 0x7483 copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 C 0x7495 lee_palabra: HL = la palabra A de la tabla HL
+C 0x749E copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 C 0x74B0 lee_palabra: HL = la palabra A de la tabla HL
+C 0x74B9 copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 C 0x74CB lee_palabra: HL = la palabra A de la tabla HL
+C 0x74D4 copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
+C 0x74E5 el cuadro siguiente (de C) de la tabla HL: cuantos sprites y sus 4 bytes, a DE
+C 0x74F2 el cuadro siguiente (de C) de la tabla HL: cuantos sprites y sus 4 bytes, a DE
+C 0x74FF el cuadro siguiente (de C) de la tabla HL: cuantos sprites y sus 4 bytes, a DE
+C 0x750C el cuadro siguiente (de C) de la tabla HL: cuantos sprites y sus 4 bytes, a DE
 C 0x7519 lee_palabra: HL = la palabra A de la tabla HL
 C 0x7536 lee_palabra: HL = la palabra A de la tabla HL
+C 0x754A L cifras: cada una dos caracteres, arriba y abajo (tabla de 0x76A3)
+C 0x7555 L cifras: cada una dos caracteres, arriba y abajo (tabla de 0x76A3)
 C 0x755F lee_palabra: HL = la palabra A de la tabla HL
 C 0x7567 suma_a_de: DE = DE + A
 C 0x78A8 guarda el borrado fila a fila en marcha y el byte siguiente (16 bits)
+C 0x78BE los tercios de sus bits 2, 1 y 0
 C 0x78D3 guarda el borrado fila a fila en marcha
 C 0x7902 suma_a_hl: HL = HL + A
 C 0x7957 suma_a_hl: HL = HL + A
 C 0x7985 guarda el llenado fila a fila en marcha y el byte siguiente (16 bits)
 C 0x7A47 lee la cuenta de cuadros del juego
+C 0x7A56 los tercios de sus bits 2, 1 y 0
 C 0x7A6B guarda el llenado fila a fila en marcha
 C 0x7A9A suma_a_hl: HL = HL + A
+C 0x7AD7 cada 4 cuadros, una fila mas de todos los trozos de HL; a las 8, acaba
+C 0x7AE9 cada 4 cuadros, una fila mas de todos los trozos de HL; a las 8, acaba
+C 0x7AFC los tercios de sus bits 2, 1 y 0
 C 0x7B3F suma_a_hl: HL = HL + A
 C 0x7B76 guarda los graficos que vuelven fila a fila, en marcha y el byte siguiente (16 bits)
 C 0x7B9A carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 C 0x7B9F copia_con_vuelta: copia caracteres de la VRAM dandoles la vuelta (lista IX)
+C 0x7BE5 los bytes del trozo en la VRAM a 0
+C 0x7BEF los bytes del trozo en la VRAM a 0
+C 0x7BF9 los bytes del trozo en la VRAM a 0
+C 0x7C1C los tercios de sus bits 2, 1 y 0
 C 0x7C31 guarda los graficos que vuelven fila a fila, en marcha
 C 0x7C60 suma_a_hl: HL = HL + A
 C 0x7C6D suma_a_hl: HL = HL + A
 C 0x7CC1 rle_a_ram: descomprime a la RAM de DE el RLE de HL
+C 0x7CED un sprite: la fila 0xE578 de cada uno de sus IX+1 dibujos
 C 0x7D1F suma_a_hl: HL = HL + A
 C 0x7D32 suma_a_hl: HL = HL + A
 C 0x7D4B despacha: salta a la palabra A de la tabla que va detras del call
+C 0x7D5A bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
+C 0x7D60 consola_cuadro: la consola, un cuadro
+C 0x7D67 cada 8 cuadros otro de cuatro colores (tabla de 0x7EB9) en los caracteres 0xEC, 0xED y 0xEE (0x0760-0x0777 y 0x0F60-0x0F77)
 C 0x7D6B despacha: salta a la palabra A de la tabla que va detras del call
+C 0x7D7F estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
+C 0x7D8B contador_de_hl: las 6 cifras del contador de la consola, de HL
 C 0x7D9F lee el tipo de la entrada secreta cogida (al estado 9)
 C 0x7DA7 lee_palabra: HL = la palabra A de la tabla HL
+C 0x7DAA secuencia_de_hl: empieza la secuencia de dibujos de HL
+C 0x7DAD estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 C 0x7DBB apunta a 1 si se cogio la entrada secreta 8
 C 0x7DCA guarda el subpaso del estado 9
+C 0x7DD4 estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
+C 0x7DDC estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
+C 0x7DE4 estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 C 0x7E03 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
 C 0x7E09 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
 C 0x7E0F rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
 C 0x7E15 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
 C 0x7E1C carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 C 0x7E1F bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x7E2E el caracter 0xEC
 C 0x7E31 lee 1 si se cogio la entrada secreta 9
+C 0x7E35 el caracter 0xED
 C 0x7E38 lee 1 si se cogio la entrada secreta 0x0A
+C 0x7E3C el caracter 0xEE
+C 0x7E45 un cuadro de 4 x 4 del caracter A en el bufer de HL
+C 0x7E4E un cuadro de 4 x 4 del caracter A en el bufer de HL
+C 0x7E57 un cuadro de 4 x 4 del caracter A en el bufer de HL
 C 0x7E79 suma_a_hl: HL = HL + A
+C 0x7ED0 bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
+C 0x7ED3 consola_cuadro: la consola, un cuadro
 C 0x7ED8 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x7EF4 sonido_01: pide el sonido 0x01
+C 0x7EFA estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
 C 0x7F01 pantalla_en_blanco: borra la tabla de nombres (0x3800)
+C 0x7F0D contador_de_hl: las 6 cifras del contador de la consola, de HL
+C 0x7F13 estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
+C 0x7F25 el subpaso A
+C 0x7F2B secuencia_de_hl: empieza la secuencia de dibujos de HL
+C 0x7F32 secuencia_de_hl: empieza la secuencia de dibujos de HL
+C 0x7F35 estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
+C 0x7F46 secuencia_de_hl: empieza la secuencia de dibujos de HL
+C 0x7F49 estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
 C 0x7F53 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x7F5F copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
+C 0x7F6A estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
+C 0x7F76 estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
 C 0x7F7F orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0x7F84 guarda la fase siguiente (0: la de despues)
 C 0x7F8C guarda el subpaso del estado 8 (entre fases)
 C 0x7F8F pantalla_en_blanco: borra la tabla de nombres (0x3800)
+C 0x7F9C estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
+C 0x7F9F con el 29, los RLE de p29:A000, A0FC, A105 y A1AA a la VRAM y la lista de graficos de 0x7E23
+C 0x7FB1 secuencia_de_hl: empieza la secuencia de dibujos de HL
+C 0x7FB4 estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
 C 0x7FBC orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0x7FC4 estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
 C 0x7FCD orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0x7FD2 lee 1 si se cogio la entrada secreta 8
 C 0x7FDA lee 1 si se cogio la entrada secreta 9

@@ -270,9 +270,49 @@ def comentario(b, filas, k, fichas, ventanas=None, medido=None):
     return None
 
 
+def textos_a_mano():
+    """(banco, direccion) -> el comentario a mano de esa direccion (fuera de
+    la seccion automatica)."""
+    fuera = {}
+    for ruta in glob.glob(os.path.join(RAIZ, "src", "p[0-9][0-9].notes")):
+        b = int(os.path.basename(ruta)[1:3])
+        dentro = False
+        for ln in open(ruta, encoding="utf-8"):
+            if ln.startswith(INI):
+                dentro = True
+            elif ln.startswith(FIN):
+                dentro = False
+            elif not dentro and ln.startswith("C "):
+                p = ln.rstrip("\n").split(None, 2)
+                if len(p) == 3:
+                    fuera[(b, int(p[1], 0))] = p[2]
+    return fuera
+
+
+def de_su_entrada(b, filas, k, ventanas, medido, a_mano):
+    """Una `call` a una rutina con comentario a mano en su entrada: ese
+    comentario, si se entiende solo (no sigue en la linea de despues ni es
+    un paso de un despachador)."""
+    a, t = filas[k]
+    m = re.match(r"call\s+(?:(?:nz|z|nc|c|po|pe|p|m),)?(?:L_([0-9A-F]{4})|0([0-9a-f]{4})h)$", t)
+    if not m:
+        return None
+    dest = int(m.group(1) or m.group(2), 16)
+    banco = destino_de(b, a, dest, k, ventanas, medido or {})
+    if banco is None or banco < 0:
+        return None
+    txt = a_mano.get((banco, dest))
+    if not txt or txt.endswith("...") or txt.startswith("..."):
+        return None
+    if re.match(r"(sub)?paso \w+:|estado \d|las entradas del banco|lo mismo|igual|(y|o|e|ni|pero|luego|despues|si no) ", txt):
+        return None
+    return "%s (p%02d:%04X)" % (txt, banco, dest) if banco != b else txt
+
+
 def main(argv):
     total = 0
     medido = medidas()
+    a_mano_txt = textos_a_mano()
     for b in BANCOS:
         filas = listado(b)
         cs, ls = a_mano(b)
@@ -287,6 +327,8 @@ def main(argv):
             if a in cs:
                 continue
             c = comentario(b, filas, k, fichas, ventanas, medido)
+            if not c:
+                c = de_su_entrada(b, filas, k, ventanas, medido, a_mano_txt)
             if c:
                 lineas.append("C 0x%04X %s" % (a, c))
                 n += 1

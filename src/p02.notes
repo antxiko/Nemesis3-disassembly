@@ -590,9 +590,12 @@ F 0x9179 16
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
 C 0x800A apunta a las explosiones grandes (4 de 8 bytes)
+C 0x8030 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0x804F apunta a las explosiones grandes (4 de 8 bytes)
 C 0x80A1 lee 1 si este cuadro hay scroll
 C 0x80A8 guarda la x de lo que aparece (la columna nueva)
+C 0x80AB la entrada 0xE7F8 de la lista de la fase (p02:80ED): todavia no, NZ
+C 0x80D2 si ya se ha cogido (0xE38B + tipo), no sale
 C 0x80F0 lee la fase (1 a 11)
 C 0x80F6 lee_palabra: HL = la palabra A de la tabla HL
 C 0x80FE suma_a_hl: HL = HL + A
@@ -604,19 +607,33 @@ C 0x8154 guarda el tipo de la entrada secreta cogida (al estado 9)
 C 0x815A suma_a_hl: HL = HL + A
 C 0x8162 guarda la entrada secreta: su tipo (0: ninguna), su y, su x y B
 C 0x8165 guarda el paso del estado 9 (la entrada secreta) y el byte siguiente (16 bits)
+C 0x8171 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
+C 0x8182 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0x8197 lee la entrada secreta: su tipo (0: ninguna), su y, su x y B
+C 0x819F sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0x81A2 lee la cuenta de cuadros del juego
 C 0x81B1 apunta a las piezas (8 de 0x20)
+C 0x81B6 en uso: el tipo 6 va aparte (p03:A4D7)
 C 0x8202 apunta a las piezas (8 de 0x20)
+C 0x8207 en uso y con el bit 0 de IX+12
 C 0x822F bancos_8: pone el 8 (y sus copias en 0xF0F1-3)
+C 0x8235 su sitio en el bufer (IX+4, IX+6); con el bit 6 de IX+12, una fila mas arriba
 C 0x824D bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x825B bancos_19: pone el 19 (y sus copias en 0xF0F1-3)
 C 0x8261 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
+C 0x8287 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0x828A mira el bit 6 de las marcas de la pieza
 C 0x8294 el tipo de la pieza (0: libre) = 0x00
+C 0x82A1 una fila del dibujo L (p08:B834 + 2 x L), desde IX+1C, al bufer en x + B
+C 0x82B4 una fila del dibujo L (p08:B834 + 2 x L), desde IX+1C, al bufer en x + B
 C 0x82B7 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x82C9 suma_a_hl: HL = HL + A
+C 0x82D5 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0x82E4 apunta a los enemigos (12 de 0x40)
+C 0x82EB los de caracteres (bit 6 de IX+0B)
+C 0x8307 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
+C 0x8328 cada 8 cuadros, el color de 0x1AC1 gira entre 4 de p07:BD5B (3 bytes)
+C 0x832B los dibujos que cambian de la fase (sin jefe ni aparicion poco a poco)
 C 0x832E bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x833A vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
 C 0x834F suma_a_hl: HL = HL + A
@@ -625,7 +642,10 @@ C 0x8365 lee la aparicion poco a poco en marcha (1 o 2)
 C 0x8370 lee_palabra: HL = la palabra A de la tabla HL
 C 0x8379 lee la posicion del scroll (16 bits)
 C 0x83A7 lee_palabra: HL = la palabra A de la tabla HL
+C 0x83AE un dibujo: el caracter, los tercios (bits 0-2) y si va en dibujos o en colores (bit 3)
+C 0x83F2 paleta_de_la_fase: la paleta de p16:67AE
 C 0x83FE rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
+C 0x8431 el dibujo del paso A (p02:847B) en RLE al bufer de 0xC400
 C 0x8438 lee_palabra: HL = la palabra A de la tabla HL
 C 0x8450 suma_a_de: DE = DE + A
 C 0x8457 suma_a_hl: HL = HL + A
@@ -635,8 +655,12 @@ C 0x8472 lee_palabra: HL = la palabra A de la tabla HL
 C 0x8475 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 C 0x8478 rle_a_ram: descomprime a la RAM de DE el RLE de HL
 C 0x8496 apunta a los enemigos (12 de 0x40)
+C 0x849D los 0x38, 0x39 y 0x3B aparte; el 0x49 a p01:7A44
 C 0x8503 bancos_5: pone el 5 (y sus copias en 0xF0F1-3)
+C 0x8506 borra del bufer sus IX+13 filas de IX+14 caracteres (p05:A27F)
 C 0x8509 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
+C 0x853E el caracter del bufer donde esta la bala: distinto del fondo (0xE405)?
+C 0x8555 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0x8559 lee el caracter del fondo de la fase
 C 0x85AC lee la velocidad en x hacia la nave (16 bits; IX+9 de quien la usa)
 C 0x85C0 lee la fase (1 a 11)
@@ -644,6 +668,7 @@ C 0x85C6 lee el jefe en curso (0: ninguno)
 C 0x85CB lee la posicion del scroll (16 bits)
 C 0x85D5 lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 C 0x85E0 lee la x de la nave
+C 0x85E9 las piezas del tipo 0x0C (sin IX+1D) en la caja: dx 0x1C, de 8 de lado
 C 0x85F0 guarda la secuencia en marcha (p01:6274) y el byte siguiente (16 bits)
 C 0x85FF lee el tipo de la pieza (0: libre)
 C 0x860C lee la y de la pieza
@@ -656,6 +681,7 @@ C 0x86C7 lee la x del enemigo
 C 0x86CC guarda la x del enemigo
 C 0x86D1 lee el jefe en curso (0: ninguno)
 C 0x86DE lee la cuenta del enemigo
+C 0x86E1 lee_byte: A = el byte A de la tabla HL
 C 0x86E8 guarda la y del enemigo
 C 0x86F0 lee el tipo del enemigo (0: libre)
 C 0x86F7 lee la y del enemigo
@@ -705,6 +731,7 @@ C 0x887B la x de la pieza = 0x01
 C 0x887F suma 1 a el paso de la pieza
 C 0x888D XOR con el dibujo de la pieza
 C 0x8890 guarda el dibujo de la pieza
+C 0x88A2 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0x88E7 le suma la x del enemigo
 C 0x88ED le suma la y del enemigo
 C 0x890C la cuenta del enemigo = 0x02
@@ -721,16 +748,22 @@ C 0x8965 lee la x de la nave
 C 0x8973 la cuenta del enemigo = 0x04
 C 0x8979 el color del primer sprite del enemigo = 0x0B
 C 0x8983 la cuenta del enemigo = 0x04
+C 0x8987 el dibujo siguiente (IX+30 + 4)
 C 0x898A la cuenta del enemigo = 0x0F
 C 0x898E las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll) = 0x07
+C 0x89BC la velocidad en y += la aceleracion (p01:7F1C)
+C 0x89BF la velocidad en x += la aceleracion (p01:7F2F)
+C 0x89CD el sitio del centro (y + 8, x + 8) para p01:7FBD
 C 0x89D1 la cuenta del enemigo = 0x04
 C 0x89D5 las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll) = 0x0B
+C 0x89E0 el dibujo siguiente (IX+30 + 4)
 C 0x89E3 las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll) = 0x18
 C 0x89E9 lee el dibujo del primer sprite del enemigo
 C 0x89F2 lee la cuenta del enemigo
 C 0x89F7 resta 1 a la cuenta del enemigo
 C 0x89FB la cuenta del enemigo = 0x04
 C 0x8A04 guarda el dibujo del primer sprite del enemigo
+C 0x8A0C se quita el enemigo: uno menos (0xE462) (p01:75D1)
 C 0x8A14 las marcas de la pieza = 0x8A
 C 0x8A2D guarda el dibujo de la pieza
 C 0x8A3C guarda la cuenta de la pieza
@@ -747,18 +780,27 @@ C 0x8A7F le suma la y de la pieza
 C 0x8A82 guarda la y de la pieza
 C 0x8A85 resta 1 a las filas de la pieza
 C 0x8A90 pone a cero el bit 0 de las marcas de la pieza
+C 0x8A94 su tamano y dibujo por IX+0B: 4 x 0x8E, 2 x 0x8A u 8 x 0x8A
 C 0x8A97 el paso de la pieza = 0x00
+C 0x8AAC sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
+C 0x8AB0 su sitio en el bufer (IX+4, IX+6); con el bit 6 de IX+12, una fila mas arriba
 C 0x8AC8 lee_palabra: HL = la palabra A de la tabla HL
+C 0x8ACB una fila de IX+0A caracteres al bufer y a la siguiente (0x40)
 C 0x8AD6 lee_palabra: HL = la palabra A de la tabla HL
+C 0x8AD9 una fila de IX+0A caracteres al bufer y a la siguiente (0x40)
+C 0x8B1B la velocidad en x (IX+9) (p01:78B3)
 C 0x8B27 el color del primer sprite del enemigo = 0x08
 C 0x8B2F lee el paso del enemigo
 C 0x8B32 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x8B42 compara con la x del enemigo
 C 0x8B48 compara con la x del enemigo
+C 0x8B51 apunta a la nave: la velocidad en y en IX+7 y en x en IX+9 (p01:7865)
 C 0x8B54 la cuenta del enemigo = 0x08
 C 0x8B5E lee la x de la nave
 C 0x8B63 compara con la x del enemigo
+C 0x8B67 la velocidad en x a -0x180 y en y a cero
 C 0x8B6A el paso del enemigo = 0x00
+C 0x8B76 cada B cuadros, el dibujo siguiente de los C de la tabla HL (IX+26) en IX+30 y IX+32 (p01:7F7C)
 C 0x8B80 las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll) = 0x0F
 C 0x8B84 la cuenta del enemigo = 0x28
 C 0x8B88 la x del enemigo = 0xF0
@@ -791,8 +833,10 @@ C 0x8CFD lee el dibujo de la pieza
 C 0x8D06 suma_a_hl: HL = HL + A
 C 0x8D0C lee la x de la pieza
 C 0x8D11 lee la y de la pieza
+C 0x8D1A una aparicion en una ficha libre, guardando IX (p01:7647)
 C 0x8D74 la cuenta de la pieza = 0x20
 C 0x8D7D resta 1 a el paso de la pieza
+C 0x8D83 apunta a la nave: la velocidad en y en IX+7 y en x en IX+9 (p01:7865)
 C 0x8D8F como se toca la pieza (bit 7: no se toca) = 0x80
 C 0x8D93 las filas de la pieza = 0x05
 C 0x8D97 las columnas de la pieza = 0x07
@@ -811,13 +855,16 @@ C 0x8E64 las columnas de la pieza = 0x08
 C 0x8E68 las marcas de la pieza = 0x01
 C 0x8E72 suma_a_hl: HL = HL + A
 C 0x8E81 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x8E91 la nave dentro de C en y y B en x? IX+16 = 1
 C 0x8E9E suma 1 a el paso de la pieza
 C 0x8EA1 lee el B de la pieza
 C 0x8EA8 suma_a_hl: HL = HL + A
 C 0x8EAE lee la x de la pieza
 C 0x8EB3 lee la y de la pieza
+C 0x8EBC una aparicion en una ficha libre, guardando IX (p01:7647)
 C 0x8ED1 resta 1 a el paso de la pieza
 C 0x8EF2 la cuenta del enemigo = 0x04
+C 0x8F01 los caracteres del bufer bajo ella: alguno es decorado (mayor que el fondo)? C
 C 0x8F0B la cuenta del enemigo = 0x04
 C 0x8F1A lee la y del enemigo
 C 0x8F1E guarda la y del enemigo
@@ -828,8 +875,10 @@ C 0x8F46 guarda la y del enemigo
 C 0x8F4C lee el ancho del enemigo para los choques
 C 0x8F51 guarda el ancho del enemigo para los choques
 C 0x8F58 lee la y del enemigo
+C 0x8F5B sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0x8F61 lee el caracter del fondo de la fase
 C 0x8F69 lee la x del enemigo
+C 0x8FBA el dibujo IX+7: su direccion en p08:B834 + 2 x dibujo
 C 0x8FBD sonido_22: pide el sonido 0x22
 C 0x8FC8 las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll) = 0x08
 C 0x8FCC el color del primer sprite del enemigo = 0x0F
@@ -840,60 +889,94 @@ C 0x9010 suma_a_hl: HL = HL + A
 C 0x9014 guarda la cuenta del enemigo
 C 0x9019 guarda el dibujo del primer sprite del enemigo
 C 0x901E guarda el color del primer sprite del enemigo
+C 0x9026 se quita el enemigo: uno menos (0xE462) (p01:75D1)
 C 0x9031 lee la y del enemigo
 C 0x9037 lee la x del enemigo
+C 0x9049 una aparicion en la ficha de IX (p01:763C)
 C 0x9057 lee la y del enemigo
 C 0x9069 guarda las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll)
 C 0x907B apunta a la aparicion siguiente de la lista de la fase
 C 0x9089 las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll) = 0x0B
+C 0x908D el lado (p02:90AB), la cadencia (p02:9120) y su desfase con la aparicion
+C 0x909B la cadencia: la de la dificultad (tabla de 0x9179; en la primera vuelta, como mucho la 2)
 C 0x90A1 lee la aparicion siguiente de la lista de la fase
+C 0x90C4 con el jefe 0x11, la fase 11
 C 0x90DB lee el jefe en curso (0: ninguno)
 C 0x911A lee la x del enemigo
+C 0x911D una bala hacia la nave desde DE (8 mas abajo)
 C 0x9123 lee las vueltas (fases acabadas)
 C 0x9127 lee la dificultad de la fase (0 a 0x0F)
 C 0x9132 suma_a_hl: HL = HL + A
 C 0x91C8 lee la x del enemigo
+C 0x91CB una bala hacia la nave desde DE (8 mas abajo)
 C 0x91DA lee la y del enemigo
+C 0x91F9 la velocidad en x (IX+9) (p01:78B3)
 C 0x9203 suma_a_hl: HL = HL + A
+C 0x9218 la animacion de la fase (tabla de 0x92D9 + 2 x fase): 7 dibujos, cada 4 cuadros
 C 0x921B lee el paso del enemigo
 C 0x921E despacha: salta a la palabra A de la tabla que va detras del call
 C 0x923B guarda la x del enemigo
 C 0x9243 guarda la y del enemigo
 C 0x9246 suma 1 a el paso del enemigo
+C 0x9250 niega_de: DE = -DE
+C 0x9253 la velocidad en y (IX+7, 16 bits) (p01:78AC)
 C 0x9262 la x del enemigo = 0x50
 C 0x9269 suma 1 a el paso del enemigo
 C 0x927B la x del enemigo = 0xA0
 C 0x9285 la y del enemigo = 0x4C
 C 0x9289 suma 1 a el paso del enemigo
+C 0x9293 niega_de: DE = -DE
+C 0x9296 la velocidad en y (IX+7, 16 bits) (p01:78AC)
 C 0x92A5 la x del enemigo = 0x60
+C 0x92B2 la velocidad en x (IX+9) (p01:78B3)
 C 0x92B5 suma 1 a el paso del enemigo
 C 0x92BE guarda la y del enemigo
 C 0x92C1 lee la x del enemigo
 C 0x92C6 guarda la x del enemigo
 C 0x92D2 suma_a_hl: HL = HL + A
+C 0x92F8 la velocidad: la de la dificultad (tabla de 0x7855) + algo al azar (registro R) (p01:7844)
 C 0x9314 guarda el dibujo del primer sprite del enemigo
+C 0x9327 la velocidad en x (IX+9) (p01:78B3)
 C 0x9330 guarda la cuenta del enemigo
 C 0x9338 lee el paso del enemigo
+C 0x934C cada 32 cuadros, IX+25 menos: al acabar, C (p01:7F5B)
+C 0x9359 la animacion segun la direccion (tabla de 0x954C)
+C 0x935C si va con el bit 0 de IX+1F y con la x por debajo de 0x20: alguna opcion de la nave lo toca? (C)
 C 0x9366 la cuenta del enemigo = 0x5A
+C 0x936A el dibujo mirando hacia la nave: 0x78/0x6C por un lado, 0x90/0x84 por el otro
+C 0x936D se pega al decorado (IX+29 = 1) o no (0)
+C 0x9370 la cadencia: 0x3C - 2 x la dificultad
 C 0x9373 las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll) = 0x0B
 C 0x937D resta 1 a la cuenta del enemigo
+C 0x9382 si va con el bit 0 de IX+1F y con la x por debajo de 0x20: alguna opcion de la nave lo toca? (C)
 C 0x938E compara con la x del enemigo
+C 0x9399 la velocidad en x (IX+9) (p01:78B3)
 C 0x939C las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll) = 0x07
 C 0x93A0 el paso del enemigo = 0x00
 C 0x93B2 el paso del enemigo = 0x02
+C 0x93BF choca con el decorado por delante o por detras, segun su lado
 C 0x93D7 el paso del enemigo = 0x03
 C 0x93DB las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll) = 0x07
+C 0x93EB la velocidad en y (IX+7, 16 bits) (p01:78AC)
+C 0x93FA la velocidad en y, al reves (p01:78DD)
+C 0x9404 la velocidad en y, al reves (p01:78DD)
 C 0x940E lee la y del enemigo
 C 0x9416 lee la y del enemigo
+C 0x941C sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0x9435 lee la y del enemigo
 C 0x943E guarda la y del enemigo
+C 0x946D decorado (mayor o igual que el fondo) aqui o en el de al lado? C
 C 0x9476 guarda la y del enemigo
 C 0x9487 guarda la y del enemigo
 C 0x9497 guarda la y del enemigo
 C 0x94A6 lee la y del enemigo
 C 0x94AB guarda la y del enemigo
+C 0x94BE decorado (mayor o igual que el fondo) aqui o en el de al lado? C
 C 0x94C2 lee la y del enemigo
+C 0x94C7 se quita el enemigo: uno menos (0xE462) (p01:75D1)
 C 0x94CC guarda la y del enemigo
+C 0x94F4 la cadencia: 0x3C - 2 x la dificultad
+C 0x94F7 el dibujo mirando hacia la nave: 0x78/0x6C por un lado, 0x90/0x84 por el otro
 C 0x9500 lee la y de la nave (el primer byte de su sprite, p01:797C)
 C 0x9503 compara con la y del enemigo
 C 0x9509 lee la y de la nave (el primer byte de su sprite, p01:797C)
@@ -911,17 +994,23 @@ C 0x9594 lee la y del enemigo
 C 0x95A1 lee la x del enemigo
 C 0x95B7 lee la y del enemigo
 C 0x95BD lee la x del enemigo
+C 0x95C3 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0x95E1 guarda la cuenta del enemigo
 C 0x95EB lee la x del enemigo
+C 0x95F1 cada 8 cuadros, el caracter mirando a la nave
 C 0x95F8 la cuenta del enemigo = 0x04
+C 0x9600 un disparo de la torreta: desde su boca (tabla de 0x9687 por la direccion IX+1C)
 C 0x960F suma 1 a el paso del enemigo
+C 0x962D un disparo de la torreta: desde su boca (tabla de 0x9687 por la direccion IX+1C)
 C 0x9637 resta 1 a el paso del enemigo
 C 0x9661 guarda la cuenta del enemigo
 C 0x966C lee_palabra: HL = la palabra A de la tabla HL
 C 0x966F lee la y del enemigo
 C 0x9674 lee la x del enemigo
+C 0x96A6 cada B cuadros, el dibujo siguiente de los C de la tabla HL (IX+26) en IX+30 y IX+32 (p01:7F7C)
 C 0x96A9 lee el paso del enemigo
 C 0x96B7 la cuenta del enemigo = 0x10
+C 0x96BB mezcla el azar de 0xE406 con la cuenta de cuadros x 3 (p00:565A)
 C 0x96F9 las filas de la pieza = 0x06
 C 0x96FD las columnas de la pieza = 0x08
 C 0x9701 las marcas de la pieza = 0x00
@@ -939,7 +1028,9 @@ C 0x9754 la cuenta del enemigo = 0x10
 C 0x9758 el color del primer sprite del enemigo = 0x0D
 C 0x9769 lee el paso del enemigo
 C 0x976C despacha: salta a la palabra A de la tabla que va detras del call
+C 0x977F la velocidad en y (IX+7, 16 bits) (p01:78AC)
 C 0x9782 el paso del enemigo = 0x03
+C 0x9790 hacia la y de la nave: 0, +0x100 o -0x100
 C 0x9793 la cuenta del enemigo = 0x05
 C 0x979B sonido_31: pide el sonido 0x31
 C 0x97A6 suma 1 a el paso del enemigo
@@ -954,6 +1045,7 @@ C 0x97F4 guarda la y del enemigo
 C 0x97F7 lee la x de la nave
 C 0x97FC guarda la x del enemigo
 C 0x9807 lee la x del enemigo
+C 0x982D cada B cuadros, el dibujo siguiente de los C de la tabla HL (IX+26) en IX+30 y IX+32 (p01:7F7C)
 C 0x9845 guarda el tipo del enemigo (0: libre)
 C 0x9853 guarda el dibujo de la pieza
 C 0x9856 las filas de la pieza = 0x06
@@ -969,13 +1061,26 @@ C 0x989C mira el bit 0 de el B de la pieza
 C 0x98A7 guarda el dibujo de la pieza
 C 0x98B7 lee la x de la pieza
 C 0x98BA lee la y de la pieza
+C 0x98BD una explosion grande en DE (E la y, D la x): dentro de la pantalla (p01:678D)
 C 0x98C9 sonido_20: pide el sonido 0x20
+C 0x98D1 al romperse dispara en abanico: desde y + 0x14, x + 0x20
+C 0x98E2 el dibujo IX+7: su direccion en p08:B834 + 2 x dibujo
 C 0x98E6 resta 1 a la cuenta de la pieza
 C 0x98EC lee la cuenta de la pieza
 C 0x98F4 lee las vidas de la pieza
+C 0x991E la velocidad de cada una (tabla de 0x9941), con tope 0xFF
+C 0x9921 la direccion de cada una (tabla de 0x9950)
+C 0x9928 una bala libre de las 10 de 0xEB00
+C 0x9964 la direccion + la desviacion, en el cuadrante que toque
 C 0x9967 guarda la direccion hacia la nave (0 a 0x3F)
+C 0x9977 la distancia a la nave (0xE604 la y, 0xE606 la x) (p01:63FF)
 C 0x99B2 lee la y del enemigo
+C 0x99BB la velocidad en x (IX+9) (p01:78B3)
 C 0x99BE lee la y del enemigo
+C 0x99D1 la velocidad en y y la aceleracion
+C 0x99E2 la velocidad en y += la aceleracion (p01:7F1C)
+C 0x99E5 |velocidad en y| contra la maxima (p01:7F42)
+C 0x99E8 la aceleracion en y (IX+18), al reves (p01:7EEA)
 C 0x99EE compara con la y del enemigo
 C 0x99F4 compara con la x del enemigo
 C 0x99F8 el dibujo del primer sprite del enemigo = 0xDC
@@ -989,28 +1094,45 @@ C 0x9A28 resta 1 a la cuenta de la pieza
 C 0x9A2C la cuenta de la pieza = 0x20
 C 0x9A30 suma 1 a el dibujo de la pieza
 C 0x9A33 suma 1 a el paso de la pieza
+C 0x9A36 suelta un 0x34 por su lado (y - 8 o + 0x10, x + 8)
 C 0x9A3E resta 1 a el dibujo de la pieza
 C 0x9A41 suma 1 a el paso de la pieza
 C 0x9A4F le suma la y de la pieza
 C 0x9A53 lee la x de la pieza
 C 0x9A73 lee la x de la nave
+C 0x9A85 6 explosiones 0x35 en su sitio
 C 0x9A8D lee la y del enemigo
 C 0x9A99 lee la x del enemigo
 C 0x9AA9 lee la y del enemigo
 C 0x9AAC lee la x del enemigo
+C 0x9AB1 una aparicion en una ficha libre, guardando IX (p01:7647)
 C 0x9AC4 la cuenta del enemigo = 0x03
 C 0x9AD7 lee_palabra: HL = la palabra A de la tabla HL
+C 0x9AF1 la velocidad en x += la aceleracion (p01:7F2F)
+C 0x9AF4 rebota en x (IX+0A) entre 2 y 7 (o se para) segun su tipo
+C 0x9AF7 cada 6 cuadros, aceleracion en y al azar (+-0x200)
+C 0x9AFA el caracter del bufer donde esta: decorado (entre el fondo y 0xFC)? C
+C 0x9B39 la velocidad en x (IX+9) (p01:78B3)
+C 0x9B3C la aceleracion en x (IX+1A), al reves (p01:7EFA)
+C 0x9B46 la velocidad en x (IX+9) (p01:78B3)
+C 0x9B49 la aceleracion en x (IX+1A), al reves (p01:7EFA)
 C 0x9B5F la cuenta del enemigo = 0x06
+C 0x9B72 con IX+1F = 1, cada 4 cuadros, el sonido 0x32
 C 0x9B95 lee la cuenta de cuadros del juego
 C 0x9B9B sonido_32: pide el sonido 0x32
 C 0x9BA1 lee la y del enemigo
+C 0x9BA4 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0x9BA7 lee el caracter del fondo de la fase
+C 0x9BBC la entrada A (de 4 bytes) de la tabla HL: DE y HL, y p01:78D7 (p01:6E40)
 C 0x9BC4 el dibujo del primer sprite del enemigo = 0xA8
 C 0x9BE5 la cuenta de la pieza = 0x02
+C 0x9BF2 fuera de la pantalla (x por debajo de 0x20 o desde 0xC0): el borde vuelve a 0xE0 y NC
+C 0x9C06 lee_byte: A = el byte A de la tabla HL
 C 0x9C0C sonido_35: pide el sonido 0x35
 C 0x9C11 color_del_borde: B al registro 7 del VDP
 C 0x9C26 resta 1 a la cuenta de la pieza
 C 0x9C2A guarda la cuenta de la pieza
+C 0x9C3A lee_byte: A = el byte A de la tabla HL
 C 0x9C3D guarda el dibujo de la pieza
 C 0x9C4D color_del_borde: B al registro 7 del VDP
 C 0x9C55 las filas de la pieza = 0x04
@@ -1027,12 +1149,15 @@ C 0x9CB4 la cuenta de la pieza = 0x50
 C 0x9CB8 suma 1 a el paso de la pieza
 C 0x9CBC el paso de la pieza = 0x02
 C 0x9CC4 lee la y de la pieza
+C 0x9CCB una aparicion en una ficha libre, guardando IX (p01:7647)
 C 0x9CCE resta 1 a el paso de la pieza
 C 0x9CD1 la cuenta de la pieza = 0x50
+C 0x9CE5 cada B cuadros, el dibujo siguiente de los C de la tabla HL (IX+26) en IX+30 y IX+32 (p01:7F7C)
 C 0x9CF6 la cuenta de la pieza = 0x03
 C 0x9CFA suma 1 a el paso de la pieza
 C 0x9D02 lee la x de la pieza
 C 0x9D0C lee la y de la pieza
+C 0x9D30 una aparicion en una ficha libre, guardando IX (p01:7647)
 C 0x9D33 suma 1 a el paso de la pieza
 C 0x9D3B el paso de la pieza = 0x00
 C 0x9D3F la cuenta de la pieza = 0x20
@@ -1058,9 +1183,12 @@ C 0x9E16 la cuenta de la pieza = 0x28
 C 0x9E21 resta 1 a el dibujo de la pieza
 C 0x9E24 la cuenta de la pieza = 0x20
 C 0x9E51 lee la x de la pieza
+C 0x9E5B una aparicion en una ficha libre, guardando IX (p01:7647)
 C 0x9E63 la cuenta de la pieza = 0x20
 C 0x9E67 el paso de la pieza = 0x00
 C 0x9E72 compara con la x del enemigo
+C 0x9E89 la velocidad en y (IX+7, 16 bits) (p01:78AC)
+C 0x9E8F la velocidad en x (IX+9) (p01:78B3)
 C 0x9E96 lee el paso del enemigo
 C 0x9EA8 compara con la y del enemigo
 C 0x9EAE lee la y de la nave (el primer byte de su sprite, p01:797C)
@@ -1068,8 +1196,10 @@ C 0x9EB1 compara con la y del enemigo
 C 0x9EBE compara con la y del enemigo
 C 0x9EC4 lee la y de la nave (el primer byte de su sprite, p01:797C)
 C 0x9EC7 compara con la y del enemigo
+C 0x9ECF la velocidad en y (IX+7, 16 bits) (p01:78AC)
 C 0x9ED2 lee la x de la nave
 C 0x9ED5 compara con la x del enemigo
+C 0x9EE6 la velocidad en x (IX+9) (p01:78B3)
 C 0x9EE9 suma 1 a el paso del enemigo
 C 0x9EF4 el paso del enemigo = 0x00
 C 0x9EF8 la cuenta del enemigo = 0x01
@@ -1077,12 +1207,22 @@ C 0x9EFE lee la y del enemigo
 C 0x9F12 guarda el dibujo del primer sprite del enemigo
 C 0x9F19 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x9F27 suma 1 a el paso del enemigo
+C 0x9F3B su lado (IX+24)
+C 0x9F3E la velocidad en y, al reves (p01:78DD)
+C 0x9F47 lee_byte: A = el byte A de la tabla HL
 C 0x9F59 pone a cero el bit 3 de las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll)
 C 0x9F5D lee el dibujo del primer sprite del enemigo
 C 0x9F6A guarda el dibujo del primer sprite del enemigo
 C 0x9F75 el dibujo del primer sprite del enemigo = 0xB4
+C 0x9F84 la velocidad en x, al reves (p01:78ED)
 C 0x9F87 pone a cero el bit 4 de las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll)
 C 0x9F95 lee la x del enemigo
+C 0x9F9A niega_de: DE = -DE
+C 0x9F9D la velocidad en x (IX+9) (p01:78B3)
 C 0x9FC9 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x9FD9 la velocidad en y += la aceleracion (p01:7F1C)
+C 0x9FDC el decorado por delante o por detras: IX+1F el lado libre
+C 0x9FDF el dibujo segun la direccion (tabla de 0xA0B9) (p03:A025)
+C 0x9FE2 dispara una vez (IX+2F) con los dibujos 0xB4 o 0xC4: 4 balas en abanico (p03:A058)
 C 0x9FF6 lee la y del enemigo
 # --- fin de las anotaciones de anota.py ---

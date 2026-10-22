@@ -521,7 +521,7 @@ L_AA6C:
 L_AA73:
 	ld e,(ix+004h)		;aa73   ; lee la y del enemigo
 	ld d,(ix+006h)		;aa76   ; lee la x del enemigo
-	call 063ffh		;aa79
+	call 063ffh		;aa79   ; la distancia a la nave (0xE604 la y, 0xE606 la x) (p01:63FF)
 L_AA7C:
 	ld a,(0e477h)		;aa7c
 	add a,010h		;aa7f
@@ -546,7 +546,7 @@ L_AA9C:
 	ld (ix+00fh),h		;aa9f   ; guarda el ancho del enemigo para los choques
 	ld a,b			;aaa2
 	ld hl,0aaaah		;aaa3
-	call 06e40h		;aaa6
+	call 06e40h		;aaa6   ; la entrada A (de 4 bytes) de la tabla HL: DE y HL, y p01:78D7 (p01:6E40)
 L_AAA9:
 	ret			;aaa9
 
@@ -789,7 +789,7 @@ L_AC4E:
 L_AC5D:
 	call 078c8h		;ac5d
 L_AC60:
-	call 07ee1h		;ac60
+	call 07ee1h		;ac60   ; la aceleracion a cero (IX+18 a IX+1B) (p01:7EE1)
 L_AC63:
 	ld a,r		;ac63
 	and 007h		;ac65
@@ -847,9 +847,9 @@ DATA_AC88:
 L_ACA4:
 	call L_ACAE		;aca4
 L_ACA7:
-	call 07f1ch		;aca7
+	call 07f1ch		;aca7   ; la velocidad en y += la aceleracion (p01:7F1C)
 L_ACAA:
-	call 07f2fh		;acaa
+	call 07f2fh		;acaa   ; la velocidad en x += la aceleracion (p01:7F2F)
 L_ACAD:
 	ret			;acad
 L_ACAE:
@@ -904,7 +904,7 @@ L_ACF0:
 	ret nc			;acfc
 	call L_AD36		;acfd
 	call L_AD0C		;ad00
-	call nz,078ddh		;ad03
+	call nz,078ddh		;ad03   ; la velocidad en y, al reves (p01:78DD)
 L_AD06:
 	jr L_AD11		;ad06
 L_AD08:
@@ -917,7 +917,7 @@ L_AD0C:
 L_AD11:
 	ld a,(ix+001h)		;ad11   ; lee el paso del enemigo
 	ld hl,0ad21h		;ad14
-	call 04a6eh		;ad17
+	call 04a6eh		;ad17   ; lee_byte: A = el byte A de la tabla HL
 L_AD1A:
 	ld (ix+002h),a		;ad1a   ; guarda la cuenta del enemigo
 	inc (ix+001h)		;ad1d   ; suma 1 a el paso del enemigo
@@ -1001,7 +1001,7 @@ L_ADA8:
 	ret nc			;adb1
 	call L_ADDE		;adb2
 	call L_ADC1		;adb5
-	call nz,078ddh		;adb8
+	call nz,078ddh		;adb8   ; la velocidad en y, al reves (p01:78DD)
 L_ADBB:
 	jr L_ADC6		;adbb
 L_ADBD:
@@ -1014,7 +1014,7 @@ L_ADC1:
 L_ADC6:
 	ld a,(ix+001h)		;adc6   ; lee el paso del enemigo
 	ld hl,0add6h		;adc9
-	call 04a6eh		;adcc
+	call 04a6eh		;adcc   ; lee_byte: A = el byte A de la tabla HL
 L_ADCF:
 	ld (ix+002h),a		;adcf   ; guarda la cuenta del enemigo
 	inc (ix+001h)		;add2   ; suma 1 a el paso del enemigo
@@ -1080,7 +1080,7 @@ L_AE24:
 	ld (ix+00ah),h		;ae27   ; guarda las columnas de la pieza
 	ld a,b			;ae2a
 	ld hl,0ae45h		;ae2b
-	call 04a6eh		;ae2e
+	call 04a6eh		;ae2e   ; lee_byte: A = el byte A de la tabla HL
 L_AE31:
 	ld (ix+002h),a		;ae31   ; guarda la cuenta de la pieza
 	ret			;ae34
@@ -1149,7 +1149,7 @@ L_AE73:
 	ret c			;ae7d
 	ld h,(ix+006h)		;ae7e
 	ld l,0a8h		;ae81
-	call 04a46h		;ae83
+	call 04a46h		;ae83   ; sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 	ld (hl),0a8h		;ae86
 	ret			;ae88
 L_AE89:
@@ -1280,7 +1280,7 @@ L_AF57:
 	jr c,L_AF64		;af5f
 	ld de,0fd00h		;af61
 L_AF64:
-	call 078ach		;af64
+	call 078ach		;af64   ; la velocidad en y (IX+7, 16 bits) (p01:78AC)
 L_AF67:
 	ld a,(0e606h)		;af67   ; lee la x de la nave
 	cp (ix+006h)		;af6a   ; compara con la x del enemigo
@@ -1288,7 +1288,7 @@ L_AF67:
 	jr nc,L_AF75		;af70
 	ld de,0fd00h		;af72
 L_AF75:
-	call 078b3h		;af75
+	call 078b3h		;af75   ; la velocidad en x (IX+9) (p01:78B3)
 L_AF78:
 	ret			;af78
 L_AF79:
@@ -1342,7 +1342,7 @@ L_AFC1:
 	ld a,(ix+02bh)		;afc4
 	and 00fh		;afc7
 	ld hl,0afdch		;afc9
-	call 04a6eh		;afcc
+	call 04a6eh		;afcc   ; lee_byte: A = el byte A de la tabla HL
 	ld (ix+031h),a		;afcf   ; guarda el color del primer sprite del enemigo
 	ld (ix+037h),a		;afd2
 	ld (ix+03bh),a		;afd5
@@ -1487,14 +1487,14 @@ L_B0C2:
 	add a,a			;b0c3
 	add a,a			;b0c4
 	ld hl,0b162h		;b0c5
-	call 04a6eh		;b0c8
+	call 04a6eh		;b0c8   ; lee_byte: A = el byte A de la tabla HL
 	inc hl			;b0cb
 	ld (ix+026h),h		;b0cc
 	ld (ix+027h),l		;b0cf
 	ld (ix+030h),a		;b0d2   ; guarda el dibujo del primer sprite del enemigo
 	ret			;b0d5
 L_B0D6:
-	call 07fadh		;b0d6
+	call 07fadh		;b0d6   ; un numero al azar: el registro R y la cuenta de cuadros (p01:7FAD)
 	and 007h		;b0d9
 	jr L_B0C2		;b0db
 
@@ -1520,12 +1520,12 @@ L_B0E7:
 	and 03fh		;b0eb
 	djnz L_B0F9		;b0ed
 	ld hl,0b0ffh		;b0ef
-	call 04a6eh		;b0f2
+	call 04a6eh		;b0f2   ; lee_byte: A = el byte A de la tabla HL
 	ld (ix+028h),a		;b0f5
 	ret			;b0f8
 L_B0F9:
 	ld hl,0b104h		;b0f9
-	jp 04a6eh		;b0fc
+	jp 04a6eh		;b0fc   ; lee_byte: A = el byte A de la tabla HL
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B0FF: tabla que se lee desde HL = 0xB0FF con un indice
@@ -1556,7 +1556,7 @@ L_B109:
 	ld a,(ix+025h)		;b109
 	dec a			;b10c
 	ld hl,0b12bh		;b10d
-	call 04a6eh		;b110
+	call 04a6eh		;b110   ; lee_byte: A = el byte A de la tabla HL
 	inc a			;b113
 	inc a			;b114
 	push ix		;b115
@@ -1714,7 +1714,7 @@ L_B1D2:
 	ld (0e46eh),a		;b1e4
 	ld e,(ix+004h)		;b1e7   ; lee la y del enemigo
 	ld d,(ix+006h)		;b1ea   ; lee la x del enemigo
-	call 0640bh		;b1ed
+	call 0640bh		;b1ed   ; 0xE470: 1 si la nave esta mas arriba (p01:640B)
 L_B1F0:
 	call 0639dh		;b1f0
 L_B1F3:
@@ -1736,7 +1736,7 @@ L_B206:
 	and 003h		;b20a
 	add a,0bch		;b20c
 	ld (hl),a			;b20e
-	call 075d1h		;b20f
+	call 075d1h		;b20f   ; se quita el enemigo: uno menos (0xE462) (p01:75D1)
 L_B212:
 	jp 058edh		;b212   ; sonido_33: pide el sonido 0x33
 L_B215:
@@ -1823,7 +1823,7 @@ L_B28A:
 	jr nc,L_B2F0		;b2a9
 L_B2AB:
 	ld h,a			;b2ab
-	call 04a46h		;b2ac
+	call 04a46h		;b2ac   ; sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 L_B2AF:
 	ld (ix+02ch),l		;b2af
 	ld (ix+02dh),h		;b2b2
@@ -1871,7 +1871,7 @@ L_B2FE:
 	add a,(ix+006h)		;b2fe   ; le suma la x del enemigo
 	ld (ix+006h),a		;b301   ; guarda la x del enemigo
 	ld (ix+005h),000h		;b304   ; la x del enemigo (decimales) = 0x00
-	call 078edh		;b308
+	call 078edh		;b308   ; la velocidad en x, al reves (p01:78ED)
 L_B30B:
 	ret			;b30b
 L_B30C:
@@ -1883,7 +1883,7 @@ L_B316:
 	add a,(ix+004h)		;b316   ; le suma la y del enemigo
 	ld (ix+004h),a		;b319   ; guarda la y del enemigo
 	ld (ix+003h),000h		;b31c   ; la y del enemigo (decimales) = 0x00
-	call 078ddh		;b320
+	call 078ddh		;b320   ; la velocidad en y, al reves (p01:78DD)
 L_B323:
 	ret			;b323
 L_B324:

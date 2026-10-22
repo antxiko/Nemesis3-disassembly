@@ -1,4 +1,102 @@
 
+
+# --- A MANO: comentarios escritos leyendo el codigo ---
+C 0x8000 las entradas del banco: la historia (p00:4371)
+C 0x8003 el titulo (p00:42F9)
+C 0x8006 el titulo, cada cuadro (p00:431B)
+C 0x8009 la historia, cada cuadro: los sprites y la pantalla a la VRAM; por el paso (0xE32F)
+C 0x801D el paso siguiente (0xE32F), con el subpaso a 0
+C 0x8025 el subpaso siguiente (0xE330)
+C 0x802A paso 0, las guerras de antes: desde el subpaso 1 las estrellas salen (p28:BC08); por el subpaso
+C 0x8043 subpaso 0: la paleta 0, las estrellas (p28:BE34 y BBEE), el sonido 0x4A y la cuenta a cero
+C 0x8057 subpaso 1: a los 0x100 cuadros, la secuencia 0 (p26:6114) y p30:8419
+C 0x806C subpaso 2: la secuencia cada cuadro; mientras siga, p30:83EB
+C 0x807D subpaso 3: a los 0x180 cuadros, el bufer a cero
+C 0x808E subpaso 4: a los 0x100, la orden 0x84
+C 0x80A2 subpaso 5: a los 0x180, la orden 0x83 y el sonido 1
+C 0x80B5 subpaso 6: a los 0x120, el sonido 0x3E y al paso 1
+C 0x80C6 paso 1, las escenas: por el subpaso, con las estrellas
+C 0x80D6 subpaso 0: la escena 0 (0xE335)
+C 0x80E1 subpaso 1: al acabar su tiempo (p30:8476), la siguiente (p30:8432), hasta la 0x1F
+C 0x8102 subpaso 2: a los 0xA8 cuadros, la secuencia 1 (la cronologia) y p30:8419
+C 0x811B subpaso 3: la secuencia cada cuadro; al acabar, el bufer a cero
+C 0x8132 subpaso 4: 0x240 cuadros
+C 0x8143 subpaso 5: las estrellas entran (p28:BD0F, BDEC); a los 0x100, los sprites fuera y al paso 2
+C 0x815A paso 2, la nave y los suyos: por el subpaso
+C 0x818C subpaso 0: la secuencia 2 y la pantalla aparece con pausas (desde el trozo 0 en japones, 0x20 en ingles)
+C 0x81A6 subpaso 1: hasta que aparezca
+C 0x81AE subpaso 2: a los 0x414 cuadros, se borra lo de 0x81BF
+C 0x81C3 subpaso 3: al acabar, el bufer a cero
+C 0x81CE subpaso 4: a los 0x494, la secuencia 3 y la pantalla aparece desde el trozo 0x80
+C 0x81EB subpaso 5: al acabar, la cuenta 0xE339 a cero (p00:5724) y la nave 0
+C 0x81FA subpaso 6: a los 0xA8 (p00:572B), el plano de la nave (p26:6FB0), su lista con el color de 0x8221 y su dibujo
+C 0x8225 subpaso 7: hasta que aparezca
+C 0x8237 subpaso 8: a los 0xA8 (0x1A4 con la nave 3), se borra lo de 0x825F (0x8263 con la 3)
+C 0x8267 subpaso 9: al acabar, el cuadro a cero y la nave siguiente; las cuatro: el bufer a cero
+C 0x8284 subpaso 0x0A: a los 0x7A8, los sprites fuera, la consola con el contador de 0x6102 y la secuencia 4
+C 0x82B3 subpaso 0x0B: la consola hasta que aparezca
+C 0x82C4 subpaso 0x0C: a los 0x2C0, se borra lo de 0x82EA y los sprites de 0x82EE
+C 0x82F1 subpaso 0x0D: la consola hasta que se borren; los sprites fuera y el bufer a cero
+C 0x8315 subpaso 0x0E: a los 0x2F0, la paleta 3, los graficos de p22:B40B, el dibujo de p22:B421 (8 x 0x0A en 0xCA8B) y la secuencia 5
+C 0x835E subpaso 0x0F: hasta que aparezca
+C 0x8366 subpaso 0x10: a los 0x580, se borra
+C 0x8377 subpaso 0x11: al acabar, el bufer a cero
+C 0x8382 subpaso 0x12: a los 0x5F8, la paleta 0, la secuencia 6 y la pantalla desde el trozo 0x0D (japones) o 0x2B
+C 0x83AA subpaso 0x13: hasta que aparezca
+C 0x83B2 subpaso 0x14: a los 0x180, se borra
+C 0x83C3 subpaso 0x15: al acabar, el bufer a cero
+C 0x83CE subpaso 0x16: a los 0x230, la cuenta a cero y 0xE32E = 0: la historia acabada
+C 0x83DD 0xCA00-0xCBFF a cero
+C 0x83EB mientras la secuencia no cambie de dibujo, cada 7 cuadros el color siguiente de 0x841F en 0x0808-0x0A07, hasta el 0x13
+C 0x8413 acabado: 0xE5E9 = 0xFF
+C 0x8419 los colores desde el principio (0xE5E9 = 0, 7 cuadros)
+C 0x8432 la escena 0xE335: su lista de graficos (tabla de 0x9296) y sus copias...
+C 0x844A ...su dibujo (tabla de 0x8A4C) en el sitio de la tabla de 0x89D2
+C 0x8466 la escena A en la tabla de 0x89D2: destino (DE), filas (B) y columnas (C)
+C 0x8476 C mientras la cuenta 0xE339 no llegue al tiempo de la escena (tabla de 0x8483)
+C 0x84C1 las estrellas salen (p28:BC08)
+C 0x84CB las estrellas del fondo (p28:BE34)
+C 0x84D5 que salgan del centro (p28:BBEE)
+C 0x84DF las estrellas entran (p28:BD0F)
+C 0x84E9 a los sprites (p28:BDEC)
+C 0x84F3 la lista HL aparece con pausas (p26:796B) con los bancos 26-28
+C 0x84FD el llenado con pausas (p26:79CF); NZ mientras siga
+C 0x850B se borra la lista HL fila a fila (p26:78A2)
+C 0x8515 el borrado (p26:78AC); NZ mientras siga
+C 0x8523 el titulo: 0xE32B = 1, la paleta, el borde negro, la pantalla en blanco y p30:874B
+C 0x853C con la BIOS internacional, el titulo de p22:A906 y el dibujo de 0x887A (0x0A x 0x18 en 0xCA84) y 12 bytes de 0x89CA en 0xCA4A
+C 0x8575 con la japonesa, el de p22:A8D8, sus copias (A8F1), los sprites de p22:AEC6 y p00:5669
+C 0x8596 el titulo, cada cuadro: los sprites y el bufer a la VRAM; por el paso (0xE32B)
+C 0x85BD paso 1: las dos mitades del logo en 0xEBB0 (0xC4E0) y 0xEBB2 (0xC535), 0x0C pasos
+C 0x85D3 paso 2: p30:8791; la mitad de arriba 4 a la izquierda y la de abajo 4 a la derecha...
+C 0x85FE ...cada 6 cuadros: al acabar, al paso 3
+C 0x860A paso 3: la de arriba vuelve 4 a la derecha y la de abajo 4 a la izquierda...
+C 0x8635 ...al acabar, el caracter 0x0A en 0xC50E, la orden 0x83 y el sonido 0x51, y 0x1E cuadros
+C 0x8649 paso 4: el color cambia (p30:875F); al acabar, el dibujo de 0x890A (6 x 6 en 0xC74D), el color 0xF0 y la aparicion de 0x866B
+C 0x866F paso 5: la aparicion poco a poco (p00:5EEC) hasta acabar
+C 0x8680 paso 6: la cuenta a 0 y el dibujo de 0x893B en 0xE800
+C 0x8690 paso 7: cada 2 cuadros una columna mas de las letras (p30:87A6); al acabar, 0x1520-0x1697 a cero, el dibujo de abajo y lo de 0x86B2 aparece
+C 0x86C2 paso 8: al acabar, lo de 0x86B6
+C 0x86D1 paso 9: lo de 0x86BA
+C 0x86E0 paso 0x0A: lo de 0x86BE
+C 0x86EF paso 0x0B: al acabar, 12 bytes de 0x89CA en 0xC44A
+C 0x8701 paso 0x0C: 6 pasos desde 0xC888
+C 0x870F paso 0x0D: el dibujo de abajo sube una fila por cuadro (4 x 0x10); a los 6, el bufer a la VRAM y 0xE32B = 0: acabado
+C 0x8733 la lista HL aparece fila a fila con el byte C (p26:7978)
+C 0x873D el llenado (p26:7A3D); NZ mientras siga
+C 0x874B los colores y los dibujos a cero (0x1800 bytes cada uno)
+C 0x875F el color de la cuenta & 0x0F (tabla de 0x8781)...
+C 0x876E ...en 0x0040-0x016F y 0x0840-0x096F
+C 0x8791 borra las dos mitades: 2 x 0x10 en 0xEBB0 y 7 x 6 en 0xEBB2
+C 0x87A6 cada 2 cuadros (C los otros): la columna 0xEBB4 de las letras de 0xE80D en 0xC5CF...
+C 0x87C3 ...y la de 0xE80E en 0xC5D0, hacia los lados
+C 0x87D7 en la columna 2, seis sprites de 0x89B2
+C 0x87E9 la columna siguiente; NC al llegar a la 0x0E
+C 0x87F1 una columna: 6 filas de la tabla (0x1C por fila) al bufer (0x40), sin los 0
+C 0x8805 el dibujo de abajo (p30:892E en 0xE800): dos bytes en 0xEBB0 + 0x0E y 3 x 0x10 una fila mas abajo
+C 0x882F copia B filas de C bytes de HL a DE, con filas de 0x40
+C 0x8855 borra B filas de C bytes desde DE, con filas de 0x40
+# --- fin de lo escrito a mano ---
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x8017 0x801D tabla_8017  3 destinos del despachador p00:4093 (call en p30:8014, el indice en A): 802A, 80C6, 815A; lo leen p30:8014 (6 bytes)
 F 0x8017 w3
@@ -515,108 +613,274 @@ F 0x893B 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+L 0x801D historia_paso_siguiente el paso siguiente de la historia (0xE32F)
+L 0x8025 historia_subpaso_siguiente el subpaso siguiente de la historia (0xE330)
+L 0x83EB historia_colores los colores de la secuencia, cada 7 cuadros
+L 0x8419 historia_colores_empiezan los colores de la secuencia desde el principio
+L 0x84C1 estrellas_salen las estrellas salen (p28:BC08)
+L 0x84F3 aparece_con_pausas la lista HL aparece fila a fila con pausas
+L 0x84FD aparece_con_pausas_cuadro lo mismo, un cuadro (NZ mientras siga)
+L 0x850B borra_fila_a_fila la lista HL se borra fila a fila
+L 0x8515 borra_fila_a_fila_cuadro lo mismo, un cuadro (NZ mientras siga)
+C 0x800C bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
 C 0x8014 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x802D estrellas_salen: las estrellas salen (p28:BC08)
 C 0x8032 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x8044 paleta: la paleta A de p16:6B74
+C 0x8047 las estrellas del fondo (p28:BE34)
+C 0x804A que salgan del centro (p28:BBEE)
 C 0x804D sonido_4A: pide el sonido 0x4A
+C 0x8050 cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+C 0x8053 historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x805A cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
+C 0x805E cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+C 0x8062 secuencia_empieza: empieza la secuencia de dibujos A (p26:6114, con los bancos 26-27-28)
+C 0x8065 historia_colores_empiezan: los colores de la secuencia desde el principio
+C 0x8068 historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x8075 historia_colores: los colores de la secuencia, cada 7 cuadros
+C 0x8079 historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x8080 cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
+C 0x8084 cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+C 0x8087 bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
+C 0x808A historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x8091 cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
+C 0x8095 cuenta_e339_a_cero: la cuenta de 0xE339 a cero
 C 0x8098 orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0x809B cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+C 0x809E historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x80A5 cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
+C 0x80A9 cuenta_e339_a_cero: la cuenta de 0xE339 a cero
 C 0x80AC orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0x80AF sonido_01: pide el sonido 0x01
+C 0x80B2 historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x80B8 cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
+C 0x80BC cuenta_e339_a_cero: la cuenta de 0xE339 a cero
 C 0x80BF sonido_3E: pide el sonido 0x3E
+C 0x80C2 historia_paso_siguiente: el paso siguiente de la historia (0xE32F)
 C 0x80C7 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x80DD historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x80E4 C mientras la cuenta 0xE339 no llegue al tiempo de la escena (tabla de 0x8483)
+C 0x80E8 cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+C 0x80EB bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
+C 0x80EE bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
+C 0x80FE historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x8108 cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
+C 0x810C cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+C 0x8111 secuencia_empieza: empieza la secuencia de dibujos A (p26:6114, con los bancos 26-27-28)
+C 0x8114 historia_colores_empiezan: los colores de la secuencia desde el principio
+C 0x8117 historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x811E secuencia_cuadro: la secuencia de dibujos, un cuadro (p26:6135)
+C 0x8127 historia_colores: los colores de la secuencia, cada 7 cuadros
+C 0x812B bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
+C 0x812E historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x8138 cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
+C 0x813C cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+C 0x813F historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x8146 a los sprites (p28:BDEC)
+C 0x814C cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
+C 0x8150 cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+C 0x8153 sprites_fuera: los atributos de sprite de 0xEF00 a 0xE0: fuera de la pantalla
+C 0x8156 historia_paso_siguiente: el paso siguiente de la historia (0xE32F)
 C 0x815B despacha: salta a la palabra A de la tabla que va detras del call
+C 0x818E secuencia_empieza: empieza la secuencia de dibujos A (p26:6114, con los bancos 26-27-28)
 C 0x8191 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
+C 0x8196 bios_japonesa: Z si la BIOS es japonesa (0x002B & 0x0F = 0)
+C 0x819F aparece_con_pausas: la lista HL aparece fila a fila con pausas
+C 0x81A2 historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x81AA historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x81B1 cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
+C 0x81B8 borra_fila_a_fila: la lista HL se borra fila a fila
+C 0x81BB historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x81C7 bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
+C 0x81CA historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x81D1 cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
+C 0x81D5 cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+C 0x81DA secuencia_empieza: empieza la secuencia de dibujos A (p26:6114, con los bancos 26-27-28)
 C 0x81DD apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
+C 0x81E4 aparece_con_pausas: la lista HL aparece fila a fila con pausas
+C 0x81E7 historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x81EF cuenta_e333_a_cero: la cuenta de 0xE333 a cero
 C 0x81F3 guarda la nave elegida (0 a 3)
+C 0x81F6 historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x81FD cuenta_e333_llega: la cuenta de 0xE333 contra DE: C mientras no llega
+C 0x8201 cuenta_e333_a_cero: la cuenta de 0xE333 a cero
 C 0x8204 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x8207 los colores del plano de la nave 0xE380 (tabla p28:B0FD) en 0x2100 y 0x2900 (p26:6FB0)
 C 0x820A lee la nave elegida (0 a 3)
 C 0x8210 suma_a_hl: HL = HL + A
+C 0x8217 el dibujo de la nave 0xE380 (tabla de 0x7073, p26:6064) (p26:7069)
 C 0x821A bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-C 0x8225 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x821D historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x8228 llenado_cuadro: el llenado fila a fila, cada 4 cuadros
 C 0x822B bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 C 0x822E lee el llenado fila a fila en marcha
-C 0x8237 lee la nave elegida (0 a 3)
+C 0x8233 historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x8244 cuenta_e333_llega: la cuenta de 0xE333 contra DE: C mientras no llega
+C 0x8248 cuenta_e333_a_cero: la cuenta de 0xE333 a cero
 C 0x824B lee la nave elegida (0 a 3)
+C 0x8258 borra_fila_a_fila: la lista HL se borra fila a fila
+C 0x825B historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x826B 0xCA00-0xCBFF a cero
 C 0x826E apunta a la nave elegida (0 a 3)
+C 0x827D bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
+C 0x8280 historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x8287 cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
+C 0x828B cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+C 0x828E sprites_fuera: los atributos de sprite de 0xEF00 a 0xE0: fuera de la pantalla
 C 0x8291 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x8294 consola: la consola (p26:730A) con su animacion cada 8 cuadros
+C 0x829A contador_de_hl: las 6 cifras del contador de la consola, de HL
 C 0x829D bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x82A2 secuencia_empieza: empieza la secuencia de dibujos A (p26:6114, con los bancos 26-27-28)
 C 0x82A5 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
-C 0x82B3 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x82AC aparece_con_pausas: la lista HL aparece fila a fila con pausas
+C 0x82AF historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x82B6 consola_cuadro: la consola, un cuadro
 C 0x82B9 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-C 0x82C4 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x82BC aparece_con_pausas_cuadro: lo mismo, un cuadro (NZ mientras siga)
+C 0x82C0 historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x82C7 consola_cuadro: la consola, un cuadro
 C 0x82CA bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x82D0 cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
+C 0x82D7 borra_fila_a_fila: la lista HL se borra fila a fila
 C 0x82DA bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
+C 0x82E0 borrado_sprites_empieza: empieza a borrar fila a fila los sprites de HL
 C 0x82E3 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-C 0x82F1 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x82E6 historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x82F4 consola_cuadro: la consola, un cuadro
 C 0x82F7 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 C 0x82FA bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
+C 0x82FD borrado_cuadro: el borrado fila a fila, cada 4 cuadros
+C 0x8300 borrado_sprites_cuadro: el borrado de sprites, cada 4 cuadros
 C 0x8303 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 C 0x8306 lee el borrado fila a fila en marcha
+C 0x830B sprites_fuera: los atributos de sprite de 0xEF00 a 0xE0: fuera de la pantalla
+C 0x830E bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
+C 0x8311 historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x8318 cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
+C 0x831C cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+C 0x8321 paleta: la paleta A de p16:6B74
 C 0x8324 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
 C 0x832B carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x8330 copia_con_vuelta_ce00: copia caracteres con espejo usando el bufer de 0xCE00 (lista IX)
 C 0x8339 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 C 0x833C bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x8348 copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
+C 0x834D secuencia_empieza: empieza la secuencia de dibujos A (p26:6114, con los bancos 26-27-28)
 C 0x8350 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
+C 0x8357 aparece_con_pausas: la lista HL aparece fila a fila con pausas
+C 0x835A historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x8362 historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x8369 cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
+C 0x8370 borra_fila_a_fila: la lista HL se borra fila a fila
+C 0x8373 historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x837B bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
+C 0x837E historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x8385 cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
+C 0x8389 cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+C 0x838D paleta: la paleta A de p16:6B74
+C 0x8392 secuencia_empieza: empieza la secuencia de dibujos A (p26:6114, con los bancos 26-27-28)
 C 0x8395 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
-C 0x83DD apunta a un bufer de trabajo
+C 0x839A bios_japonesa: Z si la BIOS es japonesa (0x002B & 0x0F = 0)
+C 0x83A3 aparece_con_pausas: la lista HL aparece fila a fila con pausas
+C 0x83A6 historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x83AE historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x83B5 cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
+C 0x83BC borra_fila_a_fila: la lista HL se borra fila a fila
+C 0x83BF historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x83C7 bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
+C 0x83CA historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
+C 0x83D1 cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
+C 0x83D5 cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+C 0x8406 lee_byte: A = el byte A de la tabla HL
 C 0x8438 lee_palabra: HL = la palabra A de la tabla HL
 C 0x843E carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x8443 copia_con_vuelta_ce00: copia caracteres con espejo usando el bufer de 0xCE00 (lista IX)
 C 0x8450 lee_palabra: HL = la palabra A de la tabla HL
 C 0x8456 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x845C la escena A en la tabla de 0x89D2: destino (DE), filas (B) y columnas (C)
+C 0x8462 copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 C 0x846B suma_a_hl: HL = HL + A
 C 0x847C lee_palabra: HL = la palabra A de la tabla HL
-C 0x84C1 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x8480 cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
+C 0x84C4 cada cuadro, saliendo: se mueven, sale otra y a los sprites (p28:BC08)
 C 0x84C7 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-C 0x84CB bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x84CE el RLE de 0xBE3B, con su direccion (p28:BE34)
 C 0x84D1 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-C 0x84D5 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
 C 0x84DB bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-C 0x84DF bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x84E2 se mueven: las que salen de la pantalla (y desde 0xC0, x fuera) se quitan (p28:BD0F)
 C 0x84E5 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-C 0x84E9 bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+C 0x84EC las estrellas a los sprites desde 0xEF20: las que no tapa nada (IX+0B a 0) (p28:BDEC)
 C 0x84EF bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-C 0x84F3 bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
+C 0x84F6 llenado_con_pausas: empieza a llenar fila a fila con pausas la lista HL con el byte C
 C 0x84F9 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-C 0x84FD bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
+C 0x8500 llenado_con_pausas_cuadro: el llenado con pausas, un cuadro
 C 0x8503 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 C 0x8506 lee el llenado fila a fila en marcha
-C 0x850B bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
+C 0x850E borrado_empieza: empieza a borrar fila a fila la lista HL
 C 0x8511 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-C 0x8515 bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
+C 0x8518 borrado_cuadro: el borrado fila a fila, cada 4 cuadros
 C 0x851B bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 C 0x851E lee el borrado fila a fila en marcha
+C 0x8528 paleta_de_la_fase: la paleta de p16:67AE
 C 0x852D color_del_borde: B al registro 7 del VDP
 C 0x8530 pantalla_en_blanco: borra la tabla de nombres (0x3800)
+C 0x8533 los colores y los dibujos a cero (0x1800 bytes cada uno)
+C 0x8536 sprites_fuera: los atributos de sprite de 0xEF00 a 0xE0: fuera de la pantalla
+C 0x8539 sprites_a_vram_tal_cual: los 32 sprites a la VRAM (0x3B00) tal cual
 C 0x8541 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
 C 0x8548 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 C 0x854B bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x854E bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
 C 0x8554 apunta a los enemigos (12 de 0x40)
 C 0x8557 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 C 0x855A apunta a los enemigos (12 de 0x40)
-C 0x8575 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
+C 0x8563 copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
+C 0x8571 bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
 C 0x857C carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 C 0x8583 copia_con_vuelta: copia caracteres de la VRAM dandoles la vuelta (lista IX)
 C 0x858C rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x858F bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
+C 0x8592 bufer_c400_a_cero: el bufer de 0xC400 a cero (0x580 bytes)
+C 0x8599 bufer_c400_a_vram: el bufer de 0xC400 a la tabla de nombres (22 filas)
 C 0x85A0 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x85E7 copia B filas de C bytes de HL a DE, con filas de 0x40
+C 0x85FB copia B filas de C bytes de HL a DE, con filas de 0x40
+C 0x861E copia B filas de C bytes de HL a DE, con filas de 0x40
+C 0x8632 copia B filas de C bytes de HL a DE, con filas de 0x40
 C 0x863F orden_83_y_sonido_51: manda la orden 0x83 al motor y pide el sonido 0x51
-C 0x866F bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
+C 0x865A copia B filas de C bytes de HL a DE, con filas de 0x40
+C 0x8665 aparicion_empieza: empieza la aparicion poco a poco de las listas de HL
+C 0x8672 aparicion_cuadro: la aparicion poco a poco, un cuadro
 C 0x8675 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 C 0x8678 lee la aparicion poco a poco en marcha (1 o 2)
 C 0x8687 apunta a los enemigos (12 de 0x40)
 C 0x868A rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
-C 0x8733 bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
+C 0x86A4 el dibujo de abajo (p30:892E en 0xE800): dos bytes en 0xEBB0 + 0x0E y 3 x 0x10 una fila mas abajo
+C 0x86AC la lista HL aparece fila a fila con el byte C (p26:7978)
+C 0x86CB la lista HL aparece fila a fila con el byte C (p26:7978)
+C 0x86DA la lista HL aparece fila a fila con el byte C (p26:7978)
+C 0x86E9 la lista HL aparece fila a fila con el byte C (p26:7978)
+C 0x8716 borra B filas de C bytes desde DE, con filas de 0x40
+C 0x8723 el dibujo de abajo (p30:892E en 0xE800): dos bytes en 0xEBB0 + 0x0E y 3 x 0x10 una fila mas abajo
+C 0x872B bufer_c400_a_vram: el bufer de 0xC400 a la tabla de nombres (22 filas)
+C 0x8736 llenado_empieza: empieza a llenar fila a fila la lista HL con el byte C
 C 0x8739 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-C 0x873D bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
+C 0x8740 llenado_cuadro: el llenado fila a fila, cada 4 cuadros
 C 0x8743 bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 C 0x8746 lee el llenado fila a fila en marcha
-C 0x875F lee la cuenta de cuadros del juego
-C 0x87A6 lee la cuenta de cuadros del juego
+C 0x8767 lee_byte: A = el byte A de la tabla HL
+C 0x8798 borra B filas de C bytes desde DE, con filas de 0x40
+C 0x87A2 borra B filas de C bytes desde DE, con filas de 0x40
+C 0x87C0 una columna: 6 filas de la tabla (0x1C por fila) al bufer (0x40), sin los 0
 C 0x87CA suma_a_hl: HL = HL + A
 C 0x87D1 suma_a_de: DE = DE + A
+C 0x87D4 una columna: 6 filas de la tabla (0x1C por fila) al bufer (0x40), sin los 0
 C 0x87E1 apunta a los atributos de sprite (32 x 4)
 C 0x87FA suma_a_hl: HL = HL + A
 C 0x87FF suma_a_de: DE = DE + A
 C 0x8808 apunta a los enemigos (12 de 0x40)
 C 0x880B rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 C 0x8816 apunta a los enemigos (12 de 0x40)
+C 0x882B copia B filas de C bytes de HL a DE, con filas de 0x40
 # --- fin de las anotaciones de anota.py ---

@@ -735,8 +735,12 @@ C 0x6145 guarda el jefe vencido (1, o 2 en la fase 4)
 C 0x6148 guarda 1 al vencer al jefe
 C 0x6169 lee 1 al llegar al final del scroll
 C 0x6182 apunta a la posicion del scroll (16 bits)
+C 0x618E 0xE365, al paso siguiente
 C 0x61A0 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x61AE 0xE365, al paso siguiente
+C 0x61BA 0xE365, al paso siguiente
 C 0x61CB lee 1 al llegar al final del scroll
+C 0x61D0 0xE365, al paso siguiente
 C 0x61DE guarda el jefe vencido (1, o 2 en la fase 4)
 C 0x61E4 guarda el final del scroll de la fase (16 bits)
 C 0x61F1 guarda 1: el final del juego (al estado 10)
@@ -746,6 +750,7 @@ C 0x6210 sonido_0A: pide el sonido 0x0A
 C 0x6228 guarda un temporizador
 C 0x6233 lee el jefe de la fase 4 (0 a 3)
 C 0x6239 suma_a_hl: HL = HL + A
+C 0x623D sale el jefe L: 0xE445 y 0xE442 a 0
 C 0x624D guarda 1 al vencer al jefe
 C 0x625B guarda el paso del final de la fase
 C 0x6260 guarda un temporizador
@@ -753,10 +758,17 @@ C 0x6266 guarda un temporizador
 C 0x627A despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6289 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x62AE color_del_borde: B al registro 7 del VDP
+C 0x62B1 el bufer de 0xC400 a cero (0x600 bytes)
 C 0x62C6 lee la aparicion poco a poco en marcha (1 o 2)
+C 0x62CE sprites_fuera: los atributos de sprite de 0xEF00 a 0xE0: fuera de la pantalla
+C 0x62D5 sprites_a_vram: los sprites a la VRAM (0x3B00), rotando los que se pintan
 C 0x62DC despacha: salta a la palabra A de la tabla que va detras del call
 C 0x62EE guarda la posicion del scroll (16 bits)
+C 0x62F4 aparicion_empieza: empieza la aparicion poco a poco de las listas de HL
+C 0x62FA la pantalla entera al empezar la fase: 32 columnas del mapa hacia atras desde el scroll (p00:5236)
+C 0x62FD cuantas fichas de 0xED00 hay en uso (de las 8 de 0x20, desde la ultima) en 0xE4B1
 C 0x6306 bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
+C 0x6309 donde van las opciones, por el tipo (0xE37E): 0 detras, 1 fijas, 2 girando (p04:85C9)
 C 0x630F bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x631B lee la aparicion poco a poco en marcha (1 o 2)
 C 0x6324 guarda la secuencia en marcha (p01:6274)
@@ -765,49 +777,83 @@ C 0x635F apunta a los disparos de la nave (9 de 0x20)
 C 0x636C apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 C 0x637F guarda la y de la nave (el primer byte de su sprite, p01:797C)
 C 0x6387 guarda la x de la nave
+C 0x639A la distancia a la nave (0xE604 la y, 0xE606 la x)
+C 0x63E3 niega_de: DE = -DE
+C 0x63F6 niega_de: DE = -DE
 C 0x6405 lee la x de la nave
 C 0x6441 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
+C 0x6447 lee_byte: A = el byte A de la tabla HL
 C 0x644D devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
+C 0x646B multiplica: HL = H x E
 C 0x6530 sonido_28: pide el sonido 0x28
+C 0x6536 suma_puntos: suma DE (BCD) a los puntos
+C 0x658C se quita el enemigo: uno menos (0xE462)
+C 0x65A0 una aparicion en la ficha de IX
+C 0x65B2 A esta en las 4 de 0xE507 (de 3 en 3)? (NC si esta)
 C 0x65EA bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
+C 0x65ED el disparo 0x0F (lo de p01:65CB): 0x1E cuadros, caja 0x18, el dibujo 0x30 (p04:9257)
 C 0x65F0 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x65FA apunta a las piezas (8 de 0x20)
 C 0x661F lee el tipo del disparo (0: libre)
+C 0x6623 contra una de 0xED00: con caja propia (IX+0D) o con la de IX+09/IX+0A
 C 0x6640 suma_a_hl: HL = HL + A
+C 0x66D7 una aparicion en una ficha libre, guardando IX
+C 0x66F8 suma_puntos: suma DE (BCD) a los puntos
 C 0x6707 lee_palabra: HL = la palabra A de la tabla HL
+C 0x6723 una explosion grande en DE (E la y, D la x): dentro de la pantalla
 C 0x672C sonido_22: pide el sonido 0x22
 C 0x6731 sonido_26: pide el sonido 0x26
 C 0x6789 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
+C 0x67B8 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0x67E4 lee la x de la nave
 C 0x6836 lee la x de la nave
 C 0x688F lee la y de la nave (el primer byte de su sprite, p01:797C)
 C 0x6895 lee la x de la nave
+C 0x68E8 dibujos_de_sprite: los dibujos de sprite de p14:7055 (RLE) en 0x1800
 C 0x68ED guarda los golpes que le quedan al escudo
 C 0x68F1 guarda el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
+C 0x68FA 0xE43B a cero y el marcador (p04:967B)
 C 0x68FD bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x690C lee la x de la nave
 C 0x695C mata_la_nave: la nave estalla: 0xFF en 0xE600
 C 0x695F bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x696D lee el tipo del enemigo (0: libre)
+C 0x6A10 suma_puntos: suma DE (BCD) a los puntos
+C 0x6A16 las 8 casillas en 0x3AC2, de dos caracteres (p04:957D)
 C 0x6A1C bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
+C 0x6A25 suma_puntos: suma DE (BCD) a los puntos
 C 0x6A33 lee el tipo del enemigo (0: libre)
 C 0x6A8B lee la fase (1 a 11)
+C 0x6AA7 la opcion de IY contra los enemigos del tipo 3
+C 0x6AB1 la opcion de IY contra los enemigos del tipo 3
+C 0x6AB4 la opcion se pierde: p04:9660 y el sonido 0x31
 C 0x6ABC bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
+C 0x6ABF una opcion menos (0xE608) y el marcador (p04:9660)
 C 0x6AC2 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x6AC5 sonido_31: pide el sonido 0x31
 C 0x6ADC apunta a los enemigos (12 de 0x40)
 C 0x6AE7 lee el tipo del enemigo (0: libre)
 C 0x6AEE lee la y del enemigo
 C 0x6B3E lee el tipo del disparo (0: libre)
+C 0x6B6E HL = el punto debil: (IX+13 + IX+3, IX+14 + IX+5), la y en L y la x en H
+C 0x6BAE una bala hacia la nave desde DE (8 mas abajo) (p02:855E)
 C 0x6BCA guarda el jefe vencido (1, o 2 en la fase 4)
+C 0x6BD0 suma_puntos: suma DE (BCD) a los puntos
 C 0x6BD9 lee el jefe de la fase 4 (0 a 3)
+C 0x6BE8 si ya se ha cogido (0xE38B + tipo), no sale (p02:80D6)
 C 0x6BF2 guarda el jefe vencido (1, o 2 en la fase 4)
 C 0x6C06 bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
+C 0x6C09 el disparo 0x0F (lo de p01:65CB): 0x1E cuadros, caja 0x18, el dibujo 0x30 (p04:9257)
 C 0x6C0C bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x6C24 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x6C62 lee_palabra: HL = la palabra A de la tabla HL
 C 0x6C6B escribe_letras: escribe en la VRAM de HL las letras de DE
 C 0x6C70 guarda el marcador cambiado (pausa, mensajes)
+C 0x6CEB el objeto de IX se acaba (p02:8000)
+C 0x6D12 la cabecera GOFE1 (17 bytes de p01:6D54) a 0xEF80
+C 0x6D1A el objeto de IX se acaba (p02:8000)
+C 0x6D20 la cabecera GOFE2 (p01:6D65) a 0xEF80
+C 0x6D28 el objeto de IX se acaba (p02:8000)
 C 0x6D32 lee la ranura del cartucho
 C 0x6D95 guarda la ranura del Game Master 2 (0xFF: no hay)
 C 0x6DB9 lee la ranura del Game Master 2 (0xFF: no hay)
@@ -817,9 +863,12 @@ C 0x6DD2 lee_palabra: HL = la palabra A de la tabla HL
 C 0x6DD9 suma_a_hl: HL = HL + A
 C 0x6DFB apunta a las balas (10 de 0x10)
 C 0x6E20 lee la x del enemigo
+C 0x6E35 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0x6E63 suma_a_hl: HL = HL + A
+C 0x6E7A el sitio de HL en el bufer, recortando B a lo que cabe en la fila
 C 0x6E9F suma_a_hl: HL = HL + A
 C 0x6EA5 suma_a_de: DE = DE + A
+C 0x6EAC el sitio en el bufer (una fila mas arriba con 0xEF90)
 C 0x6EC7 suma_a_de: DE = DE + A
 C 0x6EDE lee_palabra: HL = la palabra A de la tabla HL
 C 0x6EE5 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
@@ -830,42 +879,67 @@ C 0x6F3A bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x6F5C apunta a cuantos enemigos hay
 C 0x6F62 apunta a los enemigos de la oleada que faltan
 C 0x6F7B lee el jefe en curso (0: ninguno)
+C 0x6F92 con el 19, el byte de la tabla DE de la fase para la columna del scroll / 32
+C 0x6FA9 el enemigo A (1 a 15, 0 nada) por la tabla de detras
 C 0x6FAF despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6FCE lee la fase (1 a 11)
 C 0x6FE4 suma_a_de: DE = DE + A
 C 0x6FE8 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x7029 apunta a los enemigos de la oleada que faltan
 C 0x703F lee la posicion del scroll (16 bits)
+C 0x7048 con el 19, el byte de la tabla DE de la fase para la columna del scroll / 32
 C 0x7053 guarda la oleada: 0 ninguna, 1 empieza, 2 sale y el byte siguiente (16 bits)
 C 0x7062 guarda la y de la oleada
 C 0x7067 guarda los enemigos de la oleada que faltan
+C 0x7070 A esta en las 4 de 0xE507 (de 3 en 3)? (NC si esta)
 C 0x7076 guarda la oleada: 0 ninguna, 1 empieza, 2 sale
 C 0x707B lee el tipo de la oleada
 C 0x7091 lee los enemigos de la oleada que faltan
 C 0x709C lee el tipo de la oleada
+C 0x70DF lee_byte: A = el byte A de la tabla HL
 C 0x710B lee 1 si este cuadro hay scroll
 C 0x7112 guarda la x de lo que aparece (la columna nueva)
 C 0x711E lee la aparicion siguiente de la lista de la fase
+C 0x7124 la entrada A de la lista de apariciones de la fase (HL + 2 x (fase - 1))
 C 0x7127 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x714B lee la fase (1 a 11)
+C 0x716C la entrada 0xE47B de la lista de p19:A000 de la fase (p01:71BD)
 C 0x7172 apunta a la entrada siguiente de la lista de p19:A000
 C 0x717E lee 1 si este cuadro hay scroll
 C 0x7185 guarda la x de lo que aparece (la columna nueva)
+C 0x7194 con el 19: la entrada A de 4 bytes de la lista de la fase (tabla DE + 2 x (fase - 1))
 C 0x71C6 lee la fase (1 a 11)
 C 0x71CA lee_palabra: HL = la palabra A de la tabla HL
 C 0x71DA bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x71E6 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x721B suma_a_hl: HL = HL + A
+C 0x7224 una aparicion (A el tipo, E la y y D la x, B y C): los datos (p01:7674)
 C 0x722D lee la posicion del scroll (16 bits)
+C 0x7260 lee_byte: A = el byte A de la tabla HL
+C 0x726B lee_byte: A = el byte A de la tabla HL
+C 0x727A una aparicion (A el tipo, E la y y D la x, B y C): los datos (p01:7674)
+C 0x72AA lee_byte: A = el byte A de la tabla HL
+C 0x72B0 un byte de 0x70E5 por turno (0xE466 & 0x0F)
 C 0x72C5 lee la posicion del scroll (16 bits)
+C 0x72EE la posicion al azar (registro R): por arriba o por la derecha
 C 0x7315 lee la dificultad de la fase (0 a 0x0F)
+C 0x7327 lee_byte: A = el byte A de la tabla HL
+C 0x732D C = 1 una vez de cada cuatro (azar)
+C 0x7361 la posicion siguiente de la tabla de 0x7376
+C 0x7373 lee_palabra_de: DE = la palabra A de la tabla DE
 C 0x73A3 lee la dificultad de la fase (0 a 0x0F)
 C 0x73D2 lee la posicion del scroll (16 bits)
 C 0x73F9 lee la dificultad de la fase (0 a 0x0F)
+C 0x7414 la x siguiente de la tabla de 0x743A (0xE496 & 7)
+C 0x7419 una aparicion (A el tipo, E la y y D la x, B y C): los datos (p01:7674)
 C 0x7435 suma_a_hl: HL = HL + A
+C 0x7455 lo de su tipo (p01:7475)
 C 0x7479 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x756E dentro de la pantalla? (y < 0xA8, x < 0xF9: C)
+C 0x7572 se quita el enemigo: uno menos (0xE462)
 C 0x7582 lee la y del enemigo
 C 0x7588 lee la x del enemigo
+C 0x759B (HL) += (DE) en 16 bits
 C 0x75A7 lee la x del enemigo
 C 0x75BE lee 1 si este cuadro hay scroll
 C 0x75C3 lee la x del enemigo
@@ -874,9 +948,15 @@ C 0x75E1 lee los sprites del enemigo (bits 0-5; bit 6 de caracteres, bit 7 con s
 C 0x75EC apunta a cuantos sprites usan los enemigos (tope 12)
 C 0x75FD guarda los sprites del enemigo (bits 0-5; bit 6 de caracteres, bit 7 con sprites)
 C 0x7600 guarda las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll)
+C 0x760B A esta en las 4 de 0xE507 (de 3 en 3)? (NC si esta)
 C 0x761C lee el paso del enemigo
 C 0x762F lee el tipo del enemigo (0: libre)
+C 0x7633 se quita el enemigo: uno menos (0xE462)
+C 0x7636 la ficha del tipo: p19:A489 + 7 x tipo
+C 0x7641 la ficha del tipo: p19:A489 + 7 x tipo
+C 0x7649 una aparicion (A el tipo, E la y y D la x, B y C): los datos (p01:7674)
 C 0x7652 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
+C 0x7655 una aparicion en una ficha libre, guardando IX
 C 0x7658 devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
 C 0x7678 guarda el tipo de lo que aparece
 C 0x767C guarda B de lo que aparece
@@ -902,6 +982,7 @@ C 0x7726 lee el numero de oleada
 C 0x7738 guarda el dibujo del primer sprite del enemigo
 C 0x773D guarda el color del primer sprite del enemigo
 C 0x774A el color del primer sprite del enemigo = 0x08
+C 0x7757 A x 2: la palabra A (p00:4094)
 C 0x780D bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
 C 0x7812 bancos_19: pone el 19 (y sus copias en 0xF0F1-3)
 C 0x7818 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
@@ -909,21 +990,39 @@ C 0x7845 lee la dificultad de la fase (0 a 0x0F)
 C 0x784B suma_a_hl: HL = HL + A
 C 0x7868 lee la x del enemigo
 C 0x786E lee la velocidad en y hacia la nave (16 bits; IX+7 de quien la usa)
+C 0x7872 la velocidad en y (IX+7, 16 bits)
 C 0x7875 lee la velocidad en x hacia la nave (16 bits; IX+9 de quien la usa)
 C 0x788B lee la x del enemigo
+C 0x7899 0xE470: 1 si la nave esta mas arriba
+C 0x789E la direccion de 0xE476
 C 0x78A1 lee la velocidad en x hacia la nave (16 bits; IX+9 de quien la usa)
+C 0x78A5 la velocidad en x (IX+9)
 C 0x78A8 lee la velocidad en y hacia la nave (16 bits; IX+7 de quien la usa)
+C 0x78D7 la velocidad en x (IX+9)
+C 0x78E3 niega_de: DE = -DE
+C 0x78F3 niega_de: DE = -DE
 C 0x7901 apunta a las balas (10 de 0x10)
+C 0x7939 los 12 fuera (0xE0)
 C 0x793C apunta a los enemigos (12 de 0x40)
 C 0x7946 lee el tipo del enemigo (0: libre)
+C 0x7952 de caracteres (bit 6), nada; si no, tantos sprites como bits 0-5
+C 0x7955 los enemigos de caracteres (bit 6 de IX+0B) en el bufer
 C 0x79A6 bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
+C 0x79A9 pinta en el bufer IX+13 filas de IX+14 caracteres de 0xA29E (p05:A24A)
 C 0x79AC bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
+C 0x79B2 IX+14 caracteres del bufer, desde el sitio del enemigo, con el de IX+32
 C 0x79B8 bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
+C 0x79BB se pinta en el bufer: el caracter 0xE0 (0xEE) y la punta 0xE1 (0xEF) (p05:B70A)
 C 0x79BE bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
+C 0x79F1 su dibujo de caracteres: p08:BD4C, palabra IX+32
 C 0x79F5 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
+C 0x7A00 lee_palabra_de: DE = la palabra A de la tabla DE
+C 0x7A47 se borra del bufer (p05:B73D)
 C 0x7A4A bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x7A5F guarda cuantas piezas de 0xED00 estan en uso
 C 0x7A69 apunta a las piezas (8 de 0x20)
+C 0x7A6E en uso: lo de su tipo (p01:7AD0)
+C 0x7A7F por su tipo (tabla de detras)
 C 0x7A82 lee el tipo de la pieza (0: libre)
 C 0x7A96 lee 1 si este cuadro hay scroll
 C 0x7A9B mira el bit 2 de las marcas de la pieza
@@ -937,13 +1036,17 @@ C 0x7ACB pone a uno el bit 6 de las marcas de la pieza
 C 0x7AD1 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x7B4B bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
 C 0x7B6C bancos_19: pone el 19 (y sus copias en 0xF0F1-3)
+C 0x7B6F salta a HL
 C 0x7B72 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
+C 0x7B9E la pieza 0xE4B0 de la lista de la fase (p01:7C70)
 C 0x7BA4 apunta a la pieza siguiente de la lista de la fase
 C 0x7BB0 lee 1 si este cuadro hay scroll
 C 0x7BB7 guarda la x de lo que aparece (la columna nueva)
+C 0x7BBA la pieza 0xE4B0 de la lista de la fase (p01:7C70)
 C 0x7BD1 lee la x de lo que aparece (la columna nueva)
 C 0x7BE5 lee la copia del banco de 0x8000
 C 0x7BEB lee la copia del banco de 0xA000
+C 0x7BF7 crea una pieza (A el tipo, B, DE: E la y, D la x) en una ficha libre de las 8 de 0xED00
 C 0x7BFF guarda la copia del banco de 0x6000
 C 0x7C02 el mapper: pone en 0x6000 el banco de A
 C 0x7C08 guarda la copia del banco de 0x8000
@@ -958,25 +1061,45 @@ C 0x7C93 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x7C97 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x7D15 bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
 C 0x7D36 bancos_19: pone el 19 (y sus copias en 0xF0F1-3)
+C 0x7D39 salta a HL
 C 0x7D3C bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x7D45 bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
+C 0x7D48 el jefe: la parte de 0xEC00 por el jefe (tabla de detras) (p04:9D97)
 C 0x7D4B bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
+C 0x7D53 hay jefe? (0xE440 y la parte de 0xEC00 en uso: NZ)
+C 0x7D59 las 4 partes del jefe (0xEC00, 0xEC20, 0xEC40, 0xEC60): sus 3 dibujos de IX+7
+C 0x7DBA el dibujo A de los jefes a 0xCA00, con 6 y 7: comprimido o no segun el bit A de p06:8465
+C 0x7DBD el dibujo de 0xCA00 en el bufer, recortado (p01:7E7F): con transparencia en el jefe 7
 C 0x7DD1 lee el jefe en curso (0: ninguno)
 C 0x7DDE bancos_6_7: pone los bancos 6-7 (y sus copias en 0xF0F1-3)
 C 0x7DEA suma_a_hl: HL = HL + A
+C 0x7DF9 la direccion del dibujo A (p06:82B9 + 2 x A), destino 0xCA00
 C 0x7E0F bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
+C 0x7E14 la direccion del dibujo A (p06:82B9 + 2 x A), destino 0xCA00
 C 0x7E17 rle_a_ram: descomprime a la RAM de DE el RLE de HL
 C 0x7E1C bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x7E2B apunta a un bufer de trabajo
 C 0x7E33 lee el jefe en curso (0: ninguno)
+C 0x7E41 las 4 partes del jefe (0xEC00, 0xEC20, 0xEC40, 0xEC60): sus 3 dibujos de IX+7
+C 0x7E4C el dibujo A de los jefes a 0xCA00, con 6 y 7: comprimido o no segun el bit A de p06:8465
 C 0x7E4F apunta a un bufer de trabajo
 C 0x7E57 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
+C 0x7E66 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0x7EC7 lee las partes del jefe (4 de 0x20)
+C 0x7ECF una bala libre de las 10 de 0xEB00 (p02:8580)
 C 0x7ED2 bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
+C 0x7ED8 apuntando a la nave en la de enmedio (IX+1F = C) (p02:995D)
 C 0x7EDE bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
+C 0x7EF0 niega_de: DE = -DE
+C 0x7F00 niega_de: DE = -DE
+C 0x7F12 niega_de: DE = -DE
+C 0x7F4A niega_de: DE = -DE
 C 0x7F76 lee la posicion del scroll (16 bits)
+C 0x7F8C lee_byte: A = el byte A de la tabla HL
 C 0x7F8F guarda el dibujo del primer sprite del enemigo
 C 0x7FB2 apunta a la cuenta de cuadros del juego
 C 0x7FBA lee la x del enemigo
+C 0x7FBD sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0x7FC0 lee el caracter del fondo de la fase
+C 0x7FD9 la animacion (p01:7FF4)
 # --- fin de las anotaciones de anota.py ---

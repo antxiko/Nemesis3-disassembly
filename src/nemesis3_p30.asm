@@ -23,14 +23,14 @@ l841fh:	equ 0x0841f
 
 
 L_8000:
-	jp L_8009		;8000
+	jp L_8009		;8000   ; las entradas del banco: la historia (p00:4371)
 L_8003:
-	jp L_8523		;8003
+	jp L_8523		;8003   ; el titulo (p00:42F9)
 L_8006:
-	jp L_8596		;8006
+	jp L_8596		;8006   ; el titulo, cada cuadro (p00:431B)
 L_8009:
-	call 05de9h		;8009
-	call 05985h		;800c
+	call 05de9h		;8009   ; la historia, cada cuadro: los sprites y la pantalla a la VRAM; por el paso (0xE32F)
+	call 05985h		;800c   ; bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
 	ld bc,(0e32fh)		;800f
 	ld a,c			;8013
 	call 04093h		;8014   ; despacha: salta a la palabra A de la tabla que va detras del call
@@ -47,21 +47,21 @@ DATA_tabla_8017:
 ; ======================================================================
 
 
-L_801D:
-	ld hl,0e32fh		;801d
+historia_paso_siguiente:		; el paso siguiente de la historia (0xE32F)
+	ld hl,0e32fh		;801d   ; el paso siguiente (0xE32F), con el subpaso a 0
 	inc (hl)			;8020
 	inc hl			;8021
 	ld (hl),000h		;8022
 	ret			;8024
-L_8025:
-	ld hl,0e330h		;8025
+historia_subpaso_siguiente:		; el subpaso siguiente de la historia (0xE330)
+	ld hl,0e330h		;8025   ; el subpaso siguiente (0xE330)
 	inc (hl)			;8028
 	ret			;8029
 L_802A:
-	push bc			;802a
+	push bc			;802a   ; paso 0, las guerras de antes: desde el subpaso 1 las estrellas salen (p28:BC08); por el subpaso
 	inc b			;802b
 	dec b			;802c
-	call nz,L_84C1		;802d
+	call nz,estrellas_salen		;802d   ; estrellas_salen: las estrellas salen (p28:BC08)
 	pop bc			;8030
 	ld a,b			;8031
 	call 04093h		;8032   ; despacha: salta a la palabra A de la tabla que va detras del call
@@ -80,69 +80,69 @@ DATA_tabla_8035:
 
 
 L_8043:
-	xor a			;8043
-	call 05709h		;8044
-	call L_84CB		;8047
-	call L_84D5		;804a
+	xor a			;8043   ; subpaso 0: la paleta 0, las estrellas (p28:BE34 y BBEE), el sonido 0x4A y la cuenta a cero
+	call 05709h		;8044   ; paleta: la paleta A de p16:6B74
+	call L_84CB		;8047   ; las estrellas del fondo (p28:BE34)
+	call L_84D5		;804a   ; que salgan del centro (p28:BBEE)
 	call 05806h		;804d   ; sonido_4A: pide el sonido 0x4A
-	call 05730h		;8050
-	call L_8025		;8053
+	call 05730h		;8050   ; cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+	call historia_subpaso_siguiente		;8053   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;8056
 L_8057:
-	ld de,00100h		;8057
-	call 05737h		;805a
+	ld de,00100h		;8057   ; subpaso 1: a los 0x100 cuadros, la secuencia 0 (p26:6114) y p30:8419
+	call 05737h		;805a   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 	ret c			;805d
-	call 05730h		;805e
+	call 05730h		;805e   ; cuenta_e339_a_cero: la cuenta de 0xE339 a cero
 	xor a			;8061
-	call 04818h		;8062
-	call L_8419		;8065
-	call L_8025		;8068
+	call 04818h		;8062   ; secuencia_empieza: empieza la secuencia de dibujos A (p26:6114, con los bancos 26-27-28)
+	call historia_colores_empiezan		;8065   ; historia_colores_empiezan: los colores de la secuencia desde el principio
+	call historia_subpaso_siguiente		;8068   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;806b
 L_806C:
-	call 04821h		;806c
+	call 04821h		;806c   ; subpaso 2: la secuencia cada cuadro; mientras siga, p30:83EB
 	ld a,(0e5cah)		;806f
 	or a			;8072
 	jr z,L_8079		;8073
-	call L_83EB		;8075
+	call historia_colores		;8075   ; historia_colores: los colores de la secuencia, cada 7 cuadros
 	ret			;8078
 L_8079:
-	call L_8025		;8079
+	call historia_subpaso_siguiente		;8079   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;807c
 L_807D:
-	ld de,00180h		;807d
-	call 05737h		;8080
+	ld de,00180h		;807d   ; subpaso 3: a los 0x180 cuadros, el bufer a cero
+	call 05737h		;8080   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 	ret c			;8083
-	call 05730h		;8084
-	call 05959h		;8087
-	call L_8025		;808a
+	call 05730h		;8084   ; cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+	call 05959h		;8087   ; bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
+	call historia_subpaso_siguiente		;808a   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;808d
 L_808E:
-	ld de,00100h		;808e
-	call 05737h		;8091
+	ld de,00100h		;808e   ; subpaso 4: a los 0x100, la orden 0x84
+	call 05737h		;8091   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 	ret c			;8094
-	call 05730h		;8095
+	call 05730h		;8095   ; cuenta_e339_a_cero: la cuenta de 0xE339 a cero
 	call 05951h		;8098   ; orden_sonido_84: manda la orden 0x84 al motor de sonido
-	call 05730h		;809b
-	call L_8025		;809e
+	call 05730h		;809b   ; cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+	call historia_subpaso_siguiente		;809e   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;80a1
 L_80A2:
-	ld de,00180h		;80a2
-	call 05737h		;80a5
+	ld de,00180h		;80a2   ; subpaso 5: a los 0x180, la orden 0x83 y el sonido 1
+	call 05737h		;80a5   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 	ret c			;80a8
-	call 05730h		;80a9
+	call 05730h		;80a9   ; cuenta_e339_a_cero: la cuenta de 0xE339 a cero
 	call 0594dh		;80ac   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
 	call 057eah		;80af   ; sonido_01: pide el sonido 0x01
-	jp L_8025		;80b2
+	jp historia_subpaso_siguiente		;80b2   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 L_80B5:
-	ld de,00120h		;80b5
-	call 05737h		;80b8
+	ld de,00120h		;80b5   ; subpaso 6: a los 0x120, el sonido 0x3E y al paso 1
+	call 05737h		;80b8   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 	ret c			;80bb
-	call 05730h		;80bc
+	call 05730h		;80bc   ; cuenta_e339_a_cero: la cuenta de 0xE339 a cero
 	call 05802h		;80bf   ; sonido_3E: pide el sonido 0x3E
-	call L_801D		;80c2
+	call historia_paso_siguiente		;80c2   ; historia_paso_siguiente: el paso siguiente de la historia (0xE32F)
 	ret			;80c5
 L_80C6:
-	ld a,b			;80c6
+	ld a,b			;80c6   ; paso 1, las escenas: por el subpaso, con las estrellas
 	call 04093h		;80c7   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -159,18 +159,18 @@ DATA_tabla_80CA:
 
 
 L_80D6:
-	call L_84C1		;80d6
+	call estrellas_salen		;80d6   ; subpaso 0: la escena 0 (0xE335)
 	xor a			;80d9
 	ld (0e335h),a		;80da
-	call L_8025		;80dd
+	call historia_subpaso_siguiente		;80dd   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;80e0
 L_80E1:
-	call L_84C1		;80e1
-	call L_8476		;80e4
+	call estrellas_salen		;80e1   ; subpaso 1: al acabar su tiempo (p30:8476), la siguiente (p30:8432), hasta la 0x1F
+	call L_8476		;80e4   ; C mientras la cuenta 0xE339 no llegue al tiempo de la escena (tabla de 0x8483)
 	ret c			;80e7
-	call 05730h		;80e8
-	call 05959h		;80eb
-	call 05985h		;80ee
+	call 05730h		;80e8   ; cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+	call 05959h		;80eb   ; bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
+	call 05985h		;80ee   ; bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
 	ld hl,0e335h		;80f1
 	inc (hl)			;80f4
 	ld a,(hl)			;80f5
@@ -179,51 +179,51 @@ L_80E1:
 	call L_8432		;80fa
 	ret			;80fd
 L_80FE:
-	call L_8025		;80fe
+	call historia_subpaso_siguiente		;80fe   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;8101
 L_8102:
-	call L_84C1		;8102
+	call estrellas_salen		;8102   ; subpaso 2: a los 0xA8 cuadros, la secuencia 1 (la cronologia) y p30:8419
 	ld de,000a8h		;8105
-	call 05737h		;8108
+	call 05737h		;8108   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 	ret c			;810b
-	call 05730h		;810c
+	call 05730h		;810c   ; cuenta_e339_a_cero: la cuenta de 0xE339 a cero
 	ld a,001h		;810f
-	call 04818h		;8111
-	call L_8419		;8114
-	call L_8025		;8117
+	call 04818h		;8111   ; secuencia_empieza: empieza la secuencia de dibujos A (p26:6114, con los bancos 26-27-28)
+	call historia_colores_empiezan		;8114   ; historia_colores_empiezan: los colores de la secuencia desde el principio
+	call historia_subpaso_siguiente		;8117   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;811a
 L_811B:
-	call L_84C1		;811b
-	call 04821h		;811e
+	call estrellas_salen		;811b   ; subpaso 3: la secuencia cada cuadro; al acabar, el bufer a cero
+	call 04821h		;811e   ; secuencia_cuadro: la secuencia de dibujos, un cuadro (p26:6135)
 	ld a,(0e5cah)		;8121
 	or a			;8124
 	jr z,L_812B		;8125
-	call L_83EB		;8127
+	call historia_colores		;8127   ; historia_colores: los colores de la secuencia, cada 7 cuadros
 	ret			;812a
 L_812B:
-	call 05959h		;812b
-	call L_8025		;812e
+	call 05959h		;812b   ; bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
+	call historia_subpaso_siguiente		;812e   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;8131
 L_8132:
-	call L_84C1		;8132
+	call estrellas_salen		;8132   ; subpaso 4: 0x240 cuadros
 	ld de,00240h		;8135
-	call 05737h		;8138
+	call 05737h		;8138   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 	ret c			;813b
-	call 05730h		;813c
-	call L_8025		;813f
+	call 05730h		;813c   ; cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+	call historia_subpaso_siguiente		;813f   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;8142
 L_8143:
-	call L_84DF		;8143
-	call L_84E9		;8146
+	call L_84DF		;8143   ; subpaso 5: las estrellas entran (p28:BD0F, BDEC); a los 0x100, los sprites fuera y al paso 2
+	call L_84E9		;8146   ; a los sprites (p28:BDEC)
 	ld de,00100h		;8149
-	call 05737h		;814c
+	call 05737h		;814c   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 	ret c			;814f
-	call 05730h		;8150
-	call 05648h		;8153
-	call L_801D		;8156
+	call 05730h		;8150   ; cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+	call 05648h		;8153   ; sprites_fuera: los atributos de sprite de 0xEF00 a 0xE0: fuera de la pantalla
+	call historia_paso_siguiente		;8156   ; historia_paso_siguiente: el paso siguiente de la historia (0xE32F)
 	ret			;8159
 L_815A:
-	ld a,b			;815a
+	ld a,b			;815a   ; paso 2, la nave y los suyos: por el subpaso
 	call 04093h		;815b   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -243,30 +243,30 @@ DATA_tabla_815E:
 
 
 L_818C:
-	ld a,002h		;818c
-	call 04818h		;818e
+	ld a,002h		;818c   ; subpaso 0: la secuencia 2 y la pantalla aparece con pausas (desde el trozo 0 en japones, 0x20 en ingles)
+	call 04818h		;818e   ; secuencia_empieza: empieza la secuencia de dibujos A (p26:6114, con los bancos 26-27-28)
 	ld hl,0c400h		;8191   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 	ld c,0f0h		;8194
-	call 05636h		;8196
+	call 05636h		;8196   ; bios_japonesa: Z si la BIOS es japonesa (0x002B & 0x0F = 0)
 	ld a,000h		;8199
 	jr z,L_819F		;819b
 	ld a,020h		;819d
 L_819F:
-	call L_84F3		;819f
-	call L_8025		;81a2
+	call aparece_con_pausas		;819f   ; aparece_con_pausas: la lista HL aparece fila a fila con pausas
+	call historia_subpaso_siguiente		;81a2   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;81a5
 L_81A6:
-	call L_84FD		;81a6
+	call aparece_con_pausas_cuadro		;81a6   ; subpaso 1: hasta que aparezca
 	ret nz			;81a9
-	call L_8025		;81aa
+	call historia_subpaso_siguiente		;81aa   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;81ad
 L_81AE:
-	ld de,00414h		;81ae
-	call 05737h		;81b1
+	ld de,00414h		;81ae   ; subpaso 2: a los 0x414 cuadros, se borra lo de 0x81BF
+	call 05737h		;81b1   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 	ret c			;81b4
 	ld hl,081bfh		;81b5
-	call L_850B		;81b8
-	call L_8025		;81bb
+	call borra_fila_a_fila		;81b8   ; borra_fila_a_fila: la lista HL se borra fila a fila
+	call historia_subpaso_siguiente		;81bb   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;81be
 
 ; ----------------------------------------------------------------------
@@ -283,47 +283,47 @@ DATA_resto_81BF:
 
 
 L_81C3:
-	call L_8515		;81c3
+	call borra_fila_a_fila_cuadro		;81c3   ; subpaso 3: al acabar, el bufer a cero
 	ret nz			;81c6
-	call 05959h		;81c7
-	call L_8025		;81ca
+	call 05959h		;81c7   ; bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
+	call historia_subpaso_siguiente		;81ca   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;81cd
 L_81CE:
-	ld de,00494h		;81ce
-	call 05737h		;81d1
+	ld de,00494h		;81ce   ; subpaso 4: a los 0x494, la secuencia 3 y la pantalla aparece desde el trozo 0x80
+	call 05737h		;81d1   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 	ret c			;81d4
-	call 05730h		;81d5
+	call 05730h		;81d5   ; cuenta_e339_a_cero: la cuenta de 0xE339 a cero
 	ld a,003h		;81d8
-	call 04818h		;81da
+	call 04818h		;81da   ; secuencia_empieza: empieza la secuencia de dibujos A (p26:6114, con los bancos 26-27-28)
 	ld hl,0c400h		;81dd   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 	ld c,0f0h		;81e0
 	ld a,080h		;81e2
-	call L_84F3		;81e4
-	call L_8025		;81e7
+	call aparece_con_pausas		;81e4   ; aparece_con_pausas: la lista HL aparece fila a fila con pausas
+	call historia_subpaso_siguiente		;81e7   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;81ea
 L_81EB:
-	call L_84FD		;81eb
+	call aparece_con_pausas_cuadro		;81eb   ; subpaso 5: al acabar, la cuenta 0xE339 a cero (p00:5724) y la nave 0
 	ret nz			;81ee
-	call 05724h		;81ef
+	call 05724h		;81ef   ; cuenta_e333_a_cero: la cuenta de 0xE333 a cero
 	xor a			;81f2
 	ld (0e380h),a		;81f3   ; guarda la nave elegida (0 a 3)
-	call L_8025		;81f6
+	call historia_subpaso_siguiente		;81f6   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;81f9
 L_81FA:
-	ld de,000a8h		;81fa
-	call 0572bh		;81fd
+	ld de,000a8h		;81fa   ; subpaso 6: a los 0xA8 (p00:572B), el plano de la nave (p26:6FB0), su lista con el color de 0x8221 y su dibujo
+	call 0572bh		;81fd   ; cuenta_e333_llega: la cuenta de 0xE333 contra DE: C mientras no llega
 	ret c			;8200
-	call 05724h		;8201
+	call 05724h		;8201   ; cuenta_e333_a_cero: la cuenta de 0xE333 a cero
 	call 041cfh		;8204   ; bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
-	call 06fb0h		;8207
+	call 06fb0h		;8207   ; los colores del plano de la nave 0xE380 (tabla p28:B0FD) en 0x2100 y 0x2900 (p26:6FB0)
 	ld a,(0e380h)		;820a   ; lee la nave elegida (0 a 3)
 	ld hl,08221h		;820d
 	call 04089h		;8210   ; suma_a_hl: HL = HL + A
 	ld c,(hl)			;8213
 	call 06f89h		;8214
-	call 07069h		;8217
+	call 07069h		;8217   ; el dibujo de la nave 0xE380 (tabla de 0x7073, p26:6064) (p26:7069)
 	call 041dch		;821a   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-	call L_8025		;821d
+	call historia_subpaso_siguiente		;821d   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;8220
 
 ; ----------------------------------------------------------------------
@@ -342,32 +342,32 @@ DATA_tabla_8221:
 
 
 L_8225:
-	call 041cfh		;8225   ; bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
-	call 07a3dh		;8228
+	call 041cfh		;8225   ; subpaso 7: hasta que aparezca
+	call 07a3dh		;8228   ; llenado_cuadro: el llenado fila a fila, cada 4 cuadros
 	call 041dch		;822b   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ld a,(0e564h)		;822e   ; lee el llenado fila a fila en marcha
 	or a			;8231
 	ret nz			;8232
-	call L_8025		;8233
+	call historia_subpaso_siguiente		;8233   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;8236
 L_8237:
-	ld a,(0e380h)		;8237   ; lee la nave elegida (0 a 3)
+	ld a,(0e380h)		;8237   ; subpaso 8: a los 0xA8 (0x1A4 con la nave 3), se borra lo de 0x825F (0x8263 con la 3)
 	cp 003h		;823a
 	ld de,000a8h		;823c
 	jr nz,L_8244		;823f
 	ld de,001a4h		;8241
 L_8244:
-	call 0572bh		;8244
+	call 0572bh		;8244   ; cuenta_e333_llega: la cuenta de 0xE333 contra DE: C mientras no llega
 	ret c			;8247
-	call 05724h		;8248
+	call 05724h		;8248   ; cuenta_e333_a_cero: la cuenta de 0xE333 a cero
 	ld a,(0e380h)		;824b   ; lee la nave elegida (0 a 3)
 	cp 003h		;824e
 	ld hl,0825fh		;8250
 	jr nz,L_8258		;8253
 	ld hl,08263h		;8255
 L_8258:
-	call L_850B		;8258
-	call L_8025		;825b
+	call borra_fila_a_fila		;8258   ; borra_fila_a_fila: la lista HL se borra fila a fila
+	call historia_subpaso_siguiente		;825b   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;825e
 
 ; ----------------------------------------------------------------------
@@ -384,9 +384,9 @@ DATA_resto_825F:
 
 
 L_8267:
-	call L_8515		;8267
+	call borra_fila_a_fila_cuadro		;8267   ; subpaso 9: al acabar, el cuadro a cero y la nave siguiente; las cuatro: el bufer a cero
 	ret nz			;826a
-	call L_83DD		;826b
+	call L_83DD		;826b   ; 0xCA00-0xCBFF a cero
 	ld hl,0e380h		;826e   ; apunta a la nave elegida (0 a 3)
 	inc (hl)			;8271
 	ld a,(hl)			;8272
@@ -396,50 +396,50 @@ L_8267:
 	ld (0e330h),a		;8279
 	ret			;827c
 L_827D:
-	call 05959h		;827d
-	call L_8025		;8280
+	call 05959h		;827d   ; bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
+	call historia_subpaso_siguiente		;8280   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;8283
 L_8284:
-	ld de,007a8h		;8284
-	call 05737h		;8287
+	ld de,007a8h		;8284   ; subpaso 0x0A: a los 0x7A8, los sprites fuera, la consola con el contador de 0x6102 y la secuencia 4
+	call 05737h		;8287   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 	ret c			;828a
-	call 05730h		;828b
-	call 05648h		;828e
+	call 05730h		;828b   ; cuenta_e339_a_cero: la cuenta de 0xE339 a cero
+	call 05648h		;828e   ; sprites_fuera: los atributos de sprite de 0xEF00 a 0xE0: fuera de la pantalla
 	call 041cfh		;8291   ; bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
-	call 060dfh		;8294
+	call 060dfh		;8294   ; consola: la consola (p26:730A) con su animacion cada 8 cuadros
 	ld hl,06102h		;8297
-	call 060f9h		;829a
+	call 060f9h		;829a   ; contador_de_hl: las 6 cifras del contador de la consola, de HL
 	call 041dch		;829d   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ld a,004h		;82a0
-	call 04818h		;82a2
+	call 04818h		;82a2   ; secuencia_empieza: empieza la secuencia de dibujos A (p26:6114, con los bancos 26-27-28)
 	ld hl,0c400h		;82a5   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 	ld c,0f0h		;82a8
 	ld a,080h		;82aa
-	call L_84F3		;82ac
-	call L_8025		;82af
+	call aparece_con_pausas		;82ac   ; aparece_con_pausas: la lista HL aparece fila a fila con pausas
+	call historia_subpaso_siguiente		;82af   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;82b2
 L_82B3:
-	call 041cfh		;82b3   ; bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
-	call 07320h		;82b6
+	call 041cfh		;82b3   ; subpaso 0x0B: la consola hasta que aparezca
+	call 07320h		;82b6   ; consola_cuadro: la consola, un cuadro
 	call 041dch		;82b9   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-	call L_84FD		;82bc
+	call aparece_con_pausas_cuadro		;82bc   ; aparece_con_pausas_cuadro: lo mismo, un cuadro (NZ mientras siga)
 	ret nz			;82bf
-	call L_8025		;82c0
+	call historia_subpaso_siguiente		;82c0   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;82c3
 L_82C4:
-	call 041cfh		;82c4   ; bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
-	call 07320h		;82c7
+	call 041cfh		;82c4   ; subpaso 0x0C: a los 0x2C0, se borra lo de 0x82EA y los sprites de 0x82EE
+	call 07320h		;82c7   ; consola_cuadro: la consola, un cuadro
 	call 041dch		;82ca   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ld de,002c0h		;82cd
-	call 05737h		;82d0
+	call 05737h		;82d0   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 	ret c			;82d3
 	ld hl,082eah		;82d4
-	call L_850B		;82d7
+	call borra_fila_a_fila		;82d7   ; borra_fila_a_fila: la lista HL se borra fila a fila
 	call 041c7h		;82da   ; bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
 	ld hl,082eeh		;82dd
-	call 07913h		;82e0
+	call 07913h		;82e0   ; borrado_sprites_empieza: empieza a borrar fila a fila los sprites de HL
 	call 041dch		;82e3   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-	call L_8025		;82e6
+	call historia_subpaso_siguiente		;82e6   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;82e9
 
 ; ----------------------------------------------------------------------
@@ -457,32 +457,32 @@ DATA_resto_82EA:
 
 
 L_82F1:
-	call 041cfh		;82f1   ; bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
-	call 07320h		;82f4
+	call 041cfh		;82f1   ; subpaso 0x0D: la consola hasta que se borren; los sprites fuera y el bufer a cero
+	call 07320h		;82f4   ; consola_cuadro: la consola, un cuadro
 	call 041dch		;82f7   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	call 041c7h		;82fa   ; bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
-	call 078ach		;82fd
-	call 0791dh		;8300
+	call 078ach		;82fd   ; borrado_cuadro: el borrado fila a fila, cada 4 cuadros
+	call 0791dh		;8300   ; borrado_sprites_cuadro: el borrado de sprites, cada 4 cuadros
 	call 041dch		;8303   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ld a,(0e560h)		;8306   ; lee el borrado fila a fila en marcha
 	or a			;8309
 	ret nz			;830a
-	call 05648h		;830b
-	call 05959h		;830e
-	call L_8025		;8311
+	call 05648h		;830b   ; sprites_fuera: los atributos de sprite de 0xEF00 a 0xE0: fuera de la pantalla
+	call 05959h		;830e   ; bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
+	call historia_subpaso_siguiente		;8311   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;8314
 L_8315:
-	ld de,002f0h		;8315
-	call 05737h		;8318
+	ld de,002f0h		;8315   ; subpaso 0x0E: a los 0x2F0, la paleta 3, los graficos de p22:B40B, el dibujo de p22:B421 (8 x 0x0A en 0xCA8B) y la secuencia 5
+	call 05737h		;8318   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 	ret c			;831b
-	call 05730h		;831c
+	call 05730h		;831c   ; cuenta_e339_a_cero: la cuenta de 0xE339 a cero
 	ld a,003h		;831f
-	call 05709h		;8321
+	call 05709h		;8321   ; paleta: la paleta A de p16:6B74
 	call 041ach		;8324   ; bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
 	ld ix,0b40bh		;8327
 	call 04cb1h		;832b   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 	inc ix		;832e
-	call 04d17h		;8330
+	call 04d17h		;8330   ; copia_con_vuelta_ce00: copia caracteres con espejo usando el bufer de 0xCE00 (lista IX)
 	ld hl,0b421h		;8333
 	ld de,0cd00h		;8336
 	call 055cdh		;8339   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
@@ -490,91 +490,91 @@ L_8315:
 	ld de,0ca8bh		;833f
 	ld hl,0cd00h		;8342
 	ld bc,0080ah		;8345
-	call 059a1h		;8348
+	call 059a1h		;8348   ; copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 	ld a,005h		;834b
-	call 04818h		;834d
+	call 04818h		;834d   ; secuencia_empieza: empieza la secuencia de dibujos A (p26:6114, con los bancos 26-27-28)
 	ld hl,0c400h		;8350   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 	ld c,0f0h		;8353
 	ld a,080h		;8355
-	call L_84F3		;8357
-	call L_8025		;835a
+	call aparece_con_pausas		;8357   ; aparece_con_pausas: la lista HL aparece fila a fila con pausas
+	call historia_subpaso_siguiente		;835a   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;835d
 L_835E:
-	call L_84FD		;835e
+	call aparece_con_pausas_cuadro		;835e   ; subpaso 0x0F: hasta que aparezca
 	ret nz			;8361
-	call L_8025		;8362
+	call historia_subpaso_siguiente		;8362   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;8365
 L_8366:
-	ld de,00580h		;8366
-	call 05737h		;8369
+	ld de,00580h		;8366   ; subpaso 0x10: a los 0x580, se borra
+	call 05737h		;8369   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 	ret c			;836c
 	ld hl,082eah		;836d
-	call L_850B		;8370
-	call L_8025		;8373
+	call borra_fila_a_fila		;8370   ; borra_fila_a_fila: la lista HL se borra fila a fila
+	call historia_subpaso_siguiente		;8373   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;8376
 L_8377:
-	call L_8515		;8377
+	call borra_fila_a_fila_cuadro		;8377   ; subpaso 0x11: al acabar, el bufer a cero
 	ret nz			;837a
-	call 05959h		;837b
-	call L_8025		;837e
+	call 05959h		;837b   ; bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
+	call historia_subpaso_siguiente		;837e   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;8381
 L_8382:
-	ld de,005f8h		;8382
-	call 05737h		;8385
+	ld de,005f8h		;8382   ; subpaso 0x12: a los 0x5F8, la paleta 0, la secuencia 6 y la pantalla desde el trozo 0x0D (japones) o 0x2B
+	call 05737h		;8385   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 	ret c			;8388
-	call 05730h		;8389
+	call 05730h		;8389   ; cuenta_e339_a_cero: la cuenta de 0xE339 a cero
 	xor a			;838c
-	call 05709h		;838d
+	call 05709h		;838d   ; paleta: la paleta A de p16:6B74
 	ld a,006h		;8390
-	call 04818h		;8392
+	call 04818h		;8392   ; secuencia_empieza: empieza la secuencia de dibujos A (p26:6114, con los bancos 26-27-28)
 	ld hl,0c400h		;8395   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 	ld c,0f0h		;8398
-	call 05636h		;839a
+	call 05636h		;839a   ; bios_japonesa: Z si la BIOS es japonesa (0x002B & 0x0F = 0)
 	ld a,00dh		;839d
 	jr z,L_83A3		;839f
 	ld a,02bh		;83a1
 L_83A3:
-	call L_84F3		;83a3
-	call L_8025		;83a6
+	call aparece_con_pausas		;83a3   ; aparece_con_pausas: la lista HL aparece fila a fila con pausas
+	call historia_subpaso_siguiente		;83a6   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;83a9
 L_83AA:
-	call L_84FD		;83aa
+	call aparece_con_pausas_cuadro		;83aa   ; subpaso 0x13: hasta que aparezca
 	ret nz			;83ad
-	call L_8025		;83ae
+	call historia_subpaso_siguiente		;83ae   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;83b1
 L_83B2:
-	ld de,00180h		;83b2
-	call 05737h		;83b5
+	ld de,00180h		;83b2   ; subpaso 0x14: a los 0x180, se borra
+	call 05737h		;83b5   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 	ret c			;83b8
 	ld hl,082eah		;83b9
-	call L_850B		;83bc
-	call L_8025		;83bf
+	call borra_fila_a_fila		;83bc   ; borra_fila_a_fila: la lista HL se borra fila a fila
+	call historia_subpaso_siguiente		;83bf   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;83c2
 L_83C3:
-	call L_8515		;83c3
+	call borra_fila_a_fila_cuadro		;83c3   ; subpaso 0x15: al acabar, el bufer a cero
 	ret nz			;83c6
-	call 05959h		;83c7
-	call L_8025		;83ca
+	call 05959h		;83c7   ; bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
+	call historia_subpaso_siguiente		;83ca   ; historia_subpaso_siguiente: el subpaso siguiente de la historia (0xE330)
 	ret			;83cd
 L_83CE:
-	ld de,00230h		;83ce
-	call 05737h		;83d1
+	ld de,00230h		;83ce   ; subpaso 0x16: a los 0x230, la cuenta a cero y 0xE32E = 0: la historia acabada
+	call 05737h		;83d1   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 	ret c			;83d4
-	call 05730h		;83d5
+	call 05730h		;83d5   ; cuenta_e339_a_cero: la cuenta de 0xE339 a cero
 	xor a			;83d8
 	ld (0e32eh),a		;83d9
 	ret			;83dc
 L_83DD:
-	ld hl,0ca00h		;83dd   ; apunta a un bufer de trabajo
+	ld hl,0ca00h		;83dd   ; 0xCA00-0xCBFF a cero
 	ld de,0ca01h		;83e0
 	ld bc,001ffh		;83e3
 	ld (hl),000h		;83e6
 	ldir		;83e8
 	ret			;83ea
-L_83EB:
-	ld a,(0e5e8h)		;83eb
+historia_colores:		; los colores de la secuencia, cada 7 cuadros
+	ld a,(0e5e8h)		;83eb   ; mientras la secuencia no cambie de dibujo, cada 7 cuadros el color siguiente de 0x841F en 0x0808-0x0A07, hasta el 0x13
 	or a			;83ee
-	jr nz,L_8419		;83ef
+	jr nz,historia_colores_empiezan		;83ef
 	ld hl,0e5e9h		;83f1
 	ld a,(hl)			;83f4
 	inc a			;83f5
@@ -589,17 +589,17 @@ L_83EB:
 	cp 013h		;83ff
 	jr nc,L_8413		;8401
 	ld hl,l841fh		;8403
-	call 04a6eh		;8406
+	call 04a6eh		;8406   ; lee_byte: A = el byte A de la tabla HL
 	ld hl,00808h		;8409
 	ld bc,00200h		;840c
 	call 00056h		;840f   ; BIOS FILVRM - Fills VRAM with value
 	ret			;8412
 L_8413:
-	ld a,0ffh		;8413
+	ld a,0ffh		;8413   ; acabado: 0xE5E9 = 0xFF
 	ld (0e5e9h),a		;8415
 	ret			;8418
-L_8419:
-	ld hl,00700h		;8419
+historia_colores_empiezan:		; los colores de la secuencia desde el principio
+	ld hl,00700h		;8419   ; los colores desde el principio (0xE5E9 = 0, 7 cuadros)
 	ld (0e5e9h),hl		;841c
 L_841F:
 	ret			;841f
@@ -619,29 +619,29 @@ DATA_leido_8420:
 
 
 L_8432:
-	ld a,(0e335h)		;8432
+	ld a,(0e335h)		;8432   ; la escena 0xE335: su lista de graficos (tabla de 0x9296) y sus copias...
 	ld hl,09296h		;8435
 	call 04a5ah		;8438   ; lee_palabra: HL = la palabra A de la tabla HL
 	push hl			;843b
 	pop ix		;843c
 	call 04cb1h		;843e   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 	inc ix		;8441
-	call 04d17h		;8443
+	call 04d17h		;8443   ; copia_con_vuelta_ce00: copia caracteres con espejo usando el bufer de 0xCE00 (lista IX)
 	call L_844A		;8446
 	ret			;8449
 L_844A:
-	ld a,(0e335h)		;844a
+	ld a,(0e335h)		;844a   ; ...su dibujo (tabla de 0x8A4C) en el sitio de la tabla de 0x89D2
 	ld hl,08a4ch		;844d
 	call 04a5ah		;8450   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld de,0cd00h		;8453
 	call 055cdh		;8456   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 	ld a,(0e335h)		;8459
-	call L_8466		;845c
+	call L_8466		;845c   ; la escena A en la tabla de 0x89D2: destino (DE), filas (B) y columnas (C)
 	ld hl,0cd00h		;845f
-	call 059a1h		;8462
+	call 059a1h		;8462   ; copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 	ret			;8465
 L_8466:
-	add a,a			;8466
+	add a,a			;8466   ; la escena A en la tabla de 0x89D2: destino (DE), filas (B) y columnas (C)
 	add a,a			;8467
 	ld hl,089d2h		;8468
 	call 04089h		;846b   ; suma_a_hl: HL = HL + A
@@ -654,11 +654,11 @@ L_8466:
 	ld c,(hl)			;8474
 	ret			;8475
 L_8476:
-	ld a,(0e335h)		;8476
+	ld a,(0e335h)		;8476   ; C mientras la cuenta 0xE339 no llegue al tiempo de la escena (tabla de 0x8483)
 	ld hl,08483h		;8479
 	call 04a5ah		;847c   ; lee_palabra: HL = la palabra A de la tabla HL
 	ex de,hl			;847f
-	jp 05737h		;8480
+	jp 05737h		;8480   ; cuenta_e339_llega: la cuenta de 0xE339 contra DE: C mientras no llega
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_8483: tabla que se lee desde HL = 0x8483 con un indice
@@ -678,87 +678,87 @@ DATA_tabla_8483:
 ; ======================================================================
 
 
-L_84C1:
-	call 041cfh		;84c1   ; bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
-	call 0bc08h		;84c4
+estrellas_salen:		; las estrellas salen (p28:BC08)
+	call 041cfh		;84c1   ; las estrellas salen (p28:BC08)
+	call 0bc08h		;84c4   ; cada cuadro, saliendo: se mueven, sale otra y a los sprites (p28:BC08)
 	call 041dch		;84c7   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ret			;84ca
 L_84CB:
-	call 041cfh		;84cb   ; bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
-	call 0be34h		;84ce
+	call 041cfh		;84cb   ; las estrellas del fondo (p28:BE34)
+	call 0be34h		;84ce   ; el RLE de 0xBE3B, con su direccion (p28:BE34)
 	call 041dch		;84d1   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ret			;84d4
 L_84D5:
-	call 041cfh		;84d5   ; bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
+	call 041cfh		;84d5   ; que salgan del centro (p28:BBEE)
 	call 0bbeeh		;84d8
 	call 041dch		;84db   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ret			;84de
 L_84DF:
-	call 041cfh		;84df   ; bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
-	call 0bd0fh		;84e2
+	call 041cfh		;84df   ; las estrellas entran (p28:BD0F)
+	call 0bd0fh		;84e2   ; se mueven: las que salen de la pantalla (y desde 0xC0, x fuera) se quitan (p28:BD0F)
 	call 041dch		;84e5   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ret			;84e8
 L_84E9:
-	call 041cfh		;84e9   ; bancos_26_28: pone los bancos 26-28 (y sus copias en 0xF0F1-3)
-	call 0bdech		;84ec
+	call 041cfh		;84e9   ; a los sprites (p28:BDEC)
+	call 0bdech		;84ec   ; las estrellas a los sprites desde 0xEF20: las que no tapa nada (IX+0B a 0) (p28:BDEC)
 	call 041dch		;84ef   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ret			;84f2
-L_84F3:
-	call 041c7h		;84f3   ; bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
-	call 0796bh		;84f6
+aparece_con_pausas:		; la lista HL aparece fila a fila con pausas
+	call 041c7h		;84f3   ; la lista HL aparece con pausas (p26:796B) con los bancos 26-28
+	call 0796bh		;84f6   ; llenado_con_pausas: empieza a llenar fila a fila con pausas la lista HL con el byte C
 	call 041dch		;84f9   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ret			;84fc
-L_84FD:
-	call 041c7h		;84fd   ; bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
-	call 079cfh		;8500
+aparece_con_pausas_cuadro:		; lo mismo, un cuadro (NZ mientras siga)
+	call 041c7h		;84fd   ; el llenado con pausas (p26:79CF); NZ mientras siga
+	call 079cfh		;8500   ; llenado_con_pausas_cuadro: el llenado con pausas, un cuadro
 	call 041dch		;8503   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ld a,(0e564h)		;8506   ; lee el llenado fila a fila en marcha
 	or a			;8509
 	ret			;850a
-L_850B:
-	call 041c7h		;850b   ; bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
-	call 078a2h		;850e
+borra_fila_a_fila:		; la lista HL se borra fila a fila
+	call 041c7h		;850b   ; se borra la lista HL fila a fila (p26:78A2)
+	call 078a2h		;850e   ; borrado_empieza: empieza a borrar fila a fila la lista HL
 	call 041dch		;8511   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ret			;8514
-L_8515:
-	call 041c7h		;8515   ; bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
-	call 078ach		;8518
+borra_fila_a_fila_cuadro:		; lo mismo, un cuadro (NZ mientras siga)
+	call 041c7h		;8515   ; el borrado (p26:78AC); NZ mientras siga
+	call 078ach		;8518   ; borrado_cuadro: el borrado fila a fila, cada 4 cuadros
 	call 041dch		;851b   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ld a,(0e560h)		;851e   ; lee el borrado fila a fila en marcha
 	or a			;8521
 	ret			;8522
 L_8523:
-	ld a,001h		;8523
+	ld a,001h		;8523   ; el titulo: 0xE32B = 1, la paleta, el borde negro, la pantalla en blanco y p30:874B
 	ld (0e32bh),a		;8525
-	call 05718h		;8528
+	call 05718h		;8528   ; paleta_de_la_fase: la paleta de p16:67AE
 	ld b,0e0h		;852b
 	call 04c40h		;852d   ; color_del_borde: B al registro 7 del VDP
 	call 04aa9h		;8530   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
-	call L_874B		;8533
-	call 05648h		;8536
-	call 05de9h		;8539
-	call 05636h		;853c
+	call L_874B		;8533   ; los colores y los dibujos a cero (0x1800 bytes cada uno)
+	call 05648h		;8536   ; sprites_fuera: los atributos de sprite de 0xEF00 a 0xE0: fuera de la pantalla
+	call 05de9h		;8539   ; sprites_a_vram_tal_cual: los 32 sprites a la VRAM (0x3B00) tal cual
+	call 05636h		;853c   ; con la BIOS internacional, el titulo de p22:A906 y el dibujo de 0x887A (0x0A x 0x18 en 0xCA84) y 12 bytes de 0x89CA en 0xCA4A
 	jr z,L_8575		;853f
 	call 041ach		;8541   ; bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
 	ld ix,0a906h		;8544
 	call 04cb1h		;8548   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 	call 041dch		;854b   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-	call 05959h		;854e
+	call 05959h		;854e   ; bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
 	ld hl,0887ah		;8551
 	ld de,0e800h		;8554   ; apunta a los enemigos (12 de 0x40)
 	call 055cdh		;8557   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 	ld hl,0e800h		;855a   ; apunta a los enemigos (12 de 0x40)
 	ld de,0ca84h		;855d
 	ld bc,00a18h		;8560
-	call 059a1h		;8563
+	call 059a1h		;8563   ; copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 	ld hl,089cah		;8566
 	ld de,0ca4ah		;8569
 	ld bc,0000ch		;856c
 	ldir		;856f
-	call 05985h		;8571
+	call 05985h		;8571   ; bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
 	ret			;8574
 L_8575:
-	call 041ach		;8575   ; bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
+	call 041ach		;8575   ; con la japonesa, el de p22:A8D8, sus copias (A8F1), los sprites de p22:AEC6 y p00:5669
 	ld ix,0a8d8h		;8578
 	call 04cb1h		;857c   ; carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 	ld ix,0a8f1h		;857f
@@ -767,11 +767,11 @@ L_8575:
 	ld de,0aec6h		;8589
 	call 04b3ch		;858c   ; rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 	call 041dch		;858f   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-	call 05669h		;8592
+	call 05669h		;8592   ; bufer_c400_a_cero: el bufer de 0xC400 a cero (0x580 bytes)
 	ret			;8595
 L_8596:
-	call 05de9h		;8596
-	call 05dfbh		;8599
+	call 05de9h		;8596   ; el titulo, cada cuadro: los sprites y el bufer a la VRAM; por el paso (0xE32B)
+	call 05dfbh		;8599   ; bufer_c400_a_vram: el bufer de 0xC400 a la tabla de nombres (22 filas)
 	ld a,(0e32bh)		;859c
 	dec a			;859f
 	call 04093h		;85a0   ; despacha: salta a la palabra A de la tabla que va detras del call
@@ -791,7 +791,7 @@ DATA_tabla_85A3:
 
 
 L_85BD:
-	ld hl,0c4e0h		;85bd
+	ld hl,0c4e0h		;85bd   ; paso 1: las dos mitades del logo en 0xEBB0 (0xC4E0) y 0xEBB2 (0xC535), 0x0C pasos
 	ld (0ebb0h),hl		;85c0
 	ld hl,0c535h		;85c3
 	ld (0ebb2h),hl		;85c6
@@ -802,7 +802,7 @@ L_85CE:
 	inc (hl)			;85d1
 	ret			;85d2
 L_85D3:
-	call L_8791		;85d3
+	call L_8791		;85d3   ; paso 2: p30:8791; la mitad de arriba 4 a la izquierda y la de abajo 4 a la derecha...
 	ld hl,(0ebb0h)		;85d6
 	dec hl			;85d9
 	dec hl			;85da
@@ -812,7 +812,7 @@ L_85D3:
 	ex de,hl			;85e0
 	ld hl,088c0h		;85e1
 	ld bc,00210h		;85e4
-	call L_882F		;85e7
+	call L_882F		;85e7   ; copia B filas de C bytes de HL a DE, con filas de 0x40
 	ld hl,(0ebb2h)		;85ea
 	inc hl			;85ed
 	inc hl			;85ee
@@ -822,15 +822,15 @@ L_85D3:
 	ex de,hl			;85f4
 	ld hl,088e0h		;85f5
 	ld bc,00706h		;85f8
-	call L_882F		;85fb
-	ld hl,0e331h		;85fe
+	call L_882F		;85fb   ; copia B filas de C bytes de HL a DE, con filas de 0x40
+	ld hl,0e331h		;85fe   ; ...cada 6 cuadros: al acabar, al paso 3
 	dec (hl)			;8601
 	ret nz			;8602
 	ld a,006h		;8603
 	ld (0e331h),a		;8605
 	jr L_85CE		;8608
 L_860A:
-	call L_8791		;860a
+	call L_8791		;860a   ; paso 3: la de arriba vuelve 4 a la derecha y la de abajo 4 a la izquierda...
 	ld hl,(0ebb0h)		;860d
 	inc hl			;8610
 	inc hl			;8611
@@ -840,7 +840,7 @@ L_860A:
 	ex de,hl			;8617
 	ld hl,088c0h		;8618
 	ld bc,00210h		;861b
-	call L_882F		;861e
+	call L_882F		;861e   ; copia B filas de C bytes de HL a DE, con filas de 0x40
 	ld hl,(0ebb2h)		;8621
 	dec hl			;8624
 	dec hl			;8625
@@ -850,8 +850,8 @@ L_860A:
 	ex de,hl			;862b
 	ld hl,088e0h		;862c
 	ld bc,00706h		;862f
-	call L_882F		;8632
-	ld hl,0e331h		;8635
+	call L_882F		;8632   ; copia B filas de C bytes de HL a DE, con filas de 0x40
+	ld hl,0e331h		;8635   ; ...al acabar, el caracter 0x0A en 0xC50E, la orden 0x83 y el sonido 0x51, y 0x1E cuadros
 	dec (hl)			;8638
 	ret nz			;8639
 	ld a,00ah		;863a
@@ -861,18 +861,18 @@ L_860A:
 	ld (0e331h),a		;8644
 	jr L_85CE		;8647
 L_8649:
-	call L_875F		;8649
+	call L_875F		;8649   ; paso 4: el color cambia (p30:875F); al acabar, el dibujo de 0x890A (6 x 6 en 0xC74D), el color 0xF0 y la aparicion de 0x866B
 	ld hl,0e331h		;864c
 	dec (hl)			;864f
 	ret nz			;8650
 	ld hl,0890ah		;8651
 	ld de,0c74dh		;8654
 	ld bc,00606h		;8657
-	call L_882F		;865a
+	call L_882F		;865a   ; copia B filas de C bytes de HL a DE, con filas de 0x40
 	ld a,0f0h		;865d
 	call L_876E		;865f
 	ld hl,0866bh		;8662
-	call 05ed4h		;8665
+	call 05ed4h		;8665   ; aparicion_empieza: empieza la aparicion poco a poco de las listas de HL
 	jp L_85CE		;8668
 
 ; ----------------------------------------------------------------------
@@ -889,22 +889,22 @@ DATA_resto_866B:
 
 
 L_866F:
-	call 041ach		;866f   ; bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
-	call 05eech		;8672
+	call 041ach		;866f   ; paso 5: la aparicion poco a poco (p00:5EEC) hasta acabar
+	call 05eech		;8672   ; aparicion_cuadro: la aparicion poco a poco, un cuadro
 	call 041dch		;8675   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ld a,(0e518h)		;8678   ; lee la aparicion poco a poco en marcha (1 o 2)
 	or a			;867b
 	ret nz			;867c
 	jp L_85CE		;867d
 L_8680:
-	xor a			;8680
+	xor a			;8680   ; paso 6: la cuenta a 0 y el dibujo de 0x893B en 0xE800
 	ld (0ebb4h),a		;8681
 	ld hl,0893bh		;8684
 	ld de,0e800h		;8687   ; apunta a los enemigos (12 de 0x40)
 	call 055cdh		;868a   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 	jp L_85CE		;868d
 L_8690:
-	call L_87A6		;8690
+	call L_87A6		;8690   ; paso 7: cada 2 cuadros una columna mas de las letras (p30:87A6); al acabar, 0x1520-0x1697 a cero, el dibujo de abajo y lo de 0x86B2 aparece
 	ret c			;8693
 	ld hl,01520h		;8694
 	ld bc,00178h		;8697
@@ -912,10 +912,10 @@ L_8690:
 	call 00056h		;869b   ; BIOS FILVRM - Fills VRAM with value
 	ld hl,0c888h		;869e
 	ld (0ebb0h),hl		;86a1
-	call L_8805		;86a4
+	call L_8805		;86a4   ; el dibujo de abajo (p30:892E en 0xE800): dos bytes en 0xEBB0 + 0x0E y 3 x 0x10 una fila mas abajo
 	ld hl,086b2h		;86a7
 	ld c,080h		;86aa
-	call L_8733		;86ac
+	call L_8733		;86ac   ; la lista HL aparece fila a fila con el byte C (p26:7978)
 	jp L_85CE		;86af
 
 ; ----------------------------------------------------------------------
@@ -933,28 +933,28 @@ DATA_resto_86B2:
 
 
 L_86C2:
-	call L_873D		;86c2
+	call L_873D		;86c2   ; paso 8: al acabar, lo de 0x86B6
 	ret nz			;86c5
 	ld hl,086b6h		;86c6
 	ld c,080h		;86c9
-	call L_8733		;86cb
+	call L_8733		;86cb   ; la lista HL aparece fila a fila con el byte C (p26:7978)
 	jp L_85CE		;86ce
 L_86D1:
-	call L_873D		;86d1
+	call L_873D		;86d1   ; paso 9: lo de 0x86BA
 	ret nz			;86d4
 	ld hl,086bah		;86d5
 	ld c,080h		;86d8
-	call L_8733		;86da
+	call L_8733		;86da   ; la lista HL aparece fila a fila con el byte C (p26:7978)
 	jp L_85CE		;86dd
 L_86E0:
-	call L_873D		;86e0
+	call L_873D		;86e0   ; paso 0x0A: lo de 0x86BE
 	ret nz			;86e3
 	ld hl,086beh		;86e4
 	ld c,080h		;86e7
-	call L_8733		;86e9
+	call L_8733		;86e9   ; la lista HL aparece fila a fila con el byte C (p26:7978)
 	jp L_85CE		;86ec
 L_86EF:
-	call L_873D		;86ef
+	call L_873D		;86ef   ; paso 0x0B: al acabar, 12 bytes de 0x89CA en 0xC44A
 	ret nz			;86f2
 	ld hl,089cah		;86f3
 	ld de,0c44ah		;86f6
@@ -962,41 +962,41 @@ L_86EF:
 	ldir		;86fc
 	jp L_85CE		;86fe
 L_8701:
-	ld a,006h		;8701
+	ld a,006h		;8701   ; paso 0x0C: 6 pasos desde 0xC888
 	ld (0ebb4h),a		;8703
 	ld hl,0c888h		;8706
 	ld (0ebb0h),hl		;8709
 	jp L_85CE		;870c
 L_870F:
-	ld de,(0ebb0h)		;870f
+	ld de,(0ebb0h)		;870f   ; paso 0x0D: el dibujo de abajo sube una fila por cuadro (4 x 0x10); a los 6, el bufer a la VRAM y 0xE32B = 0: acabado
 	ld bc,00410h		;8713
-	call L_8855		;8716
+	call L_8855		;8716   ; borra B filas de C bytes desde DE, con filas de 0x40
 	ld hl,(0ebb0h)		;8719
 	ld de,0ffc0h		;871c
 	add hl,de			;871f
 	ld (0ebb0h),hl		;8720
-	call L_8805		;8723
+	call L_8805		;8723   ; el dibujo de abajo (p30:892E en 0xE800): dos bytes en 0xEBB0 + 0x0E y 3 x 0x10 una fila mas abajo
 	ld hl,0ebb4h		;8726
 	dec (hl)			;8729
 	ret nz			;872a
-	call 05dfbh		;872b
+	call 05dfbh		;872b   ; bufer_c400_a_vram: el bufer de 0xC400 a la tabla de nombres (22 filas)
 	xor a			;872e
 	ld (0e32bh),a		;872f
 	ret			;8732
 L_8733:
-	call 041c7h		;8733   ; bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
-	call 07978h		;8736
+	call 041c7h		;8733   ; la lista HL aparece fila a fila con el byte C (p26:7978)
+	call 07978h		;8736   ; llenado_empieza: empieza a llenar fila a fila la lista HL con el byte C
 	call 041dch		;8739   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ret			;873c
 L_873D:
-	call 041c7h		;873d   ; bancos_26: pone el 26 (y sus copias en 0xF0F1-3)
-	call 07a3dh		;8740
+	call 041c7h		;873d   ; el llenado (p26:7A3D); NZ mientras siga
+	call 07a3dh		;8740   ; llenado_cuadro: el llenado fila a fila, cada 4 cuadros
 	call 041dch		;8743   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ld a,(0e564h)		;8746   ; lee el llenado fila a fila en marcha
 	or a			;8749
 	ret			;874a
 L_874B:
-	xor a			;874b
+	xor a			;874b   ; los colores y los dibujos a cero (0x1800 bytes cada uno)
 	ld hl,02000h		;874c
 	ld bc,01800h		;874f
 	call 00056h		;8752   ; BIOS FILVRM - Fills VRAM with value
@@ -1005,14 +1005,14 @@ L_874B:
 	call 00056h		;875b   ; BIOS FILVRM - Fills VRAM with value
 	ret			;875e
 L_875F:
-	ld a,(0e303h)		;875f   ; lee la cuenta de cuadros del juego
+	ld a,(0e303h)		;875f   ; el color de la cuenta & 0x0F (tabla de 0x8781)...
 	and 00fh		;8762
 	ld hl,08781h		;8764
-	call 04a6eh		;8767
+	call 04a6eh		;8767   ; lee_byte: A = el byte A de la tabla HL
 	call L_876E		;876a
 	ret			;876d
 L_876E:
-	ld hl,00040h		;876e
+	ld hl,00040h		;876e   ; ...en 0x0040-0x016F y 0x0840-0x096F
 	ld bc,00130h		;8771
 	call 00056h		;8774   ; BIOS FILVRM - Fills VRAM with value
 	ld hl,00840h		;8777
@@ -1036,15 +1036,15 @@ DATA_tabla_8781:
 
 
 L_8791:
-	ld de,(0ebb0h)		;8791
+	ld de,(0ebb0h)		;8791   ; borra las dos mitades: 2 x 0x10 en 0xEBB0 y 7 x 6 en 0xEBB2
 	ld bc,00210h		;8795
-	call L_8855		;8798
+	call L_8855		;8798   ; borra B filas de C bytes desde DE, con filas de 0x40
 	ld de,(0ebb2h)		;879b
 	ld bc,00706h		;879f
-	call L_8855		;87a2
+	call L_8855		;87a2   ; borra B filas de C bytes desde DE, con filas de 0x40
 	ret			;87a5
 L_87A6:
-	ld a,(0e303h)		;87a6   ; lee la cuenta de cuadros del juego
+	ld a,(0e303h)		;87a6   ; cada 2 cuadros (C los otros): la columna 0xEBB4 de las letras de 0xE80D en 0xC5CF...
 	and 001h		;87a9
 	scf			;87ab
 	ret nz			;87ac
@@ -1058,16 +1058,16 @@ L_87A6:
 	or a			;87ba
 	ld hl,0e80dh		;87bb
 	sbc hl,bc		;87be
-	call L_87F1		;87c0
-	ld a,(0ebb4h)		;87c3
+	call L_87F1		;87c0   ; una columna: 6 filas de la tabla (0x1C por fila) al bufer (0x40), sin los 0
+	ld a,(0ebb4h)		;87c3   ; ...y la de 0xE80E en 0xC5D0, hacia los lados
 	ld b,a			;87c6
 	ld hl,0e80eh		;87c7
 	call 04089h		;87ca   ; suma_a_hl: HL = HL + A
 	ld a,b			;87cd
 	ld de,0c5d0h		;87ce
 	call 0408eh		;87d1   ; suma_a_de: DE = DE + A
-	call L_87F1		;87d4
-	ld a,(0ebb4h)		;87d7
+	call L_87F1		;87d4   ; una columna: 6 filas de la tabla (0x1C por fila) al bufer (0x40), sin los 0
+	ld a,(0ebb4h)		;87d7   ; en la columna 2, seis sprites de 0x89B2
 	cp 002h		;87da
 	jr nz,L_87E9		;87dc
 	ld hl,089b2h		;87de
@@ -1075,13 +1075,13 @@ L_87A6:
 	ld bc,00018h		;87e4
 	ldir		;87e7
 L_87E9:
-	ld hl,0ebb4h		;87e9
+	ld hl,0ebb4h		;87e9   ; la columna siguiente; NC al llegar a la 0x0E
 	inc (hl)			;87ec
 	ld a,(hl)			;87ed
 	cp 00eh		;87ee
 	ret			;87f0
 L_87F1:
-	ld b,006h		;87f1
+	ld b,006h		;87f1   ; una columna: 6 filas de la tabla (0x1C por fila) al bufer (0x40), sin los 0
 L_87F3:
 	ld a,(hl)			;87f3
 	or a			;87f4
@@ -1095,7 +1095,7 @@ L_87F8:
 	djnz L_87F3		;8802
 	ret			;8804
 L_8805:
-	ld hl,0892eh		;8805
+	ld hl,0892eh		;8805   ; el dibujo de abajo (p30:892E en 0xE800): dos bytes en 0xEBB0 + 0x0E y 3 x 0x10 una fila mas abajo
 	ld de,0e800h		;8808   ; apunta a los enemigos (12 de 0x40)
 	call 055cdh		;880b   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 	ld hl,(0ebb0h)		;880e
@@ -1111,10 +1111,10 @@ L_8805:
 	ex de,hl			;8824
 	ld hl,0e802h		;8825
 	ld bc,00310h		;8828
-	call L_882F		;882b
+	call L_882F		;882b   ; copia B filas de C bytes de HL a DE, con filas de 0x40
 	ret			;882e
 L_882F:
-	ld a,b			;882f
+	ld a,b			;882f   ; copia B filas de C bytes de HL a DE, con filas de 0x40
 	exx			;8830
 	ld b,a			;8831
 	exx			;8832
@@ -1136,7 +1136,7 @@ L_883D:
 	jr nz,L_883D		;8852
 	ret			;8854
 L_8855:
-	ld a,b			;8855
+	ld a,b			;8855   ; borra B filas de C bytes desde DE, con filas de 0x40
 	exx			;8856
 	ld b,a			;8857
 	exx			;8858

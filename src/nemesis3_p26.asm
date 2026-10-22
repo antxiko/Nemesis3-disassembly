@@ -44,10 +44,10 @@ DATA_600F:
 
 
 L_6018:
-	jp L_6114		;6018   ; empieza una secuencia de dibujos (desde p30, p00:4818)
+	jp secuencia		;6018   ; empieza una secuencia de dibujos (desde p30, p00:4818)
 L_601B:
-	jp L_6135		;601b   ; la secuencia de dibujos, cada cuadro (desde p30, p00:4821)
-L_601E:
+	jp secuencia_sigue		;601b   ; la secuencia de dibujos, cada cuadro (desde p30, p00:4821)
+pantalla_limpia:		; los sprites fuera, el bufer de 0xCA00 a cero y los colores
 	call 05648h		;601e   ; los sprites fuera, el bufer de 0xCA00 a cero y los colores (p26:603E)
 	call 05959h		;6021   ; el bufer de 0xCA00 a cero
 	call L_603E		;6024   ; y los colores
@@ -99,7 +99,7 @@ L_6080:
 	jp p,L_60B1		;6086
 	ld h,(ix+002h)		;6089   ; tal cual: B x C bytes (p00:563C)...
 	ld e,(ix+003h)		;608c   ; B x C...
-	call 0563ch		;608f
+	call 0563ch		;608f   ; multiplica: HL = H x E
 	ld c,l			;6092   ; ...bytes (BC)
 	ld b,h			;6093
 	push ix		;6094   ; ...desde IX+5
@@ -125,15 +125,15 @@ L_60B1:
 	ld de,0cd00h		;60b9
 	call 055cdh		;60bc   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 	ret			;60bf
-L_60C0:
+borra_cuadro_ca48:		; borra en el bufer 0x0B x 0x10 desde 0xCA48
 	ld de,0ca48h		;60c0   ; borra en el bufer un rectangulo de 0x0B x 0x10 desde 0xCA48
 	ld bc,00b10h		;60c3   ; 0x0B filas de 0x10
-	call 059c7h		;60c6
+	call 059c7h		;60c6   ; borra_rectangulo: borra B filas de C bytes desde DE (filas de 0x20)
 	ret			;60c9
-L_60CA:
+borra_cuadro_cc22:		; borra en el bufer 5 x 0x1C desde 0xCC22
 	ld de,0cc22h		;60ca   ; borra 5 x 0x1C desde 0xCC22
 	ld bc,0051ch		;60cd   ; 5 filas de 0x1C
-	call 059c7h		;60d0
+	call 059c7h		;60d0   ; borra_rectangulo: borra B filas de C bytes desde DE (filas de 0x20)
 	ret			;60d3
 L_60D4:
 	ld hl,03ac0h		;60d4   ; la fila de 0x3AC0 a cero
@@ -141,7 +141,7 @@ L_60D4:
 	xor a			;60da
 	call 00056h		;60db   ; BIOS FILVRM - Fills VRAM with value
 	ret			;60de
-L_60DF:
+consola:		; la consola (p26:730A) con su animacion cada 8 cuadros
 	call L_60EB		;60df   ; 0xE540-0xE55F a cero, 0xE540 = 8 y p26:730A
 	ld a,008h		;60e2   ; cada 8 cuadros la animacion (0xE540)...
 	ld (0e540h),a		;60e4
@@ -154,7 +154,7 @@ L_60EB:
 	ld (hl),000h		;60f4
 	ldir		;60f6
 	ret			;60f8
-L_60F9:
+contador_de_hl:		; las 6 cifras del contador de la consola, de HL
 	ld de,0e54fh		;60f9   ; 6 bytes de HL a 0xE54F
 	ld bc,00006h		;60fc   ; 6 bytes: las cifras del contador
 	ldir		;60ff
@@ -174,7 +174,7 @@ DATA_leido_6102:
 ; ======================================================================
 
 
-L_6114:
+secuencia:		; empieza la secuencia de dibujos A
 	ld hl,0611ch		;6114   ; empieza la secuencia A (tabla de 0x611C): su lista en 0xE5CE, 0xE5CA = 0xFF01
 	call 04a5ah		;6117   ; la lista de la secuencia
 	jr $+16		;611a
@@ -194,12 +194,12 @@ DATA_tabla_611C:
 ; ======================================================================
 
 
-L_612A:
+secuencia_de_hl:		; empieza la secuencia de dibujos de HL
 	ld (0e5ceh),hl		;612a   ; en 0xE5CE
 	ld hl,0ff01h		;612d   ; 0xE5CA = 1 (en marcha) y 0xE5CB = 0xFF (antes de la primera)
 	ld (0e5cah),hl		;6130
 	jr L_6146		;6133
-L_6135:
+secuencia_sigue:		; la secuencia de dibujos, un cuadro (NZ mientras siga)
 	xor a			;6135   ; cada cuadro: cuando la cuenta 0xE333 llega a la espera (0xE5CC), el dibujo siguiente
 	ld (0e5e8h),a		;6136   ; 0xE5E8 = 0: este cuadro no cambia
 	ld de,(0e5cch)		;6139   ; la espera del dibujo en curso
@@ -442,7 +442,7 @@ L_634C:
 L_6367:
 	push af			;6367
 	inc hl			;6368   ; sus caracteres (p26:6373)
-	call L_6373		;6369
+	call L_6373		;6369   ; los caracteres del trozo: de 8 en 8 con una mascara (los dibujos bajos) o de 6 bits de 3 en 3
 	pop af			;636c
 	ld (de),a			;636d   ; la marca del final
 	inc de			;636e
@@ -694,10 +694,10 @@ DATA_tabla_64A5:
 L_64AF:
 	call 04aa9h		;64af   ; subpaso 0: la pantalla en blanco y la paleta 1 (p00:5709); 0xE534 = 1 cuadro...
 	ld a,001h		;64b2   ; la paleta 1
-	call 05709h		;64b4
+	call 05709h		;64b4   ; paleta: la paleta A de p16:6B74
 	call L_6827		;64b7   ; la VRAM a cero
 	call L_6858		;64ba   ; el bufer a cero
-	call L_6801		;64bd
+	call eleccion_subpaso_siguiente		;64bd   ; eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 	ld a,001h		;64c0   ; un cuadro de espera
 	ld (0e534h),a		;64c2
 	ld a,(0e302h)		;64c5   ; ...o, con dos jugadores, 0x78 y el texto SELECT PLAYER 1 (un 2 con el segundo)
@@ -740,30 +740,30 @@ L_64F7:
 	call L_6BF9		;6508   ; los colores de los marcos
 	call L_6C79		;650b   ; los de p22
 	call L_6B4E		;650e   ; la lista de 0x6B57 aparece
-	call L_6801		;6511   ; y al subpaso siguiente
+	call eleccion_subpaso_siguiente		;6511   ; y al subpaso siguiente
 	ret			;6514
 L_6515:
-	call L_7A3D		;6515   ; subpaso 2: p26:7A3D hasta que 0xE564 vuelva a 0
+	call llenado_cuadro		;6515   ; subpaso 2: p26:7A3D hasta que 0xE564 vuelva a 0
 	ld a,(0e564h)		;6518   ; lee el llenado fila a fila en marcha
 	or a			;651b   ; hasta que acabe
 	ret nz			;651c
-	call L_6801		;651d
+	call eleccion_subpaso_siguiente		;651d   ; eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 	ret			;6520
 L_6521:
 	call L_6B61		;6521   ; subpaso 3: el dibujo de la nave 0 (p26:695A)
 	call L_6B6E		;6524   ; la fila de armas
 	xor a			;6527
 	call L_695A		;6528   ; de la nave 0
-	call L_6801		;652b
+	call eleccion_subpaso_siguiente		;652b   ; eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 	ret			;652e
 L_652F:
-	call L_7AC9		;652f   ; subpaso 4: hasta que 0xE564 vuelva a 0; luego al paso 1 (p26:67F9)
-	call L_7A3D		;6532   ; los llenados
-	call L_7C0A		;6535   ; y lo que vuelve
+	call llenado2_cuadro		;652f   ; subpaso 4: hasta que 0xE564 vuelva a 0; luego al paso 1 (p26:67F9)
+	call llenado_cuadro		;6532   ; los llenados
+	call vuelve_cuadro		;6535   ; y lo que vuelve
 	ld a,(0e564h)		;6538   ; lee el llenado fila a fila en marcha
 	or a			;653b   ; hasta que acabe
 	ret nz			;653c
-	call L_67F9		;653d   ; al paso 1
+	call eleccion_paso_siguiente		;653d   ; al paso 1
 	ret			;6540
 L_6541:
 	ld a,b			;6541   ; paso 1, la nave: por el subpaso
@@ -783,14 +783,14 @@ DATA_tabla_6545:
 
 L_654B:
 	call L_65B6		;654b   ; subpaso 0: los cursores cambian la nave (p26:65B6); con un boton (bits 4-5) se elige
-	jp nz,L_6801		;654e   ; los cursores: la nave cambia
+	jp nz,eleccion_subpaso_siguiente		;654e   ; los cursores: la nave cambia
 	ld a,(0e308h)		;6551   ; lee lo recien pulsado (mando y cursores)
 	and 030h		;6554   ; un boton: se elige
 	ret z			;6556
 	call L_6564		;6557   ; el bufer de lo de abajo segun la nave
 	call L_6B14		;655a   ; se borran las otras
-	call L_6801		;655d
-	call L_6801		;6560
+	call eleccion_subpaso_siguiente		;655d   ; eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
+	call eleccion_subpaso_siguiente		;6560   ; eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 	ret			;6563
 L_6564:
 	ld a,(0e380h)		;6564   ; 0xE530 = 0x200 con las naves 0 y 1 (0 con la 2 y la 3); 0xE532, ocho veces
@@ -819,22 +819,22 @@ L_6588:
 	ld (0e532h),hl		;658e
 	ret			;6591
 L_6592:
-	call L_7AC9		;6592   ; subpaso 1: hasta que 0xE569 vuelva a 0
-	call L_7ADB		;6595   ; los llenados...
-	call L_7C0A		;6598
-	call L_7A3D		;659b
+	call llenado2_cuadro		;6592   ; subpaso 1: hasta que 0xE569 vuelva a 0
+	call llenado3_cuadro		;6595   ; los llenados...
+	call vuelve_cuadro		;6598   ; vuelve_cuadro: lo guardado vuelve fila a fila, cada 4 cuadros
+	call llenado_cuadro		;659b   ; llenado_cuadro: el llenado fila a fila, cada 4 cuadros
 	ld a,(0e569h)		;659e   ; ...hasta acabar
 	or a			;65a1
 	ret nz			;65a2
-	call L_6806		;65a3   ; al subpaso anterior
+	call eleccion_subpaso_anterior		;65a3   ; al subpaso anterior
 	ret			;65a6
 L_65A7:
-	call L_78AC		;65a7   ; subpaso 2: hasta que 0xE560 vuelva a 0; p26:6A9A y al paso 2
+	call borrado_cuadro		;65a7   ; subpaso 2: hasta que 0xE560 vuelva a 0; p26:6A9A y al paso 2
 	ld a,(0e560h)		;65aa   ; lee el borrado fila a fila en marcha
 	or a			;65ad   ; hasta acabar
 	ret nz			;65ae
 	call L_6A9A		;65af   ; las otras naves fuera
-	call L_67F9		;65b2   ; al paso 2
+	call eleccion_paso_siguiente		;65b2   ; al paso 2
 	ret			;65b5
 L_65B6:
 	ld hl,0e380h		;65b6   ; los cursores (p26:6600) cambian la nave (0xE380): el marco de la vieja se apaga (color de 0x6ABC), el de la nueva a 0xF0 y su dibujo (p26:695A); NZ si cambia
@@ -846,21 +846,21 @@ L_65B6:
 	push bc			;65c0
 	ld d,a			;65c1
 	ld hl,06abch		;65c2   ; el color del marco de la vieja (tabla de 0x6ABC)
-	call 04a6eh		;65c5
+	call 04a6eh		;65c5   ; lee_byte: A = el byte A de la tabla HL
 	ld c,a			;65c8
 	ld a,d			;65c9   ; la lista del marco viejo (0x65F0 + 4 x nave)...
 	add a,a			;65ca
 	add a,a			;65cb
 	ld hl,065f0h		;65cc
 	call 04089h		;65cf   ; suma_a_hl: HL = HL + A
-	call L_7AAD		;65d2   ; ...se llena con su color
+	call llenado2_empieza		;65d2   ; ...se llena con su color
 	pop af			;65d5
 	add a,a			;65d6   ; la del nuevo...
 	add a,a			;65d7
 	ld hl,065f0h		;65d8
 	call 04089h		;65db   ; suma_a_hl: HL = HL + A
 	ld c,0f0h		;65de   ; ...con 0xF0
-	call L_7ABB		;65e0
+	call llenado3_empieza		;65e0   ; llenado3_empieza: otro llenado fila a fila (0xE56E) de la lista HL con C
 	call L_6B6E		;65e3   ; la fila de armas...
 	ld a,(0e380h)		;65e6   ; lee la nave elegida (0 a 3)
 	call L_695A		;65e9   ; ...de la nave nueva
@@ -943,46 +943,46 @@ L_663C:
 	call L_689F		;663f   ; los marcos de los escudos...
 	call L_69F0		;6642   ; ...los dos escudos...
 	call L_6BA4		;6645   ; ...y los marcos de la nave
-	call L_6801		;6648
+	call eleccion_subpaso_siguiente		;6648   ; eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 	ret			;664b
 L_664C:
-	call L_7A3D		;664c   ; subpaso 1: hasta que 0xE580 vuelva a 0
-	call L_7C0A		;664f   ; lo que vuelve...
+	call llenado_cuadro		;664c   ; subpaso 1: hasta que 0xE580 vuelva a 0
+	call vuelve_cuadro		;664f   ; lo que vuelve...
 	ld a,(0e580h)		;6652   ; lee los graficos que vuelven fila a fila, en marcha
 	or a			;6655   ; ...hasta acabar
 	ret nz			;6656
-	call L_6801		;6657
+	call eleccion_subpaso_siguiente		;6657   ; eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 	ret			;665a
 L_665B:
 	call L_669D		;665b   ; subpaso 2: los cursores cambian el escudo (p26:669D); con un boton se elige
-	jp nz,L_6801		;665e   ; los cursores: cambia
+	jp nz,eleccion_subpaso_siguiente		;665e   ; los cursores: cambia
 	ld a,(0e308h)		;6661   ; lee lo recien pulsado (mando y cursores)
 	and 030h		;6664   ; un boton: se elige
 	ret z			;6666
 	call L_6ACB		;6667   ; se borra lo que no se eligio
-	call L_6801		;666a
-	call L_6801		;666d
+	call eleccion_subpaso_siguiente		;666a   ; eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
+	call eleccion_subpaso_siguiente		;666d   ; eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 	ret			;6670
 L_6671:
-	call L_78AC		;6671   ; subpaso 3: hasta que 0xE560 vuelva a 0
-	call L_7AC9		;6674   ; el llenado...
+	call borrado_cuadro		;6671   ; subpaso 3: hasta que 0xE560 vuelva a 0
+	call llenado2_cuadro		;6674   ; el llenado...
 	ld a,(0e560h)		;6677   ; lee el borrado fila a fila en marcha
 	or a			;667a   ; ...hasta acabar
 	ret nz			;667b
-	call L_6806		;667c
+	call eleccion_subpaso_anterior		;667c   ; eleccion_subpaso_anterior: el subpaso anterior de la eleccion
 	ret			;667f
 L_6680:
-	call L_78AC		;6680   ; subpaso 4: el escudo elegido (p26:6A89), la nave (p26:6AAB) y al paso 3
+	call borrado_cuadro		;6680   ; subpaso 4: el escudo elegido (p26:6A89), la nave (p26:6AAB) y al paso 3
 	ld a,(0e560h)		;6683   ; lee el borrado fila a fila en marcha
 	or a			;6686   ; hasta que acabe el borrado
 	ret nz			;6687
 	ld a,(0e37fh)		;6688   ; lee el escudo elegido (0 SHIELD, 1 FORCE FIELD)
 	xor 001h		;668b   ; el escudo que no se eligio fuera...
-	call L_6A89		;668d
+	call L_6A89		;668d   ; borra el escudo A con su marco (dos mas de alto y de ancho)
 	ld a,(0e380h)		;6690   ; lee la nave elegida (0 a 3)
 	call L_6AAB		;6693   ; ...y la nave
 	call L_657B		;6696   ; lo de abajo del bufer, al reves
-	call L_67F9		;6699   ; al paso 3
+	call eleccion_paso_siguiente		;6699   ; al paso 3
 	ret			;669c
 L_669D:
 	ld hl,0e37fh		;669d   ; cualquier cursor cambia el escudo (0xE37F: 0 SHIELD, 1 FORCE FIELD): el marco viejo se apaga y el nuevo a 0xF0; NZ si cambia
@@ -1002,7 +1002,7 @@ L_669D:
 	ld bc,0000ch		;66b7
 	add hl,bc			;66ba
 L_66BB:
-	call L_78A2		;66bb   ; ...se borra
+	call borrado_empieza		;66bb   ; ...se borra
 	ld a,(0e37fh)		;66be   ; lee el escudo elegido (0 SHIELD, 1 FORCE FIELD)
 	add a,a			;66c1   ; el nuevo...
 	add a,a			;66c2
@@ -1015,7 +1015,7 @@ L_66BB:
 	add hl,bc			;66d3
 L_66D4:
 	ld c,0f0h		;66d4   ; ...con 0xF0
-	call L_7AAD		;66d6
+	call llenado2_empieza		;66d6   ; llenado2_empieza: otro llenado fila a fila (0xE569) de la lista HL con C
 	ld a,001h		;66d9   ; NZ: ha cambiado
 	or a			;66db
 	ret			;66dc
@@ -1065,24 +1065,24 @@ L_670C:
 	call L_699D		;670f   ; las tres opciones...
 	call L_6C18		;6712   ; ...los marcos del otro lado...
 	call L_6B93		;6715   ; ...y los de la nave
-	call L_6801		;6718
+	call eleccion_subpaso_siguiente		;6718   ; eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 	ret			;671b
 L_671C:
-	call L_7A3D		;671c   ; subpaso 1: hasta que 0xE580 vuelva a 0
-	call L_7C0A		;671f   ; lo que vuelve, hasta acabar
+	call llenado_cuadro		;671c   ; subpaso 1: hasta que 0xE580 vuelva a 0
+	call vuelve_cuadro		;671f   ; lo que vuelve, hasta acabar
 	ld a,(0e580h)		;6722   ; lee los graficos que vuelven fila a fila, en marcha
 	or a			;6725
 	ret nz			;6726
-	call L_6801		;6727
+	call eleccion_subpaso_siguiente		;6727   ; eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 	ret			;672a
 L_672B:
 	call L_6743		;672b   ; subpaso 2: las opciones se mueven (p26:6743) y los cursores cambian (p26:676C); con un boton, al paso 4 con 0x3C cuadros
 	call L_676C		;672e   ; los cursores cambian las opciones
-	jp nz,L_6801		;6731
+	jp nz,eleccion_subpaso_siguiente		;6731   ; eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 	ld a,(0e308h)		;6734   ; lee lo recien pulsado (mando y cursores)
 	and 030h		;6737   ; un boton: se eligen...
 	ret z			;6739
-	call L_67F9		;673a   ; ...al paso 4...
+	call eleccion_paso_siguiente		;673a   ; ...al paso 4...
 	ld a,03ch		;673d   ; ...con 0x3C cuadros
 	ld (0e534h),a		;673f
 	ret			;6742
@@ -1099,16 +1099,16 @@ L_6743:
 L_6753:
 	ld (hl),a			;6753
 	add a,002h		;6754   ; ...de la opcion 2 (ROLLING): da vueltas
-	call L_69AA		;6756
+	call L_69AA		;6756   ; la opcion A: el RLE de p28:A1C3 a 0xE800 y su rectangulo de 6 x 8 en el bufer
 	ret			;6759
 L_675A:
 	call L_6743		;675a   ; subpaso 3: lo mismo hasta que 0xE560 vuelva a 0
-	call L_78AC		;675d   ; el borrado y el llenado
-	call L_7AC9		;6760
+	call borrado_cuadro		;675d   ; el borrado y el llenado
+	call llenado2_cuadro		;6760   ; llenado2_cuadro: el llenado de 0xE569, cada 4 cuadros
 	ld a,(0e560h)		;6763   ; lee el borrado fila a fila en marcha
 	or a			;6766   ; hasta acabar
 	ret nz			;6767
-	call L_6806		;6768
+	call eleccion_subpaso_anterior		;6768   ; eleccion_subpaso_anterior: el subpaso anterior de la eleccion
 	ret			;676b
 L_676C:
 	ld hl,0e37eh		;676c   ; izquierda y derecha cambian las opciones (0xE37E: 0 SHADOW, 1 FIXED, 2 ROLLING): el marco viejo se apaga y el nuevo a 0xF0; NZ si cambia
@@ -1128,7 +1128,7 @@ L_676C:
 	ld bc,0000ch		;6786
 	add hl,bc			;6789
 L_678A:
-	call L_78A2		;678a   ; ...se borra
+	call borrado_empieza		;678a   ; ...se borra
 	ld a,(0e37eh)		;678d   ; lee las opciones elegidas (0 SHADOW, 1 FIXED, 2 ROLLING)
 	add a,a			;6790   ; el nuevo...
 	add a,a			;6791
@@ -1141,7 +1141,7 @@ L_678A:
 	add hl,bc			;67a2
 L_67A3:
 	ld c,0f0h		;67a3   ; ...con 0xF0
-	call L_7AAD		;67a5
+	call llenado2_empieza		;67a5   ; llenado2_empieza: otro llenado fila a fila (0xE569) de la lista HL con C
 	ld a,001h		;67a8   ; NZ: ha cambiado
 	or a			;67aa
 	ret			;67ab
@@ -1189,34 +1189,34 @@ L_67CF:
 	dec (hl)			;67d2   ; la espera
 	ret nz			;67d3
 	call L_6AC0		;67d4   ; lo que no se eligio fuera
-	call L_6801		;67d7
+	call eleccion_subpaso_siguiente		;67d7   ; eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 	ret			;67da
 L_67DB:
-	call L_78AC		;67db   ; subpaso 1: hasta que 0xE560 vuelva a 0
+	call borrado_cuadro		;67db   ; subpaso 1: hasta que 0xE560 vuelva a 0
 	ld a,(0e560h)		;67de   ; lee el borrado fila a fila en marcha
 	or a			;67e1   ; hasta acabar
 	ret nz			;67e2
-	call L_6801		;67e3
+	call eleccion_subpaso_siguiente		;67e3   ; eleccion_subpaso_siguiente: el subpaso siguiente de la eleccion (0xE31C)
 	ret			;67e6
 L_67E7:
 	call 04aa9h		;67e7   ; subpaso 2: la pantalla en blanco, 0xE399 = 1, la vuelta al azar (0xE381) y 0xE31B = 0xFF: acabada
 	call L_6827		;67ea   ; la VRAM y el bufer a cero
-	call L_6858		;67ed
+	call L_6858		;67ed   ; el bufer de 0xC400 a cero (0x300 bytes)
 	call L_6819		;67f0   ; 0xE399 y la vuelta al azar
 	ld a,0ffh		;67f3   ; acabada (0xE31B = 0xFF)
 	ld (0e31bh),a		;67f5   ; guarda el paso de la eleccion de nave
 	ret			;67f8
-L_67F9:
+eleccion_paso_siguiente:		; el paso siguiente de la eleccion (0xE31B)
 	ld hl,0e31bh		;67f9   ; el paso siguiente (0xE31B), con el subpaso a 0
 	inc (hl)			;67fc   ; el paso + 1...
 	inc hl			;67fd
 	ld (hl),000h		;67fe   ; ...y el subpaso a 0
 	ret			;6800
-L_6801:
+eleccion_subpaso_siguiente:		; el subpaso siguiente de la eleccion (0xE31C)
 	ld hl,0e31ch		;6801   ; el subpaso siguiente (0xE31C)
 	inc (hl)			;6804
 	ret			;6805
-L_6806:
+eleccion_subpaso_anterior:		; el subpaso anterior de la eleccion
 	ld hl,0e31ch		;6806   ; el subpaso anterior
 	dec (hl)			;6809
 	ret			;680a
@@ -1238,7 +1238,7 @@ L_6827:
 	ld hl,02000h		;6827   ; los colores y los dibujos a cero (0x2000 y 0x0000, 0x1800 bytes cada uno)
 	call L_6834		;682a   ; los dibujos
 	ld hl,00000h		;682d
-	call L_6834		;6830
+	call L_6834		;6830   ; 0x1800 bytes a 0
 	ret			;6833
 L_6834:
 	ld bc,01800h		;6834   ; 0x1800 bytes a 0
@@ -1278,19 +1278,19 @@ L_6866:
 	ld de,0c401h		;6876   ; el primero en 0xC401 (+ 0xE530), desde el caracter 1
 	ld hl,(0e530h)		;6879   ; + el desplazamiento (0xE530)
 	add hl,de			;687c
-	call L_6912		;687d
+	call L_6912		;687d   ; la esquina de arriba (C) y la siguiente (C + 2)
 	ld a,007h		;6880   ; el segundo en 0xC40B, desde el 7
 	ld (0ef83h),a		;6882   ; el segundo, desde el 7
 	ld de,0c40bh		;6885
 	ld hl,(0e530h)		;6888
 	add hl,de			;688b
-	call L_6912		;688c
+	call L_6912		;688c   ; la esquina de arriba (C) y la siguiente (C + 2)
 	ld a,00dh		;688f   ; el tercero en 0xC415, desde el 0x0D
 	ld (0ef83h),a		;6891   ; el tercero, desde el 0x0D
 	ld de,0c415h		;6894
 	ld hl,(0e530h)		;6897
 	add hl,de			;689a
-	call L_6912		;689b
+	call L_6912		;689b   ; la esquina de arriba (C) y la siguiente (C + 2)
 	ret			;689e
 L_689F:
 	ld hl,00006h		;689f   ; los dos marcos de las opciones: 6 x 3
@@ -1302,13 +1302,13 @@ L_689F:
 	ld de,0c424h		;68af   ; el primero en 0xC424, el segundo en 0xC434
 	ld hl,(0e530h)		;68b2
 	add hl,de			;68b5
-	call L_6912		;68b6
+	call L_6912		;68b6   ; la esquina de arriba (C) y la siguiente (C + 2)
 	ld a,007h		;68b9   ; el segundo, desde el 7
 	ld (0ef83h),a		;68bb
 	ld de,0c434h		;68be
 	ld hl,(0e530h)		;68c1
 	add hl,de			;68c4
-	call L_6912		;68c5
+	call L_6912		;68c5   ; la esquina de arriba (C) y la siguiente (C + 2)
 	ret			;68c8
 L_68C9:
 	ld hl,0000eh		;68c9   ; los cinco marcos de la eleccion de nave: 0x0E x 6 en las esquinas y 0x1E x 6 en medio
@@ -1322,21 +1322,21 @@ L_68C9:
 	ld a,081h		;68df   ; ...la de la derecha (0x81: el marco al reves)...
 	ld (0ef83h),a		;68e1
 	ld hl,0c410h		;68e4   ; arriba a la derecha
-	call L_6912		;68e7
+	call L_6912		;68e7   ; la esquina de arriba (C) y la siguiente (C + 2)
 	ld a,001h		;68ea   ; ...las dos de abajo...
 	ld (0ef83h),a		;68ec
 	ld hl,0c600h		;68ef   ; abajo a la izquierda (0xC600)
-	call L_6912		;68f2
+	call L_6912		;68f2   ; la esquina de arriba (C) y la siguiente (C + 2)
 	ld a,081h		;68f5
 	ld (0ef83h),a		;68f7
 	ld hl,0c610h		;68fa   ; abajo a la derecha
-	call L_6912		;68fd
+	call L_6912		;68fd   ; la esquina de arriba (C) y la siguiente (C + 2)
 	ld a,001h		;6900   ; ...y la de enmedio, 0x1E de ancho
 	ld (0ef83h),a		;6902
 	ld hl,0001eh		;6905   ; el de enmedio, 0x1E de ancho
 	ld (0ef80h),hl		;6908
 	ld hl,0c500h		;690b
-	call L_6912		;690e
+	call L_6912		;690e   ; la esquina de arriba (C) y la siguiente (C + 2)
 	ret			;6911
 L_6912:
 	ld a,(0ef83h)		;6912   ; la esquina de arriba (C) y la siguiente (C + 2)
@@ -1429,7 +1429,7 @@ L_699D:
 L_69A0:
 	push bc			;69a0
 	ld a,c			;69a1   ; la opcion C
-	call L_69AA		;69a2
+	call L_69AA		;69a2   ; la opcion A: el RLE de p28:A1C3 a 0xE800 y su rectangulo de 6 x 8 en el bufer
 	pop bc			;69a5
 	inc c			;69a6   ; la siguiente
 	djnz L_69A0		;69a7
@@ -1494,10 +1494,10 @@ DATA_leido_69D9:
 L_69F0:
 	xor a			;69f0   ; los dos escudos (p26:6A00 con 0 y 1)
 	call L_6A00		;69f1   ; SHIELD
-	call 059a1h		;69f4
+	call 059a1h		;69f4   ; copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 	ld a,001h		;69f7   ; FORCE FIELD
-	call L_6A00		;69f9
-	call 059a1h		;69fc
+	call L_6A00		;69f9   ; el escudo A: 0 SHIELD (0xC445, de 0x6A21) o 1 FORCE FIELD (0xC455, de 0x6A33), 3 x 6
+	call 059a1h		;69fc   ; copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 	ret			;69ff
 L_6A00:
 	or a			;6a00   ; el escudo A: 0 SHIELD (0xC445, de 0x6A21) o 1 FORCE FIELD (0xC455, de 0x6A33), 3 x 6
@@ -1548,7 +1548,7 @@ L_6A45:
 L_6A48:
 	push bc			;6a48
 	ld a,c			;6a49   ; la nave C
-	call L_6A52		;6a4a
+	call L_6A52		;6a4a   ; la nave A: el RLE de p28:A23E a 0xE800 y su rectangulo de 6 x 0x0E en el bufer (tabla de 0x6A79)
 	pop bc			;6a4d
 	inc c			;6a4e   ; la siguiente
 	djnz L_6A48		;6a4f
@@ -1658,7 +1658,7 @@ DATA_tabla_6ABC:
 
 L_6AC0:
 	ld hl,06ac7h		;6ac0   ; el borrado fila a fila de la lista de 0x6AC7 (p26:78A2)
-	call L_78A2		;6ac3
+	call borrado_empieza		;6ac3   ; borrado_empieza: empieza a borrar fila a fila la lista HL
 	ret			;6ac6
 
 ; ----------------------------------------------------------------------
@@ -1721,7 +1721,7 @@ L_6B02:
 	xor a			;6b09   ; cerrada con un 0
 	ld (0ef89h),a		;6b0a
 	ld hl,0ef80h		;6b0d   ; se borra fila a fila
-	call L_78A2		;6b10
+	call borrado_empieza		;6b10   ; borrado_empieza: empieza a borrar fila a fila la lista HL
 	ret			;6b13
 L_6B14:
 	ld a,(0e380h)		;6b14   ; la lista para borrar las otras naves, segun la elegida
@@ -1750,12 +1750,12 @@ L_6B3B:
 	xor a			;6b43   ; cerrada
 	ld (0ef86h),a		;6b44
 	ld hl,0ef80h		;6b47   ; se borra fila a fila
-	call L_78A2		;6b4a
+	call borrado_empieza		;6b4a   ; borrado_empieza: empieza a borrar fila a fila la lista HL
 	ret			;6b4d
 L_6B4E:
 	ld hl,06b57h		;6b4e   ; la lista de 0x6B57 aparece fila a fila con 0xF0 (p26:7978)
 	ld c,0f0h		;6b51   ; con 0xF0
-	call L_7978		;6b53
+	call llenado_empieza		;6b53   ; llenado_empieza: empieza a llenar fila a fila la lista HL con el byte C
 	ret			;6b56
 
 ; ----------------------------------------------------------------------
@@ -1783,7 +1783,7 @@ DATA_leido_6B58:
 L_6B61:
 	ld c,090h		;6b61   ; los trozos de 0x6B6A, fila a fila con 0x90 (p26:7AAD)
 	ld hl,06b6ah		;6b63   ; la lista de 0x6B6A
-	call L_7AAD		;6b66
+	call llenado2_empieza		;6b66   ; llenado2_empieza: otro llenado fila a fila (0xE569) de la lista HL con C
 	ret			;6b69
 
 ; ----------------------------------------------------------------------
@@ -1820,9 +1820,9 @@ L_6B6E:
 	call 04b36h		;6b71   ; rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
 	ld hl,06b83h		;6b74   ; lo de 0x6B83 con 0xF0...
 	ld c,0f0h		;6b77
-	call L_7978		;6b79
+	call llenado_empieza		;6b79   ; llenado_empieza: empieza a llenar fila a fila la lista HL con el byte C
 	ld hl,06b87h		;6b7c   ; ...y lo de 0x6B87 guardado y devuelto fila a fila
-	call L_7B52		;6b7f
+	call vuelve_empieza		;6b7f   ; vuelve_empieza: guarda y borra los trozos de IX para que vuelvan fila a fila
 	ret			;6b82
 
 ; ----------------------------------------------------------------------
@@ -1914,14 +1914,14 @@ L_6BA4:
 	ld hl,06bceh		;6bae
 L_6BB1:
 	ld c,0f0h		;6bb1
-	call L_7978		;6bb3   ; con 0xF0
+	call llenado_empieza		;6bb3   ; con 0xF0
 	ld hl,06bd5h		;6bb6   ; la lista de lo que vuelve: 0x6BD5 (arriba) o 0x6BE7 (abajo)
 	ld a,(0e380h)		;6bb9   ; lee la nave elegida (0 a 3)
 	cp 002h		;6bbc
 	jr c,L_6BC3		;6bbe
 	ld hl,06be7h		;6bc0
 L_6BC3:
-	call L_7B52		;6bc3
+	call vuelve_empieza		;6bc3   ; vuelve_empieza: guarda y borra los trozos de IX para que vuelvan fila a fila
 	ret			;6bc6
 
 ; ----------------------------------------------------------------------
@@ -2084,13 +2084,13 @@ L_6BF9:
 	ld hl,02008h		;6bf9   ; el de 0x2008...
 	call L_6C53		;6bfc   ; el tercio de arriba...
 	ld hl,02408h		;6bff   ; ...0x2408...
-	call L_6C53		;6c02
+	call L_6C53		;6c02   ; el RLE de colores de 0x6C5A en la VRAM de HL
 	ld hl,03008h		;6c05   ; ...el de abajo, 0x3008...
-	call L_6C53		;6c08
+	call L_6C53		;6c08   ; el RLE de colores de 0x6C5A en la VRAM de HL
 	ld hl,03408h		;6c0b   ; ...0x3408...
-	call L_6C53		;6c0e
+	call L_6C53		;6c0e   ; el RLE de colores de 0x6C5A en la VRAM de HL
 	ld hl,02808h		;6c11   ; ...y el de 0x2808
-	call L_6C53		;6c14
+	call L_6C53		;6c14   ; el RLE de colores de 0x6C5A en la VRAM de HL
 	ret			;6c17
 L_6C18:
 	ld a,(0e380h)		;6c18   ; lo mismo con la nave del otro lado (0xE380 XOR 3) y vuelta
@@ -2169,13 +2169,13 @@ L_6CA4:
 	jp c,L_7D46		;6cb0
 	jp z,080b7h		;6cb3
 	jp 0804ah		;6cb6
-L_6CB9:
+estado9_paso_siguiente:		; el paso siguiente del estado 9 (0xE7E4)
 	ld hl,0e7e4h		;6cb9   ; el paso siguiente (0xE7E4), con el subpaso a 0
 	inc (hl)			;6cbc
 	inc hl			;6cbd
 	ld (hl),000h		;6cbe
 	ret			;6cc0
-L_6CC1:
+estado9_subpaso_siguiente:		; el subpaso siguiente del estado 9 (0xE7E5)
 	ld hl,0e7e5h		;6cc1   ; el subpaso siguiente (0xE7E5)
 	inc (hl)			;6cc4
 	ret			;6cc5
@@ -2204,17 +2204,17 @@ DATA_tabla_6CD6:
 
 L_6CDC:
 	call 0578bh		;6cdc   ; subpaso 0: la orden 0x84 (p00:578B)
-	call L_6CC1		;6cdf
+	call estado9_subpaso_siguiente		;6cdf   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;6ce2
 L_6CE3:
 	ld hl,0e402h		;6ce3   ; subpaso 1: al acabar la espera (0xE402), se borra la pantalla (0x6CF8) y los sprites (0x6D02) fila a fila
 	dec (hl)			;6ce6   ; la espera
 	ret nz			;6ce7
 	ld hl,06cf8h		;6ce8   ; la pantalla se borra fila a fila (0x6CF8)...
-	call L_78A2		;6ceb
+	call borrado_empieza		;6ceb   ; borrado_empieza: empieza a borrar fila a fila la lista HL
 	ld hl,06d02h		;6cee   ; ...y los sprites (0x6D02)
-	call L_7913		;6cf1
-	call L_6CC1		;6cf4
+	call borrado_sprites_empieza		;6cf1   ; borrado_sprites_empieza: empieza a borrar fila a fila los sprites de HL
+	call estado9_subpaso_siguiente		;6cf4   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;6cf7
 
 ; ----------------------------------------------------------------------
@@ -2303,16 +2303,16 @@ DATA_leido_6D04:
 
 
 L_6D05:
-	call L_78AC		;6d05   ; subpaso 2: hasta acabar, y al paso siguiente
-	call L_791D		;6d08   ; los dos borrados
+	call borrado_cuadro		;6d05   ; subpaso 2: hasta acabar, y al paso siguiente
+	call borrado_sprites_cuadro		;6d08   ; los dos borrados
 	ld a,(0e560h)		;6d0b   ; lee el borrado fila a fila en marcha
 	or a			;6d0e
 	ret nz			;6d0f
-	call L_6CB9		;6d10   ; acabados: al paso siguiente
+	call estado9_paso_siguiente		;6d10   ; acabados: al paso siguiente
 	ret			;6d13
 L_6D14:
 	push bc			;6d14   ; paso 1: la nave va al centro, por el subpaso
-	call 05de9h		;6d15
+	call 05de9h		;6d15   ; sprites_a_vram_tal_cual: los 32 sprites a la VRAM (0x3B00) tal cual
 	pop af			;6d18
 	call 04093h		;6d19   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -2343,11 +2343,11 @@ L_6D24:
 	ld (0e7eeh),de		;6d44
 	xor a			;6d48   ; la cuenta de pasos a cero
 	ld (0e7e7h),a		;6d49
-	call L_6CC1		;6d4c
+	call estado9_subpaso_siguiente		;6d4c   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;6d4f
 L_6D50:
 	call L_6D89		;6d50   ; subpaso 1: se mueve (p26:6DA0) hasta el centro (p26:6D89) y se pinta (p26:6D5A)
-	call c,L_6CC1		;6d53   ; al llegar, el subpaso siguiente
+	call c,estado9_subpaso_siguiente		;6d53   ; al llegar, el subpaso siguiente
 	call L_6D5A		;6d56   ; y se pinta
 	ret			;6d59
 L_6D5A:
@@ -2363,8 +2363,8 @@ L_6D65:
 	ret			;6d6c
 L_6D6D:
 	ld hl,06d77h		;6d6d   ; subpaso 2: los sprites se borran fila a fila (0x6D77)
-	call L_7913		;6d70   ; los sprites de 0x6D77 se borran fila a fila
-	call L_6CC1		;6d73
+	call borrado_sprites_empieza		;6d70   ; los sprites de 0x6D77 se borran fila a fila
+	call estado9_subpaso_siguiente		;6d73   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;6d76
 
 ; ----------------------------------------------------------------------
@@ -2397,17 +2397,17 @@ DATA_leido_6D79:
 
 
 L_6D7A:
-	call L_791D		;6d7a   ; subpaso 3: al acabar, la pantalla limpia (p26:601E) y al paso siguiente
+	call borrado_sprites_cuadro		;6d7a   ; subpaso 3: al acabar, la pantalla limpia (p26:601E) y al paso siguiente
 	ld a,(0e573h)		;6d7d   ; hasta acabar
 	or a			;6d80
 	ret nz			;6d81
-	call L_601E		;6d82   ; la pantalla limpia y al paso siguiente
-	call L_6CB9		;6d85
+	call pantalla_limpia		;6d82   ; la pantalla limpia y al paso siguiente
+	call estado9_paso_siguiente		;6d85   ; estado9_paso_siguiente: el paso siguiente del estado 9 (0xE7E4)
 	ret			;6d88
 L_6D89:
 	ld hl,0e7e7h		;6d89   ; una cuenta mas (0xE7E7) y un paso; C si la nave llega al centro (y de 0x30 a 0x50, x de 0x70 a 0x90)
 	inc (hl)			;6d8c   ; un paso mas
-	call L_6DA0		;6d8d
+	call L_6DA0		;6d8d   ; la nave: y + 0xE7EC, x + 0xE7EE (16 bits)
 	ld a,(0e604h)		;6d90   ; lee la y de la nave (el primer byte de su sprite, p01:797C)
 	sub 030h		;6d93   ; la y entre 0x30 y 0x50?
 	cp 021h		;6d95
@@ -2429,7 +2429,7 @@ L_6DA0:
 L_6DB7:
 	push bc			;6db7   ; paso 3: la vuelta, por el subpaso
 	call 05de9h		;6db8   ; los sprites y la pantalla a la VRAM
-	call 05967h		;6dbb
+	call 05967h		;6dbb   ; bufer_a_vram_sin_marcador: el bufer de 0xCA00 a la tabla de nombres, sin las dos filas del marcador
 	pop af			;6dbe   ; y por el subpaso
 	call 04093h		;6dbf   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -2456,26 +2456,26 @@ L_6DD8:
 	ld a,001h		;6dd8   ; desde el arma, 1
 L_6DDA:
 	ld (0e40ch),a		;6dda   ; en 0xE40C
-	call L_6CC1		;6ddd
+	call estado9_subpaso_siguiente		;6ddd   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;6de0
 L_6DE1:
 	ld hl,0e40ch		;6de1   ; subpaso 1: al acabar, la orden 0x83 y el sonido 0x50, los dibujos de sprite (p00:5007) y la velocidad al reves
 	dec (hl)			;6de4
 	ret nz			;6de5
 	call 05938h		;6de6   ; orden_83_y_sonido_50: manda la orden 0x83 al motor y pide el sonido 0x50
-	call L_6033		;6de9
-	call 05007h		;6dec
+	call L_6033		;6de9   ; los dibujos de sprite a cero (0x1800, 0x800 bytes)
+	call 05007h		;6dec   ; dibujos_de_sprite: los dibujos de sprite de p14:7055 (RLE) en 0x1800
 	ld hl,(0e7ech)		;6def
-	call 04a7dh		;6df2
+	call 04a7dh		;6df2   ; niega_hl: HL = -HL
 	ld (0e7ech),hl		;6df5
 	ld hl,(0e7eeh)		;6df8
-	call 04a7dh		;6dfb
+	call 04a7dh		;6dfb   ; niega_hl: HL = -HL
 	ld (0e7eeh),hl		;6dfe
-	call L_6CC1		;6e01
+	call estado9_subpaso_siguiente		;6e01   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;6e04
 L_6E05:
 	call L_6DA0		;6e05   ; subpaso 2: la nave vuelve tantos pasos como fue (0xE7E7) a su sitio; luego la pantalla de la fase
-	call L_6D5A		;6e08
+	call L_6D5A		;6e08   ; el dibujo de la nave segun hacia donde va (p00:47D7)
 	ld hl,0e7e7h		;6e0b
 	dec (hl)			;6e0e
 	ret nz			;6e0f
@@ -2483,9 +2483,9 @@ L_6E05:
 	ld (0e604h),hl		;6e13   ; guarda la y de la nave (el primer byte de su sprite, p01:797C) y el byte siguiente (16 bits)
 	ld hl,(0e7eah)		;6e16
 	ld (0e606h),hl		;6e19   ; guarda la x de la nave y el byte siguiente (16 bits)
-	call 05959h		;6e1c
-	call L_6028		;6e1f
-	call L_6CC1		;6e22
+	call 05959h		;6e1c   ; bufer_ca00_a_cero: el bufer de 0xCA00 a cero (0x300 bytes)
+	call L_6028		;6e1f   ; la tabla de nombres a cero (0x3800, 0x2C0 bytes)
+	call estado9_subpaso_siguiente		;6e22   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;6e25
 L_6E26:
 	jp L_6CC6		;6e26   ; subpaso 3: acabado
@@ -2509,7 +2509,7 @@ DATA_tabla_6E31:
 L_6E39:
 	push bc			;6e39   ; paso 2: la pantalla del arma, por el subpaso
 	call 05de9h		;6e3a   ; los sprites y la pantalla a la VRAM
-	call 05967h		;6e3d
+	call 05967h		;6e3d   ; bufer_a_vram_sin_marcador: el bufer de 0xCA00 a la tabla de nombres, sin las dos filas del marcador
 	pop af			;6e40   ; y por el subpaso
 	call 04093h		;6e41   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -2533,38 +2533,38 @@ L_6E5E:
 	call L_6FB0		;6e64   ; los colores del plano...
 	call L_6F87		;6e67   ; ...su lista fila a fila...
 	call L_7069		;6e6a   ; ...y el dibujo de la nave
-	call L_6CC1		;6e6d
+	call estado9_subpaso_siguiente		;6e6d   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;6e70
 L_6E71:
-	call L_7A3D		;6e71   ; subpaso 1: al acabar de aparecer, los trozos del arma ya puestos (p26:71B7; los 7 con p26:71B1)
+	call llenado_cuadro		;6e71   ; subpaso 1: al acabar de aparecer, los trozos del arma ya puestos (p26:71B7; los 7 con p26:71B1)
 	ld a,(0e564h)		;6e74   ; lee el llenado fila a fila en marcha
 	or a			;6e77   ; hasta acabar de aparecer
 	ret nz			;6e78
 	ld a,(0e36fh)		;6e79   ; lee el nivel del arma secreta (0 a 7)
 	cp 007h		;6e7c   ; nivel 7: todos los trozos
 	push af			;6e7e
-	call c,L_71B7		;6e7f
+	call c,L_71B7		;6e7f   ; los de los trozos hasta el nivel 0xE36F (sin el 0); 0xE7F1 = cuantos sprites
 	pop af			;6e82
-	call nc,L_71B1		;6e83
+	call nc,L_71B1		;6e83   ; los sprites de los siete trozos
 	call L_6F94		;6e86   ; y los sprites de 0x6F9B aparecen
-	call L_6CC1		;6e89
+	call estado9_subpaso_siguiente		;6e89   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;6e8c
 L_6E8D:
-	call L_7CCC		;6e8d   ; subpaso 2: hasta acabar (p26:7CCC)
+	call sprites_aparecen_cuadro		;6e8d   ; subpaso 2: hasta acabar (p26:7CCC)
 	ld a,(0e577h)		;6e90   ; hasta acabar
 	or a			;6e93
 	ret nz			;6e94
 	call L_6FA2		;6e95   ; los de 0x6FA9
-	call L_6CC1		;6e98
+	call estado9_subpaso_siguiente		;6e98   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;6e9b
 L_6E9C:
-	call L_7CCC		;6e9c   ; subpaso 3: hasta acabar; 0x3C cuadros
+	call sprites_aparecen_cuadro		;6e9c   ; subpaso 3: hasta acabar; 0x3C cuadros
 	ld a,(0e577h)		;6e9f   ; hasta acabar
 	or a			;6ea2
 	ret nz			;6ea3
 	ld a,03ch		;6ea4   ; 0x3C cuadros
 	ld (0e7e6h),a		;6ea6
-	call L_6CC1		;6ea9
+	call estado9_subpaso_siguiente		;6ea9   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;6eac
 L_6EAD:
 	ld hl,0e7e6h		;6ead   ; subpaso 4: al acabar la espera, el arma sube un nivel (0xE36F, hasta 7); con la 7 ya, al subpaso 9
@@ -2577,7 +2577,7 @@ L_6EAD:
 	jr nc,L_6EC2		;6eba
 	inc a			;6ebc   ; si no, un nivel mas
 	ld (hl),a			;6ebd
-	call L_6CC1		;6ebe
+	call estado9_subpaso_siguiente		;6ebe   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;6ec1
 L_6EC2:
 	ld a,009h		;6ec2
@@ -2592,7 +2592,7 @@ L_6EC8:
 	jr z,L_6ED6		;6ed2
 	ld a,000h		;6ed4
 L_6ED6:
-	call L_7199		;6ed6
+	call L_7199		;6ed6   ; los sprites del trozo del nivel 0xE36F con el color A (0xE7F0), desde el sprite 0xE7F1
 	ret			;6ed9
 L_6EDA:
 	ld a,009h		;6eda   ; al acabar: el color normal (9)...
@@ -2603,7 +2603,7 @@ L_6EDA:
 	call L_7007		;6ee8   ; la casilla
 	ld a,078h		;6eeb   ; 0x78 cuadros y al subpaso siguiente
 	ld (0e7e6h),a		;6eed
-	call L_6CC1		;6ef0
+	call estado9_subpaso_siguiente		;6ef0   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;6ef3
 L_6EF4:
 	call L_7022		;6ef4   ; subpaso 6: p26:7022; al acabar, el arma en su casilla (p26:6F06) y el marcador (p00:47E8)
@@ -2612,12 +2612,12 @@ L_6EF4:
 	ret nz			;6efb
 	call L_6F06		;6efc   ; al acabar, el arma en su casilla
 	call 047e8h		;6eff   ; y el marcador (p00:47E8)
-	call L_6CC1		;6f02
+	call estado9_subpaso_siguiente		;6f02   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;6f05
 L_6F06:
 	ld a,(0e36fh)		;6f06   ; la casilla del arma de 0xE36F (tabla de 0x701A): si esta vacia (0xFF), se llena (p00:47F4)
 	ld hl,0701ah		;6f09   ; la casilla del nivel (tabla de 0x701A)
-	call 04a6eh		;6f0c
+	call 04a6eh		;6f0c   ; lee_byte: A = el byte A de la tabla HL
 	ld (0ef80h),a		;6f0f
 	call 047f4h		;6f12   ; p04:94BD con 4-5 (p00:47F4)
 	ld hl,0e433h		;6f15   ; la casilla en 0xE433: vacia (0xFF)...
@@ -2639,7 +2639,7 @@ L_6F2B:
 	call 04b1fh		;6f31   ; texto_a_ram: copia a la RAM el texto de HL
 	ld a,078h		;6f34   ; 0x78 cuadros
 	ld (0e7e6h),a		;6f36
-	call L_6CC1		;6f39
+	call estado9_subpaso_siguiente		;6f39   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;6f3c
 
 ; ----------------------------------------------------------------------
@@ -2659,14 +2659,14 @@ L_6F56:
 	ld hl,0e7e6h		;6f56   ; subpaso 0x0A: la espera
 	dec (hl)			;6f59
 	ret nz			;6f5a
-	call L_6CC1		;6f5b
+	call estado9_subpaso_siguiente		;6f5b   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;6f5e
 L_6F5F:
 	ld hl,06cf8h		;6f5f   ; subpaso 0x0B: la pantalla (0x6CF8) y los sprites (0x6F6F) se borran fila a fila
-	call L_78A2		;6f62   ; la pantalla fila a fila...
+	call borrado_empieza		;6f62   ; la pantalla fila a fila...
 	ld hl,06f6fh		;6f65   ; ...y los sprites de 0x6F6F
-	call L_7913		;6f68
-	call L_6CC1		;6f6b
+	call borrado_sprites_empieza		;6f68   ; borrado_sprites_empieza: empieza a borrar fila a fila los sprites de HL
+	call estado9_subpaso_siguiente		;6f6b   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;6f6e
 
 ; ----------------------------------------------------------------------
@@ -2699,20 +2699,20 @@ DATA_leido_6F71:
 
 
 L_6F72:
-	call L_78AC		;6f72   ; subpaso 0x0C: al acabar, los sprites fuera y al paso siguiente
-	call L_791D		;6f75   ; hasta acabar
+	call borrado_cuadro		;6f72   ; subpaso 0x0C: al acabar, los sprites fuera y al paso siguiente
+	call borrado_sprites_cuadro		;6f75   ; hasta acabar
 	ld a,(0e560h)		;6f78   ; lee el borrado fila a fila en marcha
 	or a			;6f7b
 	ret nz			;6f7c
 	call 05648h		;6f7d   ; los sprites fuera
-	call 05de9h		;6f80
-	call L_6CB9		;6f83   ; y al paso siguiente
+	call 05de9h		;6f80   ; sprites_a_vram_tal_cual: los 32 sprites a la VRAM (0x3B00) tal cual
+	call estado9_paso_siguiente		;6f83   ; y al paso siguiente
 	ret			;6f86
 L_6F87:
 	ld c,0f0h		;6f87   ; la lista de 0x6F90 aparece fila a fila con 0xF0
 L_6F89:
 	ld hl,06f90h		;6f89
-	call L_7978		;6f8c
+	call llenado_empieza		;6f8c   ; llenado_empieza: empieza a llenar fila a fila la lista HL con el byte C
 	ret			;6f8f
 
 ; ----------------------------------------------------------------------
@@ -2739,7 +2739,7 @@ DATA_leido_6F91:
 
 L_6F94:
 	ld hl,06f9bh		;6f94   ; los sprites de 0x6F9B aparecen fila a fila (p26:7C85)
-	call L_7C85		;6f97
+	call sprites_aparecen		;6f97   ; sprites_aparecen: empieza la aparicion fila a fila de los sprites de HL
 	ret			;6f9a
 
 ; ----------------------------------------------------------------------
@@ -2759,7 +2759,7 @@ DATA_leido_6F9B:
 
 L_6FA2:
 	ld hl,06fa9h		;6fa2   ; los de 0x6FA9
-	call L_7C85		;6fa5
+	call sprites_aparecen		;6fa5   ; sprites_aparecen: empieza la aparicion fila a fila de los sprites de HL
 	ret			;6fa8
 
 ; ----------------------------------------------------------------------
@@ -2836,7 +2836,7 @@ L_7001:
 L_7007:
 	ld a,(0e36fh)		;7007   ; la casilla del nivel 0xE36F (tabla de 0x701A) en la fila de 0x3AC0: su direccion en 0xE7F2
 	ld hl,l701ah		;700a   ; la casilla del nivel...
-	call 04a6eh		;700d
+	call 04a6eh		;700d   ; lee_byte: A = el byte A de la tabla HL
 	add a,a			;7010   ; ...x 2 en la fila de 0x3AC0
 	ld hl,03ac0h		;7011
 	call 04089h		;7014   ; suma_a_hl: HL = HL + A
@@ -2919,7 +2919,7 @@ DATA_704E:
 L_7069:
 	ld a,(0e380h)		;7069   ; el dibujo de la nave 0xE380 (tabla de 0x7073, p26:6064)
 	ld hl,07073h		;706c   ; la tabla de 0x7073
-	call L_6064		;706f
+	call L_6064		;706f   ; un rectangulo de la tabla HL (palabra A) a 0xCD00 y al bufer: DE el destino, B filas, C bytes (p00:59A1)
 	ret			;7072
 
 ; ----------------------------------------------------------------------
@@ -2990,11 +2990,11 @@ L_7199:
 	call 0408eh		;71a4   ; suma_a_de: DE = DE + A
 	ld a,(0e36fh)		;71a7   ; lee el nivel del arma secreta (0 a 7)
 	ld (0ef80h),a		;71aa   ; el nivel de 0xE36F
-	call L_71DF		;71ad
+	call L_71DF		;71ad   ; los sprites del nivel 0xEF80 de la nave (tabla de 0x720C): cuantos, y por cada uno y, x y dibujo; el color 0xE7F0 (1 con el dibujo 0x6C)
 	ret			;71b0
 L_71B1:
 	ld a,007h		;71b1   ; los sprites de los siete trozos
-	call L_71CA		;71b3
+	call L_71CA		;71b3   ; los sprites de los niveles A a 1, con el color 0x0B, desde 0xEF00
 	ret			;71b6
 L_71B7:
 	xor a			;71b7   ; los de los trozos hasta el nivel 0xE36F (sin el 0); 0xE7F1 = cuantos sprites
@@ -3003,7 +3003,7 @@ L_71B7:
 	or a			;71be   ; sin nivel, nada
 	ret z			;71bf
 	ld c,000h		;71c0   ; C cuenta los sprites
-	call L_71CA		;71c2
+	call L_71CA		;71c2   ; los sprites de los niveles A a 1, con el color 0x0B, desde 0xEF00
 	ld a,c			;71c5   ; cuantos, en 0xE7F1
 	ld (0e7f1h),a		;71c6
 	ret			;71c9
@@ -3101,7 +3101,7 @@ L_730A:
 	call L_7344		;7319   ; el dibujo
 	call L_743B		;731c   ; y todo una vez
 	ret			;731f
-L_7320:
+consola_cuadro:		; la consola, un cuadro
 	call L_783F		;7320   ; la consola, cada cuadro: el contador (p26:783F), sus cifras (p26:7542) y, cada 0xE540 cuadros, la animacion
 	call L_7542		;7323   ; las cifras
 	call L_732A		;7326   ; y la animacion
@@ -3109,13 +3109,13 @@ L_7320:
 L_732A:
 	call L_7451		;732a   ; la animacion: los cuatro aparatos (p26:746C, 7487, 74A2, 74BD) y los sprites (p26:745E, 74D8, 7528)
 	ret c			;732d   ; aun no
-	call L_746C		;732e
-	call L_7487		;7331
-	call L_74A2		;7334
-	call L_74BD		;7337
+	call L_746C		;732e   ; el aparato 1: su cuadro siguiente (0xE542, 4), 8 x 4 de la tabla de 0x7573 en 0xCA42
+	call L_7487		;7331   ; el aparato 2: 0xE543, 6 x 3 de 0x75FB en 0xCB42
+	call L_74A2		;7334   ; el aparato 3: 0xE544, 2 x 0x0A de 0x764B en 0xCBC6
+	call L_74BD		;7337   ; el aparato 4: 0xE54A, 4 x 4 de 0x76B7 en 0xCAFA
 	call L_745E		;733a   ; los sprites a cero y los de los indicadores
-	call L_74D8		;733d
-	call L_7528		;7340
+	call L_74D8		;733d   ; cuatro grupos de sprites: 0xE546 (3 cuadros, 0x7713), 0xE547 (5, 0x7734), 0xE548 (8, 0x775B) y 0xE549 (8, 0x778F)
+	call L_7528		;7340   ; seis sprites del cuadro siguiente (0xE54B, 4) de la tabla de 0x77D7, en 0xEF1C
 	ret			;7343
 L_7344:
 	ld hl,0a8c8h		;7344   ; el dibujo de la consola: el RLE de p28:A8C8 (0x0D filas de 0x14 en 0xCA26) y el de p28:A935 (7 de 0x1E en 0xCC01)...
@@ -3124,14 +3124,14 @@ L_7344:
 	ld hl,0cd00h		;734d   ; ...y al bufer: 0x0D filas de 0x14 en 0xCA26
 	ld de,0ca26h		;7350
 	ld bc,00d14h		;7353
-	call 059a1h		;7356
+	call 059a1h		;7356   ; copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 	ld hl,0a935h		;7359   ; el de p28:A935...
 	ld de,0cd00h		;735c
 	call 055adh		;735f   ; rle_a_ram: descomprime a la RAM de DE el RLE de HL
 	ld hl,0cd00h		;7362   ; ...7 filas de 0x1E en 0xCC01
 	ld de,0cc01h		;7365
 	ld bc,0071eh		;7368
-	call 059a1h		;736b
+	call 059a1h		;736b   ; copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 	ld a,03dh		;736e   ; caracteres sueltos: 0x3D, 0x4A, 0x48, 0x55, 0x47, 0x54, 0x49 y 0x56
 	ld (0cbd0h),a		;7370
 	ld a,04ah		;7373
@@ -3151,11 +3151,11 @@ L_7344:
 	ld hl,076ffh		;7396   ; un rectangulo de 5 x 4 de 0x76FF en 0xCA5A
 	ld de,0ca5ah		;7399
 	ld bc,00504h		;739c
-	call 059a1h		;739f
+	call 059a1h		;739f   ; copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 	ld hl,077c3h		;73a2   ; y otro de 0x77C3 en 0xCB7A
 	ld de,0cb7ah		;73a5
 	ld bc,00504h		;73a8
-	call 059a1h		;73ab
+	call 059a1h		;73ab   ; copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 	ret			;73ae
 L_73AF:
 	ld ix,073e0h		;73af   ; los graficos de la consola: las listas de 0x73E0 y 0x73F9, los dibujos de sprite de p28:AF44 y p28:B0C2, los espejos de 0x7406 (p00:4E5A) y p28:B0F5 en 0x1E00
@@ -3169,7 +3169,7 @@ L_73AF:
 	ld de,0b0c2h		;73c9
 	call 04b3ch		;73cc   ; rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 	ld ix,07406h		;73cf   ; los espejos de 0x7406
-	call 04e5ah		;73d3
+	call 04e5ah		;73d3   ; sprites copiados con espejo: la lista de IX de 4 en 4, hasta un 0 (p00:4E5A)
 	ld hl,01e00h		;73d6   ; y los de p28:B0F5 en 0x1E00
 	ld de,0b0f5h		;73d9
 	call 04b3ch		;73dc   ; rle_a_vram: descomprime a la VRAM de HL el RLE de DE
@@ -3339,11 +3339,11 @@ DATA_leido_7436:
 L_743B:
 	call L_746C		;743b   ; todo una vez: los aparatos, las cifras y los sprites
 	call L_7487		;743e   ; los cuatro aparatos...
-	call L_74A2		;7441
-	call L_74BD		;7444
+	call L_74A2		;7441   ; el aparato 3: 0xE544, 2 x 0x0A de 0x764B en 0xCBC6
+	call L_74BD		;7444   ; el aparato 4: 0xE54A, 4 x 4 de 0x76B7 en 0xCAFA
 	call L_7542		;7447   ; ...las cifras...
 	call L_74D8		;744a   ; ...y los sprites
-	call L_7528		;744d
+	call L_7528		;744d   ; seis sprites del cuadro siguiente (0xE54B, 4) de la tabla de 0x77D7, en 0xEF1C
 	ret			;7450
 L_7451:
 	ld hl,0e540h		;7451   ; la cuenta 0xE541, de 0 a 0xE540 - 1: C mientras no da la vuelta
@@ -3377,7 +3377,7 @@ L_7476:
 	call 04a5ah		;747a   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld de,0ca42h		;747d   ; ...8 filas de 4 en 0xCA42
 	ld bc,00804h		;7480
-	call 059a1h		;7483
+	call 059a1h		;7483   ; copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 	ret			;7486
 L_7487:
 	ld hl,0e543h		;7487   ; el aparato 2: 0xE543, 6 x 3 de 0x75FB en 0xCB42
@@ -3392,7 +3392,7 @@ L_7491:
 	call 04a5ah		;7495   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld de,0cb42h		;7498
 	ld bc,00603h		;749b   ; 6 filas de 3 en 0xCB42
-	call 059a1h		;749e
+	call 059a1h		;749e   ; copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 	ret			;74a1
 L_74A2:
 	ld hl,0e544h		;74a2   ; el aparato 3: 0xE544, 2 x 0x0A de 0x764B en 0xCBC6
@@ -3407,7 +3407,7 @@ L_74AC:
 	call 04a5ah		;74b0   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld de,0cbc6h		;74b3
 	ld bc,0020ah		;74b6
-	call 059a1h		;74b9
+	call 059a1h		;74b9   ; copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 	ret			;74bc
 L_74BD:
 	ld hl,0e54ah		;74bd   ; el aparato 4: 0xE54A, 4 x 4 de 0x76B7 en 0xCAFA
@@ -3422,7 +3422,7 @@ L_74C7:
 	call 04a5ah		;74cb   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld de,0cafah		;74ce
 	ld bc,00404h		;74d1
-	call 059a1h		;74d4
+	call 059a1h		;74d4   ; copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 	ret			;74d7
 L_74D8:
 	ld de,0ef00h		;74d8   ; cuatro grupos de sprites: 0xE546 (3 cuadros, 0x7713), 0xE547 (5, 0x7734), 0xE548 (8, 0x775B) y 0xE549 (8, 0x778F)
@@ -3431,25 +3431,25 @@ L_74D8:
 	exx			;74e1
 	ld c,003h		;74e2   ; 3 cuadros
 	exx			;74e4
-	call L_7510		;74e5
+	call L_7510		;74e5   ; el cuadro siguiente (de C) de la tabla HL: cuantos sprites y sus 4 bytes, a DE
 	ld bc,0e547h		;74e8   ; el segundo: 0xE547, 5 de 0x7734
 	ld hl,07734h		;74eb
 	exx			;74ee
 	ld c,005h		;74ef   ; 5 cuadros
 	exx			;74f1
-	call L_7510		;74f2
+	call L_7510		;74f2   ; el cuadro siguiente (de C) de la tabla HL: cuantos sprites y sus 4 bytes, a DE
 	ld bc,0e548h		;74f5   ; el tercero: 0xE548, 8 de 0x775B
 	ld hl,0775bh		;74f8
 	exx			;74fb
 	ld c,008h		;74fc   ; 8 cuadros
 	exx			;74fe
-	call L_7510		;74ff
+	call L_7510		;74ff   ; el cuadro siguiente (de C) de la tabla HL: cuantos sprites y sus 4 bytes, a DE
 	ld bc,0e549h		;7502   ; el cuarto: 0xE549, 8 de 0x778F
 	ld hl,0778fh		;7505
 	exx			;7508
 	ld c,008h		;7509   ; 8 cuadros
 	exx			;750b
-	call L_7510		;750c
+	call L_7510		;750c   ; el cuadro siguiente (de C) de la tabla HL: cuantos sprites y sus 4 bytes, a DE
 	ret			;750f
 L_7510:
 	ld a,(bc)			;7510   ; el cuadro siguiente (de C) de la tabla HL: cuantos sprites y sus 4 bytes, a DE
@@ -3491,11 +3491,11 @@ L_7542:
 	ld bc,0e54fh		;7542   ; las cifras del contador: 4 de 0xE54F en 0xCBD2 y 2 de 0xE553 en 0xCBD7
 	ld de,0cbd2h		;7545   ; en 0xCBD2, 4 cifras
 	ld l,004h		;7548
-	call L_7559		;754a
+	call L_7559		;754a   ; L cifras: cada una dos caracteres, arriba y abajo (tabla de 0x76A3)
 	ld bc,0e553h		;754d   ; las 2 de 0xE553 en 0xCBD7
 	ld de,0cbd7h		;7550
 	ld l,002h		;7553
-	call L_7559		;7555
+	call L_7559		;7555   ; L cifras: cada una dos caracteres, arriba y abajo (tabla de 0x76A3)
 	ret			;7558
 L_7559:
 	push hl			;7559   ; L cifras: cada una dos caracteres, arriba y abajo (tabla de 0x76A3)
@@ -3808,12 +3808,12 @@ L_7882:
 	inc hl			;789f
 	ld (hl),a			;78a0
 	ret			;78a1
-L_78A2:
+borrado_empieza:		; empieza a borrar fila a fila la lista HL
 	ld (0e562h),hl		;78a2   ; empieza un borrado fila a fila: la lista HL en 0xE562 y 0xE560 = 1 (la fila 0 en 0xE561)
 	ld hl,00001h		;78a5   ; en marcha, desde la fila 0
 	ld (0e560h),hl		;78a8   ; guarda el borrado fila a fila en marcha y el byte siguiente (16 bits)
 	ret			;78ab
-L_78AC:
+borrado_cuadro:		; el borrado fila a fila, cada 4 cuadros
 	ld a,(0e303h)		;78ac   ; cada 4 cuadros, la fila 0xE561 de los dibujos de cada trozo de la lista a 0; a las 8, acaba (0xE560 = 0)
 	and 003h		;78af   ; cada 4 cuadros
 	ret nz			;78b1
@@ -3824,7 +3824,7 @@ L_78B8:
 	ld a,(ix+000h)		;78b8   ; cada trozo hasta el 0
 	or a			;78bb
 	jr z,L_78C9		;78bc
-	call L_78D7		;78be
+	call L_78D7		;78be   ; los tercios de sus bits 2, 1 y 0
 	ld bc,00003h		;78c1   ; 3 bytes cada uno
 	add ix,bc		;78c4
 	jp L_78B8		;78c6
@@ -3866,12 +3866,12 @@ L_790C:
 	add hl,de			;790f
 	djnz L_790C		;7910
 	ret			;7912
-L_7913:
+borrado_sprites_empieza:		; empieza a borrar fila a fila los sprites de HL
 	ld (0e575h),hl		;7913   ; lo mismo con los dibujos de sprite: la lista HL en 0xE575 y 0xE573 = 1
 	ld hl,00001h		;7916   ; en marcha, desde la fila 0
 	ld (0e573h),hl		;7919
 	ret			;791c
-L_791D:
+borrado_sprites_cuadro:		; el borrado de sprites, cada 4 cuadros
 	ld a,(0e303h)		;791d   ; cada 4 cuadros, la fila 0xE574 de cada sprite de la lista (dibujo, cuantos x 4) a 0; 0xFF acaba
 	and 003h		;7920   ; cada 4 cuadros
 	ret nz			;7922
@@ -3917,13 +3917,13 @@ L_7964:
 	add hl,de			;7967
 	djnz L_7964		;7968
 	ret			;796a
-L_796B:
+llenado_con_pausas:		; empieza a llenar fila a fila con pausas la lista HL con el byte C
 	ld (0e57dh),a		;796b   ; lo mismo que p26:7978, con 0xE57D = A y 0xE57B = 0x100
-	call L_7978		;796e   ; y con 0x100 en 0xE57B
+	call llenado_empieza		;796e   ; y con 0x100 en 0xE57B
 	ld hl,00100h		;7971
 	ld (0e57bh),hl		;7974
 	ret			;7977
-L_7978:
+llenado_empieza:		; empieza a llenar fila a fila la lista HL con el byte C
 	ld a,c			;7978   ; empieza un llenado fila a fila: los trozos de HL a cero (p26:7998) y 0xE564 = 1, con el byte C (0xE568)
 	ld (0e568h),a		;7979   ; el byte, la lista...
 	ld (0e566h),hl		;797c
@@ -3967,7 +3967,7 @@ L_79B7:
 	xor a			;79ca   ; ...a cero
 	call 00056h		;79cb   ; BIOS FILVRM - Fills VRAM with value
 	ret			;79ce
-L_79CF:
+llenado_con_pausas_cuadro:		; el llenado con pausas, un cuadro
 	ld a,(0e57bh)		;79cf   ; el llenado con pausas: con 0xE57B a 0, espera 0x3C cuadros por trozo...
 	or a			;79d2   ; con pausa: cada 0x3C cuadros...
 	jr nz,L_79DF		;79d3
@@ -4033,7 +4033,7 @@ L_7A38:
 	xor a			;7a38   ; los demas, la pausa normal (0xE57B = 0)
 	ld (0e57bh),a		;7a39   ; con la pausa (0xE57B = 0)
 	ret			;7a3c
-L_7A3D:
+llenado_cuadro:		; el llenado fila a fila, cada 4 cuadros
 	ld b,001h		;7a3d   ; cada 4 cuadros (cada 2 con 0xE32B), la fila 0xE565 de todos los trozos con el byte 0xE568; a las 8, acaba
 	ld a,(0e32bh)		;7a3f   ; cada 2 cuadros con 0xE32B...
 	or a			;7a42
@@ -4048,7 +4048,7 @@ L_7A50:
 	ld a,(ix+000h)		;7a50   ; cada trozo hasta el 0
 	or a			;7a53
 	jr z,L_7A61		;7a54
-	call L_7A6F		;7a56
+	call L_7A6F		;7a56   ; los tercios de sus bits 2, 1 y 0
 	ld bc,00003h		;7a59
 	add ix,bc		;7a5c
 	jp L_7A50		;7a5e
@@ -4091,37 +4091,37 @@ L_7AA6:
 	add hl,de			;7aa9
 	djnz L_7AA6		;7aaa
 	ret			;7aac
-L_7AAD:
+llenado2_empieza:		; otro llenado fila a fila (0xE569) de la lista HL con C
 	ld a,c			;7aad   ; otro llenado (lista 0xE56B, byte 0xE56D, en marcha 0xE569)
 	ld (0e56dh),a		;7aae   ; el byte y la lista...
 	ld (0e56bh),hl		;7ab1
 	ld hl,00001h		;7ab4   ; ...en marcha
 	ld (0e569h),hl		;7ab7
 	ret			;7aba
-L_7ABB:
+llenado3_empieza:		; otro llenado fila a fila (0xE56E) de la lista HL con C
 	ld a,c			;7abb   ; y otro mas (lista 0xE570, byte 0xE572, en marcha 0xE56E)
 	ld (0e572h),a		;7abc   ; el byte y la lista...
 	ld (0e570h),hl		;7abf
 	ld hl,00001h		;7ac2   ; ...en marcha
 	ld (0e56eh),hl		;7ac5
 	ret			;7ac8
-L_7AC9:
+llenado2_cuadro:		; el llenado de 0xE569, cada 4 cuadros
 	exx			;7ac9   ; el llenado de 0xE569, cada 4 cuadros (p26:7AED)
 	ld hl,0e56ah		;7aca   ; sus variables: la fila, en marcha y el byte
 	ld de,0e569h		;7acd
 	ld bc,0e56dh		;7ad0
 	exx			;7ad3
 	ld hl,(0e56bh)		;7ad4   ; y su lista
-	call L_7AED		;7ad7
+	call L_7AED		;7ad7   ; cada 4 cuadros, una fila mas de todos los trozos de HL; a las 8, acaba
 	ret			;7ada
-L_7ADB:
+llenado3_cuadro:		; el llenado de 0xE56E, cada 4 cuadros
 	exx			;7adb   ; el de 0xE56E
 	ld hl,0e56fh		;7adc   ; sus variables: la fila, en marcha y el byte
 	ld de,0e56eh		;7adf
 	ld bc,0e572h		;7ae2
 	exx			;7ae5
 	ld hl,(0e570h)		;7ae6   ; y su lista
-	call L_7AED		;7ae9
+	call L_7AED		;7ae9   ; cada 4 cuadros, una fila mas de todos los trozos de HL; a las 8, acaba
 	ret			;7aec
 L_7AED:
 	ld a,(0e303h)		;7aed   ; cada 4 cuadros, una fila mas de todos los trozos de HL; a las 8, acaba
@@ -4133,7 +4133,7 @@ L_7AF6:
 	ld a,(ix+000h)		;7af6   ; cada trozo hasta el 0
 	or a			;7af9
 	jr z,L_7B07		;7afa
-	call L_7B14		;7afc
+	call L_7B14		;7afc   ; los tercios de sus bits 2, 1 y 0
 	ld bc,00003h		;7aff
 	add ix,bc		;7b02
 	jp L_7AF6		;7b04
@@ -4182,7 +4182,7 @@ L_7B4B:
 	add hl,de			;7b4e
 	djnz L_7B4B		;7b4f
 	ret			;7b51
-L_7B52:
+vuelve_empieza:		; guarda y borra los trozos de IX para que vuelvan fila a fila
 	push hl			;7b52   ; los trozos de IX: sus graficos (p00:4CB1 y 4D1B) se guardan en 0xC700 y se borran de la VRAM; 0xE580 = 1
 	pop ix		;7b53
 	ld hl,0c700h		;7b55   ; lo guardado va a 0xC700
@@ -4251,13 +4251,13 @@ L_7BCE:
 	call 00059h		;7bdb   ; BIOS LDIRMV - Block transfers to memory from VRAM | de la VRAM a la RAM (LDIRMV)
 	ld de,00000h		;7bde   ; y se borran en cada tercio (p26:7BFD)
 	bit 2,(iy+000h)		;7be1   ; a 0 en sus tercios
-	call nz,L_7BFD		;7be5
+	call nz,L_7BFD		;7be5   ; los bytes del trozo en la VRAM a 0
 	ld de,00800h		;7be8
 	bit 1,(iy+000h)		;7beb
-	call nz,L_7BFD		;7bef
+	call nz,L_7BFD		;7bef   ; los bytes del trozo en la VRAM a 0
 	ld de,01000h		;7bf2
 	bit 0,(iy+000h)		;7bf5
-	call nz,L_7BFD		;7bf9
+	call nz,L_7BFD		;7bf9   ; los bytes del trozo en la VRAM a 0
 	ret			;7bfc
 L_7BFD:
 	ld hl,(0ef82h)		;7bfd   ; los bytes del trozo en la VRAM a 0
@@ -4266,7 +4266,7 @@ L_7BFD:
 	xor a			;7c05
 	call 00056h		;7c06   ; BIOS FILVRM - Fills VRAM with value
 	ret			;7c09
-L_7C0A:
+vuelve_cuadro:		; lo guardado vuelve fila a fila, cada 4 cuadros
 	ld a,(0e303h)		;7c0a   ; cada 4 cuadros vuelve una fila de cada trozo guardado; a las 8, acaba (0xE580 = 0)
 	and 003h		;7c0d   ; cada 4 cuadros
 	ret nz			;7c0f
@@ -4277,7 +4277,7 @@ L_7C16:
 	ld a,(ix+000h)		;7c16   ; cada trozo hasta el 0
 	or a			;7c19
 	jr z,L_7C27		;7c1a
-	call L_7C35		;7c1c
+	call L_7C35		;7c1c   ; los tercios de sus bits 2, 1 y 0
 	ld bc,00005h		;7c1f
 	add ix,bc		;7c22
 	jp L_7C16		;7c24
@@ -4329,7 +4329,7 @@ L_7C7A:
 	add hl,de			;7c81
 	djnz L_7C7A		;7c82
 	ret			;7c84
-L_7C85:
+sprites_aparecen:		; empieza la aparicion fila a fila de los sprites de HL
 	inc hl			;7c85   ; los sprites que aparecen fila a fila: la lista HL + 2 (0xE579), con su destino delante; 0xE577 = 1
 	inc hl			;7c86
 	ld (0e579h),hl		;7c87   ; la lista en 0xE579...
@@ -4367,7 +4367,7 @@ L_7C99:
 	ld bc,00004h		;7cc4   ; el siguiente (4 bytes)
 	add ix,bc		;7cc7
 	jp L_7C99		;7cc9
-L_7CCC:
+sprites_aparecen_cuadro:		; la aparicion de sprites, cada 4 cuadros
 	ld a,(0e303h)		;7ccc   ; cada 4 cuadros
 	and 003h		;7ccf   ; cada 4 cuadros
 	ret nz			;7cd1
@@ -4384,7 +4384,7 @@ L_7CE6:
 	ld a,(ix+000h)		;7ce6   ; por cada sprite (0xFF acaba)...
 	cp 0ffh		;7ce9   ; 0xFF: fin de la lista
 	jr z,L_7D0A		;7ceb
-	call L_7D18		;7ced
+	call L_7D18		;7ced   ; un sprite: la fila 0xE578 de cada uno de sus IX+1 dibujos
 	exx			;7cf0   ; ...su destino avanza cuantos x 8 bytes
 	ld l,(ix+001h)		;7cf1   ; lo guardado avanza cuantos x 8
 	ld h,000h		;7cf4
@@ -4454,15 +4454,15 @@ DATA_tabla_7D4E:
 L_7D56:
 	push bc			;7d56   ; paso 2: los sprites a la VRAM, la pantalla, la consola cada cuadro (p26:7320) y, desde el subpaso 2, p26:7E6B
 	call 05de9h		;7d57   ; los sprites y la pantalla a la VRAM
-	call 05985h		;7d5a
+	call 05985h		;7d5a   ; bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
 	pop af			;7d5d
 	or a			;7d5e   ; desde el subpaso 1, la consola cada cuadro
 	push af			;7d5f
-	call nz,L_7320		;7d60
+	call nz,consola_cuadro		;7d60   ; consola_cuadro: la consola, un cuadro
 	pop af			;7d63
 	push af			;7d64
 	cp 002h		;7d65   ; desde el 2, los colores de las marcas
-	call nc,L_7E6B		;7d67
+	call nc,L_7E6B		;7d67   ; cada 8 cuadros otro de cuatro colores (tabla de 0x7EB9) en los caracteres 0xEC, 0xED y 0xEE (0x0760-0x0777 y 0x0F60-0x0F77)
 	pop af			;7d6a   ; y por el subpaso
 	call 04093h		;7d6b   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -4481,11 +4481,11 @@ DATA_tabla_7D6E:
 
 L_7D7C:
 	call 0580eh		;7d7c   ; subpaso 0: el sonido 0x3F, la paleta, la consola (p26:60DF) con el contador de 0x6108, y 0x78 cuadros
-	call L_6CC1		;7d7f
+	call estado9_subpaso_siguiente		;7d7f   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	call 05718h		;7d82   ; la paleta
-	call L_60DF		;7d85   ; la consola
+	call consola		;7d85   ; la consola
 	ld hl,06108h		;7d88   ; con el contador de 0x6108
-	call L_60F9		;7d8b
+	call contador_de_hl		;7d8b   ; contador_de_hl: las 6 cifras del contador de la consola, de HL
 	ld a,078h		;7d8e   ; 0x78 cuadros
 	ld (0e5c0h),a		;7d90
 	ret			;7d93
@@ -4499,8 +4499,8 @@ L_7D94:
 	sub 008h		;7da2   ; la secuencia del tipo (8, 9 o 0x0A) en la tabla de 0x7DB1
 	ld hl,07db1h		;7da4
 	call 04a5ah		;7da7   ; lee_palabra: HL = la palabra A de la tabla HL
-	call L_612A		;7daa
-	call L_6CC1		;7dad
+	call secuencia_de_hl		;7daa   ; secuencia_de_hl: empieza la secuencia de dibujos de HL
+	call estado9_subpaso_siguiente		;7dad   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;7db0
 
 ; ----------------------------------------------------------------------
@@ -4519,7 +4519,7 @@ DATA_tabla_7DB1:
 
 
 L_7DB7:
-	call L_6135		;7db7   ; subpaso 2: hasta acabar la secuencia; con una sola marca de las tres (0xE393-0xE395), al subpaso 3; si no, al 5
+	call secuencia_sigue		;7db7   ; subpaso 2: hasta acabar la secuencia; con una sola marca de las tres (0xE393-0xE395), al subpaso 3; si no, al 5
 	ret nz			;7dba   ; hasta acabarla
 	ld hl,0e393h		;7dbb   ; apunta a 1 si se cogio la entrada secreta 8
 	ld a,(hl)			;7dbe   ; cuantas marcas (0xE393 + 0xE394 + 0xE395)
@@ -4536,29 +4536,29 @@ L_7DCA:
 	ret			;7dcd
 L_7DCE:
 	ld hl,061d8h		;7dce   ; subpaso 3: la secuencia de 0x61D8
-	call L_612A		;7dd1   ; la secuencia de 0x61D8
-	call L_6CC1		;7dd4
+	call secuencia_de_hl		;7dd1   ; la secuencia de 0x61D8
+	call estado9_subpaso_siguiente		;7dd4   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;7dd7
 L_7DD8:
-	call L_6135		;7dd8   ; subpaso 4: hasta acabarla
+	call secuencia_sigue		;7dd8   ; subpaso 4: hasta acabarla
 	ret nz			;7ddb   ; hasta acabarla
-	call L_6CC1		;7ddc
+	call estado9_subpaso_siguiente		;7ddc   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;7ddf
 L_7DE0:
 	xor a			;7de0   ; subpaso 5: sin espera
 	ld (0e5c0h),a		;7de1   ; sin espera
-	call L_6CC1		;7de4
+	call estado9_subpaso_siguiente		;7de4   ; estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 	ret			;7de7
 L_7DE8:
 	ld hl,0e5c0h		;7de8   ; subpaso 6: los sprites fuera, la fila de 0x3AC0 a cero, la pantalla de la fase y al paso siguiente
 	dec (hl)			;7deb   ; la espera
 	ret nz			;7dec
-L_7DED:
+estado9_vuelta:		; los sprites fuera, la pantalla de la fase y al paso siguiente
 	call 05648h		;7ded   ; los sprites fuera
 	call 05de9h		;7df0   ; los sprites a la VRAM
 	call L_60D4		;7df3   ; la fila de 0x3AC0 a cero
 	call 05959h		;7df6   ; el bufer a cero
-	call L_6CB9		;7df9   ; y al paso siguiente
+	call estado9_paso_siguiente		;7df9   ; y al paso siguiente
 	ret			;7dfc
 L_7DFD:
 	call 041e4h		;7dfd   ; con el 29, los RLE de p29:A000, A0FC, A105 y A1AA a la VRAM y la lista de graficos de 0x7E23
@@ -4592,28 +4592,28 @@ DATA_graficos_7E23:
 L_7E2A:
 	ld a,(0e393h)		;7e2a   ; las tres marcas: 0xE393 (0xEC en 0xCAC9), 0xE394 (0xED en 0xCACE) y 0xE395 (0xEE en 0xCAD3)
 	or a			;7e2d   ; la 8: en 0xCAC9
-	call nz,L_7E40		;7e2e
+	call nz,L_7E40		;7e2e   ; el caracter 0xEC
 	ld a,(0e394h)		;7e31   ; lee 1 si se cogio la entrada secreta 9
 	or a			;7e34   ; la 9: en 0xCACE
-	call nz,L_7E49		;7e35
+	call nz,L_7E49		;7e35   ; el caracter 0xED
 	ld a,(0e395h)		;7e38   ; lee 1 si se cogio la entrada secreta 0x0A
 	or a			;7e3b   ; la 0x0A: en 0xCAD3
-	call nz,L_7E52		;7e3c
+	call nz,L_7E52		;7e3c   ; el caracter 0xEE
 	ret			;7e3f
 L_7E40:
 	ld hl,0cac9h		;7e40   ; el caracter 0xEC
 	ld a,0ech		;7e43
-	call L_7E5B		;7e45
+	call L_7E5B		;7e45   ; un cuadro de 4 x 4 del caracter A en el bufer de HL
 	ret			;7e48
 L_7E49:
 	ld hl,0caceh		;7e49   ; el caracter 0xED
 	ld a,0edh		;7e4c
-	call L_7E5B		;7e4e
+	call L_7E5B		;7e4e   ; un cuadro de 4 x 4 del caracter A en el bufer de HL
 	ret			;7e51
 L_7E52:
 	ld hl,0cad3h		;7e52   ; el caracter 0xEE
 	ld a,0eeh		;7e55
-	call L_7E5B		;7e57
+	call L_7E5B		;7e57   ; un cuadro de 4 x 4 del caracter A en el bufer de HL
 	ret			;7e5a
 L_7E5B:
 	ld b,004h		;7e5b   ; un cuadro de 4 x 4 del caracter A en el bufer de HL
@@ -4696,8 +4696,8 @@ L_7EC5:
 	jr c,L_7ED7		;7eca
 	push af			;7ecc
 	call 05de9h		;7ecd   ; ...los sprites y la pantalla a la VRAM y la consola
-	call 05985h		;7ed0
-	call L_7320		;7ed3
+	call 05985h		;7ed0   ; bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
+	call consola_cuadro		;7ed3   ; consola_cuadro: la consola, un cuadro
 	pop af			;7ed6
 L_7ED7:
 	dec a			;7ed7   ; y por el subpaso (desde 1)
@@ -4720,18 +4720,18 @@ DATA_tabla_7EDB:
 L_7EF1:
 	call 0594dh		;7ef1   ; subpaso 1: la orden 0x83, el sonido 1, la pantalla limpia y al siguiente
 	call 057eah		;7ef4   ; sonido_01: pide el sonido 0x01
-	call L_601E		;7ef7   ; la pantalla limpia
-	call L_7FE8		;7efa
+	call pantalla_limpia		;7ef7   ; la pantalla limpia
+	call estado8_subpaso_siguiente		;7efa   ; estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
 	ret			;7efd
 L_7EFE:
 	call 0580eh		;7efe   ; subpaso 2: el sonido 0x3F, la pantalla en blanco, la consola con el contador de 0x6108 y los graficos de p29
 	call 04aa9h		;7f01   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
 	call L_6033		;7f04   ; los dibujos de sprite a cero
-	call L_60DF		;7f07   ; la consola
+	call consola		;7f07   ; la consola
 	ld hl,06108h		;7f0a   ; con el contador de 0x6108
-	call L_60F9		;7f0d
+	call contador_de_hl		;7f0d   ; contador_de_hl: las 6 cifras del contador de la consola, de HL
 	call L_7DFD		;7f10   ; y los graficos de p29
-	call L_7FE8		;7f13
+	call estado8_subpaso_siguiente		;7f13   ; estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
 	ret			;7f16
 L_7F17:
 	ld hl,0e393h		;7f17   ; subpaso 3: con menos de tres marcas, la secuencia de 0x61F3 y al subpaso 8; con las tres, la de 0x61E5
@@ -4743,23 +4743,23 @@ L_7F17:
 	cp 003h		;7f1f   ; con las tres marcas, p26:7F2F
 	jr nc,L_7F2F		;7f21
 	ld a,008h		;7f23   ; menos de tres: al subpaso 8 con la secuencia de 0x61F3
-	call L_7FED		;7f25
+	call L_7FED		;7f25   ; el subpaso A
 	ld hl,061f3h		;7f28
-	call L_612A		;7f2b
+	call secuencia_de_hl		;7f2b   ; secuencia_de_hl: empieza la secuencia de dibujos de HL
 	ret			;7f2e
 L_7F2F:
 	ld hl,061e5h		;7f2f   ; las tres: la secuencia de 0x61E5
-	call L_612A		;7f32
-	call L_7FE8		;7f35
+	call secuencia_de_hl		;7f32   ; secuencia_de_hl: empieza la secuencia de dibujos de HL
+	call estado8_subpaso_siguiente		;7f35   ; estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
 	ret			;7f38
 L_7F39:
-	call L_6135		;7f39   ; subpaso 4: al acabar, el dibujo de p28:A078 (7 x 0x0E en 0xCA89), sprites (p26:7FF1) y la secuencia de 0x61EA
+	call secuencia_sigue		;7f39   ; subpaso 4: al acabar, el dibujo de p28:A078 (7 x 0x0E en 0xCA89), sprites (p26:7FF1) y la secuencia de 0x61EA
 	ret nz			;7f3c   ; al acabar la secuencia
 	call L_7F4D		;7f3d   ; el dibujo de p28:A078
 	call L_7FF1		;7f40   ; doce bytes de sprites
 	ld hl,061eah		;7f43   ; y la secuencia de 0x61EA
-	call L_612A		;7f46
-	call L_7FE8		;7f49
+	call secuencia_de_hl		;7f46   ; secuencia_de_hl: empieza la secuencia de dibujos de HL
+	call estado8_subpaso_siguiente		;7f49   ; estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
 	ret			;7f4c
 L_7F4D:
 	ld hl,0a078h		;7f4d   ; el dibujo de p28:A078 (segundo formato) en 0xCA89, 7 filas de 0x0E
@@ -4768,19 +4768,19 @@ L_7F4D:
 	ld hl,0cd00h		;7f56   ; ...y al bufer
 	ld de,0ca89h		;7f59
 	ld bc,0070eh		;7f5c
-	call 059a1h		;7f5f
+	call 059a1h		;7f5f   ; copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 	ret			;7f62
 L_7F63:
 	call L_7FFD		;7f63   ; subpaso 5: p26:7FFD hasta acabar la secuencia
-	call L_6135		;7f66   ; hasta acabar la secuencia
+	call secuencia_sigue		;7f66   ; hasta acabar la secuencia
 	ret nz			;7f69
-	call L_7FE8		;7f6a
+	call estado8_subpaso_siguiente		;7f6a   ; estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
 	ret			;7f6d
 L_7F6E:
 	call 05951h		;7f6e   ; subpaso 6: la orden 0x84 y 0x96 cuadros
 	ld a,096h		;7f71   ; 0x96 cuadros
 	ld (0e5c0h),a		;7f73
-	call L_7FE8		;7f76
+	call estado8_subpaso_siguiente		;7f76   ; estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
 	ret			;7f79
 L_7F7A:
 	ld hl,0e5c0h		;7f7a   ; subpaso 7: al acabar, la orden 0x83, la fase siguiente la 0x0A (0xE37D), y a cero 0xE398 y 0xE327
@@ -4797,30 +4797,30 @@ L_7F8B:
 	call 04aa9h		;7f8f   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
 	ret			;7f92
 L_7F93:
-	call L_6135		;7f93   ; subpaso 8: al acabar la secuencia, 0xF0 cuadros y los graficos de p29
+	call secuencia_sigue		;7f93   ; subpaso 8: al acabar la secuencia, 0xF0 cuadros y los graficos de p29
 	ret nz			;7f96   ; al acabar la secuencia
 	ld a,0f0h		;7f97   ; 0xF0 cuadros
 	ld (0e5c0h),a		;7f99
-	call L_7FE8		;7f9c
-	call L_7DFD		;7f9f
+	call estado8_subpaso_siguiente		;7f9c   ; estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
+	call L_7DFD		;7f9f   ; con el 29, los RLE de p29:A000, A0FC, A105 y A1AA a la VRAM y la lista de graficos de 0x7E23
 	ret			;7fa2
 L_7FA3:
 	call 0801eh		;7fa3   ; subpaso 9: p27:801E; al acabar, el bufer de 0xCA48 a cero y la secuencia de 0x61F8
 	ld hl,0e5c0h		;7fa6   ; la espera (p27:801E cada cuadro)
 	dec (hl)			;7fa9
 	ret nz			;7faa
-	call L_60C0		;7fab   ; al acabar, el bufer de 0xCA48 a cero
+	call borra_cuadro_ca48		;7fab   ; al acabar, el bufer de 0xCA48 a cero
 	ld hl,061f8h		;7fae   ; y la secuencia de 0x61F8
-	call L_612A		;7fb1
-	call L_7FE8		;7fb4
+	call secuencia_de_hl		;7fb1   ; secuencia_de_hl: empieza la secuencia de dibujos de HL
+	call estado8_subpaso_siguiente		;7fb4   ; estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
 	ret			;7fb7
 L_7FB8:
-	call L_6135		;7fb8   ; subpaso 0x0A: al acabarla, la orden 0x84 y 0xB4 cuadros
+	call secuencia_sigue		;7fb8   ; subpaso 0x0A: al acabarla, la orden 0x84 y 0xB4 cuadros
 	ret nz			;7fbb   ; al acabarla
 	call 05951h		;7fbc   ; orden_sonido_84: manda la orden 0x84 al motor de sonido
 	ld a,0b4h		;7fbf   ; 0xB4 cuadros
 	ld (0e5c0h),a		;7fc1
-	call L_7FE8		;7fc4
+	call estado8_subpaso_siguiente		;7fc4   ; estado8_subpaso_siguiente: el subpaso siguiente del estado 8 (0xE327)
 	ret			;7fc7
 L_7FC8:
 	ld hl,0e5c0h		;7fc8   ; subpaso 0x0B: al acabar, la orden 0x83 y la fase siguiente: la 5 sin 0xE393, la 7 sin 0xE394, si no la 8
@@ -4840,7 +4840,7 @@ L_7FE2:
 	ld a,c			;7fe2   ; en 0xE37D
 	ld (0e37dh),a		;7fe3   ; guarda la fase siguiente (0: la de despues)
 	jr L_7F8B		;7fe6
-L_7FE8:
+estado8_subpaso_siguiente:		; el subpaso siguiente del estado 8 (0xE327)
 	ld hl,0e327h		;7fe8   ; el subpaso siguiente (0xE327)
 	inc (hl)			;7feb
 	ret			;7fec

@@ -937,86 +937,232 @@ F 0x8FEE 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+L 0x83CF consola_paso_siguiente el paso siguiente de la consola entre fases (0xE322)
+L 0x83D7 consola_subpaso_siguiente el subpaso siguiente de la consola (0xE323)
+L 0x8410 final_paso_siguiente el paso siguiente del final (0xE329)
+L 0x8418 final_subpaso_siguiente el subpaso siguiente del final (0xE32A)
+L 0x8CBF contador_loco el contador cambia al azar cada 4 cuadros
 C 0x804F despacha: salta a la palabra A de la tabla que va detras del call
+C 0x805E bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
+C 0x8064 consola_cuadro: la consola, un cuadro
 C 0x8068 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x8078 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x807F carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x8086 copia_con_vuelta_ce00: copia caracteres con espejo usando el bufer de 0xCE00 (lista IX)
+C 0x8092 copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 C 0x8095 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x809B secuencia_de_hl: empieza la secuencia de dibujos de HL
+C 0x809E estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
+C 0x80AA estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 C 0x80BC despacha: salta a la palabra A de la tabla que va detras del call
+C 0x80CB bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
+C 0x80D1 consola_cuadro: la consola, un cuadro
 C 0x80D5 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x80EB secuencia_de_hl: empieza la secuencia de dibujos de HL
+C 0x80EE estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
+C 0x80F9 estado9_subpaso_siguiente: el subpaso siguiente del estado 9 (0xE7E5)
 C 0x810D bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x8113 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
 C 0x8119 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
 C 0x811F rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
 C 0x8125 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
+C 0x812C copia_con_vuelta_ce00: copia caracteres con espejo usando el bufer de 0xCE00 (lista IX)
 C 0x813E rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x814A copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
+C 0x8166 consola_cuadro: la consola, un cuadro
 C 0x816B despacha: salta a la palabra A de la tabla que va detras del call
 C 0x817B sonido_3F: pide el sonido 0x3F
+C 0x8184 contador_de_hl: las 6 cifras del contador de la consola, de HL
+C 0x81A2 secuencia_de_hl: empieza la secuencia de dibujos de HL
+C 0x81A5 consola_paso_siguiente: el paso siguiente de la consola entre fases (0xE322)
+C 0x81BF consola_paso_siguiente: el paso siguiente de la consola entre fases (0xE322)
+C 0x81C8 consola_paso_siguiente: el paso siguiente de la consola entre fases (0xE322)
 C 0x81E1 guarda un temporizador
+C 0x81E4 consola_subpaso_siguiente: el subpaso siguiente de la consola (0xE323)
 C 0x81EC pantalla_en_blanco: borra la tabla de nombres (0x3800)
 C 0x81F8 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x821D cada 4 cuadros, al azar (registro R): IX+1 + 8 o - 8, IX+0 - 8 o + 8
+C 0x8220 una marca: sus dos lineas y sus esquinas
+C 0x822E IX+1 + 8, hasta 0xB0
+C 0x8232 IX+1 - 8, hasta 0x48
+C 0x8239 IX+0 - 8, hasta 0x20
+C 0x823D IX+0 + 8, hasta 0x58
+C 0x8283 una diagonal hacia arriba desde el cruce: 0x85-0x88, cada 0x18 y 8
+C 0x828C la direccion del bufer de 0xCA00 de HL (L fila, H columna, en puntos)
+C 0x829E la direccion del bufer de 0xCA00 de HL (L fila, H columna, en puntos)
+C 0x82B1 la direccion del bufer de 0xCA00 de HL (L fila, H columna, en puntos)
+C 0x82F1 la direccion del bufer de 0xCA00 de HL (L fila, H columna, en puntos)
+C 0x8339 la direccion del bufer de 0xCA00 de HL (L fila, H columna, en puntos)
 C 0x8375 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x8389 contador_de_hl: las 6 cifras del contador de la consola, de HL
+C 0x83A6 contador_de_hl: las 6 cifras del contador de la consola, de HL
+C 0x83AC secuencia_de_hl: empieza la secuencia de dibujos de HL
+C 0x83AF consola_paso_siguiente: el paso siguiente de la consola entre fases (0xE322)
+C 0x83BE consola_paso_siguiente: el paso siguiente de la consola entre fases (0xE322)
+C 0x83FB bufer_a_vram: el bufer de 0xCA00 a la tabla de nombres, la pantalla entera
 C 0x8403 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x8420 consola_cuadro: la consola, un cuadro
 C 0x8424 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x843A sonido_42: pide el sonido 0x42
 C 0x8440 pantalla_en_blanco: borra la tabla de nombres (0x3800)
+C 0x844C contador_de_hl: las 6 cifras del contador de la consola, de HL
+C 0x8454 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x845F paleta: la paleta A de p16:6B74
 C 0x8462 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x8469 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x8470 copia_con_vuelta_ce00: copia caracteres con espejo usando el bufer de 0xCE00 (lista IX)
 C 0x8473 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x8477 el cuadro A de la tabla de p29:B467 en el bufer (p26:6064)
+C 0x847D secuencia_de_hl: empieza la secuencia de dibujos de HL
+C 0x8480 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x8493 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x84AD un rectangulo de la tabla HL (palabra A) a 0xCD00 y al bufer: DE el destino, B filas, C bytes (p00:59A1) (p26:6064)
 C 0x84B0 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x84B7 secuencia_de_hl: empieza la secuencia de dibujos de HL
+C 0x84BA final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x84C4 paleta: la paleta A de p16:6B74
 C 0x84C7 bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x84CE carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x84D5 copia_con_vuelta_ce00: copia caracteres con espejo usando el bufer de 0xCE00 (lista IX)
 C 0x84D8 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x84E6 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x8501 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x8513 el cuadro A de la tabla de p29:B467 en el bufer (p26:6064)
+C 0x851A secuencia_de_hl: empieza la secuencia de dibujos de HL
+C 0x851D final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x852A despacha: salta a la palabra A de la tabla que va detras del call
+C 0x8550 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x855F final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x858D bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
+C 0x8590 un rectangulo de la tabla HL (palabra A) a 0xCD00 y al bufer: DE el destino, B filas, C bytes (p00:59A1) (p26:6064)
 C 0x8593 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x859D final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x85AF secuencia_de_hl: empieza la secuencia de dibujos de HL
+C 0x85B2 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x85BD final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x85D4 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x85EB final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x8605 en la tabla de p29:B2E7
+C 0x860D final_paso_siguiente: el paso siguiente del final (0xE329)
+C 0x861A contador_loco: el contador cambia al azar cada 4 cuadros
 C 0x861E despacha: salta a la palabra A de la tabla que va detras del call
+C 0x8652 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x8669 sonido_4D: pide el sonido 0x4D
+C 0x866C final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x8678 color_del_borde: B al registro 7 del VDP
 C 0x8682 color_del_borde: B al registro 7 del VDP
 C 0x8685 sonido_52: pide el sonido 0x52
+C 0x8688 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x8697 contador_de_hl: las 6 cifras del contador de la consola, de HL
+C 0x86A2 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x86B1 secuencia_de_hl: empieza la secuencia de dibujos de HL
+C 0x86B4 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x86C6 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x86D5 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x86E4 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x86F3 secuencia_de_hl: empieza la secuencia de dibujos de HL
 C 0x86F6 orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0x86F9 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x870A borra_cuadro_cc22: borra en el bufer 5 x 0x1C desde 0xCC22
+C 0x870D final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x8710 orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0x8713 sonido_01: pide el sonido 0x01
 C 0x8725 sonido_53: pide el sonido 0x53
+C 0x872D final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x8739 secuencia_de_hl: empieza la secuencia de dibujos de HL
 C 0x873C sonido_40: pide el sonido 0x40
+C 0x873F final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x874D borra_cuadro_cc22: borra en el bufer 5 x 0x1C desde 0xCC22
+C 0x8755 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x8764 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x876E final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x8779 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x8786 lee 1 si se cogio la entrada secreta 0x0B (el final con un paso mas)
+C 0x878F final_paso_siguiente: el paso siguiente del final (0xE329)
+C 0x8793 final_paso_siguiente: el paso siguiente del final (0xE329)
+C 0x879C contador_loco: el contador cambia al azar cada 4 cuadros
+C 0x87A2 consola_cuadro: la consola, un cuadro
 C 0x87A6 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x87D5 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x87DD orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0x87E4 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x87ED orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0x87F0 sonido_49: pide el sonido 0x49
+C 0x8807 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x8827 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x8836 secuencia_de_hl: empieza la secuencia de dibujos de HL
+C 0x8839 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x8847 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x8859 contador_de_hl: las 6 cifras del contador de la consola, de HL
+C 0x8865 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x8871 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x8880 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x888E bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x8895 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x889C copia_con_vuelta_ce00: copia caracteres con espejo usando el bufer de 0xCE00 (lista IX)
+C 0x88B2 copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 C 0x88B5 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x88BD llenado_empieza: empieza a llenar fila a fila la lista HL con el byte C
+C 0x88C0 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x88CB lee el llenado fila a fila en marcha
+C 0x88D0 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x88DB orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0x88E1 borrado_empieza: empieza a borrar fila a fila la lista HL
+C 0x88E4 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x88EF lee el borrado fila a fila en marcha
 C 0x88F4 pantalla_en_blanco: borra la tabla de nombres (0x3800)
+C 0x8904 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x890D orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0x8910 sonido_01: pide el sonido 0x01
+C 0x8914 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x8919 guarda 1: el final del juego (al estado 10)
 C 0x891E despacha: salta a la palabra A de la tabla que va detras del call
+C 0x8948 secuencia_de_hl: empieza la secuencia de dibujos de HL
+C 0x894B final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x895F orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0x8966 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x896F orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0x8972 sonido_41: pide el sonido 0x41
+C 0x8978 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x8982 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
+C 0x8990 llenado_con_pausas: empieza a llenar fila a fila con pausas la lista HL con el byte C
+C 0x8993 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x899A lee el llenado fila a fila en marcha
+C 0x899F final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x89AD borrado_empieza: empieza a borrar fila a fila la lista HL
+C 0x89B0 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x89BC pantalla_en_blanco: borra la tabla de nombres (0x3800)
+C 0x89C8 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x89D6 orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0x89D9 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x89E4 orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0x89E7 sonido_01: pide el sonido 0x01
+C 0x89EA final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x89F5 el dibujo de 0x8E19 (2 x 4) en 0xCB6E
 C 0x89FE bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 C 0x8A07 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x8A0D aparicion_empieza: empieza la aparicion poco a poco de las listas de HL
 C 0x8A10 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x8A13 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x8A1D bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x8A20 lee la aparicion poco a poco en marcha (1 o 2)
 C 0x8A25 sonido_01: pide el sonido 0x01
+C 0x8A28 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
+C 0x8A34 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x8A3D sonido_01: pide el sonido 0x01
+C 0x8A43 los puentes: guardan el reparto, ponen el de la rutina, la llaman y lo devuelven (p00:47B3)
+C 0x8A46 final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x8A4D lee la aparicion poco a poco en marcha (1 o 2)
+C 0x8A5B final_subpaso_siguiente: el subpaso siguiente del final (0xE32A)
 C 0x8A86 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x8A8D copia_con_vuelta_ce00: copia caracteres con espejo usando el bufer de 0xCE00 (lista IX)
 C 0x8A90 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x8A9D rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x8AA0 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x8ACA los dibujos y colores de sus sprites: el tramo de la tabla (0x8BB1 o 0x8BD1)
+C 0x8ACD sus sprites: el tramo de la tabla (0x8B70 la nave 1, 0x8B50 la 2), cuantos, y cada uno su y y su x sobre la de la nave
+C 0x8AF9 los dibujos y colores de sus sprites: el tramo de la tabla (0x8BB1 o 0x8BD1)
+C 0x8AFC sus sprites: el tramo de la tabla (0x8B70 la nave 1, 0x8B50 la 2), cuantos, y cada uno su y y su x sobre la de la nave
 C 0x8B33 lee_palabra: HL = la palabra A de la tabla HL
 C 0x8B3A apunta a los atributos de sprite (32 x 4)
 C 0x8B9F lee_palabra: HL = la palabra A de la tabla HL
@@ -1024,6 +1170,7 @@ C 0x8C04 suma_a_hl: HL = HL + A
 C 0x8CE4 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 C 0x8CE7 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x8CF3 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
+C 0x8CF9 la tabla en IX (p26:6067)
 C 0x8CFC bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x8D03 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
 C 0x8D06 lee la nave elegida (0 a 3)
@@ -1035,17 +1182,23 @@ C 0x8D41 apunta a los enemigos (12 de 0x40)
 C 0x8D44 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 C 0x8D4A lee la nave elegida (0 a 3)
 C 0x8D50 lee_palabra: HL = la palabra A de la tabla HL
+C 0x8D59 copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 C 0x8D92 lee la nave elegida (0 a 3)
 C 0x8D9D suma_a_hl: HL = HL + A
 C 0x8DE0 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
+C 0x8DE5 copia_con_vuelta_ce00: copia caracteres con espejo usando el bufer de 0xCE00 (lista IX)
 C 0x8DEE rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x8DF1 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x8E0D copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 C 0x8E27 apunta a los enemigos (12 de 0x40)
 C 0x8E2A rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 C 0x8E30 apunta a los enemigos (12 de 0x40)
+C 0x8E36 copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
 C 0x8E39 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x8E53 carga_graficos: carga la lista de graficos de IX (RLE a los tercios)
 C 0x8E5C rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x8E5F bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
+C 0x8E6C copia_rectangulo: copia B filas de C bytes de HL a DE (filas de 0x20)
+C 0x8E7F borra_cuadro_ca48: borra en el bufer 0x0B x 0x10 desde 0xCA48
 C 0x8E97 lee_palabra: HL = la palabra A de la tabla HL
 # --- fin de las anotaciones de anota.py ---

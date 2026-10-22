@@ -511,9 +511,11 @@ F 0x748E 16
 L 0x6000 sonido_arranca el motor de sonido: lo pone a cero
 L 0x6003 sonido_pide el motor de sonido: arranca el sonido A
 L 0x6006 sonido_cuadro el motor de sonido: un cuadro de los ocho canales
+C 0x6021 los registros del SCC: las marcas
 C 0x61F9 el mapper: pone en 0x8000 el banco de A
 C 0x6204 el mapper: pone en 0x8000 el banco de A
 C 0x6212 apunta a el estado del sonido (pausa, fundido...)
+C 0x622D copia 0x40 bytes: un canal
 C 0x6280 el mapper: pone en 0x8000 el banco de A
 C 0x629A el mapper: pone en 0x8000 el banco de A
 C 0x62BD guarda que banco de partituras va en 0xA000 (0: 12, 1: 13, 2: 9, otro: 25)
@@ -524,6 +526,7 @@ C 0x62DE lee que banco de partituras va en 0xA000 (0: 12, 1: 13, 2: 9, otro: 25)
 C 0x62EE el mapper: pone en 0xA000 el banco de A
 C 0x62F5 el mapper: pone en 0xA000 el banco de A
 C 0x62FC el mapper: pone en 0xA000 el banco de A
+C 0x6302 en E
 C 0x6313 el mapper: pone en 0x8000 el banco de A
 C 0x632D el mapper: pone en 0x8000 el banco de A
 C 0x6365 apunta a una cuenta de cuadros del sonido
@@ -531,6 +534,7 @@ C 0x636F pone a uno el bit 7 de las marcas IX+0F (la envolvente de volumen; bit 
 C 0x6377 pone a uno el bit 7 de las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)
 C 0x637F pone a uno el bit 7 de las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)
 C 0x6387 pone a uno el bit 7 de las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)
+C 0x63A1 el fundido: cada 0xE294 cuadros un paso (0xE297), hasta 0xE295 pasos
 C 0x63A9 apunta a los 8 canales de sonido (0x40 bytes cada uno)
 C 0x6408 lee el sonido del canal (0: callado; p10:612B)
 C 0x6428 resta 1 a la cuenta de la nota
@@ -542,6 +546,7 @@ C 0x64B3 guarda el divisor de la nota (alto)
 C 0x64C4 lee las marcas IX+0D (bits 0-1 tono y ruido, 2-3 la envolvente del PSG, 4-7 la onda que cambia)
 C 0x64C9 guarda las marcas IX+0D (bits 0-1 tono y ruido, 2-3 la envolvente del PSG, 4-7 la onda que cambia)
 C 0x64CC pone a uno el bit 1 de las marcas IX+0D (bits 0-1 tono y ruido, 2-3 la envolvente del PSG, 4-7 la onda que cambia)
+C 0x64D0 la nota empieza: su periodo (p10:66DA); el deslizamiento pedido (IX+3C bit 4) se pone en marcha (bit 6)
 C 0x64D4 lee las marcas IX+0D (bits 0-1 tono y ruido, 2-3 la envolvente del PSG, 4-7 la onda que cambia)
 C 0x64D9 guarda las marcas IX+0D (bits 0-1 tono y ruido, 2-3 la envolvente del PSG, 4-7 la onda que cambia)
 C 0x650C guarda el divisor de la nota (alto)
@@ -577,10 +582,16 @@ C 0x666C pone a cero el bit 1 de las marcas IX+30 (la envolvente: ataque, bajada
 C 0x6670 pone a cero el bit 2 de las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)
 C 0x667D guarda el volumen de ahora
 C 0x668E mira el bit 4 de las marcas del deslizamiento (bit 6 en marcha, 7 hacia arriba)
+C 0x6692 el deslizamiento hacia la nota (IX+3C bit 6 en marcha; bit 7 hacia el otro lado)
 C 0x6695 mira el bit 2 de las marcas IX+0E (bateria, desafinado, vibrato, periodo del SCC, volumen restado)
+C 0x6699 la cuenta del vibrato + 1
 C 0x669C mira el bit 0 de las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)
+C 0x66A0 la primera envolvente (IX+0F bit 0): en los canales 1-3 con la envolvente del PSG, no
 C 0x66A3 mira el bit 6 de las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)
+C 0x66A7 la segunda envolvente (IX+0F bit 6, orden 0xDD): en los canales 1-3 con la envolvente del PSG, no
 C 0x66AA mira el bit 6 de las marcas IX+0D (bits 0-1 tono y ruido, 2-3 la envolvente del PSG, 4-7 la onda que cambia)
+C 0x66AE la onda que cambia (IX+0D bit 6): IX+33 + IX+32 cada cuadro; su cifra alta, en IX+31 (0-0x1F)
+C 0x66C5 se lee como el SCC (bit 1)
 C 0x66CE guarda el volumen de ahora
 C 0x66D1 lee las marcas IX+0D (bits 0-1 tono y ruido, 2-3 la envolvente del PSG, 4-7 la onda que cambia)
 C 0x66DD lee el divisor de la nota (alto)
@@ -589,6 +600,7 @@ C 0x66F8 lee la cuenta del vibrato
 C 0x671B lee el periodo (alto)
 C 0x6725 guarda hacia donde va el vibrato
 C 0x673B guarda el periodo (alto)
+C 0x674F la envolvente: la cuenta + 1; al acercarse el final de la nota (IX+24), la caida final
 C 0x675C lee la cuenta de la envolvente
 C 0x675F lee la cuenta de la nota (alto)
 C 0x6765 lee cuando empieza la caida final (ordenes 0xEB y 0xDD)
@@ -651,6 +663,7 @@ C 0x6901 guarda el periodo (alto)
 C 0x6904 lee los cuadros del deslizamiento
 C 0x6907 guarda la cuenta del deslizamiento
 C 0x6912 mira el bit 2 de las marcas IX+0D (bits 0-1 tono y ruido, 2-3 la envolvente del PSG, 4-7 la onda que cambia)
+C 0x6917 sube (p10:67C0) y baja (p10:67D3) como la primera; despues, con decimales
 C 0x691A guarda el volumen de ahora
 C 0x6921 suma 1 a la cuenta de la envolvente
 C 0x6924 lee la cuenta de la envolvente
@@ -704,6 +717,14 @@ C 0x6A5C mira el bit 4 de por donde va la onda que cambia (0-0x1F)
 C 0x6A62 pone a cero el bit 6 de las marcas IX+30 (la envolvente: ataque, bajada, segunda envolvente)
 C 0x6A6C guarda por donde va la onda que cambia (0-0x1F)
 C 0x6A74 guarda por donde va la onda que cambia (0-0x1F)
+C 0x6AA8 acaba el canal: todo a 0
+C 0x6AAF acaba el canal: todo a 0
+C 0x6AB9 acaba el canal: todo a 0
+C 0x6ABE acaba el canal: todo a 0
+C 0x6AC5 acaba el canal: todo a 0
+C 0x6ACA acaba el canal: todo a 0
+C 0x6ACF acaba el canal: todo a 0
+C 0x6AD4 acaba el canal: todo a 0
 C 0x6B03 guarda la cuenta del bucle de la orden 0xFB
 C 0x6B06 guarda la cuenta del bucle de la orden 0xFC
 C 0x6B09 guarda el periodo (bajo)
@@ -845,6 +866,16 @@ C 0x6F87 OR con cuando empieza la caida final (ordenes 0xEB y 0xDD)
 C 0x6F8A guarda cuando empieza la caida final (ordenes 0xEB y 0xDD)
 C 0x6F8D pone a uno el bit 6 de las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)
 C 0x6F94 pone a cero el bit 7 de las marcas IX+0E (bateria, desafinado, vibrato, periodo del SCC, volumen restado)
+C 0x6F99 periodos y volumenes, ruido, envolvente y mezclador
+C 0x6FA3 los tres canales del PSG: los registros 0-5 y 8-10
+C 0x6FA6 el ruido: 0xE29C bit 0 (el del canal 3)?
+C 0x6FA9 la envolvente del PSG: bit 7?
+C 0x6FCF el periodo bajo
+C 0x6FD5 el periodo bajo
+C 0x6FDB el periodo bajo
+C 0x7092 las marcas de lo que cambia (0xE2A0-0xE2A1)
+C 0x7098 los registros del SCC: las marcas
+C 0x709B la onda del SCC de los canales 4-7: con IX+0F bit 7, sus 32 muestras al SCC (0x9800 + 0x20 x n)
 C 0x72B0 el mapper: pone en 0x8000 el banco de A
 C 0x72B7 el mapper: pone en 0x8000 el banco de A
 C 0x72BF mira el bit 7 de las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)
@@ -852,18 +883,21 @@ C 0x72C5 pone a cero el bit 7 de las marcas IX+0F (la envolvente de volumen; bit
 C 0x72C9 lee la forma de onda del SCC (orden 0xF8, bajo)
 C 0x72CC lee la forma de onda del SCC (orden 0xF8, alto)
 C 0x72D5 pone a uno el bit 7 de las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)
+C 0x72DD copia 32 muestras avanzando IX+31 cada vez
 C 0x72EE mira el bit 7 de las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)
 C 0x72F4 pone a cero el bit 7 de las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)
 C 0x72F8 lee la forma de onda del SCC (orden 0xF8, bajo)
 C 0x72FB lee la forma de onda del SCC (orden 0xF8, alto)
 C 0x72FE mira el bit 6 de las marcas IX+0D (bits 0-1 tono y ruido, 2-3 la envolvente del PSG, 4-7 la onda que cambia)
 C 0x7304 pone a uno el bit 7 de las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)
+C 0x730C copia 32 muestras avanzando IX+31 cada vez
 C 0x731D mira el bit 7 de las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)
 C 0x7323 pone a cero el bit 7 de las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)
 C 0x7327 lee la forma de onda del SCC (orden 0xF8, bajo)
 C 0x732A lee la forma de onda del SCC (orden 0xF8, alto)
 C 0x732D mira el bit 6 de las marcas IX+0D (bits 0-1 tono y ruido, 2-3 la envolvente del PSG, 4-7 la onda que cambia)
 C 0x7333 pone a uno el bit 7 de las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)
+C 0x733B copia 32 muestras avanzando IX+31 cada vez
 C 0x734C mira el bit 7 de las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)
 C 0x7351 pone a cero el bit 7 de las marcas IX+0F (la envolvente de volumen; bit 7: onda nueva al SCC)
 C 0x7355 lee la forma de onda del SCC (orden 0xF8, bajo)

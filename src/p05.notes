@@ -471,22 +471,31 @@ C 0xA06C apunta a los enemigos (12 de 0x40)
 C 0xA078 apunta a las piezas (8 de 0x20)
 C 0xA08B le suma la y del jefe (bajo)
 C 0xA08F lee la x del jefe (bajo)
+C 0xA092 explosion_grande: una explosion grande (p03:A66A con 1-2-3)
 C 0xA098 guarda la entrada secreta: su tipo (0: ninguna), su y, su x y B
 C 0xA09D guarda el caracter del fondo de la fase
+C 0xA0A0 el sonido 0x4C (si la nave vive)
 C 0xA0AB sonido_4C: pide el sonido 0x4C
 C 0xA0B6 lee la fase (1 a 11)
 C 0xA0BD lee el jefe de la fase 4 (0 a 3)
+C 0xA0D1 bufer_c400_a_cero: el bufer de 0xC400 a cero (0x580 bytes)
 C 0xA0D5 guarda el jefe en curso (0: ninguno)
 C 0xA0D8 guarda las partes del jefe (4 de 0x20)
 C 0xA0DF guarda 1 al vencer al jefe
 C 0xA0F3 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xA111 el jefe empieza: IX+12 = A y 10 bytes de HL a su ficha (p04:9DC6)
 C 0xA117 las filas del jefe en el bufer = 0x38
 C 0xA11B las columnas del jefe en el bufer = 0x08
 C 0xA122 orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0xA125 sonido_09: pide el sonido 0x09
+C 0xA139 cada 8 cuadros (0xE456 = 1) va 8 a la izquierda (16 bits en IX+5) y lo compara con C (p04:9E40)
+C 0xA152 la caja: y + 0x38, x + 0x18 / + 0x18; vidas 9 en escalones de 4
+C 0xA15D la caja del jefe: y + A en IX+0A e IX+0E, x + B en IX+0C, x + C en IX+10 (p04:9E67)
 C 0xA169 lee el jefe vencido (1, o 2 en la fase 4)
+C 0xA178 hacia donde: hacia la nave (por encima o por debajo de su y + 0x20)
 C 0xA19B lee la x del jefe (bajo)
 C 0xA1A8 sonido_2E: pide el sonido 0x2E
+C 0xA1B0 el tope en y segun hacia donde va
 C 0xA1C6 mira el bit 0 de hacia donde va el jefe (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 C 0xA1EA lee la y del jefe (bajo)
 C 0xA1EF apunta a la y de la nave (el primer byte de su sprite, p01:797C)
@@ -501,56 +510,124 @@ C 0xA237 guarda la x del enemigo
 C 0xA23B la cuenta del enemigo = 0x10
 C 0xA23F suma 1 a el paso del enemigo
 C 0xA243 resta 1 a la cuenta del enemigo
+C 0xA250 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0xA25E suma_a_hl: HL = HL + A
 C 0xA272 suma_a_de: DE = DE + A
 C 0xA278 suma_a_hl: HL = HL + A
+C 0xA285 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0xA297 suma_a_hl: HL = HL + A
 C 0xA2DD despacha: salta a la palabra A de la tabla que va detras del call
+C 0xA2FD el jefe empieza: IX+12 = A y 10 bytes de HL a su ficha (p04:9DC6)
+C 0xA300 la caja: y + 0x38, x + 0x18 / + 0x20; vidas en escalones de 3
 C 0xA303 las filas del jefe en el bufer = 0x38
 C 0xA307 las columnas del jefe en el bufer = 0x08
 C 0xA30E orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0xA311 sonido_09: pide el sonido 0x09
+C 0xA323 cada 8 cuadros (0xE456 = 1) va 8 a la izquierda (16 bits en IX+5) y lo compara con C (p04:9E40)
+C 0xA344 la caja: y + 0x38, x + 0x18 / + 0x20; vidas en escalones de 3
+C 0xA34F la caja del jefe: y + A en IX+0A e IX+0E, x + B en IX+0C, x + C en IX+10 (p04:9E67)
 C 0xA398 lee la fase (1 a 11)
 C 0xA3B6 lee_palabra: HL = la palabra A de la tabla HL
 C 0xA3CA lee la fase (1 a 11)
 C 0xA3F1 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xA40F el jefe empieza: IX+12 = A y 10 bytes de HL a su ficha (p04:9DC6)
+C 0xA412 la caja: y + 0x18, x + 8 / + 0x20
 C 0xA41E las filas del jefe en el bufer = 0x18
 C 0xA422 las columnas del jefe en el bufer = 0x00
 C 0xA433 orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0xA436 sonido_0A: pide el sonido 0x0A
+C 0xA448 cada 8 cuadros (0xE456 = 1) va 8 a la izquierda (16 bits en IX+5) y lo compara con C (p04:9E40)
+C 0xA462 cada 0x28 - 2 x la dificultad cuadros, dos 0x3C (uno a cada lado) y el sonido 0x2C
+C 0xA465 la caja: y + 0x18, x + 8 / + 0x20
+C 0xA470 la caja del jefe: y + A en IX+0A e IX+0E, x + B en IX+0C, x + C en IX+10 (p04:9E67)
 C 0xA47D lee la dificultad de la fase (0 a 0x0F)
 C 0xA488 lee la x del jefe (bajo)
 C 0xA48E lee la y del jefe (bajo)
 C 0xA4AA sonido_2C: pide el sonido 0x2C
+C 0xA4B0 niega_hl: HL = -HL
 C 0xA4C2 las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll) = 0x04
 C 0xA4CF lee la dificultad de la fase (0 a 0x0F)
 C 0xA4EA lee la x del enemigo (decimales)
 C 0xA4ED lee la x del enemigo
 C 0xA4FB apunta a las partes del jefe (4 de 0x20)
 C 0xA502 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xA52A el jefe empieza: IX+12 = A y 10 bytes de HL a su ficha (p04:9DC6)
+C 0xA52D su caja y sus cuentas (IX+1C = 0xFF, 4 y 4)
+C 0xA555 la caja: y en 0xEC0A y 0xEC0E (-0x38), x en 0xEC0C y 0xEC10 (+0x18)
+C 0xA55B cada 8 cuadros (0xE456 = 1) va 8 a la izquierda (16 bits en IX+5) y lo compara con C (p04:9E40)
+C 0xA55E el paso siguiente del jefe (0xE441) (p04:9DC1)
+C 0xA564 la caja: y en 0xEC0A y 0xEC0E (-0x38), x en 0xEC0C y 0xEC10 (+0x18)
 C 0xA573 lee_palabra: HL = la palabra A de la tabla HL
+C 0xA57F la caja: y en 0xEC0A y 0xEC0E (-0x38), x en 0xEC0C y 0xEC10 (+0x18)
+C 0xA5A8 el paso siguiente del jefe (0xE441) (p04:9DC1)
+C 0xA5CB siete 0x11 desde y + 0x30, x + 0x20
+C 0xA5DF el sonido 0x29 y tres del tipo 4 desde y + 8, x - 0x0C
 C 0xA61F sonido_38: pide el sonido 0x38
 C 0xA634 lee la cuenta de cuadros del juego
+C 0xA66C una aparicion en una ficha libre, guardando IX (p01:7647)
 C 0xA693 lee el jefe vencido (1, o 2 en la fase 4)
+C 0xA6A6 el dibujo: B + 4 x IX+1F
+C 0xA6AF la entrada A (de 4 bytes) de la tabla HL: DE y HL, y p01:78D7 (p01:6E40)
 C 0xA6B8 lee_palabra: HL = la palabra A de la tabla HL
+C 0xA6EE el dibujo: B + 4 x IX+1F
 C 0xA715 apunta a las partes del jefe (4 de 0x20)
 C 0xA71C despacha: salta a la palabra A de la tabla que va detras del call
+C 0xA73A el jefe empieza: IX+12 = A y 10 bytes de HL a su ficha (p04:9DC6)
 C 0xA73D las filas del jefe en el bufer = 0x14
 C 0xA742 guarda las columnas del jefe en el bufer
+C 0xA768 cada 8 cuadros (0xE456 = 1) va 8 a la izquierda (16 bits en IX+5) y lo compara con C (p04:9E40)
+C 0xA76E hacia la nave (IX+18) y cada 8 cuadros
+C 0xA794 el dibujo 0x24 es el que se puede tocar (0xE454)
+C 0xA7B1 el dibujo 0x24 es el que se puede tocar (0xE454)
+C 0xA7B4 cada 6 cuadros dispara un 0x40 (si cabe), alternando el lado
+C 0xA7BC hacia la nave (IX+18) y cada 8 cuadros
+C 0xA7D0 el dibujo 0x24 es el que se puede tocar (0xE454)
+C 0xA807 una explosion grande en DE
+C 0xA815 una explosion grande en DE
+C 0xA826 una explosion grande en DE
+C 0xA832 una explosion grande en DE (E la y, D la x): dentro de la pantalla (p01:678D)
 C 0xA85D apunta a las partes del jefe (4 de 0x20)
+C 0xA865 la caja de la palabra A de HL, sobre su y y su x de 16 bits (con signo)
+C 0xA8C8 lee_byte: A = el byte A de la tabla HL
+C 0xA8E2 la distancia a la nave (0xE604 la y, 0xE606 la x) (p01:63FF)
+C 0xA92E entre la y 0x1F y 0x60 elige lado
+C 0xA967 la caja de la palabra A de HL, sobre su y y su x de 16 bits (con signo)
+C 0xA96C por la columna 0x41, un poco mas abajo
+C 0xA988 un disparo desde una de las dos partes al azar (tabla de 0xA997)
 C 0xAA22 apunta a las partes del jefe (4 de 0x20)
 C 0xAA29 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xAA49 el jefe empieza: IX+12 = A y 10 bytes de HL a su ficha (p04:9DC6)
+C 0xAA4C la caja: y + 0x18
 C 0xAA4F las filas del jefe en el bufer = 0x18
 C 0xAA53 las columnas del jefe en el bufer = 0x00
 C 0xAA5A orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0xAA5D sonido_0B: pide el sonido 0x0B
+C 0xAA6F cada 8 cuadros (0xE456 = 1) va 8 a la izquierda (16 bits en IX+5) y lo compara con C (p04:9E40)
+C 0xAA72 el paso siguiente del jefe (0xE441) (p04:9DC1)
+C 0xAA8D el dibujo del cuerpo segun lo danado (0xABE9 por 0xEC12 / 4)
+C 0xAA96 abre y cierra los brazos (o lo que sea) y las cajas de sus partes
+C 0xAA99 el dibujo del cuerpo segun lo danado (0xABE9 por 0xEC12 / 4)
+C 0xAAAC el paso del tramo (0xAAF2) a su y y su x
+C 0xAABE lee_byte: A = el byte A de la tabla HL
+C 0xAADE lee_palabra_de: DE = la palabra A de la tabla DE
+C 0xAB16 cada 4 cuadros el paso siguiente de la animacion de 0xABEE
+C 0xAB19 0xFF: vuelta a empezar, la otra mano (IX+1C) y los graficos de p00:516F
+C 0xAB1C los dibujos de las partes segun el paso (0xAB82; +0x10 con la otra mano)
 C 0xAC78 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xAC92 el jefe empieza: IX+12 = A y 10 bytes de HL a su ficha (p04:9DC6)
 C 0xAC9D las filas del jefe en el bufer = 0x34
 C 0xACA1 las columnas del jefe en el bufer = 0x00
+C 0xACB4 cada 8 cuadros (0xE456 = 1) va 8 a la izquierda (16 bits en IX+5) y lo compara con C (p04:9E40)
+C 0xACBE hacia la nave (p04:9EDF)
+C 0xACCC con menos de 6 vidas, su caja segun el dibujo (0xAD08) y desplazada
 C 0xACE1 suma_a_hl: HL = HL + A
 C 0xAD10 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xAD21 el dibujo segun la nave este por encima, a su altura o por debajo (0x90-0x92)
+C 0xAD27 el tope en y segun hacia donde va
 C 0xAD32 lee la y de la nave (el primer byte de su sprite, p01:797C)
+C 0xAD90 hacia la nave (p04:9EDF)
 C 0xADCC suma_a_hl: HL = HL + A
+C 0xADE8 C = cuantas fichas de enemigo quedan libres
 C 0xAE0D apunta a los enemigos (12 de 0x40)
 C 0xAE38 apunta a la y de la nave (el primer byte de su sprite, p01:797C)
 C 0xAE6D la cuenta del enemigo = 0x10
@@ -568,20 +645,32 @@ C 0xAEDB le suma la x del enemigo
 C 0xAEDE guarda la x del enemigo
 C 0xAEE1 lee el ancho del enemigo para los choques
 C 0xAEE5 guarda el ancho del enemigo para los choques
+C 0xAEF5 se quita el enemigo: uno menos (0xE462) (p01:75D1)
 C 0xAF01 lee la y del enemigo
 C 0xAF04 lee la x del enemigo
 C 0xAF17 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xAF27 el jefe empieza: IX+12 = A y 10 bytes de HL a su ficha (p04:9DC6)
+C 0xAF60 el dibujo siguiente entre 0x96 y 0x9F, hacia un lado u otro
 C 0xAF6E sonido_39: pide el sonido 0x39
 C 0xAF73 sonido_39: pide el sonido 0x39
 C 0xAF98 sonido_39: pide el sonido 0x39
 C 0xAFC1 suma_a_hl: HL = HL + A
 C 0xB007 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xB021 el jefe empieza: IX+12 = A y 10 bytes de HL a su ficha (p04:9DC6)
 C 0xB024 las filas del jefe en el bufer = 0x40
 C 0xB028 las columnas del jefe en el bufer = 0x40
+C 0xB02C la animacion: 7 pasos de 0x10 cuadros
+C 0xB03E cada 8 cuadros (0xE456 = 1) va 8 a la izquierda (16 bits en IX+5) y lo compara con C (p04:9E40)
+C 0xB04E una pieza 0x0A en DE (p01:7BDE)
+C 0xB059 una pieza 0x0A en DE (p01:7BDE)
+C 0xB060 una pieza 0x0A en DE (p01:7BDE)
+C 0xB06B una pieza 0x0A en DE (p01:7BDE)
 C 0xB095 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xB0A8 sonido_34: pide el sonido 0x34
+C 0xB0C0 el movimiento siguiente de la tabla de 0xB0C7 (8), por su numero (tabla de detras)
 C 0xB0DA suma_a_hl: HL = HL + A
 C 0xB0E1 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xB122 8 hacia la direccion de IX+26 (tabla de detras): arriba, abajo, izquierda o derecha
 C 0xB16C despacha: salta a la palabra A de la tabla que va detras del call
 C 0xB1FE lee la y del enemigo
 C 0xB204 lee la x del enemigo
@@ -593,14 +682,25 @@ C 0xB232 el dibujo de la pieza = 0x0B
 C 0xB236 las filas de la pieza = 0x02
 C 0xB23A las columnas de la pieza = 0x02
 C 0xB245 el tipo de la pieza (0: libre) = 0x00
+C 0xB24A con el jefe 9, se puede tocar segun su dibujo (por debajo de 0x5A)
 C 0xB253 las vidas de la pieza = 0x10
 C 0xB259 apunta a las partes del jefe (4 de 0x20)
 C 0xB273 guarda como se toca la pieza (bit 7: no se toca)
 C 0xB27E despacha: salta a la palabra A de la tabla que va detras del call
+C 0xB298 el jefe empieza: IX+12 = A y 10 bytes de HL a su ficha (p04:9DC6)
 C 0xB2A8 las vidas del jefe = 0x20
+C 0xB2AC con menos de 8 vidas, el dibujo roto (0x46/0x47), una explosion grande y el sonido 0x26
+C 0xB2C0 cada 8 cuadros (0xE456 = 1) va 8 a la izquierda (16 bits en IX+5) y lo compara con C (p04:9E40)
+C 0xB2D5 con menos de 8 vidas, el dibujo roto (0x46/0x47), una explosion grande y el sonido 0x26
+C 0xB2FE una explosion grande en DE (E la y, D la x): dentro de la pantalla (p01:678D)
 C 0xB303 sonido_26: pide el sonido 0x26
+C 0xB31A hacia la nave
 C 0xB324 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xB345 crea_pieza: crea una pieza (p01:7C18 con 1-2-3)
+C 0xB34E crea_pieza: crea una pieza (p01:7C18 con 1-2-3)
+C 0xB356 crea_pieza: crea una pieza (p01:7C18 con 1-2-3)
 C 0xB369 sonido_29: pide el sonido 0x29
+C 0xB392 los topes en y: 0x48 y 0xC0
 C 0xB3D1 apunta a la y de la nave (el primer byte de su sprite, p01:797C)
 C 0xB3E2 las columnas de la pieza = 0x03
 C 0xB3E6 el dibujo de la pieza = 0x8A
@@ -608,6 +708,7 @@ C 0xB3EA las vidas de la pieza = 0x05
 C 0xB3EF guarda como se toca la pieza (bit 7: no se toca)
 C 0xB3F5 la cuenta de la pieza = 0x02
 C 0xB409 suma_a_hl: HL = HL + A
+C 0xB427 por IX+17 (tabla de detras)
 C 0xB42A lee el paso de la pieza
 C 0xB42D despacha: salta a la palabra A de la tabla que va detras del call
 C 0xB43A la cuenta de la pieza = 0x02
@@ -628,18 +729,33 @@ C 0xB4B1 lee el dibujo de la pieza
 C 0xB4BE lee la y de la pieza
 C 0xB4C3 lee la x de la pieza
 C 0xB4D6 resta 1 a el dibujo de la pieza
+C 0xB4E3 apunta a la nave: la velocidad en y en IX+7 y en x en IX+9 (p01:7865)
+C 0xB4F2 el dibujo mirando a un lado u otro hacia la nave (0xB0 o 0xB8)
+C 0xB506 apunta a la nave: la velocidad en y en IX+7 y en x en IX+9 (p01:7865)
 C 0xB564 lee la x de la nave
 C 0xB567 compara con la x del enemigo
 C 0xB571 guarda el dibujo del primer sprite del enemigo
 C 0xB578 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xB592 el jefe empieza: IX+12 = A y 10 bytes de HL a su ficha (p04:9DC6)
+C 0xB595 la caja: y + 0x28, x + 0x38 / + 0x10; vidas en escalones de 4
 C 0xB59C las filas del jefe en el bufer = 0x28
 C 0xB5A0 las columnas del jefe en el bufer = 0x08
+C 0xB5B5 cada 8 cuadros (0xE456 = 1) va 8 a la izquierda (16 bits en IX+5) y lo compara con C (p04:9E40)
+C 0xB5CE la caja: y + 0x28, x + 0x38 / + 0x10; vidas en escalones de 4
+C 0xB5D9 la caja del jefe: y + A en IX+0A e IX+0E, x + B en IX+0C, x + C en IX+10 (p04:9E67)
+C 0xB5EF hacia la nave
+C 0xB5FB los topes en y: 0x60 y 0xD8
 C 0xB611 mira el bit 0 de hacia donde va el jefe (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 C 0xB635 lee la y del jefe (bajo)
 C 0xB63A apunta a la y de la nave (el primer byte de su sprite, p01:797C)
 C 0xB64F lee la y del jefe (bajo)
 C 0xB655 lee la x del jefe (bajo)
+C 0xB661 una aparicion en una ficha libre, guardando IX (p01:7647)
+C 0xB670 una aparicion en una ficha libre, guardando IX (p01:7647)
+C 0xB67F una aparicion en una ficha libre, guardando IX (p01:7647)
+C 0xB68E una aparicion en una ficha libre, guardando IX (p01:7647)
 C 0xB692 sonido_2E: pide el sonido 0x2E
+C 0xB69B lee_byte: A = el byte A de la tabla HL
 C 0xB6B7 guarda el ancho del enemigo para los choques
 C 0xB6D0 suma_a_hl: HL = HL + A
 C 0xB6D8 guarda la y del enemigo
@@ -650,14 +766,23 @@ C 0xB6EB guarda la x del enemigo
 C 0xB6EF la x del enemigo = 0x04
 C 0xB6F3 suma 1 a el paso del enemigo
 C 0xB6FF la cuenta del enemigo = 0x01
+C 0xB710 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
+C 0xB743 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
 C 0xB752 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xB76C el jefe empieza: IX+12 = A y 10 bytes de HL a su ficha (p04:9DC6)
+C 0xB76F la caja: y + 0x38, x + 0xA8 / + 0x68; IX+0E 8 menos
 C 0xB772 las filas del jefe en el bufer = 0x38
 C 0xB776 las columnas del jefe en el bufer = 0x68
 C 0xB77A hacia donde va el jefe (1 arriba, 2 abajo, 3 izquierda, 4 derecha) = 0x01
 C 0xB7B6 hacia donde va el jefe (1 arriba, 2 abajo, 3 izquierda, 4 derecha) = 0x03
+C 0xB7DC cada 8 cuadros (0xE456 = 1) va 8 a la izquierda (16 bits en IX+5) y lo compara con C (p04:9E40)
 C 0xB7EB hacia donde va el jefe (1 arriba, 2 abajo, 3 izquierda, 4 derecha) = 0x01
+C 0xB7F5 la caja: y + 0x38, x + 0xA8 / + 0x68; IX+0E 8 menos
+C 0xB800 la caja del jefe: y + A en IX+0A e IX+0E, x + B en IX+0C, x + C en IX+10 (p04:9E67)
+C 0xB818 IX+8 = cuantas veces cabe B en IX+12 (p04:9E96)
 C 0xB821 lee la y del jefe (alto)
 C 0xB876 lee la x del jefe (alto)
+C 0xB8DA cambia B dibujos de HL: el que vale C pasa a C + 1, y si no, vuelve a C
 C 0xB913 sonido_30: pide el sonido 0x30
 C 0xB930 lee la cuenta de cuadros del juego
 C 0xB977 suma_a_hl: HL = HL + A
@@ -667,7 +792,9 @@ C 0xB998 lee la y del jefe (alto)
 C 0xB9A9 lee la x del jefe (bajo)
 C 0xB9AC lee la x del jefe (alto)
 C 0xB9C7 suma_a_hl: HL = HL + A
+C 0xB9F8 la caja: y + 0x38, x + 0xA8 / + 0x68; IX+0E 8 menos
 C 0xBA02 suma 1 a el tercer dibujo del jefe
+C 0xBA09 la caja: y + 0x38, x + 0xA8 / + 0x68; IX+0E 8 menos
 C 0xBA12 lee la y del jefe (alto)
 C 0xBA19 lee la y de la nave (el primer byte de su sprite, p01:797C)
 C 0xBA25 lee la x del jefe (bajo)
@@ -680,28 +807,54 @@ C 0xBA60 apunta a los enemigos (12 de 0x40)
 C 0xBA6D apunta a las balas (10 de 0x10)
 C 0xBAA7 apunta a las partes del jefe (4 de 0x20)
 C 0xBAB2 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xBACB los 10 bytes de cada parte: la palabra 0xE455 de 0xBB27
+C 0xBAD0 el jefe empieza: IX+12 = A y 10 bytes de HL a su ficha (p04:9DC6)
 C 0xBAD8 guarda las columnas del jefe en el bufer
+C 0xBAF6 la vuelta empieza: los dibujos 0xA4 y 0xA5, la espera del disparo 0x18, cada cuadro, cada 4
+C 0xBAFC la x de 16 bits + DE; su caja de x + 0x10 a + 0x70
+C 0xBAFF la x de su caja
 C 0xBB24 lee_palabra: HL = la palabra A de la tabla HL
+C 0xBB51 cada 8 cuadros (0xE456 = 1) va 8 a la izquierda (16 bits en IX+5) y lo compara con C (p04:9E40)
+C 0xBB58 la x de 16 bits + DE; su caja de x + 0x10 a + 0x70
+C 0xBB68 cada A cuadros (IX+1D) un paso de 8 a la izquierda o a la derecha (IX+1C)
+C 0xBB6F se pone y se pinta
+C 0xBB7C cada A cuadros (IX+1D) un paso de 8 a la izquierda o a la derecha (IX+1C)
+C 0xBB88 la vuelta empieza: los dibujos 0xA4 y 0xA5, la espera del disparo 0x18, cada cuadro, cada 4
+C 0xBBAC cada A cuadros (IX+1D) un paso de 8 a la izquierda o a la derecha (IX+1C)
+C 0xBBD4 A = cuantas de las tres han caido (IX+1B de cada una)
 C 0xBBD9 sonido_26: pide el sonido 0x26
 C 0xBBDE guarda el jefe vencido (1, o 2 en la fase 4)
 C 0xBBE1 sonido_4C: pide el sonido 0x4C
+C 0xBC04 una explosion grande en DE (E la y, D la x): dentro de la pantalla (p01:678D)
+C 0xBC34 A = cuantas de las tres han caido (IX+1B de cada una)
 C 0xBC3A sonido_26: pide el sonido 0x26
+C 0xBC43 suma_puntos: suma DE (BCD) a los puntos
+C 0xBC57 A = cuantas de las tres han caido (IX+1B de cada una)
 C 0xBC7C lee la aparicion poco a poco en marcha (1 o 2)
+C 0xBCA3 la velocidad de la bala B: la y de 0xBCCD, la x de 0xBCC1
+C 0xBCA6 p02:8580 con 1-2-3, y vuelve con 4-5 (p01:7ECC)
 C 0xBCB2 lee_palabra: HL = la palabra A de la tabla HL
 C 0xBCB5 guarda la velocidad en x hacia la nave (16 bits; IX+9 de quien la usa)
 C 0xBCBC lee_palabra: HL = la palabra A de la tabla HL
 C 0xBCBF guarda la velocidad en y hacia la nave (16 bits; IX+7 de quien la usa)
+C 0xBCE2 la direccion: en la x 0 va a la derecha, en la 0xC0 a la izquierda; en el paso 4 no cambia
+C 0xBD56 lee_byte: A = el byte A de la tabla HL
 C 0xBD94 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xBDA2 el jefe empieza: IX+12 = A y 10 bytes de HL a su ficha (p04:9DC6)
+C 0xBDDA cuenta las piezas de 0xED00 (p01:7A4D): sin ninguna, vencido (0xE445 = 1)
 C 0xBDE1 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xBE51 lee cuantas piezas de 0xED00 estan en uso
 C 0xBE58 guarda el jefe vencido (1, o 2 en la fase 4)
 C 0xBE7C lee_palabra: HL = la palabra A de la tabla HL
+C 0xBE83 crea_pieza: crea una pieza (p01:7C18 con 1-2-3)
 C 0xBE98 las columnas de la pieza = 0x01
 C 0xBE9C las columnas de la pieza = 0x01
 C 0xBEA4 lee el B de la pieza
 C 0xBEA9 guarda el dibujo de la pieza
 C 0xBEAC lee el B de la pieza
+C 0xBEB2 lee_byte: A = el byte A de la tabla HL
 C 0xBEB5 guarda las filas de la pieza
 C 0xBEC7 lee la y del enemigo
 C 0xBECA lee la x del enemigo
+C 0xBED5 p02:995D con 1-2-3, y vuelve con 4-5 (p01:7ED5)
 # --- fin de las anotaciones de anota.py ---

@@ -734,86 +734,86 @@ DATA_BB67:
 
 
 L_BBE9:
-	ld hl,07e48h		;bbe9
+	ld hl,07e48h		;bbe9   ; las estrellas del final: que salgan del centro (0x7E48)...
 	jr L_BBF1		;bbec
 L_BBEE:
-	ld hl,07e5dh		;bbee
+	ld hl,07e5dh		;bbee   ; ...o que vayan a el (0x7E5D)
 L_BBF1:
-	ld (0e5edh),hl		;bbf1
-	ld hl,00100h		;bbf4
-	ld (0e5ebh),hl		;bbf7
-	ld hl,0c880h		;bbfa
+	ld (0e5edh),hl		;bbf1   ; el centro en 0xE5ED
+	ld hl,00100h		;bbf4   ; la primera ya (0xE5EC = 0x100)
+	ld (0e5ebh),hl		;bbf7   ; y el numero 0
+	ld hl,0c880h		;bbfa   ; las 24 fichas de 0xC880 (0x10 bytes) a cero
 	ld de,0c881h		;bbfd
 	ld bc,0017fh		;bc00
 	ld (hl),000h		;bc03
 	ldir		;bc05
 	ret			;bc07
 L_BC08:
-	call L_BD0F		;bc08
-	call L_BC1C		;bc0b
-	call L_BDEC		;bc0e
+	call L_BD0F		;bc08   ; cada cuadro, saliendo: se mueven, sale otra y a los sprites
+	call L_BC1C		;bc0b   ; sale otra
+	call L_BDEC		;bc0e   ; y a los sprites
 	ret			;bc11
 L_BC12:
-	call L_BD41		;bc12
-	call L_BC43		;bc15
-	call L_BDEC		;bc18
+	call L_BD41		;bc12   ; cada cuadro, entrando: lo mismo hacia el centro
+	call L_BC43		;bc15   ; entra otra
+	call L_BDEC		;bc18   ; las estrellas a los sprites desde 0xEF20: las que no tapa nada (IX+0B a 0)
 	ret			;bc1b
 L_BC1C:
-	call L_BC6C		;bc1c
-	ret nz			;bc1f
-	push hl			;bc20
-	call L_BC88		;bc21
-	call L_BC94		;bc24
-	ld (0ef80h),hl		;bc27
-	ld de,(0e5edh)		;bc2a
-	call 0483ch		;bc2e
-	call L_BCC7		;bc31
-	ld d,000h		;bc34
-	call 04845h		;bc36
-	ld bc,(0e5edh)		;bc39
-	pop ix		;bc3d
+	call L_BC6C		;bc1c   ; sale una desde el centro hacia un punto al azar...
+	ret nz			;bc1f   ; sin hueco, nada
+	push hl			;bc20   ; ...en una ficha libre
+	call L_BC88		;bc21   ; el numero siguiente y su punto
+	call L_BC94		;bc24   ; un punto al azar
+	ld (0ef80h),hl		;bc27   ; hacia alli desde el centro (p01:640B)...
+	ld de,(0e5edh)		;bc2a   ; desde el centro
+	call 0483ch		;bc2e   ; direccion_hacia: la direccion de DE hacia 0xEF80 (p01:640B con 1-2-3)
+	call L_BCC7		;bc31   ; ...con un paso al azar (p01:639F)
+	ld d,000h		;bc34   ; sin azar
+	call 04845h		;bc36   ; velocidad_hacia: la velocidad por esa direccion (p01:639F con 1-2-3)
+	ld bc,(0e5edh)		;bc39   ; su sitio, el centro
+	pop ix		;bc3d   ; la ficha libre
 	call L_BCD1		;bc3f
 	ret			;bc42
 L_BC43:
-	call L_BC6C		;bc43
-	ret nz			;bc46
+	call L_BC6C		;bc43   ; entra una desde un punto al azar hacia el centro...
+	ret nz			;bc46   ; sin hueco, nada
 	push hl			;bc47
-	ld hl,(0e5edh)		;bc48
+	ld hl,(0e5edh)		;bc48   ; ...el centro es el destino...
 	ld (0ef80h),hl		;bc4b
-	call L_BC88		;bc4e
-	call L_BC94		;bc51
+	call L_BC88		;bc4e   ; un punto al azar...
+	call L_BC94		;bc51   ; el punto de ese numero (tabla de 0xBCA7) mas un azar de 0 a 0x1F en cada eje
 	push hl			;bc54
-	ex de,hl			;bc55
-	call 0483ch		;bc56
-	call L_BCC7		;bc59
-	ld d,001h		;bc5c
-	call 04845h		;bc5e
+	ex de,hl			;bc55   ; ...y sale de alli
+	call 0483ch		;bc56   ; ...hacia el centro
+	call L_BCC7		;bc59   ; el paso, al azar: de 0x20 a 0x9F
+	ld d,001h		;bc5c   ; con azar
+	call 04845h		;bc5e   ; velocidad_hacia: la velocidad por esa direccion (p01:639F con 1-2-3)
 	pop bc			;bc61
 	pop ix		;bc62
-	call L_BCD1		;bc64
-	ld (ix+009h),0f8h		;bc67
+	call L_BCD1		;bc64   ; su sitio, el punto
+	ld (ix+009h),0f8h		;bc67   ; el dibujo pequeno (0xF8)
 	ret			;bc6b
 L_BC6C:
-	ld hl,0e5ech		;bc6c
-	dec (hl)			;bc6f
+	ld hl,0e5ech		;bc6c   ; cada 3 cuadros una ficha libre (NZ si no hay)
+	dec (hl)			;bc6f   ; la espera
 	ret nz			;bc70
-	ld (hl),003h		;bc71
-	ld hl,0c880h		;bc73
+	ld (hl),003h		;bc71   ; cada 3 cuadros
+	ld hl,0c880h		;bc73   ; 24 fichas
 	ld de,00010h		;bc76
-	ld b,018h		;bc79
+	ld b,018h		;bc79   ; las 24
 	xor a			;bc7b
 L_BC7C:
-	cp (hl)			;bc7c
+	cp (hl)			;bc7c   ; una libre: Z y HL
 	ret z			;bc7d
 	add hl,de			;bc7e
 	djnz L_BC7C		;bc7f
-	ld a,001h		;bc81
+	ld a,001h		;bc81   ; ninguna libre: la espera a 1 y NZ
 	ld (0e5ech),a		;bc83
 	or a			;bc86
 	ret			;bc87
 L_BC88:
-	ld hl,0e5ebh		;bc88
-	ld a,(hl)			;bc8b
+	ld hl,0e5ebh		;bc88   ; el numero siguiente (0xE5EB), de 0 a 0x0F
+	ld a,(hl)			;bc8b   ; el siguiente, de 0 a 0x0F
 	inc a			;bc8c
 	cp 010h		;bc8d
 	jr c,L_BC92		;bc8f
@@ -822,13 +822,13 @@ L_BC92:
 	ld (hl),a			;bc92
 	ret			;bc93
 L_BC94:
-	ld hl,0bca7h		;bc94
+	ld hl,0bca7h		;bc94   ; el punto de ese numero (tabla de 0xBCA7) mas un azar de 0 a 0x1F en cada eje
 	call 04a5ah		;bc97   ; lee_palabra: HL = la palabra A de la tabla HL
-	ld a,r		;bc9a
+	ld a,r		;bc9a   ; un azar de 0 a 0x1F en la y...
 	and 01fh		;bc9c
 	add a,h			;bc9e
 	ld h,a			;bc9f
-	ld a,r		;bca0
+	ld a,r		;bca0   ; ...y otro en la x
 	and 01fh		;bca2
 	add a,l			;bca4
 	ld l,a			;bca5
@@ -851,30 +851,30 @@ DATA_tabla_BCA7:
 
 
 L_BCC7:
-	ld a,r		;bcc7
-	and 07fh		;bcc9
-	add a,020h		;bccb
+	ld a,r		;bcc7   ; el paso, al azar: de 0x20 a 0x9F
+	and 07fh		;bcc9   ; de 0 a 0x7F...
+	add a,020h		;bccb   ; ...+ 0x20: el paso
 	ld (0e46eh),a		;bccd
 	ret			;bcd0
 L_BCD1:
-	ld a,(0e5ebh)		;bcd1
-	inc a			;bcd4
-	ld (ix+000h),a		;bcd5
-	ld (ix+001h),000h		;bcd8
-	ld (ix+002h),c		;bcdc
-	ld (ix+003h),000h		;bcdf
-	ld (ix+004h),b		;bce3
-	ld (ix+005h),l		;bce6
-	ld (ix+006h),h		;bce9
-	ld (ix+007h),e		;bcec
-	ld (ix+008h),d		;bcef
-	ld (ix+009h),0f0h		;bcf2
-	ld a,r		;bcf6
+	ld a,(0e5ebh)		;bcd1   ; la ficha: el numero, la y (16 bits, la parte alta C), la x (B)...
+	inc a			;bcd4   ; desde 1
+	ld (ix+000h),a		;bcd5   ; guarda el numero de la estrella (0: libre)
+	ld (ix+001h),000h		;bcd8   ; la y de la estrella (decimales) = 0x00
+	ld (ix+002h),c		;bcdc   ; guarda la y de la estrella
+	ld (ix+003h),000h		;bcdf   ; la x de la estrella (decimales) = 0x00
+	ld (ix+004h),b		;bce3   ; guarda la x de la estrella
+	ld (ix+005h),l		;bce6   ; ...la velocidad en y (HL) y en x (DE)...
+	ld (ix+006h),h		;bce9   ; guarda la velocidad en y de la estrella (alto)
+	ld (ix+007h),e		;bcec   ; guarda la velocidad en x de la estrella (bajo)
+	ld (ix+008h),d		;bcef   ; guarda la velocidad en x de la estrella (alto)
+	ld (ix+009h),0f0h		;bcf2   ; ...el dibujo grande (0xF0) y un color al azar (tabla de 0xBD07)
+	ld a,r		;bcf6   ; un color al azar de los 8 de 0xBD07
 	and 007h		;bcf8
 	ld hl,0bd07h		;bcfa
-	call 04a6eh		;bcfd
-	ld (ix+00ah),a		;bd00
-	ld (ix+00bh),a		;bd03
+	call 04a6eh		;bcfd   ; lee_byte: A = el byte A de la tabla HL
+	ld (ix+00ah),a		;bd00   ; guarda el color de la estrella
+	ld (ix+00bh),a		;bd03   ; guarda lo que hay en el bufer bajo la estrella
 	ret			;bd06
 
 ; ----------------------------------------------------------------------
@@ -893,107 +893,107 @@ DATA_tabla_BD07:
 
 
 L_BD0F:
-	ld ix,0c880h		;bd0f
-	ld b,018h		;bd13
+	ld ix,0c880h		;bd0f   ; se mueven: las que salen de la pantalla (y desde 0xC0, x fuera) se quitan
+	ld b,018h		;bd13   ; las 24
 L_BD15:
-	ld a,(ix+000h)		;bd15
-	or a			;bd18
+	ld a,(ix+000h)		;bd15   ; lee el numero de la estrella (0: libre)
+	or a			;bd18   ; libre: la siguiente
 	jr z,L_BD33		;bd19
-	call L_BD75		;bd1b
-	ld a,h			;bd1e
+	call L_BD75		;bd1b   ; la y...
+	ld a,h			;bd1e   ; por abajo (y desde 0xC0): fuera
 	cp 0c0h		;bd1f
 	jr nc,L_BD3B		;bd21
-	call L_BD89		;bd23
-	ld a,h			;bd26
+	call L_BD89		;bd23   ; ...y la x
+	ld a,h			;bd26   ; por los lados (x desde 0xF8 o por debajo de 8): fuera
 	sub 008h		;bd27
 	cp 0f0h		;bd29
 	jr nc,L_BD3B		;bd2b
-	call L_BD9C		;bd2d
-	call L_BDCA		;bd30
+	call L_BD9C		;bd2d   ; su dibujo segun lo lejos que estan, y lo que hay debajo
+	call L_BDCA		;bd30   ; lo que hay debajo
 L_BD33:
-	ld de,00010h		;bd33
+	ld de,00010h		;bd33   ; la siguiente
 	add ix,de		;bd36
 	djnz L_BD15		;bd38
 	ret			;bd3a
 L_BD3B:
-	ld (ix+000h),000h		;bd3b
+	ld (ix+000h),000h		;bd3b   ; fuera
 	jr L_BD33		;bd3f
 L_BD41:
-	ld ix,0c880h		;bd41
-	ld b,018h		;bd45
+	ld ix,0c880h		;bd41   ; lo mismo entrando: las que llegan al centro (y 0x58-0x67, x 0x78-0x87) se quitan
+	ld b,018h		;bd45   ; las 24
 L_BD47:
-	ld a,(ix+000h)		;bd47
-	or a			;bd4a
+	ld a,(ix+000h)		;bd47   ; lee el numero de la estrella (0: libre)
+	or a			;bd4a   ; libre: la siguiente
 	jr z,L_BD67		;bd4b
-	call L_BD75		;bd4d
-	ld a,h			;bd50
+	call L_BD75		;bd4d   ; la y...
+	ld a,h			;bd50   ; ...en la del centro (0x58-0x67)?
 	sub 058h		;bd51
 	cp 010h		;bd53
 	jr c,L_BD6F		;bd55
-	call L_BD89		;bd57
-	ld a,h			;bd5a
+	call L_BD89		;bd57   ; la x...
+	ld a,h			;bd5a   ; ...en la del centro (0x78-0x87)? fuera
 	sub 078h		;bd5b
 	cp 010h		;bd5d
 	jr c,L_BD6F		;bd5f
-	call L_BD9C		;bd61
-	call L_BDCA		;bd64
+	call L_BD9C		;bd61   ; su dibujo y lo de debajo
+	call L_BDCA		;bd64   ; el caracter del bufer donde esta (IX+0B: 0 si es el fondo)
 L_BD67:
-	ld de,00010h		;bd67
+	ld de,00010h		;bd67   ; la siguiente
 	add ix,de		;bd6a
 	djnz L_BD47		;bd6c
 	ret			;bd6e
 L_BD6F:
-	ld (ix+000h),000h		;bd6f
+	ld (ix+000h),000h		;bd6f   ; llegada: fuera
 	jr L_BD67		;bd73
 L_BD75:
-	ld l,(ix+001h)		;bd75
-	ld h,(ix+002h)		;bd78
-	ld e,(ix+005h)		;bd7b
-	ld d,(ix+006h)		;bd7e
+	ld l,(ix+001h)		;bd75   ; la y + su velocidad (16 bits)
+	ld h,(ix+002h)		;bd78   ; lee la y de la estrella
+	ld e,(ix+005h)		;bd7b   ; lee la velocidad en y de la estrella (bajo)
+	ld d,(ix+006h)		;bd7e   ; lee la velocidad en y de la estrella (alto)
 	add hl,de			;bd81
-	ld (ix+001h),l		;bd82
-	ld (ix+002h),h		;bd85
+	ld (ix+001h),l		;bd82   ; guarda la y de la estrella (decimales)
+	ld (ix+002h),h		;bd85   ; guarda la y de la estrella
 	ret			;bd88
 L_BD89:
-	ld l,(ix+003h)		;bd89
-	ld h,(ix+004h)		;bd8c
-	ld e,(ix+007h)		;bd8f
-	ld d,(ix+008h)		;bd92
+	ld l,(ix+003h)		;bd89   ; la x + la suya
+	ld h,(ix+004h)		;bd8c   ; lee la x de la estrella
+	ld e,(ix+007h)		;bd8f   ; lee la velocidad en x de la estrella (bajo)
+	ld d,(ix+008h)		;bd92   ; lee la velocidad en x de la estrella (alto)
 	add hl,de			;bd95
-	ld (ix+003h),l		;bd96
-	ld (ix+004h),h		;bd99
+	ld (ix+003h),l		;bd96   ; guarda la x de la estrella (decimales)
+	ld (ix+004h),h		;bd99   ; guarda la x de la estrella
 L_BD9C:
-	ld c,0f8h		;bd9c
-	ld a,(ix+002h)		;bd9e
+	ld c,0f8h		;bd9c   ; el dibujo: lejos del centro 0xF8, mas cerca 0xF4, en el centro 0xF0
+	ld a,(ix+002h)		;bd9e   ; lee la y de la estrella
 	sub 028h		;bda1
 	cp 070h		;bda3
 	jr nc,L_BDC6		;bda5
-	ld a,(ix+004h)		;bda7
+	ld a,(ix+004h)		;bda7   ; lee la x de la estrella
 	sub 030h		;bdaa
 	cp 0a0h		;bdac
 	jr nc,L_BDC6		;bdae
 	ld c,0f4h		;bdb0
-	ld a,(ix+002h)		;bdb2
+	ld a,(ix+002h)		;bdb2   ; lee la y de la estrella
 	sub 048h		;bdb5
 	cp 030h		;bdb7
 	jr nc,L_BDC6		;bdb9
-	ld a,(ix+004h)		;bdbb
+	ld a,(ix+004h)		;bdbb   ; lee la x de la estrella
 	sub 050h		;bdbe
 	cp 060h		;bdc0
 	jr nc,L_BDC6		;bdc2
 	ld c,0f0h		;bdc4
 L_BDC6:
-	ld (ix+009h),c		;bdc6
+	ld (ix+009h),c		;bdc6   ; guarda el dibujo de la estrella
 	ret			;bdc9
 L_BDCA:
-	ld l,(ix+002h)		;bdca
-	ld h,(ix+004h)		;bdcd
-	call L_BDD8		;bdd0
+	ld l,(ix+002h)		;bdca   ; el caracter del bufer donde esta (IX+0B: 0 si es el fondo)
+	ld h,(ix+004h)		;bdcd   ; lee la x de la estrella
+	call L_BDD8		;bdd0   ; la direccion de 0xCA00 de HL (L la y, H la x)
 	ld a,(hl)			;bdd3
-	ld (ix+00bh),a		;bdd4
+	ld (ix+00bh),a		;bdd4   ; guarda lo que hay en el bufer bajo la estrella
 	ret			;bdd7
 L_BDD8:
-	ld a,l			;bdd8
+	ld a,l			;bdd8   ; la direccion de 0xCA00 de HL (L la y, H la x)
 	rra			;bdd9
 	rra			;bdda
 	rra			;bddb
@@ -1009,28 +1009,28 @@ L_BDD8:
 	ld h,a			;bdea
 	ret			;bdeb
 L_BDEC:
-	call L_BE26		;bdec
+	call L_BE26		;bdec   ; las estrellas a los sprites desde 0xEF20: las que no tapa nada (IX+0B a 0)
 	ld hl,0ef20h		;bdef
 	ld ix,0c880h		;bdf2
 	ld de,00010h		;bdf6
 	ld b,018h		;bdf9
 L_BDFB:
-	ld a,(ix+000h)		;bdfb
+	ld a,(ix+000h)		;bdfb   ; lee el numero de la estrella (0: libre)
 	or a			;bdfe
 	jr z,L_BE20		;bdff
-	ld a,(ix+00bh)		;be01
+	ld a,(ix+00bh)		;be01   ; lee lo que hay en el bufer bajo la estrella
 	or a			;be04
 	jr nz,L_BE20		;be05
-	ld a,(ix+002h)		;be07
+	ld a,(ix+002h)		;be07   ; la y, la x, el dibujo y el color
 	ld (hl),a			;be0a
 	inc hl			;be0b
-	ld a,(ix+004h)		;be0c
+	ld a,(ix+004h)		;be0c   ; lee la x de la estrella
 	ld (hl),a			;be0f
 	inc hl			;be10
-	ld a,(ix+009h)		;be11
+	ld a,(ix+009h)		;be11   ; lee el dibujo de la estrella
 	ld (hl),a			;be14
 	inc hl			;be15
-	ld a,(ix+00ah)		;be16
+	ld a,(ix+00ah)		;be16   ; lee el color de la estrella
 	ld (hl),a			;be19
 	inc hl			;be1a
 L_BE1B:
@@ -1038,20 +1038,20 @@ L_BE1B:
 	djnz L_BDFB		;be1d
 	ret			;be1f
 L_BE20:
-	inc hl			;be20
+	inc hl			;be20   ; tapada: se salta
 	inc hl			;be21
 	inc hl			;be22
 	inc hl			;be23
 	jr L_BE1B		;be24
 L_BE26:
-	ld hl,0ef20h		;be26
+	ld hl,0ef20h		;be26   ; los sprites de 0xEF20 a cero (0x60 bytes)
 	ld de,0ef21h		;be29
 	ld bc,0005fh		;be2c
 	ld (hl),000h		;be2f
 	ldir		;be31
 	ret			;be33
 L_BE34:
-	ld de,0be3bh		;be34
+	ld de,0be3bh		;be34   ; el RLE de 0xBE3B, con su direccion
 	call 04b36h		;be37   ; rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
 	ret			;be3a
 
