@@ -116,7 +116,7 @@ init:		; el arranque del cartucho (INIT)
 	ld (hl),000h		;40bf
 	ldir		;40c1
 	ld a,001h		;40c3   ; 0xE33B a 1
-	ld (0e33bh),a		;40c5
+	ld (0e33bh),a		;40c5   ; guarda la fase de la proxima demostracion (1 a 3)
 	ld hl,0f0f0h		;40c8   ; el reparto de encendido con sus copias en 0xF0F0-0xF0F3
 	xor a			;40cb
 	ld (05000h),a		;40cc   ; el 0 en 0x4000 (no se vuelve a tocar)
@@ -722,7 +722,7 @@ L_44E4:
 	jp L_4567		;44e6
 L_44E9:
 	ld hl,0e360h		;44e9   ; cambia las fichas de los dos jugadores: 0x50 bytes de 0xE360 con los de 0xE3B0
-	ld de,0e3b0h		;44ec
+	ld de,0e3b0h		;44ec   ; apunta a la ficha del otro jugador (0x50 bytes)
 	ld b,050h		;44ef
 	jp L_4A3C		;44f1
 L_44F4:
@@ -750,7 +750,7 @@ L_4505:
 	call escribe_texto		;4513   ; escribe_texto: escribe en la VRAM el texto de DE (direccion y letras)
 	call L_4786		;4516   ; PLAYER 1 o 2
 	xor a			;4519   ; 0xE36C = 0: sin continuar
-	ld (0e36ch),a		;451a
+	ld (0e36ch),a		;451a   ; guarda 1 si se continua (F5)
 	ld hl,001d8h		;451d   ; 0x1D8 cuadros para pulsar F5
 	ld (0e40ch),hl		;4520
 	jp L_433A		;4523   ; y al paso siguiente
@@ -767,7 +767,7 @@ L_4526:
 	jr z,L_4553		;4537
 	call sonido_01		;4539   ; sonido_01: pide el sonido 0x01
 	ld hl,0e355h		;453c
-	ld a,(0e302h)		;453f
+	ld a,(0e302h)		;453f   ; lee el modo (bit 5: dos jugadores; bit 6: se juega de verdad; bit 7: el segundo jugador)
 	and 080h		;4542
 	jr z,L_4548		;4544
 	ld l,05ah		;4546
@@ -781,14 +781,14 @@ L_4548:
 	ld a,003h		;454e
 	ld (0e360h),a		;4550   ; guarda las vidas (BCD)
 L_4553:
-	ld a,(0e3b0h)		;4553
+	ld a,(0e3b0h)		;4553   ; lee la ficha del otro jugador (0x50 bytes)
 	or a			;4556
 	jr nz,L_44DA		;4557
-	ld a,(0e36ch)		;4559
+	ld a,(0e36ch)		;4559   ; lee 1 si se continua (F5)
 	and a			;455c
 	jr nz,L_44E4		;455d
 L_455F:
-	ld hl,0e302h		;455f
+	ld hl,0e302h		;455f   ; apunta a el modo (bit 5: dos jugadores; bit 6: se juega de verdad; bit 7: el segundo jugador)
 	ld a,(hl)			;4562
 	and 0bfh		;4563
 	ld (hl),a			;4565
@@ -805,7 +805,7 @@ L_4572:
 	bit 1,a		;4577   ; bit 1: la F5
 	ret nz			;4579   ; sin pulsar, fuera
 	ld a,001h		;457a   ; pulsada: 0xE36C = 1 (continuar)
-	ld (0e36ch),a		;457c
+	ld (0e36ch),a		;457c   ; guarda 1 si se continua (F5)
 	ld de,08659h		;457f   ; y borra CONTINUE F5
 	jp borra_texto		;4582   ; borra_texto: borra en la VRAM el texto de DE
 L_4585:
@@ -846,10 +846,10 @@ L_45B3:
 	cp 003h		;45b6
 	jr nz,L_45BE		;45b8
 	xor a			;45ba
-	ld (0e37ch),a		;45bb
+	ld (0e37ch),a		;45bb   ; guarda el jefe de la fase 4 (0 a 3)
 L_45BE:
 	xor a			;45be
-	ld (0e30dh),a		;45bf
+	ld (0e30dh),a		;45bf   ; guarda 1: fase superada (al estado 8)
 	call L_5612		;45c2
 	ld a,005h		;45c5
 	jp L_4567		;45c7
@@ -971,7 +971,7 @@ L_46B6:
 	call bancos_26_27_28		;46b6   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	call 0600ch		;46b9
 	call bancos_1_2_3		;46bc   ; bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
-	ld a,(0e328h)		;46bf
+	ld a,(0e328h)		;46bf   ; lee 1: el final del juego (al estado 10)
 	or a			;46c2
 	ret nz			;46c3
 	call pantalla_en_blanco		;46c4   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
@@ -1009,13 +1009,13 @@ L_46DA:
 	ld (0e37dh),a		;4710
 	call L_5612		;4713
 	xor a			;4716
-	ld (0e30dh),a		;4717
+	ld (0e30dh),a		;4717   ; guarda 1: fase superada (al estado 8)
 	ld a,005h		;471a
 	jp L_4567		;471c
 L_471F:
 	xor a			;471f
 	ld (0e360h),a		;4720   ; guarda las vidas (BCD)
-	ld a,(0e3b0h)		;4723
+	ld a,(0e3b0h)		;4723   ; lee la ficha del otro jugador (0x50 bytes)
 	or a			;4726
 	jp nz,L_44DA		;4727
 	jp L_455F		;472a
@@ -1044,7 +1044,7 @@ L_472D:
 	jr z,L_475A		;4756
 	ld a,060h		;4758
 L_475A:
-	ld (0e302h),a		;475a
+	ld (0e302h),a		;475a   ; guarda el modo (bit 5: dos jugadores; bit 6: se juega de verdad; bit 7: el segundo jugador)
 	ld (hl),003h		;475d
 	inc hl			;475f
 	ld c,000h		;4760
@@ -1229,14 +1229,14 @@ L_489B:
 	ld bc,00002h		;48ac
 	ldir		;48af
 	ld hl,00010h		;48b1   ; el primer tope de vida de mas: 0x0010 en 0xE367 (BCD)
-	ld (0e367h),hl		;48b4
+	ld (0e367h),hl		;48b4   ; guarda los puntos de la proxima vida de mas (BCD) y el byte siguiente (16 bits)
 	xor a			;48b7
 	ld (0e369h),a		;48b8   ; 0xE369 = 0
 	ld a,(0e302h)		;48bb   ; con dos jugadores...
 	and 020h		;48be
 	ret z			;48c0
 	ld hl,0e360h		;48c1   ; ...la ficha del segundo igual
-	ld de,0e3b0h		;48c4
+	ld de,0e3b0h		;48c4   ; apunta a la ficha del otro jugador (0x50 bytes)
 	ld bc,00050h		;48c7
 	ldir		;48ca
 	ret			;48cc
@@ -2130,7 +2130,7 @@ L_4DC1:
 	ret			;4dec
 L_4DED:
 	push af			;4ded   ; el bufer de los dibujos: 0xCA00 (o 0xCE00)
-	ld de,0ca00h		;4dee
+	ld de,0ca00h		;4dee   ; apunta a un bufer de trabajo
 	ld a,(0e326h)		;4df1
 	or a			;4df4
 	jr z,L_4DFA		;4df5
@@ -2218,7 +2218,7 @@ L_4E6E:
 	ld (0ef94h),hl		;4e8e
 L_4E91:
 	ld hl,(0ef92h)		;4e91   ; 32 bytes del origen a 0xCA00
-	ld de,0ca00h		;4e94
+	ld de,0ca00h		;4e94   ; apunta a un bufer de trabajo
 	ld bc,00020h		;4e97
 	call 00059h		;4e9a   ; BIOS LDIRMV - Block transfers to memory from VRAM
 	call L_4EC4		;4e9d   ; les da la vuelta (p00:4EC4)
@@ -2295,7 +2295,7 @@ L_4F0B:
 	add hl,de			;4f20
 	ex de,hl			;4f21
 	ld a,(ix+003h)		;4f22   ; el siguiente caracter libre de ese tercio (0xE5C7 + tercio)...
-	ld hl,0e5c7h		;4f25
+	ld hl,0e5c7h		;4f25   ; apunta a el siguiente caracter libre de cada tercio
 	add a,l			;4f28
 	ld l,a			;4f29
 	ld a,(hl)			;4f2a
@@ -2406,7 +2406,7 @@ L_5007:
 	jp devuelve_reparto		;5016   ; devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
 L_5019:
 	ld hl,01840h		;5019
-	ld a,(0e600h)		;501c   ; lee el estado de la nave (0xFF: estalla)
+	ld a,(0e600h)		;501c   ; lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 	sub 002h		;501f
 	jr z,L_502C		;5021
 	dec a			;5023
@@ -2414,7 +2414,7 @@ L_5019:
 	ld de,07082h		;5026
 	jp rle_a_vram		;5029   ; rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 L_502C:
-	ld a,(0e601h)		;502c
+	ld a,(0e601h)		;502c   ; lee los golpes que le quedan al escudo
 	or a			;502f
 	ret z			;5030
 	dec a			;5031
@@ -2424,7 +2424,7 @@ L_502C:
 L_503A:
 	jp rle_a_vram		;503a   ; rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 L_503D:
-	ld a,(0e601h)		;503d
+	ld a,(0e601h)		;503d   ; lee los golpes que le quedan al escudo
 	or a			;5040
 	ret z			;5041
 	dec a			;5042
@@ -2516,7 +2516,7 @@ L_50E9:
 	call L_4E5A		;50f8
 	jp bancos_1_2_3		;50fb   ; bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 L_50FE:
-	ld a,(0e440h)		;50fe
+	ld a,(0e440h)		;50fe   ; lee el jefe en curso (0: ninguno)
 	cp 00dh		;5101
 	ret z			;5103
 	push ix		;5104
@@ -2529,7 +2529,7 @@ L_50FE:
 	pop ix		;5118
 	ret			;511a
 L_511B:
-	ld a,(0e440h)		;511b
+	ld a,(0e440h)		;511b   ; lee el jefe en curso (0: ninguno)
 	ld hl,06b1fh		;511e
 	call lee_palabra		;5121   ; lee_palabra: HL = la palabra A de la tabla HL
 L_5124:
@@ -2597,7 +2597,7 @@ L_5181:
 	pop ix		;518b
 	ret			;518d
 L_518E:
-	ld hl,0ca00h		;518e
+	ld hl,0ca00h		;518e   ; apunta a un bufer de trabajo
 	ld de,0ca01h		;5191
 	ld bc,003ffh		;5194
 	ld (hl),000h		;5197
@@ -2614,7 +2614,7 @@ L_51AE:
 	ld a,(0e361h)		;51ae   ; lee la fase (1 a 11)
 	cp 004h		;51b1
 	ret z			;51b3
-	ld a,(0e420h)		;51b4
+	ld a,(0e420h)		;51b4   ; lee 1 si este cuadro hay scroll
 	or a			;51b7
 	ret z			;51b8
 L_51B9:
@@ -2691,7 +2691,7 @@ L_5210:
 	call copia_con_vuelta		;522b   ; copia_con_vuelta: copia caracteres de la VRAM dandoles la vuelta (lista IX)
 	pop hl			;522e
 	ld a,(hl)			;522f
-	ld (0e405h),a		;5230
+	ld (0e405h),a		;5230   ; guarda el caracter del fondo de la fase
 	jp L_5D00		;5233
 L_5236:
 	xor a			;5236   ; la pantalla entera al empezar la fase: 32 columnas del mapa hacia atras desde el scroll
@@ -2702,7 +2702,7 @@ L_5236:
 	sbc hl,de		;5241
 	ld (0e363h),hl		;5243   ; guarda la posicion del scroll (16 bits)
 	ld hl,0c400h		;5246   ; la primera columna del bufer de 0xC400
-	ld (0e429h),hl		;5249
+	ld (0e429h),hl		;5249   ; guarda la columna del bufer de 0xC400 que se pinta y el byte siguiente (16 bits)
 	ld b,020h		;524c   ; 32 columnas
 L_524E:
 	push bc			;524e
@@ -2710,7 +2710,7 @@ L_524E:
 	call L_5272		;5252   ; y lo que sale en ella (p00:5272)
 	ld hl,(0e429h)		;5255   ; la columna siguiente del bufer
 	inc hl			;5258
-	ld (0e429h),hl		;5259
+	ld (0e429h),hl		;5259   ; guarda la columna del bufer de 0xC400 que se pinta y el byte siguiente (16 bits)
 	ld hl,0e428h		;525c   ; la x, 8 puntos mas
 	ld a,(hl)			;525f
 	add a,008h		;5260
@@ -2730,7 +2730,7 @@ L_5272:
 	jp 08088h		;527b
 L_527E:
 	ld a,001h		;527e   ; 0xE427 = 1: el scroll llega al final de la fase
-	ld (0e427h),a		;5280
+	ld (0e427h),a		;5280   ; guarda 1 al llegar al final del scroll
 	ret			;5283
 L_5284:
 	ld a,(0e361h)		;5284   ; la fase 9 a partir del scroll 0x1C0, y la 11, avanzan cada dos cuadros (vuelve con C)
@@ -2751,8 +2751,8 @@ L_529A:
 	ret			;529e
 L_529F:
 	xor a			;529f   ; el scroll de cada cuadro: 0xE420 y 0xE427 a 0
-	ld (0e420h),a		;52a0
-	ld (0e427h),a		;52a3
+	ld (0e420h),a		;52a0   ; guarda 1 si este cuadro hay scroll
+	ld (0e427h),a		;52a3   ; guarda 1 al llegar al final del scroll
 	ld a,(0e361h)		;52a6   ; la fase 4 va aparte (p00:52F6)
 	cp 004h		;52a9
 	jr z,L_52F6		;52ab
@@ -2773,14 +2773,14 @@ L_529F:
 	inc hl			;52c6   ; el scroll, uno mas
 	ld (0e363h),hl		;52c7   ; guarda la posicion del scroll (16 bits)
 	ld a,001h		;52ca   ; 0xE420 = 1: este cuadro hay scroll
-	ld (0e420h),a		;52cc
+	ld (0e420h),a		;52cc   ; guarda 1 si este cuadro hay scroll
 	call L_52DB		;52cf   ; el bufer de 0xC400, una columna a la izquierda
 	ld hl,0c41fh		;52d2   ; y la columna nueva, la de la derecha (0xC41F)...
-	ld (0e429h),hl		;52d5
+	ld (0e429h),hl		;52d5   ; guarda la columna del bufer de 0xC400 que se pinta y el byte siguiente (16 bits)
 	jp L_533C		;52d8   ; ...con el mapa
 L_52DB:
 	ld hl,0c401h		;52db   ; 22 filas del bufer...
-	ld de,0c400h		;52de
+	ld de,0c400h		;52de   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 	ld b,016h		;52e1
 L_52E3:
 	push bc			;52e3
@@ -2798,7 +2798,7 @@ L_52F6:
 	and 007h		;52f9
 	jr nz,L_5309		;52fb
 	ld a,001h		;52fd
-	ld (0e420h),a		;52ff
+	ld (0e420h),a		;52ff   ; guarda 1 si este cuadro hay scroll
 	ld hl,(0e363h)		;5302   ; lee la posicion del scroll (16 bits)
 	inc hl			;5305
 	ld (0e363h),hl		;5306   ; guarda la posicion del scroll (16 bits)
@@ -2810,15 +2810,15 @@ L_5309:
 	push hl			;5313
 	ld hl,(0e53bh)		;5314
 	ld (0e363h),hl		;5317   ; guarda la posicion del scroll (16 bits)
-	ld hl,0c400h		;531a
-	ld (0e429h),hl		;531d
+	ld hl,0c400h		;531a   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
+	ld (0e429h),hl		;531d   ; guarda la columna del bufer de 0xC400 que se pinta y el byte siguiente (16 bits)
 	ld b,020h		;5320   ; 32 columnas
 L_5322:
 	push bc			;5322
 	call L_5404		;5323   ; la columna (p00:5404)
-	ld hl,(0e429h)		;5326
+	ld hl,(0e429h)		;5326   ; lee la columna del bufer de 0xC400 que se pinta y el byte siguiente (16 bits)
 	inc hl			;5329
-	ld (0e429h),hl		;532a
+	ld (0e429h),hl		;532a   ; guarda la columna del bufer de 0xC400 que se pinta y el byte siguiente (16 bits)
 	ld hl,(0e363h)		;532d   ; lee la posicion del scroll (16 bits)
 	inc hl			;5330
 	ld (0e363h),hl		;5331   ; guarda la posicion del scroll (16 bits)
@@ -2868,7 +2868,7 @@ L_5379:
 	ld hl,(0e42bh)		;5385   ; el bloque
 	ld a,(hl)			;5388
 	inc hl			;5389
-	ld (0e42bh),hl		;538a
+	ld (0e42bh),hl		;538a   ; guarda la columna del mapa que se lee y el byte siguiente (16 bits)
 	sub 004h		;538d   ; 0-3: los comunes de p23:6021
 	jr nc,L_539A		;538f
 	add a,004h		;5391
@@ -2959,7 +2959,7 @@ L_5404:
 	ex af,af'			;5411
 	ld b,016h		;5412   ; 22 filas
 	ld de,00040h		;5414
-	ld hl,(0e429h)		;5417
+	ld hl,(0e429h)		;5417   ; lee la columna del bufer de 0xC400 que se pinta y el byte siguiente (16 bits)
 L_541A:
 	xor a			;541a   ; vacio...
 	dec c			;541b
@@ -2974,13 +2974,11 @@ L_5423:
 	ret			;5427
 
 ; ----------------------------------------------------------------------
-; DATOS tabla_5428: tabla que se lee desde HL = 0x5428 con un indice
-;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
-;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
-;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p00:5409 (32 bytes)
+; DATOS leido_5428: 32 bytes que lee p00:540F al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:540F (32 bytes)
 ;   0x5428..0x5448  (32 bytes)
-DATA_tabla_5428:
+DATA_leido_5428:
 	defb 002h,00fh,005h,013h,00ah,001h,00dh,006h,011h,008h,00bh,002h,010h,007h,00dh,005h	; 5428  ................
 	defb 012h,00ch,002h,012h,009h,00eh,014h,011h,002h,005h,00dh,00ah,013h,006h,00fh,009h	; 5438  ................
 
@@ -3292,8 +3290,8 @@ L_5619:
 	ld (0e37dh),a		;5626
 	call sonido_01		;5629   ; p00:57EA
 	xor a			;562c   ; 0xE365 y 0xE442 a 0
-	ld (0e365h),a		;562d
-	ld (0e442h),a		;5630
+	ld (0e365h),a		;562d   ; guarda el paso del final de la fase
+	ld (0e442h),a		;5630   ; guarda 1 al vencer al jefe
 	jp L_5BA5		;5633
 L_5636:
 	ld a,(0002bh)		;5636   ; el juego de caracteres de la BIOS (0x002B & 0x0F: 0 = japones)
@@ -3334,9 +3332,9 @@ L_565A:
 	add a,a			;565e
 	add a,b			;565f
 	ld b,a			;5660
-	ld a,(0e406h)		;5661
+	ld a,(0e406h)		;5661   ; lee el azar
 	add a,b			;5664
-	ld (0e406h),a		;5665
+	ld (0e406h),a		;5665   ; guarda el azar
 	ret			;5668
 L_5669:
 	ld hl,0c400h		;5669   ; el bufer de 0xC400 a cero (0x580 bytes)
@@ -3393,7 +3391,7 @@ L_56B3:
 	jr c,L_56B8		;56b5
 	ld h,c			;56b7
 L_56B8:
-	ld (0e388h),hl		;56b8
+	ld (0e388h),hl		;56b8   ; guarda la dificultad (16 bits, tope 0x0F00)
 	ret			;56bb
 L_56BC:
 	ld a,(0e440h)		;56bc   ; la paleta que cambia de la fase (solo sin jefe, 0xE440 = 0)
@@ -3470,10 +3468,10 @@ L_5737:
 	rst 20h			;573a
 	ret			;573b
 L_573C:
-	ld a,(0e600h)		;573c   ; lee el estado de la nave (0xFF: estalla)
+	ld a,(0e600h)		;573c   ; lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 	and a			;573f
 	ret m			;5740
-	ld a,(0e445h)		;5741
+	ld a,(0e445h)		;5741   ; lee el jefe vencido (1, o 2 en la fase 4)
 	and a			;5744
 	ret nz			;5745
 	ld a,(0e44fh)		;5746
@@ -3482,7 +3480,7 @@ L_573C:
 	ld a,(0e60dh)		;574b
 	or a			;574e
 	ret nz			;574f
-	ld hl,0e402h		;5750
+	ld hl,0e402h		;5750   ; apunta a un temporizador
 	ld a,(hl)			;5753
 	and a			;5754
 	jr z,L_5759		;5755
@@ -3524,7 +3522,7 @@ L_577A:
 L_578B:
 	call orden_sonido_84		;578b   ; orden_sonido_84: manda la orden 0x84 al motor de sonido
 	ld a,03ch		;578e
-	ld (0e402h),a		;5790
+	ld (0e402h),a		;5790   ; guarda un temporizador
 	ret			;5793
 
 ; ----------------------------------------------------------------------
@@ -3864,7 +3862,7 @@ L_5967:
 	ld hl,03800h		;5967   ; el bufer de 0xCA00 a la tabla de nombres (0x3800): 0x2C0 bytes, sin las dos filas del marcador
 	call vram_para_escribir		;596a   ; vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
 	exx			;596d
-	ld hl,0ca00h		;596e
+	ld hl,0ca00h		;596e   ; apunta a un bufer de trabajo
 	ld b,000h		;5971   ; 256...
 L_5973:
 	outi		;5973
@@ -3881,7 +3879,7 @@ L_5985:
 	ld hl,03800h		;5985   ; lo mismo, la pantalla entera (0x300 bytes)
 	call vram_para_escribir		;5988   ; vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
 	exx			;598b
-	ld hl,0ca00h		;598c
+	ld hl,0ca00h		;598c   ; apunta a un bufer de trabajo
 	ld b,000h		;598f
 L_5991:
 	outi		;5991
@@ -4056,7 +4054,7 @@ L_5B08:
 	call 07e2fh		;5b1a
 	jp 081abh		;5b1d
 L_5B20:
-	ld a,(0e440h)		;5b20
+	ld a,(0e440h)		;5b20   ; lee el jefe en curso (0: ninguno)
 	or a			;5b23
 	ret nz			;5b24
 	ld a,(0e361h)		;5b25   ; lee la fase (1 a 11)
@@ -4100,7 +4098,7 @@ L_5B6A:
 L_5B6F:
 	call L_5677		;5b6f   ; empieza la pausa: guarda el marcador
 	ld hl,03c00h		;5b72   ; 0xE403 = 0x3C00
-	ld (0e403h),hl		;5b75
+	ld (0e403h),hl		;5b75   ; guarda el marcador cambiado (pausa, mensajes) y el byte siguiente (16 bits)
 	call bancos_19		;5b78   ; con el 19 en 0xA000, p19:B3AF
 	call 0b3afh		;5b7b
 	call bancos_1_2_3		;5b7e   ; bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
@@ -4156,9 +4154,9 @@ L_5BA5:
 	call L_5648		;5bed
 L_5BF0:
 	ld a,04ah		;5bf0   ; ...la nave en x 0x4A, y 0x50
-	ld (0e604h),a		;5bf2
+	ld (0e604h),a		;5bf2   ; guarda la x de la nave
 	ld a,050h		;5bf5
-	ld (0e606h),a		;5bf7
+	ld (0e606h),a		;5bf7   ; guarda la y de la nave
 	jp L_5CB4		;5bfa
 L_5BFD:
 	ld a,001h		;5bfd   ; la fase 11: 0xE413 = 1
@@ -4189,7 +4187,7 @@ L_5C0E:
 	bit 6,a		;5c3f
 	jr nz,L_5C47		;5c41
 	xor a			;5c43   ; ...0xE389 a cero
-	ld (0e389h),a		;5c44
+	ld (0e389h),a		;5c44   ; guarda la dificultad de la fase (0 a 0x0F)
 L_5C47:
 	call L_5C8E		;5c47   ; la ficha de la nave (p00:5C8E)
 	call L_5CB4		;5c4a   ; y su estela (p00:5CB4)
@@ -4208,7 +4206,7 @@ L_5C59:
 	ld h,a			;5c6a
 	ld (0e643h),hl		;5c6b
 	ld (0e645h),hl		;5c6e
-	ld (0e365h),a		;5c71
+	ld (0e365h),a		;5c71   ; guarda el paso del final de la fase
 	ld a,040h		;5c74   ; 0xE464 = 0x40
 	ld (0e464h),a		;5c76
 	ld hl,0ff00h		;5c79   ; 0xE538 = 0xFF00
@@ -4219,11 +4217,11 @@ L_5C59:
 	jr z,L_5C8A		;5c86
 	ld a,001h		;5c88
 L_5C8A:
-	ld (0e362h),a		;5c8a
+	ld (0e362h),a		;5c8a   ; guarda la velocidad del scroll (se rota: avanza con el bit 0)
 	ret			;5c8d
 L_5C8E:
 	ld hl,05ca5h		;5c8e   ; la ficha de la nave: 12 bytes de 0x5CA5 a 0xE600
-	ld de,0e600h		;5c91   ; apunta a el estado de la nave (0xFF: estalla)
+	ld de,0e600h		;5c91   ; apunta a el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 	ld bc,0000ch		;5c94
 	ldir		;5c97
 	ld hl,05cb1h		;5c99   ; y 3 de 0x5CB1 a 0xE630
@@ -4257,7 +4255,7 @@ L_5CB4:
 	ld de,0e660h		;5cb4   ; la estela de la nave (0xE660): 16 veces su x y su y (0xE604, 0xE606)
 	ld a,010h		;5cb7
 L_5CB9:
-	ld hl,0e604h		;5cb9
+	ld hl,0e604h		;5cb9   ; apunta a la x de la nave
 	ldi		;5cbc
 	inc l			;5cbe
 	ldi		;5cbf
@@ -4290,7 +4288,7 @@ L_5CE8:
 	ld a,(0e361h)		;5ce8   ; un byte por fase de 0x5CF4 + fase (el 0x5CF4 es el ret: la tabla empieza detras)
 	ld hl,l5cf4h		;5ceb
 	call L_4A6E		;5cee
-	ld (0e405h),a		;5cf1
+	ld (0e405h),a		;5cf1   ; guarda el caracter del fondo de la fase
 L_5CF4:
 	ret			;5cf4
 
@@ -4390,10 +4388,10 @@ L_5D87:
 	add hl,de			;5da0
 	ld a,(hl)			;5da1   ; cuantos cuadros
 	ld c,a			;5da2
-	ld (0e340h),a		;5da3
+	ld (0e340h),a		;5da3   ; guarda los cuadros que quedan de la pulsacion de la demostracion
 	inc hl			;5da6
 	ld a,(hl)			;5da7   ; y que se pulsa
-	ld (0e33dh),a		;5da8
+	ld (0e33dh),a		;5da8   ; guarda lo que se pulsa en la demostracion
 	call bancos_1_2_3		;5dab   ; bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 	inc c			;5dae   ; 0xFF: se acabo
 	jr nz,L_5D79		;5daf
@@ -4416,7 +4414,7 @@ L_5DB8:
 	ld d,020h		;5dd0   ; ...32 sprites
 L_5DD2:
 	ld a,e			;5dd2
-	ld hl,0ef00h		;5dd3
+	ld hl,0ef00h		;5dd3   ; apunta a los atributos de sprite (32 x 4)
 	add a,l			;5dd6
 	ld l,a			;5dd7
 	ld b,004h		;5dd8
@@ -4434,7 +4432,7 @@ L_5DE9:
 	ld hl,03b00h		;5de9   ; los 32 tal cual (0x80 bytes)
 	call vram_para_escribir		;5dec   ; vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
 	exx			;5def
-	ld hl,0ef00h		;5df0
+	ld hl,0ef00h		;5df0   ; apunta a los atributos de sprite (32 x 4)
 	ld b,080h		;5df3
 L_5DF5:
 	outi		;5df5
@@ -4444,7 +4442,7 @@ L_5DFB:
 	ld hl,03800h		;5dfb   ; el bufer de 0xC400 a la tabla de nombres: 22 filas de 32 (el bufer va de 0x40 en 0x40)
 	call vram_para_escribir		;5dfe   ; vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
 	exx			;5e01
-	ld hl,0c400h		;5e02
+	ld hl,0c400h		;5e02   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 	ld de,00020h		;5e05
 	ld b,020h		;5e08
 L_5E0A:
@@ -4655,7 +4653,7 @@ L_5ED4:
 	ld bc,00004h		;5ed7
 	ldir		;5eda
 	ld hl,00001h		;5edc   ; 0xE518 = 1 (en marcha) y 0xE519 = 0 (el paso)
-	ld (0e518h),hl		;5edf
+	ld (0e518h),hl		;5edf   ; guarda la aparicion poco a poco en marcha (1 o 2) y el byte siguiente (16 bits)
 	ret			;5ee2
 L_5EE3:
 	call bancos_16_17_18		;5ee3   ; bancos_16_17_18: pone los bancos 16-17-18 (y sus copias en 0xF0F1-3)
@@ -4677,7 +4675,7 @@ L_5EEC:
 	call L_5F47		;5f05
 	call L_5FB9		;5f08   ; y las copias con vuelta
 	ld a,001h		;5f0b   ; la mascara de 0xE51B empieza en 1
-	ld (0e51bh),a		;5f0d
+	ld (0e51bh),a		;5f0d   ; guarda la mascara de la aparicion poco a poco
 L_5F10:
 	ld hl,0e519h		;5f10   ; al paso siguiente
 	inc (hl)			;5f13
@@ -4685,7 +4683,7 @@ L_5F10:
 L_5F15:
 	xor a			;5f15   ; paso 1: los dibujos con la mascara de 0xE51B
 	ld (0e51ah),a		;5f16
-	ld a,(0e51bh)		;5f19
+	ld a,(0e51bh)		;5f19   ; lee la mascara de la aparicion poco a poco
 	ld c,a			;5f1c
 	call L_5F47		;5f1d
 	call L_5FB9		;5f20
@@ -4707,11 +4705,11 @@ L_5F32:
 	call L_5FB9		;5f3c
 	call L_518E		;5f3f   ; el bufer de 0xCA00 a cero
 	xor a			;5f42   ; y se acaba (0xE518 = 0)
-	ld (0e518h),a		;5f43
+	ld (0e518h),a		;5f43   ; guarda la aparicion poco a poco en marcha (1 o 2)
 	ret			;5f46
 L_5F47:
 	ld ix,(0e51ch)		;5f47   ; la lista de graficos de 0xE51C, como p00:4CB1 pero con la mascara C
-	ld a,(0e328h)		;5f4b
+	ld a,(0e328h)		;5f4b   ; lee 1: el final del juego (al estado 10)
 	or a			;5f4e
 	jr nz,L_5F64		;5f4f
 L_5F51:

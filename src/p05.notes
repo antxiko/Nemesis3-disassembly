@@ -151,14 +151,27 @@ F 0xBC75 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
-C 0xA0A6 lee el estado de la nave (0xFF: estalla)
+C 0xA066 guarda cuantos enemigos hay
+C 0xA069 guarda cuantos sprites usan los enemigos (tope 12)
+C 0xA06C apunta a los enemigos (12 de 0x40)
+C 0xA078 apunta a las piezas (8 de 0x20)
+C 0xA09D guarda el caracter del fondo de la fase
+C 0xA0A6 lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 C 0xA0AB sonido_4C: pide el sonido 0x4C
+C 0xA0AE lee las explosiones grandes (4 de 8 bytes)
 C 0xA0B6 lee la fase (1 a 11)
+C 0xA0BD lee el jefe de la fase 4 (0 a 3)
+C 0xA0D5 guarda el jefe en curso (0: ninguno)
+C 0xA0D8 guarda las partes del jefe (4 de 0x20)
+C 0xA0DF guarda 1 al vencer al jefe
 C 0xA0F3 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xA11F sonido_02: pide el sonido 0x02
 C 0xA122 orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0xA125 sonido_09: pide el sonido 0x09
+C 0xA169 lee el jefe vencido (1, o 2 en la fase 4)
+C 0xA17F lee el jefe vencido (1, o 2 en la fase 4)
 C 0xA1A8 sonido_2E: pide el sonido 0x2E
+C 0xA1EF apunta a la x de la nave
 C 0xA25E suma_a_hl: HL = HL + A
 C 0xA272 suma_a_de: DE = DE + A
 C 0xA278 suma_a_hl: HL = HL + A
@@ -167,6 +180,7 @@ C 0xA2DD despacha: salta a la palabra A de la tabla que va detras del call
 C 0xA30B sonido_02: pide el sonido 0x02
 C 0xA30E orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0xA311 sonido_09: pide el sonido 0x09
+C 0xA358 lee el jefe vencido (1, o 2 en la fase 4)
 C 0xA398 lee la fase (1 a 11)
 C 0xA3B6 lee_palabra: HL = la palabra A de la tabla HL
 C 0xA3CA lee la fase (1 a 11)
@@ -175,44 +189,67 @@ C 0xA3F1 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xA430 sonido_02: pide el sonido 0x02
 C 0xA433 orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0xA436 sonido_0A: pide el sonido 0x0A
+C 0xA47D lee la dificultad de la fase (0 a 0x0F)
 C 0xA4AA sonido_2C: pide el sonido 0x2C
+C 0xA4FB apunta a las partes del jefe (4 de 0x20)
 C 0xA502 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xA573 lee_palabra: HL = la palabra A de la tabla HL
 C 0xA61F sonido_38: pide el sonido 0x38
 C 0xA634 lee la cuenta de cuadros del juego
 C 0xA675 sonido_29: pide el sonido 0x29
+C 0xA693 lee el jefe vencido (1, o 2 en la fase 4)
 C 0xA6B8 lee_palabra: HL = la palabra A de la tabla HL
+C 0xA715 apunta a las partes del jefe (4 de 0x20)
 C 0xA71C despacha: salta a la palabra A de la tabla que va detras del call
+C 0xA85D apunta a las partes del jefe (4 de 0x20)
 C 0xA875 lee_palabra: HL = la palabra A de la tabla HL
+C 0xA90F lee la x de la nave
+C 0xAA22 apunta a las partes del jefe (4 de 0x20)
 C 0xAA29 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xAA57 sonido_02: pide el sonido 0x02
 C 0xAA5A orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0xAA5D sonido_0B: pide el sonido 0x0B
+C 0xAA9F lee el jefe vencido (1, o 2 en la fase 4)
+C 0xAB11 lee el jefe vencido (1, o 2 en la fase 4)
+C 0xAC71 apunta a las partes del jefe (4 de 0x20)
 C 0xAC78 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xACE1 suma_a_hl: HL = HL + A
 C 0xAD10 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xAD32 lee la x de la nave
 C 0xADCC suma_a_hl: HL = HL + A
+C 0xAE0D apunta a los enemigos (12 de 0x40)
+C 0xAE38 apunta a la x de la nave
 C 0xAE80 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xAE91 sonido_2D: pide el sonido 0x2D
+C 0xAF10 apunta a las partes del jefe (4 de 0x20)
 C 0xAF17 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xAF6E sonido_39: pide el sonido 0x39
 C 0xAF73 sonido_39: pide el sonido 0x39
 C 0xAF98 sonido_39: pide el sonido 0x39
 C 0xAFC1 suma_a_hl: HL = HL + A
+C 0xB000 apunta a las partes del jefe (4 de 0x20)
 C 0xB007 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xB095 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xB0A8 sonido_34: pide el sonido 0x34
 C 0xB0DA suma_a_hl: HL = HL + A
 C 0xB0E1 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xB16C despacha: salta a la palabra A de la tabla que va detras del call
+C 0xB23F lee el jefe vencido (1, o 2 en la fase 4)
+C 0xB259 apunta a las partes del jefe (4 de 0x20)
+C 0xB263 lee las partes del jefe (4 de 0x20)
+C 0xB277 apunta a las partes del jefe (4 de 0x20)
 C 0xB27E despacha: salta a la palabra A de la tabla que va detras del call
 C 0xB303 sonido_26: pide el sonido 0x26
 C 0xB324 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xB369 sonido_29: pide el sonido 0x29
+C 0xB3D1 apunta a la x de la nave
 C 0xB409 suma_a_hl: HL = HL + A
 C 0xB42D despacha: salta a la palabra A de la tabla que va detras del call
+C 0xB486 lee la y de la nave
 C 0xB49C despacha: salta a la palabra A de la tabla que va detras del call
+C 0xB564 lee la y de la nave
 C 0xB578 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xB63A apunta a la x de la nave
 C 0xB692 sonido_2E: pide el sonido 0x2E
 C 0xB6D0 suma_a_hl: HL = HL + A
 C 0xB752 despacha: salta a la palabra A de la tabla que va detras del call
@@ -220,16 +257,29 @@ C 0xB913 sonido_30: pide el sonido 0x30
 C 0xB930 lee la cuenta de cuadros del juego
 C 0xB977 suma_a_hl: HL = HL + A
 C 0xB9C7 suma_a_hl: HL = HL + A
+C 0xBA19 lee la x de la nave
+C 0xBA2F lee la y de la nave
 C 0xBA45 sonido_4E: pide el sonido 0x4E
 C 0xBA48 orden_sonido_84: manda la orden 0x84 al motor de sonido
+C 0xBA5B lee la aparicion poco a poco en marcha (1 o 2)
+C 0xBA60 apunta a los enemigos (12 de 0x40)
+C 0xBA6D apunta a las balas (10 de 0x10)
+C 0xBAA7 apunta a las partes del jefe (4 de 0x20)
 C 0xBAB2 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xBB24 lee_palabra: HL = la palabra A de la tabla HL
 C 0xBBD9 sonido_26: pide el sonido 0x26
+C 0xBBDE guarda el jefe vencido (1, o 2 en la fase 4)
 C 0xBBE1 sonido_4C: pide el sonido 0x4C
 C 0xBC3A sonido_26: pide el sonido 0x26
+C 0xBC7C lee la aparicion poco a poco en marcha (1 o 2)
 C 0xBCB2 lee_palabra: HL = la palabra A de la tabla HL
+C 0xBCB5 guarda la velocidad en y hacia la nave (16 bits)
 C 0xBCBC lee_palabra: HL = la palabra A de la tabla HL
+C 0xBCBF guarda la velocidad en x hacia la nave (16 bits)
+C 0xBD8D apunta a las partes del jefe (4 de 0x20)
 C 0xBD94 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xBDE1 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xBE51 lee cuantas piezas de 0xED00 estan en uso
+C 0xBE58 guarda el jefe vencido (1, o 2 en la fase 4)
 C 0xBE7C lee_palabra: HL = la palabra A de la tabla HL
 # --- fin de las anotaciones de anota.py ---

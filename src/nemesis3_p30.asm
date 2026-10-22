@@ -245,7 +245,7 @@ DATA_tabla_815E:
 L_818C:
 	ld a,002h		;818c
 	call 04818h		;818e
-	ld hl,0c400h		;8191
+	ld hl,0c400h		;8191   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 	ld c,0f0h		;8194
 	call 05636h		;8196
 	ld a,000h		;8199
@@ -295,7 +295,7 @@ L_81CE:
 	call 05730h		;81d5
 	ld a,003h		;81d8
 	call 04818h		;81da
-	ld hl,0c400h		;81dd
+	ld hl,0c400h		;81dd   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 	ld c,0f0h		;81e0
 	ld a,080h		;81e2
 	call L_84F3		;81e4
@@ -412,7 +412,7 @@ L_8284:
 	call 041dch		;829d   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	ld a,004h		;82a0
 	call 04818h		;82a2
-	ld hl,0c400h		;82a5
+	ld hl,0c400h		;82a5   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 	ld c,0f0h		;82a8
 	ld a,080h		;82aa
 	call L_84F3		;82ac
@@ -493,7 +493,7 @@ L_8315:
 	call 059a1h		;8348
 	ld a,005h		;834b
 	call 04818h		;834d
-	ld hl,0c400h		;8350
+	ld hl,0c400h		;8350   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 	ld c,0f0h		;8353
 	ld a,080h		;8355
 	call L_84F3		;8357
@@ -527,7 +527,7 @@ L_8382:
 	call 05709h		;838d
 	ld a,006h		;8390
 	call 04818h		;8392
-	ld hl,0c400h		;8395
+	ld hl,0c400h		;8395   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 	ld c,0f0h		;8398
 	call 05636h		;839a
 	ld a,00dh		;839d
@@ -565,7 +565,7 @@ L_83CE:
 	ld (0e32eh),a		;83d9
 	ret			;83dc
 L_83DD:
-	ld hl,0ca00h		;83dd
+	ld hl,0ca00h		;83dd   ; apunta a un bufer de trabajo
 	ld de,0ca01h		;83e0
 	ld bc,001ffh		;83e3
 	ld (hl),000h		;83e6
@@ -745,9 +745,9 @@ L_8523:
 	call 041dch		;854b   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
 	call 05959h		;854e
 	ld hl,0887ah		;8551
-	ld de,0e800h		;8554
+	ld de,0e800h		;8554   ; apunta a los enemigos (12 de 0x40)
 	call 055cdh		;8557   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
-	ld hl,0e800h		;855a
+	ld hl,0e800h		;855a   ; apunta a los enemigos (12 de 0x40)
 	ld de,0ca84h		;855d
 	ld bc,00a18h		;8560
 	call 059a1h		;8563
@@ -892,7 +892,7 @@ L_866F:
 	call 041ach		;866f   ; bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
 	call 05eech		;8672
 	call 041dch		;8675   ; bancos_30_31: pone los bancos 30-31 (y sus copias en 0xF0F1-3)
-	ld a,(0e518h)		;8678
+	ld a,(0e518h)		;8678   ; lee la aparicion poco a poco en marcha (1 o 2)
 	or a			;867b
 	ret nz			;867c
 	jp L_85CE		;867d
@@ -900,7 +900,7 @@ L_8680:
 	xor a			;8680
 	ld (0ebb4h),a		;8681
 	ld hl,0893bh		;8684
-	ld de,0e800h		;8687
+	ld de,0e800h		;8687   ; apunta a los enemigos (12 de 0x40)
 	call 055cdh		;868a   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 	jp L_85CE		;868d
 L_8690:
@@ -1071,7 +1071,7 @@ L_87A6:
 	cp 002h		;87da
 	jr nz,L_87E9		;87dc
 	ld hl,089b2h		;87de
-	ld de,0ef00h		;87e1
+	ld de,0ef00h		;87e1   ; apunta a los atributos de sprite (32 x 4)
 	ld bc,00018h		;87e4
 	ldir		;87e7
 L_87E9:
@@ -1096,13 +1096,13 @@ L_87F8:
 	ret			;8804
 L_8805:
 	ld hl,0892eh		;8805
-	ld de,0e800h		;8808
+	ld de,0e800h		;8808   ; apunta a los enemigos (12 de 0x40)
 	call 055cdh		;880b   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 	ld hl,(0ebb0h)		;880e
 	ld de,0000eh		;8811
 	add hl,de			;8814
 	ex de,hl			;8815
-	ld hl,0e800h		;8816
+	ld hl,0e800h		;8816   ; apunta a los enemigos (12 de 0x40)
 	ldi		;8819
 	ldi		;881b
 	ld hl,(0ebb0h)		;881d

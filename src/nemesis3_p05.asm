@@ -82,14 +82,14 @@ L_A042:
 	ld (ix+008h),a		;a05f
 	ld (ix+009h),a		;a062
 	xor a			;a065
-	ld (0e462h),a		;a066
-	ld (0e465h),a		;a069
-	ld hl,0e800h		;a06c
+	ld (0e462h),a		;a066   ; guarda cuantos enemigos hay
+	ld (0e465h),a		;a069   ; guarda cuantos sprites usan los enemigos (tope 12)
+	ld hl,0e800h		;a06c   ; apunta a los enemigos (12 de 0x40)
 	ld de,0e801h		;a06f
 	ld (hl),a			;a072
 	ld bc,002ffh		;a073
 	ldir		;a076
-	ld hl,0ed00h		;a078
+	ld hl,0ed00h		;a078   ; apunta a las piezas (8 de 0x20)
 	ld de,0ed01h		;a07b
 	ld (hl),a			;a07e
 	ld bc,000ffh		;a07f
@@ -106,23 +106,23 @@ L_A087:
 	xor a			;a097
 	ld (0e7e0h),a		;a098
 	ld a,0ffh		;a09b
-	ld (0e405h),a		;a09d
+	ld (0e405h),a		;a09d   ; guarda el caracter del fondo de la fase
 	call L_A0A6		;a0a0
 	jp 09dc1h		;a0a3
 L_A0A6:
-	ld a,(0e600h)		;a0a6   ; lee el estado de la nave (0xFF: estalla)
+	ld a,(0e600h)		;a0a6   ; lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 	inc a			;a0a9
 	ret z			;a0aa
 	jp 05888h		;a0ab   ; sonido_4C: pide el sonido 0x4C
 L_A0AE:
-	ld a,(0e4b2h)		;a0ae
+	ld a,(0e4b2h)		;a0ae   ; lee las explosiones grandes (4 de 8 bytes)
 	or a			;a0b1
 	ret nz			;a0b2
 	ld hl,0002ch		;a0b3
 	ld a,(0e361h)		;a0b6   ; lee la fase (1 a 11)
 	cp 004h		;a0b9
 	jr nz,L_A0C7		;a0bb
-	ld a,(0e37ch)		;a0bd
+	ld a,(0e37ch)		;a0bd   ; lee el jefe de la fase 4 (0 a 3)
 	cp 003h		;a0c0
 	jr z,L_A0C7		;a0c2
 	ld hl,00008h		;a0c4
@@ -136,11 +136,11 @@ L_A0D1:
 	call 05669h		;a0d1
 L_A0D4:
 	xor a			;a0d4
-	ld (0e440h),a		;a0d5
-	ld (0ec00h),a		;a0d8
+	ld (0e440h),a		;a0d5   ; guarda el jefe en curso (0: ninguno)
+	ld (0ec00h),a		;a0d8   ; guarda las partes del jefe (4 de 0x20)
 	ld (0e44fh),a		;a0db
 	inc a			;a0de
-	ld (0e442h),a		;a0df
+	ld (0e442h),a		;a0df   ; guarda 1 al vencer al jefe
 	ld (0e454h),a		;a0e2
 	ret			;a0e5
 L_A0E6:
@@ -222,7 +222,7 @@ L_A158:
 L_A166:
 	call L_A17F		;a166
 L_A169:
-	ld a,(0e445h)		;a169
+	ld a,(0e445h)		;a169   ; lee el jefe vencido (1, o 2 en la fase 4)
 	or a			;a16c
 	ret nz			;a16d
 	ld a,(ix+001h)		;a16e
@@ -234,7 +234,7 @@ L_A169:
 	inc (ix+001h)		;a17b
 	ret			;a17e
 L_A17F:
-	ld a,(0e445h)		;a17f
+	ld a,(0e445h)		;a17f   ; lee el jefe vencido (1, o 2 en la fase 4)
 	or a			;a182
 	ret nz			;a183
 	dec (ix+018h)		;a184
@@ -297,7 +297,7 @@ L_A1DB:
 L_A1EA:
 	ld a,(ix+003h)		;a1ea
 	add a,020h		;a1ed
-	ld hl,0e604h		;a1ef
+	ld hl,0e604h		;a1ef   ; apunta a la x de la nave
 	cp (hl)			;a1f2
 	ld a,002h		;a1f3
 	jp c,09edfh		;a1f5
@@ -454,7 +454,7 @@ L_A34A:
 	ld bc,00300h		;a352
 	jp 09e96h		;a355
 L_A358:
-	ld a,(0e445h)		;a358
+	ld a,(0e445h)		;a358   ; lee el jefe vencido (1, o 2 en la fase 4)
 	or a			;a35b
 	ret nz			;a35c
 	ld a,(ix+001h)		;a35d
@@ -620,7 +620,7 @@ L_A46B:
 L_A479:
 	dec (ix+021h)		;a479
 	ret nz			;a47c
-	ld a,(0e389h)		;a47d
+	ld a,(0e389h)		;a47d   ; lee la dificultad de la fase (0 a 0x0F)
 	add a,a			;a480
 	neg		;a481
 	add a,028h		;a483
@@ -660,7 +660,7 @@ DATA_A4AD:
 
 L_A4F8:
 	call L_A68B		;a4f8
-	ld ix,0ec00h		;a4fb
+	ld ix,0ec00h		;a4fb   ; apunta a las partes del jefe (4 de 0x20)
 	ld a,(0e441h)		;a4ff
 	call 04093h		;a502   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -871,7 +871,7 @@ L_A68D:
 	ld a,(hl)			;a690
 	sub c			;a691
 	ret nc			;a692
-	ld a,(0e445h)		;a693
+	ld a,(0e445h)		;a693   ; lee el jefe vencido (1, o 2 en la fase 4)
 	or a			;a696
 	ret z			;a697
 	ld (hl),c			;a698
@@ -967,7 +967,7 @@ L_A706:
 L_A710:
 	ld c,006h		;a710
 	call L_A68D		;a712
-	ld ix,0ec00h		;a715
+	ld ix,0ec00h		;a715   ; apunta a las partes del jefe (4 de 0x20)
 	ld a,(0e441h)		;a719
 	call 04093h		;a71c   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -1133,7 +1133,7 @@ L_A84A:
 	ld ix,0ec04h		;a853
 	ld a,(0ec09h)		;a857
 	call L_A862		;a85a
-	ld ix,0ec00h		;a85d
+	ld ix,0ec00h		;a85d   ; apunta a las partes del jefe (4 de 0x20)
 	ret			;a861
 L_A862:
 	ld hl,0a967h		;a862
@@ -1242,7 +1242,7 @@ DATA_tabla_A902:
 
 
 L_A90F:
-	ld a,(0e604h)		;a90f
+	ld a,(0e604h)		;a90f   ; lee la x de la nave
 	cp (ix+003h)		;a912
 	ld a,001h		;a915
 	jr nc,L_A91A		;a917
@@ -1363,7 +1363,7 @@ DATA_AA05:
 L_AA1D:
 	ld c,004h		;aa1d
 	call L_A68D		;aa1f
-	ld ix,0ec00h		;aa22
+	ld ix,0ec00h		;aa22   ; apunta a las partes del jefe (4 de 0x20)
 	ld a,(0e441h)		;aa26
 	call 04093h		;aa29   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -1429,7 +1429,7 @@ L_AA93:
 	call L_ABD2		;aa99
 	jp L_AB02		;aa9c
 L_AA9F:
-	ld a,(0e445h)		;aa9f
+	ld a,(0e445h)		;aa9f   ; lee el jefe vencido (1, o 2 en la fase 4)
 	or a			;aaa2
 	ret nz			;aaa3
 	dec (ix+002h)		;aaa4
@@ -1507,7 +1507,7 @@ L_AB02:
 	ld (0ec0ch),a		;ab0d
 	ret			;ab10
 L_AB11:
-	ld a,(0e445h)		;ab11
+	ld a,(0e445h)		;ab11   ; lee el jefe vencido (1, o 2 en la fase 4)
 	or a			;ab14
 	ret nz			;ab15
 	call L_AB22		;ab16
@@ -1674,7 +1674,7 @@ DATA_resto_AC11:
 
 
 L_AC71:
-	ld ix,0ec00h		;ac71
+	ld ix,0ec00h		;ac71   ; apunta a las partes del jefe (4 de 0x20)
 	ld a,(0e441h)		;ac75
 	call 04093h		;ac78   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -1800,7 +1800,7 @@ L_AD1D:
 L_AD2E:
 	xor a			;ad2e
 	ld (0e454h),a		;ad2f
-	ld a,(0e604h)		;ad32
+	ld a,(0e604h)		;ad32   ; lee la x de la nave
 	ld b,a			;ad35
 	ld a,(ix+003h)		;ad36
 	add a,020h		;ad39
@@ -1916,7 +1916,7 @@ L_ADA8:
 	ret			;ae0b
 L_AE0C:
 	push de			;ae0c
-	ld hl,0e800h		;ae0d
+	ld hl,0e800h		;ae0d   ; apunta a los enemigos (12 de 0x40)
 	ld de,00040h		;ae10
 	ld bc,00c00h		;ae13
 L_AE16:
@@ -1956,7 +1956,7 @@ L_AE24:
 L_AE33:
 	ld a,(ix+003h)		;ae33
 	add a,020h		;ae36
-	ld hl,0e604h		;ae38
+	ld hl,0e604h		;ae38   ; apunta a la x de la nave
 	cp (hl)			;ae3b
 	ld a,002h		;ae3c
 	jp c,09edfh		;ae3e
@@ -2072,7 +2072,7 @@ L_AEF9:
 	call 0764fh		;af0c
 	ret			;af0f
 L_AF10:
-	ld ix,0ec00h		;af10
+	ld ix,0ec00h		;af10   ; apunta a las partes del jefe (4 de 0x20)
 	ld a,(0e441h)		;af14
 	call 04093h		;af17   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -2225,7 +2225,7 @@ L_AFFC:
 	ld (ix+007h),b		;affc
 	ret			;afff
 L_B000:
-	ld ix,0ec00h		;b000
+	ld ix,0ec00h		;b000   ; apunta a las partes del jefe (4 de 0x20)
 	ld a,(0e441h)		;b004
 	call 04093h		;b007   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -2567,7 +2567,7 @@ L_B229:
 	ld (ix+00ah),002h		;b23a
 	ret			;b23e
 L_B23F:
-	ld a,(0e445h)		;b23f
+	ld a,(0e445h)		;b23f   ; lee el jefe vencido (1, o 2 en la fase 4)
 	or a			;b242
 	jr z,L_B24A		;b243
 	ld (ix+000h),000h		;b245
@@ -2579,13 +2579,13 @@ L_B24A:
 	ret z			;b252
 	ld (ix+008h),010h		;b253
 	push ix		;b257
-	ld ix,0ec00h		;b259
+	ld ix,0ec00h		;b259   ; apunta a las partes del jefe (4 de 0x20)
 	call 0484eh		;b25d
 L_B260:
 	pop ix		;b260
 	ret			;b262
 L_B263:
-	ld a,(0ec00h)		;b263
+	ld a,(0ec00h)		;b263   ; lee las partes del jefe (4 de 0x20)
 	cp 009h		;b266
 	ret nz			;b268
 	ld a,(0ec07h)		;b269
@@ -2597,7 +2597,7 @@ L_B273:
 	ld (ix+00dh),a		;b273
 	ret			;b276
 L_B277:
-	ld ix,0ec00h		;b277
+	ld ix,0ec00h		;b277   ; apunta a las partes del jefe (4 de 0x20)
 	ld a,(0e441h)		;b27b
 	call 04093h		;b27e   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -2797,7 +2797,7 @@ L_B3BD:
 L_B3CC:
 	ld a,(ix+003h)		;b3cc
 	add a,020h		;b3cf
-	ld hl,0e604h		;b3d1
+	ld hl,0e604h		;b3d1   ; apunta a la x de la nave
 	cp (hl)			;b3d4
 	ld a,002h		;b3d5
 	jp c,09edfh		;b3d7
@@ -2916,7 +2916,7 @@ L_B47A:
 	ld a,(ix+006h)		;b480
 	add a,00ch		;b483
 	ld b,a			;b485
-	ld a,(0e606h)		;b486
+	ld a,(0e606h)		;b486   ; lee la y de la nave
 	cp b			;b489
 	ld a,08ah		;b48a
 	jr c,L_B490		;b48c
@@ -3021,7 +3021,7 @@ L_B55E:
 	ld a,(ix+030h)		;b55e
 	and 004h		;b561
 	ld c,a			;b563
-	ld a,(0e606h)		;b564
+	ld a,(0e606h)		;b564   ; lee la y de la nave
 	cp (ix+006h)		;b567
 	ld a,0b0h		;b56a
 	jr c,L_B570		;b56c
@@ -3146,7 +3146,7 @@ L_B626:
 L_B635:
 	ld a,(ix+003h)		;b635
 	add a,020h		;b638
-	ld hl,0e604h		;b63a
+	ld hl,0e604h		;b63a   ; apunta a la x de la nave
 	cp (hl)			;b63d
 	ld a,002h		;b63e
 	jp c,09edfh		;b640
@@ -3699,7 +3699,7 @@ L_BA0F:
 	ld h,(ix+004h)		;ba12
 	ld de,00040h		;ba15
 	add hl,de			;ba18
-	ld a,(0e604h)		;ba19
+	ld a,(0e604h)		;ba19   ; lee la x de la nave
 	sub l			;ba1c
 	jr nc,L_BA21		;ba1d
 	neg		;ba1f
@@ -3710,7 +3710,7 @@ L_BA21:
 	ld h,(ix+006h)		;ba28
 	ld de,000b8h		;ba2b
 	add hl,de			;ba2e
-	ld a,(0e606h)		;ba2f
+	ld a,(0e606h)		;ba2f   ; lee la y de la nave
 	sub l			;ba32
 	jr nc,L_BA37		;ba33
 	neg		;ba35
@@ -3742,17 +3742,17 @@ DATA_resto_BA4E:
 
 L_BA58:
 	call 0600bh		;ba58
-	ld a,(0e518h)		;ba5b
+	ld a,(0e518h)		;ba5b   ; lee la aparicion poco a poco en marcha (1 o 2)
 	or a			;ba5e
 	ret nz			;ba5f
-	ld hl,0e800h		;ba60
+	ld hl,0e800h		;ba60   ; apunta a los enemigos (12 de 0x40)
 	ld de,00040h		;ba63
 	ld b,00ch		;ba66
 L_BA68:
 	ld (hl),000h		;ba68
 	add hl,de			;ba6a
 	djnz L_BA68		;ba6b
-	ld hl,0eb00h		;ba6d
+	ld hl,0eb00h		;ba6d   ; apunta a las balas (10 de 0x10)
 	ld de,00010h		;ba70
 	ld b,00ah		;ba73
 L_BA75:
@@ -3784,7 +3784,7 @@ L_BA95:
 	ld ix,0ec40h		;ba9e
 	ld a,002h		;baa2
 	call L_BAAC		;baa4
-	ld ix,0ec00h		;baa7
+	ld ix,0ec00h		;baa7   ; apunta a las partes del jefe (4 de 0x20)
 	xor a			;baab
 L_BAAC:
 	ld (0e455h),a		;baac
@@ -3943,7 +3943,7 @@ L_BBB0:
 	sub 002h		;bbd7
 	jp nz,05884h		;bbd9   ; sonido_26: pide el sonido 0x26
 	ld a,001h		;bbdc
-	ld (0e445h),a		;bbde
+	ld (0e445h),a		;bbde   ; guarda el jefe vencido (1, o 2 en la fase 4)
 	jp 05888h		;bbe1   ; sonido_4C: pide el sonido 0x4C
 L_BBE4:
 	dec (ix+002h)		;bbe4
@@ -4048,7 +4048,7 @@ DATA_resto_BC75:
 
 L_BC79:
 	call 0600bh		;bc79
-	ld a,(0e518h)		;bc7c
+	ld a,(0e518h)		;bc7c   ; lee la aparicion poco a poco en marcha (1 o 2)
 	or a			;bc7f
 	ret nz			;bc80
 	jp L_A0D1		;bc81
@@ -4082,11 +4082,11 @@ L_BCAE:
 	ld a,b			;bcae
 	ld hl,0bcc1h		;bcaf
 	call 04a5ah		;bcb2   ; lee_palabra: HL = la palabra A de la tabla HL
-	ld (0e474h),hl		;bcb5
+	ld (0e474h),hl		;bcb5   ; guarda la velocidad en y hacia la nave (16 bits)
 	ld a,b			;bcb8
 	ld hl,0bccdh		;bcb9
 	call 04a5ah		;bcbc   ; lee_palabra: HL = la palabra A de la tabla HL
-	ld (0e472h),hl		;bcbf
+	ld (0e472h),hl		;bcbf   ; guarda la velocidad en x hacia la nave (16 bits)
 	ret			;bcc2
 
 ; ----------------------------------------------------------------------
@@ -4211,7 +4211,7 @@ L_BD7C:
 	ld (ix+007h),a		;bd89
 	ret			;bd8c
 L_BD8D:
-	ld ix,0ec00h		;bd8d
+	ld ix,0ec00h		;bd8d   ; apunta a las partes del jefe (4 de 0x20)
 	ld a,(0e441h)		;bd91
 	call 04093h		;bd94   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -4324,11 +4324,11 @@ L_BE3A:
 	ret			;be4d
 L_BE4E:
 	call 07a4dh		;be4e
-	ld a,(0e4b1h)		;be51
+	ld a,(0e4b1h)		;be51   ; lee cuantas piezas de 0xED00 estan en uso
 	or a			;be54
 	ret nz			;be55
 	ld a,001h		;be56
-	ld (0e445h),a		;be58
+	ld (0e445h),a		;be58   ; guarda el jefe vencido (1, o 2 en la fase 4)
 	jp 09dc1h		;be5b
 L_BE5E:
 	dec (ix+019h)		;be5e

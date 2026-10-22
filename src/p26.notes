@@ -271,9 +271,13 @@ C 0x6151 suma_a_hl: HL = HL + A
 C 0x616B guarda una cuenta de cuadros (16 bits)
 C 0x618F borra_texto_ram: borra en la RAM el texto de HL
 C 0x62BC texto_a_ram: copia a la RAM el texto de HL
+C 0x6317 guarda el color de los dibujos sueltos
+C 0x633F guarda el siguiente caracter libre de cada tercio
+C 0x6414 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 C 0x6494 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x64A2 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x64AF pantalla_en_blanco: borra la tabla de nombres (0x3800)
+C 0x64C5 lee el modo (bit 5: dos jugadores; bit 6: se juega de verdad; bit 7: el segundo jugador)
 C 0x64D0 carga_fuente: carga la fuente en los tres tercios (bancos 20-22)
 C 0x64D6 texto_a_ram: copia a la RAM el texto de HL
 C 0x6542 despacha: salta a la palabra A de la tabla que va detras del call
@@ -296,10 +300,17 @@ C 0x67C6 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x67E7 pantalla_en_blanco: borra la tabla de nombres (0x3800)
 C 0x681E lee una cuenta de cuadros (16 bits)
 C 0x683F vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
+C 0x6843 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
+C 0x6858 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
+C 0x68D9 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
+C 0x695E apunta a los enemigos (12 de 0x40)
 C 0x6961 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x696A apunta a los enemigos (12 de 0x40)
 C 0x696D suma_a_hl: HL = HL + A
 C 0x698B suma_a_hl: HL = HL + A
+C 0x69AE apunta a los enemigos (12 de 0x40)
 C 0x69B1 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
+C 0x6A56 apunta a los enemigos (12 de 0x40)
 C 0x6A59 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 C 0x6B71 rle_con_direccion: descomprime a la VRAM el RLE de DE, que lleva su direccion delante
 C 0x6C56 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
@@ -310,11 +321,18 @@ C 0x6C94 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x6C9D rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x6CA0 bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x6CD3 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x6CE3 apunta a un temporizador
 C 0x6D19 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6D24 orden_83_y_sonido_50: manda la orden 0x83 al motor y pide el sonido 0x50
+C 0x6D27 lee la x de la nave y el byte siguiente (16 bits)
+C 0x6D2D lee la y de la nave y el byte siguiente (16 bits)
+C 0x6D90 lee la x de la nave
+C 0x6D98 lee la y de la nave
 C 0x6DBF despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6DD1 orden_sonido_84: manda la orden 0x84 al motor de sonido
 C 0x6DE6 orden_83_y_sonido_50: manda la orden 0x83 al motor y pide el sonido 0x50
+C 0x6E13 guarda la x de la nave y el byte siguiente (16 bits)
+C 0x6E19 guarda la y de la nave y el byte siguiente (16 bits)
 C 0x6E2E despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6E41 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6E61 sonido_4F: pide el sonido 0x4F
@@ -327,7 +345,9 @@ C 0x6FCF lee_palabra: HL = la palabra A de la tabla HL
 C 0x7014 suma_a_hl: HL = HL + A
 C 0x7025 vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
 C 0x7028 lee la cuenta de cuadros del juego
+C 0x71A1 apunta a los atributos de sprite (32 x 4)
 C 0x71A4 suma_a_de: DE = DE + A
+C 0x71D2 apunta a los atributos de sprite (32 x 4)
 C 0x71E5 lee_palabra: HL = la palabra A de la tabla HL
 C 0x71EB lee_palabra: HL = la palabra A de la tabla HL
 C 0x734A rle_a_ram: descomprime a la RAM de DE el RLE de HL
@@ -337,10 +357,12 @@ C 0x73BA copia_con_vuelta: copia caracteres de la VRAM dandoles la vuelta (lista
 C 0x73C3 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x73CC rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x73DC rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+C 0x745E apunta a los atributos de sprite (32 x 4)
 C 0x747A lee_palabra: HL = la palabra A de la tabla HL
 C 0x7495 lee_palabra: HL = la palabra A de la tabla HL
 C 0x74B0 lee_palabra: HL = la palabra A de la tabla HL
 C 0x74CB lee_palabra: HL = la palabra A de la tabla HL
+C 0x74D8 apunta a los atributos de sprite (32 x 4)
 C 0x7519 lee_palabra: HL = la palabra A de la tabla HL
 C 0x7536 lee_palabra: HL = la palabra A de la tabla HL
 C 0x755F lee_palabra: HL = la palabra A de la tabla HL

@@ -70,6 +70,22 @@ def todo():
                  "otra direccion, 0xFF acaba", F=16)
     B.por_lector(0x4B0C, "DE", texto_sin_direccion, "letras",
                  "letras a la VRAM desde la direccion que ya trae HL, 0xFF acaba (p00:4B0C)", F=16)
+    v = B.Ventana((1, 2, 3))
+    B.declara(v, 0x6C7E, 0x6C86, "mensajes_grabar",
+              "cuatro punteros a los mensajes de grabar y cargar en el otro cartucho (p01:6C5F: "
+              "0x6C7E + 2 x C): SAVE COMPLETED, SAVE FAILED, LOAD COMPLETED, LOAD FAILED",
+              "p01:6C62", F="w4")
+    for k in range(4):
+        a = v.w(0x6C7E + 2 * k)
+        B.declara(v, a, texto_sin_direccion(v, a), "letras_%04X" % a,
+                  "un mensaje de grabar o cargar (p01:6C6B a p00:4B0C): letras de la 0x40 a la 0x4C "
+                  "(p00:5563), 0xFF acaba", "p01:6C6B", F=16)
+    B.declara(v, 0x6D54, 0x6D65, "fichero_gofe1",
+              "la cabecera del fichero GOFE1 del Game Master 2 (p01:6D3C copia 17 bytes a 0xEF80): el "
+              "nombre y la RAM que se graba (0xE080, 0x0F00 bytes)", "p01:6D45", F=17)
+    B.declara(v, 0x6D65, 0x6D76, "fichero_gofe2",
+              "la cabecera del fichero GOFE2 (p01:6D48): el nombre y el bufer de la pantalla "
+              "(0xC400, 0x0C00 bytes)", "p01:6D51", F=17)
     B.por_lector(0x4B1F, "HL", texto, "texto_ram",
                  "texto a la RAM: direccion, letras, 0xFE y otra direccion, 0xFF acaba (p00:4B1F)",
                  F=16)
@@ -87,6 +103,7 @@ def todo():
     todo_sprites()
     paletas()
     demostracion()
+    tipos_de_enemigo()
     sonido()
 
 
@@ -731,3 +748,17 @@ def demostracion():
         B.declara(v, a, k + 1, "demo_%d" % f,
                   "la grabacion de la demostracion de la fase %d (p00:5D73): %d pares de cuantos cuadros y "
                   "que se pulsa; acaba en 0xFF" % (f, (k - a) // 2), "p00:5DA1", F=2)
+
+
+# ------------------------------------------------- los tipos de enemigo
+#
+# p01:768B: la ficha de cada tipo (1-74, los del despachador de p01:7479)
+# en p19:A489 + 7 x tipo: sprites (bits 0-5; bit 6 en caracteres), vidas,
+# ancho, alto, dibujo, color y caracter (a IX+0B, 0D, 0E, 0F, 30, 31, 32).
+
+def tipos_de_enemigo():
+    v = B.Ventana((1, 2, 19))
+    B.declara(v, 0xA490, 0xA490 + 7 * 74, "tipos_de_enemigo",
+              "la ficha de cada tipo de enemigo, del 1 al 74 (p01:768B: 0xA489 + 7 x tipo): sprites "
+              "(bits 0-5; con el bit 6 va en caracteres), vidas, ancho, alto, dibujo, color y caracter",
+              "p01:76A1", F=7)

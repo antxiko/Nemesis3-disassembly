@@ -21,6 +21,10 @@ for _i in range(10):
     LETRA[1 + _i] = str(_i)
 for _i in range(26):
     LETRA[0x12 + _i] = chr(65 + _i)
+# Las letras de los mensajes de grabar y cargar: p00:5563 pone en los
+# caracteres 0x40-0x4C las letras de p20:6068 de la lista p00:559B.
+for _i, _c in enumerate("SAVECOMPLTFID"):
+    LETRA[0x40 + _i] = _c
 
 
 def letras(bs):

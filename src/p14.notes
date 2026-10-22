@@ -20,7 +20,7 @@ D 0x6405 0x6440 rle_6405  los colores de una entrada de la lista de graficos de 
 F 0x6405 16
 D 0x6440 0x646C rle_6440  los colores de una entrada de la lista de graficos de 14:6007, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6440 6440-646C); lo leen p00:4D11, p00:4B3C (44 bytes)
 F 0x6440 16
-D 0x646C 0x64B4 tabla_646C  tabla que se lee desde HL = 0x646C con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p00:4F6E (72 bytes)
+D 0x646C 0x64A4 leido_646C  56 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 40 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4A60, p00:4A62 (56 bytes)
 F 0x646C 16
 D 0x64B4 0x6544 leido_64B4  144 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (144 bytes)
 F 0x64B4 16

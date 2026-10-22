@@ -59,42 +59,66 @@ F 0x8647 16
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
 L 0x843D mata_la_nave la nave estalla: 0xFF en 0xE600
 C 0x8014 orden_83_y_sonido_50: manda la orden 0x83 al motor y pide el sonido 0x50
-C 0x803C lee el estado de la nave (0xFF: estalla)
+C 0x803C lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 C 0x805D apunta a lo pulsado (mando y cursores)
-C 0x8091 lee el estado de la nave (0xFF: estalla)
+C 0x807E lee la x de la nave
+C 0x8085 lee la y de la nave
+C 0x8091 lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
+C 0x809A lee los golpes que le quedan al escudo
 C 0x80A4 lee la cuenta de cuadros del juego
 C 0x80B1 lee la cuenta de cuadros del juego
+C 0x80BB lee los golpes que le quedan al escudo
 C 0x80C5 lee la cuenta de cuadros del juego
 C 0x80D2 lee la cuenta de cuadros del juego
+C 0x81BF apunta a la x de la nave
+C 0x81D8 apunta a la y de la nave
 C 0x81EB lee lo pulsado (mando y cursores)
 C 0x8237 lee la fase (1 a 11)
 C 0x823D lee la posicion del scroll (16 bits)
+C 0x825F apunta a la x de la nave
+C 0x8271 lee la x de la nave
+C 0x8277 lee la y de la nave
 C 0x8295 lee la cuenta de cuadros del juego
 C 0x829A sonido_36: pide el sonido 0x36
 C 0x829E lee la fase (1 a 11)
 C 0x82A9 lee la posicion del scroll (16 bits)
+C 0x8342 apunta a las piezas (8 de 0x20)
+C 0x8374 lee la x de la nave
+C 0x837A lee la y de la nave
+C 0x83D5 lee la x de la nave
+C 0x83DB lee la y de la nave
 C 0x8435 color_del_borde: B al registro 7 del VDP
 C 0x8439 guarda 1 mientras la nave esta en la fase
-C 0x843D apunta a el estado de la nave (0xFF: estalla)
+C 0x843D apunta a el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 C 0x8456 orden_sonido_83: manda la orden 0x83 al motor de sonido
 C 0x8459 orden_83_y_sonido_4B: manda la orden 0x83 al motor y pide el sonido 0x4B
 C 0x846C lee_palabra: HL = la palabra A de la tabla HL
+C 0x8474 lee la x de la nave
+C 0x8478 lee la y de la nave
 C 0x84B5 suma_a_hl: HL = HL + A
-C 0x8516 lee el estado de la nave (0xFF: estalla)
+C 0x8516 lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 C 0x8552 suma_a_hl: HL = HL + A
 C 0x855B suma_a_hl: HL = HL + A
 C 0x859D lee lo pulsado (mando y cursores)
+C 0x85AC apunta a la estela de la nave (16 x y y)
+C 0x85B5 lee la x de la nave
+C 0x85B9 lee la y de la nave
+C 0x85EB apunta a la estela de la nave (16 x y y)
 C 0x85FD lee la cuenta de cuadros del juego
 C 0x860A lee la cuenta de cuadros del juego
+C 0x8619 apunta a la x de la nave
 C 0x8620 suma_a_de: DE = DE + A
 C 0x867E lee_palabra: HL = la palabra A de la tabla HL
+C 0x868C lee la x de la nave
+C 0x86A4 lee la y de la nave
+C 0x86C1 apunta a los disparos de la nave (9 de 0x20)
 C 0x870C despacha: salta a la palabra A de la tabla que va detras del call
-C 0x875D lee el estado de la nave (0xFF: estalla)
+C 0x875D lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 C 0x8764 lee la fase (1 a 11)
 C 0x876B lee la posicion del scroll (16 bits)
 C 0x8786 lee lo recien pulsado (mando y cursores)
 C 0x878D lee lo pulsado (mando y cursores)
-C 0x87AB apunta a el estado de la nave (0xFF: estalla)
+C 0x87AB apunta a el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 C 0x8807 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x88B3 sonido_0F: pide el sonido 0x0F
 C 0x8909 sonido_10: pide el sonido 0x10
@@ -109,43 +133,92 @@ C 0x8BEF sonido_18: pide el sonido 0x18
 C 0x8C80 sonido_17: pide el sonido 0x17
 C 0x8CD9 lee lo recien pulsado (mando y cursores)
 C 0x8CE7 sonido_17: pide el sonido 0x17
+C 0x8D1F apunta a los disparos de la nave (9 de 0x20)
 C 0x8D83 sonido_19: pide el sonido 0x19
+C 0x8DC9 apunta a los disparos de la nave (9 de 0x20)
 C 0x8EB4 lee_palabra: HL = la palabra A de la tabla HL
+C 0x8FCA lee 1 si este cuadro hay scroll
+C 0x9073 lee el caracter del fondo de la fase
+C 0x9110 apunta a las piezas (8 de 0x20)
 C 0x9191 lee la cuenta de cuadros del juego
+C 0x9226 lee la velocidad en x hacia la nave (16 bits)
 C 0x9230 bancos_3: pone el 3 (y sus copias en 0xF0F1-3)
 C 0x9238 suma_a_hl: HL = HL + A
 C 0x9252 bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
 C 0x92A2 lee_palabra: HL = la palabra A de la tabla HL
-C 0x92D8 lee el estado de la nave (0xFF: estalla)
+C 0x92D8 lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 C 0x92DD lee lo recien pulsado (mando y cursores)
+C 0x92E3 apunta a la marca de armas (1 a 8)
+C 0x92F5 guarda la marca de armas (1 a 8)
 C 0x9308 lee_palabra: HL = la palabra A de la tabla HL
 C 0x9312 sonido_1C: pide el sonido 0x1C
+C 0x9524 apunta a la marca de armas (1 a 8)
+C 0x954A guarda la marca de armas (1 a 8)
 C 0x9564 suma_a_hl: HL = HL + A
 C 0x956E vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
 C 0x9580 vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
+C 0x9595 lee la marca de armas (1 a 8)
+C 0x95A2 lee la marca de armas (1 a 8)
+C 0x95B6 lee la marca de armas (1 a 8)
 C 0x95D2 lee_palabra: HL = la palabra A de la tabla HL
 C 0x95D6 lee_palabra: HL = la palabra A de la tabla HL
+C 0x9686 lee el caracter del fondo de la fase
+C 0x968A apunta a los disparos de la nave (9 de 0x20)
 C 0x96A2 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x9702 lee el jefe en curso (0: ninguno)
+C 0x9736 lee el jefe en curso (0: ninguno)
+C 0x9745 lee el jefe en curso (0: ninguno)
+C 0x9782 lee el jefe en curso (0: ninguno)
+C 0x97B4 lee el jefe en curso (0: ninguno)
 C 0x97C6 suma_a_hl: HL = HL + A
+C 0x97D9 lee 1 si este cuadro hay scroll
+C 0x97EF lee el jefe en curso (0: ninguno)
 C 0x9801 suma_a_hl: HL = HL + A
+C 0x982B lee el jefe en curso (0: ninguno)
 C 0x9832 lee la fase (1 a 11)
 C 0x9868 sonido_2F: pide el sonido 0x2F
-C 0x990B lee el estado de la nave (0xFF: estalla)
+C 0x986B lee el jefe en curso (0: ninguno)
+C 0x98B2 lee el jefe en curso (0: ninguno)
+C 0x98BD lee la x de la nave
+C 0x98C3 lee la y de la nave
+C 0x98E0 lee el jefe en curso (0: ninguno)
+C 0x990B lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
+C 0x9910 lee el caracter del fondo de la fase
+C 0x991B lee la x de la nave
+C 0x9921 lee la y de la nave
 C 0x993D lee la fase (1 a 11)
 C 0x994B lee la posicion del scroll (16 bits)
 C 0x9968 lee la posicion del scroll (16 bits)
 C 0x9999 pide_sonido: pide al motor (p10:6003) el sonido A
 C 0x99AB sonido_28: pide el sonido 0x28
-C 0x99BF lee el estado de la nave (0xFF: estalla)
-C 0x99F5 lee el estado de la nave (0xFF: estalla)
+C 0x99BC apunta a los atributos de sprite (32 x 4)
+C 0x99BF lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
+C 0x99F5 lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
+C 0x9A31 lee la x de la nave
+C 0x9A36 lee la y de la nave
 C 0x9A40 lee la cuenta de cuadros del juego
+C 0x9AB4 apunta a los disparos de la nave (9 de 0x20)
 C 0x9ACF despacha: salta a la palabra A de la tabla que va detras del call
+C 0x9B55 apunta a los disparos de la nave (9 de 0x20)
 C 0x9B70 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x9C1A apunta a los disparos de la nave (9 de 0x20)
 C 0x9C32 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x9D35 guarda_reparto: guarda las tres copias del mapper en la pila de 0xF0D0
 C 0x9D38 bancos_22: pone el 22 (y sus copias en 0xF0F1-3)
 C 0x9D3E devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
+C 0x9D97 apunta a las partes del jefe (4 de 0x20)
 C 0x9D9B despacha: salta a la palabra A de la tabla que va detras del call
-C 0x9E25 lee el estado de la nave (0xFF: estalla)
+C 0x9DD9 lee el jefe en curso (0: ninguno)
+C 0x9DE2 guarda el caracter del fondo de la fase
+C 0x9DE8 lee el jefe en curso (0: ninguno)
+C 0x9E0B lee el jefe en curso (0: ninguno)
+C 0x9E25 lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
+C 0x9E32 lee el jefe vencido (1, o 2 en la fase 4)
+C 0x9EB4 lee la y de la nave
+C 0x9EC4 lee el jefe en curso (0: ninguno)
 C 0x9ECB suma_a_hl: HL = HL + A
+C 0x9ED5 apunta a la x de la nave
+C 0x9EF6 lee la dificultad de la fase (0 a 0x0F)
+C 0x9F53 lee el jefe en curso (0: ninguno)
+C 0x9F7E lee el jefe en curso (0: ninguno)
 # --- fin de las anotaciones de anota.py ---

@@ -187,51 +187,85 @@ F 0xBEBD 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+C 0xA07F lee la dificultad de la fase (0 a 0x0F)
 C 0xA08E lee_palabra: HL = la palabra A de la tabla HL
+C 0xA091 guarda la velocidad en y hacia la nave (16 bits)
 C 0xA09E lee_palabra: HL = la palabra A de la tabla HL
+C 0xA0A1 guarda la velocidad en x hacia la nave (16 bits)
+C 0xA0D1 lee la dificultad de la fase (0 a 0x0F)
 C 0xA0E8 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xA12B lee la cuenta de cuadros del juego
 C 0xA155 lee la cuenta de cuadros del juego
+C 0xA1C3 lee la dificultad de la fase (0 a 0x0F)
 C 0xA27A lee la posicion del scroll (16 bits)
 C 0xA2C1 lee_palabra: HL = la palabra A de la tabla HL
 C 0xA2E3 lee_palabra: HL = la palabra A de la tabla HL
 C 0xA321 lee_palabra: HL = la palabra A de la tabla HL
+C 0xA32A lee la pieza siguiente de la lista de la fase
 C 0xA36E despacha: salta a la palabra A de la tabla que va detras del call
 C 0xA4DA despacha: salta a la palabra A de la tabla que va detras del call
 C 0xA540 sonido_30: pide el sonido 0x30
 C 0xA547 lee_palabra: HL = la palabra A de la tabla HL
+C 0xA597 lee la y de la nave
+C 0xA5A0 lee la x de la nave
 C 0xA5EA lee_palabra: HL = la palabra A de la tabla HL
+C 0xA62E lee la x de la nave
+C 0xA649 lee la y de la nave
+C 0xA66A apunta a las explosiones grandes (4 de 8 bytes)
+C 0xA69F apunta a las explosiones grandes (4 de 8 bytes)
+C 0xA6C5 apunta a las explosiones grandes (4 de 8 bytes)
 C 0xA6FE lee_palabra: HL = la palabra A de la tabla HL
+C 0xA701 apunta a un bufer de trabajo
 C 0xA704 rle_a_ram: descomprime a la RAM de DE el RLE de HL
+C 0xA707 apunta a un bufer de trabajo
 C 0xA834 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xA870 suma_a_hl: HL = HL + A
+C 0xA877 lee la velocidad en x hacia la nave (16 bits)
+C 0xA87E lee la velocidad en y hacia la nave (16 bits)
 C 0xA8D2 suma_a_hl: HL = HL + A
 C 0xA8EE suma_a_hl: HL = HL + A
 C 0xA947 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xA950 lee 1 si este cuadro hay scroll
+C 0xA96D lee 1 si este cuadro hay scroll
+C 0xA98A lee 1 si este cuadro hay scroll
 C 0xAA94 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xAB27 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xAB98 lee la dificultad de la fase (0 a 0x0F)
 C 0xABC7 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xAC1B suma_a_hl: HL = HL + A
 C 0xAC5D sonido_26: pide el sonido 0x26
 C 0xAD06 lee_palabra: HL = la palabra A de la tabla HL
+C 0xADCB lee 1 si este cuadro hay scroll
 C 0xAE9E lee_palabra: HL = la palabra A de la tabla HL
 C 0xAEA1 lee la posicion del scroll (16 bits)
 C 0xB0DE sonido_33: pide el sonido 0x33
 C 0xB107 suma_a_de: DE = DE + A
+C 0xB10D lee el caracter del fondo de la fase
 C 0xB156 suma_a_hl: HL = HL + A
 C 0xB27A suma_a_hl: HL = HL + A
 C 0xB2B6 lee la cuenta de cuadros del juego
 C 0xB3B2 lee la cuenta de cuadros del juego
+C 0xB3E2 lee el caracter del fondo de la fase
 C 0xB43D lee la cuenta de cuadros del juego
 C 0xB482 lee_palabra: HL = la palabra A de la tabla HL
 C 0xB4DA lee la cuenta de cuadros del juego
 C 0xB559 lee la cuenta de cuadros del juego
 C 0xB5AE lee la posicion del scroll (16 bits)
 C 0xB64F lee la cuenta de cuadros del juego
+C 0xB662 apunta a los disparos de la nave (9 de 0x20)
+C 0xB762 lee el caracter del fondo de la fase
 C 0xB7DD lee_palabra: HL = la palabra A de la tabla HL
 C 0xB80D sonido_2D: pide el sonido 0x2D
 C 0xB84A despacha: salta a la palabra A de la tabla que va detras del call
+C 0xB8F4 lee 1 si este cuadro hay scroll
+C 0xB952 lee el caracter del fondo de la fase
+C 0xB98C lee el caracter del fondo de la fase
+C 0xB9CB lee 1 si este cuadro hay scroll
 C 0xBA26 despacha: salta a la palabra A de la tabla que va detras del call
+C 0xBA75 lee la dificultad de la fase (0 a 0x0F)
+C 0xBC39 lee 1 si este cuadro hay scroll
+C 0xBCED lee la y de la nave
+C 0xBD16 lee la x de la nave
 C 0xBD6C lee_palabra: HL = la palabra A de la tabla HL
 C 0xBDBC lee la posicion del scroll (16 bits)
 C 0xBDE2 pantalla_en_blanco: borra la tabla de nombres (0x3800)

@@ -387,7 +387,7 @@ L_6312:
 	ld a,b			;6312
 	ld (0e5e7h),a		;6313
 	ld a,c			;6316
-	ld (0e5c3h),a		;6317
+	ld (0e5c3h),a		;6317   ; guarda el color de los dibujos sueltos
 	ret			;631a
 L_631B:
 	ld b,001h		;631b
@@ -408,7 +408,7 @@ L_6336:
 	ld (0e5c4h),a		;6336
 	ld (0e5c5h),a		;6339
 	ld (0e5c6h),a		;633c
-	ld (0e5c7h),a		;633f
+	ld (0e5c7h),a		;633f   ; guarda el siguiente caracter libre de cada tercio
 	ld (0e5c8h),a		;6342
 	ld (0e5c9h),a		;6345
 	ret			;6348
@@ -568,7 +568,7 @@ L_6406:
 	ld (0ef81h),a		;640a
 	ld (0ef82h),a		;640d
 	ld ix,0ce00h		;6410
-	ld de,0c400h		;6414
+	ld de,0c400h		;6414   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 L_6417:
 	ld a,(ix+003h)		;6417
 	ld c,004h		;641a
@@ -696,7 +696,7 @@ L_64AF:
 	call L_6801		;64bd
 	ld a,001h		;64c0
 	ld (0e534h),a		;64c2
-	ld a,(0e302h)		;64c5
+	ld a,(0e302h)		;64c5   ; lee el modo (bit 5: dos jugadores; bit 6: se juega de verdad; bit 7: el segundo jugador)
 	and 020h		;64c8
 	ret z			;64ca
 	ld a,078h		;64cb
@@ -1245,7 +1245,7 @@ L_683C:
 	ld hl,03800h		;683c
 	call 04ab6h		;683f   ; vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
 	exx			;6842
-	ld hl,0c400h		;6843
+	ld hl,0c400h		;6843   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 	ld b,000h		;6846
 L_6848:
 	outi		;6848
@@ -1258,7 +1258,7 @@ L_6852:
 	jp nz,L_6852		;6854
 	ret			;6857
 L_6858:
-	ld hl,0c400h		;6858
+	ld hl,0c400h		;6858   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 	ld de,0c401h		;685b
 	ld bc,002ffh		;685e
 	ld (hl),000h		;6861
@@ -1313,7 +1313,7 @@ L_68C9:
 	ld (0ef82h),a		;68d1
 	ld a,001h		;68d4
 	ld (0ef83h),a		;68d6
-	ld hl,0c400h		;68d9
+	ld hl,0c400h		;68d9   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 	call L_6912		;68dc
 	ld a,081h		;68df
 	ld (0ef83h),a		;68e1
@@ -1382,7 +1382,7 @@ L_6955:
 L_695A:
 	push af			;695a
 	ld hl,0a101h		;695b
-	ld de,0e800h		;695e
+	ld de,0e800h		;695e   ; apunta a los enemigos (12 de 0x40)
 	call 055cdh		;6961   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 	pop af			;6964
 	ld b,a			;6965
@@ -1390,7 +1390,7 @@ L_695A:
 	add a,a			;6967
 	add a,a			;6968
 	sub b			;6969
-	ld hl,0e800h		;696a
+	ld hl,0e800h		;696a   ; apunta a los enemigos (12 de 0x40)
 	call 04089h		;696d   ; suma_a_hl: HL = HL + A
 	ld (0ef84h),hl		;6970
 	ld de,0c522h		;6973
@@ -1433,7 +1433,7 @@ L_69A0:
 L_69AA:
 	push af			;69aa
 	ld hl,0a1c3h		;69ab
-	ld de,0e800h		;69ae
+	ld de,0e800h		;69ae   ; apunta a los enemigos (12 de 0x40)
 	call 055cdh		;69b1   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 	pop af			;69b4
 	call L_69BC		;69b5
@@ -1552,7 +1552,7 @@ L_6A48:
 L_6A52:
 	push af			;6a52
 	ld hl,0a23eh		;6a53
-	ld de,0e800h		;6a56
+	ld de,0e800h		;6a56   ; apunta a los enemigos (12 de 0x40)
 	call 055cdh		;6a59   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 	pop af			;6a5c
 	call L_6A64		;6a5d
@@ -2203,7 +2203,7 @@ L_6CDC:
 	call L_6CC1		;6cdf
 	ret			;6ce2
 L_6CE3:
-	ld hl,0e402h		;6ce3
+	ld hl,0e402h		;6ce3   ; apunta a un temporizador
 	dec (hl)			;6ce6
 	ret nz			;6ce7
 	ld hl,06cf8h		;6ce8
@@ -2326,9 +2326,9 @@ DATA_tabla_6D1C:
 
 L_6D24:
 	call 05938h		;6d24   ; orden_83_y_sonido_50: manda la orden 0x83 al motor y pide el sonido 0x50
-	ld hl,(0e604h)		;6d27
+	ld hl,(0e604h)		;6d27   ; lee la x de la nave y el byte siguiente (16 bits)
 	ld (0e7e8h),hl		;6d2a
-	ld hl,(0e606h)		;6d2d
+	ld hl,(0e606h)		;6d2d   ; lee la y de la nave y el byte siguiente (16 bits)
 	ld (0e7eah),hl		;6d30
 	ld de,08040h		;6d33
 	ld a,040h		;6d36
@@ -2404,11 +2404,11 @@ L_6D89:
 	ld hl,0e7e7h		;6d89
 	inc (hl)			;6d8c
 	call L_6DA0		;6d8d
-	ld a,(0e604h)		;6d90
+	ld a,(0e604h)		;6d90   ; lee la x de la nave
 	sub 030h		;6d93
 	cp 021h		;6d95
 	ret nc			;6d97
-	ld a,(0e606h)		;6d98
+	ld a,(0e606h)		;6d98   ; lee la y de la nave
 	sub 070h		;6d9b
 	cp 021h		;6d9d
 	ret			;6d9f
@@ -2476,9 +2476,9 @@ L_6E05:
 	dec (hl)			;6e0e
 	ret nz			;6e0f
 	ld hl,(0e7e8h)		;6e10
-	ld (0e604h),hl		;6e13
+	ld (0e604h),hl		;6e13   ; guarda la x de la nave y el byte siguiente (16 bits)
 	ld hl,(0e7eah)		;6e16
-	ld (0e606h),hl		;6e19
+	ld (0e606h),hl		;6e19   ; guarda la y de la nave y el byte siguiente (16 bits)
 	call 05959h		;6e1c
 	call L_6028		;6e1f
 	call L_6CC1		;6e22
@@ -2898,7 +2898,7 @@ L_7199:
 	ld a,(0e7f1h)		;719c
 	add a,a			;719f
 	add a,a			;71a0
-	ld de,0ef00h		;71a1
+	ld de,0ef00h		;71a1   ; apunta a los atributos de sprite (32 x 4)
 	call 0408eh		;71a4   ; suma_a_de: DE = DE + A
 	ld a,(0e36fh)		;71a7
 	ld (0ef80h),a		;71aa
@@ -2923,7 +2923,7 @@ L_71CA:
 	ld (0ef80h),a		;71ca
 	ld a,00bh		;71cd
 	ld (0e7f0h),a		;71cf
-	ld de,0ef00h		;71d2
+	ld de,0ef00h		;71d2   ; apunta a los atributos de sprite (32 x 4)
 L_71D5:
 	call L_71DF		;71d5
 	ld hl,0ef80h		;71d8
@@ -3257,7 +3257,7 @@ L_745C:
 	ld (hl),a			;745c
 	ret			;745d
 L_745E:
-	ld hl,0ef00h		;745e
+	ld hl,0ef00h		;745e   ; apunta a los atributos de sprite (32 x 4)
 	ld de,0ef01h		;7461
 	ld bc,00033h		;7464
 	ld (hl),000h		;7467
@@ -3324,7 +3324,7 @@ L_74C7:
 	call 059a1h		;74d4
 	ret			;74d7
 L_74D8:
-	ld de,0ef00h		;74d8
+	ld de,0ef00h		;74d8   ; apunta a los atributos de sprite (32 x 4)
 	ld bc,0e546h		;74db
 	ld hl,07713h		;74de
 	exx			;74e1

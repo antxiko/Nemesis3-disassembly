@@ -159,18 +159,22 @@ DATA_rle_6440:
 	defb 0e0h,007h,0a0h,081h,0e0h,007h,0a0h,081h,0e0h,007h,0a0h,000h	; 6460  ............
 
 ; ----------------------------------------------------------------------
-; DATOS tabla_646C: tabla que se lee desde HL = 0x646C con un indice
-;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
-;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
-;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p00:4F6E (72 bytes)
-;   0x646c..0x64b4  (72 bytes)
-DATA_tabla_646C:
+; DATOS leido_646C: 56 bytes que leen p00:4A60, p00:4A62 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido, con 40 sin leer entre lecturas de la
+;   misma rutina: entradas de la misma tabla que las partidas no han pedido);
+;   lo leen p00:4A60, p00:4A62 (56 bytes)
+;   0x646c..0x64a4  (56 bytes)
+DATA_leido_646C:
 	defb 0b4h,064h,0fch,064h,044h,065h,08ch,065h,0d4h,065h,01ch,066h,064h,066h,0ach,066h	; 646c  .d.dDe.e.e.fdf.f
 	defb 0f4h,066h,03ch,067h,084h,067h,0cch,067h,014h,068h,05ch,068h,0a4h,068h,0ech,068h	; 647c  .f<g.g.g.h\h.h.h
 	defb 034h,069h,07ch,069h,0c4h,069h,00ch,06ah,054h,06ah,09ch,06ah,0e4h,06ah,02ch,06bh	; 648c  4i|i.i.jTj.j.j,k
-	defb 074h,06bh,0bch,06bh,004h,06ch,04ch,06ch,094h,06ch,0dch,06ch,024h,06dh,06ch,06dh	; 649c  tk.k.lLl.l.l$mlm
-	defb 0b4h,06dh,0fch,06dh,044h,06eh,08ch,06eh	; 64ac  .m.mDn.n
+	defb 074h,06bh,0bch,06bh,004h,06ch,04ch,06ch	; 649c  tk.k.lLl
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x64a4..0x64b4  (16 bytes)
+DATA_64A4:
+	defb 094h,06ch,0dch,06ch,024h,06dh,06ch,06dh,0b4h,06dh,0fch,06dh,044h,06eh,08ch,06eh	; 64a4  .l.l$mlm.m.mDn.n
 
 ; ----------------------------------------------------------------------
 ; DATOS leido_64B4: 144 bytes que lee p00:4F76 al jugar (medido ejecutando el

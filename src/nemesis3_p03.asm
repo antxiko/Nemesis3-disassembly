@@ -97,7 +97,7 @@ L_A06F:
 	inc (ix+02fh)		;a07b
 	ret			;a07e
 L_A07F:
-	ld a,(0e389h)		;a07f
+	ld a,(0e389h)		;a07f   ; lee la dificultad de la fase (0 a 0x0F)
 	sub 00ah		;a082
 	ld hl,0a0a5h		;a084
 	jr nc,L_A08C		;a087
@@ -106,7 +106,7 @@ L_A08C:
 	push af			;a08c
 	ld a,b			;a08d
 	call 04a5ah		;a08e   ; lee_palabra: HL = la palabra A de la tabla HL
-	ld (0e474h),hl		;a091
+	ld (0e474h),hl		;a091   ; guarda la velocidad en y hacia la nave (16 bits)
 	pop af			;a094
 	ld hl,0a0a3h		;a095
 	jr nc,L_A09D		;a098
@@ -114,7 +114,7 @@ L_A08C:
 L_A09D:
 	ld a,b			;a09d
 	call 04a5ah		;a09e   ; lee_palabra: HL = la palabra A de la tabla HL
-	ld (0e472h),hl		;a0a1
+	ld (0e472h),hl		;a0a1   ; guarda la velocidad en x hacia la nave (16 bits)
 	ret			;a0a4
 
 ; ----------------------------------------------------------------------
@@ -168,7 +168,7 @@ L_A0C1:
 L_A0C9:
 	ld (ix+010h),008h		;a0c9
 	res 7,(ix+00bh)		;a0cd
-	ld a,(0e389h)		;a0d1
+	ld a,(0e389h)		;a0d1   ; lee la dificultad de la fase (0 a 0x0F)
 	sub 030h		;a0d4
 	neg		;a0d6
 	ld (ix+002h),a		;a0d8
@@ -293,7 +293,7 @@ L_A1BD:
 	ret			;a1be
 L_A1BF:
 	ld (ix+010h),015h		;a1bf
-	ld a,(0e389h)		;a1c3
+	ld a,(0e389h)		;a1c3   ; lee la dificultad de la fase (0 a 0x0F)
 	sub 020h		;a1c6
 	neg		;a1c8
 	ld (ix+002h),a		;a1ca
@@ -491,7 +491,7 @@ L_A301:
 	call 04a5ah		;a321   ; lee_palabra: HL = la palabra A de la tabla HL
 	ld (ix+009h),l		;a324
 	ld (ix+00ah),h		;a327
-	ld a,(0e4b0h)		;a32a
+	ld a,(0e4b0h)		;a32a   ; lee la pieza siguiente de la lista de la fase
 	dec a			;a32d
 	ld hl,0a33eh		;a32e
 	call 04a6eh		;a331
@@ -860,12 +860,12 @@ DATA_tabla_A591:
 
 
 L_A597:
-	ld a,(0e606h)		;a597
+	ld a,(0e606h)		;a597   ; lee la y de la nave
 	sub d			;a59a
 	add a,014h		;a59b
 	sub 028h		;a59d
 	ret c			;a59f
-	ld a,(0e604h)		;a5a0
+	ld a,(0e604h)		;a5a0   ; lee la x de la nave
 	sub e			;a5a3
 	add a,014h		;a5a4
 	sub 028h		;a5a6
@@ -970,7 +970,7 @@ L_A61A:
 	ld hl,0a65eh		;a628
 	jp 06e40h		;a62b
 L_A62E:
-	ld a,(0e604h)		;a62e
+	ld a,(0e604h)		;a62e   ; lee la x de la nave
 	ld b,(ix+004h)		;a631
 	ld c,000h		;a634
 	sub 008h		;a636
@@ -988,7 +988,7 @@ L_A645:
 	ld (ix+02fh),c		;a645
 	ret			;a648
 L_A649:
-	ld a,(0e606h)		;a649
+	ld a,(0e606h)		;a649   ; lee la y de la nave
 	sub (ix+006h)		;a64c
 	ret nc			;a64f
 	ld d,(ix+02fh)		;a650
@@ -1028,7 +1028,7 @@ DATA_A666:
 
 
 L_A66A:
-	ld hl,0e4b2h		;a66a
+	ld hl,0e4b2h		;a66a   ; apunta a las explosiones grandes (4 de 8 bytes)
 	ld b,004h		;a66d
 L_A66F:
 	ld a,(hl)			;a66f
@@ -1062,7 +1062,7 @@ L_A697:
 	call 05159h		;a69b
 	ret			;a69e
 L_A69F:
-	ld ix,0e4b2h		;a69f
+	ld ix,0e4b2h		;a69f   ; apunta a las explosiones grandes (4 de 8 bytes)
 	ld de,00008h		;a6a3
 	ld b,004h		;a6a6
 L_A6A8:
@@ -1081,7 +1081,7 @@ L_A6B4:
 	ld (ix+000h),000h		;a6c0
 	ret			;a6c4
 L_A6C5:
-	ld ix,0e4b2h		;a6c5
+	ld ix,0e4b2h		;a6c5   ; apunta a las explosiones grandes (4 de 8 bytes)
 	ld b,004h		;a6c9
 L_A6CB:
 	push bc			;a6cb
@@ -1115,9 +1115,9 @@ L_A6F8:
 	ld a,(ix+006h)		;a6f8
 	ld hl,0a70bh		;a6fb
 	call 04a5ah		;a6fe   ; lee_palabra: HL = la palabra A de la tabla HL
-	ld de,0ca00h		;a701
+	ld de,0ca00h		;a701   ; apunta a un bufer de trabajo
 	call 055adh		;a704   ; rle_a_ram: descomprime a la RAM de DE el RLE de HL
-	ld hl,0ca00h		;a707
+	ld hl,0ca00h		;a707   ; apunta a un bufer de trabajo
 	ret			;a70a
 
 ; ----------------------------------------------------------------------
@@ -1246,10 +1246,10 @@ L_A863:
 	call 04089h		;a870   ; suma_a_hl: HL = HL + A
 	ld a,(hl)			;a873
 	call 07865h		;a874
-	ld hl,(0e472h)		;a877
+	ld hl,(0e472h)		;a877   ; lee la velocidad en x hacia la nave (16 bits)
 	call L_A8B3		;a87a
 	push hl			;a87d
-	ld hl,(0e474h)		;a87e
+	ld hl,(0e474h)		;a87e   ; lee la velocidad en y hacia la nave (16 bits)
 	call L_A8B3		;a881
 	pop de			;a884
 	call 07f0ah		;a885
@@ -1409,7 +1409,7 @@ DATA_tabla_A94A:
 
 
 L_A950:
-	ld a,(0e420h)		;a950
+	ld a,(0e420h)		;a950   ; lee 1 si este cuadro hay scroll
 	or a			;a953
 	ret z			;a954
 	inc (ix+00ah)		;a955
@@ -1425,7 +1425,7 @@ L_A963:
 	inc (ix+001h)		;a969
 	ret			;a96c
 L_A96D:
-	ld a,(0e420h)		;a96d
+	ld a,(0e420h)		;a96d   ; lee 1 si este cuadro hay scroll
 	or a			;a970
 	ret z			;a971
 	ld a,(ix+006h)		;a972
@@ -1439,7 +1439,7 @@ L_A96D:
 L_A985:
 	dec (ix+002h)		;a985
 	jr z,L_A98F		;a988
-	ld a,(0e420h)		;a98a
+	ld a,(0e420h)		;a98a   ; lee 1 si este cuadro hay scroll
 	or a			;a98d
 	ret z			;a98e
 L_A98F:
@@ -1714,7 +1714,7 @@ L_AB8D:
 	ld (0e488h),a		;ab8e
 	ld (ix+010h),007h		;ab91
 	inc (ix+001h)		;ab95
-	ld a,(0e389h)		;ab98
+	ld a,(0e389h)		;ab98   ; lee la dificultad de la fase (0 a 0x0F)
 	add a,a			;ab9b
 	add a,a			;ab9c
 	add a,030h		;ab9d
@@ -2100,7 +2100,7 @@ L_ADA1:
 L_ADC5:
 	call L_ADDA		;adc5
 	call L_ADE5		;adc8
-	ld a,(0e420h)		;adcb
+	ld a,(0e420h)		;adcb   ; lee 1 si este cuadro hay scroll
 	or a			;adce
 	ret nz			;adcf
 	bit 0,(ix+00bh)		;add0
@@ -2603,7 +2603,7 @@ L_B0E6:
 	ld a,(de)			;b10a
 	cp b			;b10b
 	ret z			;b10c
-	ld a,(0e405h)		;b10d
+	ld a,(0e405h)		;b10d   ; lee el caracter del fondo de la fase
 	dec a			;b110
 	ld bc,0003fh		;b111
 	call L_B11A		;b114
@@ -3024,7 +3024,7 @@ L_B3DB:
 	ld h,a			;b3db
 	ld l,(ix+004h)		;b3dc
 	call 04a46h		;b3df
-	ld a,(0e405h)		;b3e2
+	ld a,(0e405h)		;b3e2   ; lee el caracter del fondo de la fase
 	cp (hl)			;b3e5
 	ret c			;b3e6
 	ld de,00040h		;b3e7
@@ -3389,7 +3389,7 @@ L_B659:
 L_B65D:
 	bit 6,(ix+012h)		;b65d
 	ret nz			;b661
-	ld iy,0e680h		;b662
+	ld iy,0e680h		;b662   ; apunta a los disparos de la nave (9 de 0x20)
 	ld b,009h		;b666
 L_B668:
 	push bc			;b668
@@ -3539,7 +3539,7 @@ L_B74C:
 	dec h			;b75b
 	ld l,(ix+004h)		;b75c
 	call 04a46h		;b75f
-	ld a,(0e405h)		;b762
+	ld a,(0e405h)		;b762   ; lee el caracter del fondo de la fase
 	ld c,a			;b765
 	ld a,(hl)			;b766
 	cp c			;b767
@@ -3798,7 +3798,7 @@ L_B8E0:
 	ret			;b8f0
 L_B8F1:
 	call L_B902		;b8f1
-	ld a,(0e420h)		;b8f4
+	ld a,(0e420h)		;b8f4   ; lee 1 si este cuadro hay scroll
 	or a			;b8f7
 	ret z			;b8f8
 	ld a,(ix+006h)		;b8f9
@@ -3846,7 +3846,7 @@ L_B93D:
 	ld h,a			;b94b
 	ld (0ef80h),a		;b94c
 	call 04a46h		;b94f
-	ld a,(0e405h)		;b952
+	ld a,(0e405h)		;b952   ; lee el caracter del fondo de la fase
 	dec a			;b955
 	ld b,(ix+014h)		;b956
 	ld c,000h		;b959
@@ -3879,7 +3879,7 @@ L_B983:
 	ld h,(ix+006h)		;b983
 	ld l,(ix+004h)		;b986
 	call 04a46h		;b989
-	ld a,(0e405h)		;b98c
+	ld a,(0e405h)		;b98c   ; lee el caracter del fondo de la fase
 	dec a			;b98f
 	ld b,(ix+014h)		;b990
 	ld c,000h		;b993
@@ -3911,7 +3911,7 @@ L_B9C4:
 	call L_B9E7		;b9c4
 	ret nz			;b9c7
 	call L_B9EB		;b9c8
-	ld a,(0e420h)		;b9cb
+	ld a,(0e420h)		;b9cb   ; lee 1 si este cuadro hay scroll
 	or a			;b9ce
 	ret nz			;b9cf
 	ld a,(ix+006h)		;b9d0
@@ -4029,7 +4029,7 @@ L_BA69:
 	ret nz			;ba6c
 	res 3,(ix+010h)		;ba6d
 	ld (ix+030h),0a4h		;ba71
-	ld a,(0e389h)		;ba75
+	ld a,(0e389h)		;ba75   ; lee la dificultad de la fase (0 a 0x0F)
 	add a,a			;ba78
 	add a,a			;ba79
 	add a,060h		;ba7a
@@ -4328,7 +4328,7 @@ DATA_tabla_BC2E:
 
 
 L_BC39:
-	ld a,(0e420h)		;bc39
+	ld a,(0e420h)		;bc39   ; lee 1 si este cuadro hay scroll
 	or a			;bc3c
 	ret z			;bc3d
 	ld a,(ix+006h)		;bc3e
@@ -4407,7 +4407,7 @@ L_BCD8:
 	sub b			;bceb
 	ld b,a			;bcec
 L_BCED:
-	ld a,(0e606h)		;bced
+	ld a,(0e606h)		;bced   ; lee la y de la nave
 	ld c,a			;bcf0
 	bit 6,(ix+012h)		;bcf1
 	jr nz,L_BD01		;bcf5
@@ -4432,7 +4432,7 @@ L_BD10:
 	ret			;bd13
 L_BD14:
 	ld b,004h		;bd14
-	ld a,(0e604h)		;bd16
+	ld a,(0e604h)		;bd16   ; lee la x de la nave
 	sub 048h		;bd19
 	ret c			;bd1b
 	dec b			;bd1c

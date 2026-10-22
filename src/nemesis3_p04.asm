@@ -56,7 +56,7 @@ L_8036:
 	ld a,(0e60dh)		;8036
 	or a			;8039
 	jr nz,L_8032		;803a
-	ld a,(0e600h)		;803c   ; lee el estado de la nave (0xFF: estalla)
+	ld a,(0e600h)		;803c   ; lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 	or a			;803f
 	jp m,L_845D		;8040
 	ret z			;8043
@@ -91,12 +91,12 @@ L_806D:
 	call L_807E		;807a
 	ret			;807d
 L_807E:
-	ld a,(0e604h)		;807e
+	ld a,(0e604h)		;807e   ; lee la x de la nave
 	add a,(hl)			;8081
 	ld (de),a			;8082
 	inc e			;8083
 	inc hl			;8084
-	ld a,(0e606h)		;8085
+	ld a,(0e606h)		;8085   ; lee la y de la nave
 	add a,(hl)			;8088
 	ld (de),a			;8089
 	inc e			;808a
@@ -105,12 +105,12 @@ L_807E:
 	ldi		;808e
 	ret			;8090
 L_8091:
-	ld a,(0e600h)		;8091   ; lee el estado de la nave (0xFF: estalla)
+	ld a,(0e600h)		;8091   ; lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 	dec a			;8094
 	jr z,L_80DC		;8095
 	dec a			;8097
 	jr z,L_80BB		;8098
-	ld a,(0e601h)		;809a
+	ld a,(0e601h)		;809a   ; lee los golpes que le quedan al escudo
 	cp 002h		;809d
 	jr c,L_80AE		;809f
 	ld hl,08158h		;80a1
@@ -127,7 +127,7 @@ L_80AE:
 	ld hl,081a0h		;80b7
 	ret			;80ba
 L_80BB:
-	ld a,(0e601h)		;80bb
+	ld a,(0e601h)		;80bb   ; lee los golpes que le quedan al escudo
 	cp 002h		;80be
 	jr c,L_80CF		;80c0
 	ld hl,080f8h		;80c2
@@ -188,7 +188,7 @@ L_81B8:
 	call L_81BF		;81bb
 	ret			;81be
 L_81BF:
-	ld hl,0e604h		;81bf
+	ld hl,0e604h		;81bf   ; apunta a la x de la nave
 	ld a,(hl)			;81c2
 	add a,010h		;81c3
 	cp 010h		;81c5
@@ -204,7 +204,7 @@ L_81D2:
 	ret			;81d5
 L_81D6:
 	ld c,000h		;81d6
-	ld hl,0e606h		;81d8
+	ld hl,0e606h		;81d8   ; apunta a la y de la nave
 	ld a,(hl)			;81db
 	cp 008h		;81dc
 	jr nc,L_81E3		;81de
@@ -285,7 +285,7 @@ L_8237:
 	ld hl,0e411h		;8258
 	ld (hl),001h		;825b
 	cp 002h		;825d
-	ld hl,0e604h		;825f
+	ld hl,0e604h		;825f   ; apunta a la x de la nave
 	jr nc,L_826C		;8262
 	ld a,(hl)			;8264
 	sub 002h		;8265
@@ -300,10 +300,10 @@ L_826C:
 	ld (hl),a			;826f
 	ret			;8270
 L_8271:
-	ld a,(0e604h)		;8271
+	ld a,(0e604h)		;8271   ; lee la x de la nave
 	add a,008h		;8274
 	ld l,a			;8276
-	ld a,(0e606h)		;8277
+	ld a,(0e606h)		;8277   ; lee la y de la nave
 	ld h,a			;827a
 	and 007h		;827b
 	cp 004h		;827d
@@ -419,7 +419,7 @@ DATA_8336:
 
 
 L_8342:
-	ld ix,0ed00h		;8342
+	ld ix,0ed00h		;8342   ; apunta a las piezas (8 de 0x20)
 	ld b,008h		;8346
 L_8348:
 	push bc			;8348
@@ -446,10 +446,10 @@ L_8355:
 	ret nc			;8370
 	add a,020h		;8371
 	ld h,a			;8373
-	ld a,(0e604h)		;8374
+	ld a,(0e604h)		;8374   ; lee la x de la nave
 	add a,008h		;8377
 	ld e,a			;8379
-	ld a,(0e606h)		;837a
+	ld a,(0e606h)		;837a   ; lee la y de la nave
 	add a,010h		;837d
 	ld d,a			;837f
 	call L_83AA		;8380
@@ -501,10 +501,10 @@ L_83CF:
 	ld a,(0e411h)		;83cf
 	cp 002h		;83d2
 	ret nz			;83d4
-	ld a,(0e604h)		;83d5
+	ld a,(0e604h)		;83d5   ; lee la x de la nave
 	add a,008h		;83d8
 	ld l,a			;83da
-	ld a,(0e606h)		;83db
+	ld a,(0e606h)		;83db   ; lee la y de la nave
 	add a,008h		;83de
 	ld h,a			;83e0
 	call 04a46h		;83e1
@@ -556,7 +556,7 @@ L_8433:
 	ld (0e31ah),a		;8439   ; guarda 1 mientras la nave esta en la fase
 	ret			;843c
 mata_la_nave:		; la nave estalla: 0xFF en 0xE600
-	ld hl,0e600h		;843d   ; apunta a el estado de la nave (0xFF: estalla)
+	ld hl,0e600h		;843d   ; apunta a el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 	ld a,(hl)			;8440
 	or a			;8441
 	ret m			;8442
@@ -587,9 +587,9 @@ L_8469:
 	ld a,(hl)			;846f
 	ld (0e641h),a		;8470
 	inc hl			;8473
-	ld a,(0e604h)		;8474
+	ld a,(0e604h)		;8474   ; lee la x de la nave
 	ld c,a			;8477
-	ld a,(0e606h)		;8478
+	ld a,(0e606h)		;8478   ; lee la y de la nave
 	ld b,a			;847b
 	ld de,0e618h		;847c
 	call L_8495		;847f
@@ -669,7 +669,7 @@ DATA_8502:
 
 
 L_8516:
-	ld a,(0e600h)		;8516   ; lee el estado de la nave (0xFF: estalla)
+	ld a,(0e600h)		;8516   ; lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 	dec a			;8519
 	ret m			;851a
 	call L_858C		;851b
@@ -754,14 +754,14 @@ L_858C:
 	cp 00fh		;85a9
 	ret z			;85ab
 L_85AC:
-	ld hl,0e660h		;85ac
+	ld hl,0e660h		;85ac   ; apunta a la estela de la nave (16 x y y)
 	ld a,(0e60bh)		;85af
 	add a,a			;85b2
 	add a,l			;85b3
 	ld l,a			;85b4
-	ld a,(0e604h)		;85b5
+	ld a,(0e604h)		;85b5   ; lee la x de la nave
 	ld (hl),a			;85b8
-	ld a,(0e606h)		;85b9
+	ld a,(0e606h)		;85b9   ; lee la y de la nave
 	inc l			;85bc
 	ld (hl),a			;85bd
 	ld hl,0e60bh		;85be
@@ -789,7 +789,7 @@ L_85D6:
 	add a,010h		;85e8
 L_85EA:
 	add a,a			;85ea
-	ld de,0e660h		;85eb
+	ld de,0e660h		;85eb   ; apunta a la estela de la nave (16 x y y)
 	add a,e			;85ee
 	ld e,a			;85ef
 	ld a,(de)			;85f0
@@ -819,7 +819,7 @@ L_8615:
 	call L_8619		;8615
 	ret			;8618
 L_8619:
-	ld hl,0e604h		;8619
+	ld hl,0e604h		;8619   ; apunta a la x de la nave
 	ld de,08647h		;861c
 	add a,a			;861f
 	call 0408eh		;8620   ; suma_a_de: DE = DE + A
@@ -895,7 +895,7 @@ DATA_8688:
 
 
 L_868C:
-	ld a,(0e604h)		;868c
+	ld a,(0e604h)		;868c   ; lee la x de la nave
 	add a,l			;868f
 	ld (ix+004h),a		;8690
 	cp 0e0h		;8693
@@ -908,7 +908,7 @@ L_869C:
 	ld (ix+004h),0a5h		;869f
 	ret			;86a3
 L_86A4:
-	ld a,(0e606h)		;86a4
+	ld a,(0e606h)		;86a4   ; lee la y de la nave
 	add a,h			;86a7
 	ld (ix+006h),a		;86a8
 	cp 0e8h		;86ab
@@ -925,7 +925,7 @@ L_86B9:
 	ret			;86bd
 L_86BE:
 	ld (0e410h),a		;86be
-	ld iy,0e680h		;86c1
+	ld iy,0e680h		;86c1   ; apunta a los disparos de la nave (9 de 0x20)
 	ld b,009h		;86c5
 L_86C7:
 	push bc			;86c7
@@ -1004,7 +1004,7 @@ L_8756:
 	ret			;875a
 L_875B:
 	ld b,000h		;875b
-	ld a,(0e600h)		;875d   ; lee el estado de la nave (0xFF: estalla)
+	ld a,(0e600h)		;875d   ; lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 	dec a			;8760
 	ret m			;8761
 	inc b			;8762
@@ -1050,7 +1050,7 @@ L_87A4:
 	call L_8756		;87a4
 	call L_8764		;87a7
 	ret nz			;87aa
-	ld ix,0e600h		;87ab   ; apunta a el estado de la nave (0xFF: estalla)
+	ld ix,0e600h		;87ab   ; apunta a el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 	ld a,003h		;87af
 	ld (0e633h),a		;87b1
 	ld hl,00000h		;87b4
@@ -1709,7 +1709,7 @@ L_8D17:
 	ld (0e5e0h),a		;8d18
 	inc a			;8d1b
 	ld (0e5e1h),a		;8d1c
-	ld hl,0e680h		;8d1f
+	ld hl,0e680h		;8d1f   ; apunta a los disparos de la nave (9 de 0x20)
 	push hl			;8d22
 	pop iy		;8d23
 	ld (hl),018h		;8d25
@@ -1791,7 +1791,7 @@ L_8DC3:
 	ld hl,0e6a0h		;8dc3
 	jp L_8DCC		;8dc6
 L_8DC9:
-	ld hl,0e680h		;8dc9
+	ld hl,0e680h		;8dc9   ; apunta a los disparos de la nave (9 de 0x20)
 L_8DCC:
 	ld a,(ix+004h)		;8dcc
 	cp 0a6h		;8dcf
@@ -2043,7 +2043,7 @@ L_8FBE:
 	ld b,004h		;8fc5
 	jp L_9014		;8fc7
 L_8FCA:
-	ld a,(0e420h)		;8fca
+	ld a,(0e420h)		;8fca   ; lee 1 si este cuadro hay scroll
 	or a			;8fcd
 	ret z			;8fce
 	ld b,008h		;8fcf
@@ -2134,7 +2134,7 @@ L_906A:
 	ld l,(iy+003h)		;906d
 L_9070:
 	call 04a46h		;9070
-	ld a,(0e405h)		;9073
+	ld a,(0e405h)		;9073   ; lee el caracter del fondo de la fase
 	dec a			;9076
 	cp (hl)			;9077
 	ret			;9078
@@ -2221,7 +2221,7 @@ L_9108:
 	ld de,00000h		;9108
 	ld (0ef80h),de		;910b
 	dec de			;910f
-	ld ix,0ed00h		;9110
+	ld ix,0ed00h		;9110   ; apunta a las piezas (8 de 0x20)
 	ld b,008h		;9114
 L_9116:
 	push bc			;9116
@@ -2356,7 +2356,7 @@ L_9209:
 	call 0639fh		;921d
 	ld (iy+014h),e		;9220
 	ld (iy+015h),d		;9223
-	ld hl,(0e472h)		;9226
+	ld hl,(0e472h)		;9226   ; lee la velocidad en x hacia la nave (16 bits)
 	ld (iy+012h),l		;9229
 	ld (iy+013h),h		;922c
 	ret			;922f
@@ -2459,13 +2459,13 @@ L_92D4:
 	ld (iy+001h),a		;92d4
 	ret			;92d7
 L_92D8:
-	ld a,(0e600h)		;92d8   ; lee el estado de la nave (0xFF: estalla)
+	ld a,(0e600h)		;92d8   ; lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 	dec a			;92db
 	ret m			;92dc
 	ld a,(0e308h)		;92dd   ; lee lo recien pulsado (mando y cursores)
 	and 020h		;92e0
 	ret z			;92e2
-	ld hl,0e430h		;92e3
+	ld hl,0e430h		;92e3   ; apunta a la marca de armas (1 a 8)
 	ld a,(hl)			;92e6
 	or a			;92e7
 	ret z			;92e8
@@ -2477,7 +2477,7 @@ L_92D8:
 	or a			;92f2
 	ret m			;92f3
 	xor a			;92f4
-	ld (0e430h),a		;92f5
+	ld (0e430h),a		;92f5   ; guarda la marca de armas (1 a 8)
 	call L_9302		;92f8
 	call L_957D		;92fb
 	call L_95B6		;92fe
@@ -2572,7 +2572,7 @@ L_9517:
 	call L_95B6		;9520
 	ret			;9523
 L_9524:
-	ld hl,0e430h		;9524
+	ld hl,0e430h		;9524   ; apunta a la marca de armas (1 a 8)
 	ld de,0e431h		;9527
 	ld bc,0000ch		;952a
 	ld (hl),000h		;952d
@@ -2592,7 +2592,7 @@ L_953D:
 	ret z			;9547
 L_9548:
 	ld a,001h		;9548
-	ld (0e430h),a		;954a
+	ld (0e430h),a		;954a   ; guarda la marca de armas (1 a 8)
 	ret			;954d
 L_954E:
 	ld b,009h		;954e
@@ -2637,14 +2637,14 @@ L_9591:
 	ld a,(hl)			;9591
 	inc a			;9592
 	jr nz,L_95A2		;9593
-	ld a,(0e430h)		;9595
+	ld a,(0e430h)		;9595   ; lee la marca de armas (1 a 8)
 	cp c			;9598
 	ld a,03ch		;9599
 	jr nz,L_95AC		;959b
 	ld a,03eh		;959d
 	jp L_95AC		;959f
 L_95A2:
-	ld a,(0e430h)		;95a2
+	ld a,(0e430h)		;95a2   ; lee la marca de armas (1 a 8)
 	cp c			;95a5
 	ld a,038h		;95a6
 	jr nz,L_95AC		;95a8
@@ -2659,7 +2659,7 @@ L_95AC:
 	exx			;95b4
 	ret			;95b5
 L_95B6:
-	ld a,(0e430h)		;95b6
+	ld a,(0e430h)		;95b6   ; lee la marca de armas (1 a 8)
 	ld b,a			;95b9
 	or a			;95ba
 	jr z,L_95E4		;95bb
@@ -2758,9 +2758,9 @@ L_967B:
 	call L_95B6		;9682
 	ret			;9685
 L_9686:
-	ld a,(0e405h)		;9686
+	ld a,(0e405h)		;9686   ; lee el caracter del fondo de la fase
 	ld c,a			;9689
-	ld iy,0e680h		;968a
+	ld iy,0e680h		;968a   ; apunta a los disparos de la nave (9 de 0x20)
 	ld b,009h		;968e
 L_9690:
 	push bc			;9690
@@ -2814,7 +2814,7 @@ L_96FA:
 	call L_98AB		;96fa
 	ret nc			;96fd
 	ld (iy+000h),000h		;96fe
-	ld a,(0e440h)		;9702
+	ld a,(0e440h)		;9702   ; lee el jefe en curso (0: ninguno)
 	or a			;9705
 	jp nz,L_999D		;9706
 	call L_993D		;9709
@@ -2842,7 +2842,7 @@ L_9728:
 L_9731:
 	call L_976A		;9731
 	jr nc,L_9741		;9734
-	ld a,(0e440h)		;9736
+	ld a,(0e440h)		;9736   ; lee el jefe en curso (0: ninguno)
 	or a			;9739
 	jr nz,L_9745		;973a
 	call L_993D		;973c
@@ -2852,7 +2852,7 @@ L_9741:
 	djnz L_9731		;9742
 	ret			;9744
 L_9745:
-	ld a,(0e440h)		;9745
+	ld a,(0e440h)		;9745   ; lee el jefe en curso (0: ninguno)
 	or a			;9748
 	call nz,L_999D		;9749
 	ld a,(iy+00ah)		;974c
@@ -2886,7 +2886,7 @@ L_976E:
 L_977D:
 	call L_976A		;977d
 	jr nc,L_978F		;9780
-	ld a,(0e440h)		;9782
+	ld a,(0e440h)		;9782   ; lee el jefe en curso (0: ninguno)
 	or a			;9785
 	jp nz,L_99B0		;9786
 	call L_993D		;9789
@@ -2913,7 +2913,7 @@ L_9793:
 L_97AF:
 	call L_976A		;97af
 	jr nc,L_97C4		;97b2
-	ld a,(0e440h)		;97b4
+	ld a,(0e440h)		;97b4   ; lee el jefe en curso (0: ninguno)
 	or a			;97b7
 	jp nz,L_981E		;97b8
 	call L_993D		;97bb
@@ -2934,7 +2934,7 @@ L_97C4:
 	or a			;97d5
 	jp nz,L_99B0		;97d6
 L_97D9:
-	ld a,(0e420h)		;97d9
+	ld a,(0e420h)		;97d9   ; lee 1 si este cuadro hay scroll
 	or a			;97dc
 	jr z,L_9814		;97dd
 	ld hl,(0ef80h)		;97df
@@ -2946,7 +2946,7 @@ L_97D9:
 L_97EA:
 	call L_976A		;97ea
 	jr nc,L_97FF		;97ed
-	ld a,(0e440h)		;97ef
+	ld a,(0e440h)		;97ef   ; lee el jefe en curso (0: ninguno)
 	or a			;97f2
 	jp nz,L_981E		;97f3
 	call L_993D		;97f6
@@ -2982,7 +2982,7 @@ L_9821:
 L_982A:
 	ret			;982a
 L_982B:
-	ld a,(0e440h)		;982b
+	ld a,(0e440h)		;982b   ; lee el jefe en curso (0: ninguno)
 	or a			;982e
 	jp nz,L_986B		;982f
 	ld a,(0e361h)		;9832   ; lee la fase (1 a 11)
@@ -3018,7 +3018,7 @@ L_9864:
 	ret nc			;9867
 	jp 058ddh		;9868   ; sonido_2F: pide el sonido 0x2F
 L_986B:
-	ld a,(0e440h)		;986b
+	ld a,(0e440h)		;986b   ; lee el jefe en curso (0: ninguno)
 	or a			;986e
 	ret z			;986f
 	sub 00dh		;9870
@@ -3063,17 +3063,17 @@ L_98AB:
 L_98B1:
 	ret			;98b1
 L_98B2:
-	ld a,(0e440h)		;98b2
+	ld a,(0e440h)		;98b2   ; lee el jefe en curso (0: ninguno)
 	cp 00fh		;98b5
 	jr z,L_98BD		;98b7
 	dec a			;98b9
 	cp 004h		;98ba
 	ret nc			;98bc
 L_98BD:
-	ld a,(0e604h)		;98bd
+	ld a,(0e604h)		;98bd   ; lee la x de la nave
 	add a,008h		;98c0
 	ld l,a			;98c2
-	ld a,(0e606h)		;98c3
+	ld a,(0e606h)		;98c3   ; lee la y de la nave
 	ld h,a			;98c6
 	and 007h		;98c7
 	cp 004h		;98c9
@@ -3089,7 +3089,7 @@ L_98D8:
 	ret nc			;98dc
 	jp 047c5h		;98dd
 L_98E0:
-	ld a,(0e440h)		;98e0
+	ld a,(0e440h)		;98e0   ; lee el jefe en curso (0: ninguno)
 	cp 004h		;98e3
 	ld de,(09905h)		;98e5
 	jr z,L_98FF		;98e9
@@ -3144,19 +3144,19 @@ DATA_leido_9909:
 
 
 L_990B:
-	ld a,(0e600h)		;990b   ; lee el estado de la nave (0xFF: estalla)
+	ld a,(0e600h)		;990b   ; lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 	dec a			;990e
 	ret m			;990f
-	ld a,(0e405h)		;9910
+	ld a,(0e405h)		;9910   ; lee el caracter del fondo de la fase
 	ld c,a			;9913
 	call L_991B		;9914
 	ret nc			;9917
 	jp 047c5h		;9918
 L_991B:
-	ld a,(0e604h)		;991b
+	ld a,(0e604h)		;991b   ; lee la x de la nave
 	add a,008h		;991e
 	ld l,a			;9920
-	ld a,(0e606h)		;9921
+	ld a,(0e606h)		;9921   ; lee la y de la nave
 	ld h,a			;9924
 	and 007h		;9925
 	cp 004h		;9927
@@ -3258,8 +3258,8 @@ L_99B5:
 	call L_99F5		;99b8
 	ret			;99bb
 L_99BC:
-	ld de,0ef00h		;99bc
-	ld a,(0e600h)		;99bf   ; lee el estado de la nave (0xFF: estalla)
+	ld de,0ef00h		;99bc   ; apunta a los atributos de sprite (32 x 4)
+	ld a,(0e600h)		;99bf   ; lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 	or a			;99c2
 	jr z,L_99E0		;99c3
 	jp m,L_99E8		;99c5
@@ -3289,7 +3289,7 @@ L_99E8:
 	call L_99CF		;99f1
 	ret			;99f4
 L_99F5:
-	ld a,(0e600h)		;99f5   ; lee el estado de la nave (0xFF: estalla)
+	ld a,(0e600h)		;99f5   ; lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 	or a			;99f8
 	ret z			;99f9
 	inc a			;99fa
@@ -3325,10 +3325,10 @@ L_9A29:
 	or a			;9a2c
 	ret z			;9a2d
 	ld de,0ef10h		;9a2e
-	ld a,(0e604h)		;9a31
+	ld a,(0e604h)		;9a31   ; lee la x de la nave
 	ld (de),a			;9a34
 	inc de			;9a35
-	ld a,(0e606h)		;9a36
+	ld a,(0e606h)		;9a36   ; lee la y de la nave
 	add a,010h		;9a39
 	ld (de),a			;9a3b
 	inc de			;9a3c
@@ -3428,7 +3428,7 @@ L_9AA3:
 	ldi		;9ab1
 	ret			;9ab3
 L_9AB4:
-	ld ix,0e680h		;9ab4
+	ld ix,0e680h		;9ab4   ; apunta a los disparos de la nave (9 de 0x20)
 	ld de,0ce00h		;9ab8
 	ld b,009h		;9abb
 L_9ABD:
@@ -3510,7 +3510,7 @@ L_9B45:
 	ld (ix+00fh),h		;9b51
 	ret			;9b54
 L_9B55:
-	ld ix,0e680h		;9b55
+	ld ix,0e680h		;9b55   ; apunta a los disparos de la nave (9 de 0x20)
 	ld de,0ce00h		;9b59
 	ld b,009h		;9b5c
 L_9B5E:
@@ -3621,7 +3621,7 @@ L_9C10:
 	jr nz,L_9C0C		;9c17
 	ret			;9c19
 L_9C1A:
-	ld ix,0e680h		;9c1a
+	ld ix,0e680h		;9c1a   ; apunta a los disparos de la nave (9 de 0x20)
 	ld b,009h		;9c1e
 L_9C20:
 	push bc			;9c20
@@ -3857,7 +3857,7 @@ L_9D54:
 	pop hl			;9d95
 	ret			;9d96
 L_9D97:
-	ld ix,0ec00h		;9d97
+	ld ix,0ec00h		;9d97   ; apunta a las partes del jefe (4 de 0x20)
 	call 04093h		;9d9b   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -3891,12 +3891,12 @@ L_9DC6:
 	ld (0ec20h),a		;9dd2
 	inc a			;9dd5
 	ld (0e454h),a		;9dd6
-	ld a,(0e440h)		;9dd9
+	ld a,(0e440h)		;9dd9   ; lee el jefe en curso (0: ninguno)
 	ld hl,09df1h		;9ddc
 	call 04a6eh		;9ddf
-	ld (0e405h),a		;9de2
+	ld (0e405h),a		;9de2   ; guarda el caracter del fondo de la fase
 	call 05718h		;9de5
-	ld a,(0e440h)		;9de8
+	ld a,(0e440h)		;9de8   ; lee el jefe en curso (0: ninguno)
 	cp 00eh		;9deb
 	jr z,$+22		;9ded
 	jp 050feh		;9def
@@ -3927,7 +3927,7 @@ L_9E03:
 	jp z,050feh		;9e07
 	ret			;9e0a
 L_9E0B:
-	ld a,(0e440h)		;9e0b
+	ld a,(0e440h)		;9e0b   ; lee el jefe en curso (0: ninguno)
 	cp 00dh		;9e0e
 	jr z,L_9E2A		;9e10
 	sub 00eh		;9e12
@@ -3941,7 +3941,7 @@ L_9E0B:
 L_9E21:
 	call 06de6h		;9e21
 	ret nz			;9e24
-	ld a,(0e600h)		;9e25   ; lee el estado de la nave (0xFF: estalla)
+	ld a,(0e600h)		;9e25   ; lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 	or a			;9e28
 	ret m			;9e29
 L_9E2A:
@@ -3952,7 +3952,7 @@ L_9E2A:
 	dec (hl)			;9e30
 	ret			;9e31
 L_9E32:
-	ld a,(0e445h)		;9e32
+	ld a,(0e445h)		;9e32   ; lee el jefe vencido (1, o 2 en la fase 4)
 	and a			;9e35
 	ret z			;9e36
 	ld hl,00030h		;9e37
@@ -4020,7 +4020,7 @@ L_9EA6:
 	dec a			;9eb1
 	jr L_9EDF		;9eb2
 L_9EB4:
-	ld a,(0e606h)		;9eb4
+	ld a,(0e606h)		;9eb4   ; lee la y de la nave
 	cp 080h		;9eb7
 	jr c,L_9EC4		;9eb9
 	ld a,(ix+005h)		;9ebb
@@ -4028,7 +4028,7 @@ L_9EB4:
 	ld a,004h		;9ec0
 	jr c,L_9EDF		;9ec2
 L_9EC4:
-	ld a,(0e440h)		;9ec4
+	ld a,(0e440h)		;9ec4   ; lee el jefe en curso (0: ninguno)
 	dec a			;9ec7
 	ld hl,09f0dh		;9ec8
 	call 04089h		;9ecb   ; suma_a_hl: HL = HL + A
@@ -4036,7 +4036,7 @@ L_9EC4:
 	ld a,(ix+003h)		;9ecf
 	add a,c			;9ed2
 	jr c,L_9EDD		;9ed3
-	ld hl,0e604h		;9ed5
+	ld hl,0e604h		;9ed5   ; apunta a la x de la nave
 	cp (hl)			;9ed8
 	ld a,002h		;9ed9
 	jr c,L_9EDF		;9edb
@@ -4054,7 +4054,7 @@ L_9EEE:
 	and 003h		;9ef0
 	add a,c			;9ef2
 	ld (ix+016h),a		;9ef3
-	ld a,(0e389h)		;9ef6
+	ld a,(0e389h)		;9ef6   ; lee la dificultad de la fase (0 a 0x0F)
 	add a,a			;9ef9
 	add a,040h		;9efa
 	ld (ix+017h),a		;9efc
@@ -4117,7 +4117,7 @@ L_9F48:
 	ld a,h			;9f4f
 	and a			;9f50
 	jr nz,L_9F6C		;9f51
-	ld a,(0e440h)		;9f53
+	ld a,(0e440h)		;9f53   ; lee el jefe en curso (0: ninguno)
 	ld de,00068h		;9f56
 	cp 003h		;9f59
 	jr z,L_9F69		;9f5b
@@ -4142,7 +4142,7 @@ L_9F71:
 	ld a,h			;9f7b
 	and a			;9f7c
 	ret p			;9f7d
-	ld a,(0e440h)		;9f7e
+	ld a,(0e440h)		;9f7e   ; lee el jefe en curso (0: ninguno)
 	ld b,0e0h		;9f81
 	cp 003h		;9f83
 	jr z,L_9F99		;9f85

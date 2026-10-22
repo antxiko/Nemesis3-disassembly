@@ -321,10 +321,10 @@ L_81D9:
 	jr z,L_81E7		;81da
 	call 0578bh		;81dc
 	ld a,078h		;81df
-	ld (0e402h),a		;81e1
+	ld (0e402h),a		;81e1   ; guarda un temporizador
 	jp L_83D7		;81e4
 L_81E7:
-	ld hl,0e402h		;81e7
+	ld hl,0e402h		;81e7   ; apunta a un temporizador
 	dec (hl)			;81ea
 	ret nz			;81eb
 	call 04aa9h		;81ec   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
@@ -1341,7 +1341,7 @@ L_8908:
 	ret			;8917
 L_8918:
 	xor a			;8918
-	ld (0e328h),a		;8919
+	ld (0e328h),a		;8919   ; guarda 1: el final del juego (al estado 10)
 	ret			;891c
 L_891D:
 	ld a,b			;891d
@@ -1392,7 +1392,7 @@ L_896A:
 L_897C:
 	ld hl,06265h		;897c
 	call 0612ah		;897f
-	ld hl,0c400h		;8982
+	ld hl,0c400h		;8982   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 	ld c,0f0h		;8985
 	call 05636h		;8987
 	ld a,012h		;898a
@@ -1475,7 +1475,7 @@ L_8A17:
 	call 041e4h		;8a17   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 	call 05eech		;8a1a
 	call 041bfh		;8a1d   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
-	ld a,(0e518h)		;8a20
+	ld a,(0e518h)		;8a20   ; lee la aparicion poco a poco en marcha (1 o 2)
 	or a			;8a23
 	ret nz			;8a24
 	call 057eah		;8a25   ; sonido_01: pide el sonido 0x01
@@ -1498,7 +1498,7 @@ L_8A38:
 	ret			;8a49
 L_8A4A:
 	call 047bch		;8a4a
-	ld a,(0e518h)		;8a4d
+	ld a,(0e518h)		;8a4d   ; lee la aparicion poco a poco en marcha (1 o 2)
 	or a			;8a50
 	ret nz			;8a51
 	call 05648h		;8a52
@@ -1515,7 +1515,7 @@ L_8A5F:
 	ret nz			;8a68
 	jp L_8918		;8a69
 L_8A6C:
-	ld hl,0ef00h		;8a6c
+	ld hl,0ef00h		;8a6c   ; apunta a los atributos de sprite (32 x 4)
 	ld de,00004h		;8a6f
 	ld b,020h		;8a72
 L_8A74:
@@ -1563,7 +1563,7 @@ L_8AB6:
 	call L_8B1C		;8acd
 	ret			;8ad0
 L_8AD1:
-	ld hl,0ef00h		;8ad1
+	ld hl,0ef00h		;8ad1   ; apunta a los atributos de sprite (32 x 4)
 	ld de,0ef01h		;8ad4
 	ld bc,0000bh		;8ad7
 	ld (hl),0e0h		;8ada
@@ -1616,7 +1616,7 @@ L_8B30:
 	exx			;8b37
 	ld b,a			;8b38
 	exx			;8b39
-	ld de,0ef00h		;8b3a
+	ld de,0ef00h		;8b3a   ; apunta a los atributos de sprite (32 x 4)
 	inc hl			;8b3d
 L_8B3E:
 	ld a,(hl)			;8b3e
@@ -1881,7 +1881,7 @@ DATA_tabla_8D36:
 
 L_8D3E:
 	ld hl,0a23eh		;8d3e
-	ld de,0e800h		;8d41
+	ld de,0e800h		;8d41   ; apunta a los enemigos (12 de 0x40)
 	call 055cdh		;8d44   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 	call L_8D65		;8d47
 	ld a,(0e380h)		;8d4a
@@ -1908,7 +1908,7 @@ DATA_tabla_8D5D:
 
 
 L_8D65:
-	ld hl,0e800h		;8d65
+	ld hl,0e800h		;8d65   ; apunta a los enemigos (12 de 0x40)
 	ld bc,00150h		;8d68
 L_8D6B:
 	ld a,(hl)			;8d6b
@@ -2010,10 +2010,10 @@ DATA_resto_8E11:
 L_8E21:
 	call 041e4h		;8e21   ; bancos_29: pone el 29 (y sus copias en 0xF0F1-3)
 	ld hl,0bc13h		;8e24
-	ld de,0e800h		;8e27
+	ld de,0e800h		;8e27   ; apunta a los enemigos (12 de 0x40)
 	call 055cdh		;8e2a   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 	ld bc,00810h		;8e2d
-	ld hl,0e800h		;8e30
+	ld hl,0e800h		;8e30   ; apunta a los enemigos (12 de 0x40)
 	ld de,0caa8h		;8e33
 	call 059a1h		;8e36
 	call 041bfh		;8e39   ; bancos_26_27_28: pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
