@@ -53,6 +53,8 @@ def corre(nombre):
             j.cuadros(1)
             n += 1
         return j, []
+    if nombre == "remolino":
+        return remolino()
     f = int(nombre[1:])
     j = Juego().hasta_partida(f, inmortal=True, dispara=True)
     if nombre.startswith("b"):
@@ -75,6 +77,39 @@ def corre(nombre):
 
 
 DIR = os.path.join(RAIZ, "work", "cob")
+
+
+def remolino():
+    """La fase 4 no se puede poner a mano: se llega desde la 3. Alli, pasado
+    el scroll 0x180, la nave que toca el centro de un remolino (la pieza 0x0C
+    de 0xED00, p02:85BB) arranca la secuencia 1 (0xE31F). Se juega la 3 y,
+    pasado ese scroll, la nave se lleva cada cuadro al centro del remolino
+    (x + 0x1C - 4, y + 0x1C - 2); despues, BCUADROS cuadros de lo que venga."""
+    j = Juego().hasta_partida(3, inmortal=True, dispara=True)
+    j.barre = 90
+    ini = j.cuadro
+    eventos = []
+    previo = [None]
+    os.makedirs(FOTOS, exist_ok=True)
+
+    def mira(j):
+        k = j.cuadro - ini
+        st = (j.mem[ESTADO], j.mem[PASO] if j.mem[ESTADO] != 5 else 0, j.mem[FASE])
+        if st != previo[0]:
+            eventos.append((k,) + st)
+            previo[0] = st
+        scroll = j.mem[0xE363] | (j.mem[0xE364] << 8)
+        if j.mem[FASE] == 3 and scroll >= 0x180 and not j.mem[0xE31F]:
+            for n in range(8):
+                a = 0xED00 + 0x20 * n
+                if j.mem[a] == 0x0C and not j.mem[a + 0x1D] and j.mem[a + 6] < 0xE0:
+                    j.mem[0xE604] = (j.mem[a + 4] + 0x1C - 4) & 0xFF
+                    j.mem[0xE606] = (j.mem[a + 6] + 0x1C - 2) & 0xFF
+                    break
+        if k % 300 == 0:
+            j.foto().save(os.path.join(FOTOS, "remolino_%05d.png" % k))
+    j.juega(BCUADROS, mira)
+    return j, eventos
 
 
 def carga():

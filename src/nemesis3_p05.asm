@@ -40,12 +40,12 @@ L_A005:
 	or a			;a00b
 	ret			;a00c
 L_A00D:
-	ld a,(0e7e0h)		;a00d
+	ld a,(0e7e0h)		;a00d   ; los pasos comunes de los jefes: con entrada secreta (0xE7E0), 0x100 cuadros...
 	or a			;a010
 	jr z,L_A02B		;a011
 	ld hl,00100h		;a013
 	ld (0e443h),hl		;a016
-	ld a,(ix+000h)		;a019
+	ld a,(ix+000h)		;a019   ; ...y el jefe 0x0B se apaga (0xEC20 = 0, 0xEC09 = 0xFF)
 	cp 00bh		;a01c
 	jr nz,L_A028		;a01e
 	xor a			;a020
@@ -55,10 +55,10 @@ L_A00D:
 L_A028:
 	jp 09dc1h		;a028
 L_A02B:
-	call 09dc1h		;a02b
+	call 09dc1h		;a02b   ; sin ella, dos pasos de golpe
 	jp 09dc1h		;a02e
 L_A031:
-	call L_A0E6		;a031
+	call L_A0E6		;a031   ; espera; luego la entrada se va y 1 cuadro
 	ret nz			;a034
 	xor a			;a035
 	ld (0e7e0h),a		;a036
@@ -66,7 +66,7 @@ L_A031:
 	ld (0e443h),hl		;a03c
 	jp 09dc1h		;a03f
 L_A042:
-	call L_A0E6		;a042
+	call L_A0E6		;a042   ; espera; luego 0xE44F = 1 y la gran explosion del jefe (p00:4869)
 	ret nz			;a045
 	ld a,001h		;a046
 	ld (0e44fh),a		;a048
@@ -74,14 +74,14 @@ L_A042:
 	push ix		;a04d
 	call 04869h		;a04f
 	pop ix		;a052
-	xor a			;a054
+	xor a			;a054   ; sus partes se apagan
 	ld (ix+020h),a		;a055
 	ld (ix+040h),a		;a058
 	dec a			;a05b
 	ld (ix+007h),a		;a05c
 	ld (ix+008h),a		;a05f
 	ld (ix+009h),a		;a062
-	xor a			;a065
+	xor a			;a065   ; y todos los enemigos y piezas fuera
 	ld (0e462h),a		;a066   ; guarda cuantos enemigos hay
 	ld (0e465h),a		;a069   ; guarda cuantos sprites usan los enemigos (tope 12)
 	ld hl,0e800h		;a06c   ; apunta a los enemigos (12 de 0x40)
@@ -96,7 +96,7 @@ L_A042:
 	ldir		;a082
 	jp 09dc1h		;a084
 L_A087:
-	push ix		;a087
+	push ix		;a087   ; una explosion grande en su sitio (p00:482A), sin entrada, el fondo 0xFF
 	ld a,008h		;a089
 	add a,(ix+003h)		;a08b
 	ld e,a			;a08e
@@ -110,12 +110,12 @@ L_A087:
 	call L_A0A6		;a0a0
 	jp 09dc1h		;a0a3
 L_A0A6:
-	ld a,(0e600h)		;a0a6   ; lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
+	ld a,(0e600h)		;a0a6   ; el sonido 0x4C (si la nave vive)
 	inc a			;a0a9
 	ret z			;a0aa
 	jp 05888h		;a0ab   ; sonido_4C: pide el sonido 0x4C
 L_A0AE:
-	ld a,(0e4b2h)		;a0ae   ; lee las explosiones grandes (4 de 8 bytes)
+	ld a,(0e4b2h)		;a0ae   ; cuando acaba la explosion: la espera 0x2C (8 en la fase 4 salvo el ultimo)
 	or a			;a0b1
 	ret nz			;a0b2
 	ld hl,0002ch		;a0b3
@@ -130,7 +130,7 @@ L_A0C7:
 	ld (0e443h),hl		;a0c7
 	jp 09dc1h		;a0ca
 L_A0CD:
-	call L_A0E6		;a0cd
+	call L_A0E6		;a0cd   ; al acabar: el bufer a cero, sin jefe, 0xE442 = 1 (vencido)
 	ret nz			;a0d0
 L_A0D1:
 	call 05669h		;a0d1
@@ -144,14 +144,14 @@ L_A0D4:
 	ld (0e454h),a		;a0e2
 	ret			;a0e5
 L_A0E6:
-	ld hl,(0e443h)		;a0e6
+	ld hl,(0e443h)		;a0e6   ; la espera de 0xE443 (16 bits): Z al acabar
 	dec hl			;a0e9
 	ld (0e443h),hl		;a0ea
 	ld a,l			;a0ed
 	or h			;a0ee
 	ret			;a0ef
 L_A0F0:
-	ld a,(0e441h)		;a0f0
+	ld a,(0e441h)		;a0f0   ; un jefe: por su paso (0xE441, tabla de detras)
 	call 04093h		;a0f3   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -169,15 +169,15 @@ DATA_tabla_A0F6:
 
 
 L_A108:
-	call 09e0bh		;a108
+	call 09e0bh		;a108   ; paso 0: espera la hora (p04:9E0B)...
 	ret nz			;a10b
-	ld hl,0a12dh		;a10c
+	ld hl,0a12dh		;a10c   ; ...empieza con los 10 bytes de 0xA12D (el tipo 0x1B)
 	ld a,01bh		;a10f
 	call 09dc6h		;a111
-	call L_A158		;a114
+	call L_A158		;a114   ; su caja, IX+13 = 0x38 e IX+14 = 8
 	ld (ix+013h),038h		;a117
 	ld (ix+014h),008h		;a11b
-	call 057eeh		;a11f   ; sonido_02: pide el sonido 0x02
+	call 057eeh		;a11f   ; el sonido 2, la orden 0x83 y la musica del jefe (9)
 	call 0594dh		;a122   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
 	call 057f6h		;a125   ; sonido_09: pide el sonido 0x09
 L_A128:
@@ -199,28 +199,28 @@ DATA_resto_A12D:
 
 
 L_A137:
-	ld c,078h		;a137
+	ld c,078h		;a137   ; paso 1: entra subiendo hasta la y 0x78
 	call 09e40h		;a139
 	jr c,L_A141		;a13c
 	jp L_A158		;a13e
 L_A141:
-	xor a			;a141
+	xor a			;a141   ; llegado: 0xE454 = 0 y empieza
 	ld (0e454h),a		;a142
 	ld (ix+002h),001h		;a145
 	ld (ix+018h),001h		;a149
 	jr $-37		;a14d
 L_A14F:
-	call L_A166		;a14f
+	call L_A166		;a14f   ; paso 2: se mueve y dispara (p05:A166), su caja, y hasta vencerlo
 	call L_A158		;a152
 	jp 09e32h		;a155
 L_A158:
-	ld a,038h		;a158
+	ld a,038h		;a158   ; la caja: x + 0x38, y + 0x18 / + 0x18; vidas 9 en escalones de 4
 	ld bc,01818h		;a15a
 	call 09e67h		;a15d
 	ld bc,00409h		;a160
 	jp 09e96h		;a163
 L_A166:
-	call L_A17F		;a166
+	call L_A17F		;a166   ; dispara (p05:A17F) y se mueve: paso 0 espera, paso 1 anda
 L_A169:
 	ld a,(0e445h)		;a169   ; lee el jefe vencido (1, o 2 en la fase 4)
 	or a			;a16c
@@ -234,7 +234,7 @@ L_A169:
 	inc (ix+001h)		;a17b
 	ret			;a17e
 L_A17F:
-	ld a,(0e445h)		;a17f   ; lee el jefe vencido (1, o 2 en la fase 4)
+	ld a,(0e445h)		;a17f   ; cada 0x28 cuadros, si se ve, suelta un 0x38 y el sonido 0x2E
 	or a			;a182
 	ret nz			;a183
 	dec (ix+018h)		;a184
@@ -258,7 +258,7 @@ L_A17F:
 	call 0764fh		;a1a5
 	jp 058d9h		;a1a8   ; sonido_2E: pide el sonido 0x2E
 L_A1AB:
-	call 09f11h		;a1ab
+	call 09f11h		;a1ab   ; anda (p04:9F11); al acabar el paso, espera 0x10
 	jr c,L_A1B7		;a1ae
 	call L_A1C3		;a1b0
 	jp c,09f9ch		;a1b3
@@ -269,7 +269,7 @@ L_A1B7:
 	ld (ix+016h),000h		;a1be
 	ret			;a1c2
 L_A1C3:
-	ld hl,(0ec03h)		;a1c3
+	ld hl,(0ec03h)		;a1c3   ; el tope en x segun hacia donde va
 	bit 0,(ix+015h)		;a1c6
 	jr nz,L_A1D4		;a1ca
 	ld a,h			;a1cc
@@ -287,7 +287,7 @@ L_A1D4:
 	cp 0d8h		;a1d8
 	ret			;a1da
 L_A1DB:
-	ld a,(ix+004h)		;a1db
+	ld a,(ix+004h)		;a1db   ; hacia donde: hacia la nave (por delante o por detras de su x + 0x20)
 	and a			;a1de
 	jr z,L_A1EA		;a1df
 	ld a,002h		;a1e1
@@ -319,7 +319,7 @@ DATA_A1FC:
 
 
 L_A24A:
-	ld l,(ix+004h)		;a24a
+	ld l,(ix+004h)		;a24a   ; pinta en el bufer IX+13 filas de IX+14 caracteres de 0xA29E
 	ld h,(ix+006h)		;a24d
 	call 04a46h		;a250
 	ex de,hl			;a253
@@ -347,7 +347,7 @@ L_A265:
 	djnz L_A265		;a27c
 	ret			;a27e
 L_A27F:
-	ld l,(ix+004h)		;a27f
+	ld l,(ix+004h)		;a27f   ; borra del bufer sus IX+13 filas de IX+14 caracteres
 	ld h,(ix+006h)		;a282
 	call 04a46h		;a285
 	ld c,(ix+013h)		;a288
@@ -384,7 +384,7 @@ DATA_tabla_A29E:
 
 
 L_A2DA:
-	ld a,(0e441h)		;a2da
+	ld a,(0e441h)		;a2da   ; otro jefe: por su paso (0xE441)
 	call 04093h		;a2dd   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -402,7 +402,7 @@ DATA_tabla_A2E0:
 
 
 L_A2F4:
-	call 09e0bh		;a2f4
+	call 09e0bh		;a2f4   ; paso 0: a su hora empieza (el tipo 0x1A, 10 bytes de 0xA317)
 	ret nz			;a2f7
 	ld a,01ah		;a2f8
 	ld hl,0a317h		;a2fa
@@ -410,7 +410,7 @@ L_A2F4:
 	call L_A34A		;a300
 	ld (ix+013h),038h		;a303
 	ld (ix+014h),008h		;a307
-	call 057eeh		;a30b   ; sonido_02: pide el sonido 0x02
+	call 057eeh		;a30b   ; el sonido 2, la orden 0x83 y la musica 9
 	call 0594dh		;a30e   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
 	call 057f6h		;a311   ; sonido_09: pide el sonido 0x09
 	jp 09dc1h		;a314
@@ -429,7 +429,7 @@ DATA_resto_A317:
 
 
 L_A321:
-	ld c,088h		;a321
+	ld c,088h		;a321   ; paso 1: entra hasta la y 0x88
 	call 09e40h		;a323
 	jr c,L_A32B		;a326
 	jp L_A34A		;a328
@@ -438,23 +438,23 @@ L_A32B:
 	ld (0e454h),a		;a32c
 	jp 09dc1h		;a32f
 L_A332:
-	ld hl,00001h		;a332
+	ld hl,00001h		;a332   ; paso 2: la cuenta de disparos (0xEC18) a 1
 	ld (0ec18h),hl		;a335
 	ld (ix+002h),l		;a338
 	ld (ix+01ch),l		;a33b
 	jp 09dc1h		;a33e
 L_A341:
-	call L_A358		;a341
+	call L_A358		;a341   ; paso 3: se mueve y dispara, su caja, hasta vencerlo
 	call L_A34A		;a344
 	jp 09e32h		;a347
 L_A34A:
-	ld a,038h		;a34a
+	ld a,038h		;a34a   ; la caja: x + 0x38, y + 0x18 / + 0x20; vidas en escalones de 3
 	ld bc,01820h		;a34c
 	call 09e67h		;a34f
 	ld bc,00300h		;a352
 	jp 09e96h		;a355
 L_A358:
-	ld a,(0e445h)		;a358   ; lee el jefe vencido (1, o 2 en la fase 4)
+	ld a,(0e445h)		;a358   ; paso 0 espera y elige hacia donde; paso 1 anda (al acabar, 0xEC01 = 0x1000)
 	or a			;a35b
 	ret nz			;a35c
 	ld a,(ix+001h)		;a35d
@@ -471,7 +471,7 @@ L_A36E:
 	ld (0ec01h),hl		;a376
 	ret			;a379
 L_A37A:
-	ld a,(ix+019h)		;a37a
+	ld a,(ix+019h)		;a37a   ; rafagas: entre una y otra, una espera (0x618 o 0xC0C segun 0xE36A)
 	or a			;a37d
 	jr nz,L_A394		;a37e
 	dec (ix+018h)		;a380
@@ -485,7 +485,7 @@ L_A390:
 	ld (0ec18h),hl		;a390
 	ret			;a393
 L_A394:
-	dec (ix+018h)		;a394
+	dec (ix+018h)		;a394   ; en la rafaga, cada 0x18 cuadros (0x0C fuera de la fase 2)...
 	ret nz			;a397
 	ld a,(0e361h)		;a398   ; lee la fase (1 a 11)
 	cp 002h		;a39b
@@ -498,7 +498,7 @@ L_A3A3:
 	jr nz,L_A3AF		;a3a9
 	ld (ix+018h),03ch		;a3ab
 L_A3AF:
-	ld b,004h		;a3af
+	ld b,004h		;a3af   ; ...cuatro disparos desde sus bocas (tabla de 0xA3E4): el 0x39 o el 0x3B
 L_A3B1:
 	push bc			;a3b1
 	ld a,b			;a3b2
@@ -529,7 +529,7 @@ L_A3DD:
 L_A3E0:
 	pop bc			;a3e0
 	djnz L_A3B1		;a3e1
-	jp 058d5h		;a3e3   ; sonido_2D: pide el sonido 0x2D
+	jp 058d5h		;a3e3   ; y el sonido 0x2D
 
 ; ----------------------------------------------------------------------
 ; DATOS sin identificar  0xa3e6..0xa3ee  (8 bytes)
@@ -542,7 +542,7 @@ DATA_A3E6:
 
 
 L_A3EE:
-	ld a,(0e441h)		;a3ee
+	ld a,(0e441h)		;a3ee   ; otro jefe: por su paso (0xE441)
 	call 04093h		;a3f1   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -560,7 +560,7 @@ DATA_tabla_A3F4:
 
 
 L_A406:
-	call 09e0bh		;a406
+	call 09e0bh		;a406   ; paso 0: empieza (el tipo 0x29, 10 bytes de 0xA43C), 0xE452 = 10
 	ret nz			;a409
 	ld hl,0a43ch		;a40a
 	ld a,029h		;a40d
@@ -572,11 +572,11 @@ L_A406:
 	ld (0ec16h),a		;a41b
 	ld (ix+013h),018h		;a41e
 	ld (ix+014h),000h		;a422
-	ld a,r		;a426
+	ld a,r		;a426   ; la espera del primer disparo al azar
 	ld (ix+021h),a		;a428
 	ld a,001h		;a42b
 	ld (0e454h),a		;a42d
-	call 057eeh		;a430   ; sonido_02: pide el sonido 0x02
+	call 057eeh		;a430   ; el sonido 2, la orden 0x83 y la musica 0x0A
 	call 0594dh		;a433   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
 	call 057fah		;a436   ; sonido_0A: pide el sonido 0x0A
 	jp 09dc1h		;a439
@@ -595,7 +595,7 @@ DATA_resto_A43C:
 
 
 L_A446:
-	ld c,0a0h		;a446
+	ld c,0a0h		;a446   ; paso 1: entra hasta la y 0xA0
 	call 09e40h		;a448
 	call c,L_A451		;a44b
 	jp L_A46B		;a44e
@@ -607,18 +607,18 @@ L_A451:
 	ld (ix+018h),a		;a459
 	jp 09dc1h		;a45c
 L_A45F:
-	call L_A169		;a45f
+	call L_A169		;a45f   ; paso 2: se mueve, dispara y su caja, hasta vencerlo
 	call L_A479		;a462
 	call L_A46B		;a465
 	jp 09e32h		;a468
 L_A46B:
-	ld a,018h		;a46b
+	ld a,018h		;a46b   ; la caja: x + 0x18, y + 8 / + 0x20
 	ld bc,00820h		;a46d
 	call 09e67h		;a470
 	ld bc,0064fh		;a473
 	jp 09e96h		;a476
 L_A479:
-	dec (ix+021h)		;a479
+	dec (ix+021h)		;a479   ; cada 0x28 - 2 x la dificultad cuadros, dos 0x3C (uno a cada lado) y el sonido 0x2C
 	ret nz			;a47c
 	ld a,(0e389h)		;a47d   ; lee la dificultad de la fase (0 a 0x0F)
 	add a,a			;a480
@@ -659,7 +659,7 @@ DATA_A4AD:
 
 
 L_A4F8:
-	call L_A68B		;a4f8
+	call L_A68B		;a4f8   ; otro jefe: al vencerlo salta a los pasos comunes (p05:A68B); por su paso
 	ld ix,0ec00h		;a4fb   ; apunta a las partes del jefe (4 de 0x20)
 	ld a,(0e441h)		;a4ff
 	call 04093h		;a502   ; despacha: salta a la palabra A de la tabla que va detras del call
@@ -679,7 +679,7 @@ DATA_tabla_A505:
 
 
 L_A521:
-	call 09e0bh		;a521
+	call 09e0bh		;a521   ; paso 0: a su hora empieza (el tipo 0x10, 10 bytes de 0xA533)
 	ret nz			;a524
 	ld a,010h		;a525
 	ld hl,0a533h		;a527
@@ -701,7 +701,7 @@ DATA_leido_A533:
 
 
 L_A53D:
-	ld (ix+013h),008h		;a53d
+	ld (ix+013h),008h		;a53d   ; su caja y sus cuentas (IX+1C = 0xFF, 4 y 4)
 	ld (ix+014h),000h		;a541
 	ld (ix+01ch),0ffh		;a545
 	ld (ix+01dh),000h		;a549
@@ -710,14 +710,14 @@ L_A53D:
 	call L_A63D		;a555
 	ret			;a558
 L_A559:
-	ld c,048h		;a559
+	ld c,048h		;a559   ; paso 1: entra hasta la y 0x48
 	call 09e40h		;a55b
 	call z,09dc1h		;a55e
 	call L_A602		;a561
 	call L_A63D		;a564
 	ret			;a567
 L_A568:
-	ld a,(ix+01dh)		;a568
+	ld a,(ix+01dh)		;a568   ; paso 2: salta a una de 4 posiciones (0xA591) por turnos
 	and 003h		;a56b
 	inc (ix+01dh)		;a56d
 	ld hl,0a591h		;a570
@@ -726,7 +726,7 @@ L_A568:
 	ld (ix+005h),h		;a579
 	call L_A602		;a57c
 	call L_A63D		;a57f
-	xor a			;a582
+	xor a			;a582   ; 0xE454 = 0, 0x18 cuadros y abre (IX+1F = 2)
 	ld (0e454h),a		;a583
 	ld (ix+002h),018h		;a586
 	ld (ix+01fh),002h		;a58a
@@ -748,7 +748,7 @@ DATA_tabla_A591:
 
 
 L_A599:
-	call L_A602		;a599
+	call L_A602		;a599   ; paso 3: espera y cierra; en el paso 6 baja 0x20
 	dec (ix+002h)		;a59c
 	ret nz			;a59f
 	ld (ix+002h),010h		;a5a0
@@ -762,7 +762,7 @@ L_A599:
 	ld (0ec05h),a		;a5b6
 	jp L_A63D		;a5b9
 L_A5BC:
-	call L_A602		;a5bc
+	call L_A602		;a5bc   ; paso 4: espera, abre y suelta 7 del tipo 0x11 (p05:A658)
 	dec (ix+002h)		;a5bf
 	ret nz			;a5c2
 	ld (ix+002h),018h		;a5c3
@@ -770,7 +770,7 @@ L_A5BC:
 	call L_A658		;a5cb
 	jp 09dc1h		;a5ce
 L_A5D1:
-	call L_A602		;a5d1
+	call L_A602		;a5d1   ; paso 5: a los 4 cuadros dispara (p05:A675); mientras, sin tocar (IX+8 = 0x1A)
 	dec (ix+002h)		;a5d4
 	ld a,(ix+002h)		;a5d7
 	jr z,L_A5EA		;a5da
@@ -786,7 +786,7 @@ L_A5EA:
 	ld (ix+002h),00ch		;a5ea
 	jp 09dc1h		;a5ee
 L_A5F1:
-	ld (ix+01fh),004h		;a5f1
+	ld (ix+01fh),004h		;a5f1   ; paso 6: cierra, espera y vuelve al paso 2
 	call L_A602		;a5f5
 	dec (ix+002h)		;a5f8
 	ret nz			;a5fb
@@ -794,13 +794,13 @@ L_A5F1:
 	ld (0e441h),a		;a5fe
 	ret			;a601
 L_A602:
-	call L_A629		;a602
+	call L_A629		;a602   ; su punto debil (p05:A629) y su animacion: cada IX+1E cuadros...
 	ld (ix+008h),c		;a605
 	dec (ix+01eh)		;a608
 	ret nz			;a60b
 	ld a,(0ec1fh)		;a60c
 	ld (0ec1eh),a		;a60f
-	ld a,(0ec07h)		;a612
+	ld a,(0ec07h)		;a612   ; ...abierto o cerrado (el sonido 0x38 al abrir)
 	sub 018h		;a615
 	ld de,01817h		;a617
 	jr nz,L_A622		;a61a
@@ -811,7 +811,7 @@ L_A622:
 	ld (ix+009h),e		;a625
 	ret			;a628
 L_A629:
-	ld a,(0ec12h)		;a629
+	ld a,(0ec12h)		;a629   ; se le puede dar (0xFF) solo con menos de 4 vidas o cuadro si, cuadro no
 	sub 004h		;a62c
 	ld c,0ffh		;a62e
 	jr nc,L_A634		;a630
@@ -823,7 +823,7 @@ L_A634:
 	ld c,0ffh		;a63a
 	ret			;a63c
 L_A63D:
-	ld hl,(0ec03h)		;a63d
+	ld hl,(0ec03h)		;a63d   ; la caja: x en 0xEC0A y 0xEC0E (-0x38), y en 0xEC0C y 0xEC10 (+0x18)
 	ld (0ec0ah),hl		;a640
 	ld de,0ffc8h		;a643
 	add hl,de			;a646
@@ -835,7 +835,7 @@ L_A63D:
 	ld (0ec10h),hl		;a654
 	ret			;a657
 L_A658:
-	ld a,(ix+005h)		;a658
+	ld a,(ix+005h)		;a658   ; siete 0x11 desde x + 0x30, y + 0x20
 	add a,020h		;a65b
 	ld d,a			;a65d
 	ld a,(ix+003h)		;a65e
@@ -854,7 +854,7 @@ L_A669:
 	djnz L_A669		;a672
 	ret			;a674
 L_A675:
-	call 05894h		;a675   ; sonido_29: pide el sonido 0x29
+	call 05894h		;a675   ; el sonido 0x29 y tres del tipo 4 desde x + 8, y - 0x0C
 	ld a,(ix+005h)		;a678
 	sub 00ch		;a67b
 	ld d,a			;a67d
@@ -865,7 +865,7 @@ L_A675:
 	ld bc,00300h		;a686
 	jr L_A669		;a689
 L_A68B:
-	ld c,00ah		;a68b
+	ld c,00ah		;a68b   ; al vencerlo (0xE445) con el paso por debajo de C, salta al paso C con 0x30 cuadros
 L_A68D:
 	ld hl,0e441h		;a68d
 	ld a,(hl)			;a690
@@ -879,7 +879,7 @@ L_A68D:
 	ld (0e443h),hl		;a69c
 	ret			;a69f
 L_A6A0:
-	ld (ix+010h),005h		;a6a0
+	ld (ix+010h),005h		;a6a0   ; IX+10 = 5; el dibujo (0xA8 + 4 x direccion), su movimiento (0xA6BE) y su caja (0xA6DC)
 	ld b,0a8h		;a6a4
 	call L_A706		;a6a6
 	ld a,(ix+01fh)		;a6a9
@@ -937,7 +937,7 @@ DATA_leido_A6DE:
 
 
 L_A6EC:
-	ld b,09ch		;a6ec
+	ld b,09ch		;a6ec   ; lo mismo con el dibujo 0x9C y el movimiento de 0xA6F6
 	call L_A706		;a6ee
 	ld a,(ix+01fh)		;a6f1
 	ld hl,0a6f6h		;a6f4
@@ -958,14 +958,14 @@ DATA_leido_A6FA:
 
 
 L_A706:
-	ld a,(ix+01fh)		;a706
+	ld a,(ix+01fh)		;a706   ; el dibujo: B + 4 x IX+1F
 	add a,a			;a709
 	add a,a			;a70a
 	add a,b			;a70b
 	ld (ix+030h),a		;a70c
 	ret			;a70f
 L_A710:
-	ld c,006h		;a710
+	ld c,006h		;a710   ; otro jefe (con los pasos comunes desde el 6)
 	call L_A68D		;a712
 	ld ix,0ec00h		;a715   ; apunta a las partes del jefe (4 de 0x20)
 	ld a,(0e441h)		;a719
@@ -986,7 +986,7 @@ DATA_tabla_A71F:
 
 
 L_A731:
-	call 09e0bh		;a731
+	call 09e0bh		;a731   ; paso 0: empieza (el tipo 0x10, 10 bytes de 0xA75C) y sus cuentas
 	ret nz			;a734
 	ld a,010h		;a735
 	ld hl,0a75ch		;a737
@@ -1016,23 +1016,23 @@ DATA_leido_A75C:
 
 
 L_A766:
-	ld c,0d8h		;a766
+	ld c,0d8h		;a766   ; paso 1: entra hasta la y 0xD8; luego p05:A90F y 0x20 cuadros
 	call 09e40h		;a768
 	jp nc,L_A84A		;a76b
 	call L_A90F		;a76e
 	ld (ix+002h),020h		;a771
 	jp 09dc1h		;a775
 L_A778:
-	call L_A922		;a778
+	call L_A922		;a778   ; paso 2: ...
 	call L_A84A		;a77b
-	ld a,(0ec02h)		;a77e
+	ld a,(0ec02h)		;a77e   ; cuando acaba de moverse (0xEC02 = 0): 0x28 cuadros y al paso siguiente
 	or a			;a781
 	ret nz			;a782
 	ld (ix+01ah),000h		;a783
 	ld (ix+002h),028h		;a787
 	jp 09dc1h		;a78b
 L_A78E:
-	call L_A922		;a78e
+	call L_A922		;a78e   ; paso 3: anda, la caja, la animacion; al parar, la cabeza (IX+1F = 6) y 0x80 cuadros
 	call L_A847		;a791
 	call L_A839		;a794
 	ld a,(0ec02h)		;a797
@@ -1043,7 +1043,7 @@ L_A78E:
 	ld (ix+002h),080h		;a7a4
 	jp 09dc1h		;a7a8
 L_A7AB:
-	call L_A922		;a7ab
+	call L_A922		;a7ab   ; paso 4: igual, y dispara (p05:A980); al parar, otra vez hacia la nave
 	call L_A847		;a7ae
 	call L_A839		;a7b1
 	call L_A980		;a7b4
@@ -1055,7 +1055,7 @@ L_A7AB:
 	ld (ix+002h),028h		;a7c3
 	jp 09dc1h		;a7c7
 L_A7CA:
-	call L_A922		;a7ca
+	call L_A922		;a7ca   ; paso 5: al parar, vuelve al paso 2
 	call L_A847		;a7cd
 	call L_A839		;a7d0
 	ld a,(0ec02h)		;a7d3
@@ -1066,7 +1066,7 @@ L_A7CA:
 	ld (hl),002h		;a7df
 	ret			;a7e1
 L_A7E2:
-	ld hl,(0e443h)		;a7e2
+	ld hl,(0e443h)		;a7e2   ; la espera de 0xE443; al acabar, 0x50 cuadros mas...
 	dec hl			;a7e5
 	ld (0e443h),hl		;a7e6
 	ld a,l			;a7e9
@@ -1074,11 +1074,11 @@ L_A7E2:
 	ret nz			;a7eb
 	ld hl,00050h		;a7ec
 	ld (0e443h),hl		;a7ef
-	dec a			;a7f2
+	dec a			;a7f2   ; ...el jefe se apaga (IX+7-9 a 0xFF)...
 	ld (ix+007h),a		;a7f3
 	ld (ix+008h),a		;a7f6
 	ld (ix+009h),a		;a7f9
-	ld a,008h		;a7fc
+	ld a,008h		;a7fc   ; ...y tres explosiones grandes: en su sitio, arriba a la izquierda y arriba a la derecha
 	add a,(ix+003h)		;a7fe
 	ld e,a			;a801
 	ld d,(ix+005h)		;a802
@@ -1106,17 +1106,17 @@ L_A814:
 L_A825:
 	ld e,a			;a825
 	call L_A82F		;a826
-	call L_A0A6		;a829
+	call L_A0A6		;a829   ; el sonido 0x4C y al paso siguiente
 	jp 09dc1h		;a82c
 L_A82F:
-	push bc			;a82f
+	push bc			;a82f   ; una explosion grande en DE
 	push ix		;a830
 	call 0678dh		;a832
 	pop ix		;a835
 	pop bc			;a837
 	ret			;a838
 L_A839:
-	ld a,(ix+007h)		;a839
+	ld a,(ix+007h)		;a839   ; el dibujo 0x24 es el que se puede tocar (0xE454)
 	sub 024h		;a83c
 	ld a,001h		;a83e
 	jr z,L_A843		;a840
@@ -1125,9 +1125,9 @@ L_A843:
 	ld (0e454h),a		;a843
 	ret			;a846
 L_A847:
-	call L_A8BE		;a847
+	call L_A8BE		;a847   ; el dibujo de la cabeza (p05:A8BE)...
 L_A84A:
-	call L_A890		;a84a
+	call L_A890		;a84a   ; ...la animacion de las piernas y las cajas de las dos partes (tabla de 0xA967)
 	ld a,(0ec08h)		;a84d
 	call L_A862		;a850
 	ld ix,0ec04h		;a853
@@ -1144,7 +1144,7 @@ L_A862:
 	ld (ix+00dh),d		;a871
 	ret			;a874
 L_A875:
-	call 04a5ah		;a875   ; lee_palabra: HL = la palabra A de la tabla HL
+	call 04a5ah		;a875   ; la caja de la palabra A de HL, sobre su x e y de 16 bits (con signo)
 	ld bc,(0ec05h)		;a878
 	ld a,l			;a87c
 	call L_A886		;a87d
@@ -1161,7 +1161,7 @@ L_A88E:
 	add hl,bc			;a88e
 	ret			;a88f
 L_A890:
-	ld c,02bh		;a890
+	ld c,02bh		;a890   ; las piernas: cada 3 cuadros el dibujo siguiente de 12 (desde 0x2B y 0x37)
 	ld de,0ec08h		;a892
 	call L_A8A7		;a895
 	ld c,037h		;a898
@@ -1187,7 +1187,7 @@ L_A8B8:
 	ld (de),a			;a8bc
 	ret			;a8bd
 L_A8BE:
-	call L_A8CF		;a8be
+	call L_A8CF		;a8be   ; la cabeza mirando a la nave (tabla de 0xA902)
 	ld a,b			;a8c1
 	add a,(ix+01ah)		;a8c2
 	ld hl,0a902h		;a8c5
@@ -1195,7 +1195,7 @@ L_A8BE:
 	ld (0ec07h),a		;a8cb
 	ret			;a8ce
 L_A8CF:
-	ld a,(ix+01ah)		;a8cf
+	ld a,(ix+01ah)		;a8cf   ; con IX+1A de 10 o mas, el angulo a la nave en tres escalones...
 	cp 00ah		;a8d2
 	jr c,L_A8F3		;a8d4
 	ld a,014h		;a8d6
@@ -1215,7 +1215,7 @@ L_A8CF:
 	inc b			;a8f1
 	ret			;a8f2
 L_A8F3:
-	ld a,(0ec02h)		;a8f3
+	ld a,(0ec02h)		;a8f3   ; ...si no, segun cuanto se mueve
 	ld c,a			;a8f6
 	ld a,008h		;a8f7
 	ld b,004h		;a8f9
@@ -1242,7 +1242,7 @@ DATA_tabla_A902:
 
 
 L_A90F:
-	ld a,(0e604h)		;a90f   ; lee la x de la nave
+	ld a,(0e604h)		;a90f   ; hacia la nave (IX+18) y cada 8 cuadros
 	cp (ix+003h)		;a912
 	ld a,001h		;a915
 	jr nc,L_A91A		;a917
@@ -1252,7 +1252,7 @@ L_A91A:
 	ld (ix+019h),008h		;a91d
 	ret			;a921
 L_A922:
-	dec (ix+002h)		;a922
+	dec (ix+002h)		;a922   ; anda: cada 8 cuadros, 8 hacia su lado
 	ret z			;a925
 	dec (ix+019h)		;a926
 	ret nz			;a929
@@ -1268,7 +1268,7 @@ L_A93B:
 	ld (0ec03h),a		;a93f
 	ret			;a942
 L_A943:
-	ld b,001h		;a943
+	ld b,001h		;a943   ; entre la x 0x1F y 0x60 elige lado
 	ld a,(0ec03h)		;a945
 	cp 01fh		;a948
 	jr c,L_A950		;a94a
@@ -1280,7 +1280,7 @@ L_A950:
 	ld (ix+019h),008h		;a953
 	ret			;a957
 L_A958:
-	ld hl,0ec08h		;a958
+	ld hl,0ec08h		;a958   ; un disparo desde una de las dos partes al azar (tabla de 0xA997)
 	ld a,r		;a95b
 	bit 6,a		;a95d
 	jr z,L_A962		;a95f
@@ -1301,13 +1301,13 @@ L_A962:
 	ld d,b			;a976
 	ret			;a977
 L_A978:
-	cp 041h		;a978
+	cp 041h		;a978   ; por la columna 0x41, un poco mas abajo
 	ret nz			;a97a
 	ld de,00100h		;a97b
 	add hl,de			;a97e
 	ret			;a97f
 L_A980:
-	dec (ix+01fh)		;a980
+	dec (ix+01fh)		;a980   ; cada 6 cuadros dispara un 0x40 (si cabe), alternando el lado
 	ret nz			;a983
 	ld (ix+01fh),006h		;a984
 	call L_A958		;a988
@@ -1323,7 +1323,7 @@ L_A99D:
 	ld (ix+01fh),001h		;a99d
 	ret			;a9a1
 L_A9A2:
-	ld a,(ix+01fh)		;a9a2
+	ld a,(ix+01fh)		;a9a2   ; el 0x40: hacia un punto que gira (0xE4A2 + 0x70) o hacia la nave
 	rra			;a9a5
 	jr nc,L_A9B8		;a9a6
 	ld a,(0e4a2h)		;a9a8
@@ -1361,7 +1361,7 @@ DATA_AA05:
 
 
 L_AA1D:
-	ld c,004h		;aa1d
+	ld c,004h		;aa1d   ; otro jefe (los pasos comunes desde el 4): por su paso
 	call L_A68D		;aa1f
 	ld ix,0ec00h		;aa22   ; apunta a las partes del jefe (4 de 0x20)
 	ld a,(0e441h)		;aa26
@@ -1382,7 +1382,7 @@ DATA_tabla_AA2C:
 
 
 L_AA40:
-	call 09e0bh		;aa40
+	call 09e0bh		;aa40   ; paso 0: empieza (el tipo 0x14, 10 bytes de 0xAA63)
 	ret nz			;aa43
 	ld a,014h		;aa44
 	ld hl,0aa63h		;aa46
@@ -1390,7 +1390,7 @@ L_AA40:
 	call L_AB02		;aa4c
 	ld (ix+013h),018h		;aa4f
 	ld (ix+014h),000h		;aa53
-	call 057eeh		;aa57   ; sonido_02: pide el sonido 0x02
+	call 057eeh		;aa57   ; el sonido 2, la orden 0x83 y la musica 0x0B
 	call 0594dh		;aa5a   ; orden_sonido_83: manda la orden 0x83 al motor de sonido
 	call 057feh		;aa5d   ; sonido_0B: pide el sonido 0x0B
 	jp 09dc1h		;aa60
@@ -1409,12 +1409,12 @@ DATA_resto_AA63:
 
 
 L_AA6D:
-	ld c,080h		;aa6d
+	ld c,080h		;aa6d   ; paso 1: entra hasta la y 0x80
 	call 09e40h		;aa6f
 	call z,09dc1h		;aa72
 	jp L_AB02		;aa75
 L_AA78:
-	xor a			;aa78
+	xor a			;aa78   ; paso 2: las cuentas a cero, 0xE454 = 0 y su dibujo
 	ld (ix+01fh),a		;aa79
 	ld (ix+01ch),a		;aa7c
 	ld (ix+01dh),a		;aa7f
@@ -1424,12 +1424,12 @@ L_AA78:
 	call L_ABD2		;aa8d
 	jp 09dc1h		;aa90
 L_AA93:
-	call L_AA9F		;aa93
+	call L_AA9F		;aa93   ; paso 3: se mueve, ataca y su dibujo, hasta vencerlo
 	call L_AB11		;aa96
 	call L_ABD2		;aa99
 	jp L_AB02		;aa9c
 L_AA9F:
-	ld a,(0e445h)		;aa9f   ; lee el jefe vencido (1, o 2 en la fase 4)
+	ld a,(0e445h)		;aa9f   ; se mueve: cada 4 cuadros por el guion de 0xAAF2 (8 tramos)...
 	or a			;aaa2
 	ret nz			;aaa3
 	dec (ix+002h)		;aaa4
@@ -1444,7 +1444,7 @@ L_AA9F:
 L_AABA:
 	ld c,b			;aaba
 L_AABB:
-	ld hl,0aad0h		;aabb
+	ld hl,0aad0h		;aabb   ; ...hasta llegar a la x o y de 0xAAD0; entonces el tramo siguiente
 	call 04a6eh		;aabe
 	sub c			;aac1
 	ret nz			;aac2
@@ -1473,7 +1473,7 @@ DATA_tabla_AAD0:
 
 
 L_AAD8:
-	ld a,(0ec01h)		;aad8
+	ld a,(0ec01h)		;aad8   ; el paso del tramo (0xAAF2) a su x e y
 	ld de,0aaf2h		;aadb
 	call 04a65h		;aade
 	ld a,(0ec03h)		;aae1
@@ -1500,14 +1500,14 @@ DATA_resto_AAF2:
 
 
 L_AB02:
-	ld a,(0ec03h)		;ab02
+	ld a,(0ec03h)		;ab02   ; la caja: x + 0x18
 	add a,018h		;ab05
 	ld (0ec0ah),a		;ab07
 	ld a,(0ec05h)		;ab0a
 	ld (0ec0ch),a		;ab0d
 	ret			;ab10
 L_AB11:
-	ld a,(0e445h)		;ab11   ; lee el jefe vencido (1, o 2 en la fase 4)
+	ld a,(0e445h)		;ab11   ; abre y cierra los brazos (o lo que sea) y las cajas de sus partes
 	or a			;ab14
 	ret nz			;ab15
 	call L_AB22		;ab16
@@ -1515,7 +1515,7 @@ L_AB11:
 	call L_AB4C		;ab1c
 	jp L_AB88		;ab1f
 L_AB22:
-	dec (ix+01eh)		;ab22
+	dec (ix+01eh)		;ab22   ; cada 4 cuadros el paso siguiente de la animacion de 0xABEE
 	ret nz			;ab25
 	ld (ix+01eh),004h		;ab26
 	inc (ix+01dh)		;ab2a
@@ -1527,7 +1527,7 @@ L_AB22:
 	ld (0ec1fh),a		;ab37
 	ret			;ab3a
 L_AB3B:
-	ld a,(0ec1fh)		;ab3b
+	ld a,(0ec1fh)		;ab3b   ; 0xFF: vuelta a empezar, la otra mano (IX+1C) y los graficos de p00:516F
 	inc a			;ab3e
 	ret nz			;ab3f
 	ld (0ec1fh),a		;ab40
@@ -1535,7 +1535,7 @@ L_AB3B:
 	inc (ix+01ch)		;ab46
 	jp 0516fh		;ab49
 L_AB4C:
-	ld a,(0ec1fh)		;ab4c
+	ld a,(0ec1fh)		;ab4c   ; los dibujos de las partes segun el paso (0xAB82; +0x10 con la otra mano)
 	and 007h		;ab4f
 	jr z,L_AB79		;ab51
 	ld hl,0ab82h		;ab53
@@ -1561,7 +1561,7 @@ L_AB64:
 	ld (hl),a			;ab77
 	ret			;ab78
 L_AB79:
-	xor a			;ab79
+	xor a			;ab79   ; cerrado: las partes apagadas
 	ld (0ec20h),a		;ab7a
 	dec a			;ab7d
 	ld (0ec09h),a		;ab7e
@@ -1583,7 +1583,7 @@ DATA_tabla_AB82:
 
 
 L_AB88:
-	ld a,(0ec1fh)		;ab88
+	ld a,(0ec1fh)		;ab88   ; las cajas de las cuatro partes (tablas de 0xAC11 o 0xAC41)
 	or a			;ab8b
 	ret z			;ab8c
 	ld b,000h		;ab8d
@@ -1618,7 +1618,7 @@ L_ABCA:
 	add a,b			;abce
 	jp L_A875		;abcf
 L_ABD2:
-	ld a,(0ec12h)		;abd2
+	ld a,(0ec12h)		;abd2   ; el dibujo del cuerpo segun lo danado (0xABE9 por 0xEC12 / 4)
 	ld b,004h		;abd5
 L_ABD7:
 	sub 004h		;abd7
@@ -1674,7 +1674,7 @@ DATA_resto_AC11:
 
 
 L_AC71:
-	ld ix,0ec00h		;ac71   ; apunta a las partes del jefe (4 de 0x20)
+	ld ix,0ec00h		;ac71   ; otro jefe: por su paso
 	ld a,(0e441h)		;ac75
 	call 04093h		;ac78   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -1692,7 +1692,7 @@ DATA_tabla_AC7B:
 
 
 L_AC89:
-	call 09e0bh		;ac89
+	call 09e0bh		;ac89   ; paso 0: empieza (el tipo 0x1F, 10 bytes de 0xACA8)
 	ret nz			;ac8c
 	ld hl,0aca8h		;ac8d
 	ld a,01fh		;ac90
@@ -1717,7 +1717,7 @@ DATA_leido_ACA8:
 
 
 L_ACB2:
-	ld c,0d0h		;acb2
+	ld c,0d0h		;acb2   ; paso 1: entra hasta la y 0xD0; luego elige hacia donde ir
 	call 09e40h		;acb4
 	jr c,L_ACBA		;acb7
 	ret			;acb9
@@ -1728,13 +1728,13 @@ L_ACBA:
 	ld (ix+002h),001h		;acc1
 	jp 09dc1h		;acc5
 L_ACC8:
-	call L_AD0D		;acc8
+	call L_AD0D		;acc8   ; paso 2: lo suyo (p05:AD0D), su caja, hasta vencerlo
 	push af			;accb
 	call L_ACD3		;accc
 	pop af			;accf
 	jp 09e32h		;acd0
 L_ACD3:
-	ld a,(ix+012h)		;acd3
+	ld a,(ix+012h)		;acd3   ; con menos de 6 vidas, su caja segun el dibujo (0xAD08) y desplazada
 	cp 006h		;acd6
 	ret nc			;acd8
 	ld a,(ix+007h)		;acd9
@@ -1773,7 +1773,7 @@ DATA_tabla_AD08:
 
 
 L_AD0D:
-	ld a,(ix+001h)		;ad0d
+	ld a,(ix+001h)		;ad0d   ; por el subpaso IX+1 (tabla de detras)
 	call 04093h		;ad10   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -1789,7 +1789,7 @@ DATA_tabla_AD13:
 
 
 L_AD1D:
-	call 09f11h		;ad1d
+	call 09f11h		;ad1d   ; subpaso 0: anda mirando a la nave; al parar, abre (el dibujo 0x93)
 	push af			;ad20
 	call L_AD2E		;ad21
 	pop af			;ad24
@@ -1798,7 +1798,7 @@ L_AD1D:
 	jp c,09f9ch		;ad2a
 	ret			;ad2d
 L_AD2E:
-	xor a			;ad2e
+	xor a			;ad2e   ; el dibujo segun la nave este a la izquierda, enfrente o a la derecha (0x90-0x92)
 	ld (0e454h),a		;ad2f
 	ld a,(0e604h)		;ad32   ; lee la x de la nave
 	ld b,a			;ad35
@@ -1816,7 +1816,7 @@ L_AD47:
 	ld (ix+007h),c		;ad47
 	ret			;ad4a
 L_AD4B:
-	ld (ix+007h),093h		;ad4b
+	ld (ix+007h),093h		;ad4b   ; abre: se puede tocar y 0x10 cuadros
 	ld a,001h		;ad4f
 	ld (0e454h),a		;ad51
 	ld (ix+019h),a		;ad54
@@ -1824,7 +1824,7 @@ L_AD4B:
 	inc (ix+001h)		;ad5b
 	ret			;ad5e
 L_AD5F:
-	ld hl,(0ec03h)		;ad5f
+	ld hl,(0ec03h)		;ad5f   ; el tope en x segun hacia donde va
 	bit 0,(ix+015h)		;ad62
 	jr nz,L_AD70		;ad66
 	ld a,h			;ad68
@@ -1842,7 +1842,7 @@ L_AD70:
 	cp 0d8h		;ad74
 	ret			;ad76
 L_AD77:
-	ld a,(ix+028h)		;ad77
+	ld a,(ix+028h)		;ad77   ; subpaso 1: si ha soltado (IX+28), cierra 0x10 cuadros
 	or a			;ad7a
 	ret z			;ad7b
 	ld (ix+008h),0ffh		;ad7c
@@ -1850,14 +1850,14 @@ L_AD77:
 	inc (ix+001h)		;ad84
 	ret			;ad87
 L_AD88:
-	dec (ix+019h)		;ad88
+	dec (ix+019h)		;ad88   ; subpaso 2: al acabar, cierra y vuelve a andar
 	ret nz			;ad8b
 	ld (ix+007h),08fh		;ad8c
 	call L_AE24		;ad90
 	ld (ix+001h),000h		;ad93
 	ret			;ad97
 L_AD98:
-	call L_AE45		;ad98
+	call L_AE45		;ad98   ; subpaso 3: ...
 	ld a,(ix+019h)		;ad9b
 	or a			;ad9e
 	ret nz			;ad9f
@@ -1865,7 +1865,7 @@ L_AD98:
 	inc (ix+001h)		;ada4
 	ret			;ada7
 L_ADA8:
-	dec (ix+028h)		;ada8
+	dec (ix+028h)		;ada8   ; subpaso 4: cada 0x28 cuadros (si se ve) suelta dos 0x1B desde una boca al azar (0xAE20)
 	ret nz			;adab
 	ld (ix+028h),028h		;adac
 	ld hl,(0ec03h)		;adb0
@@ -1915,7 +1915,7 @@ L_ADA8:
 	call 0764fh		;ae08
 	ret			;ae0b
 L_AE0C:
-	push de			;ae0c
+	push de			;ae0c   ; C = cuantas fichas de enemigo quedan libres
 	ld hl,0e800h		;ae0d   ; apunta a los enemigos (12 de 0x40)
 	ld de,00040h		;ae10
 	ld bc,00c00h		;ae13
@@ -1946,7 +1946,7 @@ DATA_tabla_AE20:
 
 
 L_AE24:
-	ld a,(ix+004h)		;ae24
+	ld a,(ix+004h)		;ae24   ; hacia la nave (p04:9EDF)
 	and a			;ae27
 	jr z,L_AE33		;ae28
 	ld a,002h		;ae2a
@@ -1966,7 +1966,7 @@ L_AE45:
 	ld (ix+019h),000h		;ae45
 	ret			;ae49
 L_AE4A:
-	ld a,(ix+01fh)		;ae4a
+	ld a,(ix+01fh)		;ae4a   ; lo que suelta: el caracter 0x0F o 0x10, una espera al azar, 1 x 1, 0x18 de vida
 	or a			;ae4d
 	ld a,00fh		;ae4e
 	jr z,L_AE53		;ae50
@@ -1988,7 +1988,7 @@ L_AE74:
 	res 1,(ix+010h)		;ae78
 	ret			;ae7c
 L_AE7D:
-	ld a,(ix+001h)		;ae7d
+	ld a,(ix+001h)		;ae7d   ; por su paso (tabla de detras)
 	call 04093h		;ae80   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -2004,7 +2004,7 @@ DATA_tabla_AE83:
 
 
 L_AE89:
-	dec (ix+002h)		;ae89
+	dec (ix+002h)		;ae89   ; paso 0: espera, el sonido 0x2D y al paso siguiente
 	ret nz			;ae8c
 	ld (ix+002h),001h		;ae8d
 	call 058d5h		;ae91   ; sonido_2D: pide el sonido 0x2D
@@ -2012,7 +2012,7 @@ L_AE94:
 	inc (ix+001h)		;ae94
 	ret			;ae97
 L_AE98:
-	ld a,(ix+026h)		;ae98
+	ld a,(ix+026h)		;ae98   ; paso 1: crece IX+26 por cuadro...
 	ld b,a			;ae9b
 	add a,(ix+014h)		;ae9c
 	ld (ix+014h),a		;ae9f
@@ -2020,7 +2020,7 @@ L_AE98:
 	add a,a			;aea3
 	add a,a			;aea4
 	add a,a			;aea5
-	ld b,a			;aea6
+	ld b,a			;aea6   ; ...sube y crece su caja; al acabar 0x18, al paso siguiente
 	ld a,(ix+006h)		;aea7
 	sub b			;aeaa
 	ld (ix+006h),a		;aeab
@@ -2035,7 +2035,7 @@ L_AE98:
 	inc (ix+001h)		;aec3
 	ret			;aec6
 L_AEC7:
-	call L_AEF9		;aec7
+	call L_AEF9		;aec7   ; paso 2: suelta chispas (p05:AEF9) y mengua bajando; al acabar se quita (0xEC28 = 1)
 	ld a,(ix+026h)		;aeca
 	ld b,a			;aecd
 	ld c,a			;aece
@@ -2062,7 +2062,7 @@ L_AEC7:
 L_AEF8:
 	ret			;aef8
 L_AEF9:
-	dec (ix+025h)		;aef9
+	dec (ix+025h)		;aef9   ; cada 8 cuadros una chispa (0x0F) en su sitio
 	ret nz			;aefc
 	ld (ix+025h),008h		;aefd
 	ld e,(ix+004h)		;af01
@@ -2072,7 +2072,7 @@ L_AEF9:
 	call 0764fh		;af0c
 	ret			;af0f
 L_AF10:
-	ld ix,0ec00h		;af10   ; apunta a las partes del jefe (4 de 0x20)
+	ld ix,0ec00h		;af10   ; otro jefe: por su paso
 	ld a,(0e441h)		;af14
 	call 04093h		;af17   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -2089,7 +2089,7 @@ DATA_tabla_AF1A:
 
 
 L_AF1E:
-	call 09e0bh		;af1e
+	call 09e0bh		;af1e   ; paso 0: empieza (el tipo 0x3F, 10 bytes de 0xAF4E) con su guion (velocidad 8, destino 0xA0)
 	ret nz			;af21
 	ld hl,0af4eh		;af22
 	ld a,03fh		;af25
@@ -2101,7 +2101,7 @@ L_AF1E:
 	ld (ix+032h),0a0h		;af3a
 	ld (ix+033h),000h		;af3e
 	ld (ix+035h),002h		;af42
-	ld a,080h		;af46
+	ld a,080h		;af46   ; 0xE454 = 0x80
 	ld (0e454h),a		;af48
 	jp 09dc1h		;af4b
 
@@ -2119,11 +2119,11 @@ DATA_leido_AF4E:
 
 
 L_AF58:
-	dec (ix+002h)		;af58
+	dec (ix+002h)		;af58   ; paso 1: cada 8 cuadros, el dibujo siguiente (p05:AFE4)...
 	ret nz			;af5b
 	ld (ix+002h),008h		;af5c
 	call L_AFE4		;af60
-	ld a,(ix+031h)		;af63
+	ld a,(ix+031h)		;af63   ; ...y en ciertos dibujos el sonido 0x39 y un paso (arriba o abajo)
 	or a			;af66
 	ld a,(ix+007h)		;af67
 	jr z,L_AF88		;af6a
@@ -2152,7 +2152,7 @@ L_AF88:
 L_AF98:
 	call 0590eh		;af98   ; sonido_39: pide el sonido 0x39
 L_AF9B:
-	ld l,(ix+005h)		;af9b
+	ld l,(ix+005h)		;af9b   ; su y + el paso; al llegar al destino...
 	ld h,(ix+006h)		;af9e
 	add hl,de			;afa1
 	ld (ix+005h),l		;afa2
@@ -2161,7 +2161,7 @@ L_AF9B:
 	ld d,(ix+033h)		;afab
 	rst 20h			;afae
 	ret nz			;afaf
-	inc (ix+034h)		;afb0
+	inc (ix+034h)		;afb0   ; ...el tramo siguiente (tabla de 0xAFD8: paso y destino); al cuarto, vencido (p05:A0D4)
 	ld a,(ix+034h)		;afb3
 	cp 004h		;afb6
 	jp z,L_A0D4		;afb8
@@ -2208,7 +2208,7 @@ DATA_leido_AFD9:
 
 
 L_AFE4:
-	ld a,(ix+031h)		;afe4
+	ld a,(ix+031h)		;afe4   ; el dibujo siguiente entre 0x96 y 0x9F, hacia un lado u otro
 	or a			;afe7
 	jr nz,L_AFEB		;afe8
 	inc a			;afea
@@ -2225,7 +2225,7 @@ L_AFFC:
 	ld (ix+007h),b		;affc
 	ret			;afff
 L_B000:
-	ld ix,0ec00h		;b000   ; apunta a las partes del jefe (4 de 0x20)
+	ld ix,0ec00h		;b000   ; otro jefe: por su paso
 	ld a,(0e441h)		;b004
 	call 04093h		;b007   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -2243,7 +2243,7 @@ DATA_tabla_B00A:
 
 
 L_B018:
-	call 09e0bh		;b018
+	call 09e0bh		;b018   ; paso 0: empieza (el tipo 0x37, 10 bytes de 0xB032), 0x40 x 0x40
 	ret nz			;b01b
 	ld hl,0b032h		;b01c
 	ld a,037h		;b01f
@@ -2267,7 +2267,7 @@ DATA_leido_B032:
 
 
 L_B03C:
-	ld c,078h		;b03c
+	ld c,078h		;b03c   ; paso 1: entra hasta la y 0x78; luego cuatro piezas 0x0A a su alrededor
 	call 09e40h		;b03e
 	ret nc			;b041
 	ld a,(ix+003h)		;b042
@@ -2299,21 +2299,21 @@ L_B03C:
 	ld (ix+018h),001h		;b072
 	jp 09dc1h		;b076
 L_B079:
-	push de			;b079
+	push de			;b079   ; una pieza 0x0A en DE (p01:7BDE)
 	ld b,000h		;b07a
 	ld a,00ah		;b07c
 	call 07bdeh		;b07e
 	pop de			;b081
 	ret			;b082
 L_B083:
-	call L_B092		;b083
+	call L_B092		;b083   ; paso 2: lo suyo (p05:B092) y hasta vencerlo
 	jp 09e32h		;b086
 L_B089:
-	ld (ix+023h),007h		;b089
+	ld (ix+023h),007h		;b089   ; la animacion: 7 pasos de 0x10 cuadros
 	ld (ix+022h),010h		;b08d
 	ret			;b091
 L_B092:
-	ld a,(ix+021h)		;b092
+	ld a,(ix+021h)		;b092   ; por el subpaso IX+21 (tabla de detras)
 	call 04093h		;b095   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -2329,13 +2329,13 @@ DATA_tabla_B098:
 
 
 L_B0A0:
-	dec (ix+022h)		;b0a0
+	dec (ix+022h)		;b0a0   ; cada 2 cuadros, el sonido 0x34
 	ret nz			;b0a3
 	ld (ix+022h),002h		;b0a4
 	call 058f1h		;b0a8   ; sonido_34: pide el sonido 0x34
 	jr L_B0C3		;b0ab
 L_B0AD:
-	dec (ix+022h)		;b0ad
+	dec (ix+022h)		;b0ad   ; cada 2 cuadros el dibujo siguiente; cada 0x0B, otro movimiento (p05:B0CF)
 	ret nz			;b0b0
 	ld (ix+022h),002h		;b0b1
 	inc (ix+007h)		;b0b5
@@ -2363,7 +2363,7 @@ DATA_tabla_B0C7:
 
 
 L_B0CF:
-	inc (ix+027h)		;b0cf
+	inc (ix+027h)		;b0cf   ; el movimiento siguiente de la tabla de 0xB0C7 (8), por su numero (tabla de detras)
 	ld a,(ix+027h)		;b0d2
 	and 007h		;b0d5
 	ld hl,0b0c7h		;b0d7
@@ -2385,7 +2385,7 @@ DATA_tabla_B0E4:
 
 
 L_B0EC:
-	ld a,(ix+004h)		;b0ec
+	ld a,(ix+004h)		;b0ec   ; los movimientos se acaban al llegar a un borde (segun la x o la y de 16 bits)
 	rla			;b0ef
 	ret nc			;b0f0
 	jr $-34		;b0f1
@@ -2414,7 +2414,7 @@ L_B10D:
 	ret c			;b117
 	jr $-73		;b118
 L_B11A:
-	dec (ix+022h)		;b11a
+	dec (ix+022h)		;b11a   ; cada 2 cuadros se mueve (p05:B167) y el dibujo anterior; al acabar, 0x10 cuadros
 	ret nz			;b11d
 	ld (ix+022h),002h		;b11e
 	call L_B167		;b122
@@ -2425,7 +2425,7 @@ L_B11A:
 	ld (ix+024h),001h		;b130
 	jr $-113		;b134
 L_B136:
-	call L_B14A		;b136
+	call L_B14A		;b136   ; suelta un 0x2A (p05:B14A) y espera; luego otra vez la animacion
 	dec (ix+022h)		;b139
 	ret nz			;b13c
 	ld (ix+022h),004h		;b13d
@@ -2433,7 +2433,7 @@ L_B136:
 	ld (ix+021h),000h		;b145
 	ret			;b149
 L_B14A:
-	dec (ix+024h)		;b14a
+	dec (ix+024h)		;b14a   ; cada 8 cuadros un 0x2A desde su centro (+0x40, +0x40)
 	ret nz			;b14d
 	ld (ix+024h),008h		;b14e
 	ld a,(ix+003h)		;b152
@@ -2447,7 +2447,7 @@ L_B14A:
 	call 0764fh		;b163
 	ret			;b166
 L_B167:
-	ld a,(ix+026h)		;b167
+	ld a,(ix+026h)		;b167   ; 8 hacia la direccion de IX+26 (tabla de detras): izquierda, derecha, arriba o abajo
 	and 003h		;b16a
 	call 04093h		;b16c   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -2469,7 +2469,7 @@ L_B177:
 L_B17C:
 	ld de,00008h		;b17c
 L_B17F:
-	ld l,(ix+003h)		;b17f
+	ld l,(ix+003h)		;b17f   ; en x, hasta 0x50
 	ld h,(ix+004h)		;b182
 	add hl,de			;b185
 	ld de,00050h		;b186
@@ -2487,7 +2487,7 @@ L_B19E:
 	ld de,00008h		;b19e
 	ld bc,000a8h		;b1a1
 L_B1A4:
-	ld l,(ix+005h)		;b1a4
+	ld l,(ix+005h)		;b1a4   ; en y, hasta el tope de BC
 	ld h,(ix+006h)		;b1a7
 	add hl,de			;b1aa
 	ld d,b			;b1ab
@@ -2499,10 +2499,10 @@ L_B1A4:
 	call L_B1BC		;b1b6
 	ret			;b1b9
 L_B1BA:
-	scf			;b1ba
+	scf			;b1ba   ; C: llegado
 	ret			;b1bb
 L_B1BC:
-	ld a,(ix+026h)		;b1bc
+	ld a,(ix+026h)		;b1bc   ; y mueve igual las 8 piezas de 0xED00 (sus x e y)
 	dec a			;b1bf
 	ld bc,00008h		;b1c0
 	jr z,L_B1D4		;b1c3
@@ -2533,7 +2533,7 @@ L_B1DD:
 	djnz L_B1DD		;b1e8
 	ret			;b1ea
 L_B1EB:
-	call L_B4E1		;b1eb
+	call L_B4E1		;b1eb   ; una pieza que suelta: dos sprites, 0x20 cuadros, su x e y en IX+34/35
 L_B1EE:
 	ld (ix+036h),0e8h		;b1ee
 	ld (ix+037h),00fh		;b1f2
@@ -2545,7 +2545,7 @@ L_B1EE:
 	ld (ix+035h),a		;b207
 	ret			;b20a
 L_B20B:
-	call L_B4FC		;b20b
+	call L_B4FC		;b20b   ; cada 2 cuadros cambia entre dos parejas de dibujos
 	dec (ix+025h)		;b20e
 	ret nz			;b211
 	ld (ix+025h),002h		;b212
@@ -2559,7 +2559,7 @@ L_B222:
 	ld (ix+036h),c		;b225
 	ret			;b228
 L_B229:
-	ld a,010h		;b229
+	ld a,010h		;b229   ; 0x10 vidas, el dibujo 0x0B, 2 x 2
 	ld (ix+008h),a		;b22b
 	ld (ix+012h),000h		;b22e
 	ld (ix+007h),00bh		;b232
@@ -2567,14 +2567,14 @@ L_B229:
 	ld (ix+00ah),002h		;b23a
 	ret			;b23e
 L_B23F:
-	ld a,(0e445h)		;b23f   ; lee el jefe vencido (1, o 2 en la fase 4)
+	ld a,(0e445h)		;b23f   ; al vencer al jefe se quita; si no, su choque y...
 	or a			;b242
 	jr z,L_B24A		;b243
 	ld (ix+000h),000h		;b245
 	ret			;b249
 L_B24A:
 	call L_B263		;b24a
-	ld a,(ix+008h)		;b24d
+	ld a,(ix+008h)		;b24d   ; ...al tocarla (vidas distintas de 0x10), dano al jefe (p00:484E)
 	cp 010h		;b250
 	ret z			;b252
 	ld (ix+008h),010h		;b253
@@ -2585,7 +2585,7 @@ L_B260:
 	pop ix		;b260
 	ret			;b262
 L_B263:
-	ld a,(0ec00h)		;b263   ; lee las partes del jefe (4 de 0x20)
+	ld a,(0ec00h)		;b263   ; con el jefe 9, se puede tocar segun su dibujo (por debajo de 0x5A)
 	cp 009h		;b266
 	ret nz			;b268
 	ld a,(0ec07h)		;b269
@@ -2597,7 +2597,7 @@ L_B273:
 	ld (ix+00dh),a		;b273
 	ret			;b276
 L_B277:
-	ld ix,0ec00h		;b277   ; apunta a las partes del jefe (4 de 0x20)
+	ld ix,0ec00h		;b277   ; otro jefe: por su paso
 	ld a,(0e441h)		;b27b
 	call 04093h		;b27e   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -2615,7 +2615,7 @@ DATA_tabla_B281:
 
 
 L_B28F:
-	call 09e0bh		;b28f
+	call 09e0bh		;b28f   ; paso 0: empieza (el tipo 0x1B, 10 bytes de 0xB2B4), su punto debil en 0x4C, 0x18
 	ret nz			;b292
 	ld hl,0b2b4h		;b293
 	ld a,01bh		;b296
@@ -2647,7 +2647,7 @@ DATA_leido_B2B4:
 
 
 L_B2BE:
-	ld c,0c0h		;b2be
+	ld c,0c0h		;b2be   ; paso 1: entra hasta la y 0xC0
 	call 09e40h		;b2c0
 	jr c,L_B2C8		;b2c3
 	jp L_B2DB		;b2c5
@@ -2656,11 +2656,11 @@ L_B2C8:
 	ld (ix+018h),001h		;b2cc
 	jr $-33		;b2d0
 L_B2D2:
-	call L_B30D		;b2d2
+	call L_B30D		;b2d2   ; paso 2: lo suyo, su caja, hasta vencerlo
 	call L_B2DB		;b2d5
 	jp 09e32h		;b2d8
 L_B2DB:
-	ld a,(ix+012h)		;b2db
+	ld a,(ix+012h)		;b2db   ; con menos de 8 vidas, el dibujo roto (0x46/0x47), una explosion grande y el sonido 0x26
 	cp 008h		;b2de
 	jr nc,L_B306		;b2e0
 	ld a,(ix+007h)		;b2e2
@@ -2680,11 +2680,11 @@ L_B2DB:
 	pop ix		;b301
 	call 05884h		;b303   ; sonido_26: pide el sonido 0x26
 L_B306:
-	ld a,058h		;b306
+	ld a,058h		;b306   ; la caja: x + 0x58, y + 0x38
 	ld b,038h		;b308
 	jp 09e67h		;b30a
 L_B30D:
-	call L_B321		;b30d
+	call L_B321		;b30d   ; su arma y su paso: 0 espera, 1 anda
 	ld a,(ix+001h)		;b310
 	dec a			;b313
 	jr z,$+121		;b314
@@ -2694,7 +2694,7 @@ L_B30D:
 	inc (ix+001h)		;b31d
 	ret			;b320
 L_B321:
-	ld a,(ix+01fh)		;b321
+	ld a,(ix+01fh)		;b321   ; por su arma (IX+1F, tabla de detras)
 	call 04093h		;b324   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -2710,7 +2710,7 @@ DATA_tabla_B327:
 
 
 L_B32D:
-	ld hl,(0ec03h)		;b32d
+	ld hl,(0ec03h)		;b32d   ; arma 0: si se ve, tres 0x31 desde abajo (p00:4833)...
 	ld de,00030h		;b330
 	add hl,de			;b333
 	ld a,h			;b334
@@ -2736,14 +2736,14 @@ L_B32D:
 	ld a,031h		;b354
 	call 04833h		;b356
 	pop ix		;b359
-	ld (ix+018h),030h		;b35b
+	ld (ix+018h),030h		;b35b   ; ...0x30 cuadros, abre (dibujo + 1), no se puede tocar, el sonido 0x29
 	inc (ix+007h)		;b35f
 	xor a			;b362
 	ld (0e454h),a		;b363
 	inc (ix+01fh)		;b366
 	jp 05894h		;b369   ; sonido_29: pide el sonido 0x29
 L_B36C:
-	dec (ix+018h)		;b36c
+	dec (ix+018h)		;b36c   ; arma 1: espera, cierra y se puede tocar
 	ret nz			;b36f
 	ld (ix+018h),030h		;b370
 	dec (ix+007h)		;b374
@@ -2752,13 +2752,13 @@ L_B36C:
 	inc (ix+01fh)		;b37c
 	ret			;b37f
 L_B380:
-	dec (ix+018h)		;b380
+	dec (ix+018h)		;b380   ; arma 2: espera y vuelta a la 0
 	ret nz			;b383
 	ld (ix+018h),030h		;b384
 	ld (ix+01fh),000h		;b388
 	ret			;b38c
 L_B38D:
-	call 09f11h		;b38d
+	call 09f11h		;b38d   ; anda; al acabar el tramo, espera 0x10
 	jr c,L_B399		;b390
 	call L_B3A5		;b392
 	jp c,09f9ch		;b395
@@ -2769,7 +2769,7 @@ L_B399:
 	ld (ix+016h),000h		;b3a0
 	ret			;b3a4
 L_B3A5:
-	ld hl,(0ec03h)		;b3a5
+	ld hl,(0ec03h)		;b3a5   ; los topes en x: 0x48 y 0xC0
 	bit 0,(ix+015h)		;b3a8
 	jr nz,L_B3B6		;b3ac
 	ld a,h			;b3ae
@@ -2787,7 +2787,7 @@ L_B3B6:
 	cp 0c0h		;b3ba
 	ret			;b3bc
 L_B3BD:
-	ld a,(ix+004h)		;b3bd
+	ld a,(ix+004h)		;b3bd   ; hacia la nave
 	and a			;b3c0
 	jr z,L_B3CC		;b3c1
 	ld a,002h		;b3c3
@@ -2804,7 +2804,7 @@ L_B3CC:
 	dec a			;b3da
 	jp 09edfh		;b3db
 L_B3DE:
-	ld (ix+009h),004h		;b3de
+	ld (ix+009h),004h		;b3de   ; una pieza del jefe: 4 x 3, el dibujo 0x8A, 5 vidas, una espera al azar
 	ld (ix+00ah),003h		;b3e2
 	ld (ix+007h),08ah		;b3e6
 	ld (ix+008h),005h		;b3ea
@@ -2815,7 +2815,7 @@ L_B3DE:
 	ld a,r		;b3f9
 	and 01fh		;b3fb
 	ld (ix+00ch),a		;b3fd
-	ld a,(ix+00bh)		;b400
+	ld a,(ix+00bh)		;b400   ; su recorrido de la tabla de 0xB41B (3 bytes por IX+0B)
 	ld b,a			;b403
 	add a,a			;b404
 	add a,b			;b405
@@ -2857,7 +2857,7 @@ DATA_leido_B41C:
 
 
 L_B424:
-	call L_B47A		;b424
+	call L_B47A		;b424   ; mira a la nave, dispara y por su paso
 	call L_B499		;b427
 	ld a,(ix+001h)		;b42a
 	call 04093h		;b42d   ; despacha: salta a la palabra A de la tabla que va detras del call
@@ -2875,7 +2875,7 @@ DATA_tabla_B430:
 
 
 L_B436:
-	dec (ix+002h)		;b436
+	dec (ix+002h)		;b436   ; paso 0: cada 2 cuadros avanza en x hasta su destino...
 	ret nz			;b439
 	ld (ix+002h),002h		;b43a
 	ld a,(ix+014h)		;b43e
@@ -2887,7 +2887,7 @@ L_B436:
 L_B44E:
 	cp 008h		;b44e
 	jr c,L_B464		;b450
-	ld a,0f8h		;b452
+	ld a,0f8h		;b452   ; ...y sube hasta el suyo
 	add a,(ix+006h)		;b454
 	ld (ix+006h),a		;b457
 	sub (ix+016h)		;b45a
@@ -2900,7 +2900,7 @@ L_B464:
 	inc (ix+001h)		;b464
 	ret			;b467
 L_B468:
-	ld de,0fe00h		;b468
+	ld de,0fe00h		;b468   ; paso 1: sube (-0x200)
 	ld h,(ix+006h)		;b46b
 	ld l,(ix+005h)		;b46e
 	add hl,de			;b471
@@ -2910,7 +2910,7 @@ L_B468:
 L_B479:
 	ret			;b479
 L_B47A:
-	ld a,(ix+007h)		;b47a
+	ld a,(ix+007h)		;b47a   ; el dibujo mirando arriba o abajo hacia la nave (0x8A o 0x8C)
 	and 001h		;b47d
 	ld c,a			;b47f
 	ld a,(ix+006h)		;b480
@@ -2928,7 +2928,7 @@ L_B490:
 	ld (ix+007h),a		;b495
 	ret			;b498
 L_B499:
-	ld a,(ix+017h)		;b499
+	ld a,(ix+017h)		;b499   ; por IX+17 (tabla de detras)
 	call 04093h		;b49c   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -2944,7 +2944,7 @@ DATA_tabla_B49F:
 
 
 L_B4A3:
-	dec (ix+00ch)		;b4a3
+	dec (ix+00ch)		;b4a3   ; 0: al acabar la espera abre y dispara un 0x43 desde su boca
 	ret nz			;b4a6
 	inc (ix+007h)		;b4a7
 	inc (ix+017h)		;b4aa
@@ -2967,14 +2967,14 @@ L_B4BE:
 	call 0764fh		;b4ce
 	ret			;b4d1
 L_B4D2:
-	dec (ix+00ch)		;b4d2
+	dec (ix+00ch)		;b4d2   ; 1: espera 0x30, cierra y vuelve
 	ret nz			;b4d5
 	dec (ix+007h)		;b4d6
 	dec (ix+017h)		;b4d9
 	ld (ix+00ch),030h		;b4dc
 	ret			;b4e0
 L_B4E1:
-	ld a,040h		;b4e1
+	ld a,040h		;b4e1   ; hacia la nave con el paso 0x40, 0x20 cuadros
 	call 07865h		;b4e3
 L_B4E6:
 	ld (ix+024h),020h		;b4e6
@@ -2994,7 +2994,7 @@ DATA_B4F6:
 
 
 L_B4FC:
-	dec (ix+024h)		;b4fc
+	dec (ix+024h)		;b4fc   ; cada 0x10 cuadros vuelve a apuntar
 	ret nz			;b4ff
 	ld (ix+024h),010h		;b500
 	ld a,040h		;b504
@@ -3018,7 +3018,7 @@ DATA_B50A:
 
 
 L_B55E:
-	ld a,(ix+030h)		;b55e
+	ld a,(ix+030h)		;b55e   ; el dibujo mirando arriba o abajo hacia la nave (0xB0 o 0xB8)
 	and 004h		;b561
 	ld c,a			;b563
 	ld a,(0e606h)		;b564   ; lee la y de la nave
@@ -3031,7 +3031,7 @@ L_B570:
 	ld (ix+030h),a		;b571
 	ret			;b574
 L_B575:
-	ld a,(0e441h)		;b575
+	ld a,(0e441h)		;b575   ; otro jefe: por su paso
 	call 04093h		;b578   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -3048,7 +3048,7 @@ DATA_tabla_B57B:
 
 
 L_B589:
-	call 09e0bh		;b589
+	call 09e0bh		;b589   ; paso 0: empieza (el tipo 0x2B, 10 bytes de 0xB5A9), el dibujo 0x60
 	ret nz			;b58c
 	ld hl,0b5a9h		;b58d
 	ld a,02bh		;b590
@@ -3076,7 +3076,7 @@ DATA_leido_B5A9:
 
 
 L_B5B3:
-	ld c,0a8h		;b5b3
+	ld c,0a8h		;b5b3   ; paso 1: entra hasta la y 0xA8
 	call 09e40h		;b5b5
 	jr c,L_B5BD		;b5b8
 	jp L_B5D4		;b5ba
@@ -3087,17 +3087,17 @@ L_B5BD:
 	ld (ix+018h),001h		;b5c5
 	jr $-37		;b5c9
 L_B5CB:
-	call L_B5E2		;b5cb
+	call L_B5E2		;b5cb   ; paso 2: lo suyo (p05:B5E2), su caja, hasta vencerlo
 	call L_B5D4		;b5ce
 	jp 09e32h		;b5d1
 L_B5D4:
-	ld a,028h		;b5d4
+	ld a,028h		;b5d4   ; la caja: x + 0x28, y + 0x38 / + 0x10; vidas en escalones de 4
 	ld bc,01038h		;b5d6
 	call 09e67h		;b5d9
 	ld bc,004aeh		;b5dc
 	jp 09e96h		;b5df
 L_B5E2:
-	call L_B647		;b5e2
+	call L_B647		;b5e2   ; dispara (p05:B647); paso 0 espera, paso 1 anda
 	ld a,(ix+001h)		;b5e5
 	dec a			;b5e8
 	jr z,L_B5F6		;b5e9
@@ -3118,7 +3118,7 @@ L_B602:
 	ld (ix+016h),000h		;b609
 	ret			;b60d
 L_B60E:
-	ld hl,(0ec03h)		;b60e
+	ld hl,(0ec03h)		;b60e   ; los topes en x: 0x60 y 0xD8
 	bit 0,(ix+015h)		;b611
 	jr nz,L_B61F		;b615
 	ld a,h			;b617
@@ -3136,7 +3136,7 @@ L_B61F:
 	cp 0d8h		;b623
 	ret			;b625
 L_B626:
-	ld a,(ix+004h)		;b626
+	ld a,(ix+004h)		;b626   ; hacia la nave
 	and a			;b629
 	jr z,L_B635		;b62a
 	ld a,002h		;b62c
@@ -3153,7 +3153,7 @@ L_B635:
 	dec a			;b643
 	jp 09edfh		;b644
 L_B647:
-	dec (ix+030h)		;b647
+	dec (ix+030h)		;b647   ; cada 0x60 cuadros cuatro 0x49 en fila desde x + 0x20 y el sonido 0x2E
 	ret nz			;b64a
 	ld (ix+030h),060h		;b64b
 	ld a,(ix+003h)		;b64f
@@ -3196,7 +3196,7 @@ L_B647:
 	pop de			;b691
 	jp 058d9h		;b692   ; sonido_2E: pide el sonido 0x2E
 L_B695:
-	ld a,(ix+01fh)		;b695
+	ld a,(ix+01fh)		;b695   ; una columna que crece: su alto inicial (tabla de 0xB6BB por IX+1F), 1 x 1, IX+10 = 0x11
 	ld hl,0b6bbh		;b698
 	call 04a6eh		;b69b
 L_B69E:
@@ -3232,7 +3232,7 @@ L_B6BF:
 	call L_B6C4		;b6bf
 	jr $-17		;b6c2
 L_B6C4:
-	ld a,(ix+001h)		;b6c4
+	ld a,(ix+001h)		;b6c4   ; paso 0: pegada al jefe (x de 0xEC03 + 0xB6F7), crece hacia arriba hasta el techo
 	dec a			;b6c7
 	jr z,$+51		;b6c8
 	ld a,(ix+01fh)		;b6ca
@@ -3271,14 +3271,14 @@ DATA_tabla_B6F7:
 
 
 L_B6FB:
-	dec (ix+002h)		;b6fb
+	dec (ix+002h)		;b6fb   ; paso 1: mengua hasta desaparecer
 	ret nz			;b6fe
 	ld (ix+002h),001h		;b6ff
 	dec (ix+024h)		;b703
 	ret nz			;b706
 	jp 075d1h		;b707
 L_B70A:
-	ld l,(ix+004h)		;b70a
+	ld l,(ix+004h)		;b70a   ; se pinta en el bufer: el caracter 0xE0 (0xEE) y la punta 0xE1 (0xEF)
 	ld h,(ix+006h)		;b70d
 	call 04a46h		;b710
 	ld a,(ix+024h)		;b713
@@ -3318,7 +3318,7 @@ L_B738:
 	djnz L_B738		;b73a
 	ret			;b73c
 L_B73D:
-	ld l,(ix+004h)		;b73d
+	ld l,(ix+004h)		;b73d   ; se borra del bufer
 	ld h,(ix+006h)		;b740
 	call 04a46h		;b743
 	ld b,(ix+024h)		;b746
@@ -3328,7 +3328,7 @@ L_B749:
 	djnz L_B749		;b74c
 	ret			;b74e
 L_B74F:
-	ld a,(0e441h)		;b74f
+	ld a,(0e441h)		;b74f   ; otro jefe: por su paso
 	call 04093h		;b752   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -3345,7 +3345,7 @@ DATA_tabla_B755:
 
 
 L_B763:
-	call 09e0bh		;b763
+	call 09e0bh		;b763   ; paso 0: empieza (el tipo 0x43, 10 bytes de 0xB7CA), muy grande (0x38 x 0x68)
 	ret nz			;b766
 	ld hl,0b7cah		;b767
 	ld a,043h		;b76a
@@ -3354,7 +3354,7 @@ L_B763:
 	ld (ix+013h),038h		;b772
 	ld (ix+014h),068h		;b776
 	ld (ix+015h),001h		;b77a
-	ld (ix+022h),0ffh		;b77e
+	ld (ix+022h),0ffh		;b77e   ; sus tres partes de 0xEC20, 0xEC40 y 0xEC60 con sus dibujos
 	ld (ix+036h),008h		;b782
 	ld (ix+020h),001h		;b786
 	ld (ix+027h),0b9h		;b78a
@@ -3369,7 +3369,7 @@ L_B763:
 	ld (ix+068h),0ffh		;b7ae
 	ld (ix+069h),0ffh		;b7b2
 	ld (ix+015h),003h		;b7b6
-	ld de,0ec71h		;b7ba
+	ld de,0ec71h		;b7ba   ; 0xEC70-0xEC7B a cero
 	ld hl,0ec70h		;b7bd
 	ld bc,0000bh		;b7c0
 	ld (hl),000h		;b7c3
@@ -3390,7 +3390,7 @@ DATA_leido_B7CA:
 
 
 L_B7D4:
-	call L_B8B6		;b7d4
+	call L_B8B6		;b7d4   ; paso 1: lo suyo y entra hasta la y 0x18
 	call L_B983		;b7d7
 	ld c,018h		;b7da
 	call 09e40h		;b7dc
@@ -3403,11 +3403,11 @@ L_B7D4:
 	ld (ix+015h),001h		;b7eb
 	jp L_B5A4		;b7ef
 L_B7F2:
-	call L_B92B		;b7f2
+	call L_B92B		;b7f2   ; paso 2: lo suyo, su caja, hasta vencerlo
 	call L_B7FB		;b7f5
 	jp 09e32h		;b7f8
 L_B7FB:
-	ld a,038h		;b7fb
+	ld a,038h		;b7fb   ; la caja: x + 0x38, y + 0xA8 / + 0x68...
 	ld bc,068a8h		;b7fd
 	call 09e67h		;b800
 	ld l,(ix+00eh)		;b803
