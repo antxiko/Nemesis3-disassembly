@@ -1,4 +1,8 @@
 
+# --- A MANO: comentarios, nombres y bloques ---
+D 0x8480 0x8485 no_visto_8480  5 bytes a 0x00 entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 26 pares de bytes que valen 0x8480
+D 0x866C 0x867C no_visto_866C  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 7 pares de bytes que valen 0x866C
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x8000 0x8016 apariciones_por_fase  un puntero por fase a su lista de apariciones (p01:6DCD: 0x8000 + 2 x (fase - 1)); lo leen p01:6DD2 (22 bytes)
 F 0x8000 w8

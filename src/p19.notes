@@ -201,6 +201,16 @@ C 0xB534 ...el escudo con 0x7F golpes...
 C 0xB539 ...sus tres armas (tabla de 0xB556 por fase)...
 C 0xB54D ...y las casillas (0xB562)
 # --- fin de lo escrito a mano ---
+# --- A MANO: comentarios, nombres y bloques ---
+D 0xA292 0xA293 no_visto_A292  un byte suelto (0x70) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 6 pares de bytes que valen 0xA292
+D 0xA347 0xA34B no_visto_A347  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 2 pares de bytes que valen 0xA347
+D 0xA359 0xA35A no_visto_A359  un byte suelto (0x13) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 2 pares de bytes que valen 0xA359
+D 0xAC88 0xACA4 no_visto_AC88  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0xAC88
+D 0xB17B 0xB192 no_visto_B17B  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0xB17B
+D 0xB19B 0xB1A2 no_visto_B19B  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0xB19B
+D 0xB1B3 0xB1B4 no_visto_B1B3  un byte suelto (0xDC) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 3 pares de bytes que valen 0xB1B3
+D 0xB512 0xB51E no_visto_B512  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0xB512
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA016 leido_A000  22 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 2 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4A60, p00:4A62 (22 bytes)
 F 0xA000 16

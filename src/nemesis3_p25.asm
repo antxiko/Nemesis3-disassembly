@@ -420,8 +420,12 @@ DATA_partitura_A800:
 	defb 00bh,00ch,0f6h,0fah,0feh,002h,0e0h,0ffh	; abf0  ........
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xabf8..0xabf9  (1 bytes)
-DATA_ABF8:
+; DATOS no_visto_ABF8: un byte suelto (0xFF) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   ningun par de bytes de la ROM vale 0xABF8
+;   0xabf8..0xabf9  (1 bytes)
+DATA_no_visto_ABF8:
 	defb 0ffh	; abf8
 
 ; ----------------------------------------------------------------------
@@ -444,8 +448,12 @@ DATA_partitura_ABF9:
 	defb 065h,000h,0fah,0ffh,0ffh,0feh,002h,0e0h,00fh,0fdh,08eh,0ach	; ac89  e...........
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xac95..0xac96  (1 bytes)
-DATA_AC95:
+; DATOS no_visto_AC95: un byte suelto (0xFF) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   ningun par de bytes de la ROM vale 0xAC95
+;   0xac95..0xac96  (1 bytes)
+DATA_no_visto_AC95:
 	defb 0ffh	; ac95
 
 ; ----------------------------------------------------------------------
@@ -460,8 +468,12 @@ DATA_partitura_AC96:
 	defb 0a3h,060h,0b3h,040h,0b3h,020h,0c3h,000h,0fdh,09ch,0ach	; aca6  .`.@. .....
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xacb1..0xacb2  (1 bytes)
-DATA_ACB1:
+; DATOS no_visto_ACB1: un byte suelto (0xFF) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   en la ROM hay 2 pares de bytes que valen 0xACB1
+;   0xacb1..0xacb2  (1 bytes)
+DATA_no_visto_ACB1:
 	defb 0ffh	; acb1
 
 ; ----------------------------------------------------------------------
@@ -476,8 +488,12 @@ DATA_partitura_ACB2:
 	defb 073h,080h,073h,060h,083h,040h,083h,020h,093h,000h,0fdh,0b6h,0ach	; acc2  s.s`.@. .....
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xaccf..0xacd0  (1 bytes)
-DATA_ACCF:
+; DATOS no_visto_ACCF: un byte suelto (0xFF) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   ningun par de bytes de la ROM vale 0xACCF
+;   0xaccf..0xacd0  (1 bytes)
+DATA_no_visto_ACCF:
 	defb 0ffh	; accf
 
 ; ----------------------------------------------------------------------
@@ -493,8 +509,12 @@ DATA_partitura_ACD0:
 	defb 000h,000h,0fdh,0d6h,0ach	; acf0
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xacf5..0xacf6  (1 bytes)
-DATA_ACF5:
+; DATOS no_visto_ACF5: un byte suelto (0xFF) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   en la ROM hay 1 pares de bytes que valen 0xACF5
+;   0xacf5..0xacf6  (1 bytes)
+DATA_no_visto_ACF5:
 	defb 0ffh	; acf5
 
 ; ----------------------------------------------------------------------
@@ -509,8 +529,12 @@ DATA_partitura_ACF6:
 	defb 021h,0c0h,022h,000h,0fdh,0fch,0ach	; ad06
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xad0d..0xad0e  (1 bytes)
-DATA_AD0D:
+; DATOS no_visto_AD0D: un byte suelto (0xFF) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   en la ROM hay 2 pares de bytes que valen 0xAD0D
+;   0xad0d..0xad0e  (1 bytes)
+DATA_no_visto_AD0D:
 	defb 0ffh	; ad0d
 
 ; ----------------------------------------------------------------------
@@ -525,8 +549,12 @@ DATA_partitura_AD0E:
 	defb 021h,080h,021h,0c0h,022h,000h,0fdh,012h,0adh	; ad1e  !.!."....
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xad27..0xad28  (1 bytes)
-DATA_AD27:
+; DATOS no_visto_AD27: un byte suelto (0xFF) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   ningun par de bytes de la ROM vale 0xAD27
+;   0xad27..0xad28  (1 bytes)
+DATA_no_visto_AD27:
 	defb 0ffh	; ad27
 
 ; ----------------------------------------------------------------------
@@ -562,8 +590,12 @@ DATA_partitura_AD28:
 	defb 050h,060h,070h,080h,090h,0a0h,0b0h,0fah	; ae88  P`p.....
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xae90..0xae92  (2 bytes)
-DATA_AE90:
+; DATOS no_visto_AE90: 2 bytes a 0xFF entre dos bloques: no se ha visto leer:
+;   ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   en la ROM hay 1 pares de bytes que valen 0xAE90
+;   0xae90..0xae92  (2 bytes)
+DATA_no_visto_AE90:
 	defb 0ffh,0ffh	; ae90
 
 ; ----------------------------------------------------------------------

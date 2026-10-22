@@ -55,8 +55,12 @@ DATA_rle_80B0:
 	defb 000h,000h	; 80f0
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x80f2..0x8100  (14 bytes)
-DATA_80F2:
+; DATOS no_visto_80F2: 14 bytes a 0xFF entre dos bloques: no se ha visto leer:
+;   ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   ningun par de bytes de la ROM vale 0x80F2
+;   0x80f2..0x8100  (14 bytes)
+DATA_no_visto_80F2:
 	defb 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh	; 80f2  ..............
 
 ; ----------------------------------------------------------------------

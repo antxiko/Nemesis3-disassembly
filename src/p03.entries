@@ -144,6 +144,7 @@
 0xB5A1   # p02:94D6 call
 0xB5F9   # p01:7C97 entrada 25 de la tabla de 0x7C9A (call 0x4093 en 0x7C97)
 0xB623   # p01:7AD1 entrada 25 de la tabla de 0x7AD4 (call 0x4093 en 0x7AD1)
+0xB6EB   # nadie la llama: hueco entre codigo trazado
 0xB6FF   # p01:7479 entrada 50 de la tabla de 0x747C (call 0x4093 en 0x7479)
 0xB702   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0xB70F   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:4A74 (ret)
@@ -183,5 +184,6 @@
 0xBCCB   # p01:7AD1 entrada 12 de la tabla de 0x7AD4 (call 0x4093 en 0x7AD1)
 0xBD2A   # p02:8278 jp cc
 0xBDB7   # p01:6762 jp cc
+0xBDD4   # nadie la llama: hueco entre codigo trazado
 0xBDE1   # p01:7479 entrada 31 de la tabla de 0x747C (call 0x4093 en 0x7479)
 0xBDE2   # p00:43E8 call

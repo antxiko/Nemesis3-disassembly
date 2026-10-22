@@ -114,6 +114,26 @@ D 0x9583 0x9704 rle_9583  los dibujos de una entrada de la lista de graficos de 
 F 0x9583 16
 D 0x9704 0x9846 rle_9704  los colores de una entrada de la lista de graficos de 20:6CE6, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_9704 9704-9846); lo leen p00:4D11, p00:4B3C (322 bytes)
 F 0x9704 16
+D 0x9846 0x98AD rle_9846  los dibujos de una entrada de la lista de 20:6CFC, que no apunta nada, en RLE (p00:4B3C); lo leen nadie (103 bytes)
+F 0x9846 16
+D 0x98AD 0x98F9 rle_98AD  los colores de una entrada de la lista de 20:6CFC, que no apunta nada, en RLE (p00:4B3C); lo leen nadie (76 bytes)
+F 0x98AD 16
+D 0x98F9 0x9905 rle_98F9  los dibujos de una entrada de la lista de 20:6CFC, que no apunta nada, en RLE (p00:4B3C); lo leen nadie (12 bytes)
+F 0x98F9 16
+D 0x9905 0x990C rle_9905  los colores de una entrada de la lista de 20:6CFC, que no apunta nada, en RLE (p00:4B3C); lo leen nadie (7 bytes)
+F 0x9905 16
+D 0x990C 0x993B rle_990C  los dibujos de una entrada de la lista de 20:6CFC, que no apunta nada, en RLE (p00:4B3C); lo leen nadie (47 bytes)
+F 0x990C 16
+D 0x993B 0x9954 rle_993B  los colores de una entrada de la lista de 20:6CFC, que no apunta nada, en RLE (p00:4B3C); lo leen nadie (25 bytes)
+F 0x993B 16
+D 0x9954 0x9993 rle_9954  los dibujos de una entrada de la lista de 20:6CFC, que no apunta nada, en RLE (p00:4B3C); lo leen nadie (63 bytes)
+F 0x9954 16
+D 0x9993 0x99D0 rle_9993  los colores de una entrada de la lista de 20:6CFC, que no apunta nada, en RLE (p00:4B3C); lo leen nadie (61 bytes)
+F 0x9993 16
+D 0x99D0 0x9AE5 rle_99D0  los dibujos de una entrada de la lista de 20:6CFC, que no apunta nada, en RLE (p00:4B3C); lo leen nadie (277 bytes)
+F 0x99D0 16
+D 0x9AE5 0x9BFD rle_9AE5  los colores de una entrada de la lista de 20:6CFC, que no apunta nada, en RLE (p00:4B3C); lo leen nadie (280 bytes)
+F 0x9AE5 16
 D 0x9BFD 0x9C25 rle_9BFD  los dibujos de una entrada de la lista de graficos de 20:6D7C, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_9BFD 9BFD-9C25); lo leen p00:4CFF, p00:4B3C (40 bytes)
 F 0x9BFD 16
 D 0x9C25 0x9C43 rle_9C25  los colores de una entrada de la lista de graficos de 20:6D7C, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_9C25 9C25-9C43); lo leen p00:4D11, p00:4B3C (30 bytes)

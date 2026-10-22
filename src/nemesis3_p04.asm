@@ -183,7 +183,7 @@ DATA_resto_80F8:
 	defb 000h,000h,008h,00fh,000h,000h,020h,009h,000h,000h,000h,00fh,000h,000h,010h,009h	; 81a8  ...... .........
 
 ; ======================================================================
-; CODIGO 0x81b8..0x8336  (382 bytes)
+; CODIGO 0x81b8..0x83f3  (571 bytes)
 ; ======================================================================
 
 
@@ -411,17 +411,12 @@ L_832C:
 L_8332:
 	ld (0e605h),hl		;8332
 	ret			;8335
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8336..0x8342  (12 bytes)
-DATA_8336:
-	defb 02ah,045h,0e6h,0edh,05bh,005h,0e6h,019h,022h,005h,0e6h,0c9h	; 8336  *E..[..."...
-
-; ======================================================================
-; CODIGO 0x8342..0x83f3  (177 bytes)
-; ======================================================================
-
-
+L_8336:
+	ld hl,(0e645h)		;8336   ; nadie la llama: la x de la nave (16 bits, 0xE605) + 0xE645
+	ld de,(0e605h)		;8339
+	add hl,de			;833d
+	ld (0e605h),hl		;833e
+	ret			;8341
 L_8342:
 	ld ix,0ed00h		;8342   ; las piezas 0x0C de 0xED00 (los remolinos)
 	ld b,008h		;8346   ; las 8
@@ -658,8 +653,12 @@ DATA_leido_84C1:
 	defb 080h	; 8501
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8502..0x8505  (3 bytes)
-DATA_8502:
+; DATOS no_visto_8502: 3 bytes a 0x00 entre dos bloques: no se ha visto leer:
+;   ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   en la ROM hay 12 pares de bytes que valen 0x8502
+;   0x8502..0x8505  (3 bytes)
+DATA_no_visto_8502:
 	defb 000h,000h,000h	; 8502
 
 ; ======================================================================
@@ -731,27 +730,14 @@ L_8549:
 	ret			;856b
 
 ; ----------------------------------------------------------------------
-; DATOS tabla_856C: tabla que se lee desde HL = 0x856C con un indice
-;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
-;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
-;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p04:854F (1 bytes)
-;   0x856c..0x856d  (1 bytes)
-DATA_tabla_856C:
-	defb 03ch	; 856c
-
-; ----------------------------------------------------------------------
-; DATOS leido_856D: 7 bytes que leen p04:8560, p04:855E al jugar (medido
-;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
-;   tamano es lo que se lee seguido); lo leen p04:8560, p04:855E (7 bytes)
-;   0x856d..0x8574  (7 bytes)
-DATA_leido_856D:
-	defb 00ah,03ch,009h,040h,008h,040h,006h	; 856d
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8574..0x858c  (24 bytes)
-DATA_8574:
-	defb 03ch,00ch,03ch,002h,040h,002h,040h,00ch,03ch,00ah,03ch,00bh,040h,00bh,040h,00ah	; 8574  <.<.@.@.<.<.@.@.
+; DATOS opciones_por_nave: el dibujo y el color de las opciones por nave: 8
+;   bytes cada una (p04:8549: 0x856C + 8 x 0xE380, 2 bytes por cada uno de los
+;   4 dibujos); lo leen p04:855E (32 bytes)
+;   0x856c..0x858c  (32 bytes)
+DATA_opciones_por_nave:
+	defb 03ch,00ah,03ch,009h,040h,008h,040h,006h	; 856c  <.<.@.@.
+	defb 03ch,00ch,03ch,002h,040h,002h,040h,00ch	; 8574  <.<.@.@.
+	defb 03ch,00ah,03ch,00bh,040h,00bh,040h,00ah	; 857c  <.<.@.@.
 	defb 03ch,004h,03ch,005h,040h,005h,040h,004h	; 8584  <.<.@.@.
 
 ; ======================================================================
@@ -910,8 +896,12 @@ L_8676:
 	ret			;8687
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8688..0x868c  (4 bytes)
-DATA_8688:
+; DATOS no_visto_8688: no se ha visto leer: ninguna instruccion trazada lo
+;   apunta con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 2 pares de bytes
+;   que valen 0x8688
+;   0x8688..0x868c  (4 bytes)
+DATA_no_visto_8688:
 	defb 0f0h,0f0h,010h,0f0h	; 8688
 
 ; ======================================================================
@@ -1979,12 +1969,16 @@ DATA_leido_8EDF:
 	defb 010h,00ah	; 8edf
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8ee1..0x8eef  (14 bytes)
-DATA_8EE1:
+; DATOS no_visto_8EE1: no se ha visto leer: ninguna instruccion trazada lo
+;   apunta con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM
+;   vale 0x8EE1
+;   0x8ee1..0x8eef  (14 bytes)
+DATA_no_visto_8EE1:
 	defb 011h,008h,012h,00fh,013h,00bh,014h,00ah,015h,008h,016h,00fh,017h,00bh	; 8ee1  ..............
 
 ; ======================================================================
-; CODIGO 0x8eef..0x90a0  (433 bytes)
+; CODIGO 0x8eef..0x92b4  (965 bytes)
 ; ======================================================================
 
 
@@ -2191,18 +2185,16 @@ L_9094:
 	ld h,a			;9099
 	ld l,(iy+003h)		;909a   ; lee la y del disparo
 	jp L_9070		;909d
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x90a0..0x90b5  (21 bytes)
-DATA_90A0:
-	defb 0fdh,066h,005h,0fdh,07eh,003h,0d6h,004h,06fh,0c3h,070h,090h,0fdh,066h,005h,0fdh	; 90a0  .f..~...o.p..f..
-	defb 06eh,003h,0c3h,070h,090h	; 90b0
-
-; ======================================================================
-; CODIGO 0x90b5..0x90d8  (35 bytes)
-; ======================================================================
-
-
+L_90A0:
+	ld h,(iy+005h)		;90a0   ; nadie la llama: el sitio del disparo (IY+5, IY+3 - 4) y p04:9070
+	ld a,(iy+003h)		;90a3
+	sub 004h		;90a6
+	ld l,a			;90a8
+	jp L_9070		;90a9
+L_90AC:
+	ld h,(iy+005h)		;90ac   ; nadie la llama: el sitio del disparo (IY+5, IY+3) y p04:9070
+	ld l,(iy+003h)		;90af
+	jp L_9070		;90b2
 L_90B5:
 	ld h,(iy+005h)		;90b5   ; arriba: y - 1
 	ld l,(iy+003h)		;90b8   ; lee la y del disparo
@@ -2221,17 +2213,12 @@ L_90CC:
 	ld h,a			;90d1
 	ld l,(iy+003h)		;90d2   ; lee la y del disparo
 	jp L_9070		;90d5
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x90d8..0x90e4  (12 bytes)
-DATA_90D8:
-	defb 0fdh,066h,005h,0fdh,07eh,003h,0c6h,003h,06fh,0c3h,070h,090h	; 90d8  .f..~...o.p.
-
-; ======================================================================
-; CODIGO 0x90e4..0x92b4  (464 bytes)
-; ======================================================================
-
-
+L_90D8:
+	ld h,(iy+005h)		;90d8   ; nadie la llama: el sitio del disparo (IY+5, IY+3 + 3) y p04:9070
+	ld a,(iy+003h)		;90db
+	add a,003h		;90de
+	ld l,a			;90e0
+	jp L_9070		;90e1
 L_90E4:
 	ld a,(iy+005h)		;90e4   ; lee la x del disparo
 	add a,004h		;90e7   ; abajo del todo: x + 4, y + 8
@@ -2587,17 +2574,12 @@ L_9391:
 	ret			;9391
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9392: 1 bytes que lee p00:4A73 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4A73 (1 bytes)
-;   0x9392..0x9393  (1 bytes)
-DATA_leido_9392:
-	defb 010h	; 9392
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9393..0x939e  (11 bytes)
-DATA_9393:
-	defb 014h,013h,011h,015h,013h,012h,016h,013h,010h,014h,013h	; 9393  ...........
+; DATOS armas_9391: el misil de cada nave y nivel (nave x 3 + nivel): un byte
+;   por indice, del 1 al 12 (p00:4A6E: 0x9391 + indice); lo leen p00:4A73 (12
+;   bytes)
+;   0x9392..0x939e  (12 bytes)
+DATA_armas_9391:
+	defb 010h,014h,013h,011h,015h,013h,012h,016h,013h,010h,014h,013h	; 9392  ............
 
 ; ======================================================================
 ; CODIGO 0x939e..0x93cf  (49 bytes)
@@ -2635,11 +2617,10 @@ L_93CE:
 	ret			;93ce
 
 ; ----------------------------------------------------------------------
-; DATOS leido_93CF: 2 bytes que lee p00:4A73 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4A73 (2 bytes)
+; DATOS armas_93CE: el arma de la casilla 3 por nivel: un byte por indice, del
+;   1 al 2 (p00:4A6E: 0x93CE + indice); lo leen p00:4A73 (2 bytes)
 ;   0x93cf..0x93d1  (2 bytes)
-DATA_leido_93CF:
+DATA_armas_93CE:
 	defb 002h,001h	; 93cf
 
 ; ======================================================================
@@ -2678,17 +2659,11 @@ L_9401:
 	ret			;9401
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9402: 1 bytes que lee p00:4A73 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4A73 (1 bytes)
-;   0x9402..0x9403  (1 bytes)
-DATA_leido_9402:
-	defb 003h	; 9402
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9403..0x9404  (1 bytes)
-DATA_9403:
-	defb 004h	; 9403
+; DATOS armas_9401: el arma de la casilla 4 por nivel: un byte por indice, del
+;   1 al 2 (p00:4A6E: 0x9401 + indice); lo leen p00:4A73 (2 bytes)
+;   0x9402..0x9404  (2 bytes)
+DATA_armas_9401:
+	defb 003h,004h	; 9402
 
 ; ======================================================================
 ; CODIGO 0x9404..0x942c  (40 bytes)
@@ -2719,8 +2694,10 @@ L_942B:
 	ret			;942b
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x942c..0x942e  (2 bytes)
-DATA_942C:
+; DATOS armas_942B: el arma de la casilla 5 por nivel: un byte por indice, del
+;   1 al 2 (p00:4A6E: 0x942B + indice); lo leen p00:4A73 (2 bytes)
+;   0x942c..0x942e  (2 bytes)
+DATA_armas_942B:
 	defb 00dh,00eh	; 942c
 
 ; ======================================================================
@@ -2767,17 +2744,12 @@ L_9468:
 	ret			;9468
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9469: 1 bytes que lee p00:4A73 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4A73 (1 bytes)
-;   0x9469..0x946a  (1 bytes)
-DATA_leido_9469:
-	defb 005h	; 9469
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x946a..0x9475  (11 bytes)
-DATA_946A:
-	defb 006h,007h,005h,008h,007h,00ah,00bh,00ch,00ah,00bh,009h	; 946a  ...........
+; DATOS armas_9468: el laser de cada nave y nivel (nave x 3 + nivel): un byte
+;   por indice, del 1 al 12 (p00:4A6E: 0x9468 + indice); lo leen p00:4A73 (12
+;   bytes)
+;   0x9469..0x9475  (12 bytes)
+DATA_armas_9468:
+	defb 005h,006h,007h,005h,008h,007h,00ah,00bh,00ch,00ah,00bh,009h	; 9469  ............
 
 ; ======================================================================
 ; CODIGO 0x9475..0x94d1  (92 bytes)
@@ -3023,8 +2995,12 @@ DATA_leido_9639:
 	defb 01fh,020h,022h,01fh,021h,008h	; 9659
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x965f..0x9660  (1 bytes)
-DATA_965F:
+; DATOS no_visto_965F: un byte suelto (0x09) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   ningun par de bytes de la ROM vale 0x965F
+;   0x965f..0x9660  (1 bytes)
+DATA_no_visto_965F:
 	defb 009h	; 965f
 
 ; ======================================================================
@@ -4211,7 +4187,7 @@ DATA_leido_9DF2:
 	defb 075h	; 9e02
 
 ; ======================================================================
-; CODIGO 0x9e03..0x9f00  (253 bytes)
+; CODIGO 0x9e03..0x9f0d  (266 bytes)
 ; ======================================================================
 
 
@@ -4353,11 +4329,13 @@ L_9EEE:
 	add a,040h		;9efa
 	ld (ix+017h),a		;9efc
 	ret			;9eff
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9f00..0x9f0d  (13 bytes)
-DATA_9F00:
-	defb 03ah,006h,0e6h,0ddh,0beh,005h,03eh,003h,038h,0d5h,03ch,018h,0d2h	; 9f00  :.....>.8.<..
+L_9F00:
+	ld a,(0e606h)		;9f00   ; nadie la llama: A = 3 con la nave a la izquierda de IX+5, si no 4, y p04:9EDF
+	cp (ix+005h)		;9f03
+	ld a,003h		;9f06
+	jr c,L_9EDF		;9f08
+	inc a			;9f0a
+	jr L_9EDF		;9f0b
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_9F0D: tabla que se lee desde HL = 0x9F0D con un indice
@@ -4378,8 +4356,12 @@ DATA_leido_9F0F:
 	defb 040h	; 9f0f
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9f10..0x9f11  (1 bytes)
-DATA_9F10:
+; DATOS no_visto_9F10: un byte suelto (0x40) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   ningun par de bytes de la ROM vale 0x9F10
+;   0x9f10..0x9f11  (1 bytes)
+DATA_no_visto_9F10:
 	defb 040h	; 9f10
 
 ; ======================================================================

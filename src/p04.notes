@@ -114,6 +114,7 @@ C 0x830D ...o hacia abajo
 C 0x8312 la x + el arrastre en x...
 C 0x8319 ...hacia la izquierda sin bajar de 0
 C 0x832C ...o hacia la derecha, sin pasar de 0xD8
+C 0x8336 nadie la llama: la x de la nave (16 bits, 0xE605) + 0xE645
 C 0x8342 las piezas 0x0C de 0xED00 (los remolinos)
 C 0x8346 las 8
 C 0x8355 el remolino (sin IX+1D, visible)
@@ -515,9 +516,12 @@ C 0x9076 el caracter del bufer: decorado (mayor o igual que el fondo)? C
 C 0x9079 abajo: y + 4
 C 0x9085 abajo a la derecha: x + 4, y + 4
 C 0x9094 a la derecha: x + 4
+C 0x90A0 nadie la llama: el sitio del disparo (IY+5, IY+3 - 4) y p04:9070
+C 0x90AC nadie la llama: el sitio del disparo (IY+5, IY+3) y p04:9070
 C 0x90B5 arriba: y - 1
 C 0x90BF arriba a la derecha: x + 4, y - 1
 C 0x90CC a la derecha: x + 4
+C 0x90D8 nadie la llama: el sitio del disparo (IY+5, IY+3 + 3) y p04:9070
 C 0x90E7 abajo del todo: x + 4, y + 8
 C 0x90F6 arriba: y - 8
 C 0x9102 abajo: y + 8
@@ -899,6 +903,7 @@ C 0x9EDD por debajo: arriba (1)
 C 0x9EDF y la espera hasta cambiar (azar)
 C 0x9EE6 los pasos: 0x0C-0x0F en vertical, 0x0E-0x11 en horizontal
 C 0x9EF6 la velocidad: 0x40 + 2 x la dificultad
+C 0x9F00 nadie la llama: A = 3 con la nave a la izquierda de IX+5, si no 4, y p04:9EDF
 C 0x9F11 el jefe se mueve: la cuenta + la velocidad; cada vuelta...
 C 0x9F14 la cuenta + la velocidad (IX+17)
 C 0x9F1B ...un paso menos (al acabar, C)...
@@ -923,6 +928,13 @@ C 0x9FC7 a la izquierda, hasta 0x30 menos
 C 0x9FE1 arriba, hasta 0x28 menos
 C 0x9FF5 abajo...
 # --- fin de lo escrito a mano ---
+# --- A MANO: comentarios, nombres y bloques ---
+D 0x8502 0x8505 no_visto_8502  3 bytes a 0x00 entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 12 pares de bytes que valen 0x8502
+D 0x8688 0x868C no_visto_8688  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 2 pares de bytes que valen 0x8688
+D 0x8EE1 0x8EEF no_visto_8EE1  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0x8EE1
+D 0x965F 0x9660 no_visto_965F  un byte suelto (0x09) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0x965F
+D 0x9F10 0x9F11 no_visto_9F10  un byte suelto (0x40) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0x9F10
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x80E0 0x80F8 leido_80E0  24 bytes que leen p04:8081, p04:8088, p04:808C, p04:808E al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p04:8081, p04:8088, p04:808C, p04:808E (24 bytes)
 F 0x80E0 16
@@ -932,10 +944,8 @@ D 0x84B9 0x84C1 tabla_84B9  tabla que se lee desde HL = 0x84B9 con un indice (p0
 F 0x84B9 16
 D 0x84C1 0x8502 leido_84C1  65 bytes que leen p04:846F, p04:8495, p04:849E, p04:84A3, p04:84A7 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 3 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p04:846F, p04:8495, p04:849E, p04:84A3, p04:84A7 (65 bytes)
 F 0x84C1 16
-D 0x856C 0x856D tabla_856C  tabla que se lee desde HL = 0x856C con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p04:854F (1 bytes)
-F 0x856C 16
-D 0x856D 0x8574 leido_856D  7 bytes que leen p04:8560, p04:855E al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p04:8560, p04:855E (7 bytes)
-F 0x856D 16
+D 0x856C 0x858C opciones_por_nave  el dibujo y el color de las opciones por nave: 8 bytes cada una (p04:8549: 0x856C + 8 x 0xE380, 2 bytes por cada uno de los 4 dibujos); lo leen p04:855E (32 bytes)
+F 0x856C 8
 D 0x870F 0x873F tabla_870F  24 destinos del despachador p00:4093 (call en p04:870C, el indice en A): 88B7, 88C3, 891E, 890D, 8A29, 8AC0, 8AC0, 8AC0, 8BF3, 8B68, 8C83, 8C83, 8B0E, 8B32, 928B, 8EFE, 8EFE, 8EFE, 9178, 8F33, 8F33, 8F33, 9178, 8D87; lo leen p04:870C (48 bytes)
 F 0x870F w8
 D 0x880A 0x883A tabla_880A  24 destinos del despachador p00:4093 (call en p04:8807, el indice en A): 883A, 886F, 88E8, 88CF, 8935, 8983, 89C0, 8972, 8BC0, 8B39, 8C59, 8C4B, 89F2, 8A1F, 8EDE, 8EAA, 8EAA, 8EAA, 8EEF, 8EAA, 8EAA, 8EAA, 8EEF, 8D17; lo leen p04:8807 (48 bytes)
@@ -948,14 +958,16 @@ D 0x9316 0x931E tabla_9316  tabla que se lee desde HL = 0x9316 con un indice (p0
 F 0x9316 16
 D 0x931E 0x935E compras_por_nave  lo que compra cada casilla, una lista de 8 rutinas por nave (p04:9302: la palabra 0xE380 de 0x9316 y la casilla - 1, por p00:4094); lo leen p00:4098 (64 bytes)
 F 0x931E w8
-D 0x9392 0x9393 leido_9392  1 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A73 (1 bytes)
-F 0x9392 16
-D 0x93CF 0x93D1 leido_93CF  2 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A73 (2 bytes)
-F 0x93CF 16
-D 0x9402 0x9403 leido_9402  1 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A73 (1 bytes)
-F 0x9402 16
-D 0x9469 0x946A leido_9469  1 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A73 (1 bytes)
-F 0x9469 16
+D 0x9392 0x939E armas_9391  el misil de cada nave y nivel (nave x 3 + nivel): un byte por indice, del 1 al 12 (p00:4A6E: 0x9391 + indice); lo leen p00:4A73 (12 bytes)
+F 0x9392 12
+D 0x93CF 0x93D1 armas_93CE  el arma de la casilla 3 por nivel: un byte por indice, del 1 al 2 (p00:4A6E: 0x93CE + indice); lo leen p00:4A73 (2 bytes)
+F 0x93CF 2
+D 0x9402 0x9404 armas_9401  el arma de la casilla 4 por nivel: un byte por indice, del 1 al 2 (p00:4A6E: 0x9401 + indice); lo leen p00:4A73 (2 bytes)
+F 0x9402 2
+D 0x942C 0x942E armas_942B  el arma de la casilla 5 por nivel: un byte por indice, del 1 al 2 (p00:4A6E: 0x942B + indice); lo leen p00:4A73 (2 bytes)
+F 0x942C 2
+D 0x9469 0x9475 armas_9468  el laser de cada nave y nivel (nave x 3 + nivel): un byte por indice, del 1 al 12 (p00:4A6E: 0x9468 + indice); lo leen p00:4A73 (12 bytes)
+F 0x9469 12
 D 0x94D1 0x9511 topes_por_arma_secreta  cuanto se puede subir cada casilla con cada nivel del arma secreta: 8 bytes por nivel (0xE36F de 0 a 7), uno por casilla de 1 a 8 (p04:94BD: 0x94D0 + 8 x nivel + casilla); lo leen p04:94CF (64 bytes)
 F 0x94D1 8
 D 0x95F9 0x9639 tabla_95F9  tabla que se lee desde HL = 0x95F9 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p04:95CF (64 bytes)

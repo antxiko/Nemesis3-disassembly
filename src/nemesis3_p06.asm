@@ -347,8 +347,12 @@ DATA_leido_8465:
 	defb 003h,0ffh,0e3h,0ffh,0ffh,0cch,000h,000h,07fh,0ffh,0c0h	; 8475  ...........
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8480..0x8485  (5 bytes)
-DATA_8480:
+; DATOS no_visto_8480: 5 bytes a 0x00 entre dos bloques: no se ha visto leer:
+;   ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   en la ROM hay 26 pares de bytes que valen 0x8480
+;   0x8480..0x8485  (5 bytes)
+DATA_no_visto_8480:
 	defb 000h,000h,000h,000h,000h	; 8480
 
 ; ----------------------------------------------------------------------
@@ -437,8 +441,12 @@ DATA_rle_ram_85E2:
 	defb 075h,0c8h,075h,00ah,000h,081h,067h,004h,000h,000h	; 8662  u.u...g...
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x866c..0x867c  (16 bytes)
-DATA_866C:
+; DATOS no_visto_866C: no se ha visto leer: ninguna instruccion trazada lo
+;   apunta con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 7 pares de bytes
+;   que valen 0x866C
+;   0x866c..0x867c  (16 bytes)
+DATA_no_visto_866C:
 	defb 002h,003h,064h,065h,066h,08bh,08ch,08dh,002h,003h,0fah,0fbh,0fch,0fdh,0feh,0ffh	; 866c  ..def...........
 
 ; ----------------------------------------------------------------------

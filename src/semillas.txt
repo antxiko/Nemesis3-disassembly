@@ -321,3 +321,40 @@ p04 0x948D 1 4 5  # casilla 8, el escudo: tabla p04:931E, palabra 7
 # El puente p01:7520 (ld hl,0xB4F6 y p00:415B, jp (hl) en p01:753E) lleva al
 # tipo de enemigo de p05:B4F6; ninguna partida de la campana lo saco.
 p05 0xB4F6 1 4 5  # p01:7520: HL = 0xB4F6 y salta con los bancos 4-5
+# Rutinas a las que no llama ninguna instruccion trazada ni se llego jugando:
+# huecos entre codigo que se desensamblan limpios hasta un salto o un ret, o
+# hasta el codigo de detras (entradas que caen en la rutina siguiente, como
+# p00:5898, que es pedir el sonido 0x2A y cae en pide_sonido).
+p00 0x4806 1 2 3  # nadie la llama: hueco entre codigo trazado
+p00 0x4A1E 1 2 3  # nadie la llama: hueco entre codigo trazado
+p00 0x4AC2 1 2 3  # nadie la llama: hueco entre codigo trazado
+p00 0x4AF4 1 2 3  # nadie la llama: hueco entre codigo trazado
+p00 0x55C9 1 2 3  # nadie la llama: hueco entre codigo trazado
+p00 0x5656 1 2 3  # nadie la llama: hueco entre codigo trazado
+p00 0x568F 1 2 3  # nadie la llama: hueco entre codigo trazado
+p00 0x57F2 1 2 3  # nadie la llama: hueco entre codigo trazado
+p00 0x5898 1 2 3  # nadie la llama: hueco entre codigo trazado
+p00 0x5916 1 2 3  # nadie la llama: hueco entre codigo trazado
+p00 0x5955 1 2 3  # nadie la llama: hueco entre codigo trazado
+p01 0x70C2 1 2 3  # nadie la llama: hueco entre codigo trazado
+p01 0x71F0 1 2 3  # nadie la llama: hueco entre codigo trazado
+p01 0x77F6 1 2 3  # nadie la llama: hueco entre codigo trazado
+p01 0x787B 1 2 3  # nadie la llama: hueco entre codigo trazado
+p01 0x7B76 1 2 3  # nadie la llama: hueco entre codigo trazado
+p01 0x7F96 1 2 3  # nadie la llama: hueco entre codigo trazado
+p02 0x8686 1 2 3  # nadie la llama: hueco entre codigo trazado
+p02 0x86AD 1 2 3  # nadie la llama: hueco entre codigo trazado
+p02 0x91B5 1 2 3  # nadie la llama: hueco entre codigo trazado
+p02 0x9F2B 1 2 3  # nadie la llama: hueco entre codigo trazado
+p03 0xB6EB 1 2 3  # nadie la llama: hueco entre codigo trazado
+p03 0xBDD4 1 2 3  # nadie la llama: hueco entre codigo trazado
+p04 0x8336 1 4 5  # nadie la llama: hueco entre codigo trazado
+p04 0x90A0 1 4 5  # nadie la llama: hueco entre codigo trazado
+p04 0x90D8 1 4 5  # nadie la llama: hueco entre codigo trazado
+p04 0x9F00 1 4 5  # nadie la llama: hueco entre codigo trazado
+p00 0x480F 1 2 3  # nadie la llama: hueco entre codigo trazado
+p01 0x6395 1 2 3  # nadie la llama: hueco entre codigo trazado
+p01 0x70CA 1 2 3  # nadie la llama: hueco entre codigo trazado
+p01 0x7886 1 2 3  # nadie la llama: hueco entre codigo trazado
+p04 0x90AC 1 4 5  # nadie la llama: hueco entre codigo trazado
+p26 0x6015 26 27 28  # nadie la llama: hueco entre codigo trazado

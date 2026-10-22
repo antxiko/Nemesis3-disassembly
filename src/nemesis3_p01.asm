@@ -497,7 +497,7 @@ DATA_tabla_62DF:
 	defw 062e5h,06318h,06323h	; 62df  -> L_62E5 L_6318 L_6323
 
 ; ======================================================================
-; CODIGO 0x62e5..0x6395  (176 bytes)
+; CODIGO 0x62e5..0x6479  (404 bytes)
 ; ======================================================================
 
 
@@ -584,18 +584,9 @@ L_638B:
 	ld (0e46eh),a		;638b   ; apuntar a la nave: la direccion en 0xE46E...
 	call L_63FF		;638e   ; ...la distancia en y y en x (p01:63FF)
 	ld d,001h		;6391   ; D = 1: con algo de azar
-	jr $+12		;6393
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6395..0x6397  (2 bytes)
-DATA_6395:
-	defb 03eh,080h	; 6395
-
-; ======================================================================
-; CODIGO 0x6397..0x6479  (226 bytes)
-; ======================================================================
-
-
+	jr L_639F		;6393
+L_6395:
+	ld a,080h		;6395   ; nadie la llama: A = 0x80 y sigue en p01:6397
 L_6397:
 	ld (0e46eh),a		;6397   ; lo mismo sin azar (D = 0)
 L_639A:
@@ -2422,8 +2413,12 @@ DATA_tabla_6FB2:
 	defw 0724dh,071f9h,0724eh,0727eh	; 6fc2  -> L_724D L_71F9 L_724E L_727E
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6fca..0x6fcb  (1 bytes)
-DATA_6FCA:
+; DATOS no_visto_6FCA: un byte suelto (0xC9) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   ningun par de bytes de la ROM vale 0x6FCA
+;   0x6fca..0x6fcb  (1 bytes)
+DATA_no_visto_6FCA:
 	defb 0c9h	; 6fca
 
 ; ======================================================================
@@ -2553,7 +2548,7 @@ DATA_leido_7088:
 	defb 004h,004h,006h,004h	; 7088
 
 ; ======================================================================
-; CODIGO 0x708c..0x70c2  (54 bytes)
+; CODIGO 0x708c..0x70e5  (89 bytes)
 ; ======================================================================
 
 
@@ -2594,22 +2589,23 @@ L_70B9:
 	ret z			;70be
 	ld a,0a0h		;70bf
 	ret			;70c1
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x70c2..0x70d2  (16 bytes)
-DATA_70C2:
-	defb 0d9h,021h,0e5h,070h,0d9h,0c3h,0dah,070h,0d9h,021h,0f5h,070h,0d9h,0c3h,0d7h,070h	; 70c2  .!.p...p.!.p...p
-
-; ======================================================================
-; CODIGO 0x70d2..0x70e5  (19 bytes)
-; ======================================================================
-
-
+L_70C2:
+	exx			;70c2   ; nadie la llama: HL' = 0x70E5 y p01:70DA
+	ld hl,070e5h		;70c3
+	exx			;70c6
+	jp L_70DA		;70c7
+L_70CA:
+	exx			;70ca   ; nadie la llama: HL' = 0x70F5 y p01:70D7
+	ld hl,070f5h		;70cb
+	exx			;70ce
+	jp L_70D7		;70cf
 L_70D2:
 	exx			;70d2   ; un byte de 0x70E5 por turno (0xE466 & 0x0F)
 	ld hl,070e5h		;70d3   ; la tabla de 0x70E5
 	exx			;70d6
+L_70D7:
 	ld hl,0e466h		;70d7
+L_70DA:
 	ld a,(hl)			;70da   ; la cuenta de 0xE466, de 16
 	and 00fh		;70db
 	inc (hl)			;70dd
@@ -2628,8 +2624,11 @@ DATA_leido_70E5:
 	defb 000h,000h,000h,001h,000h,000h,000h,001h,000h,000h,000h,002h,000h,000h,000h,001h	; 70e5  ................
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x70f5..0x7105  (16 bytes)
-DATA_70F5:
+; DATOS resto_70F5: lo apuntan con el banco puesto p01:70CB (0x70F5); el
+;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
+;   p01:70CB (16 bytes)
+;   0x70f5..0x7105  (16 bytes)
+DATA_resto_70F5:
 	defb 000h,000h,001h,001h,000h,000h,001h,001h,000h,000h,001h,002h,000h,000h,001h,001h	; 70f5  ................
 
 ; ======================================================================
@@ -2691,8 +2690,12 @@ L_7157:
 	ret			;7157
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7158..0x7159  (1 bytes)
-DATA_7158:
+; DATOS no_visto_7158: un byte suelto (0x0D) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   en la ROM hay 1 pares de bytes que valen 0x7158
+;   0x7158..0x7159  (1 bytes)
+DATA_no_visto_7158:
 	defb 00dh	; 7158
 
 ; ----------------------------------------------------------------------
@@ -2706,12 +2709,16 @@ DATA_leido_7159:
 	defb 028h,00dh,00dh,00dh,00dh,02fh,02dh,00dh,00dh	; 7159  (..../-..
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7162..0x7163  (1 bytes)
-DATA_7162:
+; DATOS no_visto_7162: un byte suelto (0x0D) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   ningun par de bytes de la ROM vale 0x7162
+;   0x7162..0x7163  (1 bytes)
+DATA_no_visto_7162:
 	defb 00dh	; 7162
 
 ; ======================================================================
-; CODIGO 0x7163..0x71f0  (141 bytes)
+; CODIGO 0x7163..0x723d  (218 bytes)
 ; ======================================================================
 
 
@@ -2805,17 +2812,13 @@ L_71DE:
 	and a			;71ec   ; contra el scroll: Z si es ahora
 	sbc hl,de		;71ed
 	ret			;71ef
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x71f0..0x71f9  (9 bytes)
-DATA_71F0:
-	defb 03ah,089h,0e3h,087h,091h,0edh,044h,077h,0c9h	; 71f0  :.....Dw.
-
-; ======================================================================
-; CODIGO 0x71f9..0x723d  (68 bytes)
-; ======================================================================
-
-
+L_71F0:
+	ld a,(0e389h)		;71f0   ; nadie la llama: (HL) = la dificultad de la fase x 2 - C, al reves
+	add a,a			;71f3
+	sub c			;71f4
+	neg		;71f5
+	ld (hl),a			;71f7
+	ret			;71f8
 L_71F9:
 	call L_7228		;71f9   ; el enemigo 9: cada 0xE493 cuadros
 	ld hl,0e493h		;71fc   ; la espera de 0xE493
@@ -3660,29 +3663,25 @@ DATA_leido_775C:
 	defb 095h,0b6h,0abh,0a9h	; 77ec
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x77f0..0x77f1  (1 bytes)
-DATA_77F0:
+; DATOS no_visto_77F0: un byte suelto (0xC9) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   en la ROM hay 7 pares de bytes que valen 0x77F0
+;   0x77f0..0x77f1  (1 bytes)
+DATA_no_visto_77F0:
 	defb 0c9h	; 77f0
 
 ; ======================================================================
-; CODIGO 0x77f1..0x77f6  (5 bytes)
+; CODIGO 0x77f1..0x7855  (100 bytes)
 ; ======================================================================
 
 
 L_77F1:
 	ld hl,0ae4ah		;77f1
-	jr $+25		;77f4
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x77f6..0x77fb  (5 bytes)
-DATA_77F6:
-	defb 021h,0e1h,0b4h,018h,012h	; 77f6
-
-; ======================================================================
-; CODIGO 0x77fb..0x7855  (90 bytes)
-; ======================================================================
-
-
+	jr L_780D		;77f4
+L_77F6:
+	ld hl,0b4e1h		;77f6   ; nadie la llama: el puente a p05:B4E1 (p01:780D)
+	jr L_780D		;77f9
 L_77FB:
 	ld hl,0a1fch		;77fb
 	jr L_780D		;77fe
@@ -3751,7 +3750,7 @@ DATA_tabla_7855:
 	defb 068h,060h,048h,040h,038h,030h,028h,024h,020h,01ch,01ah,018h,014h,010h,00eh,00ch	; 7855  h`H@80($ .......
 
 ; ======================================================================
-; CODIGO 0x7865..0x787b  (22 bytes)
+; CODIGO 0x7865..0x7ad4  (623 bytes)
 ; ======================================================================
 
 
@@ -3763,18 +3762,14 @@ L_786E:
 	ld de,(0e472h)		;786e   ; lee la velocidad en y hacia la nave (16 bits; IX+7 de quien la usa)
 	call L_78AC		;7872   ; la velocidad en y (IX+7, 16 bits)
 	ld de,(0e474h)		;7875   ; lee la velocidad en x hacia la nave (16 bits; IX+9 de quien la usa)
-	jr $+58		;7879
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x787b..0x7888  (13 bytes)
-DATA_787B:
-	defb 0ddh,05eh,004h,0ddh,056h,006h,0cdh,08bh,063h,018h,0e8h,03eh,080h	; 787b  .^..V...c..>.
-
-; ======================================================================
-; CODIGO 0x7888..0x7ad4  (588 bytes)
-; ======================================================================
-
-
+	jr L_78B3		;7879
+L_787B:
+	ld e,(ix+004h)		;787b   ; nadie la llama: la distancia de IX+4/IX+6 a la nave (p01:638B) y p01:786E
+	ld d,(ix+006h)		;787e
+	call L_638B		;7881
+	jr L_786E		;7884
+L_7886:
+	ld a,080h		;7886   ; nadie la llama: A = 0x80 y sigue en p01:7888
 L_7888:
 	ld e,(ix+004h)		;7888   ; apunta a HL (H la y, L la x) con el paso A
 	ld d,(ix+006h)		;788b   ; lee la x del enemigo
@@ -4141,7 +4136,7 @@ DATA_tabla_7AD4:
 	defw 07b43h,07b42h,07b42h,0b9c4h,07b42h,0bc8ch,0bcaah	; 7b34
 
 ; ======================================================================
-; CODIGO 0x7b42..0x7b76  (52 bytes)
+; CODIGO 0x7b42..0x7c9a  (344 bytes)
 ; ======================================================================
 
 
@@ -4179,19 +4174,24 @@ L_7B6F:
 	jp 04148h		;7b72   ; bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 L_7B75:
 	jp (hl)			;7b75   ; salta a HL
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7b76..0x7b98  (34 bytes)
-DATA_7B76:
-	defb 0ddh,021h,000h,0e8h,006h,00ch,0ddh,07eh,02fh,0a7h,020h,00eh,0ddh,07eh,000h,0a7h	; 7b76  .!.....~/. ..~..
-	defb 028h,008h,0cdh,04fh,085h,030h,003h,0cdh,0d1h,075h,011h,040h,000h,0ddh,019h,010h	; 7b86  (..O.0...u.@....
-	defb 0e5h,0c9h	; 7b96
-
-; ======================================================================
-; CODIGO 0x7b98..0x7c9a  (258 bytes)
-; ======================================================================
-
-
+L_7B76:
+	ld ix,0e800h		;7b76   ; nadie la llama: los 12 enemigos (0xE800), los que estan sobre el decorado se quitan...
+	ld b,00ch		;7b7a
+L_7B7C:
+	ld a,(ix+02fh)		;7b7c   ; ...salvo con IX+2F
+	and a			;7b7f
+	jr nz,L_7B90		;7b80
+	ld a,(ix+000h)		;7b82   ; lee el tipo del enemigo (0: libre)
+	and a			;7b85
+	jr z,L_7B90		;7b86
+	call 0854fh		;7b88   ; sobre el decorado (p02:854F)? se quita (p01:75D1)
+	jr nc,L_7B90		;7b8b
+	call L_75D1		;7b8d   ; se quita el enemigo: uno menos (0xE462)
+L_7B90:
+	ld de,00040h		;7b90   ; el siguiente (0x40 bytes)
+	add ix,de		;7b93
+	djnz L_7B7C		;7b95
+	ret			;7b97
 L_7B98:
 	ld a,(0e361h)		;7b98   ; las piezas de la fase al empezar (p01:7BC0), salvo en la fase 4
 	cp 004h		;7b9b
@@ -4437,7 +4437,7 @@ DATA_leido_7D6C:
 	defb 006h,00dh,011h	; 7d6c
 
 ; ======================================================================
-; CODIGO 0x7d6f..0x7f96  (551 bytes)
+; CODIGO 0x7d6f..0x8000  (657 bytes)
 ; ======================================================================
 
 
@@ -4782,18 +4782,20 @@ L_7F89:
 	ld (ix+030h),a		;7f8f   ; guarda el dibujo del primer sprite del enemigo
 	ld (ix+032h),a		;7f92
 	ret			;7f95
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7f96..0x7fad  (23 bytes)
-DATA_7F96:
-	defb 03ah,003h,0e3h,0a0h,0c0h,0ddh,07eh,013h,03ch,0b9h,038h,001h,0afh,0ddh,077h,013h	; 7f96  :.....~.<.8...w.
-	defb 0cdh,06eh,04ah,0ddh,077h,007h,0c9h	; 7fa6
-
-; ======================================================================
-; CODIGO 0x7fad..0x8000  (83 bytes)
-; ======================================================================
-
-
+L_7F96:
+	ld a,(0e303h)		;7f96   ; nadie la llama: cada B cuadros, IX+13 sube hasta C (y vuelve a 0)...
+	and b			;7f99
+	ret nz			;7f9a
+	ld a,(ix+013h)		;7f9b
+	inc a			;7f9e
+	cp c			;7f9f
+	jr c,L_7FA3		;7fa0
+	xor a			;7fa2
+L_7FA3:
+	ld (ix+013h),a		;7fa3
+	call 04a6eh		;7fa6   ; ...y el dibujo IX+7 es el byte IX+13 de la tabla HL
+	ld (ix+007h),a		;7fa9
+	ret			;7fac
 L_7FAD:
 	ld a,r		;7fad   ; un numero al azar: el registro R y la cuenta de cuadros
 	rrca			;7faf

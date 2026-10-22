@@ -643,8 +643,12 @@ DATA_partitura_64DD:
 	defb 06ah,064h,05eh,059h,054h,04fh,04ah,046h,042h,03fh,03bh,038h	; 64dd  jd^YTOJFB?.8
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x64e9..0x64ea  (1 bytes)
-DATA_64E9:
+; DATOS no_visto_64E9: un byte suelto (0x35) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   ningun par de bytes de la ROM vale 0x64E9
+;   0x64e9..0x64ea  (1 bytes)
+DATA_no_visto_64E9:
 	defb 035h	; 64e9
 
 ; ======================================================================
@@ -2255,8 +2259,12 @@ DATA_partitura_7086:
 	defb 089h,081h,088h,080h,092h	; 7086
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x708b..0x708c  (1 bytes)
-DATA_708B:
+; DATOS no_visto_708B: un byte suelto (0x82) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   en la ROM hay 2 pares de bytes que valen 0x708B
+;   0x708b..0x708c  (1 bytes)
+DATA_no_visto_708B:
 	defb 082h	; 708b
 
 ; ----------------------------------------------------------------------
@@ -2768,8 +2776,12 @@ DATA_partitura_7415:
 	defb 021h,08ah	; 7425
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7427..0x742e  (7 bytes)
-DATA_7427:
+; DATOS no_visto_7427: no se ha visto leer: ninguna instruccion trazada lo
+;   apunta con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM
+;   vale 0x7427
+;   0x7427..0x742e  (7 bytes)
+DATA_no_visto_7427:
 	defb 011h,095h,001h,0a0h,001h,0b0h,0ffh	; 7427
 
 ; ----------------------------------------------------------------------
@@ -2812,8 +2824,12 @@ DATA_partitura_74E4:
 	defb 0eah,074h	; 74e4
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x74e6..0x74ea  (4 bytes)
-DATA_74E6:
+; DATOS no_visto_74E6: no se ha visto leer: ninguna instruccion trazada lo
+;   apunta con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM
+;   vale 0x74E6
+;   0x74e6..0x74ea  (4 bytes)
+DATA_no_visto_74E6:
 	defb 006h,075h,006h,075h	; 74e6
 
 ; ----------------------------------------------------------------------
@@ -2981,8 +2997,12 @@ DATA_onda_7ADC:
 	defb 0e4h,07bh,0e4h,07bh,004h,07ch,024h,07ch,044h,07ch,064h,07ch,084h,07ch,084h,07ch	; 7aec  .{.{.|$|D|d|.|.|
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7afc..0x7b44  (72 bytes)
-DATA_7AFC:
+; DATOS no_visto_7AFC: no se ha visto leer: ninguna instruccion trazada lo
+;   apunta con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM
+;   vale 0x7AFC
+;   0x7afc..0x7b44  (72 bytes)
+DATA_no_visto_7AFC:
 	defb 084h,07ch,084h,07ch,084h,07ch,084h,07ch,0a4h,07ch,0c4h,07ch,0e4h,07ch,004h,07dh	; 7afc  .|.|.|.|.|.|.|.}
 	defb 024h,07dh,044h,07dh,064h,07dh,064h,07dh,084h,07dh,0a4h,07dh,0c4h,07dh,0c4h,07dh	; 7b0c  $}D}d}d}.}.}.}.}
 	defb 0c4h,07dh,0c4h,07dh,0c4h,07dh,0c4h,07dh,0e4h,07dh,004h,07eh,024h,07eh,044h,07eh	; 7b1c  .}.}.}.}.}.~$~D~

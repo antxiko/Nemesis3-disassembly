@@ -80,8 +80,12 @@ DATA_partitura_8000:
 	defb 004h,0e4h,010h,004h,0e4h,00ch,004h,0e4h,008h,004h,0e1h,001h,003h,0ffh	; 83b0  ..............
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x83be..0x83bf  (1 bytes)
-DATA_83BE:
+; DATOS no_visto_83BE: un byte suelto (0xFF) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   ningun par de bytes de la ROM vale 0x83BE
+;   0x83be..0x83bf  (1 bytes)
+DATA_no_visto_83BE:
 	defb 0ffh	; 83be
 
 ; ----------------------------------------------------------------------
@@ -134,8 +138,12 @@ DATA_partitura_83BF:
 	defb 0d0h,040h,01dh,010h,0d0h,000h,01dh,0ffh,000h	; 862f  .@.......
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8638..0x868e  (86 bytes)
-DATA_8638:
+; DATOS no_visto_8638: no se ha visto leer: ninguna instruccion trazada lo
+;   apunta con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM
+;   vale 0x8638
+;   0x8638..0x868e  (86 bytes)
+DATA_no_visto_8638:
 	defb 078h,040h,0f0h,041h,068h,041h,0e0h,042h,058h,042h,0d0h,043h,020h,044h,030h,0feh	; 8638  x@.AhA.BXB.C D0.
 	defb 002h,0e0h,001h,0e2h,001h,070h,080h,071h,000h,071h,080h,072h,000h,072h,080h,030h	; 8648  .....p.q.q.r.r.0
 	defb 078h,060h,0f0h,061h,068h,061h,0e0h,062h,058h,062h,0d0h,063h,020h,064h,030h,000h	; 8658  x`.aha.bXb.c d0.

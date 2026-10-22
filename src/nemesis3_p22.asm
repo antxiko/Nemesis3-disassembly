@@ -260,8 +260,13 @@ DATA_rle_A737:
 	defb 000h,000h	; a897
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xa899..0xa8b6  (29 bytes)
-DATA_A899:
+; DATOS no_visto_A899: tiene la forma de un RLE de p00:4B3C que acaba justo en
+;   su ultimo byte; no se ha visto leer: ninguna instruccion trazada lo apunta
+;   con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 3 pares de bytes
+;   que valen 0xA899
+;   0xa899..0xa8b6  (29 bytes)
+DATA_no_visto_A899:
 	defb 07fh,090h,029h,090h,07fh,090h,029h,090h,020h,090h,020h,060h,068h,0e0h,018h,090h	; a899  ..)...). . `h...
 	defb 020h,060h,070h,0e0h,07fh,060h,029h,060h,07fh,060h,029h,060h,000h	; a8a9   `p..`)`.`)`.
 
@@ -889,8 +894,12 @@ DATA_leido_B907:
 	defb 000h,001h,000h,001h,000h,001h,000h,001h,000h,001h,000h	; bac7  ...........
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbad2..0xbb06  (52 bytes)
-DATA_BAD2:
+; DATOS no_visto_BAD2: no se ha visto leer: ninguna instruccion trazada lo
+;   apunta con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes
+;   que valen 0xBAD2
+;   0xbad2..0xbb06  (52 bytes)
+DATA_no_visto_BAD2:
 	defb 001h,000h,001h,000h,001h,000h,001h,000h,001h,000h,001h,000h,001h,000h,001h,000h	; bad2  ................
 	defb 000h,000h,000h,000h,001h,000h,001h,000h,001h,000h,001h,000h,001h,000h,001h,000h	; bae2  ................
 	defb 001h,000h,001h,000h,001h,000h,001h,000h,001h,000h,001h,000h,001h,000h,000h,000h	; baf2  ................

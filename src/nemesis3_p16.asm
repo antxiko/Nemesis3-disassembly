@@ -1909,8 +1909,12 @@ DATA_rle_7460:
 	defb 005h,086h,005h,096h,007h,086h,081h,098h,018h,086h,008h,096h,000h	; 7470  .............
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x747d..0x74fb  (126 bytes)
-DATA_747D:
+; DATOS no_visto_747D: no se ha visto leer: ninguna instruccion trazada lo
+;   apunta con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes
+;   que valen 0x747D
+;   0x747d..0x74fb  (126 bytes)
+DATA_no_visto_747D:
 	defb 089h,003h,01bh,01dh,05ch,0cch,0e0h,00dh,000h,0cch,003h,0deh,08ch,00ch,0c0h,0e6h	; 747d  ....\...........
 	defb 000h,040h,0e0h,0f0h,073h,02fh,01fh,01ch,009h,004h,000h,084h,080h,070h,038h,0b0h	; 748d  .@..s/.......p8.
 	defb 003h,003h,085h,001h,004h,00eh,00ch,019h,004h,080h,084h,020h,0f0h,078h,0b0h,004h	; 749d  ........... .x..
@@ -1948,8 +1952,13 @@ DATA_rle_755C:
 	defb 003h,0c0h,000h	; 75ac
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x75af..0x75b9  (10 bytes)
-DATA_75AF:
+; DATOS no_visto_75AF: tiene la forma de un RLE de p00:4B3C que acaba justo en
+;   su ultimo byte; no se ha visto leer: ninguna instruccion trazada lo apunta
+;   con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM
+;   vale 0x75AF
+;   0x75af..0x75b9  (10 bytes)
+DATA_no_visto_75AF:
 	defb 088h,03ch,076h,0f3h,0fbh,0fbh,0ffh,076h,03ch,000h	; 75af  .<v....v<.
 
 ; ----------------------------------------------------------------------
@@ -1965,8 +1974,13 @@ DATA_rle_75B9:
 	defb 003h,000h	; 75f9
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x75fb..0x763d  (66 bytes)
-DATA_75FB:
+; DATOS no_visto_75FB: tiene la forma de un RLE de p00:4B3C que acaba justo en
+;   su ultimo byte; no se ha visto leer: ninguna instruccion trazada lo apunta
+;   con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes
+;   que valen 0x75FB
+;   0x75fb..0x763d  (66 bytes)
+DATA_no_visto_75FB:
 	defb 0c0h,07fh,000h,072h,037h,073h,038h,092h,0d1h,0feh,000h,04eh,0ech,0ceh,01ch,049h	; 75fb  ...r7s8....N...I
 	defb 077h,020h,070h,03bh,016h,00ch,019h,0ffh,015h,000h,000h,020h,070h,0f8h,0f8h,000h	; 760b  w p........ p...
 	defb 0a8h,001h,001h,005h,015h,034h,03ah,000h,015h,080h,080h,0a0h,0a8h,02ch,05ch,0ffh	; 761b  .....4:......,\.
@@ -1996,8 +2010,13 @@ DATA_rle_767D:
 	defb 000h,08dh,003h,009h,01ch,000h,03fh,002h,004h,00ch,098h,030h,070h,020h,004h,000h	; 76ad  ......?....0p ..
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x76bd..0x76c6  (9 bytes)
-DATA_76BD:
+; DATOS no_visto_76BD: tiene la forma de un RLE de p00:4B3C que acaba justo en
+;   su ultimo byte; no se ha visto leer: ninguna instruccion trazada lo apunta
+;   con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes
+;   que valen 0x76BD
+;   0x76bd..0x76c6  (9 bytes)
+DATA_no_visto_76BD:
 	defb 008h,0c0h,008h,030h,008h,00ch,008h,003h,000h	; 76bd  ...0.....
 
 ; ----------------------------------------------------------------------
@@ -2009,8 +2028,12 @@ DATA_rle_76C6:
 	defb 002h,0ffh,006h,000h,002h,0ffh,006h,000h,000h	; 76c6  .........
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x76cf..0x77af  (224 bytes)
-DATA_76CF:
+; DATOS no_visto_76CF: no se ha visto leer: ninguna instruccion trazada lo
+;   apunta con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes
+;   que valen 0x76CF
+;   0x76cf..0x77af  (224 bytes)
+DATA_no_visto_76CF:
 	defb 004h,090h,081h,080h,003h,060h,002h,090h,002h,080h,084h,060h,080h,060h,060h,003h	; 76cf  .....`.....`.``.
 	defb 090h,002h,080h,083h,090h,080h,080h,006h,090h,002h,080h,003h,090h,08dh,080h,090h	; 76df  ................
 	defb 090h,080h,080h,090h,090h,080h,080h,090h,080h,080h,060h,006h,090h,002h,080h,003h	; 76ef  ..........`.....
@@ -2038,8 +2061,13 @@ DATA_rle_77AF:
 	defb 070h,0f0h,040h,050h,050h,070h,070h,0e0h,0f0h,070h,000h	; 77df  p.@PPpp..p.
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x77ea..0x782c  (66 bytes)
-DATA_77EA:
+; DATOS no_visto_77EA: tiene la forma de un RLE de p00:4B3C que acaba justo en
+;   su ultimo byte; no se ha visto leer: ninguna instruccion trazada lo apunta
+;   con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes
+;   que valen 0x77EA
+;   0x77ea..0x782c  (66 bytes)
+DATA_no_visto_77EA:
 	defb 092h,0e0h,0f0h,030h,0c0h,030h,0c0h,0c9h,0e2h,030h,0f0h,020h,0c0h,020h,0c0h,0c9h	; 77ea  ...0.0...0. . ..
 	defb 0c3h,0f0h,0e0h,003h,030h,0a5h,020h,000h,0c0h,0f0h,0f0h,030h,020h,020h,0c0h,0f0h	; 77fa  ....0. ....0  ..
 	defb 0c0h,0f0h,0f0h,0e0h,030h,020h,020h,0f0h,0c0h,0e0h,0e0h,030h,020h,020h,0c0h,000h	; 780a  ....0  ....0  ..
@@ -2069,8 +2097,13 @@ DATA_rle_7868:
 	defb 0b0h,090h,0f0h,080h,003h,0f0h,085h,0e0h,0b0h,090h,060h,060h,000h	; 7898  ..........``.
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x78a5..0x78c6  (33 bytes)
-DATA_78A5:
+; DATOS no_visto_78A5: tiene la forma de un RLE de p00:4B3C que acaba justo en
+;   su ultimo byte; no se ha visto leer: ninguna instruccion trazada lo apunta
+;   con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM
+;   vale 0x78A5
+;   0x78a5..0x78c6  (33 bytes)
+DATA_no_visto_78A5:
 	defb 002h,0f0h,081h,070h,003h,0f0h,002h,070h,002h,0f0h,081h,070h,003h,0f0h,002h,070h	; 78a5  ...p...p...p...p
 	defb 002h,0f0h,081h,070h,003h,0f0h,002h,070h,002h,0f0h,081h,070h,003h,0f0h,002h,070h	; 78b5  ...p...p...p...p
 	defb 000h	; 78c5

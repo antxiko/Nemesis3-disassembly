@@ -276,6 +276,10 @@ C 0x478D ...el texto PLAYER 1
 C 0x4794 y si es el segundo...
 C 0x4796 ...un 2 (0x03) encima del 1
 C 0x47B3 los puentes: guardan el reparto, ponen el de la rutina, la llaman y lo devuelven
+C 0x4806 nadie la llama: con 26-27-28, p26:6012 (la consola, como p00:45F0)...
+C 0x480C ...y el reparto de antes
+C 0x480F nadie la llama: con 26-27-28, p26:6015 (la consola, un cuadro)...
+C 0x4815 ...y el reparto de antes
 C 0x488D la partida a cero: 0xE360-0xEFFF...
 C 0x4895 ...o desde 0xE355
 C 0x489B a cero
@@ -329,6 +333,10 @@ C 0x4A08 la cifra alta...
 C 0x4A0F ...+ 0x40: el caracter de la cifra
 C 0x4A13 la cifra baja
 C 0x4A1A el par anterior
+C 0x4A1E nadie la llama: con dos jugadores (bit 5 de 0xE302)...
+C 0x4A24 ...y la cuenta & 0x0F a 0...
+C 0x4A29 ...C = 0, o 0xFF con los bits 4-5
+C 0x4A2F el texto de 0x863F, o el de 0x8644 con el bit 7 (p00:4B06)
 C 0x4A3C cambia B bytes de HL con los de DE
 C 0x4A46 la direccion de la tabla de 0xC400 que corresponde a la posicion HL
 C 0x4A47 0xC400 + la fila (y / 8) x 0x40...
@@ -351,8 +359,11 @@ C 0x4AA1 y la otra, borrada
 C 0x4AA3 la flecha (p02:8649) en HL
 C 0x4AA9 p00:48EF y la tabla de nombres (0x3800, 0x300 bytes) a cero: la pantalla en blanco
 C 0x4AB6 la direccion de VRAM de HL para escribir (SETWRT), y en C' el puerto de datos del VDP (de 0x0007)
+C 0x4AC2 nadie la llama: la VRAM de HL para leer y en C' el puerto del VDP (como p00:4AB6 para escribir)
 C 0x4AD3 a cada tercio, la misma copia...
 C 0x4AD9 ...y al tercio siguiente (0x800)
+C 0x4AF4 nadie la llama: el RLE de DE en los tres tercios (HL, +0x800, +0x1000)
+C 0x4AFB el tercio siguiente
 C 0x4B04 texto a la VRAM: DE apunta a la direccion; las letras tal cual (C = 0xFF)
 C 0x4B06 HL = la direccion de VRAM que trae el texto...
 C 0x4B0B ...y DE en la primera letra
@@ -661,6 +672,7 @@ C 0x55AD rle_a_ram: 0 acaba
 C 0x55B2 bit 7 a 0: el byte siguiente repetido (p00:55C1)
 C 0x55B7 bit 7 y nada mas: otro destino delante
 C 0x55BA bit 7 y una cuenta: tantos bytes sueltos
+C 0x55C9 nadie la llama: el destino delante (DE) y sigue en rle2_a_ram
 C 0x55CD rle2_a_ram: 0 acaba
 C 0x55D2 la cuenta, los bits 0-5
 C 0x55D6 bits 6-7: 0, repetido; 1, subiendo; 2, bajando
@@ -677,10 +689,12 @@ C 0x562C 0xE365 y 0xE442 a 0
 C 0x5636 el juego de caracteres de la BIOS (0x002B & 0x0F: 0 = japones)
 C 0x563C HL = H x E (multiplica)
 C 0x5648 los atributos de sprite de la RAM (0xEF00, 0x80 bytes) a 0xE0: fuera de la pantalla
+C 0x5656 nadie la llama: A al azar (el registro R) y sigue en p00:565D
 C 0x565A mezcla el azar de 0xE406 con la cuenta de cuadros x 3
 C 0x5669 el bufer de 0xC400 a cero (0x580 bytes)
 C 0x5677 guarda en 0xE7A0 las dos filas del marcador (0x3AC0)
 C 0x5683 y las devuelve
+C 0x568F nadie la llama: DE = 0x100 y sigue en segun_dificultad
 C 0x5692 la dificultad (0xE388) sube DE, segun 0xE39D: igual, el doble o la mitad
 C 0x5698 0xE39D = 1: el doble
 C 0x569B 2 o mas: la mitad
@@ -708,7 +722,7 @@ C 0x5775 antes de ella: su musica (p00:577A)
 C 0x5777 pasada: la entrada siguiente
 C 0x57EA el sonido 0x01
 C 0x57EE el sonido 0x02
-C 0x57F2 el sonido 0x03
+C 0x57F2 nadie la llama: el sonido 0x03 (con la orden 0x83, p00:5825)
 C 0x57F6 el sonido 0x09
 C 0x57FA el sonido 0x0A
 C 0x57FE el sonido 0x0B
@@ -749,7 +763,7 @@ C 0x5888 el sonido 0x4C
 C 0x588C el sonido 0x27
 C 0x5890 el sonido 0x28
 C 0x5894 el sonido 0x29
-C 0x5898 el sonido 0x2A
+C 0x5898 el sonido 0x2A: lo pide p03:B6EB, que tampoco llama nadie
 C 0x589A pide el sonido A al motor (p10:6003), con los bancos 10-11-12 y todo guardado
 C 0x58A1 los bancos 10-11-12: el motor de sonido
 C 0x58B0 p10:6003
@@ -772,7 +786,7 @@ C 0x5905 el sonido 0x37
 C 0x5909 el sonido 0x38
 C 0x590E el sonido 0x39
 C 0x5912 el sonido 0x3A
-C 0x5916 el sonido 0x3B
+C 0x5916 nadie la llama: el sonido 0x3B (p00:590B)
 C 0x591A el sonido 0x52
 C 0x591E la orden 0x83 al motor de sonido
 C 0x5923 el sonido 0x51
@@ -787,6 +801,7 @@ C 0x5945 la orden 0x81 al motor de sonido
 C 0x5949 la orden 0x82 al motor de sonido
 C 0x594D la orden 0x83 al motor de sonido
 C 0x5951 la orden 0x84 al motor de sonido
+C 0x5955 nadie la llama: la orden 0x85 al motor (p00:590B)
 C 0x5959 el bufer de 0xCA00 a cero (0x300 bytes: una pantalla de nombres)
 C 0x5967 el bufer de 0xCA00 a la tabla de nombres (0x3800): 0x2C0 bytes, sin las dos filas del marcador
 C 0x5971 256...
@@ -946,6 +961,9 @@ C 0x5FE7 el byte con la mascara al VDP
 C 0x5FED en los dibujos (0xE51A a 0), la mascara gira tres bits
 C 0x5FFA B veces
 # --- fin de lo escrito a mano ---
+
+# --- A MANO: comentarios, nombres y bloques ---
+D 0x57E9 0x57EA no_visto_57E9  un byte suelto (0x01) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes que valen 0x57E9
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x42A2 0x42B8 tabla_42A2  11 destinos del despachador p00:4093 (call en p00:429F, el indice en A): 42B8, 42EE, 434B, 439A, 4458, 44A1, 44C7, 4505, 4585, 461C, 469E; lo leen p00:429F (22 bytes)
@@ -1374,6 +1392,7 @@ C 0x47F7 un byte de la tabla de 0x94D0 por 0xE36F x 8 + 0xEF80 (p04:94BD)
 C 0x47FA devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
 C 0x47FD guarda_y_bancos_1_2_3: guarda el reparto en la pila y pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x4803 devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
+C 0x4812 la entrada de p00:480F, que no llama nadie: la consola, un cuadro (p26:6015)
 C 0x4818 guarda_y_bancos_26_27_28: guarda el reparto en la pila y pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 C 0x481B empieza una secuencia de dibujos (desde p30, p00:4818) (p26:6018)
 C 0x481E devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
@@ -1422,6 +1441,7 @@ C 0x49ED vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del V
 C 0x49F9 apunta a las vidas (BCD)
 C 0x4AA6 escribe_letras: escribe en la VRAM de HL las letras de DE
 C 0x4AD6 copia_a_vram: LDIRVM con origen DE y destino HL
+C 0x4AF8 rle_a_vram: descomprime a la VRAM de HL el RLE de DE
 C 0x4B66 suma_a_de: DE = DE + A
 C 0x4BCF la direccion de VRAM de 17 bits de HL para escribir: los bits altos al registro 14
 C 0x4BFC el mapper: pone en 0x6000 el banco de A

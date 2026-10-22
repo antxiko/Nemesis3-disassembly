@@ -87,6 +87,9 @@ C 0xBE20 tapada: se salta
 C 0xBE26 los sprites de 0xEF20 a cero (0x60 bytes)
 C 0xBE34 el RLE de 0xBE3B, con su direccion
 # --- fin de lo escrito a mano ---
+# --- A MANO: comentarios, nombres y bloques ---
+D 0xBB67 0xBBE9 no_visto_BB67  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0xBB67
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA019 dibujo_73_cola  el dibujo de secuencia 0x73 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits (sigue del banco 27); lo leen p26:634C, p26:6350, p26:6392 (25 bytes)
 F 0xA000 16

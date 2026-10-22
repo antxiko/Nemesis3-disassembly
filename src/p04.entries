@@ -15,6 +15,7 @@
 0x8036   # p00:5A39 call
 0x8064   # p00:47DF call
 0x8091   # p00:47DB call
+0x8336   # nadie la llama: hueco entre codigo trazado
 0x843D   # p01:695C call
 0x8515   # se ejecuta jugando (tools/cobertura.py): se llega desde p04:85F7 (ret)
 0x8516   # p00:5A3F call
@@ -52,6 +53,9 @@
 0x8EEF   # p04:8807 entrada 18 de la tabla de 0x880A (call 0x4093 en 0x8807)
 0x8EFE   # p04:870C entrada 15 de la tabla de 0x870F (call 0x4093 en 0x870C)
 0x8F33   # p04:870C entrada 19 de la tabla de 0x870F (call 0x4093 en 0x870C)
+0x90A0   # nadie la llama: hueco entre codigo trazado
+0x90AC   # nadie la llama: hueco entre codigo trazado
+0x90D8   # nadie la llama: hueco entre codigo trazado
 0x9178   # p04:870C entrada 18 de la tabla de 0x870F (call 0x4093 en 0x870C)
 0x9257   # p01:65ED call
 0x928B   # p04:870C entrada 14 de la tabla de 0x870F (call 0x4093 en 0x870C)
@@ -123,7 +127,7 @@
 0x9E67   # p05:B800 call
 0x9E96   # p05:B818 call
 0x9EA6   # p05:A36B jp
-0x9EDF   # p05:B62E jp cc
+0x9F00   # nadie la llama: hueco entre codigo trazado
 0x9F11   # p05:B5F6 call
 0x9F9C   # p05:B5FE jp cc
 0x9FA5   # p05:A003 jr cc

@@ -677,8 +677,12 @@ DATA_caracteres_AB28:
 	defb 040h,003h,070h,071h,001h,083h,03fh,084h,000h	; ab28  @.pq..?..
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xab31..0xab32  (1 bytes)
-DATA_AB31:
+; DATOS no_visto_AB31: un byte suelto (0x00) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   en la ROM hay 1 pares de bytes que valen 0xAB31
+;   0xab31..0xab32  (1 bytes)
+DATA_no_visto_AB31:
 	defb 000h	; ab31
 
 ; ----------------------------------------------------------------------
@@ -911,8 +915,12 @@ DATA_caracteres_ACCA:
 	defb 040h,003h,06ah,06bh,001h,083h,03fh,084h,000h	; acca  @.jk..?..
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xacd3..0xacd4  (1 bytes)
-DATA_ACD3:
+; DATOS no_visto_ACD3: un byte suelto (0x00) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   en la ROM hay 1 pares de bytes que valen 0xACD3
+;   0xacd3..0xacd4  (1 bytes)
+DATA_no_visto_ACD3:
 	defb 000h	; acd3
 
 ; ----------------------------------------------------------------------

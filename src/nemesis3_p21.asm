@@ -830,68 +830,127 @@ DATA_rle_9704:
 	defb 0c0h,000h	; 9844
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9846..0x9bfd  (951 bytes)
-DATA_9846:
+; DATOS rle_9846: los dibujos de una entrada de la lista de 20:6CFC, que no
+;   apunta nada, en RLE (p00:4B3C); lo leen nadie (103 bytes)
+;   0x9846..0x98ad  (103 bytes)
+DATA_rle_9846:
 	defb 090h,000h,06ch,008h,034h,018h,00eh,007h,001h,0d0h,080h,0a0h,0a0h,040h,060h,060h	; 9846  ..l.4........@``
 	defb 020h,004h,000h,086h,003h,01eh,0e1h,0ech,000h,070h,007h,000h,081h,001h,005h,003h	; 9856   ........p......
 	defb 083h,001h,000h,080h,005h,0c0h,081h,080h,004h,000h,084h,0c0h,020h,090h,050h,006h	; 9866  ............ .P.
 	defb 028h,088h,050h,090h,090h,0a0h,020h,040h,040h,080h,005h,000h,085h,00fh,030h,047h	; 9876  (.P... @@.....0G
 	defb 098h,060h,004h,000h,084h,0c0h,030h,0c8h,034h,003h,000h,08ah,00fh,030h,047h,088h	; 9886  .`....0.4....0G.
 	defb 090h,090h,088h,047h,030h,00fh,005h,000h,088h,0e0h,010h,0c8h,024h,014h,014h,090h	; 9896  ...G0.......$...
-	defb 048h,004h,024h,082h,048h,090h,000h,002h,0e0h,083h,050h,0f0h,050h,003h,040h,082h	; 98a6  H.$.H.....P.P.@.
-	defb 0f0h,0e0h,004h,050h,006h,040h,084h,0f0h,0e0h,050h,040h,006h,050h,004h,0f0h,083h	; 98b6  ...P.@...P@.P...
-	defb 0e0h,050h,050h,004h,040h,084h,0f0h,0e0h,050h,050h,004h,040h,006h,0c0h,085h,020h	; 98c6  .PP.@...PP.@...
-	defb 030h,030h,020h,030h,003h,020h,009h,0c0h,004h,020h,012h,0c0h,084h,020h,030h,030h	; 98d6  00 0. ... ... 00
-	defb 020h,004h,0c0h,005h,020h,002h,030h,002h,020h,003h,0c0h,086h,020h,030h,030h,020h	; 98e6   ... .0. ... 00
-	defb 0c0h,0c0h,000h,003h,02ah,081h,00ah,008h,000h,084h,014h,05dh,055h,055h,000h,002h	; 98f6  ....*......]UU..
-	defb 020h,00ch,030h,002h,020h,000h,007h,02ah,083h,00ah,028h,0bah,005h,0aah,085h,0bah	; 9906   .0. ..*..(.....
-	defb 0aah,0aeh,0aah,06ah,003h,02ah,081h,03ah,003h,0aah,081h,0bah,005h,0aah,087h,0bah	; 9916  ...j.*.:........
-	defb 0aeh,0aah,0aah,0aeh,0aah,06ah,005h,0aah,081h,0bah,003h,0aah,087h,0bah,0aeh,0aah	; 9926  .....j..........
-	defb 0aah,0aeh,0aah,0eah,000h,004h,0c0h,002h,020h,004h,030h,002h,020h,004h,0c0h,004h	; 9936  ........ .0. ...
-	defb 020h,008h,0c0h,004h,020h,004h,0c0h,008h,020h,008h,0c0h,004h,020h,000h,004h,0bdh	; 9946   ... ... ... ...
-	defb 084h,018h,0e7h,042h,000h,004h,0ffh,095h,018h,0e7h,042h,000h,000h,0eeh,0e0h,00eh	; 9956  ...B......B.....
-	defb 0aah,0ffh,0dfh,059h,000h,0f8h,0feh,009h,0e7h,0f7h,0f0h,0f3h,0f4h,003h,0b5h,085h	; 9966  ...Y............
-	defb 0f5h,0b4h,0b5h,0b4h,02fh,003h,0adh,094h,0afh,02dh,0adh,02dh,000h,07ah,07ah,040h	; 9976  ..../....-.-.zz@
-	defb 01eh,056h,056h,000h,006h,0e6h,006h,0e6h,0aeh,0feh,0deh,0d6h,000h,08fh,0b0h,030h	; 9986  .VV............0
-	defb 020h,0c0h,030h,0c0h,062h,020h,020h,030h,020h,0c0h,030h,0c0h,062h,003h,030h,088h	; 9996   .0.b  0 .0.b.0.
-	defb 020h,0c0h,020h,020h,030h,0c0h,020h,020h,003h,0c0h,002h,020h,083h,030h,020h,030h	; 99a6   .  0.  ... .0 0
-	defb 005h,020h,083h,0c0h,020h,030h,005h,020h,002h,0c0h,085h,030h,0c0h,020h,020h,0c0h	; 99b6  . .. 0. ...0.  .
-	defb 004h,030h,086h,020h,0c0h,020h,020h,030h,0c0h,000h,088h,07eh,0ffh,042h,0ffh,042h	; 99c6  .0. .  0...~.B.B
-	defb 0ffh,042h,07eh,003h,0bdh,002h,000h,003h,0bdh,082h,05ah,000h,004h,05ah,08bh,000h	; 99d6  .B~.......Z..Z..
-	defb 05ah,0bdh,066h,0dbh,0bdh,0bdh,0dbh,066h,0bdh,000h,006h,03ch,002h,000h,0b9h,03ch	; 99e6  Z.f....f...<...<
-	defb 000h,03ch,000h,03ch,000h,03ch,081h,0bdh,0a5h,0bdh,0bdh,0a5h,0bdh,081h,0dbh,000h	; 99f6  .<.<.<..........
-	defb 07eh,05ah,05ah,07eh,000h,0dbh,000h,07bh,07bh,000h,07eh,0a8h,0a0h,000h,0e0h,0cfh	; 9a06  ~ZZ~...{{.~.....
-	defb 0bbh,07eh,07dh,040h,00fh,0ffh,07eh,080h,07eh,0e7h,0e7h,047h,057h,056h,0f0h,0f0h	; 9a16  .~}@..~.~..GWV..
-	defb 0c0h,0d0h,018h,0fch,01ch,0fch,080h,0b0h,004h,030h,085h,0b0h,080h,05ch,038h,0b8h	; 9a26  .........0...\8.
-	defb 004h,0b0h,084h,080h,0c0h,0fch,008h,005h,06ch,0b2h,000h,07eh,07eh,03ch,042h,018h	; 9a36  ........l..~~<B.
-	defb 042h,0dbh,0fbh,0fbh,000h,055h,055h,000h,0fbh,0fbh,0dbh,042h,0dbh,0c3h,05ah,0c3h	; 9a46  B....UU....B..Z.
-	defb 0dbh,0c3h,0d4h,0f5h,035h,0a5h,0a5h,035h,0f5h,0d4h,04fh,04fh,050h,015h,075h,07fh	; 9a56  ....5..5..OOP.u.
-	defb 055h,050h,000h,0d8h,0d8h,001h,07eh,003h,028h,02eh,07eh,05ah,003h,0ffh,082h,0c3h	; 9a66  UP....~.(.~Z....
-	defb 0dbh,003h,05ah,09fh,0c3h,0ffh,0ffh,0dbh,05ah,000h,07eh,03ch,07eh,03ch,099h,07eh	; 9a76  ..Z.....Z.~<~<.~
-	defb 07eh,0ffh,03ch,07eh,07eh,0e7h,07eh,07eh,0dbh,05ah,0ffh,03ch,07eh,07eh,05ah,07eh	; 9a86  ~.<~~.~~.Z.<~~Z~
-	defb 07eh,066h,0dbh,006h,03ch,081h,0dbh,004h,03ch,087h,05ah,042h,07eh,05ah,05ah,07eh	; 9a96  ~f..<...<.ZB~ZZ~
-	defb 07eh,003h,03ch,085h,07eh,042h,05ah,081h,0dbh,003h,07eh,0b2h,000h,042h,03ch,042h	; 9aa6  ~.<.~BZ...~..B<B
-	defb 018h,05ah,07eh,03ch,07eh,07eh,000h,07bh,07bh,000h,07eh,080h,0b8h,000h,0dbh,0c3h	; 9ab6  .Z~<~~.{{.~.....
-	defb 03ch,018h,000h,05ah,03ch,03ch,000h,000h,057h,056h,055h,076h,055h,076h,000h,000h	; 9ac6  <..Z<<..WVUvUv..
-	defb 0ffh,0aah,055h,0aah,055h,0aah,000h,000h,0eah,0aah,06ah,0aeh,06ah,0aeh,000h,08ah	; 9ad6  ..U.U.....j.j...
-	defb 040h,0c0h,050h,0c0h,050h,0c0h,040h,040h,090h,0a0h,004h,080h,090h,0a0h,090h,060h	; 9ae6  @.P.P.@@.......`
-	defb 060h,080h,090h,090h,080h,060h,060h,050h,050h,0e0h,0f0h,0f0h,0e0h,004h,050h,086h	; 9af6  `....``PP.....P.
-	defb 0e0h,0f0h,0f0h,0e0h,050h,050h,003h,0f0h,081h,0e0h,003h,050h,08fh,040h,050h,050h	; 9b06  ....PP.....P.@PP
-	defb 0e0h,0f0h,0f0h,0e0h,050h,050h,040h,040h,050h,0f0h,0f0h,050h,003h,040h,081h,0e0h	; 9b16  ....PP@@P..P.@..
-	defb 004h,050h,003h,040h,0a7h,0f0h,0e0h,050h,040h,040h,0e0h,040h,040h,050h,050h,0e0h	; 9b26  .P.@...P@@.@@PP.
-	defb 0f0h,0e0h,050h,040h,0f0h,050h,040h,040h,0f0h,0f0h,0e0h,050h,040h,040h,050h,0f0h	; 9b36  ..P@.P@@...P@@P.
-	defb 0f0h,050h,040h,040h,0f0h,0e0h,0e0h,0f0h,0e0h,050h,050h,0e0h,004h,0f0h,004h,0e0h	; 9b46  .P@@.....PP.....
-	defb 002h,050h,083h,040h,0f0h,0e0h,004h,050h,081h,0e0h,004h,0f0h,083h,0e0h,050h,0f0h	; 9b56  .P.@...P......P.
-	defb 003h,0e0h,002h,050h,0e4h,0e0h,050h,050h,0e0h,0e0h,0f0h,0f0h,0e0h,050h,040h,050h	; 9b66  ...P..PP.....P@P
-	defb 0f0h,050h,050h,0e0h,050h,040h,0c0h,040h,040h,050h,0c0h,050h,0c0h,0e0h,0f0h,050h	; 9b76  .PP.P@.@@P.P...P
-	defb 040h,040h,050h,050h,0e0h,0e0h,0feh,050h,0f5h,0e0h,0f0h,0e0h,050h,040h,040h,0f0h	; 9b86  @@PP...P....P@@.
-	defb 0e5h,040h,0feh,0e0h,054h,054h,040h,0e4h,0f4h,0f4h,0e0h,050h,0e4h,050h,050h,040h	; 9b96  .@..TT@....P.PP@
-	defb 0f0h,0e4h,0e4h,050h,0e4h,0e4h,050h,040h,0e4h,0e5h,0f0h,0f0h,0e5h,0e4h,040h,0f0h	; 9ba6  ...P..P@......@.
-	defb 0f0h,0e0h,0e0h,0f0h,0e0h,0e0h,0f0h,050h,0f4h,054h,054h,040h,0f0h,0f0h,0e0h,050h	; 9bb6  .......P.TT@...P
-	defb 0e0h,0e0h,0f4h,054h,040h,000h,0f4h,0e5h,040h,003h,050h,082h,0f0h,050h,003h,040h	; 9bc6  ...T@...@.P..P.@
-	defb 002h,050h,083h,0e0h,050h,040h,004h,050h,085h,054h,050h,050h,0feh,050h,003h,040h	; 9bd6  .P..P@.P.TPP.P.@
-	defb 085h,050h,0e0h,0f0h,0e0h,0f0h,003h,040h,085h,050h,0e0h,0f0h,0e0h,0f0h,003h,040h	; 9be6  .P.....@.P.....@
-	defb 085h,050h,0e0h,0f0h,0e0h,0f0h,000h	; 9bf6
+	defb 048h,004h,024h,082h,048h,090h,000h	; 98a6
+
+; ----------------------------------------------------------------------
+; DATOS rle_98AD: los colores de una entrada de la lista de 20:6CFC, que no
+;   apunta nada, en RLE (p00:4B3C); lo leen nadie (76 bytes)
+;   0x98ad..0x98f9  (76 bytes)
+DATA_rle_98AD:
+	defb 002h,0e0h,083h,050h,0f0h,050h,003h,040h,082h,0f0h,0e0h,004h,050h,006h,040h,084h	; 98ad  ...P.P.@....P.@.
+	defb 0f0h,0e0h,050h,040h,006h,050h,004h,0f0h,083h,0e0h,050h,050h,004h,040h,084h,0f0h	; 98bd  ..P@.P....PP.@..
+	defb 0e0h,050h,050h,004h,040h,006h,0c0h,085h,020h,030h,030h,020h,030h,003h,020h,009h	; 98cd  .PP.@... 00 0. .
+	defb 0c0h,004h,020h,012h,0c0h,084h,020h,030h,030h,020h,004h,0c0h,005h,020h,002h,030h	; 98dd  .. ... 00 ... .0
+	defb 002h,020h,003h,0c0h,086h,020h,030h,030h,020h,0c0h,0c0h,000h	; 98ed  . ... 00 ...
+
+; ----------------------------------------------------------------------
+; DATOS rle_98F9: los dibujos de una entrada de la lista de 20:6CFC, que no
+;   apunta nada, en RLE (p00:4B3C); lo leen nadie (12 bytes)
+;   0x98f9..0x9905  (12 bytes)
+DATA_rle_98F9:
+	defb 003h,02ah,081h,00ah,008h,000h,084h,014h,05dh,055h,055h,000h	; 98f9  .*......]UU.
+
+; ----------------------------------------------------------------------
+; DATOS rle_9905: los colores de una entrada de la lista de 20:6CFC, que no
+;   apunta nada, en RLE (p00:4B3C); lo leen nadie (7 bytes)
+;   0x9905..0x990c  (7 bytes)
+DATA_rle_9905:
+	defb 002h,020h,00ch,030h,002h,020h,000h	; 9905
+
+; ----------------------------------------------------------------------
+; DATOS rle_990C: los dibujos de una entrada de la lista de 20:6CFC, que no
+;   apunta nada, en RLE (p00:4B3C); lo leen nadie (47 bytes)
+;   0x990c..0x993b  (47 bytes)
+DATA_rle_990C:
+	defb 007h,02ah,083h,00ah,028h,0bah,005h,0aah,085h,0bah,0aah,0aeh,0aah,06ah,003h,02ah	; 990c  .*..(........j.*
+	defb 081h,03ah,003h,0aah,081h,0bah,005h,0aah,087h,0bah,0aeh,0aah,0aah,0aeh,0aah,06ah	; 991c  .:.............j
+	defb 005h,0aah,081h,0bah,003h,0aah,087h,0bah,0aeh,0aah,0aah,0aeh,0aah,0eah,000h	; 992c  ...............
+
+; ----------------------------------------------------------------------
+; DATOS rle_993B: los colores de una entrada de la lista de 20:6CFC, que no
+;   apunta nada, en RLE (p00:4B3C); lo leen nadie (25 bytes)
+;   0x993b..0x9954  (25 bytes)
+DATA_rle_993B:
+	defb 004h,0c0h,002h,020h,004h,030h,002h,020h,004h,0c0h,004h,020h,008h,0c0h,004h,020h	; 993b  ... .0. ... ...
+	defb 004h,0c0h,008h,020h,008h,0c0h,004h,020h,000h	; 994b  ... ... .
+
+; ----------------------------------------------------------------------
+; DATOS rle_9954: los dibujos de una entrada de la lista de 20:6CFC, que no
+;   apunta nada, en RLE (p00:4B3C); lo leen nadie (63 bytes)
+;   0x9954..0x9993  (63 bytes)
+DATA_rle_9954:
+	defb 004h,0bdh,084h,018h,0e7h,042h,000h,004h,0ffh,095h,018h,0e7h,042h,000h,000h,0eeh	; 9954  .....B......B...
+	defb 0e0h,00eh,0aah,0ffh,0dfh,059h,000h,0f8h,0feh,009h,0e7h,0f7h,0f0h,0f3h,0f4h,003h	; 9964  .....Y..........
+	defb 0b5h,085h,0f5h,0b4h,0b5h,0b4h,02fh,003h,0adh,094h,0afh,02dh,0adh,02dh,000h,07ah	; 9974  ....../....-.-.z
+	defb 07ah,040h,01eh,056h,056h,000h,006h,0e6h,006h,0e6h,0aeh,0feh,0deh,0d6h,000h	; 9984  z@.VV..........
+
+; ----------------------------------------------------------------------
+; DATOS rle_9993: los colores de una entrada de la lista de 20:6CFC, que no
+;   apunta nada, en RLE (p00:4B3C); lo leen nadie (61 bytes)
+;   0x9993..0x99d0  (61 bytes)
+DATA_rle_9993:
+	defb 08fh,0b0h,030h,020h,0c0h,030h,0c0h,062h,020h,020h,030h,020h,0c0h,030h,0c0h,062h	; 9993  ..0 .0.b  0 .0.b
+	defb 003h,030h,088h,020h,0c0h,020h,020h,030h,0c0h,020h,020h,003h,0c0h,002h,020h,083h	; 99a3  .0. .  0.  ... .
+	defb 030h,020h,030h,005h,020h,083h,0c0h,020h,030h,005h,020h,002h,0c0h,085h,030h,0c0h	; 99b3  0 0. .. 0. ...0.
+	defb 020h,020h,0c0h,004h,030h,086h,020h,0c0h,020h,020h,030h,0c0h,000h	; 99c3    ..0. .  0..
+
+; ----------------------------------------------------------------------
+; DATOS rle_99D0: los dibujos de una entrada de la lista de 20:6CFC, que no
+;   apunta nada, en RLE (p00:4B3C); lo leen nadie (277 bytes)
+;   0x99d0..0x9ae5  (277 bytes)
+DATA_rle_99D0:
+	defb 088h,07eh,0ffh,042h,0ffh,042h,0ffh,042h,07eh,003h,0bdh,002h,000h,003h,0bdh,082h	; 99d0  .~.B.B.B~.......
+	defb 05ah,000h,004h,05ah,08bh,000h,05ah,0bdh,066h,0dbh,0bdh,0bdh,0dbh,066h,0bdh,000h	; 99e0  Z..Z..Z.f....f..
+	defb 006h,03ch,002h,000h,0b9h,03ch,000h,03ch,000h,03ch,000h,03ch,081h,0bdh,0a5h,0bdh	; 99f0  .<...<.<.<.<....
+	defb 0bdh,0a5h,0bdh,081h,0dbh,000h,07eh,05ah,05ah,07eh,000h,0dbh,000h,07bh,07bh,000h	; 9a00  ......~ZZ~...{{.
+	defb 07eh,0a8h,0a0h,000h,0e0h,0cfh,0bbh,07eh,07dh,040h,00fh,0ffh,07eh,080h,07eh,0e7h	; 9a10  ~......~}@..~.~.
+	defb 0e7h,047h,057h,056h,0f0h,0f0h,0c0h,0d0h,018h,0fch,01ch,0fch,080h,0b0h,004h,030h	; 9a20  .GWV...........0
+	defb 085h,0b0h,080h,05ch,038h,0b8h,004h,0b0h,084h,080h,0c0h,0fch,008h,005h,06ch,0b2h	; 9a30  ...\8.........l.
+	defb 000h,07eh,07eh,03ch,042h,018h,042h,0dbh,0fbh,0fbh,000h,055h,055h,000h,0fbh,0fbh	; 9a40  .~~<B.B....UU...
+	defb 0dbh,042h,0dbh,0c3h,05ah,0c3h,0dbh,0c3h,0d4h,0f5h,035h,0a5h,0a5h,035h,0f5h,0d4h	; 9a50  .B..Z.....5..5..
+	defb 04fh,04fh,050h,015h,075h,07fh,055h,050h,000h,0d8h,0d8h,001h,07eh,003h,028h,02eh	; 9a60  OOP.u.UP....~.(.
+	defb 07eh,05ah,003h,0ffh,082h,0c3h,0dbh,003h,05ah,09fh,0c3h,0ffh,0ffh,0dbh,05ah,000h	; 9a70  ~Z......Z.....Z.
+	defb 07eh,03ch,07eh,03ch,099h,07eh,07eh,0ffh,03ch,07eh,07eh,0e7h,07eh,07eh,0dbh,05ah	; 9a80  ~<~<.~~.<~~.~~.Z
+	defb 0ffh,03ch,07eh,07eh,05ah,07eh,07eh,066h,0dbh,006h,03ch,081h,0dbh,004h,03ch,087h	; 9a90  .<~~Z~~f..<...<.
+	defb 05ah,042h,07eh,05ah,05ah,07eh,07eh,003h,03ch,085h,07eh,042h,05ah,081h,0dbh,003h	; 9aa0  ZB~ZZ~~.<.~BZ...
+	defb 07eh,0b2h,000h,042h,03ch,042h,018h,05ah,07eh,03ch,07eh,07eh,000h,07bh,07bh,000h	; 9ab0  ~..B<B.Z~<~~.{{.
+	defb 07eh,080h,0b8h,000h,0dbh,0c3h,03ch,018h,000h,05ah,03ch,03ch,000h,000h,057h,056h	; 9ac0  ~.....<..Z<<..WV
+	defb 055h,076h,055h,076h,000h,000h,0ffh,0aah,055h,0aah,055h,0aah,000h,000h,0eah,0aah	; 9ad0  UvUv....U.U.....
+	defb 06ah,0aeh,06ah,0aeh,000h	; 9ae0
+
+; ----------------------------------------------------------------------
+; DATOS rle_9AE5: los colores de una entrada de la lista de 20:6CFC, que no
+;   apunta nada, en RLE (p00:4B3C); lo leen nadie (280 bytes)
+;   0x9ae5..0x9bfd  (280 bytes)
+DATA_rle_9AE5:
+	defb 08ah,040h,0c0h,050h,0c0h,050h,0c0h,040h,040h,090h,0a0h,004h,080h,090h,0a0h,090h	; 9ae5  .@.P.P.@@.......
+	defb 060h,060h,080h,090h,090h,080h,060h,060h,050h,050h,0e0h,0f0h,0f0h,0e0h,004h,050h	; 9af5  ``....``PP.....P
+	defb 086h,0e0h,0f0h,0f0h,0e0h,050h,050h,003h,0f0h,081h,0e0h,003h,050h,08fh,040h,050h	; 9b05  .....PP.....P.@P
+	defb 050h,0e0h,0f0h,0f0h,0e0h,050h,050h,040h,040h,050h,0f0h,0f0h,050h,003h,040h,081h	; 9b15  P....PP@@P..P.@.
+	defb 0e0h,004h,050h,003h,040h,0a7h,0f0h,0e0h,050h,040h,040h,0e0h,040h,040h,050h,050h	; 9b25  ..P.@...P@@.@@PP
+	defb 0e0h,0f0h,0e0h,050h,040h,0f0h,050h,040h,040h,0f0h,0f0h,0e0h,050h,040h,040h,050h	; 9b35  ...P@.P@@...P@@P
+	defb 0f0h,0f0h,050h,040h,040h,0f0h,0e0h,0e0h,0f0h,0e0h,050h,050h,0e0h,004h,0f0h,004h	; 9b45  ..P@@.....PP....
+	defb 0e0h,002h,050h,083h,040h,0f0h,0e0h,004h,050h,081h,0e0h,004h,0f0h,083h,0e0h,050h	; 9b55  ..P.@...P......P
+	defb 0f0h,003h,0e0h,002h,050h,0e4h,0e0h,050h,050h,0e0h,0e0h,0f0h,0f0h,0e0h,050h,040h	; 9b65  ....P..PP.....P@
+	defb 050h,0f0h,050h,050h,0e0h,050h,040h,0c0h,040h,040h,050h,0c0h,050h,0c0h,0e0h,0f0h	; 9b75  P.PP.P@.@@P.P...
+	defb 050h,040h,040h,050h,050h,0e0h,0e0h,0feh,050h,0f5h,0e0h,0f0h,0e0h,050h,040h,040h	; 9b85  P@@PP...P....P@@
+	defb 0f0h,0e5h,040h,0feh,0e0h,054h,054h,040h,0e4h,0f4h,0f4h,0e0h,050h,0e4h,050h,050h	; 9b95  ..@..TT@....P.PP
+	defb 040h,0f0h,0e4h,0e4h,050h,0e4h,0e4h,050h,040h,0e4h,0e5h,0f0h,0f0h,0e5h,0e4h,040h	; 9ba5  @...P..P@......@
+	defb 0f0h,0f0h,0e0h,0e0h,0f0h,0e0h,0e0h,0f0h,050h,0f4h,054h,054h,040h,0f0h,0f0h,0e0h	; 9bb5  ........P.TT@...
+	defb 050h,0e0h,0e0h,0f4h,054h,040h,000h,0f4h,0e5h,040h,003h,050h,082h,0f0h,050h,003h	; 9bc5  P...T@...@.P..P.
+	defb 040h,002h,050h,083h,0e0h,050h,040h,004h,050h,085h,054h,050h,050h,0feh,050h,003h	; 9bd5  @.P..P@.P.TPP.P.
+	defb 040h,085h,050h,0e0h,0f0h,0e0h,0f0h,003h,040h,085h,050h,0e0h,0f0h,0e0h,0f0h,003h	; 9be5  @.P.....@.P.....
+	defb 040h,085h,050h,0e0h,0f0h,0e0h,0f0h,000h	; 9bf5  @.P.....
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_9BFD: los dibujos de una entrada de la lista de graficos de

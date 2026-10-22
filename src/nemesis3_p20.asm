@@ -725,16 +725,49 @@ DATA_copias_6CF3:
 	defb 000h	; 6cfb
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6cfc..0x6d7c  (128 bytes)
-DATA_6CFC:
-	defb 007h,046h,098h,059h,0adh,098h,007h,0f9h,098h,08bh,005h,099h,007h,00ch,099h,093h	; 6cfc  .F.Y............
-	defb 03bh,099h,007h,054h,099h,0a1h,093h,099h,007h,0d0h,099h,0adh,0e5h,09ah,000h,05fh	; 6d0c  ...T..........._
-	defb 068h,03ch,009h,059h,071h,03ch,004h,059h,075h,0bch,00bh,066h,080h,0bch,001h,07bh	; 6d1c  h<.Yq<.Yu..f...{
-	defb 081h,03ch,005h,080h,086h,03ch,001h,075h,087h,03ch,004h,08bh,08dh,03ch,002h,093h	; 6d2c  .<...<.u.<...<..
-	defb 09ah,03ch,007h,0a1h,0a9h,0bch,004h,0b5h,0d1h,03ch,007h,0bdh,0d8h,03ch,001h,0bfh	; 6d3c  .<.......<...<..
-	defb 0d9h,03ch,002h,0cch,0dbh,03ch,001h,0c1h,0dch,03ch,001h,0b5h,0ddh,0bch,004h,0bah	; 6d4c  .<...<...<......
-	defb 0e1h,0bch,003h,0beh,0e4h,0bch,009h,0c8h,0edh,0bch,006h,0ddh,0f3h,03ch,006h,0e5h	; 6d5c  .............<..
-	defb 0f9h,03ch,003h,0f1h,0fch,03ch,001h,0ceh,0fdh,0bch,003h,0fdh,0fdh,03ch,003h,000h	; 6d6c  .<...<.......<..
+; DATOS graficos_6CFC: lista de graficos (p00:4CB1) a la que no apunta nada:
+;   ningun par de bytes de la ROM vale 0x6CFC y ninguna partida la lee;
+;   entradas de 6 bytes y un 0; lo leen nadie (31 bytes)
+;   0x6cfc..0x6d1b  (31 bytes)
+DATA_graficos_6CFC:
+	defb 007h,046h,098h,059h,0adh,098h	; 6cfc
+	defb 007h,0f9h,098h,08bh,005h,099h	; 6d02
+	defb 007h,00ch,099h,093h,03bh,099h	; 6d08
+	defb 007h,054h,099h,0a1h,093h,099h	; 6d0e
+	defb 007h,0d0h,099h,0adh,0e5h,09ah	; 6d14
+	defb 000h	; 6d1a
+
+; ----------------------------------------------------------------------
+; DATOS copias_6D1B: lista de copias con vuelta (p00:4D1B), de 4 en 4 hasta un
+;   0, detras de la de 0x6CFC; tampoco la apunta nada; lo leen nadie (97
+;   bytes)
+;   0x6d1b..0x6d7c  (97 bytes)
+DATA_copias_6D1B:
+	defb 05fh,068h,03ch,009h	; 6d1b
+	defb 059h,071h,03ch,004h	; 6d1f
+	defb 059h,075h,0bch,00bh	; 6d23
+	defb 066h,080h,0bch,001h	; 6d27
+	defb 07bh,081h,03ch,005h	; 6d2b
+	defb 080h,086h,03ch,001h	; 6d2f
+	defb 075h,087h,03ch,004h	; 6d33
+	defb 08bh,08dh,03ch,002h	; 6d37
+	defb 093h,09ah,03ch,007h	; 6d3b
+	defb 0a1h,0a9h,0bch,004h	; 6d3f
+	defb 0b5h,0d1h,03ch,007h	; 6d43
+	defb 0bdh,0d8h,03ch,001h	; 6d47
+	defb 0bfh,0d9h,03ch,002h	; 6d4b
+	defb 0cch,0dbh,03ch,001h	; 6d4f
+	defb 0c1h,0dch,03ch,001h	; 6d53
+	defb 0b5h,0ddh,0bch,004h	; 6d57
+	defb 0bah,0e1h,0bch,003h	; 6d5b
+	defb 0beh,0e4h,0bch,009h	; 6d5f
+	defb 0c8h,0edh,0bch,006h	; 6d63
+	defb 0ddh,0f3h,03ch,006h	; 6d67
+	defb 0e5h,0f9h,03ch,003h	; 6d6b
+	defb 0f1h,0fch,03ch,001h	; 6d6f
+	defb 0ceh,0fdh,0bch,003h	; 6d73
+	defb 0fdh,0fdh,03ch,003h	; 6d77
+	defb 000h	; 6d7b
 
 ; ----------------------------------------------------------------------
 ; DATOS graficos_6D7C: lista de graficos (p00:4CB1): entradas de 6 bytes
@@ -764,8 +797,12 @@ DATA_copias_6DAD:
 	defb 000h	; 6dbd
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6dbe..0x6dc2  (4 bytes)
-DATA_6DBE:
+; DATOS no_visto_6DBE: no se ha visto leer: ninguna instruccion trazada lo
+;   apunta con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes
+;   que valen 0x6DBE
+;   0x6dbe..0x6dc2  (4 bytes)
+DATA_no_visto_6DBE:
 	defb 0a4h,06fh,087h,000h	; 6dbe
 
 ; ----------------------------------------------------------------------

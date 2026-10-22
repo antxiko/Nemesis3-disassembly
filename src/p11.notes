@@ -1,4 +1,8 @@
 
+# --- A MANO: comentarios, nombres y bloques ---
+D 0x83BE 0x83BF no_visto_83BE  un byte suelto (0xFF) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0x83BE
+D 0x8638 0x868E no_visto_8638  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0x8638
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x8000 0x83BE partitura_8000  partitura que lee el motor de sonido (p10:644C, p10:6508, p10:6B9D, p10:6BC5 y otras) al tocar los sonidos 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18 y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6508, p10:6B9D, p10:6BC5, p10:6CDE, p10:6D4A, p10:6DC5, p10:6DCC (958 bytes)
 F 0x8000 16

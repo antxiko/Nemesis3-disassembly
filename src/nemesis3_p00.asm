@@ -1098,7 +1098,7 @@ DATA_texto_47A7:
 	defb 0adh,03ah,003h,000h,021h,01dh,012h,02ah,016h,023h,024h,0ffh	; 47a7  .:..!..*.#$.
 
 ; ======================================================================
-; CODIGO 0x47b3..0x4806  (83 bytes)
+; CODIGO 0x47b3..0x48cd  (282 bytes)
 ; ======================================================================
 
 
@@ -1139,18 +1139,14 @@ L_47FD:
 	call guarda_y_bancos_1_2_3		;47fd   ; guarda_y_bancos_1_2_3: guarda el reparto en la pila y pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 	call 0638bh		;4800
 	jp devuelve_reparto		;4803   ; devuelve_reparto: saca de la pila el ultimo reparto y lo vuelve a poner
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4806..0x4818  (18 bytes)
-DATA_4806:
-	defb 0cdh,0bch,041h,0cdh,012h,060h,0c3h,013h,042h,0cdh,0bch,041h,0cdh,015h,060h,0c3h	; 4806  ..A..`..B..A..`.
-	defb 013h,042h	; 4816
-
-; ======================================================================
-; CODIGO 0x4818..0x48cd  (181 bytes)
-; ======================================================================
-
-
+L_4806:
+	call guarda_y_bancos_26_27_28		;4806   ; nadie la llama: con 26-27-28, p26:6012 (la consola, como p00:45F0)...
+	call 06012h		;4809
+	jp devuelve_reparto		;480c   ; ...y el reparto de antes
+L_480F:
+	call guarda_y_bancos_26_27_28		;480f   ; nadie la llama: con 26-27-28, p26:6015 (la consola, un cuadro)...
+	call 06015h		;4812   ; la entrada de p00:480F, que no llama nadie: la consola, un cuadro (p26:6015)
+	jp devuelve_reparto		;4815   ; ...y el reparto de antes
 secuencia_empieza:		; empieza la secuencia de dibujos A (p26:6114, con los bancos 26-27-28)
 	call guarda_y_bancos_26_27_28		;4818   ; guarda_y_bancos_26_27_28: guarda el reparto en la pila y pone los bancos 26-27-28 (y sus copias en 0xF0F1-3)
 	call 06018h		;481b   ; empieza una secuencia de dibujos (desde p30, p00:4818) (p26:6018)
@@ -1411,7 +1407,7 @@ DATA_rle_49A7:
 	defb 04dh,009h,000h,002h,04eh,000h	; 49c7
 
 ; ======================================================================
-; CODIGO 0x49cd..0x4a1e  (81 bytes)
+; CODIGO 0x49cd..0x4c38  (619 bytes)
 ; ======================================================================
 
 
@@ -1467,18 +1463,25 @@ L_4A13:
 	dec de			;4a1a   ; el par anterior
 	djnz L_4A08		;4a1b
 	ret			;4a1d
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4a1e..0x4a3c  (30 bytes)
-DATA_4A1E:
-	defb 02ah,002h,0e3h,0cbh,06dh,0c8h,07ch,0e6h,00fh,0c0h,04fh,07ch,0e6h,030h,028h,001h	; 4a1e  *...m.|...O|.0(.
-	defb 00dh,011h,03fh,086h,0cbh,07dh,028h,003h,011h,044h,086h,0c3h,006h,04bh	; 4a2e  ..?..}(..D...K
-
-; ======================================================================
-; CODIGO 0x4a3c..0x4ac2  (134 bytes)
-; ======================================================================
-
-
+L_4A1E:
+	ld hl,(0e302h)		;4a1e   ; nadie la llama: con dos jugadores (bit 5 de 0xE302)...
+	bit 5,l		;4a21
+	ret z			;4a23
+	ld a,h			;4a24   ; ...y la cuenta & 0x0F a 0...
+	and 00fh		;4a25
+	ret nz			;4a27
+	ld c,a			;4a28
+	ld a,h			;4a29   ; ...C = 0, o 0xFF con los bits 4-5
+	and 030h		;4a2a
+	jr z,L_4A2F		;4a2c
+	dec c			;4a2e
+L_4A2F:
+	ld de,0863fh		;4a2f   ; el texto de 0x863F, o el de 0x8644 con el bit 7 (p00:4B06)
+	bit 7,l		;4a32
+	jr z,L_4A39		;4a34
+	ld de,08644h		;4a36
+L_4A39:
+	jp L_4B06		;4a39
 L_4A3C:
 	ld c,(hl)			;4a3c   ; cambia B bytes de HL con los de DE
 	ld a,(de)			;4a3d
@@ -1588,17 +1591,13 @@ vram_para_escribir:		; la VRAM de HL para escribir y en C' el puerto del VDP
 	exx			;4abf
 	ex af,af'			;4ac0
 	ret			;4ac1
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4ac2..0x4acc  (10 bytes)
-DATA_4AC2:
-	defb 0cdh,050h,000h,0d9h,03ah,006h,000h,04fh,0d9h,0c9h	; 4ac2  .P..:..O..
-
-; ======================================================================
-; CODIGO 0x4acc..0x4af4  (40 bytes)
-; ======================================================================
-
-
+L_4AC2:
+	call 00050h		;4ac2   ; BIOS SETRD - Enables VDP to read | nadie la llama: la VRAM de HL para leer y en C' el puerto del VDP (como p00:4AB6 para escribir)
+	exx			;4ac5
+	ld a,(00006h)		;4ac6
+	ld c,a			;4ac9
+	exx			;4aca
+	ret			;4acb
 copia_a_vram:		; LDIRVM con origen DE y destino HL
 	ex de,hl			;4acc
 	jp 0005ch		;4acd   ; BIOS LDIRVM - Block transfers to VRAM from memory
@@ -1630,17 +1629,18 @@ L_4AE5:
 	dec d			;4af0
 	jr nz,L_4AE5		;4af1
 	ret			;4af3
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4af4..0x4b04  (16 bytes)
-DATA_4AF4:
-	defb 006h,003h,0c5h,0d5h,0cdh,03ch,04bh,011h,000h,008h,019h,0d1h,0c1h,010h,0f3h,0c9h	; 4af4  .....<K.........
-
-; ======================================================================
-; CODIGO 0x4b04..0x4c38  (308 bytes)
-; ======================================================================
-
-
+L_4AF4:
+	ld b,003h		;4af4   ; nadie la llama: el RLE de DE en los tres tercios (HL, +0x800, +0x1000)
+L_4AF6:
+	push bc			;4af6
+	push de			;4af7
+	call rle_a_vram		;4af8   ; rle_a_vram: descomprime a la VRAM de HL el RLE de DE
+	ld de,00800h		;4afb   ; el tercio siguiente
+	add hl,de			;4afe
+	pop de			;4aff
+	pop bc			;4b00
+	djnz L_4AF6		;4b01
+	ret			;4b03
 escribe_texto:		; escribe en la VRAM el texto de DE (direccion y letras)
 	ld c,0ffh		;4b04   ; texto a la VRAM: DE apunta a la direccion; las letras tal cual (C = 0xFF)
 L_4B06:
@@ -3179,7 +3179,7 @@ DATA_resto_559B:
 	defb 012h,000h,015h,004h,002h,00eh,00ch,00fh,00bh,013h,005h,008h,003h,0ffh	; 559b  ..............
 
 ; ======================================================================
-; CODIGO 0x55a9..0x55c9  (32 bytes)
+; CODIGO 0x55a9..0x5794  (491 bytes)
 ; ======================================================================
 
 
@@ -3211,17 +3211,11 @@ L_55C3:
 	inc de			;55c4
 	djnz L_55C3		;55c5
 	jr rle_a_ram		;55c7
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x55c9..0x55cd  (4 bytes)
 rle2_con_destino:		; descomprime a la RAM el segundo formato de HL, con su destino delante
-	defb 05eh,023h,056h,023h	; 55c9
-
-; ======================================================================
-; CODIGO 0x55cd..0x5656  (137 bytes)
-; ======================================================================
-
-
+	ld e,(hl)			;55c9   ; nadie la llama: el destino delante (DE) y sigue en rle2_a_ram
+	inc hl			;55ca
+	ld d,(hl)			;55cb
+	inc hl			;55cc
 rle2_a_ram:		; descomprime a la RAM de DE el segundo formato de HL
 	ld a,(hl)			;55cd   ; rle2_a_ram: 0 acaba
 	and a			;55ce
@@ -3315,19 +3309,12 @@ sprites_fuera:		; los atributos de sprite de 0xEF00 a 0xE0: fuera de la pantalla
 	ld (hl),0e0h		;5651
 	ldir		;5653
 	ret			;5655
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5656..0x565a  (4 bytes)
-DATA_5656:
-	defb 0edh,05fh,018h,003h	; 5656
-
-; ======================================================================
-; CODIGO 0x565a..0x568f  (53 bytes)
-; ======================================================================
-
-
+L_5656:
+	ld a,r		;5656   ; nadie la llama: A al azar (el registro R) y sigue en p00:565D
+	jr L_565D		;5658
 L_565A:
 	ld a,(0e303h)		;565a   ; mezcla el azar de 0xE406 con la cuenta de cuadros x 3
+L_565D:
 	ld b,a			;565d
 	add a,a			;565e
 	add a,b			;565f
@@ -3353,17 +3340,8 @@ L_5683:
 	ld de,03ac0h		;5686
 	ld bc,00040h		;5689
 	jp 0005ch		;568c   ; BIOS LDIRVM - Block transfers to VRAM from memory
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x568f..0x5692  (3 bytes)
-DATA_568F:
-	defb 011h,000h,001h	; 568f
-
-; ======================================================================
-; CODIGO 0x5692..0x5794  (258 bytes)
-; ======================================================================
-
-
+L_568F:
+	ld de,00100h		;568f   ; nadie la llama: DE = 0x100 y sigue en segun_dificultad
 segun_dificultad:		; DE segun la dificultad (0xE39D: igual, el doble o la mitad)
 	ld a,(0e39dh)		;5692   ; la dificultad (0xE388) sube DE, segun 0xE39D: igual, el doble o la mitad
 	or a			;5695
@@ -3550,32 +3528,28 @@ DATA_leido_57AA:
 	defb 000h,00dh,0b0h,001h,005h,03ch,002h,001h,047h,040h,002h,005h,00eh,09dh,000h	; 57da  .....<..G@.....
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x57e9..0x57ea  (1 bytes)
-DATA_57E9:
+; DATOS no_visto_57E9: un byte suelto (0x01) entre dos bloques: no se ha visto
+;   leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   en la ROM hay 1 pares de bytes que valen 0x57E9
+;   0x57e9..0x57ea  (1 bytes)
+DATA_no_visto_57E9:
 	defb 001h	; 57e9
 
 ; ======================================================================
-; CODIGO 0x57ea..0x57f2  (8 bytes)
+; CODIGO 0x57ea..0x5ca5  (1211 bytes)
 ; ======================================================================
 
 
 sonido_01:		; pide el sonido 0x01
 	ld a,001h		;57ea   ; el sonido 0x01
-	jr $+57		;57ec
+	jr L_5825		;57ec
 sonido_02:		; pide el sonido 0x02
 	ld a,002h		;57ee   ; el sonido 0x02
-	jr $+53		;57f0
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x57f2..0x57f6  (4 bytes)
-DATA_57F2:
-	defb 03eh,003h,018h,02fh	; 57f2	el sonido 0x03
-
-; ======================================================================
-; CODIGO 0x57f6..0x5898  (162 bytes)
-; ======================================================================
-
-
+	jr L_5825		;57f0
+L_57F2:
+	ld a,003h		;57f2   ; nadie la llama: el sonido 0x03 (con la orden 0x83, p00:5825)
+	jr L_5825		;57f4
 sonido_09:		; pide el sonido 0x09
 	ld a,009h		;57f6   ; el sonido 0x09
 	jr L_5825		;57f8
@@ -3611,101 +3585,92 @@ orden_83_y_sonido_3D:		; manda la orden 0x83 al motor y pide el sonido 0x3D
 	call pide_sonido		;5820   ; pide_sonido: pide al motor (p10:6003) el sonido A
 	ld a,03dh		;5823   ; el sonido 0x3D
 L_5825:
-	jr $+117		;5825
+	jr pide_sonido		;5825
 sonido_42:		; pide el sonido 0x42
 	ld a,042h		;5827   ; el sonido 0x42
-	jr $+113		;5829
+	jr pide_sonido		;5829
 sonido_0F:		; pide el sonido 0x0F
 	ld a,00fh		;582b   ; el sonido 0x0F
-	jr $+109		;582d
+	jr pide_sonido		;582d
 sonido_10:		; pide el sonido 0x10
 	ld a,010h		;582f   ; el sonido 0x10
-	jr $+105		;5831
+	jr pide_sonido		;5831
 sonido_11:		; pide el sonido 0x11
 	ld a,011h		;5833   ; el sonido 0x11
-	jr $+101		;5835
+	jr pide_sonido		;5835
 sonido_12:		; pide el sonido 0x12
 	ld a,012h		;5837   ; el sonido 0x12
-	jr $+97		;5839
+	jr pide_sonido		;5839
 sonido_13:		; pide el sonido 0x13
 	ld a,013h		;583b   ; el sonido 0x13
-	jr $+93		;583d
+	jr pide_sonido		;583d
 sonido_14:		; pide el sonido 0x14
 	ld a,014h		;583f   ; el sonido 0x14
-	jr $+89		;5841
+	jr pide_sonido		;5841
 sonido_15:		; pide el sonido 0x15
 	ld a,015h		;5843   ; el sonido 0x15
-	jr $+85		;5845
+	jr pide_sonido		;5845
 sonido_16:		; pide el sonido 0x16
 	ld a,016h		;5847   ; el sonido 0x16
-	jr $+81		;5849
+	jr pide_sonido		;5849
 sonido_17:		; pide el sonido 0x17
 	ld a,017h		;584b   ; el sonido 0x17
-	jr $+77		;584d
+	jr pide_sonido		;584d
 sonido_18:		; pide el sonido 0x18
 	ld a,018h		;584f   ; el sonido 0x18
-	jr $+73		;5851
+	jr pide_sonido		;5851
 sonido_19:		; pide el sonido 0x19
 	ld a,019h		;5853   ; el sonido 0x19
-	jr $+69		;5855
+	jr pide_sonido		;5855
 sonido_1A:		; pide el sonido 0x1A
 	ld a,01ah		;5857   ; el sonido 0x1A
-	jr $+65		;5859
+	jr pide_sonido		;5859
 sonido_1B:		; pide el sonido 0x1B
 	ld a,01bh		;585b   ; el sonido 0x1B
-	jr $+61		;585d
+	jr pide_sonido		;585d
 sonido_1C:		; pide el sonido 0x1C
 	ld a,01ch		;585f   ; el sonido 0x1C
-	jr $+57		;5861
+	jr pide_sonido		;5861
 orden_83_y_sonido_4B:		; manda la orden 0x83 al motor y pide el sonido 0x4B
 	ld a,083h		;5863   ; la orden 0x83 al motor de sonido
 	call pide_sonido		;5865   ; pide_sonido: pide al motor (p10:6003) el sonido A
 	ld a,04bh		;5868   ; el sonido 0x4B
-	jr $+48		;586a
+	jr pide_sonido		;586a
 sonido_1D:		; pide el sonido 0x1D
 	ld a,01dh		;586c   ; el sonido 0x1D
-	jr $+44		;586e
+	jr pide_sonido		;586e
 sonido_1E:		; pide el sonido 0x1E
 	ld a,01eh		;5870   ; el sonido 0x1E
-	jr $+40		;5872
+	jr pide_sonido		;5872
 sonido_1F:		; pide el sonido 0x1F
 	ld a,01fh		;5874   ; el sonido 0x1F
-	jr $+36		;5876
+	jr pide_sonido		;5876
 sonido_20:		; pide el sonido 0x20
 	ld a,020h		;5878   ; el sonido 0x20
-	jr $+32		;587a
+	jr pide_sonido		;587a
 sonido_21:		; pide el sonido 0x21
 	ld a,021h		;587c   ; el sonido 0x21
-	jr $+28		;587e
+	jr pide_sonido		;587e
 sonido_22:		; pide el sonido 0x22
 	ld a,022h		;5880   ; el sonido 0x22
-	jr $+24		;5882
+	jr pide_sonido		;5882
 sonido_26:		; pide el sonido 0x26
 	ld a,026h		;5884   ; el sonido 0x26
-	jr $+20		;5886
+	jr pide_sonido		;5886
 sonido_4C:		; pide el sonido 0x4C
 	ld a,04ch		;5888   ; el sonido 0x4C
-	jr $+16		;588a
+	jr pide_sonido		;588a
 sonido_27:		; pide el sonido 0x27
 	ld a,027h		;588c   ; el sonido 0x27
-	jr $+12		;588e
+	jr pide_sonido		;588e
 sonido_28:		; pide el sonido 0x28
 	ld a,028h		;5890   ; el sonido 0x28
-	jr $+8		;5892
+	jr pide_sonido		;5892
 sonido_29:		; pide el sonido 0x29
 	ld a,029h		;5894   ; el sonido 0x29
-	jr $+4		;5896
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5898..0x589a  (2 bytes)
-DATA_5898:
-	defb 03eh,02ah	; 5898	el sonido 0x2A
-
-; ======================================================================
-; CODIGO 0x589a..0x5916  (124 bytes)
-; ======================================================================
-
-
+	jr pide_sonido		;5896
+L_5898:
+	ld a,02ah		;5898   ; el sonido 0x2A: lo pide p03:B6EB, que tampoco llama nadie
 pide_sonido:		; pide al motor (p10:6003) el sonido A
 	di			;589a   ; pide el sonido A al motor (p10:6003), con los bancos 10-11-12 y todo guardado
 	push hl			;589b
@@ -3790,67 +3755,51 @@ sonido_39:		; pide el sonido 0x39
 sonido_3A:		; pide el sonido 0x3A
 	ld a,03ah		;5912   ; el sonido 0x3A
 	jr L_590B		;5914
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5916..0x591a  (4 bytes)
-DATA_5916:
-	defb 03eh,03bh,018h,0f1h	; 5916	el sonido 0x3B
-
-; ======================================================================
-; CODIGO 0x591a..0x5955  (59 bytes)
-; ======================================================================
-
-
+L_5916:
+	ld a,03bh		;5916   ; nadie la llama: el sonido 0x3B (p00:590B)
+	jr L_590B		;5918
 sonido_52:		; pide el sonido 0x52
 	ld a,052h		;591a   ; el sonido 0x52
-	jr $-17		;591c
+	jr L_590B		;591c
 orden_83_y_sonido_51:		; manda la orden 0x83 al motor y pide el sonido 0x51
 	ld a,083h		;591e   ; la orden 0x83 al motor de sonido
 	call L_590B		;5920
 	ld a,051h		;5923   ; el sonido 0x51
-	jr $-26		;5925
+	jr L_590B		;5925
 sonido_3C:		; pide el sonido 0x3C
 	ld a,03ch		;5927   ; el sonido 0x3C
-	jr $-30		;5929
+	jr L_590B		;5929
 orden_83_y_sonido_43:		; manda la orden 0x83 al motor y pide el sonido 0x43
 	ld a,083h		;592b   ; la orden 0x83 al motor de sonido
 	call L_590B		;592d
 	ld a,043h		;5930   ; el sonido 0x43
-	jr $-39		;5932
+	jr L_590B		;5932
 sonido_4F:		; pide el sonido 0x4F
 	ld a,04fh		;5934   ; el sonido 0x4F
-	jr $-43		;5936
+	jr L_590B		;5936
 orden_83_y_sonido_50:		; manda la orden 0x83 al motor y pide el sonido 0x50
 	ld a,083h		;5938   ; la orden 0x83 al motor de sonido
 	call L_590B		;593a
 	ld a,050h		;593d   ; el sonido 0x50
-	jr $-52		;593f
+	jr L_590B		;593f
 sonido_53:		; pide el sonido 0x53
 	ld a,053h		;5941   ; el sonido 0x53
-	jr $-56		;5943
+	jr L_590B		;5943
 orden_sonido_81:		; manda la orden 0x81 al motor de sonido
 	ld a,081h		;5945   ; la orden 0x81 al motor de sonido
-	jr $-60		;5947
+	jr L_590B		;5947
 orden_sonido_82:		; manda la orden 0x82 al motor de sonido
 	ld a,082h		;5949   ; la orden 0x82 al motor de sonido
-	jr $-64		;594b
+	jr L_590B		;594b
 orden_sonido_83:		; manda la orden 0x83 al motor de sonido
 	ld a,083h		;594d   ; la orden 0x83 al motor de sonido
-	jr $-68		;594f
+	jr L_590B		;594f
 orden_sonido_84:		; manda la orden 0x84 al motor de sonido
 	ld a,084h		;5951   ; la orden 0x84 al motor de sonido
-	jr $-72		;5953
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5955..0x5959  (4 bytes)
-DATA_5955:
-	defb 03eh,085h,018h,0b2h	; 5955
-
-; ======================================================================
-; CODIGO 0x5959..0x5ca5  (844 bytes)
-; ======================================================================
-
-
+	jr L_590B		;5953
+L_5955:
+	ld a,085h		;5955   ; nadie la llama: la orden 0x85 al motor (p00:590B)
+	jr L_590B		;5957
 bufer_ca00_a_cero:		; el bufer de 0xCA00 a cero (0x300 bytes)
 	ld hl,0ca00h		;5959   ; el bufer de 0xCA00 a cero (0x300 bytes: una pantalla de nombres)
 	ld de,0ca01h		;595c

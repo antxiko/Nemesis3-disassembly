@@ -151,6 +151,8 @@ C 0x8622 lee la x de la pieza: con 0xE0 o mas, fuera
 C 0x8628 la x + 0x1C contra D: a menos de 8, dentro (C)
 C 0x8637 la pieza siguiente (0x20 bytes)
 C 0x863D ninguna: NC
+C 0x8686 nadie la llama: p02:86AD
+C 0x86AD nadie la llama: IX+32 = A y la y (IX+4) a multiplo de 8
 C 0x86B9 por el paso IX+1 (tabla de detras)
 C 0x8780 el dibujo (IX+7)
 C 0x8783 1 x 4 caracteres
@@ -310,6 +312,7 @@ C 0x9142 con escudo, 4 menos
 C 0x914D menos las vueltas / 4, con un minimo de 12
 C 0x9161 en la fase 7, 8 menos, con un minimo de 4
 C 0x9175 en IX+15
+C 0x91B5 nadie la llama: uno menos en IX+15, y sigue en p02:91B9 al llegar a 0
 C 0x91B9 ya se ha disparado este cuadro: lo deja para el siguiente
 C 0x91C5 dispara desde su sitio
 C 0x91CE y la cadencia siguiente
@@ -519,6 +522,7 @@ C 0x9EFC el lado: IX+24
 C 0x9F09 el dibujo 0xB0 o 0xC0
 C 0x9F16 por el paso IX+1 (tabla de detras)
 C 0x9F24 la espera A y al paso siguiente
+C 0x9F2B nadie la llama: uno menos en IX+2
 C 0x9F2F su lado (IX+24)
 C 0x9F34 paso 0: se para, 4 vidas, y la espera de 0x9F4C segun IX+1F
 C 0x9F52 paso 1: deja de ir con el scroll y cambia de dibujo
@@ -530,6 +534,17 @@ C 0x9FC6 por el paso IX+1 (tabla de detras)
 C 0x9FD4 se va al pasar el tiempo; si no, acelera y choca con el decorado
 C 0x9FE6 el decorado por delante o por detras: IX+1F el lado libre
 # --- fin de lo escrito a mano ---
+# --- A MANO: comentarios, nombres y bloques ---
+D 0x8B08 0x8B18 no_visto_8B08  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 3 pares de bytes que valen 0x8B08
+D 0x8C58 0x8C5A no_visto_8C58  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0x8C58
+D 0x8D64 0x8D70 no_visto_8D64  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0x8D64
+D 0x8E26 0x8E29 no_visto_8E26  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes que valen 0x8E26
+D 0x9183 0x9185 no_visto_9183  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 8 pares de bytes que valen 0x9183
+D 0x9214 0x9215 no_visto_9214  un byte suelto (0x00) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0x9214
+D 0x92DB 0x92DF no_visto_92DB  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0x92DB
+D 0x92ED 0x92EF no_visto_92ED  2 bytes a 0x00 entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0x92ED
+D 0x9E6E 0x9E6F no_visto_9E6E  un byte suelto (0xC9) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes que valen 0x9E6E
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x847B 0x8487 tabla_847B  tabla que se lee desde HL = 0x847B con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p02:846F (12 bytes)
 F 0x847B 16
@@ -752,6 +767,8 @@ C 0x8690 guarda la cuenta del enemigo
 C 0x8699 guarda las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll)
 C 0x86A4 lee la x del enemigo
 C 0x86A9 guarda la x del enemigo
+C 0x86B0 lee la y del enemigo
+C 0x86B5 guarda la y del enemigo
 C 0x86BC despacha: salta a la palabra A de la tabla que va detras del call
 C 0x86C7 lee la x del enemigo
 C 0x86CC guarda la x del enemigo

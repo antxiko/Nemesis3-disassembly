@@ -1,4 +1,7 @@
 
+# --- A MANO: comentarios, nombres y bloques ---
+D 0x6DBE 0x6DC2 no_visto_6DBE  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes que valen 0x6DBE
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x6018 0x6AC8 caracteres_de_secuencia  los caracteres de los dibujos de las secuencias: 8 bytes cada uno, del 0 al 0x155 (el mayor que piden los dibujos de p27:8F02); p00:4F0B lee el de DE y p00:4F3D lo copia a la VRAM; lo leen p00:4F3D (2736 bytes)
 F 0x6018 8
@@ -74,6 +77,10 @@ D 0x6CE6 0x6CF3 graficos_6CE6  lista de graficos (p00:4CB1): entradas de 6 bytes
 F 0x6CE6 6
 D 0x6CF3 0x6CFC copias_6CF3  lista de copias de caracteres con la vuelta dada (p00:4D1B) de el juego de 0xE440 = 12; lo leen p00:5138 (9 bytes)
 F 0x6CF3 4
+D 0x6CFC 0x6D1B graficos_6CFC  lista de graficos (p00:4CB1) a la que no apunta nada: ningun par de bytes de la ROM vale 0x6CFC y ninguna partida la lee; entradas de 6 bytes y un 0; lo leen nadie (31 bytes)
+F 0x6CFC 6
+D 0x6D1B 0x6D7C copias_6D1B  lista de copias con vuelta (p00:4D1B), de 4 en 4 hasta un 0, detras de la de 0x6CFC; tampoco la apunta nada; lo leen nadie (97 bytes)
+F 0x6D1B 4
 D 0x6D7C 0x6DAD graficos_6D7C  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:512C (49 bytes)
 F 0x6D7C 6
 D 0x6DAD 0x6DBE copias_6DAD  lista de copias de caracteres con la vuelta dada (p00:4D1B) de el juego de 0xE440 = 15, 17; lo leen p00:5138 (17 bytes)

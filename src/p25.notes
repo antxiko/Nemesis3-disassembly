@@ -1,4 +1,14 @@
 
+# --- A MANO: comentarios, nombres y bloques ---
+D 0xABF8 0xABF9 no_visto_ABF8  un byte suelto (0xFF) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0xABF8
+D 0xAC95 0xAC96 no_visto_AC95  un byte suelto (0xFF) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0xAC95
+D 0xACB1 0xACB2 no_visto_ACB1  un byte suelto (0xFF) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 2 pares de bytes que valen 0xACB1
+D 0xACCF 0xACD0 no_visto_ACCF  un byte suelto (0xFF) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0xACCF
+D 0xACF5 0xACF6 no_visto_ACF5  un byte suelto (0xFF) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes que valen 0xACF5
+D 0xAD0D 0xAD0E no_visto_AD0D  un byte suelto (0xFF) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 2 pares de bytes que valen 0xAD0D
+D 0xAD27 0xAD28 no_visto_AD27  un byte suelto (0xFF) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0xAD27
+D 0xAE90 0xAE92 no_visto_AE90  2 bytes a 0xFF entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes que valen 0xAE90
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA2C7 mapa_9FF7_cola  el mapa del decorado de la fase 9: 120 columnas de 6 bloques (p00:5388 lee una columna cada 4 pasos de scroll); va hasta el mapa siguiente (sigue del banco 24); lo leen p00:5388 (711 bytes)
 F 0xA000 6

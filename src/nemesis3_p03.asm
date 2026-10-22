@@ -527,8 +527,12 @@ DATA_leido_A347:
 	defb 001h,001h,002h,001h,001h,002h,001h,001h	; a347  ........
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xa34f..0xa352  (3 bytes)
-DATA_A34F:
+; DATOS no_visto_A34F: 3 bytes a 0x00 entre dos bloques: no se ha visto leer:
+;   ninguna instruccion trazada lo apunta con su banco puesto y ninguna
+;   partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py);
+;   en la ROM hay 2 pares de bytes que valen 0xA34F
+;   0xa34f..0xa352  (3 bytes)
+DATA_no_visto_A34F:
 	defb 000h,000h,000h	; a34f
 
 ; ======================================================================
@@ -2117,8 +2121,12 @@ L_ADE5:
 	ret			;adfe
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xadff..0xae01  (2 bytes)
-DATA_ADFF:
+; DATOS no_visto_ADFF: no se ha visto leer: ninguna instruccion trazada lo
+;   apunta con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 7 pares de bytes
+;   que valen 0xADFF
+;   0xadff..0xae01  (2 bytes)
+DATA_no_visto_ADFF:
 	defb 00dh,00eh	; adff
 
 ; ======================================================================
@@ -3308,7 +3316,7 @@ DATA_leido_B5CB:
 	defb 000h,004h,000h,004h,000h,0fch,000h,004h,000h,0fch,000h,0fch,000h,004h,000h,0fch	; b5cb  ................
 
 ; ======================================================================
-; CODIGO 0xb5db..0xb6eb  (272 bytes)
+; CODIGO 0xb5db..0xb728  (333 bytes)
 ; ======================================================================
 
 
@@ -3457,18 +3465,14 @@ L_B6CF:
 	pop ix		;b6e6
 	pop iy		;b6e8
 	ret			;b6ea
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0xb6eb..0xb6ff  (20 bytes)
-DATA_B6EB:
-	defb 0cdh,098h,058h,0ddh,07eh,01fh,0cbh,03fh,0c6h,07bh,0ddh,077h,032h,0ddh,036h,02bh	; b6eb  ..X.~..?.{.w2.6+
-	defb 010h,0c3h,021h,0b8h	; b6fb
-
-; ======================================================================
-; CODIGO 0xb6ff..0xb728  (41 bytes)
-; ======================================================================
-
-
+L_B6EB:
+	call 05898h		;b6eb   ; nadie la llama: el sonido 0x2A, el dibujo IX+32 = 0x7B + IX+1F / 2, IX+2B = 0x10 y p03:B821
+	ld a,(ix+01fh)		;b6ee
+	srl a		;b6f1
+	add a,07bh		;b6f3
+	ld (ix+032h),a		;b6f5
+	ld (ix+02bh),010h		;b6f8
+	jp L_B821		;b6fc
 L_B6FF:
 	jp L_B8F1		;b6ff   ; lo de cada cuadro de la pieza 0x2F (p03:B8F1)
 L_B702:
@@ -3578,8 +3582,12 @@ DATA_leido_B794:
 	defb 010h,068h	; b794
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xb796..0xb798  (2 bytes)
-DATA_B796:
+; DATOS no_visto_B796: no se ha visto leer: ninguna instruccion trazada lo
+;   apunta con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes
+;   que valen 0xB796
+;   0xb796..0xb798  (2 bytes)
+DATA_no_visto_B796:
 	defb 010h,068h	; b796
 
 ; ======================================================================
@@ -4531,7 +4539,7 @@ DATA_tabla_BDAE:
 	defb 020h,021h,022h,023h,024h,023h,022h,021h,020h	; bdae   !"#$#"!
 
 ; ======================================================================
-; CODIGO 0xbdb7..0xbdd4  (29 bytes)
+; CODIGO 0xbdb7..0xbdef  (56 bytes)
 ; ======================================================================
 
 
@@ -4552,17 +4560,11 @@ L_BDB7:
 	ld a,020h		;bdce
 	call 07626h		;bdd0   ; una aparicion en la ficha de 0xEAC0 (la ultima): quita lo que hubiera (p01:7626)
 	ret			;bdd3
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbdd4..0xbde1  (13 bytes)
-DATA_BDD4:
-	defb 0ddh,036h,010h,009h,0ddh,036h,013h,002h,0ddh,036h,014h,002h,0c9h	; bdd4  .6...6...6...
-
-; ======================================================================
-; CODIGO 0xbde1..0xbdef  (14 bytes)
-; ======================================================================
-
-
+L_BDD4:
+	ld (ix+010h),009h		;bdd4   ; nadie la llama: IX+10 = 9, y 2 x 2 caracteres (IX+13, IX+14)
+	ld (ix+013h),002h		;bdd8
+	ld (ix+014h),002h		;bddc
+	ret			;bde0
 L_BDE1:
 	ret			;bde1
 L_BDE2:

@@ -39,10 +39,9 @@
 0x62E5   # p01:62DC entrada 0 de la tabla de 0x62DF (call 0x4093 en 0x62DC)
 0x6318   # p01:62DC entrada 1 de la tabla de 0x62DF (call 0x4093 en 0x62DC)
 0x6323   # p01:62DC entrada 2 de la tabla de 0x62DF (call 0x4093 en 0x62DC)
-0x638B   # p00:4800 call
+0x6395   # nadie la llama: hueco entre codigo trazado
 0x639A   # p02:8572 call
 0x639D   # p19:B1F0 call
-0x640B   # p19:B1ED call
 0x64B9   # p00:5A6F call
 0x65F4   # p00:5A75 call
 0x67C5   # p00:5A81 call
@@ -64,8 +63,11 @@
 0x6E40   # p19:AAA6 call
 0x6EFA   # p00:5AF0 call
 0x6F3E   # p00:5A51 call
+0x70C2   # nadie la llama: hueco entre codigo trazado
+0x70CA   # nadie la llama: hueco entre codigo trazado
 0x711B   # p02:9075 call
 0x7163   # p00:5278 call
+0x71F0   # nadie la llama: hueco entre codigo trazado
 0x71F9   # p01:6FAF entrada 9 de la tabla de 0x6FB2 (call 0x4093 en 0x6FAF)
 0x724D   # p01:6FAF entrada 8 de la tabla de 0x6FB2 (call 0x4093 en 0x6FAF)
 0x724E   # p01:6FAF entrada 10 de la tabla de 0x6FB2 (call 0x4093 en 0x6FAF)
@@ -95,10 +97,10 @@
 0x7558   # p01:7479 entrada 21 de la tabla de 0x747C (call 0x4093 en 0x7479)
 0x755D   # p01:7479 entrada 15 de la tabla de 0x747C (call 0x4093 en 0x7479)
 0x758F   # p02:851A call
-0x75D1   # p19:B20F call
 0x7626   # p03:BDD0 call
 0x764F   # p05:B53D call
 0x77F1   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
+0x77F6   # nadie la llama: hueco entre codigo trazado
 0x77FB   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x7800   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x7805   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
@@ -113,8 +115,10 @@
 0x7835   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x783A   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x783F   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
+0x7844   # p02:91CE call
 0x7865   # p05:B506 call
-0x786E   # p19:B1F3 call
+0x787B   # nadie la llama: hueco entre codigo trazado
+0x7886   # nadie la llama: hueco entre codigo trazado
 0x7888   # p05:A9B5 jp
 0x78BA   # p03:AFAC call
 0x78C1   # p05:A4E7 call
@@ -137,6 +141,7 @@
 0x7B5F   # p01:7AD1 entrada 6 de la tabla de 0x7AD4 (call 0x4093 en 0x7AD1)
 0x7B64   # p01:7AD1 entrada 4 de la tabla de 0x7AD4 (call 0x4093 en 0x7AD1)
 0x7B69   # p01:7AD1 entrada 22 de la tabla de 0x7AD4 (call 0x4093 en 0x7AD1)
+0x7B76   # nadie la llama: hueco entre codigo trazado
 0x7B98   # p00:5275 call
 0x7BAA   # p00:5A5A call
 0x7BDE   # p05:B07E call
@@ -170,6 +175,7 @@
 0x7F42   # p02:99E5 call
 0x7F5B   # p02:9FD4 call
 0x7F7C   # p19:B21B jp
+0x7F96   # nadie la llama: hueco entre codigo trazado
 0x7FAD   # p19:B0D6 call
 0x7FB7   # p03:BAC4 call
 0x7FBD   # p19:B203 call

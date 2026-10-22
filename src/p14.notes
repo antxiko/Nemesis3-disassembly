@@ -1,4 +1,8 @@
 
+# --- A MANO: comentarios, nombres y bloques ---
+D 0x7C6F 0x7CBF no_visto_7C6F  tiene la forma de un RLE de p00:4B3C que acaba justo en su ultimo byte; no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 16 pares de bytes que valen 0x7C6F
+D 0x7DEC 0x7E0E no_visto_7DEC  tiene la forma de un RLE de p00:4B3C que acaba justo en su ultimo byte; no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes que valen 0x7DEC
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x6000 0x6007 graficos_6000  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p00:4FB3 (7 bytes)
 F 0x6000 6

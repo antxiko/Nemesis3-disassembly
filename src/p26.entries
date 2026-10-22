@@ -16,6 +16,8 @@
 0x6006   # p00:45F3 call
 0x6009   # p00:460F call
 0x600C   # p00:46B9 call
+0x6012   # p00:4809 call
+0x6015   # nadie la llama: hueco entre codigo trazado
 0x6018   # p00:481B call
 0x601B   # p00:4824 call
 0x6033   # p27:8443 call
@@ -80,7 +82,6 @@
 0x6F5F   # p26:6E41 entrada 11 de la tabla de 0x6E44 (call 0x4093 en 0x6E41)
 0x6F72   # p26:6E41 entrada 12 de la tabla de 0x6E44 (call 0x4093 en 0x6E41)
 0x6F89   # p30:8214 call
-0x7320   # p27:8952 call
 0x78A2   # p27:89AD call
 0x78AC   # p27:89B8 call
 0x796B   # p27:8990 call

@@ -1,4 +1,8 @@
 
+# --- A MANO: comentarios, nombres y bloques ---
+D 0xAB31 0xAB32 no_visto_AB31  un byte suelto (0x00) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes que valen 0xAB31
+D 0xACD3 0xACD4 no_visto_ACD3  un byte suelto (0x00) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes que valen 0xACD3
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA08E rle_ram_9F6D_cola  datos comprimidos a la RAM (p00:55AD, el mismo formato que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0 (sigue del banco 6); se solapan 2 bloques: (rle_ram_A000 A000-A08E); lo leen p00:55AD (142 bytes)
 F 0xA000 16

@@ -34,10 +34,12 @@
 0x8493   # p00:5B14 call
 0x850E   # p00:5A4E call
 0x8532   # p00:5AA8 call
-0x855E   # p01:6E26 jp
+0x854F   # p01:7B88 call
 0x8580   # p01:7ECF call
 0x85BB   # p00:5A87 call
+0x8686   # nadie la llama: hueco entre codigo trazado
 0x8689   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
+0x86AD   # nadie la llama: hueco entre codigo trazado
 0x86B9   # p01:7479 entrada 56 de la tabla de 0x747C (call 0x4093 en 0x7479)
 0x86C7   # p02:86BC entrada 0 de la tabla de 0x86BF (call 0x4093 en 0x86BC)
 0x872D   # p02:86BC entrada 1 de la tabla de 0x86BF (call 0x4093 en 0x86BC)
@@ -113,6 +115,7 @@
 0x9094   # p03:B2F5 call
 0x909E   # se ejecuta jugando (tools/cobertura.py): se llega desde p02:9178 (ret)
 0x90E5   # p01:7479 entrada 12 de la tabla de 0x747C (call 0x4093 en 0x7479)
+0x91B5   # nadie la llama: hueco entre codigo trazado
 0x91D5   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x91D8   # se ejecuta jugando (tools/cobertura.py): se llega desde p01:7854 (ret)
 0x91F6   # se ejecuta jugando (tools/cobertura.py): se llega desde p01:78B2 (ret)
@@ -197,6 +200,7 @@
 0x9EF4   # se ejecuta jugando (tools/cobertura.py): se llega desde p01:78B2 (ret)
 0x9F0C   # se ejecuta jugando (tools/cobertura.py): se llega desde p02:9F33 (ret)
 0x9F16   # p01:7479 entrada 48 de la tabla de 0x747C (call 0x4093 en 0x7479)
+0x9F2B   # nadie la llama: hueco entre codigo trazado
 0x9F34   # p02:9F19 entrada 0 de la tabla de 0x9F1C (call 0x4093 en 0x9F19)
 0x9F52   # p02:9F19 entrada 1 de la tabla de 0x9F1C (call 0x4093 en 0x9F19)
 0x9F71   # p02:9F19 entrada 2 de la tabla de 0x9F1C (call 0x4093 en 0x9F19)

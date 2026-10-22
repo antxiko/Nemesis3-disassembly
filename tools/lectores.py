@@ -113,6 +113,7 @@ def todo():
     dibujos_de_caracteres()
     trozos_del_arma_secreta()
     rectangulos()
+    juego_sin_puntero()
     sonido()
 
 
@@ -871,6 +872,19 @@ def tablas_de_la_nave():
     B.declara(v, 0x83F3, 0x83F3 + 4 * 16, "movimiento",
               "el paso de la nave por cada direccion de la palanca (los 4 bits de 0xE309): dy y dx "
               "de 16 bits, 4 bytes por direccion (p04:81EB)", ["p04:81F9", "p04:81FD"], F=4)
+    for base, n, que, sitio in ((0x9391, 12, "el misil de cada nave y nivel (nave x 3 + nivel)", "p04:9385"),
+                                (0x93CE, 2, "el arma de la casilla 3 por nivel", "p04:93AE"),
+                                (0x9401, 2, "el arma de la casilla 4 por nivel", "p04:93E1"),
+                                (0x942B, 2, "el arma de la casilla 5 por nivel", "p04:9414"),
+                                (0x9468, 12, "el laser de cada nave y nivel (nave x 3 + nivel)", "p04:9446")):
+        # lee_byte de base + indice con el indice desde 1: base es el ret de
+        # la rutina de antes
+        B.declara(v, base + 1, base + 1 + n, "armas_%04X" % base,
+                  "%s: un byte por indice, del 1 al %d (p00:4A6E: 0x%04X + indice)" % (que, n, base),
+                  ["p00:4A73"], F=n)
+    B.declara(v, 0x856C, 0x858C, "opciones_por_nave",
+              "el dibujo y el color de las opciones por nave: 8 bytes cada una (p04:8549: 0x856C + "
+              "8 x 0xE380, 2 bytes por cada uno de los 4 dibujos)", "p04:855E", F=8)
     B.declara(v, 0x931E, 0x935E, "compras_por_nave",
               "lo que compra cada casilla, una lista de 8 rutinas por nave (p04:9302: la palabra "
               "0xE380 de 0x9316 y la casilla - 1, por p00:4094)", "p00:4098", F="w8")
@@ -1059,6 +1073,37 @@ def rectangulos():
                     "p27:858A")
     _rect(B.Ventana((26, 27, 22)), 0xB8F6, "rect_B8F6", "el dibujo que parpadea de p27:8CEB",
           "p27:8CF6")
+
+
+# ------------------------------------------------- un juego de graficos sin puntero
+#
+# En p20:6CFC hay una lista de graficos (formato de p00:4CB1, con sus RLE en
+# p21) y detras, en 0x6D1B, una de copias con vuelta (p00:4D1B), como las de
+# los juegos de los jefes de p20:6B1F. Ningun par de bytes de la ROM vale
+# 0x6CFC ni 0x6D1B, y ninguna partida de la campana la lee: se declara por su
+# forma, sin saber quien la usa.
+
+def juego_sin_puntero():
+    v = B.Ventana((20, 21, 22))
+    k = 0x6CFC
+    fin = lista(6)(v, k)
+    B.declara(v, k, fin, "graficos_6CFC",
+              "lista de graficos (p00:4CB1) a la que no apunta nada: ningun par de bytes de la ROM "
+              "vale 0x6CFC y ninguna partida la lee; entradas de 6 bytes y un 0", ["nadie"], F=6)
+    while v(k):
+        w = ventana_entrada(v, v(k))
+        for off, que in ((1, "dibujos"), (4, "colores")):
+            p = v.w(k + off)
+            B.declara(w, p, rle(w, p), "rle_%04X" % p,
+                      "los %s de una entrada de la lista de 20:6CFC, que no apunta nada, en RLE "
+                      "(p00:4B3C)" % que, ["nadie"], F=16)
+        k += 6
+    c = fin
+    while v(c):
+        c += 4
+    B.declara(v, fin, c + 1, "copias_%04X" % fin,
+              "lista de copias con vuelta (p00:4D1B), de 4 en 4 hasta un 0, detras de la de 0x6CFC; "
+              "tampoco la apunta nada", ["nadie"], F=4)
 
 
 # ------------------------------------------------- la demostracion

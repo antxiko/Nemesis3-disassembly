@@ -162,6 +162,7 @@ C 0x6385 su x + 0x18
 C 0x638B apuntar a la nave: la direccion en 0xE46E...
 C 0x638E ...la distancia en y y en x (p01:63FF)
 C 0x6391 D = 1: con algo de azar
+C 0x6395 nadie la llama: A = 0x80 y sigue en p01:6397
 C 0x6397 lo mismo sin azar (D = 0)
 C 0x639F la direccion de 0xE476
 C 0x63A2 en E
@@ -854,6 +855,8 @@ C 0x70B0 el tipo 0x14: 0x30 o 0x70
 C 0x70B1 el 0x14: 0x30 o 0x70
 C 0x70B9 el tipo 0x16: 0 o 0xA0
 C 0x70BA el 0x16: 0 o 0xA0
+C 0x70C2 nadie la llama: HL' = 0x70E5 y p01:70DA
+C 0x70CA nadie la llama: HL' = 0x70F5 y p01:70D7
 C 0x70D2 un byte de 0x70E5 por turno (0xE466 & 0x0F)
 C 0x70D3 la tabla de 0x70E5
 C 0x70DA la cuenta de 0xE466, de 16
@@ -918,6 +921,7 @@ C 0x71E1 A, C y B: lo que sale
 C 0x71E3 lo que sale
 C 0x71E9 comparada con el scroll (Z: ahora)
 C 0x71EC contra el scroll: Z si es ahora
+C 0x71F0 nadie la llama: (HL) = la dificultad de la fase x 2 - C, al reves
 C 0x71F9 el enemigo 9: cada 0xE493 cuadros
 C 0x71FC la espera de 0xE493
 C 0x7200 la espera...
@@ -1066,8 +1070,11 @@ C 0x7736 el dibujo, el color y el caracter (IX+30, IX+31, IX+32)
 C 0x7744 con C, el color 8
 C 0x774E devuelve los bancos
 C 0x7751 y lo de empezar de su tipo (tabla de detras; el 0x775A es un scf: la tabla empieza en la palabra de detras del call)
+C 0x77F6 nadie la llama: el puente a p05:B4E1 (p01:780D)
 C 0x7844 la velocidad: la de la dificultad (tabla de 0x7855) + algo al azar (registro R)
 C 0x7865 apunta a la nave: la velocidad en y en IX+7 y en x en IX+9
+C 0x787B nadie la llama: la distancia de IX+4/IX+6 a la nave (p01:638B) y p01:786E
+C 0x7886 nadie la llama: A = 0x80 y sigue en p01:7888
 C 0x7888 apunta a HL (H la y, L la x) con el paso A
 C 0x78AC la velocidad en y (IX+7, 16 bits)
 C 0x78B3 la velocidad en x (IX+9)
@@ -1118,6 +1125,10 @@ C 0x7AB8 con scroll, 8 a la izquierda (salvo con el bit 2 de IX+12); al pasar de
 C 0x7AD0 por su tipo (tabla de detras)
 C 0x7B43 los puentes de los tipos de pieza a otros bancos
 C 0x7B75 salta a HL
+C 0x7B76 nadie la llama: los 12 enemigos (0xE800), los que estan sobre el decorado se quitan...
+C 0x7B7C ...salvo con IX+2F
+C 0x7B88 sobre el decorado (p02:854F)? se quita (p01:75D1)
+C 0x7B90 el siguiente (0x40 bytes)
 C 0x7B98 las piezas de la fase al empezar (p01:7BC0), salvo en la fase 4
 C 0x7BAA las piezas de la fase segun el scroll (p01:7BC0), a la derecha
 C 0x7BC0 la pieza 0xE4B0 de la lista de la fase (p01:7C70)
@@ -1198,6 +1209,8 @@ C 0x7F55 la cuenta de cuadros & 0x1F (Z cada 32)
 C 0x7F5B cada 32 cuadros, IX+25 menos: al acabar, C
 C 0x7F67 si no, C cuando el scroll pase el final de la fase - 0x10 (salvo el jefe 0x0D)
 C 0x7F7C cada B cuadros, el dibujo siguiente de los C de la tabla HL (IX+26) en IX+30 y IX+32
+C 0x7F96 nadie la llama: cada B cuadros, IX+13 sube hasta C (y vuelve a 0)...
+C 0x7FA6 ...y el dibujo IX+7 es el byte IX+13 de la tabla HL
 C 0x7FAD un numero al azar: el registro R y la cuenta de cuadros
 C 0x7FB7 el caracter del bufer donde esta: es el del fondo (0xE405)?
 C 0x7FC5 las explosiones grandes: con 0xE44F, p03:A69F
@@ -1205,6 +1218,12 @@ C 0x7FCC las 4 de 0xE4B2
 C 0x7FE1 la animacion (p01:7FF4)
 C 0x7FE4 y con scroll, 8 a la izquierda (IX+3 es la x en estas fichas de 0xE4B2)
 # --- fin de lo escrito a mano ---
+# --- A MANO: comentarios, nombres y bloques ---
+D 0x6FCA 0x6FCB no_visto_6FCA  un byte suelto (0xC9) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0x6FCA
+D 0x7158 0x7159 no_visto_7158  un byte suelto (0x0D) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes que valen 0x7158
+D 0x7162 0x7163 no_visto_7162  un byte suelto (0x0D) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0x7162
+D 0x77F0 0x77F1 no_visto_77F0  un byte suelto (0xC9) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 7 pares de bytes que valen 0x77F0
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x6000 0x6001 partida_6000  los 1 ultimos bytes de la instruccion de p00:5FFE (22 1C E5), que empieza en el banco 0; lo leen p00:5FFE (1 bytes)
 F 0x6000 1
@@ -1284,6 +1303,8 @@ D 0x7D6C 0x7D6F leido_7D6C  3 bytes que lee p01:7DAA al jugar (medido ejecutando
 F 0x7D6C 16
 D 0x686C 0x6878 resto_686C  lo apuntan con el banco puesto p01:6820 (0x686C), p01:6881 (0x686C), p01:6825 (0x6872), p01:6886 (0x6872); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p01:6820, p01:6881, p01:6825, p01:6886 (12 bytes)
 F 0x686C 16
+D 0x70F5 0x7105 resto_70F5  lo apuntan con el banco puesto p01:70CB (0x70F5); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p01:70CB (16 bytes)
+F 0x70F5 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
@@ -1602,6 +1623,8 @@ C 0x7B4B bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
 C 0x7B6C bancos_19: pone el 19 (y sus copias en 0xF0F1-3)
 C 0x7B6F salta a HL
 C 0x7B72 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
+C 0x7B82 lee el tipo del enemigo (0: libre)
+C 0x7B8D se quita el enemigo: uno menos (0xE462)
 C 0x7B9E la pieza 0xE4B0 de la lista de la fase (p01:7C70)
 C 0x7BA4 apunta a la pieza siguiente de la lista de la fase
 C 0x7BB0 lee 1 si este cuadro hay scroll

@@ -882,6 +882,10 @@ C 0xBE76 cinco piezas 0x35 en las posiciones de 0xBE88 (p01:7C18)
 C 0xBE94 la pieza 0x35 (desde p01:7D08): 4 x 1, el dibujo 0xED + su numero, el color de 0xBEB8
 C 0xBEBE un enemigo (desde p01:7805): dispara hacia la nave desde su x e y (p02:9957 con C = 5)
 # --- fin de lo escrito a mano ---
+# --- A MANO: comentarios, nombres y bloques ---
+D 0xAA05 0xAA1D no_visto_AA05  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 10 pares de bytes que valen 0xAA05
+D 0xB729 0xB72C no_visto_B729  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 4 pares de bytes que valen 0xB729
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA002 partida_A000  los 2 ultimos bytes de la instruccion de p04:9FFF (11 30 00), que empieza en el banco 4; lo leen p04:9FFF (2 bytes)
 F 0xA000 2

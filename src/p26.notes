@@ -6,6 +6,7 @@ C 0x6003 el arma secreta, estado 9 (p00:463A)
 C 0x6006 p27:814D, estado 8 paso 1 (p00:45F0)
 C 0x6009 estado 8 paso 2 (p00:460C)
 C 0x600C p27:83EA, el final, estado 10 (p00:46B6)
+C 0x6015 la entrada de p00:480F, que no llama nadie: la consola, un cuadro
 C 0x6018 empieza una secuencia de dibujos (desde p30, p00:4818)
 C 0x601B la secuencia de dibujos, cada cuadro (desde p30, p00:4821)
 C 0x601E los sprites fuera, el bufer de 0xCA00 a cero y los colores (p26:603E)
@@ -1058,6 +1059,15 @@ C 0x7FED el subpaso A
 C 0x7FF1 doce bytes de p27:8012 a los sprites 0xEF34
 C 0x7FF4 en 0xEF34
 # --- fin de lo escrito a mano ---
+# --- A MANO: comentarios, nombres y bloques ---
+D 0x600F 0x6012 no_visto_600F  3 bytes a 0x00 entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 39 pares de bytes que valen 0x600F
+D 0x6197 0x61B4 no_visto_6197  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0x6197
+D 0x6269 0x626A no_visto_6269  un byte suelto (0xFF) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 3 pares de bytes que valen 0x6269
+D 0x628C 0x62A6 no_visto_628C  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 2 pares de bytes que valen 0x628C
+D 0x701C 0x7022 no_visto_701C  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 3 pares de bytes que valen 0x701C
+D 0x704E 0x7069 no_visto_704E  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM vale 0x704E
+D 0x7224 0x7225 no_visto_7224  un byte suelto (0x00) entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 6 pares de bytes que valen 0x7224
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x6102 0x6114 leido_6102  18 bytes que lee p26:60FF al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:60FF (18 bytes)
 F 0x6102 16

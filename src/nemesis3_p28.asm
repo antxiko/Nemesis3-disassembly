@@ -733,8 +733,12 @@ DATA_rle_ram_B9D5:
 	defb 000h,000h	; bb65
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbb67..0xbbe9  (130 bytes)
-DATA_BB67:
+; DATOS no_visto_BB67: no se ha visto leer: ninguna instruccion trazada lo
+;   apunta con su banco puesto y ninguna partida de la campana lo lee
+;   (tools/cobertura.py, tools/lee_sonidos.py); ningun par de bytes de la ROM
+;   vale 0xBB67
+;   0xbb67..0xbbe9  (130 bytes)
+DATA_no_visto_BB67:
 	defb 086h,000h,003h,00ch,010h,023h,027h,004h,04fh,08ch,027h,023h,010h,00ch,003h,000h	; bb67  .....#'.O.'#....
 	defb 000h,0c0h,030h,008h,0c4h,0e4h,004h,0f2h,0a6h,0e4h,0c4h,008h,030h,0c0h,000h,013h	; bb77  ..0.........0...
 	defb 08ch,035h,0aah,04fh,077h,09fh,0bfh,08fh,09fh,077h,04fh,023h,0b4h,00dh,023h,0c8h	; bb87  .5.Ow....wO#..#.

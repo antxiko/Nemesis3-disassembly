@@ -308,6 +308,7 @@ C 0xB682 solo si esta entre y 0x38 y 0x68
 C 0xB68E en su columna o en la de al lado?
 C 0xB6A4 y por encima de el
 C 0xB6CF entonces suelta un 0x33 en la y del disparo
+C 0xB6EB nadie la llama: el sonido 0x2A, el dibujo IX+32 = 0x7B + IX+1F / 2, IX+2B = 0x10 y p03:B821
 C 0xB6FF lo de cada cuadro de la pieza 0x2F (p03:B8F1)
 C 0xB702 una torreta de 2 x 2: el caracter de 0xB728 por IX+1F, 0x20 cuadros, azar en IX+2F
 C 0xB72E por el paso: 0 se mueve y busca a tiro (p03:B7CA); 1 espera
@@ -377,9 +378,15 @@ C 0xBD43 la y: la suya (IX+1F) + el desplazamiento de la postura (0xBD5D)
 C 0xBD66 el tamano de la postura (0xBD76)
 C 0xBD88 dentro de la pantalla, las vidas de la postura (0xBDAE) o 0x25
 C 0xBDB7 al morir, con el bit 1 de IX+0B: un 0x20 que cae segun el scroll
+C 0xBDD4 nadie la llama: IX+10 = 9, y 2 x 2 caracteres (IX+13, IX+14)
 C 0xBDE2 la pantalla de HINT: en blanco, la fuente...
 C 0xBDE8 ...y el texto de p03:BDEF
 # --- fin de lo escrito a mano ---
+# --- A MANO: comentarios, nombres y bloques ---
+D 0xA34F 0xA352 no_visto_A34F  3 bytes a 0x00 entre dos bloques: no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 2 pares de bytes que valen 0xA34F
+D 0xADFF 0xAE01 no_visto_ADFF  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 7 pares de bytes que valen 0xADFF
+D 0xB796 0xB798 no_visto_B796  no se ha visto leer: ninguna instruccion trazada lo apunta con su banco puesto y ninguna partida de la campana lo lee (tools/cobertura.py, tools/lee_sonidos.py); en la ROM hay 1 pares de bytes que valen 0xB796
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA002 partida_A000  los 2 ultimos bytes de la instruccion de p02:9FFF (DD 77 04), que empieza en el banco 2; lo leen p02:9FFF (2 bytes)
 F 0xA000 2
