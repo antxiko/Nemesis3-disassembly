@@ -556,10 +556,10 @@ C 0x4FED las copias con espejo de la fase (tabla p16:6014)
 C 0x5007 los dibujos de sprite de p14:7055 (RLE) en 0x1800, con los bancos 14 y 15
 C 0x500A 0x1800: los dibujos de los sprites
 C 0x50C2 cada entrada: un byte (0 acaba) y la direccion de un RLE
-C 0x50CB a la VRAM 0x1800 + el byte x 8 (la tabla de nombres)
+C 0x50CB a la VRAM 0x1800 + el byte x 8 (los dibujos de sprite)
 C 0x5124 la lista de graficos
 C 0x5130 las copias con vuelta
-C 0x513C los RLE a la tabla de nombres (p00:50C2)
+C 0x513C los dibujos de sprite (p00:50C2)
 C 0x5146 y los sprites con espejo (p00:4E5A)
 C 0x51F7 cada entrada (7 bytes): la posicion del scroll...
 C 0x5203 ...aun no llega: nada

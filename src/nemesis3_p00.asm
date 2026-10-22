@@ -2491,7 +2491,7 @@ L_50C2:
 	ld d,(hl)			;50c8
 	inc hl			;50c9
 	push hl			;50ca
-	ld l,a			;50cb   ; a la VRAM 0x1800 + el byte x 8 (la tabla de nombres)
+	ld l,a			;50cb   ; a la VRAM 0x1800 + el byte x 8 (los dibujos de sprite)
 	ld h,000h		;50cc
 	add hl,hl			;50ce
 	add hl,hl			;50cf
@@ -2551,7 +2551,7 @@ L_5124:
 	pop ix		;5136
 	call copia_con_vuelta		;5138   ; copia_con_vuelta: copia caracteres de la VRAM dandoles la vuelta (lista IX)
 	pop hl			;513b
-	ld e,(hl)			;513c   ; los RLE a la tabla de nombres (p00:50C2)
+	ld e,(hl)			;513c   ; los dibujos de sprite (p00:50C2)
 	inc hl			;513d
 	ld d,(hl)			;513e
 	inc hl			;513f
