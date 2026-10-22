@@ -20,18 +20,80 @@ D 0x6405 0x6440 rle_6405  los colores de una entrada de la lista de graficos de 
 F 0x6405 16
 D 0x6440 0x646C rle_6440  los colores de una entrada de la lista de graficos de 14:6007, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6440 6440-646C); lo leen p00:4D11, p00:4B3C (44 bytes)
 F 0x6440 16
-D 0x646C 0x64A6 leido_646C  58 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 26 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4A60, p00:4A62 (58 bytes)
-F 0x646C 16
-D 0x64B4 0x673C leido_64B4  648 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (648 bytes)
-F 0x64B4 16
-D 0x6784 0x67CC leido_6784  72 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (72 bytes)
-F 0x6784 16
-D 0x6814 0x685C leido_6814  72 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (72 bytes)
-F 0x6814 16
-D 0x6A9C 0x6B74 leido_6A9C  216 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (216 bytes)
-F 0x6A9C 16
-D 0x6C4C 0x6CDC leido_6C4C  144 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (144 bytes)
-F 0x6C4C 16
+D 0x646C 0x64B4 nombres_del_marcador  un puntero por nombre del marcador (36: p00:4F6E, 0x646C + 2 x A), al dibujo de sus nueve caracteres; lo leen p00:4F71 (72 bytes)
+F 0x646C w8
+D 0x64B4 0x64FC nombre_00  el nombre 0 del marcador, EMPTY: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x64B4 8
+D 0x64FC 0x6544 nombre_01  el nombre 1 del marcador, SPEED UP #1: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x64FC 8
+D 0x6544 0x658C nombre_02  el nombre 2 del marcador, SPEED UP #2: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6544 8
+D 0x658C 0x65D4 nombre_03  el nombre 3 del marcador, SPEED UP #3: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x658C 8
+D 0x65D4 0x661C nombre_04  el nombre 4 del marcador, SPEED UP #4: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x65D4 8
+D 0x661C 0x6664 nombre_05  el nombre 5 del marcador, SPEED UP #5: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x661C 8
+D 0x6664 0x66AC nombre_06  el nombre 6 del marcador, SPEED UP #6: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6664 8
+D 0x66AC 0x66F4 nombre_07  el nombre 7 del marcador, SPEED UP #7: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x66AC 8
+D 0x66F4 0x673C nombre_08  el nombre 8 del marcador, MULTIPLE #1: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x66F4 8
+D 0x673C 0x6784 nombre_09  el nombre 9 del marcador, MULTIPLE #2: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x673C 8
+D 0x6784 0x67CC nombre_0A  el nombre 10 del marcador, SHIELD: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6784 8
+D 0x67CC 0x6814 nombre_0B  el nombre 11 del marcador, FORCE FIELD: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x67CC 8
+D 0x6814 0x685C nombre_0C  el nombre 12 del marcador, MISSILE: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6814 8
+D 0x685C 0x68A4 nombre_0D  el nombre 13 del marcador, HOWK MISSILE: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x685C 8
+D 0x68A4 0x68EC nombre_0E  el nombre 14 del marcador, PHOTON MISSILE: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x68A4 8
+D 0x68EC 0x6934 nombre_0F  el nombre 15 del marcador, PHOTON HOWK: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x68EC 8
+D 0x6934 0x697C nombre_10  el nombre 16 del marcador, NAPALM MISSILE: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6934 8
+D 0x697C 0x69C4 nombre_11  el nombre 17 del marcador, NAPALM HOWK: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x697C 8
+D 0x69C4 0x6A0C nombre_12  el nombre 18 del marcador, 2WAY MISSILE: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x69C4 8
+D 0x6A0C 0x6A54 nombre_13  el nombre 19 del marcador, 2WAY HOWK: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6A0C 8
+D 0x6A54 0x6A9C nombre_14  el nombre 20 del marcador, GUIDED MISSILE: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6A54 8
+D 0x6A9C 0x6AE4 nombre_15  el nombre 21 del marcador, BEAM: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6A9C 8
+D 0x6AE4 0x6B2C nombre_16  el nombre 22 del marcador, TAIL BEAM: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6AE4 8
+D 0x6B2C 0x6B74 nombre_17  el nombre 23 del marcador, UP DOUBLE: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6B2C 8
+D 0x6B74 0x6BBC nombre_18  el nombre 24 del marcador, DOWN DOUBLE: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6B74 8
+D 0x6BBC 0x6C04 nombre_19  el nombre 25 del marcador, UP LASER: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6BBC 8
+D 0x6C04 0x6C4C nombre_1A  el nombre 26 del marcador, DOWN LASER: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6C04 8
+D 0x6C4C 0x6C94 nombre_1B  el nombre 27 del marcador, LASER: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6C4C 8
+D 0x6C94 0x6CDC nombre_1C  el nombre 28 del marcador, METEOR LASER: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6C94 8
+D 0x6CDC 0x6D24 nombre_1D  el nombre 29 del marcador, SCREW LASER: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6CDC 8
+D 0x6D24 0x6D6C nombre_1E  el nombre 30 del marcador, TWINKLE LASER: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6D24 8
+D 0x6D6C 0x6DB4 nombre_1F  el nombre 31 del marcador, FIRE BLASTER: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6D6C 8
+D 0x6DB4 0x6DFC nombre_20  el nombre 32 del marcador, EXTEND BLASTER: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6DB4 8
+D 0x6DFC 0x6E44 nombre_21  el nombre 33 del marcador, VECTOR LASER: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6DFC 8
+D 0x6E44 0x6E8C nombre_22  el nombre 34 del marcador, RIPPLE LASER: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6E44 8
+D 0x6E8C 0x6ED4 nombre_23  el nombre 35 del marcador, GALACTIC LASER: nueve caracteres de 8 bytes que p00:4F76 copia a la VRAM de 0x3278; lo leen p00:4F76 (72 bytes)
+F 0x6E8C 8
 D 0x6ED4 0x6EDB sprites_6ED4  lista de dibujos de sprite (p00:50C2): de 3 en 3, el primer dibujo y el RLE que va ahi; acaba en 0; lo leen p00:50A4 (7 bytes)
 F 0x6ED4 3
 D 0x6EDB 0x6EE2 sprites_6EDB  lista de dibujos de sprite (p00:50C2): de 3 en 3, el primer dibujo y el RLE que va ahi; acaba en 0; lo leen p00:50AA (7 bytes)

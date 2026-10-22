@@ -105,6 +105,7 @@ def todo():
     demostracion()
     tipos_de_enemigo()
     nombres_de_armas()
+    dibujos_de_secuencia()
     sonido()
 
 
@@ -773,6 +774,65 @@ def nombres_de_armas():
         B.declara(v, a, a + 0x48, "nombre_%02X" % k,
                   "el nombre %d del marcador, %s: nueve caracteres de 8 bytes que p00:4F76 copia a "
                   "la VRAM de 0x3278" % (k, nombre), "p00:4F76", F=8)
+
+
+# ------------------------------------------------- los dibujos de las secuencias
+#
+# p26:62A6 pone el dibujo A (0xE5C2) de las pantallas de la historia, la
+# consola y el final: su palabra en la tabla p27:8F02 (p00:4A65), y
+# p26:6349 lo desempaqueta a 0xCE00 trozo a trozo: dos bytes, uno con
+# cuantos caracteres (bits 0-4), el tercio (bits 5-6) y si es el ultimo (bit
+# 7), y los caracteres: antes del dibujo 0x40, de 8 en 8 detras de una mascara
+# (p26:637A); desde el 0x40, de 6 bits, tres bytes por cada cuatro
+# (p26:6390). Recorridos asi, cada dibujo acaba justo donde empieza el
+# siguiente, del 0x9014 al 0xA078.
+
+def _dibujo(v, n, a):
+    while True:
+        a += 2
+        x = v(a)
+        a += 1
+        k = x & 0x1F
+        while k > 0:
+            if n < 0x40:
+                a += 1 + min(8, k)
+                k -= min(8, k)
+            else:
+                t = min(3, k)
+                a += t
+                k -= t
+                if k > 0:
+                    k -= 1
+        if x & 0x80:
+            return a
+
+
+def dibujos_de_secuencia():
+    v = B.Ventana((26, 27, 28))
+    n = 0x89
+    B.declara(v, 0x8F02, 0x8F02 + 2 * n, "dibujos_de_secuencia",
+              "un puntero por dibujo de las secuencias (0x89: p26:62AF, 0x8F02 + 2 x A); los que "
+              "no se usan apuntan al 0", "p00:4A6A", F="w8")
+    vistos = {}
+    for k in range(n):
+        vistos.setdefault(v.w(0x8F02 + 2 * k), []).append(k)
+    for a, ks in sorted(vistos.items()):
+        fin = _dibujo(v, ks[0], a)
+        B.declara(v, a, fin, "dibujo_%02X" % ks[0],
+                  "el dibujo de secuencia %s (p26:6349): trozos de dos bytes, cuantos caracteres, el "
+                  "tercio y el final, y sus caracteres %s" % (
+                      ", ".join("0x%02X" % k for k in ks[:6]) + (" y otros" if len(ks) > 6 else ""),
+                      "de 8 en 8 con una mascara" if ks[0] < 0x40 else "de 6 bits"),
+                  ["p26:634C", "p26:6350", "p26:637C" if ks[0] < 0x40 else "p26:6392"], F=16)
+    # cada caracter de un dibujo es un numero (el byte y el bit de la mascara,
+    # o 6 bits) que p26:6470 pasa a p00:4F02: los 8 bytes de p20:6018 + 8 x
+    # ese numero. El mayor que piden los 137 dibujos es el 0x155, y la tabla
+    # acaba justo donde empieza el bloque siguiente (0x6AC8)
+    v20 = B.Ventana((20, 21, 22))
+    B.declara(v20, 0x6018, 0x6018 + 8 * 0x156, "caracteres_de_secuencia",
+              "los caracteres de los dibujos de las secuencias: 8 bytes cada uno, del 0 al 0x155 (el "
+              "mayor que piden los dibujos de p27:8F02); p00:4F0B lee el de DE y p00:4F3D lo copia "
+              "a la VRAM", "p00:4F3D", F=8)
 
 
 # ------------------------------------------------- la demostracion

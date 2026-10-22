@@ -88,6 +88,10 @@ C 0xBE26 los sprites de 0xEF20 a cero (0x60 bytes)
 C 0xBE34 el RLE de 0xBE3B, con su direccion
 # --- fin de lo escrito a mano ---
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0xA000 0xA019 dibujo_73_cola  el dibujo de secuencia 0x73 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits (sigue del banco 27); lo leen p26:634C, p26:6350, p26:6392 (25 bytes)
+F 0xA000 16
+D 0xA019 0xA078 dibujo_74  el dibujo de secuencia 0x74 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (95 bytes)
+F 0xA019 16
 D 0xA0B4 0xA0F6 rle_A0B4  los dibujos de una entrada de la lista de graficos de 27:8208, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A0B4 A0B4-A0F6); lo leen p00:4CFF, p00:4B3C (66 bytes)
 F 0xA0B4 16
 D 0xA0F6 0xA101 rle_A0F6  los colores de una entrada de la lista de graficos de 27:8208, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A0F6 A0F6-A101); lo leen p00:4D11, p00:4B3C (11 bytes)
@@ -154,8 +158,8 @@ D 0xBE3B 0xBE4E rle_BE3B  graficos comprimidos a la VRAM con su direccion delant
 F 0xBE3B 16
 D 0xBE4E 0xC000 relleno_ff  434 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (434 bytes)
 F 0xBE4E 16
-D 0xA000 0xA0B4 resto_A000  lo apuntan con el banco puesto p27:8201 (0xA030), p26:7F4D (0xA078); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p27:8201, p26:7F4D (180 bytes)
-F 0xA000 16
+D 0xA078 0xA0B4 resto_A078  lo apuntan con el banco puesto p26:7F4D (0xA078); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p26:7F4D (60 bytes)
+F 0xA078 16
 D 0xB2BC 0xB7FF resto_B2BC  lo apuntan con el banco puesto p27:858A (0xB2E7); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p27:858A (1347 bytes)
 F 0xB2BC 16
 # --- fin de los bloques de bloques.py ---

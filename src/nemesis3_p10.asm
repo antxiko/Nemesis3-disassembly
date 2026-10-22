@@ -3011,9 +3011,9 @@ DATA_795A:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_79AA: partitura que lee el motor de sonido (p10:6D68,
-;   p10:6D6D) al tocar los sonidos 0x04, 0x3F, 0x41, 0x46 (medido ejecutando
-;   el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo
-;   leen p10:6D68, p10:6D6D (4 bytes)
+;   p10:6D6D) al tocar los sonidos 0x04, 0x3E, 0x3F, 0x41, 0x46, 0x49 (medido
+;   ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee
+;   seguido); lo leen p10:6D68, p10:6D6D (4 bytes)
 ;   0x79aa..0x79ae  (4 bytes)
 DATA_partitura_79AA:
 	defb 03ch,07ah,05ch,07ah	; 79aa
@@ -3073,7 +3073,7 @@ DATA_79CE:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7A3C: partitura que lee el motor de sonido (p10:737B) al
-;   tocar los sonidos 0x04, 0x06, 0x0A, 0x0D, 0x1C, 0x1D, 0x3F, 0x40 y otros
+;   tocar los sonidos 0x04, 0x06, 0x0A, 0x0D, 0x1C, 0x1D, 0x3E, 0x3F y otros
 ;   (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se
 ;   lee seguido); lo leen p10:737B (160 bytes)
 ;   0x7a3c..0x7adc  (160 bytes)
@@ -3134,7 +3134,7 @@ DATA_7BA9:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7BAA: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (3 bytes)
 ;   0x7baa..0x7bad  (3 bytes)
@@ -3148,7 +3148,7 @@ DATA_7BAD:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7BAE: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (1 bytes)
 ;   0x7bae..0x7baf  (1 bytes)
@@ -3162,7 +3162,7 @@ DATA_7BAF:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7BB0: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (3 bytes)
 ;   0x7bb0..0x7bb3  (3 bytes)
@@ -3176,7 +3176,7 @@ DATA_7BB3:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7BB4: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (5 bytes)
 ;   0x7bb4..0x7bb9  (5 bytes)
@@ -3190,7 +3190,7 @@ DATA_7BB9:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7BBA: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (5 bytes)
 ;   0x7bba..0x7bbf  (5 bytes)
@@ -3204,7 +3204,7 @@ DATA_7BBF:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7BC0: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (1 bytes)
 ;   0x7bc0..0x7bc1  (1 bytes)
@@ -3218,7 +3218,7 @@ DATA_7BC1:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7BC2: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (5 bytes)
 ;   0x7bc2..0x7bc7  (5 bytes)
@@ -3232,7 +3232,7 @@ DATA_7BC7:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7BC8: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (3 bytes)
 ;   0x7bc8..0x7bcb  (3 bytes)
@@ -3246,7 +3246,7 @@ DATA_7BCB:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7BCC: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (1 bytes)
 ;   0x7bcc..0x7bcd  (1 bytes)
@@ -3260,7 +3260,7 @@ DATA_7BCD:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7BCF: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (4 bytes)
 ;   0x7bcf..0x7bd3  (4 bytes)
@@ -3274,7 +3274,7 @@ DATA_7BD3:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7BD4: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (2 bytes)
 ;   0x7bd4..0x7bd6  (2 bytes)
@@ -3288,7 +3288,7 @@ DATA_7BD6:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7BD8: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (2 bytes)
 ;   0x7bd8..0x7bda  (2 bytes)
@@ -3302,7 +3302,7 @@ DATA_7BDA:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7BDB: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (2 bytes)
 ;   0x7bdb..0x7bdd  (2 bytes)
@@ -3316,7 +3316,7 @@ DATA_7BDD:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7BDE: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (4 bytes)
 ;   0x7bde..0x7be2  (4 bytes)
@@ -3350,7 +3350,7 @@ DATA_7C45:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7C47: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (2 bytes)
 ;   0x7c47..0x7c49  (2 bytes)
@@ -3364,7 +3364,7 @@ DATA_7C49:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7C4A: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (1 bytes)
 ;   0x7c4a..0x7c4b  (1 bytes)
@@ -3378,7 +3378,7 @@ DATA_7C4B:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7C4C: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (1 bytes)
 ;   0x7c4c..0x7c4d  (1 bytes)
@@ -3392,7 +3392,7 @@ DATA_7C4D:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7C4F: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (2 bytes)
 ;   0x7c4f..0x7c51  (2 bytes)
@@ -3406,7 +3406,7 @@ DATA_7C51:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7C53: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (4 bytes)
 ;   0x7c53..0x7c57  (4 bytes)
@@ -3420,7 +3420,7 @@ DATA_7C57:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7C5C: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (2 bytes)
 ;   0x7c5c..0x7c5e  (2 bytes)
@@ -3434,7 +3434,7 @@ DATA_7C5E:
 
 ; ----------------------------------------------------------------------
 ; DATOS partitura_7C60: partitura que lee el motor de sonido (p10:7396) al
-;   tocar los sonidos 0x05, 0x08, 0x09, 0x44, 0x45 (medido ejecutando el
+;   tocar los sonidos 0x05, 0x08, 0x09, 0x3E, 0x44, 0x45 (medido ejecutando el
 ;   motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
 ;   p10:7396 (2 bytes)
 ;   0x7c60..0x7c62  (2 bytes)

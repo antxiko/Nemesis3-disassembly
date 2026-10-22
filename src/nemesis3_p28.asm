@@ -10,23 +10,37 @@
 
 
 ; ----------------------------------------------------------------------
-; DATOS resto_A000: lo apuntan con el banco puesto p27:8201 (0xA030), p26:7F4D
-;   (0xA078); el tamano es lo que hay hasta lo siguiente, no sale de
-;   recorrerlo; lo leen p27:8201, p26:7F4D (180 bytes)
-;   0xa000..0xa0b4  (180 bytes)
-DATA_resto_A000:
+; DATOS dibujo_73_cola: el dibujo de secuencia 0x73 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits (sigue del banco 27); lo leen p26:634C, p26:6350, p26:6392 (25 bytes)
+;   0xa000..0xa019  (25 bytes)
+DATA_dibujo_73_cola:
 	defb 013h,051h,0c3h,0cch,0dah,0d6h,0cfh,020h,056h,0c0h,04fh,0dah,0c0h,054h,09dh,05eh	; a000  .Q..... V.O..T.^
-	defb 040h,013h,015h,00fh,0d4h,0cbh,017h,01dh,030h,00fh,0cah,002h,038h,039h,02fh,0cah	; a010  @.......0...89/.
-	defb 002h,03ah,03bh,063h,0cah,012h,023h,0cfh,04bh,000h,000h,000h,000h,000h,000h,0c0h	; a020  .:.c..#.K.......
-	defb 0cfh,020h,018h,01eh,0a2h,0cah,01ch,051h,007h,009h,04ah,030h,002h,080h,0c0h,04bh	; a030  . .....Q..J0...K
-	defb 0c0h,0deh,012h,000h,08dh,059h,09eh,05ch,059h,01dh,000h,059h,0ech,0cah,012h,0e0h	; a040  .....Y.\Y..Y....
-	defb 0d3h,022h,0d8h,0b1h,00eh,020h,013h,00eh,08ch,0dfh,05ch,019h,018h,02ch,0cbh,031h	; a050  ."... ....\..,.1
-	defb 05dh,0cfh,05eh,080h,0d9h,05fh,000h,01eh,019h,0dch,0cfh,01ah,016h,06fh,0cbh,0aah	; a060  ].^.._.......o..
-	defb 08ch,0cbh,04dh,04fh,09ch,053h,018h,030h,045h,0c3h,009h,000h,042h,0c8h,002h,0c9h	; a070  ..MO.S.0E...B...
-	defb 0c2h,0cah,000h,043h,0cbh,0c1h,000h,043h,0ceh,0c2h,000h,0d1h,003h,0c9h,04bh,0d2h	; a080  ...C...C......K.
-	defb 003h,0c9h,0c1h,0d2h,049h,0ddh,042h,0d2h,002h,0d3h,04ah,0d4h,042h,0d2h,002h,0d3h	; a090  ....I.B...J.B...
-	defb 0c2h,0deh,000h,043h,0dfh,0c1h,000h,043h,0e2h,0c1h,000h,042h,0e5h,002h,0e6h,0c1h	; a0a0  ...C...C...B....
-	defb 0e7h,009h,000h,000h	; a0b0
+	defb 040h,013h,015h,00fh,0d4h,0cbh,017h,01dh,030h	; a010  @.......0
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_74: el dibujo de secuencia 0x74 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (95 bytes)
+;   0xa019..0xa078  (95 bytes)
+DATA_dibujo_74:
+	defb 00fh,0cah,002h,038h,039h,02fh,0cah,002h,03ah,03bh,063h,0cah,012h,023h,0cfh,04bh	; a019  ...89/..:.c..#.K
+	defb 000h,000h,000h,000h,000h,000h,0c0h,0cfh,020h,018h,01eh,0a2h,0cah,01ch,051h,007h	; a029  ........ .....Q.
+	defb 009h,04ah,030h,002h,080h,0c0h,04bh,0c0h,0deh,012h,000h,08dh,059h,09eh,05ch,059h	; a039  .J0...K.....Y.\Y
+	defb 01dh,000h,059h,0ech,0cah,012h,0e0h,0d3h,022h,0d8h,0b1h,00eh,020h,013h,00eh,08ch	; a049  ..Y....."... ...
+	defb 0dfh,05ch,019h,018h,02ch,0cbh,031h,05dh,0cfh,05eh,080h,0d9h,05fh,000h,01eh,019h	; a059  .\..,.1].^.._...
+	defb 0dch,0cfh,01ah,016h,06fh,0cbh,0aah,08ch,0cbh,04dh,04fh,09ch,053h,018h,030h	; a069  ....o....MO.S.0
+
+; ----------------------------------------------------------------------
+; DATOS resto_A078: lo apuntan con el banco puesto p26:7F4D (0xA078); el
+;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
+;   p26:7F4D (60 bytes)
+;   0xa078..0xa0b4  (60 bytes)
+DATA_resto_A078:
+	defb 045h,0c3h,009h,000h,042h,0c8h,002h,0c9h,0c2h,0cah,000h,043h,0cbh,0c1h,000h,043h	; a078  E...B......C...C
+	defb 0ceh,0c2h,000h,0d1h,003h,0c9h,04bh,0d2h,003h,0c9h,0c1h,0d2h,049h,0ddh,042h,0d2h	; a088  ......K.....I.B.
+	defb 002h,0d3h,04ah,0d4h,042h,0d2h,002h,0d3h,0c2h,0deh,000h,043h,0dfh,0c1h,000h,043h	; a098  ..J.B......C...C
+	defb 0e2h,0c1h,000h,042h,0e5h,002h,0e6h,0c1h,0e7h,009h,000h,000h	; a0a8  ...B........
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_A0B4: los dibujos de una entrada de la lista de graficos de

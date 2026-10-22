@@ -1,11 +1,7 @@
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
-D 0x6018 0x6158 leido_6018  320 bytes que lee p00:4F3D al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 32 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4F3D (320 bytes)
-F 0x6018 16
-D 0x6178 0x6188 leido_6178  16 bytes que lee p00:4F3D al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F3D (16 bytes)
-F 0x6178 16
-D 0x6190 0x61F8 leido_6190  104 bytes que lee p00:4F3D al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 24 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4F3D (104 bytes)
-F 0x6190 16
+D 0x6018 0x6AC8 caracteres_de_secuencia  los caracteres de los dibujos de las secuencias: 8 bytes cada uno, del 0 al 0x155 (el mayor que piden los dibujos de p27:8F02); p00:4F0B lee el de DE y p00:4F3D lo copia a la VRAM; lo leen p00:4F3D (2736 bytes)
+F 0x6018 8
 D 0x6AC8 0x6B43 rle_6AC8  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; se solapan 3 bloques: (rle_vram_6AC8 6AC8-6B21) (juegos_por_e440 6B1F-6B43); lo leen p00:5155, p00:4B3C, p00:5121 (123 bytes)
 F 0x6AC8 16
 D 0x6B43 0x6B4B juego_6B43  el juego de 0xE440 = 1, 3: cuatro punteros (p00:5124): lista de graficos, de copias con vuelta, de dibujos de sprite y de espejos; lo leen p00:5124 (8 bytes)

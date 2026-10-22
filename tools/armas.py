@@ -9,7 +9,8 @@ Comprar es lo que hace el juego con el boton 2 (p04:92D8): la casilla marcada
 pone la marca a mano (lo que harian las capsulas) y se pulsa la M. Los topes de
 cada casilla dependen del arma secreta (0xE36F, tabla p04:94D0): con 0 la
 casilla 5 no se puede comprar y la 6 (el laser) tiene un nivel; para las demas
-se pone 0xE36F = 5 al empezar (lo que daria haber cogido las entradas secretas).
+se pone 0xE36F al nivel que haga falta (5, o 6 y 7 para los misiles) al empezar
+(lo que daria haber cogido las entradas secretas).
 
 Uso: armas.py lista
      armas.py graba [nombre ...]     (fuera del sandbox: lanza openMSX)
@@ -41,6 +42,10 @@ ARMAS = {
     "doble_2":      (0, 0, 0, 5, [4, 4]),
     "casilla5_1":   (0, 0, 0, 5, [3, 5]),
     "casilla5_2":   (0, 0, 0, 5, [3, 5, 5]),
+    "misil_n0_2":   (0, 0, 0, 6, [2, 2]),
+    "misil_n1_2":   (1, 0, 0, 6, [2, 2]),
+    "misil_n2_2":   (2, 0, 0, 6, [2, 2]),
+    "misil_n0_3":   (0, 0, 0, 7, [2, 2, 2]),
     "laser_n0_1":   (0, 0, 0, 0, [6]),
     "laser_n0_2":   (0, 0, 0, 5, [6, 6]),
     "laser_n0_3":   (0, 0, 0, 5, [6, 6, 6]),

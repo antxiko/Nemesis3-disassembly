@@ -640,302 +640,244 @@ D 0x8EB2 0x8EBA tabla_8EB2  tabla que se lee desde HL = 0x8EB2 con un indice (p0
 F 0x8EB2 16
 D 0x8EBA 0x8F02 leido_8EBA  72 bytes que leen p27:8E9A, p27:8EA1 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p27:8E9A, p27:8EA1 (72 bytes)
 F 0x8EBA 16
-D 0x8F82 0x8FEE leido_8F82  108 bytes que leen p00:4A6A, p00:4A6C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 38 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4A6A, p00:4A6C (108 bytes)
-F 0x8F82 16
-D 0x9002 0x9014 leido_9002  18 bytes que leen p00:4A6A, p00:4A6C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 4 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4A6A, p00:4A6C (18 bytes)
-F 0x9002 16
-D 0x9773 0x9776 leido_9773  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x8F02 0x9014 dibujos_de_secuencia  un puntero por dibujo de las secuencias (0x89: p26:62AF, 0x8F02 + 2 x A); los que no se usan apuntan al 0; lo leen p00:4A6A (274 bytes)
+F 0x8F02 w8
+D 0x9014 0x9029 dibujo_00  el dibujo de secuencia 0x00, 0x36, 0x37, 0x38, 0x39, 0x3A y otros (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (21 bytes)
+F 0x9014 16
+D 0x9029 0x9040 dibujo_01  el dibujo de secuencia 0x01 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (23 bytes)
+F 0x9029 16
+D 0x9040 0x9055 dibujo_02  el dibujo de secuencia 0x02 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (21 bytes)
+F 0x9040 16
+D 0x9055 0x9060 dibujo_03  el dibujo de secuencia 0x03 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (11 bytes)
+F 0x9055 16
+D 0x9060 0x907D dibujo_04  el dibujo de secuencia 0x04 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (29 bytes)
+F 0x9060 16
+D 0x907D 0x90B2 dibujo_05  el dibujo de secuencia 0x05 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (53 bytes)
+F 0x907D 16
+D 0x90B2 0x90CB dibujo_06  el dibujo de secuencia 0x06 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (25 bytes)
+F 0x90B2 16
+D 0x90CB 0x910A dibujo_07  el dibujo de secuencia 0x07 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (63 bytes)
+F 0x90CB 16
+D 0x910A 0x9130 dibujo_08  el dibujo de secuencia 0x08 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (38 bytes)
+F 0x910A 16
+D 0x9130 0x914A dibujo_09  el dibujo de secuencia 0x09 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (26 bytes)
+F 0x9130 16
+D 0x914A 0x9172 dibujo_0A  el dibujo de secuencia 0x0A (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (40 bytes)
+F 0x914A 16
+D 0x9172 0x9192 dibujo_0B  el dibujo de secuencia 0x0B (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (32 bytes)
+F 0x9172 16
+D 0x9192 0x91CD dibujo_0C  el dibujo de secuencia 0x0C (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (59 bytes)
+F 0x9192 16
+D 0x91CD 0x91E0 dibujo_0D  el dibujo de secuencia 0x0D (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (19 bytes)
+F 0x91CD 16
+D 0x91E0 0x91F3 dibujo_0E  el dibujo de secuencia 0x0E (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (19 bytes)
+F 0x91E0 16
+D 0x91F3 0x9206 dibujo_0F  el dibujo de secuencia 0x0F (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (19 bytes)
+F 0x91F3 16
+D 0x9206 0x921A dibujo_10  el dibujo de secuencia 0x10 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (20 bytes)
+F 0x9206 16
+D 0x921A 0x9245 dibujo_11  el dibujo de secuencia 0x11 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (43 bytes)
+F 0x921A 16
+D 0x9245 0x9262 dibujo_12  el dibujo de secuencia 0x12 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (29 bytes)
+F 0x9245 16
+D 0x9262 0x9285 dibujo_13  el dibujo de secuencia 0x13 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (35 bytes)
+F 0x9262 16
+D 0x9285 0x92A3 dibujo_14  el dibujo de secuencia 0x14 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (30 bytes)
+F 0x9285 16
+D 0x92A3 0x92B7 dibujo_15  el dibujo de secuencia 0x15 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (20 bytes)
+F 0x92A3 16
+D 0x92B7 0x92C9 dibujo_16  el dibujo de secuencia 0x16 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (18 bytes)
+F 0x92B7 16
+D 0x92C9 0x92E7 dibujo_17  el dibujo de secuencia 0x17 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (30 bytes)
+F 0x92C9 16
+D 0x92E7 0x92FB dibujo_18  el dibujo de secuencia 0x18 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (20 bytes)
+F 0x92E7 16
+D 0x92FB 0x9319 dibujo_19  el dibujo de secuencia 0x19 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (30 bytes)
+F 0x92FB 16
+D 0x9319 0x9324 dibujo_1A  el dibujo de secuencia 0x1A (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (11 bytes)
+F 0x9319 16
+D 0x9324 0x933D dibujo_35  el dibujo de secuencia 0x35 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (25 bytes)
+F 0x9324 16
+D 0x933D 0x934F dibujo_1B  el dibujo de secuencia 0x1B (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (18 bytes)
+F 0x933D 16
+D 0x934F 0x9360 dibujo_1C  el dibujo de secuencia 0x1C (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (17 bytes)
+F 0x934F 16
+D 0x9360 0x937C dibujo_1D  el dibujo de secuencia 0x1D (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (28 bytes)
+F 0x9360 16
+D 0x937C 0x938D dibujo_1E  el dibujo de secuencia 0x1E (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (17 bytes)
+F 0x937C 16
+D 0x938D 0x939D dibujo_1F  el dibujo de secuencia 0x1F (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (16 bytes)
+F 0x938D 16
+D 0x939D 0x93B2 dibujo_20  el dibujo de secuencia 0x20 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (21 bytes)
+F 0x939D 16
+D 0x93B2 0x93C7 dibujo_21  el dibujo de secuencia 0x21 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (21 bytes)
+F 0x93B2 16
+D 0x93C7 0x93F1 dibujo_22  el dibujo de secuencia 0x22 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (42 bytes)
+F 0x93C7 16
+D 0x93F1 0x9408 dibujo_23  el dibujo de secuencia 0x23 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (23 bytes)
+F 0x93F1 16
+D 0x9408 0x941B dibujo_24  el dibujo de secuencia 0x24 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (19 bytes)
+F 0x9408 16
+D 0x941B 0x9442 dibujo_25  el dibujo de secuencia 0x25 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (39 bytes)
+F 0x941B 16
+D 0x9442 0x946F dibujo_26  el dibujo de secuencia 0x26 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (45 bytes)
+F 0x9442 16
+D 0x946F 0x9482 dibujo_27  el dibujo de secuencia 0x27 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (19 bytes)
+F 0x946F 16
+D 0x9482 0x94A2 dibujo_28  el dibujo de secuencia 0x28 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (32 bytes)
+F 0x9482 16
+D 0x94A2 0x94B5 dibujo_29  el dibujo de secuencia 0x29 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (19 bytes)
+F 0x94A2 16
+D 0x94B5 0x94C1 dibujo_2A  el dibujo de secuencia 0x2A (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (12 bytes)
+F 0x94B5 16
+D 0x94C1 0x94D1 dibujo_2B  el dibujo de secuencia 0x2B (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (16 bytes)
+F 0x94C1 16
+D 0x94D1 0x94FB dibujo_2C  el dibujo de secuencia 0x2C (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (42 bytes)
+F 0x94D1 16
+D 0x94FB 0x9524 dibujo_2D  el dibujo de secuencia 0x2D (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (41 bytes)
+F 0x94FB 16
+D 0x9524 0x9533 dibujo_2E  el dibujo de secuencia 0x2E (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (15 bytes)
+F 0x9524 16
+D 0x9533 0x957D dibujo_2F  el dibujo de secuencia 0x2F (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (74 bytes)
+F 0x9533 16
+D 0x957D 0x9653 dibujo_30  el dibujo de secuencia 0x30 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (214 bytes)
+F 0x957D 16
+D 0x9653 0x9695 dibujo_31  el dibujo de secuencia 0x31 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (66 bytes)
+F 0x9653 16
+D 0x9695 0x96BF dibujo_32  el dibujo de secuencia 0x32 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (42 bytes)
+F 0x9695 16
+D 0x96BF 0x972C dibujo_33  el dibujo de secuencia 0x33 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (109 bytes)
+F 0x96BF 16
+D 0x972C 0x9773 dibujo_34  el dibujo de secuencia 0x34 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (71 bytes)
+F 0x972C 16
+D 0x9773 0x9796 dibujo_40  el dibujo de secuencia 0x40 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (35 bytes)
 F 0x9773 16
-D 0x9776 0x9782 leido_9776  12 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (12 bytes)
-F 0x9776 16
-D 0x9782 0x9785 leido_9782  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9782 16
-D 0x9785 0x9796 leido_9785  17 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (17 bytes)
-F 0x9785 16
-D 0x9871 0x9874 leido_9871  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9796 0x97BC dibujo_41  el dibujo de secuencia 0x41 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (38 bytes)
+F 0x9796 16
+D 0x97BC 0x97D8 dibujo_42  el dibujo de secuencia 0x42 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (28 bytes)
+F 0x97BC 16
+D 0x97D8 0x97E8 dibujo_43  el dibujo de secuencia 0x43 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (16 bytes)
+F 0x97D8 16
+D 0x97E8 0x9806 dibujo_44  el dibujo de secuencia 0x44 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (30 bytes)
+F 0x97E8 16
+D 0x9806 0x982D dibujo_45  el dibujo de secuencia 0x45 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (39 bytes)
+F 0x9806 16
+D 0x982D 0x9844 dibujo_46  el dibujo de secuencia 0x46 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (23 bytes)
+F 0x982D 16
+D 0x9844 0x9871 dibujo_47  el dibujo de secuencia 0x47 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (45 bytes)
+F 0x9844 16
+D 0x9871 0x9890 dibujo_48  el dibujo de secuencia 0x48 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (31 bytes)
 F 0x9871 16
-D 0x9874 0x987E leido_9874  10 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (10 bytes)
-F 0x9874 16
-D 0x987E 0x9881 leido_987E  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x987E 16
-D 0x9881 0x9890 leido_9881  15 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (15 bytes)
-F 0x9881 16
-D 0x9905 0x9908 leido_9905  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9890 0x98A2 dibujo_49  el dibujo de secuencia 0x49 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (18 bytes)
+F 0x9890 16
+D 0x98A2 0x98C4 dibujo_4A  el dibujo de secuencia 0x4A (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (34 bytes)
+F 0x98A2 16
+D 0x98C4 0x98E1 dibujo_4B  el dibujo de secuencia 0x4B (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (29 bytes)
+F 0x98C4 16
+D 0x98E1 0x9905 dibujo_4C  el dibujo de secuencia 0x4C (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (36 bytes)
+F 0x98E1 16
+D 0x9905 0x9916 dibujo_4D  el dibujo de secuencia 0x4D (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (17 bytes)
 F 0x9905 16
-D 0x9908 0x9916 leido_9908  14 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (14 bytes)
-F 0x9908 16
-D 0x9916 0x9919 leido_9916  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9916 0x9928 dibujo_4E  el dibujo de secuencia 0x4E (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (18 bytes)
 F 0x9916 16
-D 0x9919 0x9928 leido_9919  15 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (15 bytes)
-F 0x9919 16
-D 0x9928 0x992B leido_9928  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9928 0x993A dibujo_4F  el dibujo de secuencia 0x4F (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (18 bytes)
 F 0x9928 16
-D 0x992B 0x993A leido_992B  15 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (15 bytes)
-F 0x992B 16
-D 0x993A 0x993D leido_993A  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x993A 0x9960 dibujo_50  el dibujo de secuencia 0x50 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (38 bytes)
 F 0x993A 16
-D 0x993D 0x994A leido_993D  13 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (13 bytes)
-F 0x993D 16
-D 0x994A 0x994D leido_994A  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x994A 16
-D 0x994D 0x9960 leido_994D  19 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (19 bytes)
-F 0x994D 16
-D 0x9960 0x9963 leido_9960  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9960 0x9997 dibujo_51  el dibujo de secuencia 0x51 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (55 bytes)
 F 0x9960 16
-D 0x9963 0x9971 leido_9963  14 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (14 bytes)
-F 0x9963 16
-D 0x9971 0x9974 leido_9971  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9971 16
-D 0x9974 0x9986 leido_9974  18 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (18 bytes)
-F 0x9974 16
-D 0x9986 0x9989 leido_9986  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9986 16
-D 0x9989 0x9997 leido_9989  14 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (14 bytes)
-F 0x9989 16
-D 0x9997 0x999A leido_9997  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9997 0x99BE dibujo_52  el dibujo de secuencia 0x52 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (39 bytes)
 F 0x9997 16
-D 0x999A 0x99AB leido_999A  17 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (17 bytes)
-F 0x999A 16
-D 0x99AB 0x99AE leido_99AB  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x99AB 16
-D 0x99AE 0x99BE leido_99AE  16 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (16 bytes)
-F 0x99AE 16
-D 0x9A3B 0x9A3E leido_9A3B  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x99BE 0x99F4 dibujo_53  el dibujo de secuencia 0x53 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (54 bytes)
+F 0x99BE 16
+D 0x99F4 0x9A1D dibujo_54  el dibujo de secuencia 0x54 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (41 bytes)
+F 0x99F4 16
+D 0x9A1D 0x9A3B dibujo_55  el dibujo de secuencia 0x55 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (30 bytes)
+F 0x9A1D 16
+D 0x9A3B 0x9A52 dibujo_56  el dibujo de secuencia 0x56 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (23 bytes)
 F 0x9A3B 16
-D 0x9A3E 0x9A52 leido_9A3E  20 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (20 bytes)
-F 0x9A3E 16
-D 0x9A52 0x9A55 leido_9A52  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9A52 0x9A7C dibujo_57  el dibujo de secuencia 0x57 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (42 bytes)
 F 0x9A52 16
-D 0x9A55 0x9A67 leido_9A55  18 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (18 bytes)
-F 0x9A55 16
-D 0x9A67 0x9A6A leido_9A67  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9A67 16
-D 0x9A6A 0x9A7C leido_9A6A  18 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (18 bytes)
-F 0x9A6A 16
-D 0x9A7C 0x9A7F leido_9A7C  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9A7C 0x9AA1 dibujo_58  el dibujo de secuencia 0x58 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (37 bytes)
 F 0x9A7C 16
-D 0x9A7F 0x9A8F leido_9A7F  16 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (16 bytes)
-F 0x9A7F 16
-D 0x9A8F 0x9A92 leido_9A8F  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9A8F 16
-D 0x9A92 0x9AA1 leido_9A92  15 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (15 bytes)
-F 0x9A92 16
-D 0x9AA1 0x9AA4 leido_9AA1  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9AA1 0x9ABF dibujo_59  el dibujo de secuencia 0x59 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (30 bytes)
 F 0x9AA1 16
-D 0x9AA4 0x9AB0 leido_9AA4  12 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (12 bytes)
-F 0x9AA4 16
-D 0x9AB0 0x9AB3 leido_9AB0  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9AB0 16
-D 0x9AB3 0x9ABF leido_9AB3  12 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (12 bytes)
-F 0x9AB3 16
-D 0x9ABF 0x9AC2 leido_9ABF  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9ABF 0x9AD4 dibujo_5A  el dibujo de secuencia 0x5A (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (21 bytes)
 F 0x9ABF 16
-D 0x9AC2 0x9AD4 leido_9AC2  18 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (18 bytes)
-F 0x9AC2 16
-D 0x9AD4 0x9AD7 leido_9AD4  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9AD4 0x9AFE dibujo_75  el dibujo de secuencia 0x75 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (42 bytes)
 F 0x9AD4 16
-D 0x9AD7 0x9AE9 leido_9AD7  18 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (18 bytes)
-F 0x9AD7 16
-D 0x9AE9 0x9AEC leido_9AE9  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9AE9 16
-D 0x9AEC 0x9AFE leido_9AEC  18 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (18 bytes)
-F 0x9AEC 16
-D 0x9AFE 0x9B01 leido_9AFE  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9AFE 0x9B16 dibujo_5B  el dibujo de secuencia 0x5B (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (24 bytes)
 F 0x9AFE 16
-D 0x9B01 0x9B16 leido_9B01  21 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (21 bytes)
-F 0x9B01 16
-D 0x9B16 0x9B19 leido_9B16  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9B16 0x9B2E dibujo_5C  el dibujo de secuencia 0x5C (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (24 bytes)
 F 0x9B16 16
-D 0x9B19 0x9B2E leido_9B19  21 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (21 bytes)
-F 0x9B19 16
-D 0x9B2E 0x9B31 leido_9B2E  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9B2E 0x9B51 dibujo_5D  el dibujo de secuencia 0x5D (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (35 bytes)
 F 0x9B2E 16
-D 0x9B31 0x9B3C leido_9B31  11 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (11 bytes)
-F 0x9B31 16
-D 0x9B3C 0x9B3F leido_9B3C  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9B3C 16
-D 0x9B3F 0x9B51 leido_9B3F  18 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (18 bytes)
-F 0x9B3F 16
-D 0x9B51 0x9B54 leido_9B51  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9B51 0x9B6C dibujo_5E  el dibujo de secuencia 0x5E (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (27 bytes)
 F 0x9B51 16
-D 0x9B54 0x9B5D leido_9B54  9 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (9 bytes)
-F 0x9B54 16
-D 0x9B5D 0x9B60 leido_9B5D  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9B5D 16
-D 0x9B60 0x9B6C leido_9B60  12 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (12 bytes)
-F 0x9B60 16
-D 0x9B6C 0x9B6F leido_9B6C  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9B6C 0x9B84 dibujo_5F  el dibujo de secuencia 0x5F (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (24 bytes)
 F 0x9B6C 16
-D 0x9B6F 0x9B84 leido_9B6F  21 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (21 bytes)
-F 0x9B6F 16
-D 0x9B84 0x9B87 leido_9B84  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9B84 0x9B99 dibujo_60  el dibujo de secuencia 0x60 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (21 bytes)
 F 0x9B84 16
-D 0x9B87 0x9B99 leido_9B87  18 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (18 bytes)
-F 0x9B87 16
-D 0x9B99 0x9B9C leido_9B99  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9B99 0x9BB4 dibujo_61  el dibujo de secuencia 0x61 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (27 bytes)
 F 0x9B99 16
-D 0x9B9C 0x9BA5 leido_9B9C  9 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (9 bytes)
-F 0x9B9C 16
-D 0x9BA5 0x9BA8 leido_9BA5  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9BA5 16
-D 0x9BA8 0x9BB4 leido_9BA8  12 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (12 bytes)
-F 0x9BA8 16
-D 0x9BB4 0x9BB7 leido_9BB4  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9BB4 0x9BD8 dibujo_62  el dibujo de secuencia 0x62 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (36 bytes)
 F 0x9BB4 16
-D 0x9BB7 0x9BC9 leido_9BB7  18 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (18 bytes)
-F 0x9BB7 16
-D 0x9BC9 0x9BCC leido_9BC9  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9BC9 16
-D 0x9BCC 0x9BD8 leido_9BCC  12 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (12 bytes)
-F 0x9BCC 16
-D 0x9BD8 0x9BDB leido_9BD8  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9BD8 0x9C01 dibujo_63  el dibujo de secuencia 0x63 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (41 bytes)
 F 0x9BD8 16
-D 0x9BDB 0x9BED leido_9BDB  18 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (18 bytes)
-F 0x9BDB 16
-D 0x9BED 0x9BF0 leido_9BED  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9BED 16
-D 0x9BF0 0x9C01 leido_9BF0  17 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (17 bytes)
-F 0x9BF0 16
-D 0x9C01 0x9C04 leido_9C01  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9C01 0x9C23 dibujo_64  el dibujo de secuencia 0x64 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (34 bytes)
 F 0x9C01 16
-D 0x9C04 0x9C12 leido_9C04  14 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (14 bytes)
-F 0x9C04 16
-D 0x9C12 0x9C15 leido_9C12  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9C12 16
-D 0x9C15 0x9C23 leido_9C15  14 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (14 bytes)
-F 0x9C15 16
-D 0x9C23 0x9C26 leido_9C23  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9C23 0x9C44 dibujo_65  el dibujo de secuencia 0x65 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (33 bytes)
 F 0x9C23 16
-D 0x9C26 0x9C38 leido_9C26  18 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (18 bytes)
-F 0x9C26 16
-D 0x9C38 0x9C3B leido_9C38  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9C38 16
-D 0x9C3B 0x9C44 leido_9C3B  9 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (9 bytes)
-F 0x9C3B 16
-D 0x9C44 0x9C47 leido_9C44  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9C44 0x9C71 dibujo_66  el dibujo de secuencia 0x66 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (45 bytes)
 F 0x9C44 16
-D 0x9C47 0x9C5A leido_9C47  19 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (19 bytes)
-F 0x9C47 16
-D 0x9C5A 0x9C5D leido_9C5A  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9C5A 16
-D 0x9C5D 0x9C71 leido_9C5D  20 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (20 bytes)
-F 0x9C5D 16
-D 0x9C71 0x9C74 leido_9C71  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9C71 0x9C83 dibujo_67  el dibujo de secuencia 0x67 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (18 bytes)
 F 0x9C71 16
-D 0x9C74 0x9C83 leido_9C74  15 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (15 bytes)
-F 0x9C74 16
-D 0x9C83 0x9C86 leido_9C83  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9C83 0x9CAB dibujo_68  el dibujo de secuencia 0x68 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (40 bytes)
 F 0x9C83 16
-D 0x9C86 0x9C97 leido_9C86  17 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (17 bytes)
-F 0x9C86 16
-D 0x9C97 0x9C9A leido_9C97  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9C97 16
-D 0x9C9A 0x9CAB leido_9C9A  17 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (17 bytes)
-F 0x9C9A 16
-D 0x9CAB 0x9CAE leido_9CAB  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9CAB 0x9CBF dibujo_69  el dibujo de secuencia 0x69 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (20 bytes)
 F 0x9CAB 16
-D 0x9CAE 0x9CBF leido_9CAE  17 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (17 bytes)
-F 0x9CAE 16
-D 0x9CBF 0x9CC2 leido_9CBF  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9CBF 0x9CCB dibujo_6A  el dibujo de secuencia 0x6A (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (12 bytes)
 F 0x9CBF 16
-D 0x9CC2 0x9CCB leido_9CC2  9 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (9 bytes)
-F 0x9CC2 16
-D 0x9CCB 0x9CCE leido_9CCB  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9CCB 0x9CE0 dibujo_6B  el dibujo de secuencia 0x6B (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (21 bytes)
 F 0x9CCB 16
-D 0x9CCE 0x9CE0 leido_9CCE  18 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (18 bytes)
-F 0x9CCE 16
-D 0x9CE0 0x9CE3 leido_9CE0  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9CE0 0x9D0D dibujo_6C  el dibujo de secuencia 0x6C (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (45 bytes)
 F 0x9CE0 16
-D 0x9CE3 0x9CF8 leido_9CE3  21 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (21 bytes)
-F 0x9CE3 16
-D 0x9CF8 0x9CFB leido_9CF8  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9CF8 16
-D 0x9CFB 0x9D0D leido_9CFB  18 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (18 bytes)
-F 0x9CFB 16
-D 0x9D0D 0x9D10 leido_9D0D  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9D0D 0x9D38 dibujo_6D  el dibujo de secuencia 0x6D (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (43 bytes)
 F 0x9D0D 16
-D 0x9D10 0x9D22 leido_9D10  18 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (18 bytes)
-F 0x9D10 16
-D 0x9D22 0x9D25 leido_9D22  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9D22 16
-D 0x9D25 0x9D38 leido_9D25  19 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (19 bytes)
-F 0x9D25 16
-D 0x9D38 0x9D3B leido_9D38  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9D38 0x9D43 dibujo_6E  el dibujo de secuencia 0x6E (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (11 bytes)
 F 0x9D38 16
-D 0x9D3B 0x9D43 leido_9D3B  8 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (8 bytes)
-F 0x9D3B 16
-D 0x9D43 0x9D46 leido_9D43  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9D43 0x9DA7 dibujo_6F  el dibujo de secuencia 0x6F (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (100 bytes)
 F 0x9D43 16
-D 0x9D46 0x9D48 leido_9D46  2 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (2 bytes)
-F 0x9D46 16
-D 0x9D48 0x9D4B leido_9D48  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9D48 16
-D 0x9D4B 0x9D4D leido_9D4B  2 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (2 bytes)
-F 0x9D4B 16
-D 0x9D4D 0x9D50 leido_9D4D  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9D4D 16
-D 0x9D50 0x9D5E leido_9D50  14 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (14 bytes)
-F 0x9D50 16
-D 0x9D5E 0x9D61 leido_9D5E  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9D5E 16
-D 0x9D61 0x9D76 leido_9D61  21 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (21 bytes)
-F 0x9D61 16
-D 0x9D76 0x9D79 leido_9D76  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9D76 16
-D 0x9D79 0x9D88 leido_9D79  15 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (15 bytes)
-F 0x9D79 16
-D 0x9D88 0x9D8B leido_9D88  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9D88 16
-D 0x9D8B 0x9D97 leido_9D8B  12 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (12 bytes)
-F 0x9D8B 16
-D 0x9D97 0x9D9A leido_9D97  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9D97 16
-D 0x9D9A 0x9DA7 leido_9D9A  13 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (13 bytes)
-F 0x9D9A 16
-D 0x9DA7 0x9DAA leido_9DA7  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9DA7 0x9DBA dibujo_80  el dibujo de secuencia 0x80 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (19 bytes)
 F 0x9DA7 16
-D 0x9DAA 0x9DBA leido_9DAA  16 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (16 bytes)
-F 0x9DAA 16
-D 0x9DE1 0x9DE4 leido_9DE1  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9DBA 0x9DE1 dibujo_81  el dibujo de secuencia 0x81 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (39 bytes)
+F 0x9DBA 16
+D 0x9DE1 0x9DF0 dibujo_82  el dibujo de secuencia 0x82 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (15 bytes)
 F 0x9DE1 16
-D 0x9DE4 0x9DF0 leido_9DE4  12 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (12 bytes)
-F 0x9DE4 16
-D 0x9DF0 0x9DF3 leido_9DF0  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9DF0 0x9DFC dibujo_83  el dibujo de secuencia 0x83 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (12 bytes)
 F 0x9DF0 16
-D 0x9DF3 0x9DFC leido_9DF3  9 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (9 bytes)
-F 0x9DF3 16
-D 0x9DFC 0x9DFF leido_9DFC  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9DFC 0x9E0C dibujo_84  el dibujo de secuencia 0x84 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (16 bytes)
 F 0x9DFC 16
-D 0x9DFF 0x9E0C leido_9DFF  13 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (13 bytes)
-F 0x9DFF 16
-D 0x9E0C 0x9E0F leido_9E0C  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9E0C 0x9E37 dibujo_85  el dibujo de secuencia 0x85 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (43 bytes)
 F 0x9E0C 16
-D 0x9E0F 0x9E1D leido_9E0F  14 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (14 bytes)
-F 0x9E0F 16
-D 0x9E1D 0x9E20 leido_9E1D  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9E1D 16
-D 0x9E20 0x9E37 leido_9E20  23 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (23 bytes)
-F 0x9E20 16
-D 0x9E4F 0x9E52 leido_9E4F  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9E37 0x9E4F dibujo_86  el dibujo de secuencia 0x86 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (24 bytes)
+F 0x9E37 16
+D 0x9E4F 0x9E76 dibujo_87  el dibujo de secuencia 0x87 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (39 bytes)
 F 0x9E4F 16
-D 0x9E52 0x9E67 leido_9E52  21 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (21 bytes)
-F 0x9E52 16
-D 0x9E67 0x9E6A leido_9E67  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
-F 0x9E67 16
-D 0x9E6A 0x9E76 leido_9E6A  12 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (12 bytes)
-F 0x9E6A 16
-D 0x9E76 0x9E79 leido_9E76  3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350 (3 bytes)
+D 0x9E76 0x9E8E dibujo_88  el dibujo de secuencia 0x88 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (24 bytes)
 F 0x9E76 16
-D 0x9E79 0x9E8E leido_9E79  21 bytes que lee p26:6392 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6392 (21 bytes)
-F 0x9E79 16
+D 0x9E8E 0x9F4B dibujo_70  el dibujo de secuencia 0x70 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (189 bytes)
+F 0x9E8E 16
+D 0x9F4B 0x9F8E dibujo_71  el dibujo de secuencia 0x71 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (67 bytes)
+F 0x9F4B 16
+D 0x9F8E 0x9FC4 dibujo_72  el dibujo de secuencia 0x72 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits; lo leen p26:634C, p26:6350, p26:6392 (54 bytes)
+F 0x9F8E 16
+D 0x9FC4 0xA000 dibujo_73  el dibujo de secuencia 0x73 (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6 bits (sigue en el banco 28, en 0xA000); lo leen p26:634C, p26:6350, p26:6392 (60 bytes)
+F 0x9FC4 16
 D 0x8012 0x801E resto_8012  lo apuntan con el banco puesto p26:7FF1 (0x8012); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p26:7FF1 (12 bytes)
 F 0x8012 16
 D 0x88E8 0x88EC resto_88E8  lo apuntan con el banco puesto p27:88DE (0x88E8); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p27:88DE (4 bytes)
 F 0x88E8 16
-D 0x8F02 0x8F82 resto_8F02  lo apuntan con el banco puesto p26:62AF (0x8F02); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p26:62AF (128 bytes)
-F 0x8F02 16
-D 0x8FEE 0x9002 resto_8FEE  lo apuntan con el banco puesto p00:4226 (0x9000), p00:4240 (0x9000), p00:4257 (0x9000), p00:4260 (0x9000), p00:4279 (0x9000), p00:58A7 (0x9000); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p00:4226, p00:4240, p00:4257, p00:4260, p00:4279, p00:58A7 (20 bytes)
-F 0x8FEE 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---

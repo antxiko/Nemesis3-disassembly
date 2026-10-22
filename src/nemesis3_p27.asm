@@ -2188,1478 +2188,1108 @@ DATA_leido_8EBA:
 	defb 03fh,07bh,0f8h,00ch,03fh,08bh,0fch,00ch	; 8efa  ?{..?...
 
 ; ----------------------------------------------------------------------
-; DATOS resto_8F02: lo apuntan con el banco puesto p26:62AF (0x8F02); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p26:62AF (128 bytes)
-;   0x8f02..0x8f82  (128 bytes)
-DATA_resto_8F02:
-	defb 014h,090h,029h,090h,040h,090h,055h,090h,060h,090h,07dh,090h,0b2h,090h,0cbh,090h	; 8f02  ..).@.U.`.}.....
-	defb 00ah,091h,030h,091h,04ah,091h,072h,091h,092h,091h,0cdh,091h,0e0h,091h,0f3h,091h	; 8f12  ..0.J.r.........
-	defb 006h,092h,01ah,092h,045h,092h,062h,092h,085h,092h,0a3h,092h,0b7h,092h,0c9h,092h	; 8f22  ....E.b.........
-	defb 0e7h,092h,0fbh,092h,019h,093h,03dh,093h,04fh,093h,060h,093h,07ch,093h,08dh,093h	; 8f32  ......=.O.`.|...
-	defb 09dh,093h,0b2h,093h,0c7h,093h,0f1h,093h,008h,094h,01bh,094h,042h,094h,06fh,094h	; 8f42  ............B.o.
-	defb 082h,094h,0a2h,094h,0b5h,094h,0c1h,094h,0d1h,094h,0fbh,094h,024h,095h,033h,095h	; 8f52  ............$.3.
-	defb 07dh,095h,053h,096h,095h,096h,0bfh,096h,02ch,097h,024h,093h,014h,090h,014h,090h	; 8f62  }.S.....,.$.....
-	defb 014h,090h,014h,090h,014h,090h,014h,090h,014h,090h,014h,090h,014h,090h,014h,090h	; 8f72  ................
+; DATOS dibujos_de_secuencia: un puntero por dibujo de las secuencias (0x89:
+;   p26:62AF, 0x8F02 + 2 x A); los que no se usan apuntan al 0; lo leen
+;   p00:4A6A (274 bytes)
+;   0x8f02..0x9014  (274 bytes)
+DATA_dibujos_de_secuencia:
+	defw 09014h,09029h,09040h,09055h,09060h,0907dh,090b2h,090cbh	; 8f02
+	defw 0910ah,09130h,0914ah,09172h,09192h,091cdh,091e0h,091f3h	; 8f12
+	defw 09206h,0921ah,09245h,09262h,09285h,092a3h,092b7h,092c9h	; 8f22
+	defw 092e7h,092fbh,09319h,0933dh,0934fh,09360h,0937ch,0938dh	; 8f32
+	defw 0939dh,093b2h,093c7h,093f1h,09408h,0941bh,09442h,0946fh	; 8f42
+	defw 09482h,094a2h,094b5h,094c1h,094d1h,094fbh,09524h,09533h	; 8f52
+	defw 0957dh,09653h,09695h,096bfh,0972ch,09324h,09014h,09014h	; 8f62
+	defw 09014h,09014h,09014h,09014h,09014h,09014h,09014h,09014h	; 8f72
+	defw 09773h,09796h,097bch,097d8h,097e8h,09806h,0982dh,09844h	; 8f82
+	defw 09871h,09890h,098a2h,098c4h,098e1h,09905h,09916h,09928h	; 8f92
+	defw 0993ah,09960h,09997h,099beh,099f4h,09a1dh,09a3bh,09a52h	; 8fa2
+	defw 09a7ch,09aa1h,09abfh,09afeh,09b16h,09b2eh,09b51h,09b6ch	; 8fb2
+	defw 09b84h,09b99h,09bb4h,09bd8h,09c01h,09c23h,09c44h,09c71h	; 8fc2
+	defw 09c83h,09cabh,09cbfh,09ccbh,09ce0h,09d0dh,09d38h,09d43h	; 8fd2
+	defw 09e8eh,09f4bh,09f8eh,09fc4h,0a019h,09ad4h,09014h,09014h	; 8fe2
+	defw 09014h,09014h,09014h,09014h,09014h,09014h,09014h,09014h	; 8ff2
+	defw 09da7h,09dbah,09de1h,09df0h,09dfch,09e0ch,09e37h,09e4fh	; 9002
+	defw 09e76h	; 9012  -> DATA_dibujo_88
 
 ; ----------------------------------------------------------------------
-; DATOS leido_8F82: 108 bytes que leen p00:4A6A, p00:4A6C al jugar (medido
-;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
-;   tamano es lo que se lee seguido, con 38 sin leer entre lecturas de la
-;   misma rutina: entradas de la misma tabla que las partidas no han pedido);
-;   lo leen p00:4A6A, p00:4A6C (108 bytes)
-;   0x8f82..0x8fee  (108 bytes)
-DATA_leido_8F82:
-	defb 073h,097h,096h,097h,0bch,097h,0d8h,097h,0e8h,097h,006h,098h,02dh,098h,044h,098h	; 8f82  s...........-.D.
-	defb 071h,098h,090h,098h,0a2h,098h,0c4h,098h,0e1h,098h,005h,099h,016h,099h,028h,099h	; 8f92  q.............(.
-	defb 03ah,099h,060h,099h,097h,099h,0beh,099h,0f4h,099h,01dh,09ah,03bh,09ah,052h,09ah	; 8fa2  :.`...........R.
-	defb 07ch,09ah,0a1h,09ah,0bfh,09ah,0feh,09ah,016h,09bh,02eh,09bh,051h,09bh,06ch,09bh	; 8fb2  |...........Q.l.
-	defb 084h,09bh,099h,09bh,0b4h,09bh,0d8h,09bh,001h,09ch,023h,09ch,044h,09ch,071h,09ch	; 8fc2  ..........#.D.q.
-	defb 083h,09ch,0abh,09ch,0bfh,09ch,0cbh,09ch,0e0h,09ch,00dh,09dh,038h,09dh,043h,09dh	; 8fd2  ............8.C.
-	defb 08eh,09eh,04bh,09fh,08eh,09fh,0c4h,09fh,019h,0a0h,0d4h,09ah	; 8fe2  ..K.........
-
-; ----------------------------------------------------------------------
-; DATOS resto_8FEE: lo apuntan con el banco puesto p00:4226 (0x9000), p00:4240
-;   (0x9000), p00:4257 (0x9000), p00:4260 (0x9000), p00:4279 (0x9000),
-;   p00:58A7 (0x9000); el tamano es lo que hay hasta lo siguiente, no sale de
-;   recorrerlo; lo leen p00:4226, p00:4240, p00:4257, p00:4260, p00:4279,
-;   p00:58A7 (20 bytes)
-;   0x8fee..0x9002  (20 bytes)
-DATA_resto_8FEE:
-	defb 014h,090h,014h,090h,014h,090h,014h,090h,014h,090h,014h,090h,014h,090h,014h,090h	; 8fee  ................
-	defb 014h,090h,014h,090h	; 8ffe
-
-; ----------------------------------------------------------------------
-; DATOS leido_9002: 18 bytes que leen p00:4A6A, p00:4A6C al jugar (medido
-;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
-;   tamano es lo que se lee seguido, con 4 sin leer entre lecturas de la misma
-;   rutina: entradas de la misma tabla que las partidas no han pedido); lo
-;   leen p00:4A6A, p00:4A6C (18 bytes)
-;   0x9002..0x9014  (18 bytes)
-DATA_leido_9002:
-	defb 0a7h,09dh,0bah,09dh,0e1h,09dh,0f0h,09dh,0fch,09dh,00ch,09eh,037h,09eh,04fh,09eh	; 9002  ............7.O.
-	defb 076h,09eh	; 9012
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9014..0x9773  (1887 bytes)
-DATA_9014:
+; DATOS dibujo_00: el dibujo de secuencia 0x00, 0x36, 0x37, 0x38, 0x39, 0x3A y
+;   otros (p26:6349): trozos de dos bytes, cuantos caracteres, el tercio y el
+;   final, y sus caracteres de 8 en 8 con una mascara; lo leen p26:634C,
+;   p26:6350, p26:637C (21 bytes)
+;   0x9014..0x9029  (21 bytes)
+DATA_dibujo_00:
 	defb 068h,0cch,0d0h,000h,02ch,08ah,06dh,076h,07fh,067h,083h,0b4h,068h,047h,006h,04ah	; 9014  h...,.mv.g..hG.J
-	defb 058h,01ch,061h,03ch,02dh,068h,0cch,0d1h,064h,02ch,001h,050h,0b3h,0a4h,049h,050h	; 9024  X.a<-h..d,.P..IP
-	defb 0cah,014h,0f9h,043h,0c9h,047h,042h,045h,04bh,03ch,000h,02dh,068h,0cch,0d0h,000h	; 9034  ...C.GBEK<.-h...
-	defb 02ch,0dah,0aah,045h,048h,0d3h,0a4h,09ah,0a8h,006h,056h,03fh,042h,045h,04bh,03ch	; 9044  ,..EH.....V?BEK<
-	defb 02dh,06dh,0cch,0c7h,000h,02ch,0bfh,0e3h,048h,025h,025h,025h,065h,0cch,0d7h,010h	; 9054  -m...,..H%%%e...
-	defb 002h,007h,006h,009h,0e4h,028h,085h,07eh,008h,088h,093h,069h,071h,028h,007h,007h	; 9064  .....(.~...iq(..
-	defb 005h,000h,005h,030h,001h,002h,061h,03ch,02dh,047h,0cch,051h,000h,02ch,08ah,06dh	; 9074  ...0..a<-G.Q.,.m
-	defb 076h,07fh,067h,083h,047h,0c8h,051h,052h,048h,028h,053h,0d3h,004h,0c1h,000h,047h	; 9084  v.g.G.QRH(S....G
-	defb 084h,0cch,0d8h,000h,086h,091h,068h,07dh,071h,025h,08ah,02fh,000h,077h,083h,047h	; 9094  ......h}q%./.w.G
-	defb 040h,047h,07eh,02fh,087h,000h,002h,009h,0dfh,096h,0c2h,061h,03ch,02dh,066h,0cch	; 90a4  @G~/.......a<-f.
-	defb 0d3h,041h,02ch,04dh,047h,04bh,04bh,061h,048h,029h,025h,0c5h,058h,016h,064h,042h	; 90b4  .A,MGKKaH)%.X.dB
-	defb 03fh,04bh,045h,000h,04bh,03ch,02dh,044h,0cch,058h,000h,02ch,082h,02fh,090h,0ffh	; 90c4  ?KE.K<-D.X.,./..
-	defb 045h,0abh,0afh,005h,043h,047h,0e6h,0c4h,058h,044h,052h,049h,040h,04dh,03fh,053h	; 90d4  E...CG..XDRI@M?S
-	defb 04bh,03dh,057h,058h,028h,083h,0cch,0dah,0a0h,04eh,064h,04ah,047h,08bh,07eh,094h	; 90e4  K=WX(....NdJG.~.
-	defb 06dh,000h,07bh,02fh,080h,056h,0d2h,064h,042h,073h,002h,068h,07dh,082h,02fh,090h	; 90f4  m.{/.V.dBs.h}./.
-	defb 056h,03fh,04bh,000h,03ch,02dh,04bh,0cch,04ah,000h,02ch,073h,068h,07dh,082h,02fh	; 9104  V?K.<-K.J.,sh}./
-	defb 090h,0deh,080h,026h,028h,088h,0cch,0d1h,002h,085h,07eh,088h,093h,069h,071h,028h	; 9114  ...&(.....~..iq(
-	defb 007h,000h,007h,005h,005h,030h,001h,008h,061h,03ch,000h,02dh,067h,0cch,0d4h,000h	; 9124  .....0..a<.-g...
-	defb 02ch,08ah,06dh,076h,07fh,067h,083h,04fh,026h,051h,007h,049h,0b7h,04dh,048h,04bh	; 9134  ,.mv.g.O&Q.I.MHK
-	defb 053h,040h,04bh,03fh,03fh,02dh,048h,0cch,050h,048h,02ch,04dh,047h,007h,049h,0b7h	; 9144  S@K??-H.PH,MG.I.
-	defb 047h,0a4h,000h,045h,08ah,06dh,076h,07fh,067h,083h,048h,089h,0cch,0ceh,010h,006h	; 9154  G..E.mv.g.H.....
-	defb 041h,047h,02bh,0e5h,056h,09eh,0edh,0a0h,03fh,042h,045h,04bh,03ch,02dh,063h,0cch	; 9164  AG+.V...?BEK<-c.
-	defb 0d9h,000h,02ch,086h,091h,068h,07dh,071h,048h,062h,0dch,04dh,049h,045h,020h,017h	; 9174  ..,..h}qHb.MIE .
-	defb 04eh,053h,042h,080h,045h,052h,043h,0d0h,055h,053h,04bh,03ch,000h,02dh,042h,0cch	; 9184  NSB.ERC.USK<.-B.
-	defb 05ch,000h,02ch,08ah,06dh,076h,07fh,067h,083h,047h,000h,071h,08eh,02fh,071h,090h	; 9194  \.,.mv.g.G.q./q.
-	defb 07eh,083h,077h,024h,045h,0dbh,01bh,058h,09bh,04eh,053h,042h,080h,045h,04bh,03ch	; 91a4  ~.w$E..X.NSB.EK<
-	defb 029h,087h,0cch,0d2h,001h,049h,043h,041h,049h,043h,041h,0bbh,027h,038h,03ch,052h	; 91b4  )....ICAICA.'8<R
-	defb 03fh,049h,044h,051h,04bh,03dh,000h,057h,02dh,069h,0cch,0ceh,041h,02ch,02dh,047h	; 91c4  ?IDQK=.W-i..A,-G
-	defb 07ch,094h,090h,056h,00ch,050h,0bah,03fh,04bh,03fh,03fh,02dh,069h,0cch,0ceh,041h	; 91d4  |..V.P.?K??-i..A
-	defb 02ch,02eh,047h,07ch,094h,090h,056h,00ch,050h,0bah,03fh,04bh,03fh,03fh,02dh,069h	; 91e4  ,.G|..V.P.?K??-i
-	defb 0cch,0ceh,041h,02ch,02fh,047h,07ch,094h,090h,056h,00ch,050h,0bah,03fh,04bh,03fh	; 91f4  ..A,/G|..V.P.?K?
-	defb 03fh,02dh,069h,0cch,0cfh,003h,02ch,07ch,094h,090h,048h,004h,030h,031h,090h,044h	; 9204  ?-i...,|..H.01.D
-	defb 052h,04fh,046h,061h,03ch,02dh,046h,0cch,054h,000h,02ch,004h,041h,047h,07ch,094h	; 9214  ROFa<-F.T.,.AG|.
-	defb 090h,048h,09ah,03eh,047h,004h,032h,033h,047h,02dh,025h,0a0h,02eh,025h,02fh,045h	; 9224  .H.>G.23G-%..%/E
-	defb 08ah,0cch,0cch,0a2h,048h,047h,048h,047h,0f0h,09dh,03fh,042h,080h,045h,04bh,03ch	; 9234  ....HGHG..?B.EK<
-	defb 02dh,064h,0cch,0d7h,000h,02ch,0e2h,042h,058h,03eh,054h,055h,044h,080h,045h,043h	; 9244  -d...,.BX>TUD.EC
-	defb 0a5h,0e2h,044h,07ch,094h,090h,000h,045h,044h,051h,04bh,03dh,057h,02dh,047h,0cch	; 9254  ..D|...EDQK=W-G.
-	defb 051h,000h,02ch,004h,041h,047h,07ch,094h,090h,058h,00ah,0e2h,042h,03eh,054h,045h	; 9264  Q.,.AG|..X..B>TE
-	defb 04bh,03fh,03fh,000h,029h,08ch,0cch,0c8h,0b8h,036h,0e1h,034h,035h,03fh,04bh,03ch	; 9274  K??.)....6.45?K<
-	defb 02dh,064h,0cch,0d8h,041h,02ch,038h,058h,0e5h,0b5h,028h,0ffh,03ah,06bh,058h,03bh	; 9284  -d..A,8X..(.:kX.
-	defb 03dh,028h,039h,058h,03ch,03dh,068h,056h,035h,03fh,042h,045h,04bh,03ch,02dh,068h	; 9294  =(9X<=hV5?BEK<-h
-	defb 0cch,0cfh,002h,02ch,086h,091h,068h,07dh,071h,054h,0d9h,030h,045h,0beh,049h,045h	; 92a4  ...,..h}qT.0E.IE
-	defb 04bh,03ch,02dh,069h,0cch,0cdh,005h,02ch,07ch,094h,090h,056h,036h,0e1h,034h,0c0h	; 92b4  K<-i...,|..V6.4.
-	defb 035h,03fh,04bh,03ch,02dh,064h,0cch,0d8h,000h,02ch,07ch,094h,090h,058h,03fh,051h	; 92c4  5?K<-d...,|..X?Q
-	defb 04bh,000h,03dh,057h,029h,07ch,094h,090h,056h,0eeh,080h,03fh,045h,04dh,062h,051h	; 92d4  K.=W)|..V..?EMbQ
-	defb 04bh,03ch,02dh,068h,0cch,0cfh,000h,02ch,070h,02fh,080h,089h,0e9h,0feh,056h,0a8h	; 92e4  K<-h...,p/....V.
-	defb 00ch,0bah,03fh,04bh,03fh,03fh,02dh,064h,0cch,0d8h,000h,02ch,073h,068h,07dh,082h	; 92f4  ..?K??-d...,sh}.
-	defb 02fh,090h,0ffh,028h,045h,0d2h,021h,061h,04ah,052h,070h,02fh,008h,080h,089h,047h	; 9304  /..(E.!aJRp/...G
-	defb 04fh,046h,061h,03ch,02dh,06ch,0cch,0c7h,030h,02ch,0cbh,00bh,03fh,04bh,03ch,02dh	; 9314  OFa<-l..0,..?K<-
+	defb 058h,01ch,061h,03ch,02dh	; 9024
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_01: el dibujo de secuencia 0x01 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (23 bytes)
+;   0x9029..0x9040  (23 bytes)
+DATA_dibujo_01:
+	defb 068h,0cch,0d1h,064h,02ch,001h,050h,0b3h,0a4h,049h,050h,0cah,014h,0f9h,043h,0c9h	; 9029  h..d,.P..IP...C.
+	defb 047h,042h,045h,04bh,03ch,000h,02dh	; 9039
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_02: el dibujo de secuencia 0x02 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (21 bytes)
+;   0x9040..0x9055  (21 bytes)
+DATA_dibujo_02:
+	defb 068h,0cch,0d0h,000h,02ch,0dah,0aah,045h,048h,0d3h,0a4h,09ah,0a8h,006h,056h,03fh	; 9040  h...,..EH.....V?
+	defb 042h,045h,04bh,03ch,02dh	; 9050
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_03: el dibujo de secuencia 0x03 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (11 bytes)
+;   0x9055..0x9060  (11 bytes)
+DATA_dibujo_03:
+	defb 06dh,0cch,0c7h,000h,02ch,0bfh,0e3h,048h,025h,025h,025h	; 9055  m...,..H%%%
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_04: el dibujo de secuencia 0x04 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (29 bytes)
+;   0x9060..0x907d  (29 bytes)
+DATA_dibujo_04:
+	defb 065h,0cch,0d7h,010h,002h,007h,006h,009h,0e4h,028h,085h,07eh,008h,088h,093h,069h	; 9060  e........(.~...i
+	defb 071h,028h,007h,007h,005h,000h,005h,030h,001h,002h,061h,03ch,02dh	; 9070  q(.....0..a<-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_05: el dibujo de secuencia 0x05 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (53 bytes)
+;   0x907d..0x90b2  (53 bytes)
+DATA_dibujo_05:
+	defb 047h,0cch,051h,000h,02ch,08ah,06dh,076h,07fh,067h,083h,047h,0c8h,051h,052h,048h	; 907d  G.Q.,.mv.g.G.QRH
+	defb 028h,053h,0d3h,004h,0c1h,000h,047h,084h,0cch,0d8h,000h,086h,091h,068h,07dh,071h	; 908d  (S....G......h}q
+	defb 025h,08ah,02fh,000h,077h,083h,047h,040h,047h,07eh,02fh,087h,000h,002h,009h,0dfh	; 909d  %./.w.G@G~/.....
+	defb 096h,0c2h,061h,03ch,02dh	; 90ad
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_06: el dibujo de secuencia 0x06 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (25 bytes)
+;   0x90b2..0x90cb  (25 bytes)
+DATA_dibujo_06:
+	defb 066h,0cch,0d3h,041h,02ch,04dh,047h,04bh,04bh,061h,048h,029h,025h,0c5h,058h,016h	; 90b2  f..A,MGKKaH)%.X.
+	defb 064h,042h,03fh,04bh,045h,000h,04bh,03ch,02dh	; 90c2  dB?KE.K<-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_07: el dibujo de secuencia 0x07 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (63 bytes)
+;   0x90cb..0x910a  (63 bytes)
+DATA_dibujo_07:
+	defb 044h,0cch,058h,000h,02ch,082h,02fh,090h,0ffh,045h,0abh,0afh,005h,043h,047h,0e6h	; 90cb  D.X.,./..E...CG.
+	defb 0c4h,058h,044h,052h,049h,040h,04dh,03fh,053h,04bh,03dh,057h,058h,028h,083h,0cch	; 90db  .XDRI@M?SK=WX(..
+	defb 0dah,0a0h,04eh,064h,04ah,047h,08bh,07eh,094h,06dh,000h,07bh,02fh,080h,056h,0d2h	; 90eb  ..NdJG.~.m.{/.V.
+	defb 064h,042h,073h,002h,068h,07dh,082h,02fh,090h,056h,03fh,04bh,000h,03ch,02dh	; 90fb  dBs.h}./.V?K.<-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_08: el dibujo de secuencia 0x08 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (38 bytes)
+;   0x910a..0x9130  (38 bytes)
+DATA_dibujo_08:
+	defb 04bh,0cch,04ah,000h,02ch,073h,068h,07dh,082h,02fh,090h,0deh,080h,026h,028h,088h	; 910a  K.J.,sh}./...&(.
+	defb 0cch,0d1h,002h,085h,07eh,088h,093h,069h,071h,028h,007h,000h,007h,005h,005h,030h	; 911a  ....~..iq(.....0
+	defb 001h,008h,061h,03ch,000h,02dh	; 912a
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_09: el dibujo de secuencia 0x09 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (26 bytes)
+;   0x9130..0x914a  (26 bytes)
+DATA_dibujo_09:
+	defb 067h,0cch,0d4h,000h,02ch,08ah,06dh,076h,07fh,067h,083h,04fh,026h,051h,007h,049h	; 9130  g...,.mv.g.O&Q.I
+	defb 0b7h,04dh,048h,04bh,053h,040h,04bh,03fh,03fh,02dh	; 9140  .MHKS@K??-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_0A: el dibujo de secuencia 0x0A (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (40 bytes)
+;   0x914a..0x9172  (40 bytes)
+DATA_dibujo_0A:
+	defb 048h,0cch,050h,048h,02ch,04dh,047h,007h,049h,0b7h,047h,0a4h,000h,045h,08ah,06dh	; 914a  H.PH,MG.I.G..E.m
+	defb 076h,07fh,067h,083h,048h,089h,0cch,0ceh,010h,006h,041h,047h,02bh,0e5h,056h,09eh	; 915a  v.g.H.....AG+.V.
+	defb 0edh,0a0h,03fh,042h,045h,04bh,03ch,02dh	; 916a  ..?BEK<-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_0B: el dibujo de secuencia 0x0B (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (32 bytes)
+;   0x9172..0x9192  (32 bytes)
+DATA_dibujo_0B:
+	defb 063h,0cch,0d9h,000h,02ch,086h,091h,068h,07dh,071h,048h,062h,0dch,04dh,049h,045h	; 9172  c...,..h}qHb.MIE
+	defb 020h,017h,04eh,053h,042h,080h,045h,052h,043h,0d0h,055h,053h,04bh,03ch,000h,02dh	; 9182   .NSB.ERC.USK<.-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_0C: el dibujo de secuencia 0x0C (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (59 bytes)
+;   0x9192..0x91cd  (59 bytes)
+DATA_dibujo_0C:
+	defb 042h,0cch,05ch,000h,02ch,08ah,06dh,076h,07fh,067h,083h,047h,000h,071h,08eh,02fh	; 9192  B.\.,.mv.g.G.q./
+	defb 071h,090h,07eh,083h,077h,024h,045h,0dbh,01bh,058h,09bh,04eh,053h,042h,080h,045h	; 91a2  q.~.w$E..X.NSB.E
+	defb 04bh,03ch,029h,087h,0cch,0d2h,001h,049h,043h,041h,049h,043h,041h,0bbh,027h,038h	; 91b2  K<)....ICAICA.'8
+	defb 03ch,052h,03fh,049h,044h,051h,04bh,03dh,000h,057h,02dh	; 91c2  <R?IDQK=.W-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_0D: el dibujo de secuencia 0x0D (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (19 bytes)
+;   0x91cd..0x91e0  (19 bytes)
+DATA_dibujo_0D:
+	defb 069h,0cch,0ceh,041h,02ch,02dh,047h,07ch,094h,090h,056h,00ch,050h,0bah,03fh,04bh	; 91cd  i..A,-G|..V.P.?K
+	defb 03fh,03fh,02dh	; 91dd
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_0E: el dibujo de secuencia 0x0E (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (19 bytes)
+;   0x91e0..0x91f3  (19 bytes)
+DATA_dibujo_0E:
+	defb 069h,0cch,0ceh,041h,02ch,02eh,047h,07ch,094h,090h,056h,00ch,050h,0bah,03fh,04bh	; 91e0  i..A,.G|..V.P.?K
+	defb 03fh,03fh,02dh	; 91f0
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_0F: el dibujo de secuencia 0x0F (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (19 bytes)
+;   0x91f3..0x9206  (19 bytes)
+DATA_dibujo_0F:
+	defb 069h,0cch,0ceh,041h,02ch,02fh,047h,07ch,094h,090h,056h,00ch,050h,0bah,03fh,04bh	; 91f3  i..A,/G|..V.P.?K
+	defb 03fh,03fh,02dh	; 9203
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_10: el dibujo de secuencia 0x10 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (20 bytes)
+;   0x9206..0x921a  (20 bytes)
+DATA_dibujo_10:
+	defb 069h,0cch,0cfh,003h,02ch,07ch,094h,090h,048h,004h,030h,031h,090h,044h,052h,04fh	; 9206  i...,|..H.01.DRO
+	defb 046h,061h,03ch,02dh	; 9216
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_11: el dibujo de secuencia 0x11 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (43 bytes)
+;   0x921a..0x9245  (43 bytes)
+DATA_dibujo_11:
+	defb 046h,0cch,054h,000h,02ch,004h,041h,047h,07ch,094h,090h,048h,09ah,03eh,047h,004h	; 921a  F.T.,.AG|..H.>G.
+	defb 032h,033h,047h,02dh,025h,0a0h,02eh,025h,02fh,045h,08ah,0cch,0cch,0a2h,048h,047h	; 922a  23G-%..%/E....HG
+	defb 048h,047h,0f0h,09dh,03fh,042h,080h,045h,04bh,03ch,02dh	; 923a  HG..?B.EK<-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_12: el dibujo de secuencia 0x12 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (29 bytes)
+;   0x9245..0x9262  (29 bytes)
+DATA_dibujo_12:
+	defb 064h,0cch,0d7h,000h,02ch,0e2h,042h,058h,03eh,054h,055h,044h,080h,045h,043h,0a5h	; 9245  d...,.BX>TUD.EC.
+	defb 0e2h,044h,07ch,094h,090h,000h,045h,044h,051h,04bh,03dh,057h,02dh	; 9255  .D|...EDQK=W-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_13: el dibujo de secuencia 0x13 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (35 bytes)
+;   0x9262..0x9285  (35 bytes)
+DATA_dibujo_13:
+	defb 047h,0cch,051h,000h,02ch,004h,041h,047h,07ch,094h,090h,058h,00ah,0e2h,042h,03eh	; 9262  G.Q.,.AG|..X..B>
+	defb 054h,045h,04bh,03fh,03fh,000h,029h,08ch,0cch,0c8h,0b8h,036h,0e1h,034h,035h,03fh	; 9272  TEK??.)....6.45?
+	defb 04bh,03ch,02dh	; 9282
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_14: el dibujo de secuencia 0x14 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (30 bytes)
+;   0x9285..0x92a3  (30 bytes)
+DATA_dibujo_14:
+	defb 064h,0cch,0d8h,041h,02ch,038h,058h,0e5h,0b5h,028h,0ffh,03ah,06bh,058h,03bh,03dh	; 9285  d..A,8X..(.:kX.=
+	defb 028h,039h,058h,03ch,03dh,068h,056h,035h,03fh,042h,045h,04bh,03ch,02dh	; 9295  (9X<=hV5?BEK<-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_15: el dibujo de secuencia 0x15 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (20 bytes)
+;   0x92a3..0x92b7  (20 bytes)
+DATA_dibujo_15:
+	defb 068h,0cch,0cfh,002h,02ch,086h,091h,068h,07dh,071h,054h,0d9h,030h,045h,0beh,049h	; 92a3  h...,..h}qT.0E.I
+	defb 045h,04bh,03ch,02dh	; 92b3
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_16: el dibujo de secuencia 0x16 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (18 bytes)
+;   0x92b7..0x92c9  (18 bytes)
+DATA_dibujo_16:
+	defb 069h,0cch,0cdh,005h,02ch,07ch,094h,090h,056h,036h,0e1h,034h,0c0h,035h,03fh,04bh	; 92b7  i...,|..V6.4.5?K
+	defb 03ch,02dh	; 92c7
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_17: el dibujo de secuencia 0x17 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (30 bytes)
+;   0x92c9..0x92e7  (30 bytes)
+DATA_dibujo_17:
+	defb 064h,0cch,0d8h,000h,02ch,07ch,094h,090h,058h,03fh,051h,04bh,000h,03dh,057h,029h	; 92c9  d...,|..X?QK.=W)
+	defb 07ch,094h,090h,056h,0eeh,080h,03fh,045h,04dh,062h,051h,04bh,03ch,02dh	; 92d9  |..V..?EMbQK<-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_18: el dibujo de secuencia 0x18 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (20 bytes)
+;   0x92e7..0x92fb  (20 bytes)
+DATA_dibujo_18:
+	defb 068h,0cch,0cfh,000h,02ch,070h,02fh,080h,089h,0e9h,0feh,056h,0a8h,00ch,0bah,03fh	; 92e7  h...,p/....V...?
+	defb 04bh,03fh,03fh,02dh	; 92f7
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_19: el dibujo de secuencia 0x19 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (30 bytes)
+;   0x92fb..0x9319  (30 bytes)
+DATA_dibujo_19:
+	defb 064h,0cch,0d8h,000h,02ch,073h,068h,07dh,082h,02fh,090h,0ffh,028h,045h,0d2h,021h	; 92fb  d...,sh}./..(E.!
+	defb 061h,04ah,052h,070h,02fh,008h,080h,089h,047h,04fh,046h,061h,03ch,02dh	; 930b  aJRp/...GOFa<-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_1A: el dibujo de secuencia 0x1A (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (11 bytes)
+;   0x9319..0x9324  (11 bytes)
+DATA_dibujo_1A:
+	defb 06ch,0cch,0c7h,030h,02ch,0cbh,00bh,03fh,04bh,03ch,02dh	; 9319  l..0,..?K<-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_35: el dibujo de secuencia 0x35 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (25 bytes)
+;   0x9324..0x933d  (25 bytes)
+DATA_dibujo_35:
 	defb 067h,0cch,0d3h,040h,02ch,055h,06dh,071h,077h,07eh,025h,072h,00ah,083h,06fh,02fh	; 9324  g..@,Umqw~%r..o/
-	defb 056h,00ch,0bah,03fh,04bh,080h,03fh,03fh,02dh,06ah,0cch,0cdh,002h,02ch,06bh,090h	; 9334  V..?K.??-j...,k.
-	defb 072h,080h,056h,00ch,0bah,0a0h,03fh,04bh,03fh,03fh,02dh,06ah,0cch,0cch,001h,02ch	; 9344  r.V...?K??-j...,
-	defb 06bh,090h,072h,080h,056h,0cbh,00bh,080h,03fh,04bh,03ch,02dh,065h,0cch,0d6h,000h	; 9354  k.r.V...?K<-e...
-	defb 02ch,0a9h,0d8h,0cch,0f6h,061h,03ch,058h,000h,028h,086h,091h,068h,07dh,071h,025h	; 9364  ,....a<X.(..h}q%
-	defb 08ah,000h,02fh,077h,083h,061h,03ch,02dh,06ah,0cch,0cch,003h,02ch,03eh,0d7h,084h	; 9374  ../w.a<-j...,>..
-	defb 071h,056h,000h,008h,080h,03fh,04bh,03ch,02dh,06ah,0cch,0cbh,002h,02ch,0a5h,0e2h	; 9384  qV...?K<-j...,..
-	defb 045h,03eh,0d7h,03fh,04bh,080h,03fh,03fh,02dh,068h,0cch,0d0h,040h,02ch,02bh,0e5h	; 9394  E>.?K.??-h..@,+.
-	defb 085h,07eh,088h,093h,069h,018h,071h,045h,0beh,049h,045h,04bh,03ch,02dh,068h,0cch	; 93a4  .~..i.qE.IEK<-h.
-	defb 0d0h,000h,086h,091h,068h,07dh,071h,025h,08ah,02fh,010h,077h,083h,028h,04fh,05ch	; 93b4  ....h}q%./.w.(O\
-	defb 0b1h,0a8h,029h,047h,0cch,052h,000h,020h,013h,022h,00fh,018h,048h,028h,04dh,000h	; 93c4  ..)G.R. ."..H(M.
-	defb 043h,047h,0d3h,0f5h,045h,04dh,062h,052h,000h,03fh,04ch,08ah,0cch,0cdh,001h,073h	; 93d4  CG..EMbR.?L....s
-	defb 068h,07dh,082h,02fh,090h,056h,048h,080h,04dh,044h,064h,03fh,029h,068h,0cch,0d1h	; 93e4  h}./.VH.MDd?)h..
-	defb 01ah,02ch,0dah,0f3h,013h,01dh,0aeh,049h,050h,00ah,0bbh,0b8h,056h,0ceh,04ch,04bh	; 93f4  .,.....IP...V.LK
-	defb 03fh,03fh,000h,02dh,069h,0cch,0ceh,048h,02ch,001h,0cfh,0a6h,02ah,045h,0cfh,0bch	; 9404  ??.-i..H,...*E..
-	defb 020h,056h,06ch,040h,094h,074h,02dh,047h,0cch,053h,044h,02ch,04dh,047h,04bh,04bh	; 9414   Vl@.t-G.SD,MGKK
-	defb 005h,05ah,050h,002h,053h,052h,043h,0d0h,064h,042h,045h,052h,040h,047h,049h,029h	; 9424  .ZP.SRC.dBER@GI)
-	defb 08ch,0cch,0c9h,0a0h,005h,058h,03fh,048h,03dh,057h,05fh,027h,000h,02dh,048h,0cch	; 9434  .....X?H=W_'.-H.
-	defb 050h,000h,02ch,086h,091h,068h,07dh,071h,096h,0c2h,018h,045h,048h,0d1h,00dh,03fh	; 9444  P.,..h}q...EH..?
-	defb 03fh,058h,028h,087h,0cch,0d2h,0c6h,04ah,04eh,04bh,048h,0d7h,049h,03fh,042h,040h	; 9454  ?X(....JNKH.I?B@
-	defb 0b1h,04eh,057h,029h,0d8h,046h,065h,027h,000h,027h,02dh,069h,0cch,0ceh,001h,02ch	; 9464  .NW).Fe'.'-i...,
-	defb 08dh,091h,079h,07dh,058h,0d7h,04ah,050h,042h,045h,04bh,03fh,03fh,02dh,064h,0cch	; 9474  ..y}X.JPBEK??-d.
-	defb 0d9h,001h,02ch,08ah,06dh,076h,07fh,067h,083h,049h,040h,050h,046h,063h,064h,03fh	; 9484  ..,.mv.g.I@PFcd?
-	defb 070h,02fh,080h,004h,089h,0e9h,0feh,056h,0d2h,045h,04bh,03ch,000h,02dh,069h,0cch	; 9494  p/.....V.EK<.-i.
-	defb 0ceh,000h,02ch,070h,02fh,080h,089h,028h,071h,068h,000h,094h,074h,000h,06ah,083h	; 94a4  ..,p/..(qh..t.j.
-	defb 02dh,06ch,0cch,0c8h,000h,02ch,070h,02fh,080h,089h,0e1h,0bdh,02dh,06bh,0cch,0cbh	; 94b4  -l...,p/....-k..
-	defb 005h,02ch,0b9h,0b3h,099h,056h,024h,0f4h,03fh,000h,04bh,03ch,02dh,04bh,0cch,049h	; 94c4  .,...V$.?.K<-K.I
-	defb 000h,02ch,020h,013h,022h,00fh,018h,0aeh,045h,000h,048h,085h,0cch,0d6h,000h,082h	; 94d4  ., ."...E.H.....
-	defb 02fh,090h,0ffh,047h,070h,02fh,080h,006h,089h,0e9h,0feh,058h,0e9h,010h,04eh,053h	; 94e4  /..Gp/.....X..NS
-	defb 040h,042h,045h,04bh,03dh,057h,02dh,046h,0cch,054h,040h,02ch,045h,041h,047h,0d3h	; 94f4  @BEK=W-F.T@,EAG.
-	defb 0f5h,045h,043h,094h,041h,0d9h,03ch,049h,055h,049h,051h,04bh,000h,03dh,057h,058h	; 9504  .EC.A.<IUIQK.=WX
-	defb 028h,08bh,0cch,0cah,002h,082h,02fh,090h,056h,0a7h,0cdh,03fh,04bh,000h,03ch,02dh	; 9514  (...../.V..?K.<-
-	defb 06bh,0cch,0cah,000h,02ch,082h,02fh,090h,000h,067h,069h,077h,000h,027h,02dh,02fh	; 9524  k...,./..giw.'-/
-	defb 0cah,002h,000h,038h,039h,04fh,0cah,002h,000h,03ah,03bh,0a2h,0cah,014h,004h,011h	; 9534  ...89O...:......
-	defb 007h,009h,001h,00ah,009h,000h,000h,000h,000h,088h,068h,08dh,093h,094h,089h,025h	; 9544  ..........h....%
-	defb 000h,08ah,02fh,077h,083h,0ebh,0cah,013h,000h,020h,013h,022h,00fh,018h,0aeh,061h	; 9554  ../w..... ."...a
-	defb 08ah,000h,06dh,076h,07fh,067h,083h,0b8h,0f2h,045h,040h,0d9h,00ch,029h,033h,0cbh	; 9564  ..mv.g...E@..)3.
-	defb 0a7h,000h,0b1h,0a8h,03dh,05dh,025h,025h,025h,00fh,0cah,002h,000h,038h,039h,02fh	; 9574  ....=]%%%....89/
-	defb 0cah,002h,000h,03ah,03bh,062h,0cah,015h,004h,011h,007h,007h,005h,002h,009h,000h	; 9584  ...:.b..........
-	defb 000h,000h,000h,086h,091h,068h,07dh,071h,025h,08ah,000h,02fh,077h,083h,0f1h,0d7h	; 9594  .....h}q%../w...
-	defb 0a2h,0cah,011h,004h,011h,007h,007h,006h,009h,009h,000h,000h,000h,000h,0f0h,08ah	; 95a4  ................
-	defb 06dh,076h,07fh,067h,083h,000h,0e0h,0e2h,0cah,00fh,004h,011h,007h,007h,007h,007h	; 95b4  mv.g............
-	defb 009h,000h,000h,000h,000h,0f0h,08dh,091h,079h,07dh,0e0h,02bh,0cbh,034h,000h,086h	; 95c4  ........y}.+.4..
-	defb 091h,068h,07dh,071h,025h,08ah,02fh,000h,077h,083h,028h,07eh,02fh,087h,002h,009h	; 95d4  .h}q%./.w.(~/...
-	defb 000h,0dfh,045h,0eah,098h,062h,0cbh,030h,004h,011h,007h,008h,001h,00ah,009h,000h	; 95e4  ..E..b.0........
-	defb 000h,002h,000h,0f0h,06fh,07eh,07ch,083h,042h,0e0h,0a2h,0cbh,03ch,004h,011h,007h	; 95f4  ....o~|.B...<...
-	defb 008h,002h,009h,009h,000h,000h,000h,000h,086h,091h,068h,07dh,071h,025h,08ah,001h	; 9604  ..........h}q%..
-	defb 02fh,077h,083h,0d8h,0afh,02ah,0b0h,009h,000h,008h,008h,0c1h,02bh,0f0h,0cbh,021h	; 9614  /w...*......+..!
-	defb 000h,025h,010h,0cch,041h,000h,025h,030h,0cch,041h,000h,025h,050h,0cch,041h,000h	; 9624  .%..A.%0.A.%P.A.
-	defb 025h,082h,0cch,0d8h,004h,011h,007h,009h,001h,00ah,009h,000h,000h,004h,000h,095h	; 9634  %...............
-	defb 0b3h,0a4h,0e0h,004h,0aeh,02ch,000h,020h,013h,022h,00fh,018h,02dh,0a5h,0e1h,00ch	; 9644  .....,. ."..-...
-	defb 0cch,047h,000h,02ch,020h,013h,022h,00fh,018h,02dh,044h,0cch,058h,000h,085h,07eh	; 9654  .G., ."..-D.X..~
-	defb 088h,093h,069h,071h,0a1h,0a2h,006h,0adh,0d6h,0fch,058h,0a3h,00ch,03fh,03fh,004h	; 9664  ..iq......X..??.
-	defb 028h,095h,0b3h,0a4h,0e0h,004h,0aeh,029h,087h,0cch,0d3h,020h,0e9h,0fdh,043h,02fh	; 9674  (......)... ..C/
-	defb 075h,058h,09ch,044h,000h,052h,005h,041h,047h,073h,068h,090h,058h,080h,044h,052h	; 9684  uX.D.R.AGsh.X.DR
-	defb 029h,04dh,0cch,046h,000h,02ch,084h,069h,088h,093h,02dh,084h,0cch,0d9h,002h,020h	; 9694  )M.F.,.i..-....
-	defb 013h,022h,00fh,018h,045h,003h,0c0h,090h,04eh,053h,042h,045h,052h,028h,0d4h,09fh	; 96a4  ."..E...NSBER(..
-	defb 040h,0fah,00ah,06eh,083h,08fh,092h,02fh,073h,000h,029h,0cah,0cbh,02dh,000h,02ch	; 96b4  @..n.../s.)..-.,
-	defb 088h,068h,08dh,093h,094h,089h,025h,000h,08ah,02fh,077h,083h,02dh,004h,0cch,058h	; 96c4  .h....%../w.-..X
-	defb 000h,086h,091h,068h,07dh,071h,025h,08ah,02fh,000h,077h,083h,02ah,07eh,02fh,087h	; 96d4  ...h}q%./.w.*~/.
-	defb 002h,009h,000h,0dfh,02bh,047h,0fbh,0b5h,0d5h,0e8h,029h,047h,0cch,052h,042h,097h	; 96e4  ....+G....)G.RB.
-	defb 002h,045h,04fh,052h,0ach,023h,044h,010h,07fh,02fh,06dh,043h,082h,02fh,056h,04dh	; 96f4  .EOR.#D../mC./VM
-	defb 000h,040h,028h,089h,0cch,04fh,033h,03eh,047h,00ah,023h,056h,0efh,04bh,00fh,048h	; 9704  .@(..O3>G.#V.K.H
-	defb 0a0h,04eh,053h,042h,045h,052h,029h,0cah,0cch,0cch,002h,020h,013h,022h,00fh,018h	; 9714  .NSBER).... ."..
-	defb 047h,043h,068h,000h,081h,094h,077h,029h,00fh,0cah,002h,000h,038h,039h,02fh,0cah	; 9724  GCh...w)....89/.
-	defb 002h,000h,03ah,03bh,083h,0cah,018h,004h,011h,007h,009h,001h,00ah,009h,002h,001h	; 9734  ..:.............
-	defb 000h,0b7h,000h,000h,000h,088h,068h,08dh,093h,000h,094h,089h,025h,08ah,02fh,077h	; 9744  ......h.....%./w
-	defb 083h,028h,0cfh,0cah,00eh,000h,02ch,020h,013h,022h,00fh,018h,02dh,061h,000h,08ah	; 9754  .(...., ."..-a..
-	defb 06dh,076h,07fh,067h,083h,013h,0cbh,0a6h,008h,0b8h,0f2h,04ah,0d9h,00ch,029h	; 9764  mv.g.......J..)
+	defb 056h,00ch,0bah,03fh,04bh,080h,03fh,03fh,02dh	; 9334  V..?K.??-
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9773: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9773..0x9776  (3 bytes)
-DATA_leido_9773:
-	defb 048h,0cch,050h	; 9773
+; DATOS dibujo_1B: el dibujo de secuencia 0x1B (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (18 bytes)
+;   0x933d..0x934f  (18 bytes)
+DATA_dibujo_1B:
+	defb 06ah,0cch,0cdh,002h,02ch,06bh,090h,072h,080h,056h,00ch,0bah,0a0h,03fh,04bh,03fh	; 933d  j...,k.r.V...?K?
+	defb 03fh,02dh	; 934d
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9776: 12 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (12 bytes)
-;   0x9776..0x9782  (12 bytes)
-DATA_leido_9776:
-	defb 0ech,0deh,012h,000h,017h,099h,00fh,097h,04fh,01eh,000h,059h	; 9776  ........O..Y
+; DATOS dibujo_1C: el dibujo de secuencia 0x1C (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (17 bytes)
+;   0x934f..0x9360  (17 bytes)
+DATA_dibujo_1C:
+	defb 06ah,0cch,0cch,001h,02ch,06bh,090h,072h,080h,056h,0cbh,00bh,080h,03fh,04bh,03ch	; 934f  j...,k.r.V...?K<
+	defb 02dh	; 935f
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9782: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9782..0x9785  (3 bytes)
-DATA_leido_9782:
-	defb 085h,0cch,0d6h	; 9782
+; DATOS dibujo_1D: el dibujo de secuencia 0x1D (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (28 bytes)
+;   0x9360..0x937c  (28 bytes)
+DATA_dibujo_1D:
+	defb 065h,0cch,0d6h,000h,02ch,0a9h,0d8h,0cch,0f6h,061h,03ch,058h,000h,028h,086h,091h	; 9360  e...,....a<X.(..
+	defb 068h,07dh,071h,025h,08ah,000h,02fh,077h,083h,061h,03ch,02dh	; 9370  h}q%../w.a<-
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9785: 17 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (17 bytes)
-;   0x9785..0x9796  (17 bytes)
-DATA_leido_9785:
-	defb 01eh,012h,00fh,08ch,0cbh,04dh,04fh,09ch,053h,0d8h,01dh,040h,09dh,0c0h,019h,00eh	; 9785  .....MO.S..@....
-	defb 037h	; 9795
+; DATOS dibujo_1E: el dibujo de secuencia 0x1E (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (17 bytes)
+;   0x937c..0x938d  (17 bytes)
+DATA_dibujo_1E:
+	defb 06ah,0cch,0cch,003h,02ch,03eh,0d7h,084h,071h,056h,000h,008h,080h,03fh,04bh,03ch	; 937c  j...,>..qV...?K<
+	defb 02dh	; 938c
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9796..0x9871  (219 bytes)
-DATA_9796:
+; DATOS dibujo_1F: el dibujo de secuencia 0x1F (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (16 bytes)
+;   0x938d..0x939d  (16 bytes)
+DATA_dibujo_1F:
+	defb 06ah,0cch,0cbh,002h,02ch,0a5h,0e2h,045h,03eh,0d7h,03fh,04bh,080h,03fh,03fh,02dh	; 938d  j...,..E>.?K.??-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_20: el dibujo de secuencia 0x20 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (21 bytes)
+;   0x939d..0x93b2  (21 bytes)
+DATA_dibujo_20:
+	defb 068h,0cch,0d0h,040h,02ch,02bh,0e5h,085h,07eh,088h,093h,069h,018h,071h,045h,0beh	; 939d  h..@,+..~..i.qE.
+	defb 049h,045h,04bh,03ch,02dh	; 93ad
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_21: el dibujo de secuencia 0x21 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (21 bytes)
+;   0x93b2..0x93c7  (21 bytes)
+DATA_dibujo_21:
+	defb 068h,0cch,0d0h,000h,086h,091h,068h,07dh,071h,025h,08ah,02fh,010h,077h,083h,028h	; 93b2  h.....h}q%./.w.(
+	defb 04fh,05ch,0b1h,0a8h,029h	; 93c2
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_22: el dibujo de secuencia 0x22 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (42 bytes)
+;   0x93c7..0x93f1  (42 bytes)
+DATA_dibujo_22:
+	defb 047h,0cch,052h,000h,020h,013h,022h,00fh,018h,048h,028h,04dh,000h,043h,047h,0d3h	; 93c7  G.R. ."..H(M.CG.
+	defb 0f5h,045h,04dh,062h,052h,000h,03fh,04ch,08ah,0cch,0cdh,001h,073h,068h,07dh,082h	; 93d7  .EMbR.?L....sh}.
+	defb 02fh,090h,056h,048h,080h,04dh,044h,064h,03fh,029h	; 93e7  /.VH.MDd?)
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_23: el dibujo de secuencia 0x23 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (23 bytes)
+;   0x93f1..0x9408  (23 bytes)
+DATA_dibujo_23:
+	defb 068h,0cch,0d1h,01ah,02ch,0dah,0f3h,013h,01dh,0aeh,049h,050h,00ah,0bbh,0b8h,056h	; 93f1  h...,.....IP...V
+	defb 0ceh,04ch,04bh,03fh,03fh,000h,02dh	; 9401
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_24: el dibujo de secuencia 0x24 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (19 bytes)
+;   0x9408..0x941b  (19 bytes)
+DATA_dibujo_24:
+	defb 069h,0cch,0ceh,048h,02ch,001h,0cfh,0a6h,02ah,045h,0cfh,0bch,020h,056h,06ch,040h	; 9408  i..H,...*E.. Vl@
+	defb 094h,074h,02dh	; 9418
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_25: el dibujo de secuencia 0x25 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (39 bytes)
+;   0x941b..0x9442  (39 bytes)
+DATA_dibujo_25:
+	defb 047h,0cch,053h,044h,02ch,04dh,047h,04bh,04bh,005h,05ah,050h,002h,053h,052h,043h	; 941b  G.SD,MGKK.ZP.SRC
+	defb 0d0h,064h,042h,045h,052h,040h,047h,049h,029h,08ch,0cch,0c9h,0a0h,005h,058h,03fh	; 942b  .dBER@GI).....X?
+	defb 048h,03dh,057h,05fh,027h,000h,02dh	; 943b
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_26: el dibujo de secuencia 0x26 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (45 bytes)
+;   0x9442..0x946f  (45 bytes)
+DATA_dibujo_26:
+	defb 048h,0cch,050h,000h,02ch,086h,091h,068h,07dh,071h,096h,0c2h,018h,045h,048h,0d1h	; 9442  H.P.,..h}q...EH.
+	defb 00dh,03fh,03fh,058h,028h,087h,0cch,0d2h,0c6h,04ah,04eh,04bh,048h,0d7h,049h,03fh	; 9452  .??X(....JNKH.I?
+	defb 042h,040h,0b1h,04eh,057h,029h,0d8h,046h,065h,027h,000h,027h,02dh	; 9462  B@.NW).Fe'.'-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_27: el dibujo de secuencia 0x27 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (19 bytes)
+;   0x946f..0x9482  (19 bytes)
+DATA_dibujo_27:
+	defb 069h,0cch,0ceh,001h,02ch,08dh,091h,079h,07dh,058h,0d7h,04ah,050h,042h,045h,04bh	; 946f  i...,..y}X.JPBEK
+	defb 03fh,03fh,02dh	; 947f
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_28: el dibujo de secuencia 0x28 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (32 bytes)
+;   0x9482..0x94a2  (32 bytes)
+DATA_dibujo_28:
+	defb 064h,0cch,0d9h,001h,02ch,08ah,06dh,076h,07fh,067h,083h,049h,040h,050h,046h,063h	; 9482  d...,.mv.g.I@PFc
+	defb 064h,03fh,070h,02fh,080h,004h,089h,0e9h,0feh,056h,0d2h,045h,04bh,03ch,000h,02dh	; 9492  d?p/.....V.EK<.-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_29: el dibujo de secuencia 0x29 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (19 bytes)
+;   0x94a2..0x94b5  (19 bytes)
+DATA_dibujo_29:
+	defb 069h,0cch,0ceh,000h,02ch,070h,02fh,080h,089h,028h,071h,068h,000h,094h,074h,000h	; 94a2  i...,p/..(qh..t.
+	defb 06ah,083h,02dh	; 94b2
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_2A: el dibujo de secuencia 0x2A (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (12 bytes)
+;   0x94b5..0x94c1  (12 bytes)
+DATA_dibujo_2A:
+	defb 06ch,0cch,0c8h,000h,02ch,070h,02fh,080h,089h,0e1h,0bdh,02dh	; 94b5  l...,p/....-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_2B: el dibujo de secuencia 0x2B (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (16 bytes)
+;   0x94c1..0x94d1  (16 bytes)
+DATA_dibujo_2B:
+	defb 06bh,0cch,0cbh,005h,02ch,0b9h,0b3h,099h,056h,024h,0f4h,03fh,000h,04bh,03ch,02dh	; 94c1  k...,...V$.?.K<-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_2C: el dibujo de secuencia 0x2C (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (42 bytes)
+;   0x94d1..0x94fb  (42 bytes)
+DATA_dibujo_2C:
+	defb 04bh,0cch,049h,000h,02ch,020h,013h,022h,00fh,018h,0aeh,045h,000h,048h,085h,0cch	; 94d1  K.I., ."...E.H..
+	defb 0d6h,000h,082h,02fh,090h,0ffh,047h,070h,02fh,080h,006h,089h,0e9h,0feh,058h,0e9h	; 94e1  .../..Gp/.....X.
+	defb 010h,04eh,053h,040h,042h,045h,04bh,03dh,057h,02dh	; 94f1  .NS@BEK=W-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_2D: el dibujo de secuencia 0x2D (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (41 bytes)
+;   0x94fb..0x9524  (41 bytes)
+DATA_dibujo_2D:
+	defb 046h,0cch,054h,040h,02ch,045h,041h,047h,0d3h,0f5h,045h,043h,094h,041h,0d9h,03ch	; 94fb  F.T@,EAG..EC.A.<
+	defb 049h,055h,049h,051h,04bh,000h,03dh,057h,058h,028h,08bh,0cch,0cah,002h,082h,02fh	; 950b  IUIQK.=WX(...../
+	defb 090h,056h,0a7h,0cdh,03fh,04bh,000h,03ch,02dh	; 951b  .V..?K.<-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_2E: el dibujo de secuencia 0x2E (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (15 bytes)
+;   0x9524..0x9533  (15 bytes)
+DATA_dibujo_2E:
+	defb 06bh,0cch,0cah,000h,02ch,082h,02fh,090h,000h,067h,069h,077h,000h,027h,02dh	; 9524  k...,./..giw.'-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_2F: el dibujo de secuencia 0x2F (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (74 bytes)
+;   0x9533..0x957d  (74 bytes)
+DATA_dibujo_2F:
+	defb 02fh,0cah,002h,000h,038h,039h,04fh,0cah,002h,000h,03ah,03bh,0a2h,0cah,014h,004h	; 9533  /...89O...:.....
+	defb 011h,007h,009h,001h,00ah,009h,000h,000h,000h,000h,088h,068h,08dh,093h,094h,089h	; 9543  ...........h....
+	defb 025h,000h,08ah,02fh,077h,083h,0ebh,0cah,013h,000h,020h,013h,022h,00fh,018h,0aeh	; 9553  %../w..... ."...
+	defb 061h,08ah,000h,06dh,076h,07fh,067h,083h,0b8h,0f2h,045h,040h,0d9h,00ch,029h,033h	; 9563  a..mv.g...E@..)3
+	defb 0cbh,0a7h,000h,0b1h,0a8h,03dh,05dh,025h,025h,025h	; 9573  .....=]%%%
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_30: el dibujo de secuencia 0x30 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (214 bytes)
+;   0x957d..0x9653  (214 bytes)
+DATA_dibujo_30:
+	defb 00fh,0cah,002h,000h,038h,039h,02fh,0cah,002h,000h,03ah,03bh,062h,0cah,015h,004h	; 957d  ....89/...:.b...
+	defb 011h,007h,007h,005h,002h,009h,000h,000h,000h,000h,086h,091h,068h,07dh,071h,025h	; 958d  ............h}q%
+	defb 08ah,000h,02fh,077h,083h,0f1h,0d7h,0a2h,0cah,011h,004h,011h,007h,007h,006h,009h	; 959d  ../w............
+	defb 009h,000h,000h,000h,000h,0f0h,08ah,06dh,076h,07fh,067h,083h,000h,0e0h,0e2h,0cah	; 95ad  .......mv.g.....
+	defb 00fh,004h,011h,007h,007h,007h,007h,009h,000h,000h,000h,000h,0f0h,08dh,091h,079h	; 95bd  ...............y
+	defb 07dh,0e0h,02bh,0cbh,034h,000h,086h,091h,068h,07dh,071h,025h,08ah,02fh,000h,077h	; 95cd  }.+.4...h}q%./.w
+	defb 083h,028h,07eh,02fh,087h,002h,009h,000h,0dfh,045h,0eah,098h,062h,0cbh,030h,004h	; 95dd  .(~/.....E..b.0.
+	defb 011h,007h,008h,001h,00ah,009h,000h,000h,002h,000h,0f0h,06fh,07eh,07ch,083h,042h	; 95ed  ...........o~|.B
+	defb 0e0h,0a2h,0cbh,03ch,004h,011h,007h,008h,002h,009h,009h,000h,000h,000h,000h,086h	; 95fd  ...<............
+	defb 091h,068h,07dh,071h,025h,08ah,001h,02fh,077h,083h,0d8h,0afh,02ah,0b0h,009h,000h	; 960d  .h}q%../w...*...
+	defb 008h,008h,0c1h,02bh,0f0h,0cbh,021h,000h,025h,010h,0cch,041h,000h,025h,030h,0cch	; 961d  ...+..!.%..A.%0.
+	defb 041h,000h,025h,050h,0cch,041h,000h,025h,082h,0cch,0d8h,004h,011h,007h,009h,001h	; 962d  A.%P.A.%........
+	defb 00ah,009h,000h,000h,004h,000h,095h,0b3h,0a4h,0e0h,004h,0aeh,02ch,000h,020h,013h	; 963d  ............,. .
+	defb 022h,00fh,018h,02dh,0a5h,0e1h	; 964d
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_31: el dibujo de secuencia 0x31 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (66 bytes)
+;   0x9653..0x9695  (66 bytes)
+DATA_dibujo_31:
+	defb 00ch,0cch,047h,000h,02ch,020h,013h,022h,00fh,018h,02dh,044h,0cch,058h,000h,085h	; 9653  ..G., ."..-D.X..
+	defb 07eh,088h,093h,069h,071h,0a1h,0a2h,006h,0adh,0d6h,0fch,058h,0a3h,00ch,03fh,03fh	; 9663  ~..iq......X..??
+	defb 004h,028h,095h,0b3h,0a4h,0e0h,004h,0aeh,029h,087h,0cch,0d3h,020h,0e9h,0fdh,043h	; 9673  .(......)... ..C
+	defb 02fh,075h,058h,09ch,044h,000h,052h,005h,041h,047h,073h,068h,090h,058h,080h,044h	; 9683  /uX.D.R.AGsh.X.D
+	defb 052h,029h	; 9693
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_32: el dibujo de secuencia 0x32 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (42 bytes)
+;   0x9695..0x96bf  (42 bytes)
+DATA_dibujo_32:
+	defb 04dh,0cch,046h,000h,02ch,084h,069h,088h,093h,02dh,084h,0cch,0d9h,002h,020h,013h	; 9695  M.F.,.i..-.... .
+	defb 022h,00fh,018h,045h,003h,0c0h,090h,04eh,053h,042h,045h,052h,028h,0d4h,09fh,040h	; 96a5  "..E...NSBER(..@
+	defb 0fah,00ah,06eh,083h,08fh,092h,02fh,073h,000h,029h	; 96b5  ..n.../s.)
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_33: el dibujo de secuencia 0x33 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (109 bytes)
+;   0x96bf..0x972c  (109 bytes)
+DATA_dibujo_33:
+	defb 0cah,0cbh,02dh,000h,02ch,088h,068h,08dh,093h,094h,089h,025h,000h,08ah,02fh,077h	; 96bf  ..-.,.h....%../w
+	defb 083h,02dh,004h,0cch,058h,000h,086h,091h,068h,07dh,071h,025h,08ah,02fh,000h,077h	; 96cf  .-..X...h}q%./.w
+	defb 083h,02ah,07eh,02fh,087h,002h,009h,000h,0dfh,02bh,047h,0fbh,0b5h,0d5h,0e8h,029h	; 96df  .*~/.....+G....)
+	defb 047h,0cch,052h,042h,097h,002h,045h,04fh,052h,0ach,023h,044h,010h,07fh,02fh,06dh	; 96ef  G.RB..EOR.#D../m
+	defb 043h,082h,02fh,056h,04dh,000h,040h,028h,089h,0cch,04fh,033h,03eh,047h,00ah,023h	; 96ff  C./VM.@(..O3>G.#
+	defb 056h,0efh,04bh,00fh,048h,0a0h,04eh,053h,042h,045h,052h,029h,0cah,0cch,0cch,002h	; 970f  V.K.H.NSBER)....
+	defb 020h,013h,022h,00fh,018h,047h,043h,068h,000h,081h,094h,077h,029h	; 971f   ."..GCh...w)
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_34: el dibujo de secuencia 0x34 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 8 en
+;   8 con una mascara; lo leen p26:634C, p26:6350, p26:637C (71 bytes)
+;   0x972c..0x9773  (71 bytes)
+DATA_dibujo_34:
+	defb 00fh,0cah,002h,000h,038h,039h,02fh,0cah,002h,000h,03ah,03bh,083h,0cah,018h,004h	; 972c  ....89/...:.....
+	defb 011h,007h,009h,001h,00ah,009h,002h,001h,000h,0b7h,000h,000h,000h,088h,068h,08dh	; 973c  ..............h.
+	defb 093h,000h,094h,089h,025h,08ah,02fh,077h,083h,028h,0cfh,0cah,00eh,000h,02ch,020h	; 974c  ....%./w.(....,
+	defb 013h,022h,00fh,018h,02dh,061h,000h,08ah,06dh,076h,07fh,067h,083h,013h,0cbh,0a6h	; 975c  ."..-a..mv.g....
+	defb 008h,0b8h,0f2h,04ah,0d9h,00ch,029h	; 976c
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_40: el dibujo de secuencia 0x40 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (35 bytes)
+;   0x9773..0x9796  (35 bytes)
+DATA_dibujo_40:
+	defb 048h,0cch,050h,0ech,0deh,012h,000h,017h,099h,00fh,097h,04fh,01eh,000h,059h,085h	; 9773  H.P........O..Y.
+	defb 0cch,0d6h,01eh,012h,00fh,08ch,0cbh,04dh,04fh,09ch,053h,0d8h,01dh,040h,09dh,0c0h	; 9783  .......MO.S..@..
+	defb 019h,00eh,037h	; 9793
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_41: el dibujo de secuencia 0x41 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (38 bytes)
+;   0x9796..0x97bc  (38 bytes)
+DATA_dibujo_41:
 	defb 046h,0cch,055h,0ech,0deh,012h,0e3h,0f2h,01ch,040h,0ceh,053h,0cbh,0dah,01ah,00bh	; 9796  F.U......@.S....
 	defb 09ch,053h,011h,086h,0cch,0d5h,0d0h,05ch,059h,0c0h,01eh,052h,0ddh,000h,05eh,017h	; 97a6  .S.....\Y..R..^.
-	defb 04fh,080h,0d9h,058h,08fh,02dh,047h,0cch,051h,0ech,0deh,012h,0e3h,0f2h,01ch,080h	; 97b6  O..X.-G.Q.......
-	defb 0cfh,058h,00fh,09ch,053h,011h,08ah,0cch,0cch,0cbh,000h,05eh,057h,00fh,080h,0cbh	; 97c6  .X..S......^W...
-	defb 05ch,0dah,068h,0cch,0d1h,0ech,0deh,012h,0e3h,0f2h,01ch,0c0h,011h,059h,058h,051h	; 97d6  \.h..........YXQ
-	defb 0a5h,025h,049h,0cch,04fh,0d8h,0cfh,017h,01dh,013h,01dh,047h,047h,005h,030h,001h	; 97e6  .%I.O......GG.0.
-	defb 002h,089h,0cch,0cfh,002h,007h,006h,023h,0cfh,04bh,05dh,000h,04bh,019h,027h,02dh	; 97f6  .......#.K].K.'-
+	defb 04fh,080h,0d9h,058h,08fh,02dh	; 97b6
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_42: el dibujo de secuencia 0x42 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (28 bytes)
+;   0x97bc..0x97d8  (28 bytes)
+DATA_dibujo_42:
+	defb 047h,0cch,051h,0ech,0deh,012h,0e3h,0f2h,01ch,080h,0cfh,058h,00fh,09ch,053h,011h	; 97bc  G.Q........X..S.
+	defb 08ah,0cch,0cch,0cbh,000h,05eh,057h,00fh,080h,0cbh,05ch,0dah	; 97cc  .....^W...\.
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_43: el dibujo de secuencia 0x43 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (16 bytes)
+;   0x97d8..0x97e8  (16 bytes)
+DATA_dibujo_43:
+	defb 068h,0cch,0d1h,0ech,0deh,012h,0e3h,0f2h,01ch,0c0h,011h,059h,058h,051h,0a5h,025h	; 97d8  h..........YXQ.%
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_44: el dibujo de secuencia 0x44 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (30 bytes)
+;   0x97e8..0x9806  (30 bytes)
+DATA_dibujo_44:
+	defb 049h,0cch,04fh,0d8h,0cfh,017h,01dh,013h,01dh,047h,047h,005h,030h,001h,002h,089h	; 97e8  I.O......GG.0...
+	defb 0cch,0cfh,002h,007h,006h,023h,0cfh,04bh,05dh,000h,04bh,019h,027h,02dh	; 97f8  .....#.K].K.'-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_45: el dibujo de secuencia 0x45 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (39 bytes)
+;   0x9806..0x982d  (39 bytes)
+DATA_dibujo_45:
 	defb 045h,0cch,056h,0ech,0deh,012h,0e3h,0f2h,01ch,0c0h,011h,059h,098h,0d1h,040h,0d9h	; 9806  E.V........Y..@.
 	defb 000h,055h,016h,016h,085h,0cch,0d5h,0d4h,0cbh,017h,0ddh,080h,016h,01eh,00fh,01ch	; 9816  .U..............
-	defb 056h,0cbh,05ch,080h,074h,0f5h,037h,063h,0cch,0dah,06ch,0d2h,053h,0deh,019h,09ch	; 9826  V.\.t.7c..l.S...
-	defb 0c0h,0e1h,059h,016h,0ceh,000h,08fh,000h,04dh,0cbh,0d8h,011h,00eh,037h,043h,0cch	; 9836  ..Y.....M....7C.
-	defb 05ah,0ech,092h,00fh,04eh,080h,050h,09ch,000h,05eh,08fh,040h,04ch,00bh,00dh,015h	; 9846  Z...N.P..^.@L...
-	defb 0d2h,0d9h,016h,025h,025h,084h,0cch,0d9h,021h,0cfh,072h,00fh,080h,04fh,0deh,00fh	; 9856  ...%%...!.r..O..
-	defb 05ch,098h,0d1h,040h,0d3h,0d7h,08fh,0a1h,08bh,05ch,037h	; 9866  \..@.....\7
+	defb 056h,0cbh,05ch,080h,074h,0f5h,037h	; 9826
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9871: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9871..0x9874  (3 bytes)
-DATA_leido_9871:
-	defb 049h,0cch,04dh	; 9871
+; DATOS dibujo_46: el dibujo de secuencia 0x46 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (23 bytes)
+;   0x982d..0x9844  (23 bytes)
+DATA_dibujo_46:
+	defb 063h,0cch,0dah,06ch,0d2h,053h,0deh,019h,09ch,0c0h,0e1h,059h,016h,0ceh,000h,08fh	; 982d  c..l.S.....Y....
+	defb 000h,04dh,0cbh,0d8h,011h,00eh,037h	; 983d
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9874: 10 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (10 bytes)
-;   0x9874..0x987e  (10 bytes)
-DATA_leido_9874:
-	defb 02ch,012h,08bh,00fh,0c0h,04bh,0dch,0d3h,020h,00eh	; 9874  ,....K.. .
+; DATOS dibujo_47: el dibujo de secuencia 0x47 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (45 bytes)
+;   0x9844..0x9871  (45 bytes)
+DATA_dibujo_47:
+	defb 043h,0cch,05ah,0ech,092h,00fh,04eh,080h,050h,09ch,000h,05eh,08fh,040h,04ch,00bh	; 9844  C.Z...N.P..^.@L.
+	defb 00dh,015h,0d2h,0d9h,016h,025h,025h,084h,0cch,0d9h,021h,0cfh,072h,00fh,080h,04fh	; 9854  .....%%...!.r..O
+	defb 0deh,00fh,05ch,098h,0d1h,040h,0d3h,0d7h,08fh,0a1h,08bh,05ch,037h	; 9864  ..\..@.....\7
 
 ; ----------------------------------------------------------------------
-; DATOS leido_987E: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x987e..0x9881  (3 bytes)
-DATA_leido_987E:
-	defb 086h,0cch,0d3h	; 987e
-
-; ----------------------------------------------------------------------
-; DATOS leido_9881: 15 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (15 bytes)
-;   0x9881..0x9890  (15 bytes)
-DATA_leido_9881:
+; DATOS dibujo_48: el dibujo de secuencia 0x48 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (31 bytes)
+;   0x9871..0x9890  (31 bytes)
+DATA_dibujo_48:
+	defb 049h,0cch,04dh,02ch,012h,08bh,00fh,0c0h,04bh,0dch,0d3h,020h,00eh,086h,0cch,0d3h	; 9871  I.M,....K.. ....
 	defb 013h,098h,040h,04fh,0d7h,04fh,0d3h,05dh,000h,007h,005h,0c5h,001h,008h,037h	; 9881  ..@O.O.]......7
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9890..0x9905  (117 bytes)
-DATA_9890:
+; DATOS dibujo_49: el dibujo de secuencia 0x49 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (18 bytes)
+;   0x9890..0x98a2  (18 bytes)
+DATA_dibujo_49:
 	defb 066h,0cch,0d3h,0ech,047h,040h,099h,018h,05eh,05dh,080h,05eh,0d9h,080h,016h,01eh	; 9890  f...G@..^].^....
-	defb 00fh,037h,045h,0cch,057h,06ch,0cch,00bh,0deh,00fh,05ch,099h,018h,040h,00bh,0ddh	; 98a0  .7E.Wl....\..@..
-	defb 040h,0cfh,0efh,04ch,013h,016h,01eh,08ah,0cch,0cdh,0d0h,0d3h,020h,0c0h,09ah,016h	; 98b0  @..L........ ...
-	defb 058h,0cfh,05eh,037h,048h,0cch,04fh,0ech,054h,04bh,08fh,01dh,040h,00bh,0ddh,000h	; 98c0  X.^7H.O.TK..@...
-	defb 00fh,00fh,018h,089h,0cch,0ceh,092h,0cfh,016h,0c0h,01ah,05ch,0ddh,0d9h,018h,01ch	; 98d0  ...........\....
-	defb 037h,046h,0cch,054h,0ech,0deh,012h,0dch,04fh,040h,01fh,01dh,01eh,04ch,0cfh,000h	; 98e0  7F.T....O@...L..
-	defb 056h,0dfh,04fh,087h,0cch,0d3h,09eh,019h,040h,053h,01dh,080h,0d2h,0cfh,01ch,0cbh	; 98f0  V.O.....@S......
-	defb 0cch,059h,01eh,01dh,037h	; 9900
+	defb 00fh,037h	; 98a0
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9905: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9905..0x9908  (3 bytes)
-DATA_leido_9905:
-	defb 067h,0cch,0d2h	; 9905
+; DATOS dibujo_4A: el dibujo de secuencia 0x4A (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (34 bytes)
+;   0x98a2..0x98c4  (34 bytes)
+DATA_dibujo_4A:
+	defb 045h,0cch,057h,06ch,0cch,00bh,0deh,00fh,05ch,099h,018h,040h,00bh,0ddh,040h,0cfh	; 98a2  E.Wl....\..@..@.
+	defb 0efh,04ch,013h,016h,01eh,08ah,0cch,0cdh,0d0h,0d3h,020h,0c0h,09ah,016h,058h,0cfh	; 98b2  .L........ ...X.
+	defb 05eh,037h	; 98c2
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9908: 14 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (14 bytes)
-;   0x9908..0x9916  (14 bytes)
-DATA_leido_9908:
-	defb 02ch,0d2h,04fh,00fh,032h,01dh,0cbh,0c0h,01ch,0ceh,080h,017h,01ah,037h	; 9908  ,.O.2........7
+; DATOS dibujo_4B: el dibujo de secuencia 0x4B (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (29 bytes)
+;   0x98c4..0x98e1  (29 bytes)
+DATA_dibujo_4B:
+	defb 048h,0cch,04fh,0ech,054h,04bh,08fh,01dh,040h,00bh,0ddh,000h,00fh,00fh,018h,089h	; 98c4  H.O.TK..@.......
+	defb 0cch,0ceh,092h,0cfh,016h,0c0h,01ah,05ch,0ddh,0d9h,018h,01ch,037h	; 98d4  .......\....7
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9916: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9916..0x9919  (3 bytes)
-DATA_leido_9916:
-	defb 067h,0cch,0d3h	; 9916
+; DATOS dibujo_4C: el dibujo de secuencia 0x4C (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (36 bytes)
+;   0x98e1..0x9905  (36 bytes)
+DATA_dibujo_4C:
+	defb 046h,0cch,054h,0ech,0deh,012h,0dch,04fh,040h,01fh,01dh,01eh,04ch,0cfh,000h,056h	; 98e1  F.T....O@...L..V
+	defb 0dfh,04fh,087h,0cch,0d3h,09eh,019h,040h,053h,01dh,080h,0d2h,0cfh,01ch,0cbh,0cch	; 98f1  .O.....@S.......
+	defb 059h,01eh,01dh,037h	; 9901
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9919: 15 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (15 bytes)
-;   0x9919..0x9928  (15 bytes)
-DATA_leido_9919:
-	defb 02ch,0d2h,04fh,00fh,032h,01dh,08bh,040h,04ch,0dfh,04fh,040h,00bh,01ah,037h	; 9919  ,.O.2..@L.O@..7
+; DATOS dibujo_4D: el dibujo de secuencia 0x4D (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (17 bytes)
+;   0x9905..0x9916  (17 bytes)
+DATA_dibujo_4D:
+	defb 067h,0cch,0d2h,02ch,0d2h,04fh,00fh,032h,01dh,0cbh,0c0h,01ch,0ceh,080h,017h,01ah	; 9905  g..,.O.2........
+	defb 037h	; 9915
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9928: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9928..0x992b  (3 bytes)
-DATA_leido_9928:
-	defb 066h,0cch,0d4h	; 9928
+; DATOS dibujo_4E: el dibujo de secuencia 0x4E (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (18 bytes)
+;   0x9916..0x9928  (18 bytes)
+DATA_dibujo_4E:
+	defb 067h,0cch,0d3h,02ch,0d2h,04fh,00fh,032h,01dh,08bh,040h,04ch,0dfh,04fh,040h,00bh	; 9916  g..,.O.2..@L.O@.
+	defb 01ah,037h	; 9926
 
 ; ----------------------------------------------------------------------
-; DATOS leido_992B: 15 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (15 bytes)
-;   0x992b..0x993a  (15 bytes)
-DATA_leido_992B:
-	defb 02ch,0d2h,04fh,00fh,032h,01dh,00bh,0c0h,051h,00fh,00fh,018h,0d7h,04bh,0dah	; 992b  ,.O.2...Q....K.
+; DATOS dibujo_4F: el dibujo de secuencia 0x4F (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (18 bytes)
+;   0x9928..0x993a  (18 bytes)
+DATA_dibujo_4F:
+	defb 066h,0cch,0d4h,02ch,0d2h,04fh,00fh,032h,01dh,00bh,0c0h,051h,00fh,00fh,018h,0d7h	; 9928  f..,.O.2...Q....
+	defb 04bh,0dah	; 9938
 
 ; ----------------------------------------------------------------------
-; DATOS leido_993A: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x993a..0x993d  (3 bytes)
-DATA_leido_993A:
-	defb 047h,0cch,051h	; 993a
+; DATOS dibujo_50: el dibujo de secuencia 0x50 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (38 bytes)
+;   0x993a..0x9960  (38 bytes)
+DATA_dibujo_50:
+	defb 047h,0cch,051h,0ech,0deh,012h,05ch,0cfh,040h,00fh,00fh,017h,01eh,0d9h,000h,00fh	; 993a  G.Q...\.@.......
+	defb 084h,0cch,0d9h,0c4h,000h,04eh,010h,0d0h,04fh,00fh,018h,01eh,095h,0d3h,018h,01dh	; 994a  .....N..O.......
+	defb 000h,059h,080h,097h,04bh,037h	; 995a
 
 ; ----------------------------------------------------------------------
-; DATOS leido_993D: 13 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (13 bytes)
-;   0x993d..0x994a  (13 bytes)
-DATA_leido_993D:
-	defb 0ech,0deh,012h,05ch,0cfh,040h,00fh,00fh,017h,01eh,0d9h,000h,00fh	; 993d  ...\.@.......
+; DATOS dibujo_51: el dibujo de secuencia 0x51 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (55 bytes)
+;   0x9960..0x9997  (55 bytes)
+DATA_dibujo_51:
+	defb 027h,0cch,052h,06ch,0cfh,00bh,0d2h,000h,09eh,0dah,04fh,040h,08bh,01eh,04dh,00fh	; 9960  '.Rl......O@..M.
+	defb 01dh,065h,0cch,057h,00bh,0c0h,05ah,013h,0d7h,04bh,0e3h,000h,056h,011h,012h,01eh	; 9970  .e.W..Z..K..V...
+	defb 04dh,099h,056h,01fh,01ch,033h,0a7h,0cch,0d2h,05ch,00fh,0ceh,0cch,0d6h,01fh,000h	; 9980  M.V..3...\......
+	defb 019h,01ch,0d1h,0dch,00fh,018h,037h	; 9990
 
 ; ----------------------------------------------------------------------
-; DATOS leido_994A: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x994a..0x994d  (3 bytes)
-DATA_leido_994A:
-	defb 084h,0cch,0d9h	; 994a
+; DATOS dibujo_52: el dibujo de secuencia 0x52 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (39 bytes)
+;   0x9997..0x99be  (39 bytes)
+DATA_dibujo_52:
+	defb 045h,0cch,056h,02ch,021h,00fh,098h,0cfh,00fh,080h,04bh,056h,040h,0c4h,000h,0d9h	; 9997  E.V,!.....KV@...
+	defb 0d6h,059h,01ch,01dh,086h,0cch,0d5h,010h,019h,01ch,01eh,012h,00fh,08dh,099h,057h	; 99a7  .Y.............W
+	defb 0d6h,0cfh,01eh,080h,097h,04bh,037h	; 99b7
 
 ; ----------------------------------------------------------------------
-; DATOS leido_994D: 19 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (19 bytes)
-;   0x994d..0x9960  (19 bytes)
-DATA_leido_994D:
-	defb 0c4h,000h,04eh,010h,0d0h,04fh,00fh,018h,01eh,095h,0d3h,018h,01dh,000h,059h,080h	; 994d  ..N..O........Y.
-	defb 097h,04bh,037h	; 995d
-
-; ----------------------------------------------------------------------
-; DATOS leido_9960: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9960..0x9963  (3 bytes)
-DATA_leido_9960:
-	defb 027h,0cch,052h	; 9960
-
-; ----------------------------------------------------------------------
-; DATOS leido_9963: 14 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (14 bytes)
-;   0x9963..0x9971  (14 bytes)
-DATA_leido_9963:
-	defb 06ch,0cfh,00bh,0d2h,000h,09eh,0dah,04fh,040h,08bh,01eh,04dh,00fh,01dh	; 9963  l......O@..M..
-
-; ----------------------------------------------------------------------
-; DATOS leido_9971: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9971..0x9974  (3 bytes)
-DATA_leido_9971:
-	defb 065h,0cch,057h	; 9971
-
-; ----------------------------------------------------------------------
-; DATOS leido_9974: 18 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (18 bytes)
-;   0x9974..0x9986  (18 bytes)
-DATA_leido_9974:
-	defb 00bh,0c0h,05ah,013h,0d7h,04bh,0e3h,000h,056h,011h,012h,01eh,04dh,099h,056h,01fh	; 9974  ..Z..K..V...M.V.
-	defb 01ch,033h	; 9984
-
-; ----------------------------------------------------------------------
-; DATOS leido_9986: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9986..0x9989  (3 bytes)
-DATA_leido_9986:
-	defb 0a7h,0cch,0d2h	; 9986
-
-; ----------------------------------------------------------------------
-; DATOS leido_9989: 14 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (14 bytes)
-;   0x9989..0x9997  (14 bytes)
-DATA_leido_9989:
-	defb 05ch,00fh,0ceh,0cch,0d6h,01fh,000h,019h,01ch,0d1h,0dch,00fh,018h,037h	; 9989  \............7
-
-; ----------------------------------------------------------------------
-; DATOS leido_9997: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9997..0x999a  (3 bytes)
-DATA_leido_9997:
-	defb 045h,0cch,056h	; 9997
-
-; ----------------------------------------------------------------------
-; DATOS leido_999A: 17 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (17 bytes)
-;   0x999a..0x99ab  (17 bytes)
-DATA_leido_999A:
-	defb 02ch,021h,00fh,098h,0cfh,00fh,080h,04bh,056h,040h,0c4h,000h,0d9h,0d6h,059h,01ch	; 999a  ,!.....KV@....Y.
-	defb 01dh	; 99aa
-
-; ----------------------------------------------------------------------
-; DATOS leido_99AB: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x99ab..0x99ae  (3 bytes)
-DATA_leido_99AB:
-	defb 086h,0cch,0d5h	; 99ab
-
-; ----------------------------------------------------------------------
-; DATOS leido_99AE: 16 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (16 bytes)
-;   0x99ae..0x99be  (16 bytes)
-DATA_leido_99AE:
-	defb 010h,019h,01ch,01eh,012h,00fh,08dh,099h,057h,0d6h,0cfh,01eh,080h,097h,04bh,037h	; 99ae  ........W.....K7
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x99be..0x9a3b  (125 bytes)
-DATA_99BE:
+; DATOS dibujo_53: el dibujo de secuencia 0x53 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (54 bytes)
+;   0x99be..0x99f4  (54 bytes)
+DATA_dibujo_53:
 	defb 024h,0cch,058h,02ch,0d2h,04fh,00fh,0c0h,04bh,08fh,000h,05eh,08fh,000h,05eh,01ch	; 99be  $.X,.O..K..^..^.
 	defb 00fh,00fh,057h,0cbh,05ah,067h,0cch,052h,0deh,0d9h,011h,01eh,0d2h,04fh,040h,057h	; 99ce  ..W.Zg.R.....O@W
 	defb 04bh,013h,018h,011h,01fh,01ah,0a7h,0cch,0d1h,01eh,012h,00fh,08dh,099h,057h,0d6h	; 99de  K.............W.
-	defb 0cfh,01eh,080h,097h,04bh,037h,044h,0cch,058h,0ech,0deh,012h,000h,0deh,052h,0cfh	; 99ee  ....K7D.X.....R.
-	defb 04fh,040h,00bh,01ah,01dh,0deh,0d9h,011h,01eh,0d2h,04fh,085h,0cch,0d6h,0d1h,0d3h	; 99fe  O@........O.....
-	defb 020h,080h,04bh,056h,0c0h,0deh,012h,0c0h,08ch,00fh,05ch,013h,058h,01dh,037h,04ah	; 9a0e   .KV......\.X.7J
-	defb 0cch,04bh,0ach,053h,072h,056h,080h,051h,000h,01eh,019h,086h,0cch,0d4h,01eh,012h	; 9a1e  .K.SrV.Q........
-	defb 00fh,05ch,0cfh,01dh,05fh,08fh,040h,0d0h,080h,014h,0d7h,04fh,0ddh	; 9a2e  .\.._.@....O.
-
-; ----------------------------------------------------------------------
-; DATOS leido_9A3B: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9a3b..0x9a3e  (3 bytes)
-DATA_leido_9A3B:
-	defb 063h,0cch,0dah	; 9a3b
-
-; ----------------------------------------------------------------------
-; DATOS leido_9A3E: 20 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (20 bytes)
-;   0x9a3e..0x9a52  (20 bytes)
-DATA_leido_9A3E:
-	defb 02ch,0d2h,04fh,00fh,032h,01dh,01eh,012h,00fh,0cbh,0ddh,01dh,0d7h,0cch,016h,0ceh	; 9a3e  ,.O.2...........
-	defb 080h,017h,01ah,037h	; 9a4e
-
-; ----------------------------------------------------------------------
-; DATOS leido_9A52: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9a52..0x9a55  (3 bytes)
-DATA_leido_9A52:
-	defb 044h,0cch,057h	; 9a52
-
-; ----------------------------------------------------------------------
-; DATOS leido_9A55: 18 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (18 bytes)
-;   0x9a55..0x9a67  (18 bytes)
-DATA_leido_9A55:
-	defb 02ch,021h,00fh,09dh,05eh,053h,0d6h,0c0h,018h,04fh,08eh,040h,0d8h,04fh,040h,00bh	; 9a55  ,!..^S...O.@.O@.
-	defb 01ah,030h	; 9a65
-
-; ----------------------------------------------------------------------
-; DATOS leido_9A67: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9a67..0x9a6a  (3 bytes)
-DATA_leido_9A67:
-	defb 084h,0cch,0d8h	; 9a67
-
-; ----------------------------------------------------------------------
-; DATOS leido_9A6A: 18 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (18 bytes)
-;   0x9a6a..0x9a7c  (18 bytes)
-DATA_leido_9A6A:
-	defb 093h,072h,056h,000h,011h,019h,04ch,04bh,04dh,080h,0cbh,018h,080h,0d1h,04fh,0c0h	; 9a6a  .rV...LKM.....O.
-	defb 053h,0deh	; 9a7a
-
-; ----------------------------------------------------------------------
-; DATOS leido_9A7C: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9a7c..0x9a7f  (3 bytes)
-DATA_leido_9A7C:
-	defb 046h,0cch,055h	; 9a7c
-
-; ----------------------------------------------------------------------
-; DATOS leido_9A7F: 16 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (16 bytes)
-;   0x9a7f..0x9a8f  (16 bytes)
-DATA_leido_9A7F:
-	defb 02ch,013h,0b2h,04fh,080h,050h,01fh,018h,00eh,0ddh,0d9h,017h,000h,095h,053h,00eh	; 9a7f  ,..O.P........S.
-
-; ----------------------------------------------------------------------
-; DATOS leido_9A8F: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9a8f..0x9a92  (3 bytes)
-DATA_leido_9A8F:
-	defb 087h,0cch,0d3h	; 9a8f
-
-; ----------------------------------------------------------------------
-; DATOS leido_9A92: 15 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (15 bytes)
-;   0x9a92..0x9aa1  (15 bytes)
-DATA_leido_9A92:
-	defb 0d9h,090h,000h,0c0h,01dh,052h,00fh,016h,00eh,0ceh,00fh,060h,00dh,00fh,037h	; 9a92  .....R.....`..7
-
-; ----------------------------------------------------------------------
-; DATOS leido_9AA1: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9aa1..0x9aa4  (3 bytes)
-DATA_leido_9AA1:
-	defb 048h,0cch,04fh	; 9aa1
-
-; ----------------------------------------------------------------------
-; DATOS leido_9AA4: 12 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (12 bytes)
-;   0x9aa4..0x9ab0  (12 bytes)
-DATA_leido_9AA4:
-	defb 0ech,09eh,012h,01eh,032h,01dh,08bh,080h,05dh,00bh,00dh,00fh	; 9aa4  ....2...]...
-
-; ----------------------------------------------------------------------
-; DATOS leido_9AB0: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9ab0..0x9ab3  (3 bytes)
-DATA_leido_9AB0:
-	defb 088h,0cch,0cfh	; 9ab0
-
-; ----------------------------------------------------------------------
-; DATOS leido_9AB3: 12 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (12 bytes)
-;   0x9ab3..0x9abf  (12 bytes)
-DATA_leido_9AB3:
-	defb 090h,013h,051h,01eh,00fh,01ch,0ddh,0d2h,013h,016h,00eh,037h	; 9ab3  ..Q........7
-
-; ----------------------------------------------------------------------
-; DATOS leido_9ABF: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9abf..0x9ac2  (3 bytes)
-DATA_leido_9ABF:
-	defb 065h,0cch,0d7h	; 9abf
-
-; ----------------------------------------------------------------------
-; DATOS leido_9AC2: 18 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (18 bytes)
-;   0x9ac2..0x9ad4  (18 bytes)
-DATA_leido_9AC2:
-	defb 0ach,021h,0cfh,096h,0d6h,040h,00bh,015h,00fh,053h,01eh,080h,013h,01eh,012h,01fh	; 9ac2  .!...@...S......
-	defb 01dh,037h	; 9ad2
-
-; ----------------------------------------------------------------------
-; DATOS leido_9AD4: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9ad4..0x9ad7  (3 bytes)
-DATA_leido_9AD4:
-	defb 044h,0cch,058h	; 9ad4
-
-; ----------------------------------------------------------------------
-; DATOS leido_9AD7: 18 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (18 bytes)
-;   0x9ad7..0x9ae9  (18 bytes)
-DATA_leido_9AD7:
-	defb 02ch,013h,0b2h,04fh,080h,050h,01fh,018h,00eh,0ddh,0d9h,017h,000h,095h,053h,00eh	; 9ad7  ,..O.P........S.
-	defb 000h,059h	; 9ae7
-
-; ----------------------------------------------------------------------
-; DATOS leido_9AE9: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9ae9..0x9aec  (3 bytes)
-DATA_leido_9AE9:
-	defb 085h,0cch,0d7h	; 9ae9
-
-; ----------------------------------------------------------------------
-; DATOS leido_9AEC: 18 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (18 bytes)
-;   0x9aec..0x9afe  (18 bytes)
-DATA_leido_9AEC:
-	defb 08bh,000h,08fh,0deh,0dch,08bh,05dh,0cfh,058h,019h,01ch,023h,0ceh,00fh,060h,00dh	; 9aec  ......].X..#..`.
-	defb 00fh,037h	; 9afc
-
-; ----------------------------------------------------------------------
-; DATOS leido_9AFE: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9afe..0x9b01  (3 bytes)
-DATA_leido_9AFE:
-	defb 063h,0cch,0dbh	; 9afe
-
-; ----------------------------------------------------------------------
-; DATOS leido_9B01: 21 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (21 bytes)
-;   0x9b01..0x9b16  (21 bytes)
-DATA_leido_9B01:
-	defb 0ech,0deh,012h,05ch,0cfh,072h,040h,04bh,040h,013h,018h,00eh,059h,0d0h,000h,0cbh	; 9b01  ...\.r@K@...Y...
-	defb 0dah,05dh,016h,00fh,037h	; 9b11
-
-; ----------------------------------------------------------------------
-; DATOS leido_9B16: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9b16..0x9b19  (3 bytes)
-DATA_leido_9B16:
-	defb 063h,0cch,0dbh	; 9b16
-
-; ----------------------------------------------------------------------
-; DATOS leido_9B19: 21 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (21 bytes)
-;   0x9b19..0x9b2e  (21 bytes)
-DATA_leido_9B19:
-	defb 0ach,053h,072h,016h,0c0h,04ch,013h,018h,011h,093h,0d8h,040h,052h,0cfh,000h,0cbh	; 9b19  .Sr..L.....@R...
-	defb 0dah,05dh,016h,00fh,037h	; 9b29
-
-; ----------------------------------------------------------------------
-; DATOS leido_9B2E: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9b2e..0x9b31  (3 bytes)
-DATA_leido_9B2E:
-	defb 049h,0cch,04eh	; 9b2e
-
-; ----------------------------------------------------------------------
-; DATOS leido_9B31: 11 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (11 bytes)
-;   0x9b31..0x9b3c  (11 bytes)
-DATA_leido_9B31:
-	defb 0ach,013h,0deh,0ddh,080h,014h,057h,04fh,09dh,025h,025h	; 9b31  ......WO.%%
-
-; ----------------------------------------------------------------------
-; DATOS leido_9B3C: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9b3c..0x9b3f  (3 bytes)
-DATA_leido_9B3C:
-	defb 084h,0cch,0d8h	; 9b3c
-
-; ----------------------------------------------------------------------
-; DATOS leido_9B3F: 18 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (18 bytes)
-;   0x9b3f..0x9b51  (18 bytes)
-DATA_leido_9B3F:
-	defb 092h,04fh,040h,059h,0d9h,055h,040h,056h,053h,0cfh,0c0h,012h,0b2h,0ddh,000h,0cfh	; 9b3f  .O@Y.U@VS.......
-	defb 04bh,0ceh	; 9b4f
-
-; ----------------------------------------------------------------------
-; DATOS leido_9B51: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9b51..0x9b54  (3 bytes)
-DATA_leido_9B51:
-	defb 04ah,0cch,04ch	; 9b51
-
-; ----------------------------------------------------------------------
-; DATOS leido_9B54: 9 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (9 bytes)
-;   0x9b54..0x9b5d  (9 bytes)
-DATA_leido_9B54:
-	defb 0ach,053h,072h,0d6h,0c0h,05ah,01eh,080h,053h	; 9b54  .Sr..Z..S
-
-; ----------------------------------------------------------------------
-; DATOS leido_9B5D: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9b5d..0x9b60  (3 bytes)
-DATA_leido_9B5D:
-	defb 088h,0cch,0d0h	; 9b5d
-
-; ----------------------------------------------------------------------
-; DATOS leido_9B60: 12 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (12 bytes)
-;   0x9b60..0x9b6c  (12 bytes)
-DATA_leido_9B60:
-	defb 01eh,012h,00fh,0dch,00fh,060h,020h,00bh,016h,0d1h,04bh,0ddh	; 9b60  .....` ...K.
-
-; ----------------------------------------------------------------------
-; DATOS leido_9B6C: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9b6c..0x9b6f  (3 bytes)
-DATA_leido_9B6C:
-	defb 063h,0cch,0dbh	; 9b6c
-
-; ----------------------------------------------------------------------
-; DATOS leido_9B6F: 21 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (21 bytes)
-;   0x9b6f..0x9b84  (21 bytes)
-DATA_leido_9B6F:
-	defb 0ach,012h,0cfh,05dh,080h,04dh,0d7h,0dah,016h,0deh,00fh,096h,040h,0dch,00fh,019h	; 9b6f  ...].M......@...
-	defb 0e0h,04fh,00fh,00eh,037h	; 9b7f
-
-; ----------------------------------------------------------------------
-; DATOS leido_9B84: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9b84..0x9b87  (3 bytes)
-DATA_leido_9B84:
-	defb 064h,0cch,0d8h	; 9b84
-
-; ----------------------------------------------------------------------
-; DATOS leido_9B87: 18 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (18 bytes)
-;   0x9b87..0x9b99  (18 bytes)
-DATA_leido_9B87:
-	defb 0ach,0d6h,04fh,0b2h,01dh,040h,00fh,00bh,00eh,010h,019h,01ch,0d8h,0cfh,017h,0ddh	; 9b87  ..O..@..........
-	defb 053h,0ddh	; 9b97
-
-; ----------------------------------------------------------------------
-; DATOS leido_9B99: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9b99..0x9b9c  (3 bytes)
-DATA_leido_9B99:
-	defb 04ah,0cch,04ch	; 9b99
-
-; ----------------------------------------------------------------------
-; DATOS leido_9B9C: 9 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (9 bytes)
-;   0x9b9c..0x9ba5  (9 bytes)
-DATA_leido_9B9C:
-	defb 0d4h,0cbh,017h,0ddh,0c0h,04ch,01ch,09eh,059h	; 9b9c  .....L..Y
-
-; ----------------------------------------------------------------------
-; DATOS leido_9BA5: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9ba5..0x9ba8  (3 bytes)
-DATA_leido_9BA5:
-	defb 088h,0cch,0d0h	; 9ba5
-
-; ----------------------------------------------------------------------
-; DATOS leido_9BA8: 12 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (12 bytes)
-;   0x9ba8..0x9bb4  (12 bytes)
-DATA_leido_9BA8:
-	defb 0ddh,0cbh,010h,016h,0e3h,040h,00fh,0deh,05fh,018h,00fh,0ceh	; 9ba8  .....@.._...
-
-; ----------------------------------------------------------------------
-; DATOS leido_9BB4: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9bb4..0x9bb7  (3 bytes)
-DATA_leido_9BB4:
-	defb 045h,0cch,057h	; 9bb4
-
-; ----------------------------------------------------------------------
-; DATOS leido_9BB7: 18 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (18 bytes)
-;   0x9bb7..0x9bc9  (18 bytes)
-DATA_leido_9BB7:
-	defb 0e0h,0d3h,022h,018h,080h,04fh,0deh,0cfh,01ch,0ceh,000h,05eh,057h,00fh,0afh,00bh	; 9bb7  .."..O.....^W...
-	defb 01ch,01ah	; 9bc7
-
-; ----------------------------------------------------------------------
-; DATOS leido_9BC9: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9bc9..0x9bcc  (3 bytes)
-DATA_leido_9BC9:
-	defb 089h,0cch,0cfh	; 9bc9
-
-; ----------------------------------------------------------------------
-; DATOS leido_9BCC: 12 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (12 bytes)
-;   0x9bcc..0x9bd8  (12 bytes)
-DATA_leido_9BCC:
-	defb 01eh,0d9h,040h,00fh,0deh,05fh,058h,080h,052h,017h,00fh,030h	; 9bcc  ..@.._X.R..0
-
-; ----------------------------------------------------------------------
-; DATOS leido_9BD8: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9bd8..0x9bdb  (3 bytes)
-DATA_leido_9BD8:
-	defb 044h,0cch,058h	; 9bd8
-
-; ----------------------------------------------------------------------
-; DATOS leido_9BDB: 18 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (18 bytes)
-;   0x9bdb..0x9bed  (18 bytes)
-DATA_leido_9BDB:
-	defb 0ach,021h,0cfh,0dch,0cfh,040h,018h,0ceh,04fh,080h,0cbh,05eh,00bh,00dh,015h,0d0h	; 9bdb  .!...@..O..^....
-	defb 05ch,059h	; 9beb
-
-; ----------------------------------------------------------------------
-; DATOS leido_9BED: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9bed..0x9bf0  (3 bytes)
-DATA_leido_9BED:
-	defb 085h,0cch,0d6h	; 9bed
-
-; ----------------------------------------------------------------------
-; DATOS leido_9BF0: 17 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (17 bytes)
-;   0x9bf0..0x9c01  (17 bytes)
-DATA_leido_9BF0:
-	defb 0cbh,0d8h,040h,0d8h,0d3h,00eh,018h,01eh,053h,013h,00fh,00eh,00dh,01ch,04bh,01eh	; 9bf0  ..@.....S.....K.
-	defb 037h	; 9c00
-
-; ----------------------------------------------------------------------
-; DATOS leido_9C01: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9c01..0x9c04  (3 bytes)
-DATA_leido_9C01:
-	defb 047h,0cch,052h	; 9c01
-
-; ----------------------------------------------------------------------
-; DATOS leido_9C04: 14 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (14 bytes)
-;   0x9c04..0x9c12  (14 bytes)
-DATA_leido_9C04:
-	defb 0ech,0deh,012h,05ch,0cfh,072h,0c0h,04bh,040h,0cfh,09dh,01dh,011h,00fh	; 9c04  ...\.r.K@.....
-
-; ----------------------------------------------------------------------
-; DATOS leido_9C12: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9c12..0x9c15  (3 bytes)
-DATA_leido_9C12:
-	defb 087h,0cch,0d2h	; 9c12
-
-; ----------------------------------------------------------------------
-; DATOS leido_9C15: 14 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (14 bytes)
-;   0x9c15..0x9c23  (14 bytes)
-DATA_leido_9C15:
-	defb 0cdh,019h,057h,098h,0d1h,040h,0d2h,0dch,059h,051h,052h,0a5h,025h,02dh	; 9c15  ..W..@..YQR.%-
-
-; ----------------------------------------------------------------------
-; DATOS leido_9C23: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9c23..0x9c26  (3 bytes)
-DATA_leido_9C23:
-	defb 044h,0cch,058h	; 9c23
-
-; ----------------------------------------------------------------------
-; DATOS leido_9C26: 18 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (18 bytes)
-;   0x9c26..0x9c38  (18 bytes)
-DATA_leido_9C26:
-	defb 0ech,01eh,052h,0d8h,015h,080h,059h,0dfh,000h,04bh,018h,040h,0cfh,09eh,000h,0a1h	; 9c26  ..R...Y..K.@....
-	defb 04bh,0a3h	; 9c36
-
-; ----------------------------------------------------------------------
-; DATOS leido_9C38: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9c38..0x9c3b  (3 bytes)
-DATA_leido_9C38:
-	defb 08ah,0cch,0cch	; 9c38
-
-; ----------------------------------------------------------------------
-; DATOS leido_9C3B: 9 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (9 bytes)
-;   0x9c3b..0x9c44  (9 bytes)
-DATA_leido_9C3B:
-	defb 012h,00bh,071h,059h,0d9h,056h,067h,0e7h,0a7h	; 9c3b  ..qY.Vg..
-
-; ----------------------------------------------------------------------
-; DATOS leido_9C44: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9c44..0x9c47  (3 bytes)
-DATA_leido_9C44:
-	defb 043h,0cch,059h	; 9c44
-
-; ----------------------------------------------------------------------
-; DATOS leido_9C47: 19 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (19 bytes)
-;   0x9c47..0x9c5a  (19 bytes)
-DATA_leido_9C47:
-	defb 02ch,021h,00fh,017h,00bh,023h,018h,019h,01eh,0d2h,0cbh,020h,080h,0d1h,059h,000h	; 9c47  ,!...#..... ..Y.
-	defb 0d6h,04bh,01dh	; 9c57
-
-; ----------------------------------------------------------------------
-; DATOS leido_9C5A: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9c5a..0x9c5d  (3 bytes)
-DATA_leido_9C5A:
-	defb 083h,0cch,0dah	; 9c5a
-
-; ----------------------------------------------------------------------
-; DATOS leido_9C5D: 20 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (20 bytes)
-;   0x9c5d..0x9c71  (20 bytes)
-DATA_leido_9C5D:
-	defb 00ch,01fh,01eh,023h,019h,01fh,0a1h,019h,0d8h,05eh,0c0h,04fh,0cdh,0cbh,01ah,0f0h	; 9c5d  ...#.....^.O....
-	defb 0ceh,013h,027h,02dh	; 9c6d
-
-; ----------------------------------------------------------------------
-; DATOS leido_9C71: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9c71..0x9c74  (3 bytes)
-DATA_leido_9C71:
-	defb 066h,0cch,0d4h	; 9c71
-
-; ----------------------------------------------------------------------
-; DATOS leido_9C74: 15 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (15 bytes)
-;   0x9c74..0x9c83  (15 bytes)
-DATA_leido_9C74:
-	defb 02ch,0a0h,04fh,0d9h,017h,040h,05dh,080h,058h,0deh,0c0h,00eh,04bh,0ceh,0a7h	; 9c74  ,.O..@].X...K..
-
-; ----------------------------------------------------------------------
-; DATOS leido_9C83: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9c83..0x9c86  (3 bytes)
-DATA_leido_9C83:
-	defb 045h,0cch,056h	; 9c83
-
-; ----------------------------------------------------------------------
-; DATOS leido_9C86: 17 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (17 bytes)
-;   0x9c86..0x9c97  (17 bytes)
-DATA_leido_9C86:
-	defb 0ech,0dfh,01dh,0c0h,0deh,012h,0c0h,01dh,052h,00fh,016h,00eh,0ceh,00fh,060h,00dh	; 9c86  ........R.....`.
-	defb 00fh	; 9c96
-
-; ----------------------------------------------------------------------
-; DATOS leido_9C97: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9c97..0x9c9a  (3 bytes)
-DATA_leido_9C97:
-	defb 085h,0cch,0d6h	; 9c97
-
-; ----------------------------------------------------------------------
-; DATOS leido_9C9A: 17 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (17 bytes)
-;   0x9c9a..0x9cab  (17 bytes)
-DATA_leido_9C9A:
-	defb 061h,00fh,040h,019h,01eh,040h,01ch,019h,017h,08ch,0cbh,04dh,04fh,09ch,053h,018h	; 9c9a  a.@..@.....MO.S.
-	defb 037h	; 9caa
-
-; ----------------------------------------------------------------------
-; DATOS leido_9CAB: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9cab..0x9cae  (3 bytes)
-DATA_leido_9CAB:
-	defb 065h,0cch,0d6h	; 9cab
-
-; ----------------------------------------------------------------------
-; DATOS leido_9CAE: 17 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (17 bytes)
-;   0x9cae..0x9cbf  (17 bytes)
-DATA_leido_9CAE:
-	defb 0ech,01dh,061h,01eh,00dh,012h,099h,0d8h,040h,052h,0cfh,040h,092h,053h,04fh,00eh	; 9cae  ..a.....@R.@.SO.
-	defb 037h	; 9cbe
-
-; ----------------------------------------------------------------------
-; DATOS leido_9CBF: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9cbf..0x9cc2  (3 bytes)
-DATA_leido_9CBF:
-	defb 06bh,0cch,0cbh	; 9cbf
-
-; ----------------------------------------------------------------------
-; DATOS leido_9CC2: 9 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (9 bytes)
-;   0x9cc2..0x9ccb  (9 bytes)
-DATA_leido_9CC2:
-	defb 0ech,01dh,052h,00fh,016h,00eh,019h,018h,037h	; 9cc2  ..R.....7
-
-; ----------------------------------------------------------------------
-; DATOS leido_9CCB: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9ccb..0x9cce  (3 bytes)
-DATA_leido_9CCB:
-	defb 064h,0cch,0d7h	; 9ccb
-
-; ----------------------------------------------------------------------
-; DATOS leido_9CCE: 18 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (18 bytes)
-;   0x9cce..0x9ce0  (18 bytes)
-DATA_leido_9CCE:
-	defb 0ach,0d6h,04fh,072h,01dh,040h,04fh,09eh,040h,05fh,09eh,040h,0d0h,0c0h,012h,01ch	; 9cce  ..Or.@O.@_.@....
-	defb 00fh,037h	; 9cde
-
-; ----------------------------------------------------------------------
-; DATOS leido_9CE0: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9ce0..0x9ce3  (3 bytes)
-DATA_leido_9CE0:
-	defb 042h,0cch,05bh	; 9ce0
-
-; ----------------------------------------------------------------------
-; DATOS leido_9CE3: 21 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (21 bytes)
-;   0x9ce3..0x9cf8  (21 bytes)
-DATA_leido_9CE3:
-	defb 0ech,0deh,012h,080h,020h,093h,04fh,0d8h,000h,09ch,0cbh,050h,000h,08dh,04bh,018h	; 9ce3  .... .O....P..K.
-	defb 019h,01eh,01fh,01dh,00fh	; 9cf3
-
-; ----------------------------------------------------------------------
-; DATOS leido_9CF8: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9cf8..0x9cfb  (3 bytes)
-DATA_leido_9CF8:
-	defb 084h,0cch,0d8h	; 9cf8
-
-; ----------------------------------------------------------------------
-; DATOS leido_9CFB: 18 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (18 bytes)
-;   0x9cfb..0x9d0d  (18 bytes)
-DATA_leido_9CFB:
-	defb 01eh,012h,00fh,0ddh,0d2h,013h,0d6h,00eh,040h,0d8h,080h,021h,0dch,05ah,040h,0d9h	; 9cfb  ........@..!.Z@.
-	defb 04eh,0cfh	; 9d0b
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D0D: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9d0d..0x9d10  (3 bytes)
-DATA_leido_9D0D:
-	defb 044h,0cch,057h	; 9d0d
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D10: 18 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (18 bytes)
-;   0x9d10..0x9d22  (18 bytes)
-DATA_leido_9D10:
-	defb 02ch,08dh,04bh,00dh,00fh,016h,0a1h,08bh,05ch,040h,09eh,052h,01fh,011h,012h,021h	; 9d10  ,.K.....\@.R...!
-	defb 012h,019h	; 9d20
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D22: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9d22..0x9d25  (3 bytes)
-DATA_leido_9D22:
-	defb 083h,0cch,0d9h	; 9d22
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D25: 19 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (19 bytes)
-;   0x9d25..0x9d38  (19 bytes)
-DATA_leido_9D25:
-	defb 055h,018h,099h,09dh,000h,061h,00fh,01ch,00fh,0a1h,04fh,072h,0d6h,040h,04fh,0cfh	; 9d25  U....a....Or.@O.
-	defb 0dch,011h,037h	; 9d35
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D38: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9d38..0x9d3b  (3 bytes)
-DATA_leido_9D38:
-	defb 06bh,0cch,0cah	; 9d38
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D3B: 8 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (8 bytes)
-;   0x9d3b..0x9d43  (8 bytes)
-DATA_leido_9D3B:
-	defb 02ch,0e1h,04bh,01ah,000h,059h,010h,037h	; 9d3b  ,.K..Y.7
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D43: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9d43..0x9d46  (3 bytes)
-DATA_leido_9D43:
-	defb 00fh,0cah,002h	; 9d43
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D46: 2 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (2 bytes)
-;   0x9d46..0x9d48  (2 bytes)
-DATA_leido_9D46:
-	defb 038h,039h	; 9d46
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D48: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9d48..0x9d4b  (3 bytes)
-DATA_leido_9D48:
-	defb 02fh,0cah,002h	; 9d48
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D4B: 2 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (2 bytes)
-;   0x9d4b..0x9d4d  (2 bytes)
-DATA_leido_9D4B:
-	defb 03ah,03bh	; 9d4b
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D4D: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9d4d..0x9d50  (3 bytes)
-DATA_leido_9D4D:
-	defb 063h,0cah,012h	; 9d4d
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D50: 14 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (14 bytes)
-;   0x9d50..0x9d5e  (14 bytes)
-DATA_leido_9D50:
-	defb 023h,0cfh,04bh,000h,000h,000h,000h,000h,000h,0c0h,0cfh,020h,018h,01eh	; 9d50  #.K........ ..
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D5E: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9d5e..0x9d61  (3 bytes)
-DATA_leido_9D5E:
-	defb 0a2h,0cah,01ch	; 9d5e
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D61: 21 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (21 bytes)
-;   0x9d61..0x9d76  (21 bytes)
-DATA_leido_9D61:
-	defb 051h,007h,009h,08ah,0c0h,000h,08bh,0e0h,013h,000h,0cch,05fh,01eh,019h,018h,05dh	; 9d61  Q.........._...]
-	defb 0cfh,05eh,080h,0d9h,05fh	; 9d71
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D76: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9d76..0x9d79  (3 bytes)
-DATA_leido_9D76:
-	defb 0e9h,0cah,013h	; 9d76
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D79: 15 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (15 bytes)
-;   0x9d79..0x9d88  (15 bytes)
-DATA_leido_9D79:
-	defb 013h,018h,080h,013h,0a2h,04fh,040h,010h,053h,012h,0deh,04fh,000h,01eh,019h	; 9d79  .....O@.S..O...
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D88: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9d88..0x9d8b  (3 bytes)
-DATA_leido_9D88:
-	defb 029h,0cbh,030h	; 9d88
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D8B: 12 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (12 bytes)
-;   0x9d8b..0x9d97  (12 bytes)
-DATA_leido_9D8B:
-	defb 0dch,0cfh,01ah,0d6h,080h,00ch,00dh,0deh,04fh,013h,019h,0d8h	; 9d8b  ........O...
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D97: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9d97..0x9d9a  (3 bytes)
-DATA_leido_9D97:
-	defb 06dh,0cbh,0b1h	; 9d97
-
-; ----------------------------------------------------------------------
-; DATOS leido_9D9A: 13 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (13 bytes)
-;   0x9d9a..0x9da7  (13 bytes)
-DATA_leido_9D9A:
-	defb 018h,019h,01eh,023h,00fh,01eh,0dch,0cfh,05eh,09ch,0d8h,00fh,030h	; 9d9a  ...#....^...0
-
-; ----------------------------------------------------------------------
-; DATOS leido_9DA7: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9da7..0x9daa  (3 bytes)
-DATA_leido_9DA7:
-	defb 066h,0cbh,0b5h	; 9da7
-
-; ----------------------------------------------------------------------
-; DATOS leido_9DAA: 16 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (16 bytes)
-;   0x9daa..0x9dba  (16 bytes)
-DATA_leido_9DAA:
-	defb 04bh,080h,056h,098h,051h,040h,019h,018h,011h,0deh,0d3h,017h,040h,08bh,051h,030h	; 9daa  K.V.Q@......@.Q0
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9dba..0x9de1  (39 bytes)
-DATA_9DBA:
+	defb 0cfh,01eh,080h,097h,04bh,037h	; 99ee
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_54: el dibujo de secuencia 0x54 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (41 bytes)
+;   0x99f4..0x9a1d  (41 bytes)
+DATA_dibujo_54:
+	defb 044h,0cch,058h,0ech,0deh,012h,000h,0deh,052h,0cfh,04fh,040h,00bh,01ah,01dh,0deh	; 99f4  D.X.....R.O@....
+	defb 0d9h,011h,01eh,0d2h,04fh,085h,0cch,0d6h,0d1h,0d3h,020h,080h,04bh,056h,0c0h,0deh	; 9a04  ....O..... .KV..
+	defb 012h,0c0h,08ch,00fh,05ch,013h,058h,01dh,037h	; 9a14  ....\.X.7
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_55: el dibujo de secuencia 0x55 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (30 bytes)
+;   0x9a1d..0x9a3b  (30 bytes)
+DATA_dibujo_55:
+	defb 04ah,0cch,04bh,0ach,053h,072h,056h,080h,051h,000h,01eh,019h,086h,0cch,0d4h,01eh	; 9a1d  J.K.SrV.Q.......
+	defb 012h,00fh,05ch,0cfh,01dh,05fh,08fh,040h,0d0h,080h,014h,0d7h,04fh,0ddh	; 9a2d  ..\.._.@....O.
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_56: el dibujo de secuencia 0x56 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (23 bytes)
+;   0x9a3b..0x9a52  (23 bytes)
+DATA_dibujo_56:
+	defb 063h,0cch,0dah,02ch,0d2h,04fh,00fh,032h,01dh,01eh,012h,00fh,0cbh,0ddh,01dh,0d7h	; 9a3b  c..,.O.2........
+	defb 0cch,016h,0ceh,080h,017h,01ah,037h	; 9a4b
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_57: el dibujo de secuencia 0x57 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (42 bytes)
+;   0x9a52..0x9a7c  (42 bytes)
+DATA_dibujo_57:
+	defb 044h,0cch,057h,02ch,021h,00fh,09dh,05eh,053h,0d6h,0c0h,018h,04fh,08eh,040h,0d8h	; 9a52  D.W,!..^S...O.@.
+	defb 04fh,040h,00bh,01ah,030h,084h,0cch,0d8h,093h,072h,056h,000h,011h,019h,04ch,04bh	; 9a62  O@..0....rV...LK
+	defb 04dh,080h,0cbh,018h,080h,0d1h,04fh,0c0h,053h,0deh	; 9a72  M.....O.S.
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_58: el dibujo de secuencia 0x58 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (37 bytes)
+;   0x9a7c..0x9aa1  (37 bytes)
+DATA_dibujo_58:
+	defb 046h,0cch,055h,02ch,013h,0b2h,04fh,080h,050h,01fh,018h,00eh,0ddh,0d9h,017h,000h	; 9a7c  F.U,..O.P.......
+	defb 095h,053h,00eh,087h,0cch,0d3h,0d9h,090h,000h,0c0h,01dh,052h,00fh,016h,00eh,0ceh	; 9a8c  .S.........R....
+	defb 00fh,060h,00dh,00fh,037h	; 9a9c
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_59: el dibujo de secuencia 0x59 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (30 bytes)
+;   0x9aa1..0x9abf  (30 bytes)
+DATA_dibujo_59:
+	defb 048h,0cch,04fh,0ech,09eh,012h,01eh,032h,01dh,08bh,080h,05dh,00bh,00dh,00fh,088h	; 9aa1  H.O....2...]....
+	defb 0cch,0cfh,090h,013h,051h,01eh,00fh,01ch,0ddh,0d2h,013h,016h,00eh,037h	; 9ab1  ....Q........7
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_5A: el dibujo de secuencia 0x5A (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (21 bytes)
+;   0x9abf..0x9ad4  (21 bytes)
+DATA_dibujo_5A:
+	defb 065h,0cch,0d7h,0ach,021h,0cfh,096h,0d6h,040h,00bh,015h,00fh,053h,01eh,080h,013h	; 9abf  e...!...@...S...
+	defb 01eh,012h,01fh,01dh,037h	; 9acf
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_75: el dibujo de secuencia 0x75 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (42 bytes)
+;   0x9ad4..0x9afe  (42 bytes)
+DATA_dibujo_75:
+	defb 044h,0cch,058h,02ch,013h,0b2h,04fh,080h,050h,01fh,018h,00eh,0ddh,0d9h,017h,000h	; 9ad4  D.X,..O.P.......
+	defb 095h,053h,00eh,000h,059h,085h,0cch,0d7h,08bh,000h,08fh,0deh,0dch,08bh,05dh,0cfh	; 9ae4  .S..Y.........].
+	defb 058h,019h,01ch,023h,0ceh,00fh,060h,00dh,00fh,037h	; 9af4  X..#..`..7
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_5B: el dibujo de secuencia 0x5B (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (24 bytes)
+;   0x9afe..0x9b16  (24 bytes)
+DATA_dibujo_5B:
+	defb 063h,0cch,0dbh,0ech,0deh,012h,05ch,0cfh,072h,040h,04bh,040h,013h,018h,00eh,059h	; 9afe  c.....\.r@K@...Y
+	defb 0d0h,000h,0cbh,0dah,05dh,016h,00fh,037h	; 9b0e  ....]..7
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_5C: el dibujo de secuencia 0x5C (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (24 bytes)
+;   0x9b16..0x9b2e  (24 bytes)
+DATA_dibujo_5C:
+	defb 063h,0cch,0dbh,0ach,053h,072h,016h,0c0h,04ch,013h,018h,011h,093h,0d8h,040h,052h	; 9b16  c...Sr..L.....@R
+	defb 0cfh,000h,0cbh,0dah,05dh,016h,00fh,037h	; 9b26  ....]..7
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_5D: el dibujo de secuencia 0x5D (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (35 bytes)
+;   0x9b2e..0x9b51  (35 bytes)
+DATA_dibujo_5D:
+	defb 049h,0cch,04eh,0ach,013h,0deh,0ddh,080h,014h,057h,04fh,09dh,025h,025h,084h,0cch	; 9b2e  I.N......WO.%%..
+	defb 0d8h,092h,04fh,040h,059h,0d9h,055h,040h,056h,053h,0cfh,0c0h,012h,0b2h,0ddh,000h	; 9b3e  ..O@Y.U@VS......
+	defb 0cfh,04bh,0ceh	; 9b4e
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_5E: el dibujo de secuencia 0x5E (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (27 bytes)
+;   0x9b51..0x9b6c  (27 bytes)
+DATA_dibujo_5E:
+	defb 04ah,0cch,04ch,0ach,053h,072h,0d6h,0c0h,05ah,01eh,080h,053h,088h,0cch,0d0h,01eh	; 9b51  J.L.Sr..Z..S....
+	defb 012h,00fh,0dch,00fh,060h,020h,00bh,016h,0d1h,04bh,0ddh	; 9b61  ....` ...K.
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_5F: el dibujo de secuencia 0x5F (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (24 bytes)
+;   0x9b6c..0x9b84  (24 bytes)
+DATA_dibujo_5F:
+	defb 063h,0cch,0dbh,0ach,012h,0cfh,05dh,080h,04dh,0d7h,0dah,016h,0deh,00fh,096h,040h	; 9b6c  c.....].M......@
+	defb 0dch,00fh,019h,0e0h,04fh,00fh,00eh,037h	; 9b7c  ....O..7
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_60: el dibujo de secuencia 0x60 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (21 bytes)
+;   0x9b84..0x9b99  (21 bytes)
+DATA_dibujo_60:
+	defb 064h,0cch,0d8h,0ach,0d6h,04fh,0b2h,01dh,040h,00fh,00bh,00eh,010h,019h,01ch,0d8h	; 9b84  d....O..@.......
+	defb 0cfh,017h,0ddh,053h,0ddh	; 9b94
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_61: el dibujo de secuencia 0x61 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (27 bytes)
+;   0x9b99..0x9bb4  (27 bytes)
+DATA_dibujo_61:
+	defb 04ah,0cch,04ch,0d4h,0cbh,017h,0ddh,0c0h,04ch,01ch,09eh,059h,088h,0cch,0d0h,0ddh	; 9b99  J.L.....L..Y....
+	defb 0cbh,010h,016h,0e3h,040h,00fh,0deh,05fh,018h,00fh,0ceh	; 9ba9  ....@.._...
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_62: el dibujo de secuencia 0x62 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (36 bytes)
+;   0x9bb4..0x9bd8  (36 bytes)
+DATA_dibujo_62:
+	defb 045h,0cch,057h,0e0h,0d3h,022h,018h,080h,04fh,0deh,0cfh,01ch,0ceh,000h,05eh,057h	; 9bb4  E.W.."..O.....^W
+	defb 00fh,0afh,00bh,01ch,01ah,089h,0cch,0cfh,01eh,0d9h,040h,00fh,0deh,05fh,058h,080h	; 9bc4  ..........@.._X.
+	defb 052h,017h,00fh,030h	; 9bd4
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_63: el dibujo de secuencia 0x63 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (41 bytes)
+;   0x9bd8..0x9c01  (41 bytes)
+DATA_dibujo_63:
+	defb 044h,0cch,058h,0ach,021h,0cfh,0dch,0cfh,040h,018h,0ceh,04fh,080h,0cbh,05eh,00bh	; 9bd8  D.X.!...@..O..^.
+	defb 00dh,015h,0d0h,05ch,059h,085h,0cch,0d6h,0cbh,0d8h,040h,0d8h,0d3h,00eh,018h,01eh	; 9be8  ...\Y.....@.....
+	defb 053h,013h,00fh,00eh,00dh,01ch,04bh,01eh,037h	; 9bf8  S.....K.7
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_64: el dibujo de secuencia 0x64 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (34 bytes)
+;   0x9c01..0x9c23  (34 bytes)
+DATA_dibujo_64:
+	defb 047h,0cch,052h,0ech,0deh,012h,05ch,0cfh,072h,0c0h,04bh,040h,0cfh,09dh,01dh,011h	; 9c01  G.R...\.r.K@....
+	defb 00fh,087h,0cch,0d2h,0cdh,019h,057h,098h,0d1h,040h,0d2h,0dch,059h,051h,052h,0a5h	; 9c11  ......W..@..YQR.
+	defb 025h,02dh	; 9c21
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_65: el dibujo de secuencia 0x65 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (33 bytes)
+;   0x9c23..0x9c44  (33 bytes)
+DATA_dibujo_65:
+	defb 044h,0cch,058h,0ech,01eh,052h,0d8h,015h,080h,059h,0dfh,000h,04bh,018h,040h,0cfh	; 9c23  D.X..R...Y..K.@.
+	defb 09eh,000h,0a1h,04bh,0a3h,08ah,0cch,0cch,012h,00bh,071h,059h,0d9h,056h,067h,0e7h	; 9c33  ...K......qY.Vg.
+	defb 0a7h	; 9c43
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_66: el dibujo de secuencia 0x66 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (45 bytes)
+;   0x9c44..0x9c71  (45 bytes)
+DATA_dibujo_66:
+	defb 043h,0cch,059h,02ch,021h,00fh,017h,00bh,023h,018h,019h,01eh,0d2h,0cbh,020h,080h	; 9c44  C.Y,!...#..... .
+	defb 0d1h,059h,000h,0d6h,04bh,01dh,083h,0cch,0dah,00ch,01fh,01eh,023h,019h,01fh,0a1h	; 9c54  .Y..K.......#...
+	defb 019h,0d8h,05eh,0c0h,04fh,0cdh,0cbh,01ah,0f0h,0ceh,013h,027h,02dh	; 9c64  ..^.O......'-
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_67: el dibujo de secuencia 0x67 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (18 bytes)
+;   0x9c71..0x9c83  (18 bytes)
+DATA_dibujo_67:
+	defb 066h,0cch,0d4h,02ch,0a0h,04fh,0d9h,017h,040h,05dh,080h,058h,0deh,0c0h,00eh,04bh	; 9c71  f..,.O..@].X...K
+	defb 0ceh,0a7h	; 9c81
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_68: el dibujo de secuencia 0x68 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (40 bytes)
+;   0x9c83..0x9cab  (40 bytes)
+DATA_dibujo_68:
+	defb 045h,0cch,056h,0ech,0dfh,01dh,0c0h,0deh,012h,0c0h,01dh,052h,00fh,016h,00eh,0ceh	; 9c83  E.V........R....
+	defb 00fh,060h,00dh,00fh,085h,0cch,0d6h,061h,00fh,040h,019h,01eh,040h,01ch,019h,017h	; 9c93  .`.....a.@..@...
+	defb 08ch,0cbh,04dh,04fh,09ch,053h,018h,037h	; 9ca3  ..MO.S.7
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_69: el dibujo de secuencia 0x69 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (20 bytes)
+;   0x9cab..0x9cbf  (20 bytes)
+DATA_dibujo_69:
+	defb 065h,0cch,0d6h,0ech,01dh,061h,01eh,00dh,012h,099h,0d8h,040h,052h,0cfh,040h,092h	; 9cab  e....a.....@R.@.
+	defb 053h,04fh,00eh,037h	; 9cbb
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_6A: el dibujo de secuencia 0x6A (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (12 bytes)
+;   0x9cbf..0x9ccb  (12 bytes)
+DATA_dibujo_6A:
+	defb 06bh,0cch,0cbh,0ech,01dh,052h,00fh,016h,00eh,019h,018h,037h	; 9cbf  k....R.....7
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_6B: el dibujo de secuencia 0x6B (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (21 bytes)
+;   0x9ccb..0x9ce0  (21 bytes)
+DATA_dibujo_6B:
+	defb 064h,0cch,0d7h,0ach,0d6h,04fh,072h,01dh,040h,04fh,09eh,040h,05fh,09eh,040h,0d0h	; 9ccb  d....Or.@O.@_.@.
+	defb 0c0h,012h,01ch,00fh,037h	; 9cdb
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_6C: el dibujo de secuencia 0x6C (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (45 bytes)
+;   0x9ce0..0x9d0d  (45 bytes)
+DATA_dibujo_6C:
+	defb 042h,0cch,05bh,0ech,0deh,012h,080h,020h,093h,04fh,0d8h,000h,09ch,0cbh,050h,000h	; 9ce0  B.[.... .O....P.
+	defb 08dh,04bh,018h,019h,01eh,01fh,01dh,00fh,084h,0cch,0d8h,01eh,012h,00fh,0ddh,0d2h	; 9cf0  .K..............
+	defb 013h,0d6h,00eh,040h,0d8h,080h,021h,0dch,05ah,040h,0d9h,04eh,0cfh	; 9d00  ...@..!.Z@.N.
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_6D: el dibujo de secuencia 0x6D (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (43 bytes)
+;   0x9d0d..0x9d38  (43 bytes)
+DATA_dibujo_6D:
+	defb 044h,0cch,057h,02ch,08dh,04bh,00dh,00fh,016h,0a1h,08bh,05ch,040h,09eh,052h,01fh	; 9d0d  D.W,.K.....\@.R.
+	defb 011h,012h,021h,012h,019h,083h,0cch,0d9h,055h,018h,099h,09dh,000h,061h,00fh,01ch	; 9d1d  ..!.....U....a..
+	defb 00fh,0a1h,04fh,072h,0d6h,040h,04fh,0cfh,0dch,011h,037h	; 9d2d  ..Or.@O...7
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_6E: el dibujo de secuencia 0x6E (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (11 bytes)
+;   0x9d38..0x9d43  (11 bytes)
+DATA_dibujo_6E:
+	defb 06bh,0cch,0cah,02ch,0e1h,04bh,01ah,000h,059h,010h,037h	; 9d38  k..,.K..Y.7
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_6F: el dibujo de secuencia 0x6F (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (100 bytes)
+;   0x9d43..0x9da7  (100 bytes)
+DATA_dibujo_6F:
+	defb 00fh,0cah,002h,038h,039h,02fh,0cah,002h,03ah,03bh,063h,0cah,012h,023h,0cfh,04bh	; 9d43  ...89/..:.c..#.K
+	defb 000h,000h,000h,000h,000h,000h,0c0h,0cfh,020h,018h,01eh,0a2h,0cah,01ch,051h,007h	; 9d53  ........ .....Q.
+	defb 009h,08ah,0c0h,000h,08bh,0e0h,013h,000h,0cch,05fh,01eh,019h,018h,05dh,0cfh,05eh	; 9d63  ........._...].^
+	defb 080h,0d9h,05fh,0e9h,0cah,013h,013h,018h,080h,013h,0a2h,04fh,040h,010h,053h,012h	; 9d73  .._........O@.S.
+	defb 0deh,04fh,000h,01eh,019h,029h,0cbh,030h,0dch,0cfh,01ah,0d6h,080h,00ch,00dh,0deh	; 9d83  .O...).0........
+	defb 04fh,013h,019h,0d8h,06dh,0cbh,0b1h,018h,019h,01eh,023h,00fh,01eh,0dch,0cfh,05eh	; 9d93  O...m.....#....^
+	defb 09ch,0d8h,00fh,030h	; 9da3
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_80: el dibujo de secuencia 0x80 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (19 bytes)
+;   0x9da7..0x9dba  (19 bytes)
+DATA_dibujo_80:
+	defb 066h,0cbh,0b5h,04bh,080h,056h,098h,051h,040h,019h,018h,011h,0deh,0d3h,017h,040h	; 9da7  f..K.V.Q@......@
+	defb 08bh,051h,030h	; 9db7
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_81: el dibujo de secuencia 0x81 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (39 bytes)
+;   0x9dba..0x9de1  (39 bytes)
+DATA_dibujo_81:
 	defb 043h,0cbh,03bh,01ah,096h,04bh,04fh,01eh,040h,0dch,00bh,04eh,05fh,01dh,080h,0cbh	; 9dba  C....KO.@..N_...
 	defb 01dh,040h,098h,060h,059h,020h,00fh,00eh,088h,0cbh,0b0h,013h,058h,000h,0c0h,09dh	; 9dca  .@.`Y ......X...
 	defb 01ah,04dh,00fh,080h,0cbh,01ch,0ddh	; 9dda
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9DE1: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9de1..0x9de4  (3 bytes)
-DATA_leido_9DE1:
-	defb 068h,0cbh,0b0h	; 9de1
+; DATOS dibujo_82: el dibujo de secuencia 0x82 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (15 bytes)
+;   0x9de1..0x9df0  (15 bytes)
+DATA_dibujo_82:
+	defb 068h,0cbh,0b0h,060h,0cfh,05ch,01fh,0ddh,000h,0cbh,0cdh,01eh,01ch,093h,059h	; 9de1  h..`.\........Y
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9DE4: 12 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (12 bytes)
-;   0x9de4..0x9df0  (12 bytes)
-DATA_leido_9DE4:
-	defb 060h,0cfh,05ch,01fh,0ddh,000h,0cbh,0cdh,01eh,01ch,093h,059h	; 9de4  `.\........Y
+; DATOS dibujo_83: el dibujo de secuencia 0x83 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (12 bytes)
+;   0x9df0..0x9dfc  (12 bytes)
+DATA_dibujo_83:
+	defb 06ah,0cbh,0ach,060h,0cfh,05ch,01fh,01dh,080h,0cfh,058h,059h	; 9df0  j..`.\....XY
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9DF0: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9df0..0x9df3  (3 bytes)
-DATA_leido_9DF0:
-	defb 06ah,0cbh,0ach	; 9df0
+; DATOS dibujo_84: el dibujo de secuencia 0x84 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (16 bytes)
+;   0x9dfc..0x9e0c  (16 bytes)
+DATA_dibujo_84:
+	defb 068h,0cbh,0b1h,060h,0cfh,05ch,05fh,0ddh,040h,0cbh,056h,04bh,0cbh,0d8h,00eh,01ch	; 9dfc  h..`.\_.@.VK....
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9DF3: 9 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (9 bytes)
-;   0x9df3..0x9dfc  (9 bytes)
-DATA_leido_9DF3:
-	defb 060h,0cfh,05ch,01fh,01dh,080h,0cfh,058h,059h	; 9df3  `.\....XY
+; DATOS dibujo_85: el dibujo de secuencia 0x85 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (43 bytes)
+;   0x9e0c..0x9e37  (43 bytes)
+DATA_dibujo_85:
+	defb 047h,0cbh,032h,0deh,0d3h,017h,040h,0d2h,04bh,040h,0dah,04bh,05dh,04fh,08eh,025h	; 9e0c  G.2...@.K@.K]O.%
+	defb 025h,081h,0cbh,0beh,003h,001h,001h,023h,0cfh,04bh,0ddh,080h,016h,01eh,00fh,01ch	; 9e1c  %......#.K......
+	defb 01eh,0d9h,000h,08fh,000h,08fh,04bh,04dh,09eh,025h,025h	; 9e2c  ......KM.%%
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9DFC: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9dfc..0x9dff  (3 bytes)
-DATA_leido_9DFC:
-	defb 068h,0cbh,0b1h	; 9dfc
-
-; ----------------------------------------------------------------------
-; DATOS leido_9DFF: 13 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (13 bytes)
-;   0x9dff..0x9e0c  (13 bytes)
-DATA_leido_9DFF:
-	defb 060h,0cfh,05ch,05fh,0ddh,040h,0cbh,056h,04bh,0cbh,0d8h,00eh,01ch	; 9dff  `.\_.@.VK....
-
-; ----------------------------------------------------------------------
-; DATOS leido_9E0C: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9e0c..0x9e0f  (3 bytes)
-DATA_leido_9E0C:
-	defb 047h,0cbh,032h	; 9e0c
-
-; ----------------------------------------------------------------------
-; DATOS leido_9E0F: 14 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (14 bytes)
-;   0x9e0f..0x9e1d  (14 bytes)
-DATA_leido_9E0F:
-	defb 0deh,0d3h,017h,040h,0d2h,04bh,040h,0dah,04bh,05dh,04fh,08eh,025h,025h	; 9e0f  ...@.K@.K]O.%%
-
-; ----------------------------------------------------------------------
-; DATOS leido_9E1D: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9e1d..0x9e20  (3 bytes)
-DATA_leido_9E1D:
-	defb 081h,0cbh,0beh	; 9e1d
-
-; ----------------------------------------------------------------------
-; DATOS leido_9E20: 23 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (23 bytes)
-;   0x9e20..0x9e37  (23 bytes)
-DATA_leido_9E20:
-	defb 003h,001h,001h,023h,0cfh,04bh,0ddh,080h,016h,01eh,00fh,01ch,01eh,0d9h,000h,08fh	; 9e20  ...#.K..........
-	defb 000h,08fh,04bh,04dh,09eh,025h,025h	; 9e30
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9e37..0x9e4f  (24 bytes)
-DATA_9E37:
+; DATOS dibujo_86: el dibujo de secuencia 0x86 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (24 bytes)
+;   0x9e37..0x9e4f  (24 bytes)
+DATA_dibujo_86:
 	defb 062h,0cbh,0bch,0d3h,01eh,040h,05dh,080h,058h,061h,080h,007h,041h,00ah,040h,0dch	; 9e37  b....@].Xa..A.@.
 	defb 00bh,04eh,0dfh,01dh,080h,00fh,00bh,0dch	; 9e47  .N......
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9E4F: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9e4f..0x9e52  (3 bytes)
-DATA_leido_9E4F:
-	defb 043h,0cbh,03bh	; 9e4f
+; DATOS dibujo_87: el dibujo de secuencia 0x87 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (39 bytes)
+;   0x9e4f..0x9e76  (39 bytes)
+DATA_dibujo_87:
+	defb 043h,0cbh,03bh,01ah,096h,04bh,00fh,09eh,040h,04fh,0d7h,04fh,053h,01dh,080h,0cbh	; 9e4f  C....K..@O.OS...
+	defb 01dh,040h,098h,060h,059h,020h,00fh,00eh,088h,0cbh,0b0h,013h,058h,000h,0c0h,09dh	; 9e5f  .@.`Y ......X...
+	defb 01ah,04dh,00fh,080h,0cbh,01ch,0ddh	; 9e6f
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9E52: 21 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (21 bytes)
-;   0x9e52..0x9e67  (21 bytes)
-DATA_leido_9E52:
-	defb 01ah,096h,04bh,00fh,09eh,040h,04fh,0d7h,04fh,053h,01dh,080h,0cbh,01dh,040h,098h	; 9e52  ..K..@O.OS....@.
-	defb 060h,059h,020h,00fh,00eh	; 9e62
+; DATOS dibujo_88: el dibujo de secuencia 0x88 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (24 bytes)
+;   0x9e76..0x9e8e  (24 bytes)
+DATA_dibujo_88:
+	defb 062h,0cbh,0bch,0d3h,01eh,040h,05dh,080h,058h,061h,080h,007h,001h,08ah,040h,04fh	; 9e76  b....@].Xa....@O
+	defb 0d7h,04fh,0d3h,01dh,080h,00fh,00bh,0dch	; 9e86  .O......
 
 ; ----------------------------------------------------------------------
-; DATOS leido_9E67: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9e67..0x9e6a  (3 bytes)
-DATA_leido_9E67:
-	defb 088h,0cbh,0b0h	; 9e67
-
-; ----------------------------------------------------------------------
-; DATOS leido_9E6A: 12 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (12 bytes)
-;   0x9e6a..0x9e76  (12 bytes)
-DATA_leido_9E6A:
-	defb 013h,058h,000h,0c0h,09dh,01ah,04dh,00fh,080h,0cbh,01ch,0ddh	; 9e6a  .X....M.....
-
-; ----------------------------------------------------------------------
-; DATOS leido_9E76: 3 bytes que leen p26:634C, p26:634E, p26:6350 al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p26:634C, p26:634E, p26:6350
-;   (3 bytes)
-;   0x9e76..0x9e79  (3 bytes)
-DATA_leido_9E76:
-	defb 062h,0cbh,0bch	; 9e76
-
-; ----------------------------------------------------------------------
-; DATOS leido_9E79: 21 bytes que lee p26:6392 al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:6392 (21 bytes)
-;   0x9e79..0x9e8e  (21 bytes)
-DATA_leido_9E79:
-	defb 0d3h,01eh,040h,05dh,080h,058h,061h,080h,007h,001h,08ah,040h,04fh,0d7h,04fh,0d3h	; 9e79  ..@].Xa....@O.O.
-	defb 01dh,080h,00fh,00bh,0dch	; 9e89
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9e8e..0xa000  (370 bytes)
-DATA_9E8E:
+; DATOS dibujo_70: el dibujo de secuencia 0x70 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (189 bytes)
+;   0x9e8e..0x9f4b  (189 bytes)
+DATA_dibujo_70:
 	defb 00fh,0cah,002h,038h,039h,02fh,0cah,002h,03ah,03bh,063h,0cah,012h,023h,0cfh,04bh	; 9e8e  ...89/..:.c..#.K
 	defb 000h,000h,000h,000h,000h,000h,0c0h,0cfh,020h,018h,01eh,0a2h,0cah,01ch,051h,047h	; 9e9e  ........ .....QG
 	defb 007h,002h,0c0h,000h,093h,01ch,05eh,000h,019h,010h,0d4h,0cbh,017h,0ddh,0c0h,04ch	; 9eae  ......^........L
@@ -3671,16 +3301,39 @@ DATA_9E8E:
 	defb 08bh,016h,097h,0cbh,018h,00fh,01ch,0e2h,0cbh,03ch,091h,007h,008h,089h,0c0h,000h	; 9f0e  .........<......
 	defb 08fh,00bh,05eh,000h,019h,010h,0d4h,0cbh,017h,0ddh,0c0h,04ch,01ch,09eh,059h,062h	; 9f1e  ..^........L..Yb
 	defb 0cch,056h,051h,007h,009h,00ah,0c0h,080h,0e0h,0d3h,022h,018h,02dh,040h,093h,011h	; 9f2e  .VQ.......".-@..
-	defb 05eh,00fh,01ch,0ach,0cch,0c9h,0ceh,0cfh,020h,0d6h,0d9h,01ah,00eh,00ch,0cch,047h	; 9f3e  ^....... ......G
-	defb 0ach,020h,093h,00fh,018h,02dh,046h,0cch,054h,090h,013h,051h,01eh,00fh,01ch,0ceh	; 9f4e  . ...-F.T..Q....
-	defb 0cfh,020h,0d6h,0d9h,01ah,0ceh,000h,08ch,084h,0cch,059h,0d8h,0cfh,017h,09dh,013h	; 9f5e  . ........Y.....
-	defb 0ddh,0c0h,01dh,04dh,06fh,0deh,00fh,052h,000h,04bh,0cfh,018h,08dh,030h,0c6h,0cch	; 9f6e  ...Mo..R.K...0..
-	defb 0d4h,01eh,0d2h,04fh,00fh,0c0h,04bh,00fh,000h,005h,04dh,0d6h,04bh,01dh,00fh,0ddh	; 9f7e  ...O..K...M.K...
+	defb 05eh,00fh,01ch,0ach,0cch,0c9h,0ceh,0cfh,020h,0d6h,0d9h,01ah,00eh	; 9f3e  ^....... ....
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_71: el dibujo de secuencia 0x71 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (67 bytes)
+;   0x9f4b..0x9f8e  (67 bytes)
+DATA_dibujo_71:
+	defb 00ch,0cch,047h,0ach,020h,093h,00fh,018h,02dh,046h,0cch,054h,090h,013h,051h,01eh	; 9f4b  ..G. ...-F.T..Q.
+	defb 00fh,01ch,0ceh,0cfh,020h,0d6h,0d9h,01ah,0ceh,000h,08ch,084h,0cch,059h,0d8h,0cfh	; 9f5b  .... ........Y..
+	defb 017h,09dh,013h,0ddh,0c0h,01dh,04dh,06fh,0deh,00fh,052h,000h,04bh,0cfh,018h,08dh	; 9f6b  ......Mo..R.K...
+	defb 030h,0c6h,0cch,0d4h,01eh,0d2h,04fh,00fh,0c0h,04bh,00fh,000h,005h,04dh,0d6h,04bh	; 9f7b  0.....O..K...M.K
+	defb 01dh,00fh,0ddh	; 9f8b
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_72: el dibujo de secuencia 0x72 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits; lo leen p26:634C, p26:6350, p26:6392 (54 bytes)
+;   0x9f8e..0x9fc4  (54 bytes)
+DATA_dibujo_72:
 	defb 02ch,0cch,048h,0ech,0d1h,04bh,04eh,0d3h,08fh,065h,0cch,057h,0cbh,01ch,05eh,0d0h	; 9f8e  ,.H..KN..e.W..^.
 	defb 013h,04dh,0cbh,016h,040h,098h,05eh,04fh,0d6h,0d3h,011h,018h,00dh,00fh,0a2h,0cch	; 9f9e  .M..@.^O........
 	defb 0dch,08dh,099h,057h,01fh,0deh,04fh,040h,0d3h,058h,09eh,04bh,056h,04fh,08eh,040h	; 9fae  ...W..O@.X.KVO.@
-	defb 0d8h,000h,060h,022h,00fh,0d8h,009h,0cch,04eh,02ch,00eh,08bh,013h,0ceh,000h,05fh	; 9fbe  ..`"....N,....._
-	defb 09ch,05eh,018h,02dh,043h,0cch,05bh,0ceh,0d3h,01ch,08dh,0deh,000h,0cfh,0ddh,00dh	; 9fce  .^.-C.[.........
-	defb 018h,08eh,04bh,01eh,000h,059h,0c0h,054h,04bh,00fh,01dh,030h,082h,0cch,05ch,0e0h	; 9fde  ..K..Y.TK..0..\.
-	defb 0d3h,022h,0d8h,000h,050h,0d1h,0d2h,01eh,0dch,000h,05ah,016h,019h,0deh,012h,00bh	; 9fee  ."..P.....Z.....
-	defb 01dh,092h	; 9ffe
+	defb 0d8h,000h,060h,022h,00fh,0d8h	; 9fbe
+
+; ----------------------------------------------------------------------
+; DATOS dibujo_73: el dibujo de secuencia 0x73 (p26:6349): trozos de dos
+;   bytes, cuantos caracteres, el tercio y el final, y sus caracteres de 6
+;   bits (sigue en el banco 28, en 0xA000); lo leen p26:634C, p26:6350,
+;   p26:6392 (60 bytes)
+;   0x9fc4..0xa000  (60 bytes)
+DATA_dibujo_73:
+	defb 009h,0cch,04eh,02ch,00eh,08bh,013h,0ceh,000h,05fh,09ch,05eh,018h,02dh,043h,0cch	; 9fc4  ..N,....._.^.-C.
+	defb 05bh,0ceh,0d3h,01ch,08dh,0deh,000h,0cfh,0ddh,00dh,018h,08eh,04bh,01eh,000h,059h	; 9fd4  [...........K..Y
+	defb 0c0h,054h,04bh,00fh,01dh,030h,082h,0cch,05ch,0e0h,0d3h,022h,0d8h,000h,050h,0d1h	; 9fe4  .TK..0..\.."..P.
+	defb 0d2h,01eh,0dch,000h,05ah,016h,019h,0deh,012h,00bh,01dh,092h	; 9ff4  ....Z.......

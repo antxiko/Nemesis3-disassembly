@@ -1,31 +1,7 @@
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
-D 0xA000 0xB394 partitura_A000  partitura que lee el motor de sonido (p10:644C, p10:6C34, p10:6C3F, p10:6C66 y otras) al tocar los sonidos 0x44, 0x45, 0x46, 0x47, 0x48, 0x49 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6C34, p10:6C3F, p10:6C66, p10:6C9A, p10:6CBB, p10:6CDE, p10:6D01 (5012 bytes)
+D 0xA000 0xBE28 partitura_A000  partitura que lee el motor de sonido (p10:644C, p10:6C34, p10:6C3F, p10:6C66 y otras) al tocar los sonidos 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6C34, p10:6C3F, p10:6C66, p10:6C9A, p10:6CBB, p10:6CDE, p10:6D01 (7720 bytes)
 F 0xA000 16
-D 0xB3BA 0xB426 partitura_B3BA  partitura que lee el motor de sonido (p10:644C, p10:6C34, p10:6C3F, p10:6C66 y otras) al tocar el sonido 0x49 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6C34, p10:6C3F, p10:6C66, p10:6C9A, p10:6D01, p10:6D14, p10:6DCC (108 bytes)
-F 0xB3BA 16
-D 0xB44E 0xB4FC partitura_B44E  partitura que lee el motor de sonido (p10:644C, p10:6C34, p10:6C3F, p10:6C66 y otras) al tocar el sonido 0x49 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6C34, p10:6C3F, p10:6C66, p10:6C9A, p10:6CBB, p10:6CDE, p10:6D01 (174 bytes)
-F 0xB44E 16
-D 0xB523 0xB5B9 partitura_B523  partitura que lee el motor de sonido (p10:644C, p10:6C34, p10:6C3F, p10:6C66 y otras) al tocar el sonido 0x49 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6C34, p10:6C3F, p10:6C66, p10:6C9A, p10:6D4A, p10:6DC5, p10:6DCC (150 bytes)
-F 0xB523 16
-D 0xB5E9 0xB68C partitura_B5E9  partitura que lee el motor de sonido (p10:644C, p10:6C34, p10:6C3F, p10:6C66 y otras) al tocar el sonido 0x49 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6C34, p10:6C3F, p10:6C66, p10:6C9A, p10:6CBB, p10:6D01, p10:6D14 (163 bytes)
-F 0xB5E9 16
-D 0xB6B7 0xB78E partitura_B6B7  partitura que lee el motor de sonido (p10:644C, p10:6C34, p10:6C3F, p10:6C66 y otras) al tocar el sonido 0x49 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6C34, p10:6C3F, p10:6C66, p10:6C9A, p10:6CBB, p10:6D01, p10:6D14 (215 bytes)
-F 0xB6B7 16
-D 0xB7BE 0xB85E partitura_B7BE  partitura que lee el motor de sonido (p10:644C, p10:6C34, p10:6C3F, p10:6C66 y otras) al tocar el sonido 0x49 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6C34, p10:6C3F, p10:6C66, p10:6C9A, p10:6D4A, p10:6DC5, p10:6DCC (160 bytes)
-F 0xB7BE 16
-D 0xB8A5 0xB8F9 partitura_B8A5  partitura que lee el motor de sonido (p10:644C, p10:6C34, p10:6C3F, p10:6C66 y otras) al tocar el sonido 0x49 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6C34, p10:6C3F, p10:6C66, p10:6C9A, p10:6CDE, p10:6DC5, p10:6DCC (84 bytes)
-F 0xB8A5 16
-D 0xB937 0xB98F partitura_B937  partitura que lee el motor de sonido (p10:644C, p10:6C3F, p10:6D4A, p10:6DC5 y otras) al tocar el sonido 0x49 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6C3F, p10:6D4A, p10:6DC5, p10:6DCC, p10:6DCE (88 bytes)
-F 0xB937 16
-D 0xB9A6 0xBA06 partitura_B9A6  partitura que lee el motor de sonido (p10:644C, p10:6C34, p10:6C3F, p10:6D01 y otras) al tocar el sonido 0x49 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6C34, p10:6C3F, p10:6D01, p10:6D14, p10:6D4A, p10:6EA4 (96 bytes)
-F 0xB9A6 16
-D 0xBA07 0xBAAF partitura_BA07  partitura que lee el motor de sonido (p10:644C, p10:6C34, p10:6C3F, p10:6C66 y otras) al tocar el sonido 0x49 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6C34, p10:6C3F, p10:6C66, p10:6C9A, p10:6D4A, p10:6EA4 (168 bytes)
-F 0xBA07 16
-D 0xBAC6 0xBB5E partitura_BAC6  partitura que lee el motor de sonido (p10:644C, p10:6C3F, p10:6DC5, p10:6DCC y otras) al tocar el sonido 0x49 (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6C3F, p10:6DC5, p10:6DCC, p10:6DCE (152 bytes)
-F 0xBAC6 16
-D 0xBB74 0xBE28 partitura_BB74  partitura que lee el motor de sonido (p10:644C, p10:6C34, p10:6C3F, p10:6C66 y otras) al tocar el sonido 0x4A (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6C34, p10:6C3F, p10:6C66, p10:6C9A, p10:6CBB, p10:6D01, p10:6D14 (692 bytes)
-F 0xBB74 16
 D 0xBE28 0xC000 relleno_ff  472 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (472 bytes)
 F 0xBE28 16
 # --- fin de los bloques de bloques.py ---
