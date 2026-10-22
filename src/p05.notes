@@ -1,258 +1,839 @@
 
 
 # --- A MANO: comentarios escritos leyendo el codigo ---
+C 0xA002 0x100 cuadros con la entrada secreta?
+C 0xA00B NZ: aun no
 C 0xA00D los pasos comunes de los jefes: con entrada secreta (0xE7E0), 0x100 cuadros...
+C 0xA010 sin entrada secreta: dos pasos de golpe
+C 0xA013 con ella, 0x100 cuadros
 C 0xA019 ...y el jefe 0x0B se apaga (0xEC20 = 0, 0xEC09 = 0xFF)
+C 0xA01C el jefe 0x0B...
+C 0xA020 ...apaga su segunda parte y su dibujo
+C 0xA028 y al paso siguiente
 C 0xA02B sin ella, dos pasos de golpe
 C 0xA031 espera; luego la entrada se va y 1 cuadro
+C 0xA034 la espera
+C 0xA035 la entrada se va (0xE7E0 = 0)...
+C 0xA039 ...y 1 cuadro
 C 0xA042 espera; luego 0xE44F = 1 y la gran explosion del jefe (p00:4869)
+C 0xA045 la espera
+C 0xA046 la gran explosion en marcha (0xE44F = 1)
+C 0xA04B en las cuatro partes
 C 0xA054 sus partes se apagan
+C 0xA055 la segunda y la tercera parte apagadas...
+C 0xA05B ...y sus dibujos fuera (0xFF)
 C 0xA065 y todos los enemigos y piezas fuera
+C 0xA06F los 12 enemigos a cero (0x300 bytes)
+C 0xA07B las 8 piezas a cero
 C 0xA087 una explosion grande en su sitio (p00:482A), sin entrada, el fondo 0xFF
+C 0xA089 una explosion grande en x + 8...
+C 0xA097 ...sin la entrada, y el fondo 0xFF
 C 0xA0A6 el sonido 0x4C (si la nave vive)
+C 0xA0A9 con la nave estallando, nada
 C 0xA0AE cuando acaba la explosion: la espera 0x2C (8 en la fase 4 salvo el ultimo)
+C 0xA0B1 la explosion sigue: nada
+C 0xA0B3 0x2C cuadros...
+C 0xA0B9 ...en la fase 4...
+C 0xA0C0 ...salvo con el ultimo jefe (3)...
+C 0xA0C4 ...8
 C 0xA0CD al acabar: el bufer a cero, sin jefe, 0xE442 = 1 (vencido)
+C 0xA0D4 la gran explosion apagada
+C 0xA0DE 0xE454 = 1
 C 0xA0E6 la espera de 0xE443 (16 bits): Z al acabar
+C 0xA0E9 un cuadro menos
+C 0xA0ED Z a cero
 C 0xA0F0 un jefe: por su paso (0xE441, tabla de detras)
 C 0xA108 paso 0: espera la hora (p04:9E0B)...
+C 0xA10B aun no
 C 0xA10C ...empieza con los 10 bytes de 0xA12D (el tipo 0x1B)
+C 0xA10F el tipo 0x1B
 C 0xA114 su caja, IX+13 = 0x38 e IX+14 = 8
 C 0xA11F el sonido 2, la orden 0x83 y la musica del jefe (9)
+C 0xA128 el paso siguiente del jefe
 C 0xA137 paso 1: entra por la derecha hasta la x 0x78
+C 0xA13C aun no: su caja
 C 0xA141 llegado: 0xE454 = 0 y empieza
+C 0xA142 0xE454 = 0
+C 0xA145 la cuenta 1 y la espera del disparo 1
 C 0xA14F paso 2: se mueve y dispara (p05:A166), su caja, y hasta vencerlo
+C 0xA155 al vencerlo, los pasos comunes (p04:9E32)
 C 0xA158 la caja: y + 0x38, x + 0x18 / + 0x18; vidas 9 en escalones de 4
+C 0xA15A la caja: x + 0x18 / + 0x18
+C 0xA160 vidas en escalones de 4 (C desde 9)
 C 0xA166 dispara (p05:A17F) y se mueve: paso 0 espera, paso 1 anda
+C 0xA16C mientras la nave no este (0xE454), nada
+C 0xA16E paso 1: anda
+C 0xA174 paso 0: espera...
+C 0xA17B ...y al paso 1
 C 0xA17F cada 0x28 cuadros, si se ve, suelta un 0x38 y el sonido 0x2E
+C 0xA182 sin la nave, nada
+C 0xA184 cada 0x28 cuadros
+C 0xA18C la y + 0x30...
+C 0xA193 ...dentro de la pantalla...
+C 0xA19A ...y la x - 8: un enemigo 0x38
 C 0xA1AB anda (p04:9F11); al acabar el paso, espera 0x10
+C 0xA1AE al acabar el paso...
+C 0xA1B3 ...en el tope, da la vuelta
+C 0xA1B7 la espera 0x10 y al paso 0
 C 0xA1C3 el tope en y segun hacia donde va
+C 0xA1CA hacia abajo: tope en 0x60...
+C 0xA1D4 ...hacia arriba: tope en 0xD8 (por encima de la pantalla)
 C 0xA1DB hacia donde: hacia la nave (por encima o por debajo de su y + 0x20)
+C 0xA1DE la y alta: fuera de la pantalla, hacia dentro
+C 0xA1ED la y + 0x20 contra la de la nave: por encima, abajo...
+C 0xA1F8 ...por debajo, arriba
+C 0xA1FD 4 filas de 1 caracter
+C 0xA209 el caracter 0x18
+C 0xA211 con el jefe vencido, se quita
+C 0xA215 la y del jefe + 0x30
+C 0xA222 paso 1: p05:A243
+C 0xA228 la y + 8...
+C 0xA22D ...y una columna mas
+C 0xA233 la y - 8, en multiplos de 8
+C 0xA246 hasta acabar
 C 0xA24A pinta en el bufer IX+13 filas de IX+14 caracteres de 0xA29E
+C 0xA24D su sitio en el bufer
+C 0xA254 los caracteres de 0xA29E, desde 0x0F - IX+14
+C 0xA262 IX+13 filas...
+C 0xA268 ...de IX+14 caracteres
+C 0xA270 la fila siguiente (0x40)...
+C 0xA276 ...y los caracteres de la siguiente (0x0F mas)
 C 0xA27F borra del bufer sus IX+13 filas de IX+14 caracteres
+C 0xA282 su sitio en el bufer
+C 0xA288 IX+13 filas...
+C 0xA28C ...de IX+14 caracteres a cero
+C 0xA295 la fila siguiente
+C 0xA29A la fila siguiente
 C 0xA2DA otro jefe: por su paso (0xE441)
 C 0xA2F4 paso 0: a su hora empieza (el tipo 0x1A, 10 bytes de 0xA317)
+C 0xA2F7 aun no
+C 0xA2F8 el tipo 0x1A, 10 bytes de 0xA317
 C 0xA30B el sonido 2, la orden 0x83 y la musica 9
 C 0xA321 paso 1: entra por la derecha hasta la x 0x88
+C 0xA326 aun no: su caja
+C 0xA32B llegado: 0xE454 = 0 y al paso siguiente
 C 0xA332 paso 2: la cuenta de disparos (0xEC18) a 1
+C 0xA335 las esperas a cero
 C 0xA341 paso 3: se mueve y dispara, su caja, hasta vencerlo
+C 0xA347 al vencerlo, los pasos comunes
 C 0xA34A la caja: y + 0x38, x + 0x18 / + 0x20; vidas en escalones de 3
+C 0xA34C la caja: x + 0x18 / + 0x20
+C 0xA352 vidas en escalones de 3
 C 0xA358 paso 0 espera y elige hacia donde; paso 1 anda (al acabar, 0xEC01 = 0x1000)
+C 0xA35B sin la nave, nada
+C 0xA35D paso 1: anda
+C 0xA363 paso 0: espera...
+C 0xA368 ...y elige hacia donde (p04:9EA6)
+C 0xA36E anda (p04:9F11); al acabar...
+C 0xA373 ...paso 0 con 0x10 cuadros
 C 0xA37A rafagas: entre una y otra, una espera (0x618 o 0xC0C segun 0xE36A)
+C 0xA37D en rafaga: p05:A394
+C 0xA380 la espera...
+C 0xA384 ...al acabar, la rafaga: 6 balas cada 0x18 o, en la dificultad impar, 0x0C cada 0x0C
 C 0xA394 en la rafaga, cada 0x18 cuadros (0x0C fuera de la fase 2)...
+C 0xA397 entre bala y bala
+C 0xA39B dos de cada vez cada 0x18 cuadros, o cada 0x0C
+C 0xA3A6 una menos; al acabar la rafaga, 0x3C cuadros
 C 0xA3AF ...cuatro disparos desde sus bocas (tabla de 0xA3E4): el 0x39 o el 0x3B
+C 0xA3B1 B balas desde los sitios de 0xA3E4...
+C 0xA3B9 ...la y del jefe + L (dentro de la pantalla)...
+C 0xA3C2 ...la x + H
+C 0xA3C8 con 12 o 6 de velocidad...
+C 0xA3D3 ...el enemigo 0x39 o, en la dificultad impar, el 0x3B
+C 0xA3E0 la siguiente
 C 0xA3E3 y el sonido 0x2D
 C 0xA3EE otro jefe: por su paso (0xE441)
 C 0xA406 paso 0: empieza (el tipo 0x29, 10 bytes de 0xA43C), 0xE452 = 10
+C 0xA409 aun no
+C 0xA40A el tipo 0x29, 10 bytes de 0xA43C
+C 0xA415 0xE452 = 0x0A
+C 0xA41A 0xEC16 a cero
 C 0xA426 la espera del primer disparo al azar
+C 0xA42B 0xE454 = 1
 C 0xA430 el sonido 2, la orden 0x83 y la musica 0x0A
 C 0xA446 paso 1: entra por la derecha hasta la x 0xA0
+C 0xA44B al llegar, empieza (p05:A451); si no, su caja
+C 0xA451 0xE454 = 0, la cuenta 1, el disparo 1 y al paso siguiente
 C 0xA45F paso 2: se mueve, dispara y su caja, hasta vencerlo
+C 0xA468 al vencerlo, los pasos comunes
 C 0xA46B la caja: y + 0x18, x + 8 / + 0x20
+C 0xA46D la caja: x + 8 / + 0x20
+C 0xA473 vidas en escalones de 6
 C 0xA479 cada 0x28 - 2 x la dificultad cuadros, dos 0x3C (uno a cada lado) y el sonido 0x2C
+C 0xA47C aun no
+C 0xA480 la espera siguiente: 0x28 - 2 x la dificultad
+C 0xA48B uno 0x10 a la izquierda...
+C 0xA491 ...desde y + 8...
+C 0xA49E ...y otro desde y + 0x28, con B = 1
+C 0xA4B3 la velocidad en x segun el tiempo (p05:A4CF), sin velocidad en y
+C 0xA4BA 2 filas de 4, el caracter 0x0B + su tipo
+C 0xA4D2 el tiempo x 32 + 0x700...
+C 0xA4DE ...sin pasar de 0x6FF
+C 0xA4E7 se mueve
+C 0xA4F1 fuera por la derecha (x desde 0xF0), se quita
 C 0xA4F8 otro jefe: al vencerlo salta a los pasos comunes (p05:A68B); por su paso
 C 0xA521 paso 0: a su hora empieza (el tipo 0x10, 10 bytes de 0xA533)
+C 0xA524 aun no
+C 0xA525 el tipo 0x10, 10 bytes de 0xA533
 C 0xA53D su caja y sus cuentas (IX+1C = 0xFF, 4 y 4)
+C 0xA541 0 columnas, IX+1C = 0xFF, IX+1D = 0, las cuentas 4 y 4
 C 0xA559 paso 1: entra por la derecha hasta la x 0x48
+C 0xA561 su caja
 C 0xA568 paso 2: salta a una de 4 posiciones (0xA591) por turnos
+C 0xA56B cada 4 cuadros
+C 0xA56D la animacion siguiente...
+C 0xA570 ...su sitio de la tabla de 0xA591
+C 0xA57C su caja
 C 0xA582 0xE454 = 0, 0x18 cuadros y abre (IX+1F = 2)
+C 0xA583 llegado
+C 0xA586 0x18 cuadros y la cuenta 2
 C 0xA599 paso 3: espera y cierra; en el paso 6 baja 0x20
+C 0xA59C la espera
+C 0xA5A0 0x10 cuadros y la cuenta 4
+C 0xA5AB en el paso 6...
+C 0xA5B1 ...0x20 mas a la derecha, y su caja
 C 0xA5BC paso 4: espera, abre y suelta 7 del tipo 0x11 (p05:A658)
+C 0xA5BF la espera
+C 0xA5C3 0x18 cuadros y la cuenta 2
 C 0xA5D1 paso 5: a los 4 cuadros dispara (p05:A675); mientras, sin tocar (IX+8 = 0x1A)
+C 0xA5D4 la espera
+C 0xA5DC cada 4 cuadros...
+C 0xA5E5 ...el dibujo 0x1A
+C 0xA5EA 0x0C cuadros y al paso siguiente
 C 0xA5F1 paso 6: cierra, espera y vuelve al paso 2
+C 0xA5F5 su caja
+C 0xA5F8 la espera
+C 0xA5FC al acabar, al paso 2
 C 0xA602 su punto debil (p05:A629) y su animacion: cada IX+1E cuadros...
+C 0xA605 el dibujo del medio segun las vidas
+C 0xA608 cada IX+1E cuadros...
+C 0xA60C ...otra vez su cuenta (0xEC1F)
 C 0xA612 ...abierto o cerrado (el sonido 0x38 al abrir)
+C 0xA615 con la cuenta 0x18 los dibujos 0x18 y 0x17...
+C 0xA61C ...si no 0x19 y 0xFF
 C 0xA629 se le puede dar (0xFF) solo con menos de 4 vidas o cuadro si, cuadro no
+C 0xA62C con 4 vidas o mas, nada (0xFF)...
+C 0xA632 ...con menos, el 0x1B...
+C 0xA637 ...parpadeando (cuadro si, cuadro no)
 C 0xA63D la caja: y en 0xEC0A y 0xEC0E (-0x38), x en 0xEC0C y 0xEC10 (+0x18)
+C 0xA640 la y en 0xEC0A...
+C 0xA643 ...y - 0x38 en 0xEC0E...
+C 0xA64A ...la x en 0xEC0C...
+C 0xA650 ...y + 0x18 en 0xEC10
 C 0xA658 siete 0x11 desde y + 0x30, x + 0x20
+C 0xA65B x + 0x20
+C 0xA65E y + 0x30
+C 0xA664 el enemigo 0x11, 7 veces
+C 0xA669 cada uno
 C 0xA675 el sonido 0x29 y tres del tipo 4 desde y + 8, x - 0x0C
+C 0xA678 x - 0x0C
+C 0xA67E y + 8
+C 0xA684 el enemigo 4, 3 veces
 C 0xA68B al vencerlo (0xE445) con el paso por debajo de C, salta al paso C con 0x30 cuadros
+C 0xA68D vencido (0xE445) con el paso por debajo de C...
+C 0xA698 ...al paso C con 0x30 cuadros
 C 0xA6A0 IX+10 = 5; el dibujo (0xA8 + 4 x direccion), su movimiento (0xA6BE) y su caja (0xA6DC)
+C 0xA6A4 la caja en x: 0xA8
+C 0xA6A9 el dibujo de su direccion (tabla de 0xA6BE)...
+C 0xA6B2 ...y su caja (tabla de 0xA6DC)
 C 0xA6EC lo mismo con el dibujo 0x9C y el movimiento de 0xA6F6
+C 0xA6F1 por su direccion, la tabla de 0xA6F6 (p01:6E40)
 C 0xA706 el dibujo: B + 4 x IX+1F
+C 0xA709 B + 4 x IX+1F
 C 0xA710 otro jefe (con los pasos comunes desde el 6)
+C 0xA712 los pasos comunes desde el 6
 C 0xA731 paso 0: empieza (el tipo 0x10, 10 bytes de 0xA75C) y sus cuentas
+C 0xA734 aun no
+C 0xA735 el tipo 0x10, 10 bytes de 0xA75C
+C 0xA741 las cuentas a cero; la animacion 3 y 3
+C 0xA756 su caja
 C 0xA766 paso 1: entra por la derecha hasta la x 0xD8; luego p05:A90F y 0x20 cuadros
+C 0xA76B al llegar...
+C 0xA771 ...0x20 cuadros
 C 0xA778 paso 2: ...
+C 0xA77B su caja
 C 0xA77E cuando acaba de moverse (0xEC02 = 0): 0x28 cuadros y al paso siguiente
+C 0xA781 hasta que 0xEC01 vuelva a 0
+C 0xA783 0x28 cuadros
 C 0xA78E paso 3: anda, la caja, la animacion; al parar, la cabeza (IX+1F = 6) y 0x80 cuadros
+C 0xA791 anda
+C 0xA797 al parar...
+C 0xA79C ...la cabeza (IX+1F = 6), 0x0A y 0x80 cuadros
 C 0xA7AB paso 4: igual, y dispara (p05:A980); al parar, otra vez hacia la nave
+C 0xA7AE anda
+C 0xA7B7 al parar...
+C 0xA7BF ...5 y 0x28 cuadros
 C 0xA7CA paso 5: al parar, vuelve al paso 2
+C 0xA7CD anda
+C 0xA7D3 al parar...
+C 0xA7D8 ...0x20 cuadros y al paso 2
 C 0xA7E2 la espera de 0xE443; al acabar, 0x50 cuadros mas...
+C 0xA7E5 la espera
+C 0xA7EC al acabar, 0x50 cuadros mas...
 C 0xA7F2 ...el jefe se apaga (IX+7-9 a 0xFF)...
+C 0xA7F3 ...sus dibujos fuera
 C 0xA7FC ...y tres explosiones grandes: en su sitio, arriba a la izquierda y arriba a la derecha
+C 0xA7FE una explosion en y + 8
+C 0xA80A otra 0x30 a la izquierda...
+C 0xA80E ...0x30 mas arriba (sin bajar de 0)
+C 0xA818 y otra 0x30 a la izquierda...
+C 0xA81C ...0x40 mas abajo (hasta 0xA0)
 C 0xA829 el sonido 0x4C y al paso siguiente
 C 0xA82F una explosion grande en DE
+C 0xA830 guardando IX
 C 0xA839 el dibujo 0x24 es el que se puede tocar (0xE454)
+C 0xA83C con la nave en la cuenta 0x24, 0xE454 = 1
 C 0xA847 el dibujo de la cabeza (p05:A8BE)...
 C 0xA84A ...la animacion de las piernas y las cajas de las dos partes (tabla de 0xA967)
+C 0xA84D las piernas: el dibujo de 0xEC08...
+C 0xA853 ...y el de 0xEC09, con la ficha corrida
+C 0xA862 su caja de la tabla de 0xA967
+C 0xA868 en IX+0A/0B...
+C 0xA86E ...y IX+0C/0D
 C 0xA875 la caja de la palabra A de HL, sobre su y y su x de 16 bits (con signo)
+C 0xA878 la x...
+C 0xA881 ...y la y, con signo
+C 0xA886 L con signo a 16 bits...
+C 0xA88E + la base (BC)
 C 0xA890 las piernas: cada 3 cuadros el dibujo siguiente de 12 (desde 0x2B y 0x37)
+C 0xA892 la pierna de 0xEC08...
+C 0xA898 ...desde el dibujo 0x37...
+C 0xA89A ...y la de 0xEC09, con sus cuentas un byte mas alla
+C 0xA8A7 cada 3 cuadros...
+C 0xA8AF ...el dibujo siguiente de 12...
+C 0xA8BB ...desde C
 C 0xA8BE la cabeza mirando a la nave (tabla de 0xA902)
+C 0xA8C1 la postura + IX+1A: el dibujo del cuerpo (tabla de 0xA902) en 0xEC07
 C 0xA8CF con IX+1A de 10 o mas, el angulo a la nave en tres escalones...
+C 0xA8D2 con la cuenta desde 0x0A, dispara
+C 0xA8D6 desde y + 0x14...
+C 0xA8DC ...x + 0x14
+C 0xA8E5 el angulo hacia la nave (0xE477) en tres: 0, 1 o 2
 C 0xA8F3 ...si no, segun cuanto se mueve
+C 0xA8F6 la cuenta en escalones de 8 (B de 4 a 0)
 C 0xA90F hacia la nave (IX+18) y cada 8 cuadros
+C 0xA912 la nave por encima o por debajo de su y: hacia alli (IX+18)
+C 0xA91D cada 8 cuadros
 C 0xA922 anda: cada 8 cuadros, 8 hacia su lado
+C 0xA925 parado: nada
+C 0xA92A cada 8 cuadros...
+C 0xA931 ...8 arriba o abajo
 C 0xA943 entre la y 0x1F y 0x60 elige lado
+C 0xA945 entre la y 0x1F y 0x60, el lado; si no, el otro
 C 0xA958 un disparo desde una de las dos partes al azar (tabla de 0xA997)
+C 0xA95B al azar, uno de dos
+C 0xA964 la caja de la tabla de 0xA997
+C 0xA96F la x de la caja, hasta 0xA8: C si no cabe
 C 0xA978 por la columna 0x41, un poco mas abajo
+C 0xA97A en la columna 0x41, 0x100 mas
 C 0xA980 cada 6 cuadros dispara un 0x40 (si cabe), alternando el lado
+C 0xA983 aun no
+C 0xA984 la cabeza (6)
+C 0xA98D la cuenta, cuadro si cuadro no...
+C 0xA998 ...un enemigo 0x40 (p01:7647)
+C 0xA99D la postura 1
 C 0xA9A2 el 0x40: hacia un punto que gira (0xE4A2 + 0x70) o hacia la nave
+C 0xA9A5 cuadro si, cuadro no...
+C 0xA9A8 ...hacia un punto que gira (0xE4A2 + 0x70)...
+C 0xA9B8 ...o hacia la nave
 C 0xAA1D otro jefe (los pasos comunes desde el 4): por su paso
+C 0xAA1F los pasos comunes desde el 4
 C 0xAA40 paso 0: empieza (el tipo 0x14, 10 bytes de 0xAA63)
+C 0xAA43 aun no
+C 0xAA44 el tipo 0x14, 10 bytes de 0xAA63
 C 0xAA57 el sonido 2, la orden 0x83 y la musica 0x0B
 C 0xAA6D paso 1: entra por la derecha hasta la x 0x80
+C 0xAA75 su caja
 C 0xAA78 paso 2: las cuentas a cero, 0xE454 = 0 y su dibujo
+C 0xAA79 las cuentas a cero, 0xE454 = 0, 4 y 4
 C 0xAA93 paso 3: se mueve, ataca y su dibujo, hasta vencerlo
+C 0xAA9C su caja
 C 0xAA9F se mueve: cada 4 cuadros por el guion de 0xAAF2 (8 tramos)...
+C 0xAAA2 sin la nave, nada
+C 0xAAA4 cada 4 cuadros
+C 0xAAAF en los tramos 1 y 5, otro tope
 C 0xAABB ...hasta llegar a la x o y de 0xAAD0; entonces el tramo siguiente
+C 0xAAC1 al llegar, el tramo siguiente
+C 0xAAC3 de 0 a 7
 C 0xAAD8 el paso del tramo (0xAAF2) a su y y su x
+C 0xAADB el paso del tramo (tabla de 0xAAF2)
+C 0xAAE1 la y + el paso...
+C 0xAAE9 ...la x + el paso
 C 0xAB02 la caja: y + 0x18
+C 0xAB05 la y + 0x18 en la caja...
+C 0xAB0A ...y la x
 C 0xAB11 abre y cierra los brazos (o lo que sea) y las cajas de sus partes
+C 0xAB14 sin la nave, nada
+C 0xAB1F y su disparo
 C 0xAB22 cada 4 cuadros el paso siguiente de la animacion de 0xABEE
+C 0xAB26 cada 4 cuadros...
+C 0xAB2A ...el dibujo siguiente de la tabla de 0xABEE
 C 0xAB3B 0xFF: vuelta a empezar, la otra mano (IX+1C) y los graficos de p00:516F
+C 0xAB3E al acabar (0xFF)...
+C 0xAB40 ...a cero y la parte siguiente (p00:516F)
 C 0xAB4C los dibujos de las partes segun el paso (0xAB82; +0x10 con la otra mano)
+C 0xAB4F cada 8 cuadros
+C 0xAB53 la tabla de 0xAB82
+C 0xAB57 el dibujo de esa animacion...
+C 0xAB5C ...0x10 mas en la segunda mitad
+C 0xAB64 en 0xEC09 y en la parte de 0xEC20
+C 0xAB6A sus tres dibujos, de 4 en 4
 C 0xAB79 cerrado: las partes apagadas
+C 0xAB7A sin animacion: la parte apagada y el dibujo fuera
 C 0xAB88 las cajas de las cuatro partes (tablas de 0xAC11 o 0xAC41)
+C 0xAB8B apagado: nada
+C 0xAB8D las cajas de sus cuatro trozos: el primero...
+C 0xAB99 ...el segundo...
+C 0xABA5 ...el tercero...
+C 0xABB1 ...y el cuarto
+C 0xABBE la tabla de un lado (0xAC11) o del otro (0xAC41)...
+C 0xABCA ...la entrada de su dibujo + B, sobre su sitio (p05:A875)
 C 0xABD2 el dibujo del cuerpo segun lo danado (0xABE9 por 0xEC12 / 4)
+C 0xABD5 el dibujo segun las vidas: en escalones de 4 (tabla de 0xABE9)
 C 0xAC71 otro jefe: por su paso
 C 0xAC89 paso 0: empieza (el tipo 0x1F, 10 bytes de 0xACA8)
+C 0xAC8C aun no
+C 0xAC8D el tipo 0x1F, 10 bytes de 0xACA8
+C 0xAC95 la cuenta 4 y 1
 C 0xACB2 paso 1: entra por la derecha hasta la x 0xD0; luego elige hacia donde ir
+C 0xACB7 al llegar...
+C 0xACBA ...0xE454 = 0, 1 cuadro y al paso siguiente
 C 0xACC8 paso 2: lo suyo (p05:AD0D), su caja, hasta vencerlo
+C 0xACCB su caja
+C 0xACD0 al vencerlo, los pasos comunes
 C 0xACD3 con menos de 6 vidas, su caja segun el dibujo (0xAD08) y desplazada
+C 0xACD6 con 6 vidas o mas, nada
+C 0xACD9 el dibujo de la tabla de 0xAD08 por el de ahora
+C 0xACE8 la y + 0x28...
+C 0xACF8 ...y la x + 0x10 en la caja
 C 0xAD0D por el subpaso IX+1 (tabla de detras)
 C 0xAD1D subpaso 0: anda mirando a la nave; al parar, abre (el dibujo 0x93)
+C 0xAD20 su caja
+C 0xAD25 al acabar el paso...
+C 0xAD2A ...en el tope, la vuelta
 C 0xAD2E el dibujo segun la nave este por encima, a su altura o por debajo (0x90-0x92)
+C 0xAD2F 0xE454 = 0
+C 0xAD36 su y + 0x20 contra la de la nave...
+C 0xAD40 ...y + 0x40: el dibujo 0x92, 0x91 o 0x90
 C 0xAD4B abre: se puede tocar y 0x10 cuadros
+C 0xAD4F abre: 0xE454 = 1, 0x10 cuadros
 C 0xAD5F el tope en y segun hacia donde va
+C 0xAD62 hacia abajo: tope en 0x60...
+C 0xAD70 ...hacia arriba: en 0xD8
 C 0xAD77 subpaso 1: si ha soltado (IX+28), cierra 0x10 cuadros
+C 0xAD7A sin vida...
+C 0xAD7C ...el dibujo fuera, 0x10 cuadros y al paso siguiente
 C 0xAD88 subpaso 2: al acabar, cierra y vuelve a andar
+C 0xAD8C cerrado (0x8F) y al paso 0
 C 0xAD98 subpaso 3: ...
+C 0xAD9B al acabar...
+C 0xADA0 ...IX+28 = 1 y al paso siguiente
 C 0xADA8 subpaso 4: cada 0x28 cuadros (si se ve) suelta dos 0x1B desde una boca al azar (0xAE20)
+C 0xADAC 0x28 cuadros
+C 0xADB0 la y + 0x30 dentro de la pantalla?
+C 0xADBE 0x20 cuadros y al paso siguiente
+C 0xADC5 al azar, uno de los sitios de 0xAE20
+C 0xADD0 la y + el sitio, por encima de 0xA0
+C 0xADD8 la x en la caja...
+C 0xADDE ...y - 8
+C 0xADE1 el dibujo 0x94
+C 0xADEB desde el 2...
+C 0xADEF ...dos enemigos 0x1B, uno 8 mas abajo
 C 0xAE0C C = cuantas fichas de enemigo quedan libres
+C 0xAE10 cuenta los caracteres libres de la columna (12 filas)
 C 0xAE24 hacia la nave (p04:9EDF)
+C 0xAE27 fuera de la pantalla, hacia dentro
+C 0xAE33 la y + 0x20 contra la de la nave: por encima, abajo; por debajo, arriba
+C 0xAE45 la cuenta a cero
 C 0xAE4A lo que suelta: el caracter 0x0F o 0x10, una espera al azar, 1 x 1, 0x18 de vida
+C 0xAE4D el caracter 0x0F, o 0x10 con IX+1F
+C 0xAE56 una espera al azar (0-7)
+C 0xAE5D 1 x 1
+C 0xAE65 0xEC28 = 0
+C 0xAE69 0x18 de vida
+C 0xAE71 parado
+C 0xAE74 crece de 2 en 2
 C 0xAE7D por su paso (tabla de detras)
 C 0xAE89 paso 0: espera, el sonido 0x2D y al paso siguiente
 C 0xAE98 paso 1: crece IX+26 por cuadro...
+C 0xAE9B crece IX+26 columnas...
+C 0xAEA3 ...su caja x 8...
 C 0xAEA6 ...va a la izquierda y crece su caja; al acabar 0x18, al paso siguiente
+C 0xAEB5 ...y menos vida; al acabar, 0x18 otra vez y al paso siguiente
 C 0xAEC7 paso 2: suelta chispas (p05:AEF9) y mengua bajando; al acabar se quita (0xEC28 = 1)
+C 0xAECA mengua IX+26 columnas...
+C 0xAED6 ...su caja x 8...
+C 0xAEE8 ...y menos vida; al acabar, se quita (0xEC28 = 1)
 C 0xAEF9 cada 8 cuadros una chispa (0x0F) en su sitio
+C 0xAEFC cada 8 cuadros...
+C 0xAF07 ...una chispa (el enemigo 0x0F)
 C 0xAF10 otro jefe: por su paso
 C 0xAF1E paso 0: empieza (el tipo 0x3F, 10 bytes de 0xAF4E) con su guion (velocidad 8, destino 0xA0)
+C 0xAF21 aun no
+C 0xAF22 el tipo 0x3F, 10 bytes de 0xAF4E
+C 0xAF2A 8 cuadros, su destino (0x08A0, 16 bits en IX+32) y el tramo 2
 C 0xAF46 0xE454 = 0x80
+C 0xAF48 0xE454 = 0
 C 0xAF58 paso 1: cada 8 cuadros, el dibujo siguiente (p05:AFE4)...
+C 0xAF5B cada 8 cuadros
 C 0xAF63 ...y en ciertos dibujos el sonido 0x39 y un paso (arriba o abajo)
+C 0xAF66 hacia un lado (IX+31 = 0) u otro
+C 0xAF6C con los dibujos 0x97 y 0x9C el sonido...
+C 0xAF76 ...con el 0x9F un paso de 8 hacia arriba...
+C 0xAF7D ...con el 0x9E y el 0x99, de 0x10
+C 0xAF88 al otro lado: el 0x96 un paso de 8 hacia abajo...
+C 0xAF93 ...el 0x9F de 0x10, el 0x9A otro
 C 0xAF9B su x + el paso; al llegar al destino...
+C 0xAF9E la x + el paso
+C 0xAFA8 al llegar a su destino...
 C 0xAFB0 ...el tramo siguiente (tabla de 0xAFD8: paso y destino); al cuarto, vencido (p05:A0D4)
+C 0xAFB3 ...el tramo siguiente; al cuarto, vencido (p05:A0D4)
+C 0xAFBB su lado y su destino de la tabla de 0xAFD8
 C 0xAFE4 el dibujo siguiente entre 0x96 y 0x9F, hacia un lado u otro
+C 0xAFE7 hacia un lado +1, hacia el otro -1
+C 0xAFF1 de 0x96 a 0x9F, dando la vuelta
 C 0xB000 otro jefe: por su paso
 C 0xB018 paso 0: empieza (el tipo 0x37, 10 bytes de 0xB032), 0x40 x 0x40
+C 0xB01B aun no
+C 0xB01C el tipo 0x37, 10 bytes de 0xB032
 C 0xB03C paso 1: entra por la derecha hasta la x 0x78; luego cuatro piezas 0x0A a su alrededor
+C 0xB041 aun no ha llegado
+C 0xB042 cuatro piezas 0x0A a su alrededor: y + 0x38, x + 0x40...
+C 0xB051 ...8 a la izquierda y 8 abajo...
+C 0xB05C ...0x10 a la derecha...
+C 0xB063 ...8 a la izquierda y 8 abajo
+C 0xB06E la cuenta 1, el disparo 1 y al paso siguiente
 C 0xB079 una pieza 0x0A en DE (p01:7BDE)
+C 0xB07A la pieza 0x0A (p01:7BDE)
 C 0xB083 paso 2: lo suyo (p05:B092) y hasta vencerlo
+C 0xB086 al vencerlo, los pasos comunes
 C 0xB089 la animacion: 7 pasos de 0x10 cuadros
+C 0xB08D 0x10 cuadros
 C 0xB092 por el subpaso IX+21 (tabla de detras)
 C 0xB0A0 cada 2 cuadros, el sonido 0x34
+C 0xB0A3 al acabar, 2 y el movimiento siguiente
 C 0xB0AD cada 2 cuadros el dibujo siguiente; cada 0x0B, otro movimiento (p05:B0CF)
+C 0xB0B1 cada 2 cuadros el dibujo siguiente...
+C 0xB0BC ...cada 0x0B, el movimiento siguiente
 C 0xB0CF el movimiento siguiente de la tabla de 0xB0C7 (8), por su numero (tabla de detras)
+C 0xB0D2 el movimiento (de 8) de la tabla de 0xB0C7...
+C 0xB0DE ...en IX+26
 C 0xB0EC los movimientos se acaban al llegar a un borde (segun la x o la y de 16 bits)
+C 0xB0EF por arriba (y negativa) se acaba
+C 0xB0F3 por abajo: la y por encima de 0x58...
+C 0xB100 la x por la izquierda: negativa...
+C 0xB105 ...o desde 0xC8...
+C 0xB10D por la derecha: desde 0xA8
+C 0xB115 por la derecha: x desde 0xA8
 C 0xB11A cada 2 cuadros se mueve (p05:B167) y el dibujo anterior; al acabar, 0x10 cuadros
+C 0xB11E cada 2 cuadros el dibujo anterior...
+C 0xB128 ...cada 0x0B, 0x10 cuadros y IX+24 = 1
 C 0xB136 suelta un 0x2A (p05:B14A) y espera; luego otra vez la animacion
+C 0xB139 la espera; al acabar, el movimiento otra vez desde el principio
 C 0xB14A cada 8 cuadros un 0x2A desde su centro (+0x40, +0x40)
+C 0xB14E cada 8 cuadros...
+C 0xB152 ...un enemigo 0x2A desde y + 0x40, x + 0x40
 C 0xB167 8 hacia la direccion de IX+26 (tabla de detras): arriba, abajo, izquierda o derecha
+C 0xB16A cada 4 cuadros
+C 0xB177 arriba (-8)...
+C 0xB17C ...o abajo (+8)
 C 0xB17F en y, hasta 0x50
+C 0xB182 la y + el paso, hasta 0x50
+C 0xB192 y las piezas con el
+C 0xB196 a la izquierda (-8, hasta -0xA8)...
+C 0xB19E ...o a la derecha (+8, hasta 0xA8)
 C 0xB1A4 en x, hasta el tope de BC
+C 0xB1A7 la x + el paso
+C 0xB1B6 y las piezas con el
 C 0xB1BA C: llegado
 C 0xB1BC y mueve igual las 8 piezas de 0xED00 (su y y su x)
+C 0xB1BF 1: +8 en y; 2: -8 en x; 3: +8 en x; 4: -8 en y
+C 0xB1D4 las 8 piezas de 0xED00 (y en +4, x en +6)
 C 0xB1EB una pieza que suelta: dos sprites, 0x20 cuadros, su y y su x en IX+34/35
+C 0xB1EE 0x0FE8 en IX+36, 0x20 cuadros y 2
+C 0xB201 su y y su x en IX+34 e IX+35
 C 0xB20B cada 2 cuadros cambia entre dos parejas de dibujos
+C 0xB20E cada 2 cuadros...
+C 0xB212 ...el dibujo cambia entre 0xE8 y 0xE0 (o 0xE4 y 0xD4)
 C 0xB229 0x10 vidas, el dibujo 0x0B, 2 x 2
 C 0xB23F al vencer al jefe se quita; si no, su choque y...
+C 0xB242 vencido el jefe: p05:B24A
 C 0xB24D ...al tocarla (vidas distintas de 0x10), dano al jefe (p00:484E)
+C 0xB250 con vidas 0x10, no
+C 0xB257 dano al jefe (p00:484E)
 C 0xB263 con el jefe 9, se puede tocar segun su dibujo (por debajo de 0x5A)
+C 0xB266 solo con el jefe 9
+C 0xB269 por debajo del dibujo 0x5A, se puede tocar (0); si no, no (0x80)
 C 0xB277 otro jefe: por su paso
 C 0xB28F paso 0: empieza (el tipo 0x1B, 10 bytes de 0xB2B4), su punto debil en 0x4C, 0x18
+C 0xB292 aun no
+C 0xB293 el tipo 0x1B, 10 bytes de 0xB2B4
+C 0xB29B su punto debil: 0x4C, 0x18
+C 0xB2A3 0xE454 = 1
+C 0xB2AF el paso siguiente
 C 0xB2BE paso 1: entra por la derecha hasta la x 0xC0
+C 0xB2C3 al llegar...
+C 0xB2C8 ...la cuenta 1 y el disparo 1
 C 0xB2D2 paso 2: lo suyo, su caja, hasta vencerlo
+C 0xB2D8 al vencerlo, los pasos comunes
 C 0xB2DB con menos de 8 vidas, el dibujo roto (0x46/0x47), una explosion grande y el sonido 0x26
+C 0xB2DE con 8 vidas o mas, nada
+C 0xB2E2 el dibujo 0x46 o 0x47, parpadeando
+C 0xB2F0 y una explosion en y + 0x30, x + 0x18
 C 0xB306 la caja: y + 0x58, x + 0x38
+C 0xB308 su caja: y + 0x58, x + 0x38
 C 0xB30D su arma y su paso: 0 espera, 1 anda
+C 0xB310 paso 1: p05:B38D
+C 0xB316 paso 0: la espera...
+C 0xB31D ...y al paso 1
 C 0xB321 por su arma (IX+1F, tabla de detras)
 C 0xB32D arma 0: si se ve, tres 0x31 desde abajo (p00:4833)...
+C 0xB330 la y + 0x30 dentro de la pantalla?
+C 0xB33B en x 0xA8...
+C 0xB340 ...tres piezas 0x31 seguidas (0, 1 y 2)
 C 0xB35B ...0x30 cuadros, abre (dibujo + 1), no se puede tocar, el sonido 0x29
+C 0xB35F el dibujo siguiente, 0xE454 = 0 y el arma siguiente
 C 0xB36C arma 1: espera, cierra y se puede tocar
+C 0xB370 0x30 cuadros, el dibujo anterior, 0xE454 = 1 y el arma siguiente
 C 0xB380 arma 2: espera y vuelta a la 0
+C 0xB384 0x30 cuadros y el arma 0
 C 0xB38D anda; al acabar el tramo, espera 0x10
+C 0xB390 al acabar el paso...
+C 0xB395 ...en el tope, la vuelta
+C 0xB399 0x10 cuadros y al paso 0
 C 0xB3A5 los topes en y: 0x48 y 0xC0
+C 0xB3A8 hacia abajo: tope en 0x48...
+C 0xB3B6 ...hacia arriba: en 0xC0
 C 0xB3BD hacia la nave
+C 0xB3C0 fuera de la pantalla, hacia dentro
+C 0xB3CC la y + 0x20 contra la de la nave: por encima abajo, por debajo arriba
 C 0xB3DE una pieza del jefe: 4 x 3, el dibujo 0x8A, 5 vidas, una espera al azar
+C 0xB3EE la cuenta a cero
+C 0xB3F9 una espera al azar (0-0x1F)
 C 0xB400 su recorrido de la tabla de 0xB41B (3 bytes por IX+0B)
+C 0xB403 su sitio: 3 bytes de la tabla de 0xB41B por su numero
+C 0xB40E el paso en y, el destino en y y el destino en x
 C 0xB424 mira a la nave, dispara y por su paso
 C 0xB436 paso 0: cada 2 cuadros avanza en y hasta su destino...
+C 0xB43E a menos de 8 de su y de destino...
 C 0xB452 ...y va a la izquierda hasta el suyo
+C 0xB45A ...y de su x: llegado (C)
 C 0xB468 paso 1: a la izquierda (-0x200)
+C 0xB46E la x de 16 bits + DE
 C 0xB47A el dibujo mirando a un lado u otro hacia la nave (0x8A o 0x8C)
+C 0xB47D mirando a la nave en x: la mitad del dibujo...
+C 0xB489 ...0x8A o 0x8C
 C 0xB499 por IX+17 (tabla de detras)
 C 0xB4A3 0: al acabar la espera abre y dispara un 0x43 desde su boca
+C 0xB4A6 al acabar la espera...
+C 0xB4AA ...un disparo mas y 0x10 cuadros
+C 0xB4B4 segun hacia donde mira...
+C 0xB4C1 ...desde y + 0x10, x - 8 o + 0x10...
+C 0xB4CC ...un enemigo 0x43
 C 0xB4D2 1: espera 0x30, cierra y vuelve
+C 0xB4D9 un disparo menos y 0x30 cuadros
 C 0xB4E1 hacia la nave con el paso 0x40, 0x20 cuadros
+C 0xB4E6 0x20 cuadros, al paso 0 y 0x20 de paso
 C 0xB4FC cada 0x10 cuadros vuelve a apuntar
+C 0xB500 0x10 cuadros y el tipo 0x40
 C 0xB55E el dibujo mirando a un lado u otro hacia la nave (0xB0 o 0xB8)
+C 0xB561 mirando a la nave en x (bit 2 de su dibujo)...
+C 0xB56A ...0xB0 o 0xB8
 C 0xB575 otro jefe: por su paso
 C 0xB589 paso 0: empieza (el tipo 0x2B, 10 bytes de 0xB5A9), el dibujo 0x60
+C 0xB58C aun no
+C 0xB58D el tipo 0x2B, 10 bytes de 0xB5A9
+C 0xB598 el dibujo 0x60
+C 0xB5A4 el paso siguiente del jefe
 C 0xB5B3 paso 1: entra por la derecha hasta la x 0xA8
+C 0xB5B8 al llegar...
+C 0xB5BD ...0xE454 = 0, la cuenta 1 y el disparo 1
 C 0xB5CB paso 2: lo suyo (p05:B5E2), su caja, hasta vencerlo
+C 0xB5D1 al vencerlo, los pasos comunes
 C 0xB5D4 la caja: y + 0x28, x + 0x38 / + 0x10; vidas en escalones de 4
+C 0xB5D6 la caja: x + 0x38 / + 0x10
+C 0xB5DC vidas en escalones de 4
 C 0xB5E2 dispara (p05:B647); paso 0 espera, paso 1 anda
+C 0xB5E5 paso 1: anda
+C 0xB5EB paso 0: espera y al paso 1
+C 0xB5F6 anda; al acabar el paso...
+C 0xB5FE ...en el tope, la vuelta
+C 0xB602 0x10 cuadros y al paso 0
 C 0xB60E los topes en y: 0x60 y 0xD8
+C 0xB615 hacia abajo: tope en 0x60...
+C 0xB61F ...hacia arriba: en 0xD8
 C 0xB626 hacia la nave
+C 0xB629 fuera de la pantalla, hacia dentro
+C 0xB638 la y + 0x20 contra la de la nave
 C 0xB647 cada 0x60 cuadros cuatro 0x49 en fila desde y + 0x20 y el sonido 0x2E
+C 0xB64A al acabar la espera...
+C 0xB64B ...0x60 cuadros
+C 0xB652 desde y + 0x20, x - 8...
+C 0xB65E ...el primero (B = 0)...
+C 0xB665 ...el segundo 8 mas abajo...
+C 0xB674 ...el tercero...
+C 0xB683 ...y el cuarto
 C 0xB695 una columna que crece: su alto inicial (tabla de 0xB6BB por IX+1F), 1 x 1, IX+10 = 0x11
+C 0xB698 su alto inicial de la tabla de 0xB6BB
+C 0xB6A1 1 cuadro, 1 x 1, IX+10 = 0x11
+C 0xB6B1 su alto x 4...
+C 0xB6BF cada cuadro
 C 0xB6C4 paso 0: pegada al jefe (la y de 0xEC03 + 0xB6F7) y crece hasta el borde
+C 0xB6C7 paso 1: mengua
+C 0xB6CA su sitio junto al jefe (tabla de 0xB6F7 por IX+1F)
+C 0xB6D4 la y del jefe + el sitio
+C 0xB6E3 una fila mas
+C 0xB6E9 hasta el techo
 C 0xB6FB paso 1: mengua hasta desaparecer
+C 0xB6FE cada cuadro...
+C 0xB703 ...una menos; a 0, se quita
 C 0xB70A se pinta en el bufer: el caracter 0xE0 (0xEE) y la punta 0xE1 (0xEF)
+C 0xB70D su sitio en el bufer
+C 0xB713 de 1, solo la punta
+C 0xB719 el cuerpo
+C 0xB71C la punta: 0xE1 (0xEF con IX+1F desde 2)
+C 0xB72C B caracteres 0xE0 (0xEE con IX+1F desde 2)
 C 0xB73D se borra del bufer
+C 0xB740 su sitio
+C 0xB746 IX+24 caracteres a 0
 C 0xB74F otro jefe: por su paso
 C 0xB763 paso 0: empieza (el tipo 0x43, 10 bytes de 0xB7CA), muy grande (0x38 x 0x68)
+C 0xB766 aun no
+C 0xB767 el tipo 0x43, 10 bytes de 0xB7CA
 C 0xB77E sus tres partes de 0xEC20, 0xEC40 y 0xEC60 con sus dibujos
+C 0xB782 la cuenta 8; la primera parte encendida con 0xB9, 0xD2 y 0xD2
+C 0xB796 la segunda con 0xD2, 0xD2, 0xD2
+C 0xB7A6 la tercera con 0xD2 y nada mas
 C 0xB7BA 0xEC70-0xEC7B a cero
+C 0xB7BD los 12 sitios de enemigos sin usar
+C 0xB7C7 y al paso siguiente
 C 0xB7D4 paso 1: lo suyo y entra por la derecha hasta la x 0x18
+C 0xB7D7 los enemigos de sus 12 sitios
+C 0xB7DA hasta la x 0x18 (p04:9E40)...
+C 0xB7E0 ...moviendo los enemigos con el
+C 0xB7E4 sin llegar, su caja
+C 0xB7E7 llegado: 0xE454 = 0 y al paso siguiente
 C 0xB7F2 paso 2: lo suyo, su caja, hasta vencerlo
+C 0xB7F8 al vencerlo, los pasos comunes (p04:9E32)
 C 0xB7FB la caja: y + 0x38, x + 0xA8 / + 0x68; IX+0E 8 menos
+C 0xB7FD la caja: x + 0xA8 / + 0x68
+C 0xB803 la y de su caja (IX+0E) 8 menos
 C 0xB815 vidas en escalones de 4
 C 0xB81B sus partes se animan o se apagan (p05:B8B6)
 C 0xB81E sus tres partes van pegadas: y + 8, + 0x98, + 0x10, + 0x28, + 0x48, + 0x78, + 0x88...
+C 0xB824 la y de las partes, desde la suya...
 C 0xB873 ...y x + 0x68, + 0x48 y + 0x100
+C 0xB879 ...y la x
 C 0xB8A1 la x + 0x100 tambien en 0xEC4C, 0xEC50 e IX+65
+C 0xB8A2 y la x + 0x100 en las dos de 0xEC4C...
+C 0xB8AF ...y en IX+65
 C 0xB8B6 encendidas: cada cuadro sus dibujos cambian entre dos (0xB9/0xBA y 0xD2/0xD3)
+C 0xB8B9 apagadas: p05:B8FB
+C 0xB8BC cada cuadro
+C 0xB8C4 una menos; a 0, se apagan
+C 0xB8C9 el dibujo 0xB9/0xBA de la primera...
+C 0xB8D2 ...y los dos 0xD2/0xD3 de detras...
+C 0xB8D7 ...los tres de la segunda...
+C 0xB8DD ...y uno de la tercera
 C 0xB8E6 al acabar la cuenta, sus tres partes se apagan 0x24 cuadros
+C 0xB8EA apagadas: IX+35 = 1, las tres partes a 0
 C 0xB8FB apagadas: al acabar la cuenta vuelven, con el sonido 0x30
+C 0xB8FE la espera
+C 0xB8FF 0x10 cuadros y las tres encendidas
+C 0xB90F IX+35 = 0 y el sonido 0x30
 C 0xB916 cambia B dibujos de HL: el que vale C pasa a C + 1, y si no, vuelve a C
+C 0xB918 desde el 0xD2
+C 0xB91A uno o el siguiente
 C 0xB924 cada 8 cuadros (0xE456)...
+C 0xB927 sin el paso de 8 cuadros, nada
 C 0xB92B cada 8 cuadros se mueve (p04:9FA7); al llegar, la siguiente direccion (p05:B96C)
+C 0xB92E 0xEC18 = 0
+C 0xB933 cada 8 cuadros
+C 0xB936 0xEC18 = 1 y se mueve...
+C 0xB93A ...al llegar, la direccion siguiente
 C 0xB93C ...y los 12 enemigos se mueven con el: 8 pixeles en la direccion de IX+15 (1-4)
+C 0xB93F 1: arriba (y - 8)
+C 0xB945 2: abajo (y + 8)
+C 0xB946 2: abajo
+C 0xB94C 3: a la izquierda (x - 8)
+C 0xB952 4: a la derecha (x + 8)
+C 0xB955 los 12 enemigos (y en +4, x en +6)
+C 0xB95F la y + C
+C 0xB964 la x + B
 C 0xB96C la siguiente direccion: la de 0xB97F que toca (4 seguidas)
+C 0xB96F la direccion siguiente, de 4 (tabla de 0xB97F)
 C 0xB983 las 12 posiciones de 0xBA7D (y con el bit 0 aparte, x): las que caen en la pantalla...
+C 0xB986 12 sitios de 2 bytes
+C 0xB98B la y (8 en 8) y el bit 0 (C)...
+C 0xB99B ...sobre la del jefe: dentro de la pantalla?
+C 0xB9A3 la x sobre la suya: dentro?
+C 0xB9B6 en E la y y en D la x
+C 0xB9BE fuera: se salta
 C 0xB9C2 ...sueltan un enemigo 0x4A, una vez cada una (0xEC70 + n)
+C 0xB9C3 su marca en 0xEC70 + n
+C 0xB9CE la primera vez...
+C 0xB9D3 ...sale el enemigo 0x4A
+C 0xB9D9 con B = C y C = 1
 C 0xB9E4 paso 3, vencido: el dibujo 0xD4, sus partes apagadas, 0x10 cuadros
+C 0xB9E8 0x10 cuadros y sus partes apagadas
 C 0xB9FE paso 4: al acabar, el dibujo siguiente y 0xF0 cuadros
+C 0xBA01 la espera
+C 0xBA05 0xF0 cuadros
 C 0xBA0F paso 5: hasta que la nave toca su punto (y + 0x40, x + 0xB8, a menos de 0x10) o acaba la cuenta...
+C 0xBA15 la y + 0x40 contra la de la nave...
+C 0xBA21 ...a menos de 0x10...
+C 0xBA2B ...y la x + 0xB8 contra la suya
+C 0xBA37 a menos de 0x10: ya
+C 0xBA3B si no, la espera
 C 0xBA3F ...la lista de graficos de 0xBA4E aparece poco a poco, el sonido 0x4E y la orden 0x84
+C 0xBA42 la aparicion poco a poco
 C 0xBA58 paso 6: al acabar la aparicion, todos los enemigos y las balas fuera, y vencido (p05:A0D1)
+C 0xBA5E hasta acabar la aparicion
+C 0xBA63 los 12 enemigos a 0...
+C 0xBA70 ...y las 10 balas
 C 0xBA95 otro jefe de tres partes iguales (0xEC20, 0xEC40, 0xEC00), cada una con su numero en 0xE455
+C 0xBA99 la primera (1)...
+C 0xBA9E ...la segunda (2)...
+C 0xBAAB ...y la de 0xEC00 (0)
+C 0xBAAC su numero en 0xE455
 C 0xBAAF cada parte por su paso (IX+1)
 C 0xBAC7 paso 0: espera la hora; empieza (el tipo 0x10, los 10 bytes que toque de 0xBB27)
+C 0xBACA aun no
+C 0xBACE el tipo 0x10
 C 0xBAD3 1 x 0x10 caracteres, el dibujo 0xFF en IX+7-9
+C 0xBAD7 la cuenta a 0, la velocidad 1, el disparo 2
+C 0xBAE6 encendida y sin dibujos
+C 0xBAF9 en su sitio
 C 0xBB02 se pone y se pinta
 C 0xBB1E los 10 bytes de cada parte: la palabra 0xE455 de 0xBB27
+C 0xBB21 la tabla de 0xBB27
 C 0xBB2D la vuelta empieza: los dibujos 0xA4 y 0xA5, la espera del disparo 0x18, cada cuadro, cada 4
+C 0xBB2E las cuentas a cero, 0xE454 = 0
+C 0xBB37 los dibujos 0xA4 y 0xA5
+C 0xBB3F la espera del disparo 0x18, cada cuadro, cada 4
 C 0xBB4C paso 1: parpadea y entra por la derecha (p04:9E40) hasta la x 0xC0
+C 0xBB4F hasta la x 0xC0
+C 0xBB55 en su sitio
+C 0xBB5D al llegar, la velocidad 0 y al paso 2
 C 0xBB63 paso 2: parpadea y va a la izquierda un paso cada cuadro; en la x 0, el paso 3
+C 0xBB66 cada cuadro
+C 0xBB6B hacia la derecha (IX+1C bit 0): al paso siguiente
 C 0xBB74 paso 3: anima sus dibujos, dispara (p05:BC84) y va a la derecha cada 2 cuadros; en la x 0xC0, otra vez el paso 2
+C 0xBB77 dispara
+C 0xBB7A cada 2 cuadros
+C 0xBB7F hacia la izquierda otra vez...
+C 0xBB85 ...al paso 2 desde el principio
 C 0xBB8B sin vidas: el paso 4 con el dibujo 0xA4
+C 0xBB8E con vidas, nada
+C 0xBB90 sin ellas, al paso 4 con el dibujo 0xA4
 C 0xBB9E paso 4: a la izquierda hasta la x 0x10...
+C 0xBBA1 la x contra 0x10
+C 0xBBAA mas alla: sigue cada cuadro
 C 0xBBB0 ...y espera a que ninguna de las tres este estallando (paso 5)
+C 0xBBB3 las tres partes...
 C 0xBBC4 estalla: 8 pasos de 4 cuadros; el sonido 0x26, o, si es la tercera, vencido (0xE445 = 1) y el sonido 0x4C
+C 0xBBC6 ninguna estallando: 0xE454 = 1...
+C 0xBBC9 ...al paso 5, 1 cuadro
 C 0xBBE4 paso 5: cada 4 cuadros una explosion grande (p01:678D) en y + 8 y la x de 0xBC07...
 C 0xBC0F ...y sus tres dibujos se apagan uno a uno (el sonido 0x26 salvo en la tercera)
 C 0xBC3D al acabar: 0x100 puntos, una parte menos (IX+1B), y el paso 6
@@ -586,6 +1167,8 @@ C 0xA807 una explosion grande en DE
 C 0xA815 una explosion grande en DE
 C 0xA826 una explosion grande en DE
 C 0xA832 una explosion grande en DE (E la y, D la x): dentro de la pantalla (p01:678D)
+C 0xA850 su caja de la tabla de 0xA967
+C 0xA85A su caja de la tabla de 0xA967
 C 0xA85D apunta a las partes del jefe (4 de 0x20)
 C 0xA865 la caja de la palabra A de HL, sobre su y y su x de 16 bits (con signo)
 C 0xA8C8 lee_byte: A = el byte A de la tabla HL
@@ -782,7 +1365,10 @@ C 0xB800 la caja del jefe: y + A en IX+0A e IX+0E, x + B en IX+0C, x + C en IX+1
 C 0xB818 IX+8 = cuantas veces cabe B en IX+12 (p04:9E96)
 C 0xB821 lee la y del jefe (alto)
 C 0xB876 lee la x del jefe (alto)
+C 0xB8CF uno o el siguiente
+C 0xB8D4 desde el 0xD2
 C 0xB8DA cambia B dibujos de HL: el que vale C pasa a C + 1, y si no, vuelve a C
+C 0xB8E2 desde el 0xD2
 C 0xB913 sonido_30: pide el sonido 0x30
 C 0xB930 lee la cuenta de cuadros del juego
 C 0xB977 suma_a_hl: HL = HL + A
@@ -805,6 +1391,8 @@ C 0xBA48 orden_sonido_84: manda la orden 0x84 al motor de sonido
 C 0xBA5B lee la aparicion poco a poco en marcha (1 o 2)
 C 0xBA60 apunta a los enemigos (12 de 0x40)
 C 0xBA6D apunta a las balas (10 de 0x10)
+C 0xBA9B su numero en 0xE455
+C 0xBAA4 su numero en 0xE455
 C 0xBAA7 apunta a las partes del jefe (4 de 0x20)
 C 0xBAB2 despacha: salta a la palabra A de la tabla que va detras del call
 C 0xBACB los 10 bytes de cada parte: la palabra 0xE455 de 0xBB27
