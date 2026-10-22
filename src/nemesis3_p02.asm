@@ -488,11 +488,11 @@ L_8316:
 	ret			;8324
 L_8325:
 	call 04173h		;8325   ; los caracteres que cambian solos, con el 7 en 0xA000
-	call L_8331		;8328   ; cada 8 cuadros, el color de 0x1AC1 gira entre 4 de p07:BD5B (3 bytes)
+	call L_8331		;8328   ; cada 8 cuadros, 3 bytes del dibujo de sprite 0x58 (0x1AC1) giran entre 4 de p07:BD5B
 	call L_835A		;832b   ; los dibujos que cambian de la fase (sin jefe ni aparicion poco a poco)
 	jp 04148h		;832e   ; bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 L_8331:
-	ld a,(0e303h)		;8331   ; cada 8 cuadros, el color de 0x1AC1 gira entre 4 de p07:BD5B (3 bytes)
+	ld a,(0e303h)		;8331   ; cada 8 cuadros, 3 bytes del dibujo de sprite 0x58 (0x1AC1) giran entre 4 de p07:BD5B
 	and 007h		;8334
 	ret nz			;8336
 	ld hl,01ac1h		;8337

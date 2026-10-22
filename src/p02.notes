@@ -84,7 +84,8 @@ C 0x8316 una fila: IX+14 caracteres del bufer a DE
 C 0x831D la fila siguiente del bufer (0x40)
 C 0x8322 IX+13 filas
 C 0x8325 los caracteres que cambian solos, con el 7 en 0xA000
-C 0x8331 cada 8 cuadros, el color de 0x1AC1 gira entre 4 de p07:BD5B (3 bytes)
+C 0x8328 cada 8 cuadros, 3 bytes del dibujo de sprite 0x58 (0x1AC1) giran entre 4 de p07:BD5B
+C 0x8331 cada 8 cuadros, 3 bytes del dibujo de sprite 0x58 (0x1AC1) giran entre 4 de p07:BD5B
 C 0x835A los dibujos que cambian de la fase (sin jefe ni aparicion poco a poco)
 C 0x836A la lista de la fase (p07:B1F5 + 2 x fase)
 C 0x8373 busca el tramo del scroll: palabras de posicion...
@@ -710,7 +711,6 @@ C 0x82D5 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L l
 C 0x82E4 apunta a los enemigos (12 de 0x40)
 C 0x82EB los de caracteres (bit 6 de IX+0B)
 C 0x8307 sitio_en_bufer: la direccion del bufer de 0xC400 de la posicion HL (L la y, H la x)
-C 0x8328 cada 8 cuadros, el color de 0x1AC1 gira entre 4 de p07:BD5B (3 bytes)
 C 0x832B los dibujos que cambian de la fase (sin jefe ni aparicion poco a poco)
 C 0x832E bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x833A vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
