@@ -14,6 +14,9 @@
 #   VRAM_POKES    "t:direccion:valor ..."
 #   VRAM_FASE     n: al entrar por primera vez en el estado 4 se pone n en la
 #                 fase (0xE361)
+#   VRAM_ELIGE    "nave escudo opciones": cada vez que la eleccion guarda la
+#                 nave (0xE380), el escudo (0xE37F) o las opciones (0xE37E),
+#                 se pone encima el valor pedido
 #   VRAM_INMORTAL 1: p04:843D (la muerte de la nave) vuelve sin hacer nada
 #                 (el banco de 0x8000 se mira en su copia, 0xF0F2)
 #   VRAM_DEBIL    "direccion valor": pasados los volcados de VRAM_JEFE, ese
@@ -81,6 +84,12 @@ if {$::FASE ne ""} {
         after time 0.0005 {poke 0xE361 $::FASE}
         debug remove_watchpoint $::FASE_WP
     }]
+}
+set ::ELIGE [opcion VRAM_ELIGE {}]
+if {$::ELIGE ne ""} {
+    foreach d {0xE380 0xE37F 0xE37E} x $::ELIGE {
+        debug set_watchpoint write_mem $d {} "after time 0.0005 {poke $d $x}"
+    }
 }
 proc vuelve {} {
     reg PC [peek16 [reg SP]]

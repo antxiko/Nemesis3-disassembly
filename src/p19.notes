@@ -188,7 +188,7 @@ C 0xB400 la clave C (tabla de 0xB443)...
 C 0xB40B ...letra a letra contra lo tecleado, hasta el RETURN: NC si es esa
 C 0xB416 usada (0xE39A = 1) y lo suyo:
 C 0xB427 FIND: 0xE39C = 1, las entradas secretas se ven
-C 0xB42D EXPAND: 0xE39E = 1 (ninguna instruccion lo lee)
+C 0xB42D EXPAND: 0xE39E = 1 (dobla los golpes del escudo, p04:94A2)
 C 0xB433 GOOD: 0xE39D = 2, la dificultad sube la mitad
 C 0xB439 HARD: 0xE39B = 0 y 0xE39D = 1, la dificultad sube el doble
 C 0xB461 la tecla pulsada: la primera fila del teclado con algo (SNSMAT 0-7)...
@@ -527,7 +527,7 @@ C 0xB408 apunta a las teclas de la clave de la pausa (8)
 C 0xB418 guarda 1 si ya se tecleo una clave en la pausa
 C 0xB41C despacha: salta a la palabra A de la tabla que va detras del call
 C 0xB429 guarda la clave FIND: las entradas secretas se ven
-C 0xB42F guarda la clave EXPAND (ninguna instruccion la lee)
+C 0xB42F guarda la clave EXPAND (dobla los golpes del escudo, p04:94A2)
 C 0xB43A guarda puesto a 0 por la clave HARD (ninguna instruccion lo lee)
 C 0xB471 guarda la ultima tecla pulsada en la pausa
 C 0xB47D suma_a_hl: HL = HL + A

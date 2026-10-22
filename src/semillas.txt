@@ -313,3 +313,8 @@ p10 0x6E9E 10 11 12  # orden 0xD9: tabla p10:6E37, palabra 9
 p10 0x6EA0 10 11 12  # orden 0xDA: tabla p10:6E37, palabra 0x0A
 p10 0x6F92 10 11 12  # orden 0xDE: tabla p10:6E37, palabra 0x0E
 p10 0x6F94 10 11 12  # orden 0xDF: tabla p10:6E37, palabra 0x0F
+# Las compras de la barra (tabla p04:931E-935D por nave, p04:9302 salta con
+# p00:4094): la casilla 5 ("?") solo se compra con el arma secreta en 3 o mas
+# (topes p04:94D0) y la 8 (el escudo) no la compro la campana.
+p04 0x9404 1 4 5  # casilla 5: tabla p04:931E, palabra 4
+p04 0x948D 1 4 5  # casilla 8, el escudo: tabla p04:931E, palabra 7

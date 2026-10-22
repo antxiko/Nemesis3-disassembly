@@ -28,8 +28,6 @@
 0x41CF   # p30:82F1 call
 0x41E4   # p27:8A17 call
 0x41EF   # p01:7812 call
-0x41F7   # p01:643E call
-0x4213   # p01:644D call
 0x42B8   # p00:429F entrada 0 de la tabla de 0x42A2 (call 0x4093 en 0x429F)
 0x42EE   # p00:429F entrada 1 de la tabla de 0x42A2 (call 0x4093 en 0x429F)
 0x434B   # p00:429F entrada 2 de la tabla de 0x42A2 (call 0x4093 en 0x429F)
@@ -93,7 +91,7 @@
 0x4A46   # p19:B2AC call
 0x4A5A   # p19:AE21 call
 0x4A65   # p03:A358 call
-0x4A6E   # p01:7F8C call
+0x4A6E   # p04:9414 call
 0x4A75   # p01:78F3 call
 0x4A7D   # p05:A4B0 call
 0x4B1F   # p26:62BC call
@@ -103,6 +101,7 @@
 0x4F02   # p26:6480 call
 0x4F52   # p04:95E0 call
 0x4F55   # p26:6FDB call
+0x5007   # p04:94B3 call
 0x504E   # p04:8453 call
 0x5071   # p01:6A80 call
 0x5159   # p03:A69B call
@@ -116,7 +115,7 @@
 0x563C   # p01:646B call
 0x565A   # p02:8BDC call
 0x5669   # p05:A0D1 call
-0x5692   # p04:9489 call
+0x5692   # p04:94B0 call
 0x56BC   # p01:60F2 call
 0x5709   # p27:89EF call
 0x5718   # p27:843D call

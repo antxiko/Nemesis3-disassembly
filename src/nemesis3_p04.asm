@@ -17,6 +17,7 @@
 ; ----------------------------------------------------------------------
 l93ceh:	equ 0x093ce
 l9401h:	equ 0x09401
+l942bh:	equ 0x0942b
 l9468h:	equ 0x09468
 l94d0h:	equ 0x094d0
 
@@ -2696,11 +2697,42 @@ DATA_leido_9402:
 	defb 003h	; 9402
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9403..0x942e  (43 bytes)
+; DATOS sin identificar  0x9403..0x9404  (1 bytes)
 DATA_9403:
-	defb 004h,0cdh,0b7h,094h,021h,038h,0e4h,034h,07eh,0b9h,038h,002h,036h,0ffh,021h,02bh	; 9403  ....!8.4~.8.6.!+
-	defb 094h,0cdh,06eh,04ah,032h,031h,0e6h,0cdh,024h,094h,011h,080h,000h,0cdh,092h,056h	; 9413  ..nJ21..$......V
-	defb 0c9h,0afh,032h,036h,0e4h,032h,037h,0e4h,0c9h,00dh,00eh	; 9423  ..26.27....
+	defb 004h	; 9403
+
+; ======================================================================
+; CODIGO 0x9404..0x942c  (40 bytes)
+; ======================================================================
+
+
+L_9404:
+	call L_94B7		;9404   ; casilla 5 ("?", solo con el arma secreta en 3 o mas): el tope (p04:94B7)...
+	ld hl,0e438h		;9407   ; ...un nivel mas en 0xE438; al tope, 0xFF
+	inc (hl)			;940a
+	ld a,(hl)			;940b
+	cp c			;940c
+	jr c,L_9411		;940d
+	ld (hl),0ffh		;940f
+L_9411:
+	ld hl,l942bh		;9411   ; el arma de su nivel (tabla de 0x942B: 0x0D o 0x0E)...
+	call 04a6eh		;9414   ; lee_byte: A = el byte A de la tabla HL
+	ld (0e631h),a		;9417   ; ...es el segundo arma
+	call L_9424		;941a   ; las casillas 3 y 4 a 0
+	ld de,00080h		;941d   ; 0x80 de puntos segun la dificultad
+	call 05692h		;9420   ; segun_dificultad: DE segun la dificultad (0xE39D: igual, el doble o la mitad)
+	ret			;9423
+L_9424:
+	xor a			;9424
+	ld (0e436h),a		;9425   ; guarda el nivel de la casilla 3 (0xFF al maximo)
+	ld (0e437h),a		;9428   ; guarda el nivel de la casilla 4 (0xFF al maximo)
+L_942B:
+	ret			;942b
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x942c..0x942e  (2 bytes)
+DATA_942C:
+	defb 00dh,00eh	; 942c
 
 ; ======================================================================
 ; CODIGO 0x942e..0x9469  (59 bytes)
@@ -2759,7 +2791,7 @@ DATA_946A:
 	defb 006h,007h,005h,008h,007h,00ah,00bh,00ch,00ah,00bh,009h	; 946a  ...........
 
 ; ======================================================================
-; CODIGO 0x9475..0x948d  (24 bytes)
+; CODIGO 0x9475..0x94d1  (92 bytes)
 ; ======================================================================
 
 
@@ -2777,19 +2809,28 @@ L_9483:
 	call 05692h		;9489   ; segun_dificultad: DE segun la dificultad (0xE39D: igual, el doble o la mitad)
 L_948C:
 	ret			;948c
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x948d..0x94b7  (42 bytes)
-DATA_948D:
-	defb 021h,03bh,0e4h,036h,0ffh,03ah,07fh,0e3h,0c6h,002h,032h,000h,0e6h,0feh,002h,006h	; 948d  !..6.:....2.....
-	defb 00ah,028h,002h,006h,005h,03ah,09eh,0e3h,0b7h,078h,028h,001h,087h,032h,001h,0e6h	; 949d  .(...:...x(..2..
-	defb 011h,000h,001h,0cdh,092h,056h,0cdh,007h,050h,0c9h	; 94ad  .....V..P.
-
-; ======================================================================
-; CODIGO 0x94b7..0x94d1  (26 bytes)
-; ======================================================================
-
-
+L_948D:
+	ld hl,0e43bh		;948d   ; casilla 8, el escudo: una vez (0xFF)
+	ld (hl),0ffh		;9490
+	ld a,(0e37fh)		;9492   ; el estado de la nave: 2 con SHIELD (el de delante), 3 con FORCE FIELD (el grande)
+	add a,002h		;9495
+	ld (0e600h),a		;9497   ; guarda el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
+	cp 002h		;949a   ; los golpes: 10 el de delante, 5 el grande...
+	ld b,00ah		;949c
+	jr z,L_94A2		;949e
+	ld b,005h		;94a0
+L_94A2:
+	ld a,(0e39eh)		;94a2   ; ...el doble con la clave EXPAND (0xE39E)
+	or a			;94a5
+	ld a,b			;94a6
+	jr z,L_94AA		;94a7
+	add a,a			;94a9
+L_94AA:
+	ld (0e601h),a		;94aa   ; en 0xE601
+	ld de,00100h		;94ad
+	call 05692h		;94b0   ; segun_dificultad: DE segun la dificultad (0xE39D: igual, el doble o la mitad)
+	call 05007h		;94b3   ; y los dibujos de sprite de la nave con escudo (p00:5007)
+	ret			;94b6
 L_94B7:
 	ld a,(0e43dh)		;94b7   ; C = el tope de la casilla elegida: la tabla de 0x94D0 por el nivel del arma secreta (0xE36F x 8 + casilla)
 	ld (0ef80h),a		;94ba

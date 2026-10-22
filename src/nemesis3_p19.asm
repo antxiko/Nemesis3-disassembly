@@ -2056,8 +2056,8 @@ L_B427:
 	ld (0e39ch),a		;b429   ; guarda la clave FIND: las entradas secretas se ven
 	ret			;b42c
 L_B42D:
-	ld a,001h		;b42d   ; EXPAND: 0xE39E = 1 (ninguna instruccion lo lee)
-	ld (0e39eh),a		;b42f   ; guarda la clave EXPAND (ninguna instruccion la lee)
+	ld a,001h		;b42d   ; EXPAND: 0xE39E = 1 (dobla los golpes del escudo, p04:94A2)
+	ld (0e39eh),a		;b42f   ; guarda la clave EXPAND (dobla los golpes del escudo, p04:94A2)
 	ret			;b432
 L_B433:
 	ld a,002h		;b433   ; GOOD: 0xE39D = 2, la dificultad sube la mitad

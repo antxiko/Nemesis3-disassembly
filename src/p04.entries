@@ -67,12 +67,14 @@
 0x93D1   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x93D4   # se ejecuta jugando (tools/cobertura.py): se llega desde p04:94D0 (ret)
 0x93E4   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:4A74 (ret)
+0x9404   # casilla 5: tabla p04:931E, palabra 4
 0x942E   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x9431   # se ejecuta jugando (tools/cobertura.py): se llega desde p04:94D0 (ret)
 0x9449   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:4A74 (ret)
 0x9460   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:56BB (ret)
 0x9475   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x948C   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:56BB (ret)
+0x948D   # casilla 8, el escudo: tabla p04:931E, palabra 7
 0x94BD   # p00:47F7 call
 0x9511   # p00:4473 call
 0x9517   # p00:4705 call

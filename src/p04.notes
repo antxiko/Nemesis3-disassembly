@@ -601,6 +601,12 @@ C 0x93DE el arma de su nivel (tabla de 0x9401)...
 C 0x93E4 ...es el segundo arma, con el disparo normal
 C 0x93F0 las casillas 3 y 6 a 0...
 C 0x93F7 ...y con el arma secreta en 3 o mas, la 5 tambien
+C 0x9404 casilla 5 ("?", solo con el arma secreta en 3 o mas): el tope (p04:94B7)...
+C 0x9407 ...un nivel mas en 0xE438; al tope, 0xFF
+C 0x9411 el arma de su nivel (tabla de 0x942B: 0x0D o 0x0E)...
+C 0x9417 ...es el segundo arma
+C 0x941A las casillas 3 y 4 a 0
+C 0x941D 0x80 de puntos segun la dificultad
 C 0x942E el tope de la casilla 6
 C 0x9434 un nivel mas; al tope, 0xFF
 C 0x943C el arma de la nave en su nivel (tabla de 0x9468)...
@@ -611,6 +617,12 @@ C 0x945A 0x100 de puntos segun la dificultad
 C 0x9475 opciones: una mas, hasta 2 (0xFF)...
 C 0x9483 ...y aparece
 C 0x9486 0x80 de puntos segun la dificultad
+C 0x948D casilla 8, el escudo: una vez (0xFF)
+C 0x9492 el estado de la nave: 2 con SHIELD (el de delante), 3 con FORCE FIELD (el grande)
+C 0x949A los golpes: 10 el de delante, 5 el grande...
+C 0x94A2 ...el doble con la clave EXPAND (0xE39E)
+C 0x94AA en 0xE601
+C 0x94B3 y los dibujos de sprite de la nave con escudo (p00:5007)
 C 0x94B7 C = el tope de la casilla elegida: la tabla de 0x94D0 por el nivel del arma secreta (0xE36F x 8 + casilla)
 C 0x94BD un byte de la tabla de 0x94D0 por 0xE36F x 8 + 0xEF80
 C 0x94C4 + la casilla (0xEF80)
@@ -1237,6 +1249,10 @@ C 0x93E9 guarda el primer arma (el disparo)
 C 0x93F1 guarda el nivel de la casilla 3 (0xFF al maximo)
 C 0x93F4 guarda el nivel de la casilla 6 (0xFF al maximo)
 C 0x93FE guarda el nivel de la casilla 5 (0xFF al maximo)
+C 0x9414 lee_byte: A = el byte A de la tabla HL
+C 0x9420 segun_dificultad: DE segun la dificultad (0xE39D: igual, el doble o la mitad)
+C 0x9425 guarda el nivel de la casilla 3 (0xFF al maximo)
+C 0x9428 guarda el nivel de la casilla 4 (0xFF al maximo)
 C 0x9431 apunta a el nivel de la casilla 6 (0xFF al maximo)
 C 0x9446 lee_byte: A = el byte A de la tabla HL
 C 0x9454 guarda el segundo arma
@@ -1245,6 +1261,8 @@ C 0x9462 guarda el nivel de la casilla 3 (0xFF al maximo)
 C 0x9465 guarda el nivel de la casilla 4 (0xFF al maximo)
 C 0x947A guarda cuantas opciones tiene la nave
 C 0x9489 segun_dificultad: DE segun la dificultad (0xE39D: igual, el doble o la mitad)
+C 0x9497 guarda el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
+C 0x94B0 segun_dificultad: DE segun la dificultad (0xE39D: igual, el doble o la mitad)
 C 0x9539 guarda el nivel de la casilla 5 (0xFF al maximo)
 C 0x954A guarda la marca de armas (1 a 8)
 C 0x9564 suma_a_hl: HL = HL + A
