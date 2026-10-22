@@ -18,6 +18,8 @@
 0x6BA6   # se ejecuta jugando (tools/cobertura.py): se llega desde p10:6B51 (jp (hl))
 0x6BC3   # se ejecuta jugando (tools/cobertura.py): se llega desde p10:6B51 (jp (hl))
 0x6BED   # se ejecuta jugando (tools/cobertura.py): se llega desde p10:6B51 (jp (hl))
+0x6C01   # orden 0xE6: tabla p10:6B52, palabra 6
+0x6C11   # orden 0xE7: tabla p10:6B52, palabra 7
 0x6C23   # se ejecuta jugando (tools/cobertura.py): se llega desde p10:6B51 (jp (hl))
 0x6C32   # se ejecuta jugando (tools/cobertura.py): se llega desde p10:6B51 (jp (hl))
 0x6C3D   # se ejecuta jugando (tools/cobertura.py): se llega desde p10:6B51 (jp (hl))
@@ -30,6 +32,7 @@
 0x6CF7   # se ejecuta jugando (tools/cobertura.py): se llega desde p10:6B51 (jp (hl))
 0x6D12   # se ejecuta jugando (tools/cobertura.py): se llega desde p10:6B51 (jp (hl))
 0x6D21   # se ejecuta jugando (tools/cobertura.py): se llega desde p10:6B51 (jp (hl))
+0x6D27   # orden 0xF4: tabla p10:6B52, palabra 0x14
 0x6D2D   # se ejecuta jugando (tools/cobertura.py): se llega desde p10:6B51 (jp (hl))
 0x6D33   # se ejecuta jugando (tools/cobertura.py): se llega desde p10:6B51 (jp (hl))
 0x6D3D   # se ejecuta jugando (tools/cobertura.py): se llega desde p10:6B51 (jp (hl))
@@ -44,6 +47,10 @@
 0x6E62   # se ejecuta jugando (tools/cobertura.py): se llega desde p10:6E36 (jp (hl))
 0x6E7D   # se ejecuta jugando (tools/cobertura.py): se llega desde p10:6E36 (jp (hl))
 0x6E94   # se ejecuta jugando (tools/cobertura.py): se llega desde p10:6E36 (jp (hl))
+0x6E9E   # orden 0xD9: tabla p10:6E37, palabra 9
+0x6EA0   # orden 0xDA: tabla p10:6E37, palabra 0x0A
 0x6EA2   # se ejecuta jugando (tools/cobertura.py): se llega desde p10:6E36 (jp (hl))
 0x6EA9   # se ejecuta jugando (tools/cobertura.py): se llega desde p10:6E36 (jp (hl))
 0x6EAF   # se ejecuta jugando (tools/cobertura.py): se llega desde p10:6E36 (jp (hl))
+0x6F92   # orden 0xDE: tabla p10:6E37, palabra 0x0E
+0x6F94   # orden 0xDF: tabla p10:6E37, palabra 0x0F

@@ -657,12 +657,10 @@ D 0x628C 0x6294 tabla_628C  4 destinos del despachador p00:4093 (call en p01:628
 F 0x628C w4
 D 0x62DF 0x62E5 tabla_62DF  3 destinos del despachador p00:4093 (call en p01:62DC, el indice en A): 62E5, 6318, 6323; lo leen p01:62DC (6 bytes)
 F 0x62DF w3
-D 0x6479 0x647A tabla_6479  tabla que se lee desde HL = 0x6479 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p01:63CE, p03:B277 (1 bytes)
+D 0x6479 0x647E tabla_6479  tabla que se lee desde HL = 0x6479 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p01:63CE, p03:B277 (5 bytes)
 F 0x6479 16
-D 0x647A 0x64B8 leido_647A  62 bytes que leen p01:63D3, p01:63D7 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:63D3, p01:63D7 (62 bytes)
-F 0x647A 16
-D 0x64B8 0x64B9 leido_64B8  1 bytes que lee p03:B27D al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p03:B27D (1 bytes)
-F 0x64B8 16
+D 0x647E 0x64B9 leido_647E  59 bytes que leen p01:63D7, p01:63D3 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p01:63D7, p01:63D3 (59 bytes)
+F 0x647E 16
 D 0x69F7 0x69FD tabla_69F7  3 destinos del despachador p00:4093 (call en p01:69F4, el indice en A): 69FD, 6A22, 6A6A; lo leen p01:69F4 (6 bytes)
 F 0x69F7 w3
 D 0x6C7E 0x6C86 mensajes_grabar  cuatro punteros a los mensajes de grabar y cargar en el otro cartucho (p01:6C5F: 0x6C7E + 2 x C): SAVE COMPLETED, SAVE FAILED, LOAD COMPLETED, LOAD FAILED; lo leen p01:6C62 (8 bytes)
@@ -697,6 +695,8 @@ D 0x7344 0x734A tabla_7344  tabla que se lee desde HL = 0x7344 con un indice (p0
 F 0x7344 16
 D 0x734A 0x734C leido_734A  2 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A73 (2 bytes)
 F 0x734A 16
+D 0x7376 0x7396 leido_7376  32 bytes que leen p00:4A6A, p00:4A6C al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A6A, p00:4A6C (32 bytes)
+F 0x7376 16
 D 0x73C5 0x73CD tabla_73C5  tabla que se lee desde HL = 0x73C5 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p01:725D, p01:73B7 (8 bytes)
 F 0x73C5 16
 D 0x743A 0x7442 tabla_743A  tabla que se lee desde HL = 0x743A con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p01:7268, p01:7432 (8 bytes)
@@ -705,7 +705,7 @@ D 0x7442 0x744A tabla_7442  tabla que se lee desde HL = 0x7442 con un indice (p0
 F 0x7442 16
 D 0x747C 0x7510 tabla_747C  74 destinos del despachador p00:4093 (call en p01:7479, el indice en A): 96A0, AD3A, 754E, BAE3, 8B9A, A295, 9BD9, 7549, 7544, 9334, BAC1, 9E93, 90E5, A0E5, 8B2C, 755D, BAEC, A207, 9215, 99DF, 7553, 7558, A609, 9766, A9E5, A831, 7511, AB6B, AD3A, AFD6, B0CA, BDE1, 9FC6, B72E, BA20, BAC1, 8EFE, 753F, B516, 95E5, 9D8B, 752A, A649, 7510, B315, 8919, B29A, B37D, 9F16, 7510, B6FF, 9A81, 9AEE, A1D2, AC49, 7516, 86B9, 7532, 86B9, 7525, 8FEF, 7510, 7510, B285, B48A, 7510, 7520, 8FF3, BAC1, B1E7, A9F3, B847, 751B, 90E5; lo leen p01:7479 (148 bytes)
 F 0x747C w8
-D 0x775C 0x77F0 leido_775C  148 bytes que leen p00:4098, p00:409A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 28 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4098, p00:409A (148 bytes)
+D 0x775C 0x77F0 leido_775C  148 bytes que leen p00:4098, p00:409A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 16 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4098, p00:409A (148 bytes)
 F 0x775C 16
 D 0x7855 0x7865 tabla_7855  tabla que se lee desde HL = 0x7855 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p01:7848 (16 bytes)
 F 0x7855 16
@@ -717,8 +717,6 @@ D 0x7D6C 0x7D6F leido_7D6C  3 bytes que lee p01:7DAA al jugar (medido ejecutando
 F 0x7D6C 16
 D 0x686C 0x6878 resto_686C  lo apuntan con el banco puesto p01:6820 (0x686C), p01:6881 (0x686C), p01:6825 (0x6872), p01:6886 (0x6872); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p01:6820, p01:6881, p01:6825, p01:6886 (12 bytes)
 F 0x686C 16
-D 0x7376 0x7396 resto_7376  lo apuntan con el banco puesto p01:7370 (0x7376); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p01:7370 (32 bytes)
-F 0x7376 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
@@ -774,6 +772,7 @@ C 0x6530 sonido_28: pide el sonido 0x28
 C 0x65EA bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
 C 0x65F0 bancos_1_2_3: pone los bancos 1-2-3 (y sus copias en 0xF0F1-3)
 C 0x65FA apunta a las piezas (8 de 0x20)
+C 0x661F lee el tipo del disparo (0: libre)
 C 0x6640 suma_a_hl: HL = HL + A
 C 0x6707 lee_palabra: HL = la palabra A de la tabla HL
 C 0x672C sonido_22: pide el sonido 0x22
@@ -799,6 +798,7 @@ C 0x6AC5 sonido_31: pide el sonido 0x31
 C 0x6ADC apunta a los enemigos (12 de 0x40)
 C 0x6AE7 lee el tipo del enemigo (0: libre)
 C 0x6AEE lee la y del enemigo
+C 0x6B3E lee el tipo del disparo (0: libre)
 C 0x6BCA guarda el jefe vencido (1, o 2 en la fase 4)
 C 0x6BD9 lee el jefe de la fase 4 (0 a 3)
 C 0x6BF2 guarda el jefe vencido (1, o 2 en la fase 4)

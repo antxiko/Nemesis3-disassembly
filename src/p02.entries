@@ -37,6 +37,7 @@
 0x855E   # p01:6E26 jp
 0x8580   # p01:7ECF call
 0x85BB   # p00:5A87 call
+0x8689   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x86B9   # p01:7479 entrada 56 de la tabla de 0x747C (call 0x4093 en 0x7479)
 0x86C7   # p02:86BC entrada 0 de la tabla de 0x86BF (call 0x4093 en 0x86BC)
 0x872D   # p02:86BC entrada 1 de la tabla de 0x86BF (call 0x4093 en 0x86BC)
@@ -105,6 +106,7 @@
 0x8FD1   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x8FEF   # p01:7479 entrada 60 de la tabla de 0x747C (call 0x4093 en 0x7479)
 0x8FF3   # p01:7479 entrada 67 de la tabla de 0x747C (call 0x4093 en 0x7479)
+0x904D   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x9067   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x9075   # p00:5272 call
 0x9081   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))

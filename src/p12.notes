@@ -1,6 +1,6 @@
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
-D 0xA000 0xBF29 partitura_A000  partitura que lee el motor de sonido (p10:644C y compania) al tocar los sonidos 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C (7977 bytes)
+D 0xA000 0xBF29 partitura_A000  partitura que lee el motor de sonido (p10:644C, p10:6508, p10:6B9D, p10:6C34 y otras) al tocar los sonidos 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p10:644C, p10:6508, p10:6B9D, p10:6C34, p10:6C3F, p10:6C66, p10:6C9A, p10:6CBB (7977 bytes)
 F 0xA000 16
 D 0xBF29 0xC000 relleno_ff  215 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (215 bytes)
 F 0xBF29 16

@@ -73,7 +73,7 @@ def _banco_de(b, t, trio):
     return trio(b).get(t & 0xE000)
 
 
-def reparto(semillas, trio, bancos):
+def reparto(semillas, trio, bancos, reg="ix"):
     filas = {b: _listado(b) for b in bancos}
     pos = {b: {a: k for k, (a, _) in enumerate(f)} for b, f in filas.items()}
     tablas = _tablas()
@@ -90,7 +90,7 @@ def reparto(semillas, trio, bancos):
             k = pos[b][a]
             t = filas[b][k][1]
             sig = filas[b][k + 1][0] if k + 1 < len(filas[b]) else None
-            if t.startswith(("ld ix,", "pop ix", "ld ix ")):
+            if t.startswith(("ld %s," % reg, "pop %s" % reg)):
                 continue
             m = re.match(r"(call|jp|jr|djnz)\s+(?:(nz|z|nc|c|po|pe|p|m),)?(\S+)$", t)
             if m:

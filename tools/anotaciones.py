@@ -397,7 +397,36 @@ def tramos_fichas():
     if _TRAMOS is None:
         from duenos import reparto
         _TRAMOS = reparto(semillas_fichas(), trio, BANCOS)[0]
+        # los disparos de la nave van en IY: los bucles de p04:86C1 (se mueven)
+        # y p04:968A (contra el decorado)
+        _TRAMOS.update(reparto({"disparo": [(4, 0x86E7), (4, 0x86D7), (4, 0x969D)]},
+                               trio, BANCOS, "iy")[0])
     return _TRAMOS
+
+
+# Los disparos de la nave (0xE680, 9 de 0x20): el movimiento (p04:919A, 91B1),
+# los choques (p01:64E5: IY+3 contra la y del enemigo, IY+5 contra la x), el
+# sprite (p04:8E08) y quien lo lanza (p04:8CEA).
+CAMPOS_DISPARO = {
+    0x00: "el tipo del disparo (0: libre)",  # p04:86D7, 969D
+    0x02: "la y del disparo (decimales)",  # p04:91B1
+    0x03: "la y del disparo",  # p01:64E8
+    0x04: "la x del disparo (decimales)",  # p04:919A
+    0x05: "la x del disparo",  # p01:64FF
+    0x06: "el dibujo del disparo",  # p04:8E0F
+    0x07: "el color del disparo",  # p04:88FD
+    0x08: "quien lanza el disparo (bajo)",  # p04:8CEA
+    0x09: "quien lanza el disparo (alto)",
+    0x0C: "el ancho del disparo para los choques",  # p01:650E
+    0x0D: "el alto del disparo para los choques",  # p01:64F8
+    0x10: "el largo del disparo",  # p04:8D55
+    0x11: "la vida del disparo",  # p04:8B6E
+    0x12: "la velocidad en y del disparo (bajo)",  # p04:91B1
+    0x13: "la velocidad en y del disparo (alto)",
+    0x14: "la velocidad en x del disparo (bajo)",  # p04:919A
+    0x15: "la velocidad en x del disparo (alto)",
+}
+CARGAS_DISPARO = tuple(0xE680 + 0x20 * k for k in range(9))
 
 
 # p10:6400-73A8: IX es un canal salvo donde se carga otra cosa (0xE284 en
@@ -405,4 +434,6 @@ def tramos_fichas():
 FICHAS = ((CARGAS_CANAL, {10: ((0x6400, 0x73A9),)}, CAMPOS_CANAL),
           (CARGAS_ENEMIGO, tramos_fichas().get("enemigo", {}), CAMPOS_ENEMIGO),
           (CARGAS_PIEZA, tramos_fichas().get("pieza", {}), CAMPOS_PIEZA),
-          (CARGAS_JEFE, tramos_fichas().get("jefe", {}), CAMPOS_JEFE))
+          (CARGAS_JEFE, tramos_fichas().get("jefe", {}), CAMPOS_JEFE),
+          (CARGAS_DISPARO, tramos_fichas().get("disparo", {}), CAMPOS_DISPARO, "iy"),
+          (CARGAS_DISPARO, {}, CAMPOS_DISPARO))

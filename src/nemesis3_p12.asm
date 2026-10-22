@@ -10,10 +10,12 @@
 
 
 ; ----------------------------------------------------------------------
-; DATOS partitura_A000: partitura que lee el motor de sonido (p10:644C y
-;   compania) al tocar los sonidos 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C,
-;   0x0D y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano
-;   es lo que se lee seguido); lo leen p10:644C (7977 bytes)
+; DATOS partitura_A000: partitura que lee el motor de sonido (p10:644C,
+;   p10:6508, p10:6B9D, p10:6C34 y otras) al tocar los sonidos 0x06, 0x07,
+;   0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D y otros (medido ejecutando el motor,
+;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
+;   p10:644C, p10:6508, p10:6B9D, p10:6C34, p10:6C3F, p10:6C66, p10:6C9A,
+;   p10:6CBB (7977 bytes)
 ;   0xa000..0xbf29  (7977 bytes)
 DATA_partitura_A000:
 	defb 0d2h,000h,050h,090h,0d1h,000h,0d2h,090h,050h,000h,0d3h,090h,050h,0fbh,002h,0fdh	; a000  ..P.....P...P...

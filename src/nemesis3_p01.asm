@@ -743,29 +743,21 @@ L_6467:
 ;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
 ;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
 ;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p01:63CE, p03:B277 (1 bytes)
-;   0x6479..0x647a  (1 bytes)
+;   da quien llama; lo leen p01:63CE, p03:B277 (5 bytes)
+;   0x6479..0x647e  (5 bytes)
 DATA_tabla_6479:
-	defb 000h	; 6479
+	defb 000h,006h,00ch,012h,019h	; 6479
 
 ; ----------------------------------------------------------------------
-; DATOS leido_647A: 62 bytes que leen p01:63D3, p01:63D7 al jugar (medido
+; DATOS leido_647E: 59 bytes que leen p01:63D7, p01:63D3 al jugar (medido
 ;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
-;   tamano es lo que se lee seguido); lo leen p01:63D3, p01:63D7 (62 bytes)
-;   0x647a..0x64b8  (62 bytes)
-DATA_leido_647A:
-	defb 006h,00ch,012h,019h,01fh,026h,02ch,032h,038h,03eh,044h,04ah,050h,056h,05ch,062h	; 647a  .....&,28>DJPV\b
-	defb 068h,06dh,073h,079h,07eh,084h,089h,08eh,093h,099h,09eh,0a2h,0a7h,0ach,0b1h,0b5h	; 648a  hmsy~...........
-	defb 0b9h,0beh,0c2h,0c6h,0cah,0ceh,0d1h,0d5h,0d8h,0dch,0dfh,0e2h,0e5h,0e7h,0eah,0edh	; 649a  ................
-	defb 0efh,0f1h,0f3h,0f5h,0f7h,0f8h,0fah,0fbh,0fch,0fdh,0feh,0feh,0ffh,0ffh	; 64aa  ..............
-
-; ----------------------------------------------------------------------
-; DATOS leido_64B8: 1 bytes que lee p03:B27D al jugar (medido ejecutando el
-;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p03:B27D (1 bytes)
-;   0x64b8..0x64b9  (1 bytes)
-DATA_leido_64B8:
-	defb 0ffh	; 64b8
+;   tamano es lo que se lee seguido); lo leen p01:63D7, p01:63D3 (59 bytes)
+;   0x647e..0x64b9  (59 bytes)
+DATA_leido_647E:
+	defb 01fh,026h,02ch,032h,038h,03eh,044h,04ah,050h,056h,05ch,062h,068h,06dh,073h,079h	; 647e  .&,28>DJPV\bhmsy
+	defb 07eh,084h,089h,08eh,093h,099h,09eh,0a2h,0a7h,0ach,0b1h,0b5h,0b9h,0beh,0c2h,0c6h	; 648e  ~...............
+	defb 0cah,0ceh,0d1h,0d5h,0d8h,0dch,0dfh,0e2h,0e5h,0e7h,0eah,0edh,0efh,0f1h,0f3h,0f5h	; 649e  ................
+	defb 0f7h,0f8h,0fah,0fbh,0fch,0fdh,0feh,0feh,0ffh,0ffh,0ffh	; 64ae  ...........
 
 ; ======================================================================
 ; CODIGO 0x64b9..0x686c  (947 bytes)
@@ -964,7 +956,7 @@ L_65FE:
 	ld de,00020h		;661a
 	ld b,009h		;661d
 L_661F:
-	ld a,(iy+000h)		;661f
+	ld a,(iy+000h)		;661f   ; lee el tipo del disparo (0: libre)
 	or a			;6622
 	call nz,L_6635		;6623
 	jr c,L_662C		;6626
@@ -1725,7 +1717,7 @@ L_6B37:
 	ld b,009h		;6b3b
 L_6B3D:
 	push bc			;6b3d
-	ld a,(iy+000h)		;6b3e
+	ld a,(iy+000h)		;6b3e   ; lee el tipo del disparo (0: libre)
 	or a			;6b41
 	jr z,L_6B4B		;6b42
 	cp 00fh		;6b44   ; ...menos el 0x0F...
@@ -3105,11 +3097,11 @@ L_7369:
 	jp 04a65h		;7373
 
 ; ----------------------------------------------------------------------
-; DATOS resto_7376: lo apuntan con el banco puesto p01:7370 (0x7376); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p01:7370 (32 bytes)
+; DATOS leido_7376: 32 bytes que leen p00:4A6A, p00:4A6C al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p00:4A6A, p00:4A6C (32 bytes)
 ;   0x7376..0x7396  (32 bytes)
-DATA_resto_7376:
+DATA_leido_7376:
 	defb 008h,010h,098h,010h,020h,030h,048h,030h,070h,048h,048h,060h,030h,080h,098h,080h	; 7376  .... 0H0pHH`0...
 	defb 008h,090h,028h,0a8h,080h,0a8h,018h,0c0h,060h,0c0h,008h,0d8h,008h,0f0h,098h,0f0h	; 7386  ..(.....`.......
 
@@ -3651,7 +3643,7 @@ L_775A:
 ; ----------------------------------------------------------------------
 ; DATOS leido_775C: 148 bytes que leen p00:4098, p00:409A al jugar (medido
 ;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
-;   tamano es lo que se lee seguido, con 28 sin leer entre lecturas de la
+;   tamano es lo que se lee seguido, con 16 sin leer entre lecturas de la
 ;   misma rutina: entradas de la misma tabla que las partidas no han pedido);
 ;   lo leen p00:4098, p00:409A (148 bytes)
 ;   0x775c..0x77f0  (148 bytes)
@@ -3682,15 +3674,21 @@ L_77F1:
 	jr $+25		;77f4
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x77f6..0x7805  (15 bytes)
+; DATOS sin identificar  0x77f6..0x77fb  (5 bytes)
 DATA_77F6:
-	defb 021h,0e1h,0b4h,018h,012h,021h,0fch,0a1h,018h,00dh,021h,0adh,0a4h,018h,008h	; 77f6  !....!....!....
+	defb 021h,0e1h,0b4h,018h,012h	; 77f6
 
 ; ======================================================================
-; CODIGO 0x7805..0x782b  (38 bytes)
+; CODIGO 0x77fb..0x7855  (90 bytes)
 ; ======================================================================
 
 
+L_77FB:
+	ld hl,0a1fch		;77fb
+	jr L_780D		;77fe
+L_7800:
+	ld hl,0a4adh		;7800
+	jr L_780D		;7803
 L_7805:
 	ld hl,0bebeh		;7805
 	jr L_780D		;7808
@@ -3716,29 +3714,21 @@ L_7821:
 L_7826:
 	ld hl,0af95h		;7826
 	jr L_7812		;7829
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x782b..0x7830  (5 bytes)
-DATA_782B:
-	defb 021h,031h,0aah,018h,0e2h	; 782b
-
-; ======================================================================
-; CODIGO 0x7830..0x7855  (37 bytes)
-; ======================================================================
-
-
+L_782B:
+	ld hl,0aa31h		;782b
+	jr L_7812		;782e
 L_7830:
 	ld hl,0ac5dh		;7830
-	jr $-33		;7833
+	jr L_7812		;7833
 L_7835:
 	ld hl,0acc1h		;7835
-	jr $-38		;7838
+	jr L_7812		;7838
 L_783A:
 	ld hl,0ad87h		;783a
-	jr $-43		;783d
+	jr L_7812		;783d
 L_783F:
 	ld hl,0af57h		;783f
-	jr $-48		;7842
+	jr L_7812		;7842
 L_7844:
 	push hl			;7844   ; la velocidad: la de la dificultad (tabla de 0x7855) + algo al azar (registro R)
 	ld a,(0e389h)		;7845   ; lee la dificultad de la fase (0 a 0x0F)
@@ -3781,7 +3771,7 @@ DATA_787B:
 	defb 0ddh,05eh,004h,0ddh,056h,006h,0cdh,08bh,063h,018h,0e8h,03eh,080h	; 787b  .^..V...c..>.
 
 ; ======================================================================
-; CODIGO 0x7888..0x78c1  (57 bytes)
+; CODIGO 0x7888..0x7ad4  (588 bytes)
 ; ======================================================================
 
 
@@ -3811,32 +3801,25 @@ L_78BA:
 	ld e,(ix+007h)		;78ba   ; DE = la velocidad en y
 	ld d,(ix+008h)		;78bd
 	ret			;78c0
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x78c1..0x78c8  (7 bytes)
-DATA_78C1:
-	defb 0ddh,05eh,009h,0ddh,056h,00ah,0c9h	; 78c1
-
-; ======================================================================
-; CODIGO 0x78c8..0x7ad4  (524 bytes)
-; ======================================================================
-
-
+L_78C1:
+	ld e,(ix+009h)		;78c1
+	ld d,(ix+00ah)		;78c4
+	ret			;78c7
 L_78C8:
 	call L_78D2		;78c8
-	jr $-31		;78cb
+	jr L_78AC		;78cb
 L_78CD:
 	ld d,000h		;78cd
 	ld e,d			;78cf
-	jr $-36		;78d0
+	jr L_78AC		;78d0
 L_78D2:
 	ld d,000h		;78d2
 	ld e,d			;78d4
-	jr $-34		;78d5
+	jr L_78B3		;78d5
 L_78D7:
 	call L_78B3		;78d7
 	ex de,hl			;78da
-	jr $-47		;78db
+	jr L_78AC		;78db
 L_78DD:
 	ld e,(ix+007h)		;78dd   ; la velocidad en y, al reves
 	ld d,(ix+008h)		;78e0

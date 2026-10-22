@@ -10,10 +10,12 @@
 
 
 ; ----------------------------------------------------------------------
-; DATOS partitura_8000: partitura que lee el motor de sonido (p10:644C y
-;   compania) al tocar los sonidos 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
-;   0x18 y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano
-;   es lo que se lee seguido); lo leen p10:644C (958 bytes)
+; DATOS partitura_8000: partitura que lee el motor de sonido (p10:644C,
+;   p10:6508, p10:6B9D, p10:6BC5 y otras) al tocar los sonidos 0x11, 0x12,
+;   0x13, 0x14, 0x15, 0x16, 0x17, 0x18 y otros (medido ejecutando el motor,
+;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
+;   p10:644C, p10:6508, p10:6B9D, p10:6BC5, p10:6CDE, p10:6D4A, p10:6DC5,
+;   p10:6DCC (958 bytes)
 ;   0x8000..0x83be  (958 bytes)
 DATA_partitura_8000:
 	defb 056h,0fbh,008h,0fdh,07fh,040h,050h,040h,056h,0fbh,004h,005h,080h,030h,050h,030h	; 8000  V....@P@V....0P0
@@ -83,10 +85,11 @@ DATA_83BE:
 	defb 0ffh	; 83be
 
 ; ----------------------------------------------------------------------
-; DATOS partitura_83BF: partitura que lee el motor de sonido (p10:644C y
-;   compania) al tocar los sonidos 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E (medido
-;   ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee
-;   seguido); lo leen p10:644C (633 bytes)
+; DATOS partitura_83BF: partitura que lee el motor de sonido (p10:644C,
+;   p10:6508, p10:6B9D, p10:6C34 y otras) al tocar los sonidos 0x19, 0x1A,
+;   0x1B, 0x1C, 0x1D, 0x1E (medido ejecutando el motor, tools/lee_sonidos.py;
+;   el tamano es lo que se lee seguido); lo leen p10:644C, p10:6508, p10:6B9D,
+;   p10:6C34, p10:6C3F, p10:6CDE, p10:6D43, p10:6D4A (633 bytes)
 ;   0x83bf..0x8638  (633 bytes)
 DATA_partitura_83BF:
 	defb 0feh,002h,0f8h,028h,0e2h,001h,0a1h,000h,0a2h,030h,0a2h,080h,0a2h,000h,0a5h,000h	; 83bf  ...(.....0......
@@ -141,10 +144,12 @@ DATA_8638:
 	defb 058h,032h,0d0h,033h,020h,0ffh	; 8688
 
 ; ----------------------------------------------------------------------
-; DATOS partitura_868E: partitura que lee el motor de sonido (p10:644C y
-;   compania) al tocar los sonidos 0x04, 0x05, 0x06, 0x1E, 0x1F, 0x20, 0x21,
-;   0x22 y otros (medido ejecutando el motor, tools/lee_sonidos.py; el tamano
-;   es lo que se lee seguido); lo leen p10:644C (6514 bytes)
+; DATOS partitura_868E: partitura que lee el motor de sonido (p10:644C,
+;   p10:6508, p10:6B9D, p10:6BC5 y otras) al tocar los sonidos 0x04, 0x05,
+;   0x06, 0x1E, 0x1F, 0x20, 0x21, 0x22 y otros (medido ejecutando el motor,
+;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
+;   p10:644C, p10:6508, p10:6B9D, p10:6BC5, p10:6C34, p10:6C3F, p10:6C66,
+;   p10:6C9A (6514 bytes)
 ;   0x868e..0xa000  (6514 bytes)
 DATA_partitura_868E:
 	defb 0feh,002h,0f8h,01dh,0e2h,001h,0c0h,080h,0c1h,000h,0c1h,080h,0c2h,000h,0c2h,080h	; 868e  ................

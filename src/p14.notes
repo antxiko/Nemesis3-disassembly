@@ -20,19 +20,17 @@ D 0x6405 0x6440 rle_6405  los colores de una entrada de la lista de graficos de 
 F 0x6405 16
 D 0x6440 0x646C rle_6440  los colores de una entrada de la lista de graficos de 14:6007, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_6440 6440-646C); lo leen p00:4D11, p00:4B3C (44 bytes)
 F 0x6440 16
-D 0x646C 0x64A4 leido_646C  56 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 40 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4A60, p00:4A62 (56 bytes)
+D 0x646C 0x64A6 leido_646C  58 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 26 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4A60, p00:4A62 (58 bytes)
 F 0x646C 16
-D 0x64B4 0x6544 leido_64B4  144 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (144 bytes)
+D 0x64B4 0x673C leido_64B4  648 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (648 bytes)
 F 0x64B4 16
-D 0x66F4 0x673C leido_66F4  72 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (72 bytes)
-F 0x66F4 16
 D 0x6784 0x67CC leido_6784  72 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (72 bytes)
 F 0x6784 16
 D 0x6814 0x685C leido_6814  72 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (72 bytes)
 F 0x6814 16
-D 0x6AE4 0x6B74 leido_6AE4  144 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (144 bytes)
-F 0x6AE4 16
-D 0x6C4C 0x6C94 leido_6C4C  72 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (72 bytes)
+D 0x6A9C 0x6B74 leido_6A9C  216 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (216 bytes)
+F 0x6A9C 16
+D 0x6C4C 0x6CDC leido_6C4C  144 bytes que lee p00:4F76 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F76 (144 bytes)
 F 0x6C4C 16
 D 0x6ED4 0x6EDB sprites_6ED4  lista de dibujos de sprite (p00:50C2): de 3 en 3, el primer dibujo y el RLE que va ahi; acaba en 0; lo leen p00:50A4 (7 bytes)
 F 0x6ED4 3

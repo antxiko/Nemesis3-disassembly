@@ -288,21 +288,164 @@ DATA_leido_A750:
 	defb 002h,002h,071h,072h,07bh,07ch,002h,002h,086h,072h,000h,087h	; a800  ..qr{|...r..
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xa80c..0xa8d8  (204 bytes)
-DATA_A80C:
-	defb 082h,002h,008h,008h,069h,008h,06ah,000h,082h,002h,008h,007h,069h,081h,090h,007h	; a80c  ....i.j.....i...
-	defb 06ah,081h,091h,000h,082h,002h,008h,007h,069h,081h,0a6h,007h,06ah,081h,0bbh,000h	; a81c  j.......i...j...
-	defb 082h,002h,008h,006h,069h,082h,090h,0a6h,006h,06ah,082h,091h,0bbh,000h,082h,002h	; a82c  ....i....j......
-	defb 008h,006h,069h,002h,0a6h,006h,06ah,002h,0bbh,000h,082h,002h,008h,005h,069h,083h	; a83c  ..i...j.......i.
-	defb 090h,0a6h,0a6h,005h,06ah,083h,091h,0bbh,0bbh,000h,082h,002h,008h,005h,069h,003h	; a84c  ....j.........i.
-	defb 0a6h,005h,06ah,003h,0bbh,000h,082h,002h,008h,004h,069h,081h,090h,003h,0a6h,004h	; a85c  ..j.......i.....
-	defb 06ah,081h,091h,003h,0bbh,000h,082h,002h,008h,004h,069h,004h,0a6h,004h,06ah,004h	; a86c  j.........i...j.
-	defb 0bbh,000h,082h,002h,008h,003h,069h,081h,090h,004h,0a6h,003h,06ah,081h,091h,004h	; a87c  ......i.....j...
-	defb 0bbh,000h,082h,002h,008h,003h,069h,005h,0a6h,003h,06ah,005h,0bbh,000h,085h,002h	; a88c  ......i...j.....
-	defb 008h,069h,069h,090h,005h,0a6h,002h,06ah,081h,091h,005h,0bbh,000h,084h,002h,008h	; a89c  .ii....j........
-	defb 069h,069h,006h,0a6h,002h,06ah,006h,0bbh,000h,084h,002h,008h,069h,090h,006h,0a6h	; a8ac  ii...j......i...
-	defb 082h,06ah,091h,006h,0bbh,000h,083h,002h,008h,069h,007h,0a6h,081h,06ah,007h,0bbh	; a8bc  .j.......i...j..
-	defb 000h,083h,002h,008h,090h,007h,0a6h,081h,091h,007h,0bbh,000h	; a8cc  ............
+; DATOS rle_ram_A80C: datos comprimidos a la RAM (p00:55AD, el mismo formato
+;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
+;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
+;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
+;   lo leen p00:55AD (8 bytes)
+;   0xa80c..0xa814  (8 bytes)
+DATA_rle_ram_A80C:
+	defb 082h,002h,008h,008h,069h,008h,06ah,000h	; a80c  ....i.j.
+
+; ----------------------------------------------------------------------
+; DATOS rle_ram_A814: datos comprimidos a la RAM (p00:55AD, el mismo formato
+;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
+;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
+;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
+;   lo leen p00:55AD (12 bytes)
+;   0xa814..0xa820  (12 bytes)
+DATA_rle_ram_A814:
+	defb 082h,002h,008h,007h,069h,081h,090h,007h,06ah,081h,091h,000h	; a814  ....i...j...
+
+; ----------------------------------------------------------------------
+; DATOS rle_ram_A820: datos comprimidos a la RAM (p00:55AD, el mismo formato
+;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
+;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
+;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
+;   lo leen p00:55AD (12 bytes)
+;   0xa820..0xa82c  (12 bytes)
+DATA_rle_ram_A820:
+	defb 082h,002h,008h,007h,069h,081h,0a6h,007h,06ah,081h,0bbh,000h	; a820  ....i...j...
+
+; ----------------------------------------------------------------------
+; DATOS rle_ram_A82C: datos comprimidos a la RAM (p00:55AD, el mismo formato
+;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
+;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
+;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
+;   lo leen p00:55AD (14 bytes)
+;   0xa82c..0xa83a  (14 bytes)
+DATA_rle_ram_A82C:
+	defb 082h,002h,008h,006h,069h,082h,090h,0a6h,006h,06ah,082h,091h,0bbh,000h	; a82c  ....i....j....
+
+; ----------------------------------------------------------------------
+; DATOS rle_ram_A83A: datos comprimidos a la RAM (p00:55AD, el mismo formato
+;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
+;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
+;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
+;   lo leen p00:55AD (12 bytes)
+;   0xa83a..0xa846  (12 bytes)
+DATA_rle_ram_A83A:
+	defb 082h,002h,008h,006h,069h,002h,0a6h,006h,06ah,002h,0bbh,000h	; a83a  ....i...j...
+
+; ----------------------------------------------------------------------
+; DATOS rle_ram_A846: datos comprimidos a la RAM (p00:55AD, el mismo formato
+;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
+;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
+;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
+;   lo leen p00:55AD (16 bytes)
+;   0xa846..0xa856  (16 bytes)
+DATA_rle_ram_A846:
+	defb 082h,002h,008h,005h,069h,083h,090h,0a6h,0a6h,005h,06ah,083h,091h,0bbh,0bbh,000h	; a846  ....i.....j.....
+
+; ----------------------------------------------------------------------
+; DATOS rle_ram_A856: datos comprimidos a la RAM (p00:55AD, el mismo formato
+;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
+;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
+;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
+;   lo leen p00:55AD (12 bytes)
+;   0xa856..0xa862  (12 bytes)
+DATA_rle_ram_A856:
+	defb 082h,002h,008h,005h,069h,003h,0a6h,005h,06ah,003h,0bbh,000h	; a856  ....i...j...
+
+; ----------------------------------------------------------------------
+; DATOS rle_ram_A862: datos comprimidos a la RAM (p00:55AD, el mismo formato
+;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
+;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
+;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
+;   lo leen p00:55AD (16 bytes)
+;   0xa862..0xa872  (16 bytes)
+DATA_rle_ram_A862:
+	defb 082h,002h,008h,004h,069h,081h,090h,003h,0a6h,004h,06ah,081h,091h,003h,0bbh,000h	; a862  ....i.....j.....
+
+; ----------------------------------------------------------------------
+; DATOS rle_ram_A872: datos comprimidos a la RAM (p00:55AD, el mismo formato
+;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
+;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
+;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
+;   lo leen p00:55AD (12 bytes)
+;   0xa872..0xa87e  (12 bytes)
+DATA_rle_ram_A872:
+	defb 082h,002h,008h,004h,069h,004h,0a6h,004h,06ah,004h,0bbh,000h	; a872  ....i...j...
+
+; ----------------------------------------------------------------------
+; DATOS rle_ram_A87E: datos comprimidos a la RAM (p00:55AD, el mismo formato
+;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
+;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
+;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
+;   lo leen p00:55AD (16 bytes)
+;   0xa87e..0xa88e  (16 bytes)
+DATA_rle_ram_A87E:
+	defb 082h,002h,008h,003h,069h,081h,090h,004h,0a6h,003h,06ah,081h,091h,004h,0bbh,000h	; a87e  ....i.....j.....
+
+; ----------------------------------------------------------------------
+; DATOS rle_ram_A88E: datos comprimidos a la RAM (p00:55AD, el mismo formato
+;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
+;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
+;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
+;   lo leen p00:55AD (12 bytes)
+;   0xa88e..0xa89a  (12 bytes)
+DATA_rle_ram_A88E:
+	defb 082h,002h,008h,003h,069h,005h,0a6h,003h,06ah,005h,0bbh,000h	; a88e  ....i...j...
+
+; ----------------------------------------------------------------------
+; DATOS rle_ram_A89A: datos comprimidos a la RAM (p00:55AD, el mismo formato
+;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
+;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
+;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
+;   lo leen p00:55AD (15 bytes)
+;   0xa89a..0xa8a9  (15 bytes)
+DATA_rle_ram_A89A:
+	defb 085h,002h,008h,069h,069h,090h,005h,0a6h,002h,06ah,081h,091h,005h,0bbh,000h	; a89a  ...ii....j.....
+
+; ----------------------------------------------------------------------
+; DATOS rle_ram_A8A9: datos comprimidos a la RAM (p00:55AD, el mismo formato
+;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
+;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
+;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
+;   lo leen p00:55AD (12 bytes)
+;   0xa8a9..0xa8b5  (12 bytes)
+DATA_rle_ram_A8A9:
+	defb 084h,002h,008h,069h,069h,006h,0a6h,002h,06ah,006h,0bbh,000h	; a8a9  ...ii...j...
+
+; ----------------------------------------------------------------------
+; DATOS rle_ram_A8B5: datos comprimidos a la RAM (p00:55AD, el mismo formato
+;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
+;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
+;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
+;   lo leen p00:55AD (13 bytes)
+;   0xa8b5..0xa8c2  (13 bytes)
+DATA_rle_ram_A8B5:
+	defb 084h,002h,008h,069h,090h,006h,0a6h,082h,06ah,091h,006h,0bbh,000h	; a8b5  ...i....j....
+
+; ----------------------------------------------------------------------
+; DATOS rle_ram_A8C2: datos comprimidos a la RAM (p00:55AD, el mismo formato
+;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
+;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
+;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
+;   lo leen p00:55AD (11 bytes)
+;   0xa8c2..0xa8cd  (11 bytes)
+DATA_rle_ram_A8C2:
+	defb 083h,002h,008h,069h,007h,0a6h,081h,06ah,007h,0bbh,000h	; a8c2  ...i...j...
+
+; ----------------------------------------------------------------------
+; DATOS rle_ram_A8CD: datos comprimidos a la RAM (p00:55AD, el mismo formato
+;   que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo,
+;   0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de
+;   tools/cobertura.py lee su primer byte de control y se recorre hasta su 0;
+;   lo leen p00:55AD (11 bytes)
+;   0xa8cd..0xa8d8  (11 bytes)
+DATA_rle_ram_A8CD:
+	defb 083h,002h,008h,090h,007h,0a6h,081h,091h,007h,0bbh,000h	; a8cd  ...........
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_ram_A8D8: datos comprimidos a la RAM (p00:55AD, el mismo formato
@@ -315,21 +458,16 @@ DATA_rle_ram_A8D8:
 	defb 082h,002h,008h,008h,0a6h,008h,0bbh,000h	; a8d8  ........
 
 ; ----------------------------------------------------------------------
-; DATOS leido_A8E0: 24 bytes que leen p01:7DFC, p01:7E01, p01:7E09 al jugar
+; DATOS leido_A8E0: 60 bytes que leen p01:7DFC, p01:7E01, p01:7E09 al jugar
 ;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
 ;   el tamano es lo que se lee seguido); lo leen p01:7DFC, p01:7E01, p01:7E09
-;   (24 bytes)
-;   0xa8e0..0xa8f8  (24 bytes)
+;   (60 bytes)
+;   0xa8e0..0xa91c  (60 bytes)
 DATA_leido_A8E0:
 	defb 002h,006h,081h,082h,083h,084h,085h,086h,087h,088h,089h,08ah,08bh,076h,002h,004h	; a8e0  .............v..
-	defb 081h,083h,084h,086h,087h,089h,08ah,076h	; a8f0  .......v
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0xa8f8..0xa91c  (36 bytes)
-DATA_A8F8:
-	defb 004h,004h,0d6h,078h,079h,06eh,077h,07bh,07ch,07ah,07dh,07bh,07ch,080h,071h,07eh	; a8f8  ...xynw{|z}{|.q~
-	defb 07fh,074h,004h,004h,0d6h,06ch,06dh,06eh,06bh,000h,000h,06fh,070h,000h,000h,000h	; a908  .t...lmnk..op...
-	defb 071h,072h,073h,074h	; a918
+	defb 081h,083h,084h,086h,087h,089h,08ah,076h,004h,004h,0d6h,078h,079h,06eh,077h,07bh	; a8f0  .......v...xynw{
+	defb 07ch,07ah,07dh,07bh,07ch,080h,071h,07eh,07fh,074h,004h,004h,0d6h,06ch,06dh,06eh	; a900  |z}{|.q~.t...lmn
+	defb 06bh,000h,000h,06fh,070h,000h,000h,000h,071h,072h,073h,074h	; a910  k..op...qrst
 
 ; ----------------------------------------------------------------------
 ; DATOS leido_A91C: 8 bytes que leen p00:4A60, p00:4A62 al jugar (medido
@@ -577,83 +715,78 @@ DATA_leido_AE66:
 	defb 0c8h,0d1h,03fh,0d6h,0d7h,03fh,0c2h,000h	; af56  ..?..?..
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xaf5e..0xaf64  (6 bytes)
-DATA_AF5E:
-	defb 070h,0afh,088h,0afh,0a3h,0afh	; af5e
-
-; ----------------------------------------------------------------------
-; DATOS leido_AF64: 6 bytes que leen p00:4A60, p00:4A62 al jugar (medido
+; DATOS leido_AF5E: 16 bytes que leen p00:4A60, p00:4A62 al jugar (medido
 ;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
-;   tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (6 bytes)
-;   0xaf64..0xaf6a  (6 bytes)
-DATA_leido_AF64:
-	defb 0c0h,0afh,0dfh,0afh,000h,0b0h	; af64
+;   tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (16 bytes)
+;   0xaf5e..0xaf6e  (16 bytes)
+DATA_leido_AF5E:
+	defb 070h,0afh,088h,0afh,0a3h,0afh,0c0h,0afh,0dfh,0afh,000h,0b0h,01fh,0b0h,03ch,0b0h	; af5e  p.............<.
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xaf6a..0xafc0  (86 bytes)
-DATA_AF6A:
-	defb 01fh,0b0h,03ch,0b0h,057h,0b0h,0aah,0abh,0aah,03fh,0ach,03fh,0aah,0abh,0aah,03fh	; af6a  ..<.W....?.?...?
-	defb 0ach,03fh,0aah,0abh,0aah,03fh,0ach,03fh,0aah,0abh,066h,03fh,0a9h,000h,002h,0aah	; af7a  .?...?.?..f?....
-	defb 0abh,0aah,03fh,0ach,03fh,0aah,0abh,0aah,03fh,0ach,03fh,0aah,0abh,0aah,03fh,0ach	; af8a  ..?.?...?.?...?.
-	defb 03fh,0aah,03fh,0ach,03fh,066h,03fh,0a9h,000h,004h,0aah,0abh,0aah,03fh,0ach,03fh	; af9a  ?.?.?f?......?.?
-	defb 0aah,0abh,0aah,03fh,0ach,03fh,0aah,03fh,0ach,03fh,0aah,03fh,0ach,03fh,0aah,03fh	; afaa  ...?.?.?.?.?.?.?
-	defb 0ach,03fh,066h,03fh,0a9h,000h	; afba
+; DATOS sin identificar  0xaf6e..0xaf70  (2 bytes)
+DATA_AF6E:
+	defb 057h,0b0h	; af6e
 
 ; ----------------------------------------------------------------------
-; DATOS leido_AFC0: 95 bytes que lee p01:6EEA al jugar (medido ejecutando el
+; DATOS leido_AF70: 231 bytes que lee p01:6EEA al jugar (medido ejecutando el
 ;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p01:6EEA (95 bytes)
-;   0xafc0..0xb01f  (95 bytes)
-DATA_leido_AFC0:
+;   se lee seguido); lo leen p01:6EEA (231 bytes)
+;   0xaf70..0xb057  (231 bytes)
+DATA_leido_AF70:
+	defb 0aah,0abh,0aah,03fh,0ach,03fh,0aah,0abh,0aah,03fh,0ach,03fh,0aah,0abh,0aah,03fh	; af70  ...?.?...?.?...?
+	defb 0ach,03fh,0aah,0abh,066h,03fh,0a9h,000h,002h,0aah,0abh,0aah,03fh,0ach,03fh,0aah	; af80  .?..f?......?.?.
+	defb 0abh,0aah,03fh,0ach,03fh,0aah,0abh,0aah,03fh,0ach,03fh,0aah,03fh,0ach,03fh,066h	; af90  ..?.?...?.?.?.?f
+	defb 03fh,0a9h,000h,004h,0aah,0abh,0aah,03fh,0ach,03fh,0aah,0abh,0aah,03fh,0ach,03fh	; afa0  ?......?.?...?.?
+	defb 0aah,03fh,0ach,03fh,0aah,03fh,0ach,03fh,0aah,03fh,0ach,03fh,066h,03fh,0a9h,000h	; afb0  .?.?.?.?.?.?f?..
 	defb 006h,0aah,0abh,0aah,03fh,0ach,03fh,0aah,03fh,0ach,03fh,0aah,03fh,0ach,03fh,0aah	; afc0  ....?.?.?.?.?.?.
 	defb 03fh,0ach,03fh,0aah,03fh,0ach,03fh,0aah,03fh,0ach,03fh,066h,03fh,0a9h,000h,008h	; afd0  ?.?.?.?.?.?f?...
 	defb 0aah,03fh,0ach,03fh,0aah,03fh,0ach,03fh,0aah,03fh,0ach,03fh,0aah,03fh,0ach,03fh	; afe0  .?.?.?.?.?.?.?.?
 	defb 0aah,03fh,0ach,03fh,0aah,03fh,0ach,03fh,0aah,03fh,0ach,03fh,066h,03fh,0a9h,000h	; aff0  .?.?.?.?.?.?f?..
 	defb 008h,0aah,0abh,0aah,03dh,0ach,03fh,0aah,03fh,0ach,03fh,0aah,03fh,0ach,03fh,0aah	; b000  ....=.?.?.?.?.?.
-	defb 03fh,0ach,03fh,0aah,03fh,0ach,03fh,0aah,03fh,0ach,03fh,066h,03fh,0a9h,000h	; b010  ?.?.?.?.?.?f?..
+	defb 03fh,0ach,03fh,0aah,03fh,0ach,03fh,0aah,03fh,0ach,03fh,066h,03fh,0a9h,000h,00ah	; b010  ?.?.?.?.?.?f?...
+	defb 0aah,0abh,0aah,03dh,0ach,03dh,0aah,0abh,0aah,03dh,0ach,03fh,0aah,03fh,0ach,03fh	; b020  ...=.=...=.?.?.?
+	defb 0aah,03fh,0ach,03fh,0aah,03fh,0ach,03fh,066h,03fh,0a9h,000h,00ch,0aah,0abh,0aah	; b030  .?.?.?.?f?......
+	defb 03dh,0ach,03dh,0aah,0abh,0aah,03dh,0ach,03dh,0aah,0abh,0aah,03dh,0ach,03fh,0aah	; b040  =.=...=.=...=.?.
+	defb 03fh,0ach,03fh,066h,03fh,0a9h,000h	; b050
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xb01f..0xb072  (83 bytes)
-DATA_B01F:
-	defb 00ah,0aah,0abh,0aah,03dh,0ach,03dh,0aah,0abh,0aah,03dh,0ach,03fh,0aah,03fh,0ach	; b01f  ....=.=...=.?.?.
-	defb 03fh,0aah,03fh,0ach,03fh,0aah,03fh,0ach,03fh,066h,03fh,0a9h,000h,00ch,0aah,0abh	; b02f  ?.?.?.?.?f?.....
-	defb 0aah,03dh,0ach,03dh,0aah,0abh,0aah,03dh,0ach,03dh,0aah,0abh,0aah,03dh,0ach,03fh	; b03f  .=.=...=.=...=.?
-	defb 0aah,03fh,0ach,03fh,066h,03fh,0a9h,000h,00eh,0aah,0abh,0aah,03dh,0ach,03dh,0aah	; b04f  .?.?f?......=.=.
-	defb 0abh,0aah,03dh,0ach,03dh,0aah,0abh,0aah,03dh,0ach,03dh,0aah,0abh,066h,03dh,0a9h	; b05f  ..=.=...=.=..f=.
-	defb 000h,082h,0b0h	; b06f
+; DATOS sin identificar  0xb057..0xb070  (25 bytes)
+DATA_B057:
+	defb 00eh,0aah,0abh,0aah,03dh,0ach,03dh,0aah,0abh,0aah,03dh,0ach,03dh,0aah,0abh,0aah	; b057  ....=.=...=.=...
+	defb 03dh,0ach,03dh,0aah,0abh,066h,03dh,0a9h,000h	; b067  =.=..f=..
 
 ; ----------------------------------------------------------------------
-; DATOS leido_B072: 12 bytes que leen p00:4A60, p00:4A62 al jugar (medido
+; DATOS leido_B070: 14 bytes que leen p00:4A60, p00:4A62 al jugar (medido
 ;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
-;   tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (12 bytes)
-;   0xb072..0xb07e  (12 bytes)
-DATA_leido_B072:
-	defb 09bh,0b0h,0b6h,0b0h,0d3h,0b0h,0f2h,0b0h,013h,0b1h,032h,0b1h	; b072  ..........2.
+;   tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (14 bytes)
+;   0xb070..0xb07e  (14 bytes)
+DATA_leido_B070:
+	defb 082h,0b0h,09bh,0b0h,0b6h,0b0h,0d3h,0b0h,0f2h,0b0h,013h,0b1h,032h,0b1h	; b070  ............2.
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xb07e..0xb09b  (29 bytes)
+; DATOS sin identificar  0xb07e..0xb082  (4 bytes)
 DATA_B07E:
-	defb 04fh,0b1h,06ah,0b1h,008h,0b6h,03dh,0b7h,0b8h,066h,03dh,0b9h,03dh,0b7h,0b8h,0b7h	; b07e  O.j...=..f=.=...
-	defb 03dh,0b9h,03dh,0b7h,0b8h,0b7h,03dh,0b9h,03dh,0b7h,0b8h,0b7h,000h	; b08e  =.=...=.=....
+	defb 04fh,0b1h,06ah,0b1h	; b07e
 
 ; ----------------------------------------------------------------------
-; DATOS leido_B09B: 180 bytes que lee p01:6EEA al jugar (medido ejecutando el
+; DATOS leido_B082: 205 bytes que lee p01:6EEA al jugar (medido ejecutando el
 ;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p01:6EEA (180 bytes)
-;   0xb09b..0xb14f  (180 bytes)
-DATA_leido_B09B:
-	defb 008h,0b6h,03fh,066h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03dh,0b7h,0b8h,0b7h,03dh,0b9h	; b09b  ..?f?.?.?.=...=.
-	defb 03dh,0b7h,0b8h,0b7h,03dh,0b9h,03dh,0b7h,0b8h,0b7h,000h,008h,0b6h,03fh,066h,03fh	; b0ab  =...=.=......?f?
-	defb 0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03dh,0b7h,0b8h	; b0bb  .?.?.?.?.?.?.=..
-	defb 0b7h,03dh,0b9h,03dh,0b7h,0b8h,0b7h,000h,008h,0b6h,03fh,066h,03fh,0b9h,03fh,0b7h	; b0cb  .=.=......?f?.?.
-	defb 03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h	; b0db  ?.?.?.?.?.?.?.?.
-	defb 03fh,0b9h,03dh,0b7h,0b8h,0b7h,000h,008h,0b6h,03fh,066h,03fh,0b9h,03fh,0b7h,03fh	; b0eb  ?.=......?f?.?.?
-	defb 0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,03fh	; b0fb  .?.?.?.?.?.?.?.?
-	defb 0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,000h,008h,0b6h,03fh,066h,03fh,0b9h,03fh,0b7h	; b10b  .?.?.?....?f?.?.
-	defb 03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h	; b11b  ?.?.?.?.?.?.?.?.
-	defb 03fh,0b9h,03fh,0b7h,0b8h,0b7h,000h,008h,0b6h,03fh,066h,03fh,0b9h,03fh,0b7h,03fh	; b12b  ?.?......?f?.?.?
-	defb 0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,0b8h,0b7h,03fh,0b9h,03fh	; b13b  .?.?.?.?.?...?.?
-	defb 0b7h,0b8h,0b7h,000h	; b14b
+;   se lee seguido); lo leen p01:6EEA (205 bytes)
+;   0xb082..0xb14f  (205 bytes)
+DATA_leido_B082:
+	defb 008h,0b6h,03dh,0b7h,0b8h,066h,03dh,0b9h,03dh,0b7h,0b8h,0b7h,03dh,0b9h,03dh,0b7h	; b082  ..=..f=.=...=.=.
+	defb 0b8h,0b7h,03dh,0b9h,03dh,0b7h,0b8h,0b7h,000h,008h,0b6h,03fh,066h,03fh,0b9h,03fh	; b092  ..=.=......?f?.?
+	defb 0b7h,03fh,0b9h,03dh,0b7h,0b8h,0b7h,03dh,0b9h,03dh,0b7h,0b8h,0b7h,03dh,0b9h,03dh	; b0a2  .?.=...=.=...=.=
+	defb 0b7h,0b8h,0b7h,000h,008h,0b6h,03fh,066h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h	; b0b2  ......?f?.?.?.?.
+	defb 03fh,0b9h,03fh,0b7h,03fh,0b9h,03dh,0b7h,0b8h,0b7h,03dh,0b9h,03dh,0b7h,0b8h,0b7h	; b0c2  ?.?.?.=...=.=...
+	defb 000h,008h,0b6h,03fh,066h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh	; b0d2  ...?f?.?.?.?.?.?
+	defb 0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03dh,0b7h,0b8h,0b7h,000h	; b0e2  .?.?.?.?.?.=....
+	defb 008h,0b6h,03fh,066h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h	; b0f2  ..?f?.?.?.?.?.?.
+	defb 03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h	; b102  ?.?.?.?.?.?.?.?.
+	defb 000h,008h,0b6h,03fh,066h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh	; b112  ...?f?.?.?.?.?.?
+	defb 0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,0b8h,0b7h,000h	; b122  .?.?.?.?.?.?....
+	defb 008h,0b6h,03fh,066h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h,03fh,0b9h,03fh,0b7h	; b132  ..?f?.?.?.?.?.?.
+	defb 03fh,0b9h,03fh,0b7h,0b8h,0b7h,03fh,0b9h,03fh,0b7h,0b8h,0b7h,000h	; b142  ?.?...?.?....
 
 ; ----------------------------------------------------------------------
 ; DATOS sin identificar  0xb14f..0xb183  (52 bytes)

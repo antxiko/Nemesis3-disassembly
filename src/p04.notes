@@ -124,7 +124,7 @@ C 0x88CF el tipo 4 (si hay dos huecos): el dibujo 0x54
 C 0x88E8 el tipo 3: el dibujo 0x50
 C 0x88FD el color 7, caja 8 x 2, el sonido 0x10
 C 0x890D baja 6 (fuera, se acaba)...
-C 0x891E ...o retrocede 6...
+C 0x891E ...o sube 6...
 C 0x8929 ...y 6 a la derecha
 C 0x8935 el tipo 5: 8 x 0x10
 C 0x8951 apunta a la opcion que lo lanza (IY+8)
@@ -367,25 +367,41 @@ D 0x80E0 0x80F8 leido_80E0  24 bytes que leen p04:8081, p04:8088, p04:808C, p04:
 F 0x80E0 16
 D 0x83F3 0x83F4 tabla_83F3  tabla que se lee desde HL = 0x83F3 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p04:81F5 (1 bytes)
 F 0x83F3 16
-D 0x83F4 0x83F7 leido_83F4  3 bytes que leen p04:81FB, p04:81FD, p04:81FF al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p04:81FB, p04:81FD, p04:81FF (3 bytes)
+D 0x83F4 0x83FF leido_83F4  11 bytes que leen p04:81FB, p04:81FD, p04:81FF, p04:81F9 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p04:81FB, p04:81FD, p04:81FF, p04:81F9 (11 bytes)
 F 0x83F4 16
 D 0x84B9 0x84C1 tabla_84B9  tabla que se lee desde HL = 0x84B9 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p04:8469 (8 bytes)
 F 0x84B9 16
 D 0x84C1 0x8502 leido_84C1  65 bytes que leen p04:846F, p04:8495, p04:849E, p04:84A3, p04:84A7 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 3 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p04:846F, p04:8495, p04:849E, p04:84A3, p04:84A7 (65 bytes)
 F 0x84C1 16
-D 0x856C 0x858C tabla_856C  tabla que se lee desde HL = 0x856C con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p04:854F (32 bytes)
+D 0x856C 0x856D tabla_856C  tabla que se lee desde HL = 0x856C con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p04:854F (1 bytes)
 F 0x856C 16
+D 0x856D 0x8574 leido_856D  7 bytes que leen p04:8560, p04:855E al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p04:8560, p04:855E (7 bytes)
+F 0x856D 16
 D 0x870F 0x873F tabla_870F  24 destinos del despachador p00:4093 (call en p04:870C, el indice en A): 88B7, 88C3, 891E, 890D, 8A29, 8AC0, 8AC0, 8AC0, 8BF3, 8B68, 8C83, 8C83, 8B0E, 8B32, 928B, 8EFE, 8EFE, 8EFE, 9178, 8F33, 8F33, 8F33, 9178, 8D87; lo leen p04:870C (48 bytes)
 F 0x870F w8
 D 0x880A 0x883A tabla_880A  24 destinos del despachador p00:4093 (call en p04:8807, el indice en A): 883A, 886F, 88E8, 88CF, 8935, 8983, 89C0, 8972, 8BC0, 8B39, 8C59, 8C4B, 89F2, 8A1F, 8EDE, 8EAA, 8EAA, 8EAA, 8EEF, 8EAA, 8EAA, 8EAA, 8EEF, 8D17; lo leen p04:8807 (48 bytes)
 F 0x880A w8
+D 0x8EDF 0x8EE1 leido_8EDF  2 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (2 bytes)
+F 0x8EDF 16
 D 0x92B4 0x92BC tabla_92B4  tabla que se lee desde HL = 0x92B4 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p04:929F (8 bytes)
 F 0x92B4 16
-D 0x9316 0x94BD tabla_9316  tabla que se lee desde HL = 0x9316 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p04:9305 (423 bytes)
+D 0x9316 0x931E tabla_9316  tabla que se lee desde HL = 0x9316 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p04:9305 (8 bytes)
 F 0x9316 16
+D 0x931E 0x932C leido_931E  14 bytes que leen p00:4098, p00:409A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 2 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4098, p00:409A (14 bytes)
+F 0x931E 16
+D 0x9392 0x9393 leido_9392  1 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A73 (1 bytes)
+F 0x9392 16
+D 0x93CF 0x93D1 leido_93CF  2 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A73 (2 bytes)
+F 0x93CF 16
+D 0x9402 0x9403 leido_9402  1 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A73 (1 bytes)
+F 0x9402 16
+D 0x9469 0x946A leido_9469  1 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A73 (1 bytes)
+F 0x9469 16
+D 0x94D2 0x94DF leido_94D2  13 bytes que lee p04:94CF al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 6 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p04:94CF (13 bytes)
+F 0x94D2 16
 D 0x95F9 0x9639 tabla_95F9  tabla que se lee desde HL = 0x95F9 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p04:95CF (64 bytes)
 F 0x95F9 16
-D 0x9639 0x965F leido_9639  38 bytes que lee p04:95DC al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 32 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p04:95DC (38 bytes)
+D 0x9639 0x965F leido_9639  38 bytes que lee p04:95DC al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 25 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p04:95DC (38 bytes)
 F 0x9639 16
 D 0x96A5 0x96D5 tabla_96A5  24 destinos del despachador p00:4093 (call en p04:96A2, el indice en A): 96D5, 96F0, 96D5, 96D5, 9722, 9722, 970D, 9722, 9793, 9793, 9722, 970D, 976E, 976E, 98B1, 982B, 982B, 982B, 982B, 982B, 982B, 982B, 982B, 982A; lo leen p04:96A2 (48 bytes)
 F 0x96A5 w8
@@ -407,10 +423,12 @@ D 0x9C35 0x9C65 tabla_9C35  24 destinos del despachador p00:4093 (call en p04:9C
 F 0x9C35 w8
 D 0x9D9E 0x9DC0 tabla_9D9E  17 destinos del despachador p00:4093 (call en p04:9D9B, el indice en A): A0F0, 9DC0, A2DA, A3EE, 9DC0, A4F8, A710, B277, B000, 9DC0, AA1D, AC71, AF10, BA95, B575, BD8D, B74F; lo leen p04:9D9B (34 bytes)
 F 0x9D9E w8
-D 0x9DF7 0x9E03 leido_9DF7  12 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 2 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4A73 (12 bytes)
-F 0x9DF7 16
-D 0x9F0D 0x9F11 tabla_9F0D  tabla que se lee desde HL = 0x9F0D con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p04:9EC8 (4 bytes)
+D 0x9DF2 0x9E03 leido_9DF2  17 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 3 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4A73 (17 bytes)
+F 0x9DF2 16
+D 0x9F0D 0x9F0F tabla_9F0D  tabla que se lee desde HL = 0x9F0D con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p04:9EC8 (2 bytes)
 F 0x9F0D 16
+D 0x9F0F 0x9F10 leido_9F0F  1 bytes que lee p04:9ECE al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p04:9ECE (1 bytes)
+F 0x9F0F 16
 D 0x9FFF 0xA000 partida_9FFF  los 1 primeros bytes de una instruccion de 3 (11 30 00) que sigue en el banco 5: el trazador de un solo banco no puede verla entera (tools/bancos.py); lo leen p04:9FFF (1 bytes)
 F 0x9FFF 1
 D 0x80F8 0x81B8 resto_80F8  lo apuntan con el banco puesto p04:80C2 (0x80F8), p04:80CB (0x8110), p04:80CF (0x8128), p04:80D8 (0x8140), p04:80A1 (0x8158), p04:80AA (0x8170); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p04:80C2, p04:80CB, p04:80CF, p04:80D8, p04:80A1, p04:80AA (192 bytes)
@@ -451,32 +469,145 @@ C 0x85FD lee la cuenta de cuadros del juego
 C 0x860A lee la cuenta de cuadros del juego
 C 0x8620 suma_a_de: DE = DE + A
 C 0x867E lee_palabra: HL = la palabra A de la tabla HL
+C 0x86DC lee la y del disparo
+C 0x86E2 el tipo del disparo (0: libre) = 0x00
+C 0x8708 lee el tipo del disparo (0: libre)
 C 0x870C despacha: salta a la palabra A de la tabla que va detras del call
+C 0x8745 lee el tipo del disparo (0: libre)
+C 0x874E lee el tipo del disparo (0: libre)
 C 0x875D lee el estado de la nave (1 normal, 2 y 3 con escudo, 0xFF estalla)
 C 0x876B lee la posicion del scroll (16 bits)
 C 0x8807 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x88B3 sonido_0F: pide el sonido 0x0F
+C 0x88BC guarda la x del disparo
+C 0x88C8 guarda la x del disparo
 C 0x8909 sonido_10: pide el sonido 0x10
+C 0x8914 guarda la y del disparo
+C 0x8923 guarda la y del disparo
+C 0x8931 guarda la x del disparo
 C 0x8964 sonido_11: pide el sonido 0x11
 C 0x897F sonido_15: pide el sonido 0x15
 C 0x8990 sonido_13: pide el sonido 0x13
 C 0x89EE sonido_14: pide el sonido 0x14
 C 0x8A1B sonido_12: pide el sonido 0x12
+C 0x8A35 lee quien lanza el disparo (alto)
+C 0x8A41 lee la x del disparo
+C 0x8A46 guarda la x del disparo
+C 0x8A7F le resta la x del disparo
+C 0x8ABC guarda la x del disparo
+C 0x8AC9 lee quien lanza el disparo (bajo)
+C 0x8ACC lee quien lanza el disparo (alto)
+C 0x8AD9 guarda la y del disparo
+C 0x8AE3 guarda la x del disparo
+C 0x8AF7 guarda la y del disparo
+C 0x8B19 lee la x del disparo
+C 0x8B24 guarda la x del disparo
 C 0x8B64 sonido_16: pide el sonido 0x16
+C 0x8B6E resta 1 a la vida del disparo
+C 0x8B74 lee la x del disparo
+C 0x8B7C guarda la x del disparo
+C 0x8B85 guarda la x del disparo
+C 0x8B93 lee la y del disparo
+C 0x8B9E guarda la y del disparo
 C 0x8BEF sonido_18: pide el sonido 0x18
+C 0x8BF9 resta 1 a la vida del disparo
+C 0x8BFF lee la x del disparo
+C 0x8C07 guarda la x del disparo
+C 0x8C0B lee la x del disparo
+C 0x8C13 guarda la x del disparo
+C 0x8C1E lee la y del disparo
+C 0x8C29 guarda la y del disparo
+C 0x8C33 lee la y del disparo
 C 0x8C80 sonido_17: pide el sonido 0x17
+C 0x8C86 lee quien lanza el disparo (alto)
+C 0x8CCF compara con el tipo del disparo (0: libre)
 C 0x8CD9 lee lo recien pulsado (mando y cursores)
 C 0x8CE7 sonido_17: pide el sonido 0x17
+C 0x8CED lee quien lanza el disparo (alto)
+C 0x8CF3 lee el tipo del disparo (0: libre)
+C 0x8D04 guarda la y del disparo
+C 0x8D0E guarda la x del disparo
 C 0x8D1F apunta a los disparos de la nave (9 de 0x20)
+C 0x8DA6 lee la x del disparo
+C 0x8DAB guarda la x del disparo
+C 0x8DF5 guarda la y del disparo
+C 0x8DFC guarda la x del disparo
+C 0x8DFF la y del disparo (decimales) = 0x00
+C 0x8E03 la x del disparo (decimales) = 0x00
+C 0x8E0F guarda el dibujo del disparo
+C 0x8E22 guarda el ancho del disparo para los choques
+C 0x8E2C guarda el alto del disparo para los choques
 C 0x8EB4 lee_palabra: HL = la palabra A de la tabla HL
+C 0x8F17 el tipo del disparo (0: libre) = 0x00
+C 0x8F2E el tipo del disparo (0: libre) = 0x00
+C 0x8F56 lee la x del disparo
+C 0x8F5B guarda la x del disparo
+C 0x8F97 lee la x del disparo
+C 0x8F9C guarda la x del disparo
+C 0x901B lee la x del disparo
+C 0x901F guarda la x del disparo
+C 0x9023 el tipo del disparo (0: libre) = 0x00
+C 0x902F lee la x del disparo
+C 0x9033 guarda la x del disparo
+C 0x9037 el tipo del disparo (0: libre) = 0x00
+C 0x9043 lee la y del disparo
+C 0x9047 guarda la y del disparo
+C 0x904E el tipo del disparo (0: libre) = 0x00
+C 0x905B lee la y del disparo
+C 0x905F guarda la y del disparo
+C 0x906D lee la y del disparo
 C 0x9073 lee el caracter del fondo de la fase
+C 0x907C lee la y del disparo
+C 0x9085 lee la x del disparo
+C 0x908B lee la y del disparo
+C 0x9094 lee la x del disparo
+C 0x909A lee la y del disparo
+C 0x90B5 lee la x del disparo
+C 0x90B8 lee la y del disparo
+C 0x90BF lee la x del disparo
+C 0x90C5 lee la y del disparo
+C 0x90CC lee la x del disparo
+C 0x90D2 lee la y del disparo
+C 0x90E4 lee la x del disparo
+C 0x90EA lee la y del disparo
+C 0x90F0 lee la x del disparo
+C 0x90F3 lee la y del disparo
+C 0x90FC lee la x del disparo
+C 0x90FF lee la y del disparo
 C 0x9110 apunta a las piezas (8 de 0x20)
+C 0x917B lee la vida del disparo
 C 0x9191 lee la cuenta de cuadros del juego
+C 0x919D le suma la velocidad en x del disparo (bajo)
+C 0x91A0 guarda la x del disparo (decimales)
+C 0x91A3 lee la x del disparo
+C 0x91A6 le suma la velocidad en x del disparo (alto)
+C 0x91A9 guarda la x del disparo
+C 0x91B4 le suma la velocidad en y del disparo (bajo)
+C 0x91B7 guarda la y del disparo (decimales)
+C 0x91BA lee la y del disparo
+C 0x91BD le suma la velocidad en y del disparo (alto)
+C 0x91C0 guarda la y del disparo
+C 0x91D1 guarda el tipo del disparo (0: libre)
+C 0x91D4 lee la y del disparo
+C 0x91D9 guarda la y del disparo
+C 0x91DC lee la x del disparo
+C 0x91E1 guarda la x del disparo
+C 0x920D lee la y del disparo
+C 0x9210 lee la x del disparo
+C 0x9220 guarda la velocidad en x del disparo (bajo)
+C 0x9223 guarda la velocidad en x del disparo (alto)
 C 0x9226 lee la velocidad en y hacia la nave (16 bits; IX+7 de quien la usa)
+C 0x9229 guarda la velocidad en y del disparo (bajo)
+C 0x922C guarda la velocidad en y del disparo (alto)
 C 0x9230 bancos_3: pone el 3 (y sus copias en 0xF0F1-3)
 C 0x9238 suma_a_hl: HL = HL + A
 C 0x9252 bancos_4_5: pone los bancos 4-5 (y sus copias en 0xF0F1-3)
 C 0x92A2 lee_palabra: HL = la palabra A de la tabla HL
+C 0x92A5 lee la y del disparo
+C 0x92A9 guarda quien lanza el disparo (bajo)
+C 0x92AC lee la x del disparo
+C 0x92B0 guarda quien lanza el disparo (alto)
+C 0x92C7 guarda el dibujo del disparo
 C 0x92DD lee lo recien pulsado (mando y cursores)
 C 0x92F5 guarda la marca de armas (1 a 8)
 C 0x9308 lee_palabra: HL = la palabra A de la tabla HL
@@ -489,13 +620,39 @@ C 0x95D2 lee_palabra: HL = la palabra A de la tabla HL
 C 0x95D6 lee_palabra: HL = la palabra A de la tabla HL
 C 0x968A apunta a los disparos de la nave (9 de 0x20)
 C 0x96A2 despacha: salta a la palabra A de la tabla que va detras del call
+C 0x96DB lee la y del disparo
+C 0x96E1 lee el tipo del disparo (0: libre)
+C 0x96E6 lee la x del disparo
+C 0x96E9 lee la y del disparo
+C 0x96F3 lee la y del disparo
 C 0x9702 lee el jefe en curso (0: ninguno)
+C 0x9710 lee el tipo del disparo (0: libre)
+C 0x9715 lee la x del disparo
+C 0x9718 lee la y del disparo
+C 0x9722 lee la x del disparo
+C 0x9725 lee la y del disparo
+C 0x9771 lee la y del disparo
 C 0x9782 lee el jefe en curso (0: ninguno)
+C 0x9798 lee la x del disparo
+C 0x979B lee la y del disparo
 C 0x97B4 lee el jefe en curso (0: ninguno)
 C 0x97C6 suma_a_hl: HL = HL + A
 C 0x97EF lee el jefe en curso (0: ninguno)
 C 0x9801 suma_a_hl: HL = HL + A
+C 0x9806 lee el tipo del disparo (0: libre)
+C 0x981A guarda el alto del disparo para los choques
+C 0x9821 el largo del disparo = 0x01
+C 0x9825 la vida del disparo = 0x04
+C 0x983D lee quien lanza el disparo (alto)
+C 0x9843 lee la x del disparo
+C 0x9846 lee la y del disparo
+C 0x984D lee la x del disparo
+C 0x9850 lee la y del disparo
 C 0x9868 sonido_2F: pide el sonido 0x2F
+C 0x9887 lee la x del disparo
+C 0x988A lee la y del disparo
+C 0x9896 lee la x del disparo
+C 0x9899 lee la y del disparo
 C 0x98BD lee la y de la nave (el primer byte de su sprite, p01:797C)
 C 0x98C3 lee la x de la nave
 C 0x9910 lee el caracter del fondo de la fase

@@ -1,10 +1,106 @@
 
+
+# --- A MANO: comentarios escritos leyendo el codigo ---
+C 0x6000 las entradas del banco: la eleccion de nave (p00:440D)
+C 0x6003 el arma secreta, estado 9 (p00:463A)
+C 0x6006 p27:814D, estado 8 paso 1 (p00:45F0)
+C 0x6009 estado 8 paso 2 (p00:460C)
+C 0x600C p27:83EA, el final, estado 10 (p00:46B6)
+C 0x6018 empieza una secuencia de dibujos (desde p30, p00:4818)
+C 0x601B la secuencia de dibujos, cada cuadro (desde p30, p00:4821)
+C 0x601E los sprites fuera, el bufer de 0xCA00 a cero y los colores (p26:603E)
+C 0x6028 la tabla de nombres a cero (0x3800, 0x2C0 bytes)
+C 0x6033 los dibujos de sprite a cero (0x1800, 0x800 bytes)
+C 0x603E los colores a cero en los tres tercios (salvo el caracter 0) y 0x3300-0x37FF
+C 0x6064 un rectangulo de la tabla HL (palabra A) a 0xCD00 y al bufer: DE el destino, B filas, C bytes (p00:59A1)
+C 0x6080 segun IX+4: 0 tal cual (B x C bytes), 1 RLE (p00:55AD), 2 el segundo formato (p00:55CD), desde IX+5
+C 0x60C0 borra en el bufer un rectangulo de 0x0B x 0x10 desde 0xCA48
+C 0x60CA borra 5 x 0x1C desde 0xCC22
+C 0x60D4 la fila de 0x3AC0 a cero
+C 0x60DF 0xE540-0xE55F a cero, 0xE540 = 8 y p26:730A
+C 0x60F9 6 bytes de HL a 0xE54F
+C 0x6114 empieza la secuencia A (tabla de 0x611C): su lista en 0xE5CE, 0xE5CA = 0xFF01
+C 0x6135 cada cuadro: cuando la cuenta 0xE333 llega a la espera (0xE5CC), el dibujo siguiente
+C 0x6146 la entrada siguiente de la lista (4 bytes): 0xFF acaba
+C 0x6158 el dibujo japones o el ingles segun la BIOS (p00:5636), y la espera (16 bits)
+C 0x6168 la cuenta a cero y se pone el dibujo (p26:62A6); 0xE5E8 = 1
+C 0x617A acabada: 0xE5CA = 0
+C 0x617F salvo los dibujos 0x23-0x24 y 0x63-0x64, se borra el texto anterior de 0xCD00
+C 0x62A6 el dibujo A (0xE5C2): su color (p26:62D3), sus datos (tabla p27:8F02) a 0xCE00 y su texto a la RAM
+C 0x62BF los dibujos 0x2F-0x34 y 0x6F-0x74 van ademas al bufer de 0xC400 (p26:63F7)
+C 0x62D3 el color y la marca 0xE5E7 de cada dibujo: 0 casi todos, 0x190 algunos, 0xF0 los demas
+C 0x631F desempaqueta el dibujo (p26:6349), le da caracteres libres (p26:63C7) y los copia a la VRAM (p26:6456)
+C 0x632C el siguiente caracter libre de cada tercio: 1, o 0x80 con 0xE5E7
+C 0x6349 los datos del dibujo de HL a 0xCE00: por cada trozo, sus dos bytes, cuantos caracteres (bits 0-4), el tercio (bits 5-6) y el bit 7
+C 0x6373 los caracteres del trozo: de 8 en 8 con una mascara (los dibujos bajos) o de 6 bits de 3 en 3
+C 0x63C7 a cada trozo, los caracteres libres de su tercio (0xE5C4 + tercio), seguidos
+C 0x63F7 los trozos como lista para el bufer de 0xC400: tercio, caracter y cuantos
+C 0x6456 cada trozo a la VRAM: sus dibujos de 8 bytes (p00:4F02)
+C 0x6488 la eleccion de nave, cada cuadro: por su paso (p26:648F) y los sprites (p26:683C)
+C 0x648F por el paso 0xE31B (C) y el subpaso 0xE31C (B)
+C 0x64A1 paso 0, la entrada: por el subpaso
+C 0x64AF subpaso 0: la pantalla en blanco y la paleta 1 (p00:5709); 0xE534 = 1 cuadro...
+C 0x64C5 ...o, con dos jugadores, 0x78 y el texto SELECT PLAYER 1 (un 2 con el segundo)
+C 0x64F7 subpaso 1: al acabar la espera, el marco y las cuatro naves
+C 0x6515 subpaso 2: p26:7A3D hasta que 0xE564 vuelva a 0
+C 0x6521 subpaso 3: el dibujo de la nave 0 (p26:695A)
+C 0x652F subpaso 4: hasta que 0xE564 vuelva a 0; luego al paso 1 (p26:67F9)
+C 0x6541 paso 1, la nave: por el subpaso
+C 0x654B subpaso 0: los cursores cambian la nave (p26:65B6); con un boton (bits 4-5) se elige
+C 0x6564 0xE530 = 0x200 con las naves 0 y 1 (0 con la 2 y la 3); 0xE532, ocho veces
+C 0x657B al reves: 0x200 con la 2 y la 3
+C 0x6592 subpaso 1: hasta que 0xE569 vuelva a 0
+C 0x65A7 subpaso 2: hasta que 0xE560 vuelva a 0; p26:6A9A y al paso 2
+C 0x65B6 los cursores (p26:6600) cambian la nave (0xE380): el marco de la vieja se apaga (color de 0x6ABC), el de la nueva a 0xF0 y su dibujo (p26:695A); NZ si cambia
+C 0x6600 arriba (bit 0) y abajo (bit 1) cambian de fila (2 menos o mas), izquierda (bit 2) y derecha (bit 3) de columna (1 menos o mas)
+C 0x662E paso 2, el escudo: por el subpaso
+C 0x663C subpaso 0: el marco y los dos escudos
+C 0x664C subpaso 1: hasta que 0xE580 vuelva a 0
+C 0x665B subpaso 2: los cursores cambian el escudo (p26:669D); con un boton se elige
+C 0x6671 subpaso 3: hasta que 0xE560 vuelva a 0
+C 0x6680 subpaso 4: el escudo elegido (p26:6A89), la nave (p26:6AAB) y al paso 3
+C 0x669D cualquier cursor cambia el escudo (0xE37F: 0 SHIELD, 1 FORCE FIELD): el marco viejo se apaga y el nuevo a 0xF0; NZ si cambia
+C 0x66F5 cualquier cursor (bits 0-3): 0xE37F cambia entre 0 y 1
+C 0x6700 paso 3, las opciones: por el subpaso
+C 0x670C subpaso 0: el marco, las tres opciones (p26:699D) y lo demas
+C 0x671C subpaso 1: hasta que 0xE580 vuelva a 0
+C 0x672B subpaso 2: las opciones se mueven (p26:6743) y los cursores cambian (p26:676C); con un boton, al paso 4 con 0x3C cuadros
+C 0x6743 cada 8 cuadros el dibujo siguiente de las opciones (0xE535, de 0 a 3)
+C 0x675A subpaso 3: lo mismo hasta que 0xE560 vuelva a 0
+C 0x676C izquierda y derecha cambian las opciones (0xE37E: 0 SHADOW, 1 FIXED, 2 ROLLING): el marco viejo se apaga y el nuevo a 0xF0; NZ si cambia
+C 0x67AC izquierda (bit 2) una menos, derecha (bit 3) una mas, de 0 a 2
+C 0x67C5 paso 4, la espera: por el subpaso
+C 0x67CF subpaso 0: al acabar los cuadros de 0xE534, p26:6AC0
+C 0x67DB subpaso 1: hasta que 0xE560 vuelva a 0
+C 0x67E7 subpaso 2: la pantalla en blanco, 0xE399 = 1, la vuelta al azar (0xE381) y 0xE31B = 0xFF: acabada
+C 0x67F9 el paso siguiente (0xE31B), con el subpaso a 0
+C 0x6801 el subpaso siguiente (0xE31C)
+C 0x6806 el subpaso anterior
+C 0x680B empieza: la nave, el escudo, las opciones y su dibujo a 0
+C 0x6819 0xE399 = 1 y 0xE381 = la cuenta de cuadros & 3
+C 0x6827 los colores y los dibujos a cero (0x2000 y 0x0000, 0x1800 bytes cada uno)
+C 0x683C el bufer de 0xC400 a la tabla de nombres, la pantalla entera (0x300 bytes)
+C 0x6858 el bufer de 0xC400 a cero (0x300 bytes)
+C 0x6866 los tres marcos de arriba (p26:6912): 8 de ancho y 6 de alto, desde el caracter 1, 7 y 0x0D
+C 0x689F los dos marcos de las opciones: 6 x 3
+C 0x68C9 los cinco marcos de la eleccion de nave: 0x0E x 6 en las esquinas y 0x1E x 6 en medio
+C 0x6912 un marco en el bufer de HL: ancho 0xEF80 y alto 0xEF82, con los caracteres desde 0xEF83 (esquinas, lados)
+C 0x695A el dibujo de la nave A en la fila de armas: el RLE de p28:A101 a 0xE800 y siete cuadros de 6 x 4 (p00:59A1)
+C 0x699D las tres opciones (p26:69AA con 0, 1 y 2)
+C 0x69AA la opcion A: el RLE de p28:A1C3 a 0xE800 y su rectangulo de 6 x 8 en el bufer
+C 0x69BC origen y destino de la opcion A en la tabla de 0x69D8 (4 bytes cada una), B = 6 filas, C = 8
+C 0x69F0 los dos escudos (p26:6A00 con 0 y 1)
+# --- fin de lo escrito a mano ---
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
-D 0x6108 0x610E leido_6108  6 bytes que lee p26:60FF al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:60FF (6 bytes)
-F 0x6108 16
+D 0x6102 0x6114 leido_6102  18 bytes que lee p26:60FF al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:60FF (18 bytes)
+F 0x6102 16
 D 0x611C 0x612A tabla_611C  tabla que se lee desde HL = 0x611C con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:6114 (14 bytes)
 F 0x611C 16
-D 0x61F3 0x620A leido_61F3  23 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6154, p26:615F, p26:6161, p26:6163 (23 bytes)
+D 0x6193 0x6197 leido_6193  4 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6154, p26:615F, p26:6161, p26:6163 (4 bytes)
+F 0x6193 16
+D 0x61B4 0x61E5 leido_61B4  49 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 17 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p26:6154, p26:615F, p26:6161, p26:6163 (49 bytes)
+F 0x61B4 16
+D 0x61F3 0x6269 leido_61F3  118 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6154, p26:615F, p26:6161, p26:6163 (118 bytes)
 F 0x61F3 16
 D 0x626A 0x628C leido_626A  34 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:6154, p26:615F, p26:6161, p26:6163 (34 bytes)
 F 0x626A 16
@@ -148,12 +244,38 @@ D 0x6E44 0x6E5E tabla_6E44  13 destinos del despachador p00:4093 (call en p26:6E
 F 0x6E44 w8
 D 0x6F3D 0x6F56 texto_ram_6F3D  texto a la RAM: direccion, letras, 0xFE y otra direccion, 0xFF acaba (p00:4B1F); lo leen p26:6F31 (25 bytes)
 F 0x6F3D 16
-D 0x6FA9 0x6FB0 tabla_6FA9  tabla que se lee desde HL = 0x6FA9 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:6FA2 (7 bytes)
+D 0x6F6F 0x6F70 leido_6F6F  1 bytes que lee p26:7929 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7929 (1 bytes)
+F 0x6F6F 16
+D 0x6F70 0x6F71 leido_6F70  1 bytes que lee p26:795A al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:795A (1 bytes)
+F 0x6F70 16
+D 0x6F71 0x6F72 leido_6F71  1 bytes que lee p26:7929 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7929 (1 bytes)
+F 0x6F71 16
+D 0x6F90 0x6F91 leido_6F90  1 bytes que lee p26:7988 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7988 (1 bytes)
+F 0x6F90 16
+D 0x6F91 0x6F94 leido_6F91  3 bytes que leen p26:79C1, p26:79B7, p26:7988 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:79C1, p26:79B7, p26:7988 (3 bytes)
+F 0x6F91 16
+D 0x6F9B 0x6FA2 leido_6F9B  7 bytes que leen p26:7C93, p26:7C96, p26:7C99, p26:7CA0, p26:7CBB, p26:7CBE al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7C93, p26:7C96, p26:7C99, p26:7CA0, p26:7CBB, p26:7CBE (7 bytes)
+F 0x6F9B 16
+D 0x6FA9 0x6FAA tabla_6FA9  tabla que se lee desde HL = 0x6FA9 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:6FA2 (1 bytes)
 F 0x6FA9 16
-D 0x7045 0x7069 tabla_7045  tabla que se lee desde HL = 0x7045 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:6FC9 (36 bytes)
+D 0x6FAA 0x6FB0 leido_6FAA  6 bytes que leen p26:7C96, p26:7C99, p26:7CA0, p26:7CBB, p26:7CBE al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7C96, p26:7C99, p26:7CA0, p26:7CBB, p26:7CBE (6 bytes)
+F 0x6FAA 16
+D 0x701B 0x701C leido_701B  1 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A73 (1 bytes)
+F 0x701B 16
+D 0x7045 0x704D tabla_7045  tabla que se lee desde HL = 0x7045 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:6FC9 (8 bytes)
 F 0x7045 16
-D 0x720C 0x730A tabla_720C  tabla que se lee desde HL = 0x720C con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:71E2 (254 bytes)
+D 0x704D 0x704E leido_704D  1 bytes que lee p00:4A73 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A73 (1 bytes)
+F 0x704D 16
+D 0x7073 0x7075 leido_7073  2 bytes que leen p00:4A60, p00:4A62 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (2 bytes)
+F 0x7073 16
+D 0x707B 0x7080 leido_707B  5 bytes que leen p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 (5 bytes)
+F 0x707B 16
+D 0x7080 0x70BB rle_ram2_7080  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (59 bytes)
+F 0x7080 16
+D 0x720C 0x7225 tabla_720C  tabla que se lee desde HL = 0x720C con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:71E2 (25 bytes)
 F 0x720C 16
+D 0x7225 0x722C leido_7225  7 bytes que leen p26:71EE, p26:71F4, p26:71F6, p26:71F8 al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:71EE, p26:71F4, p26:71F6, p26:71F8 (7 bytes)
+F 0x7225 16
 D 0x73E0 0x73F9 graficos_73E0  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p26:73B3 (25 bytes)
 F 0x73E0 6
 D 0x73F9 0x7406 copias_73F9  lista de copias de caracteres con la vuelta dada (p00:4D1B): de 4 en 4 (origen, destino, tercios y vuelta, cuantos) y un 0; lo leen p26:73BA (13 bytes)
@@ -236,30 +358,17 @@ D 0x7DB1 0x7DB7 tabla_7DB1  tabla que se lee desde HL = 0x7DB1 con un indice (p0
 F 0x7DB1 16
 D 0x7E23 0x7E2A graficos_7E23  lista de graficos (p00:4CB1): entradas de 6 bytes (tercios y banco, RLE de los dibujos, primer caracter, RLE de los colores) y un 0; lo leen p26:7E1C (7 bytes)
 F 0x7E23 6
-D 0x7EB9 0x7EC5 tabla_7EB9  tabla que se lee desde HL = 0x7EB9 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:7E76 (12 bytes)
+D 0x7EB9 0x7EBA tabla_7EB9  tabla que se lee desde HL = 0x7EB9 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:7E76 (1 bytes)
 F 0x7EB9 16
+D 0x7EBA 0x7EC5 leido_7EBA  11 bytes que leen p26:7E91, p26:7EA5, p26:7E7D al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p26:7E91, p26:7EA5, p26:7E7D (11 bytes)
+F 0x7EBA 16
 D 0x7EDB 0x7EF1 tabla_7EDB  11 destinos del despachador p00:4093 (call en p26:7ED8, el indice en A): 7EF1, 7EFE, 7F17, 7F39, 7F63, 7F6E, 7F7A, 7F93, 7FA3, 7FB8, 7FC8; lo leen p26:7ED8 (22 bytes)
 F 0x7EDB w8
-D 0x6102 0x6108 resto_6102  lo apuntan con el banco puesto p27:8181 (0x6102), p27:8856 (0x6102), p30:8297 (0x6102); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p27:8181, p27:8856, p30:8297 (6 bytes)
-F 0x6102 16
-D 0x610E 0x6114 resto_610E  lo apuntan con el banco puesto p27:8386 (0x610E); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p27:8386 (6 bytes)
-F 0x610E 16
-D 0x6193 0x61F3 resto_6193  lo apuntan con el banco puesto p27:819F (0x6193), p27:83A9 (0x61B4), p26:7DCE (0x61D8), p26:7F2F (0x61E5), p26:7F43 (0x61EA); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p27:819F, p27:83A9, p26:7DCE, p26:7F2F, p26:7F43 (96 bytes)
-F 0x6193 16
-D 0x620A 0x626A resto_620A  lo apuntan con el banco puesto p27:847A (0x620A), p27:84B4 (0x6213), p27:8517 (0x621C), p27:85AC (0x6225), p27:86AE (0x622E), p27:86F0 (0x6233); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p27:847A, p27:84B4, p27:8517, p27:85AC, p27:86AE, p27:86F0 (96 bytes)
-F 0x620A 16
-D 0x6F6F 0x6F72 resto_6F6F  lo apuntan con el banco puesto p26:6F65 (0x6F6F); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p26:6F65 (3 bytes)
-F 0x6F6F 16
-D 0x6F90 0x6F94 resto_6F90  lo apuntan con el banco puesto p26:6F89 (0x6F90); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p26:6F89 (4 bytes)
-F 0x6F90 16
-D 0x6F9B 0x6FA2 resto_6F9B  lo apuntan con el banco puesto p26:6F94 (0x6F9B); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p26:6F94 (7 bytes)
-F 0x6F9B 16
-D 0x7073 0x7199 resto_7073  lo apuntan con el banco puesto p26:706C (0x7073); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p26:706C (294 bytes)
-F 0x7073 16
+D 0x61E5 0x61F3 resto_61E5  lo apuntan con el banco puesto p26:7F2F (0x61E5), p26:7F43 (0x61EA); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p26:7F2F, p26:7F43 (14 bytes)
+F 0x61E5 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
-C 0x6064 lee_palabra: HL = la palabra A de la tabla HL
 C 0x6099 suma_a_hl: HL = HL + A
 C 0x60A7 suma_a_hl: HL = HL + A
 C 0x60AD rle_a_ram: descomprime a la RAM de DE el RLE de HL
@@ -276,32 +385,24 @@ C 0x633F guarda el siguiente caracter libre de cada tercio
 C 0x6414 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 C 0x6494 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x64A2 despacha: salta a la palabra A de la tabla que va detras del call
-C 0x64AF pantalla_en_blanco: borra la tabla de nombres (0x3800)
-C 0x64C5 lee el modo (bit 5: dos jugadores; bit 6: se juega de verdad; bit 7: el segundo jugador)
 C 0x64D0 carga_fuente: carga la fuente en los tres tercios (bancos 20-22)
 C 0x64D6 texto_a_ram: copia a la RAM el texto de HL
 C 0x6542 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6551 lee lo recien pulsado (mando y cursores)
 C 0x65CF suma_a_hl: HL = HL + A
 C 0x65DB suma_a_hl: HL = HL + A
-C 0x6600 lee lo recien pulsado (mando y cursores)
 C 0x662F despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6661 lee lo recien pulsado (mando y cursores)
 C 0x66AD suma_a_hl: HL = HL + A
 C 0x66C6 suma_a_hl: HL = HL + A
-C 0x66F5 lee lo recien pulsado (mando y cursores)
 C 0x6701 despacha: salta a la palabra A de la tabla que va detras del call
 C 0x6734 lee lo recien pulsado (mando y cursores)
-C 0x6743 lee la cuenta de cuadros del juego
 C 0x677C suma_a_hl: HL = HL + A
 C 0x6795 suma_a_hl: HL = HL + A
-C 0x67AC lee lo recien pulsado (mando y cursores)
 C 0x67C6 despacha: salta a la palabra A de la tabla que va detras del call
-C 0x67E7 pantalla_en_blanco: borra la tabla de nombres (0x3800)
 C 0x681E lee una cuenta de cuadros (16 bits)
 C 0x683F vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
 C 0x6843 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
-C 0x6858 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 C 0x68D9 apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
 C 0x695E apunta a los enemigos (12 de 0x40)
 C 0x6961 rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL

@@ -256,8 +256,7 @@ DATA_rle_85B9:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_85C3: los dibujos de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_85C3
-;   85C3-878C); lo leen p00:4CFF, p00:4B3C (457 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4CFF (457 bytes)
 ;   0x85c3..0x878c  (457 bytes)
 DATA_rle_85C3:
 	defb 0ffh,002h,00ch,071h,0c3h,08fh,09eh,028h,073h,0c3h,09ch,026h,05eh,03ch,0f1h,0e4h	; 85c3  ...q...(s..&^<..
@@ -292,8 +291,7 @@ DATA_rle_85C3:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_878C: los colores de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_878C
-;   878C-890E); lo leen p00:4D11, p00:4B3C (386 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4D11 (386 bytes)
 ;   0x878c..0x890e  (386 bytes)
 DATA_rle_878C:
 	defb 002h,090h,002h,080h,081h,090h,003h,080h,0a8h,060h,090h,090h,080h,080h,060h,060h	; 878c  .........`....``
@@ -324,8 +322,7 @@ DATA_rle_878C:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_890E: los dibujos de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_890E
-;   890E-89CE); lo leen p00:4CFF, p00:4B3C (192 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4CFF (192 bytes)
 ;   0x890e..0x89ce  (192 bytes)
 DATA_rle_890E:
 	defb 083h,030h,009h,006h,004h,000h,0c1h,001h,04ch,000h,005h,02eh,057h,03eh,0d7h,0f8h	; 890e  .0......L...W>..
@@ -343,8 +340,7 @@ DATA_rle_890E:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_89CE: los colores de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_89CE
-;   89CE-8A63); lo leen p00:4D11, p00:4B3C (149 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4D11 (149 bytes)
 ;   0x89ce..0x8a63  (149 bytes)
 DATA_rle_89CE:
 	defb 007h,060h,082h,0a0h,080h,004h,060h,003h,080h,002h,090h,081h,080h,003h,060h,002h	; 89ce  .`....`.......`.
@@ -360,8 +356,7 @@ DATA_rle_89CE:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_8A63: los dibujos de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_8A63
-;   8A63-8AC2); lo leen p00:4CFF, p00:4B3C (95 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4CFF (95 bytes)
 ;   0x8a63..0x8ac2  (95 bytes)
 DATA_rle_8A63:
 	defb 005h,000h,093h,007h,03fh,0f7h,000h,000h,001h,03bh,07dh,06eh,027h,013h,000h,004h	; 8a63  ....?.....}n'...
@@ -373,8 +368,7 @@ DATA_rle_8A63:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_8AC2: los colores de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_8AC2
-;   8AC2-8AF9); lo leen p00:4D11, p00:4B3C (55 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4D11 (55 bytes)
 ;   0x8ac2..0x8af9  (55 bytes)
 DATA_rle_8AC2:
 	defb 006h,0a0h,082h,090h,080h,003h,090h,081h,0a0h,00ah,090h,002h,080h,006h,090h,00bh	; 8ac2  ................
@@ -384,8 +378,7 @@ DATA_rle_8AC2:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_8AF9: los dibujos de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_8AF9
-;   8AF9-8B0B); lo leen p00:4CFF, p00:4B3C (18 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4CFF (18 bytes)
 ;   0x8af9..0x8b0b  (18 bytes)
 DATA_rle_8AF9:
 	defb 090h,0a3h,01ch,033h,060h,040h,020h,020h,0c0h,04fh,003h,044h,088h,070h,083h,0ech	; 8af9  ...3`@  .O.D.p..
@@ -393,8 +386,7 @@ DATA_rle_8AF9:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_8B0B: los colores de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_8B0B
-;   8B0B-8B1D); lo leen p00:4D11, p00:4B3C (18 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4D11 (18 bytes)
 ;   0x8b0b..0x8b1d  (18 bytes)
 DATA_rle_8B0B:
 	defb 081h,060h,003h,0a0h,08ch,0a9h,0a8h,0a6h,0a8h,060h,0b0h,0a0h,0b0h,0a0h,060h,060h	; 8b0b  .`.......`....``
@@ -402,8 +394,7 @@ DATA_rle_8B0B:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_8B1D: los dibujos de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_8B1D
-;   8B1D-8BF6); lo leen p00:4CFF, p00:4B3C (217 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4CFF (217 bytes)
 ;   0x8b1d..0x8bf6  (217 bytes)
 DATA_rle_8B1D:
 	defb 0ffh,030h,049h,024h,083h,038h,08eh,071h,09ch,095h,04bh,0f7h,03fh,080h,061h,01eh	; 8b1d  .0I$.8.q..K.?.a.
@@ -423,8 +414,7 @@ DATA_rle_8B1D:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_8BF6: los colores de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_8BF6
-;   8BF6-8CB0); lo leen p00:4D11, p00:4B3C (186 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4D11 (186 bytes)
 ;   0x8bf6..0x8cb0  (186 bytes)
 DATA_rle_8BF6:
 	defb 004h,0a0h,081h,090h,005h,060h,082h,090h,096h,003h,0a6h,086h,060h,0a6h,0a8h,0b9h	; 8bf6  .....`......`...
@@ -442,8 +432,7 @@ DATA_rle_8BF6:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_8CB0: los dibujos de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_8CB0
-;   8CB0-8CC8); lo leen p00:4CFF, p00:4B3C (24 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4CFF (24 bytes)
 ;   0x8cb0..0x8cc8  (24 bytes)
 DATA_rle_8CB0:
 	defb 003h,002h,081h,004h,004h,005h,002h,012h,002h,014h,08ch,00ah,009h,009h,005h,052h	; 8cb0  ...............R
@@ -451,8 +440,7 @@ DATA_rle_8CB0:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_8CC8: los colores de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_8CC8
-;   8CC8-8CDB); lo leen p00:4D11, p00:4B3C (19 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4D11 (19 bytes)
 ;   0x8cc8..0x8cdb  (19 bytes)
 DATA_rle_8CC8:
 	defb 005h,090h,081h,0a0h,005h,0b0h,002h,0a0h,083h,0b0h,090h,090h,003h,0b0h,002h,0a0h	; 8cc8  ................
@@ -460,8 +448,7 @@ DATA_rle_8CC8:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_8CDB: los dibujos de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_8CDB
-;   8CDB-8CFD); lo leen p00:4CFF, p00:4B3C (34 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4CFF (34 bytes)
 ;   0x8cdb..0x8cfd  (34 bytes)
 DATA_rle_8CDB:
 	defb 0a0h,006h,002h,002h,00ah,00ah,009h,009h,011h,010h,030h,050h,048h,068h,024h,024h	; 8cdb  ..........0PHh$$
@@ -470,8 +457,7 @@ DATA_rle_8CDB:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_8CFD: los colores de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_8CFD
-;   8CFD-8D14); lo leen p00:4D11, p00:4B3C (23 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4D11 (23 bytes)
 ;   0x8cfd..0x8d14  (23 bytes)
 DATA_rle_8CFD:
 	defb 003h,0a0h,003h,090h,002h,0a0h,005h,090h,003h,0a0h,003h,0b0h,003h,0a0h,002h,090h	; 8cfd  ................
@@ -479,8 +465,7 @@ DATA_rle_8CFD:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_8D14: los dibujos de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_8D14
-;   8D14-8D84); lo leen p00:4CFF, p00:4B3C (112 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4CFF (112 bytes)
 ;   0x8d14..0x8d84  (112 bytes)
 DATA_rle_8D14:
 	defb 082h,000h,010h,005h,000h,0e9h,008h,000h,040h,001h,000h,060h,000h,043h,000h,002h	; 8d14  ........@..`.C..
@@ -493,8 +478,7 @@ DATA_rle_8D14:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_8D84: los colores de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_8D84
-;   8D84-8DD2); lo leen p00:4D11, p00:4B3C (78 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4D11 (78 bytes)
 ;   0x8d84..0x8dd2  (78 bytes)
 DATA_rle_8D84:
 	defb 010h,040h,083h,050h,040h,050h,005h,040h,006h,0a0h,002h,0b0h,087h,040h,050h,050h	; 8d84  .@.P@P.@.....@PP
@@ -505,8 +489,7 @@ DATA_rle_8D84:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_8DD2: los dibujos de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_8DD2
-;   8DD2-9039); lo leen p00:4CFF, p00:4B3C (615 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4CFF (615 bytes)
 ;   0x8dd2..0x9039  (615 bytes)
 DATA_rle_8DD2:
 	defb 081h,073h,004h,07fh,0ffh,07bh,079h,070h,073h,07fh,05fh,05fh,03fh,060h,010h,002h	; 8dd2  .s...{yps.__?`..
@@ -551,8 +534,7 @@ DATA_rle_8DD2:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_9039: los colores de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_9039
-;   9039-928F); lo leen p00:4D11, p00:4B3C (598 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4D11 (598 bytes)
 ;   0x9039..0x928f  (598 bytes)
 DATA_rle_9039:
 	defb 090h,040h,050h,0e0h,0f0h,0e0h,0e0h,050h,040h,040h,050h,0e0h,0f0h,0e0h,0e0h,050h	; 9039  .@P....P@@P....P
@@ -596,8 +578,7 @@ DATA_rle_9039:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_928F: los dibujos de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_928F
-;   928F-9307); lo leen p00:4CFF, p00:4B3C (120 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4CFF (120 bytes)
 ;   0x928f..0x9307  (120 bytes)
 DATA_rle_928F:
 	defb 082h,0ffh,0fdh,003h,0ffh,081h,0bfh,003h,0ffh,083h,0dfh,0ffh,0dfh,00bh,0ffh,083h	; 928f  ................
@@ -611,8 +592,7 @@ DATA_rle_928F:
 
 ; ----------------------------------------------------------------------
 ; DATOS rle_9307: los colores de una entrada de la lista de graficos de
-;   16:6758, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_9307
-;   9307-938E); lo leen p00:4D11, p00:4B3C (135 bytes)
+;   16:6758, en RLE (p00:4B3C); lo leen p00:4D11 (135 bytes)
 ;   0x9307..0x938e  (135 bytes)
 DATA_rle_9307:
 	defb 004h,0e0h,084h,0f0h,0e0h,050h,040h,004h,0e0h,084h,0f0h,0e0h,050h,040h,003h,0e0h	; 9307  .....P@.....P@..

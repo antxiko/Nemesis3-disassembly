@@ -7,6 +7,8 @@ p00 0x4887 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:
 p00 0x488A 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p02:92F3 (salto)
 p00 0x5FFE 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:62BD (call)
 p01 0x77F1 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
+p01 0x77FB 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
+p01 0x7800 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p01 0x7805 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p01 0x780A 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p01 0x7810 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:4162 (ret)
@@ -14,6 +16,7 @@ p01 0x7815 1 2 19  # se ejecuta jugando (tools/cobertura.py): se llega desde p00
 p01 0x781C 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p01 0x7821 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p01 0x7826 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
+p01 0x782B 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p01 0x7830 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p01 0x7835 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p01 0x783A 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
@@ -22,6 +25,7 @@ p01 0x7ED8 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:
 p01 0x7EDB 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:63FE (ret)
 p01 0x7EDE 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:78B2 (ret)
 p01 0x7EE7 1 2 19  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:7F09 (ret)
+p02 0x8689 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p02 0x88F4 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p02 0x8B7C 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p02 0x8B99 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:78B2 (ret)
@@ -31,6 +35,7 @@ p02 0x8ED5 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:
 p02 0x8EFD 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:58CC (ret)
 p02 0x8FC0 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p02 0x8FD1 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
+p02 0x904D 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p02 0x9067 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p02 0x9081 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p02 0x909E 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p02:9178 (ret)
@@ -91,6 +96,7 @@ p03 0xA9AB 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:
 p03 0xA9B9 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p02:90D9 (ret)
 p03 0xA9D5 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:78B2 (ret)
 p03 0xA9DA 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:7F09 (ret)
+p03 0xAB59 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p03 0xAC11 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p03 0xAC1E 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:408B (salto)
 p03 0xAC2F 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:78B2 (ret)
@@ -123,7 +129,31 @@ p03 0xB810 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:
 p03 0xB831 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p03:B846 (ret)
 p03 0xB9F0 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p03 0xB9FF 1 2 3  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:78B9 (ret)
+p04 0x8515 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p04:85F7 (ret)
+p04 0x935E 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
+p04 0x936D 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
+p04 0x9370 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p04:94D0 (ret)
+p04 0x9388 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:4A74 (ret)
+p04 0x9391 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:56BB (ret)
+p04 0x939E 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
+p04 0x93A1 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p04:94D0 (ret)
+p04 0x93B1 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:4A74 (ret)
+p04 0x93D1 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
+p04 0x93D4 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p04:94D0 (ret)
+p04 0x93E4 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:4A74 (ret)
+p04 0x942E 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
+p04 0x9431 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p04:94D0 (ret)
+p04 0x9449 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:4A74 (ret)
+p04 0x9460 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:56BB (ret)
+p04 0x9475 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
+p04 0x948C 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:56BB (ret)
 p04 0x9FFF 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p04:9FFE (salto)
+p05 0xA1FC 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:781B (jp (hl))
+p05 0xA20E 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:753E (jp (hl))
+p05 0xA4AD 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:781B (jp (hl))
+p05 0xA4B3 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:4A84 (ret)
+p05 0xA4BA 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:78B2 (ret)
+p05 0xA4E7 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:753E (jp (hl))
 p05 0xA6A0 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 p05 0xA6B2 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:78B2 (ret)
 p05 0xA6BB 1 4 5  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:4A64 (ret)
@@ -195,6 +225,11 @@ p10 0x6EAF 10 11 9  # se ejecuta jugando (tools/cobertura.py): se llega desde p1
 p19 0xA98C 1 2 19  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:7D3F (jp (hl))
 p19 0xA9A6 1 2 19  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:7B75 (jp (hl))
 p19 0xA9B4 1 2 19  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
+p19 0xAA31 1 2 19  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:781B (jp (hl))
+p19 0xAA3D 1 2 19  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:753E (jp (hl))
+p19 0xAA7C 1 2 19  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:6466 (ret)
+p19 0xAA9C 1 2 19  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:4A64 (ret)
+p19 0xAAA9 1 2 19  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:78B2 (ret)
 p19 0xAB0E 1 2 19  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:7D3F (jp (hl))
 p19 0xAB34 1 2 19  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:7B75 (jp (hl))
 p19 0xAB3D 1 2 19  # se ejecuta jugando (tools/cobertura.py): se llega desde p00:58CC (ret)
@@ -266,3 +301,15 @@ p19 0xB2AF 1 2 19  # se ejecuta jugando (tools/cobertura.py): se llega desde p00
 p19 0xB30B 1 2 19  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:78FC (ret)
 p19 0xB323 1 2 19  # se ejecuta jugando (tools/cobertura.py): se llega desde p01:78EC (ret)
 # --- fin de las semillas medidas ---
+
+# --- SEMILLAS A MANO (no las toca tools/semillas_campana.py) ---
+# Las ordenes de la partitura que ningun sonido usa: sus rutinas solo se ven
+# en las tablas de saltos de p10:6B52 (0xE0-0xFF, p10:6B4D) y p10:6E37
+# (0xD0-0xDF, p10:6E32), que el trazador no sigue (jp (hl)).
+p10 0x6C01 10 11 12  # orden 0xE6: tabla p10:6B52, palabra 6
+p10 0x6C11 10 11 12  # orden 0xE7: tabla p10:6B52, palabra 7
+p10 0x6D27 10 11 12  # orden 0xF4: tabla p10:6B52, palabra 0x14
+p10 0x6E9E 10 11 12  # orden 0xD9: tabla p10:6E37, palabra 9
+p10 0x6EA0 10 11 12  # orden 0xDA: tabla p10:6E37, palabra 0x0A
+p10 0x6F92 10 11 12  # orden 0xDE: tabla p10:6E37, palabra 0x0E
+p10 0x6F94 10 11 12  # orden 0xDF: tabla p10:6E37, palabra 0x0F

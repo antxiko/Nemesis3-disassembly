@@ -15,6 +15,9 @@
 ; casualmente coinciden con una direccion. No hay nada que
 ; trazar en ellas; el equ existe para que el listado ensamble.
 ; ----------------------------------------------------------------------
+l93ceh:	equ 0x093ce
+l9401h:	equ 0x09401
+l9468h:	equ 0x09468
 l94d0h:	equ 0x094d0
 
 ; ======================================================================
@@ -528,21 +531,21 @@ DATA_tabla_83F3:
 	defb 000h	; 83f3
 
 ; ----------------------------------------------------------------------
-; DATOS leido_83F4: 3 bytes que leen p04:81FB, p04:81FD, p04:81FF al jugar
-;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido); lo leen p04:81FB, p04:81FD, p04:81FF
-;   (3 bytes)
-;   0x83f4..0x83f7  (3 bytes)
+; DATOS leido_83F4: 11 bytes que leen p04:81FB, p04:81FD, p04:81FF, p04:81F9
+;   al jugar (medido ejecutando el cartucho, tools/cobertura.py y
+;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
+;   p04:81FB, p04:81FD, p04:81FF, p04:81F9 (11 bytes)
+;   0x83f4..0x83ff  (11 bytes)
 DATA_leido_83F4:
-	defb 000h,000h,000h	; 83f4
+	defb 000h,000h,000h,080h,0ffh,000h,000h,080h,000h,000h,000h	; 83f4  ...........
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x83f7..0x8433  (60 bytes)
-DATA_83F7:
-	defb 080h,0ffh,000h,000h,080h,000h,000h,000h,000h,000h,000h,000h,000h,000h,080h,0ffh	; 83f7  ................
-	defb 080h,0ffh,080h,0ffh,080h,000h,080h,0ffh,000h,000h,080h,0ffh,000h,000h,080h,000h	; 8407  ................
-	defb 080h,0ffh,080h,000h,080h,000h,080h,000h,000h,000h,080h,000h,000h,000h,000h,000h	; 8417  ................
-	defb 080h,0ffh,000h,000h,080h,000h,000h,000h,000h,000h,000h,000h	; 8427  ............
+; DATOS sin identificar  0x83ff..0x8433  (52 bytes)
+DATA_83FF:
+	defb 000h,000h,000h,000h,000h,000h,080h,0ffh,080h,0ffh,080h,0ffh,080h,000h,080h,0ffh	; 83ff  ................
+	defb 000h,000h,080h,0ffh,000h,000h,080h,000h,080h,0ffh,080h,000h,080h,000h,080h,000h	; 840f  ................
+	defb 000h,000h,080h,000h,000h,000h,000h,000h,080h,0ffh,000h,000h,080h,000h,000h,000h	; 841f  ................
+	defb 000h,000h,000h,000h	; 842f
 
 ; ======================================================================
 ; CODIGO 0x8433..0x84b9  (134 bytes)
@@ -658,16 +661,28 @@ DATA_leido_84C1:
 	defb 080h	; 8501
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8502..0x8516  (20 bytes)
+; DATOS sin identificar  0x8502..0x8505  (3 bytes)
 DATA_8502:
-	defb 000h,000h,000h,021h,010h,0e6h,006h,001h,07eh,0b7h,028h,003h,02eh,020h,004h,070h	; 8502  ...!....~.(.. .p
-	defb 0cdh,0c9h,085h,0c9h	; 8512
+	defb 000h,000h,000h	; 8502
 
 ; ======================================================================
-; CODIGO 0x8516..0x856c  (86 bytes)
+; CODIGO 0x8505..0x856c  (103 bytes)
 ; ======================================================================
 
 
+L_8505:
+	ld hl,0e610h		;8505
+	ld b,001h		;8508
+	ld a,(hl)			;850a
+	or a			;850b
+	jr z,L_8511		;850c
+	ld l,020h		;850e
+	inc b			;8510
+L_8511:
+	ld (hl),b			;8511
+	call L_85C9		;8512
+L_8515:
+	ret			;8515
 L_8516:
 	ld a,(0e600h)		;8516   ; las opciones (si la nave no estalla): la estela (p04:858C)
 	dec a			;8519
@@ -723,11 +738,24 @@ L_8549:
 ;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
 ;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
 ;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p04:854F (32 bytes)
-;   0x856c..0x858c  (32 bytes)
+;   da quien llama; lo leen p04:854F (1 bytes)
+;   0x856c..0x856d  (1 bytes)
 DATA_tabla_856C:
-	defb 03ch,00ah,03ch,009h,040h,008h,040h,006h,03ch,00ch,03ch,002h,040h,002h,040h,00ch	; 856c  <.<.@.@.<.<.@.@.
-	defb 03ch,00ah,03ch,00bh,040h,00bh,040h,00ah,03ch,004h,03ch,005h,040h,005h,040h,004h	; 857c  <.<.@.@.<.<.@.@.
+	defb 03ch	; 856c
+
+; ----------------------------------------------------------------------
+; DATOS leido_856D: 7 bytes que leen p04:8560, p04:855E al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p04:8560, p04:855E (7 bytes)
+;   0x856d..0x8574  (7 bytes)
+DATA_leido_856D:
+	defb 00ah,03ch,009h,040h,008h,040h,006h	; 856d
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x8574..0x858c  (24 bytes)
+DATA_8574:
+	defb 03ch,00ch,03ch,002h,040h,002h,040h,00ch,03ch,00ah,03ch,00bh,040h,00bh,040h,00ah	; 8574  <.<.@.@.<.<.@.@.
+	defb 03ch,004h,03ch,005h,040h,005h,040h,004h	; 8584  <.<.@.@.
 
 ; ======================================================================
 ; CODIGO 0x858c..0x8647  (187 bytes)
@@ -940,11 +968,11 @@ L_86D7:
 	ld a,(iy+000h)		;86d7   ; por abajo (y desde 0xB0) se acaban
 	or a			;86da
 	ret z			;86db
-	ld a,(iy+003h)		;86dc
+	ld a,(iy+003h)		;86dc   ; lee la y del disparo
 	cp 0b0h		;86df
 	ret c			;86e1
 L_86E2:
-	ld (iy+000h),000h		;86e2
+	ld (iy+000h),000h		;86e2   ; el tipo del disparo (0: libre) = 0x00
 	ret			;86e6
 L_86E7:
 	call L_86FF		;86e7   ; se mueve (p04:86FF) y...
@@ -964,7 +992,7 @@ L_86FF:
 	ret z			;8703
 	call L_873F		;8704
 	ret nc			;8707
-	ld a,(iy+000h)		;8708
+	ld a,(iy+000h)		;8708   ; lee el tipo del disparo (0: libre)
 	dec a			;870b
 	call 04093h		;870c   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -988,13 +1016,13 @@ L_873F:
 	ld a,(0e410h)		;873f   ; los tipos 0x0F-0x17 se mueven en la otra pasada
 	or a			;8742
 	jr nz,L_874E		;8743
-	ld a,(iy+000h)		;8745
+	ld a,(iy+000h)		;8745   ; lee el tipo del disparo (0: libre)
 	sub 00fh		;8748
 	cp 009h		;874a
 	ccf			;874c
 	ret			;874d
 L_874E:
-	ld a,(iy+000h)		;874e
+	ld a,(iy+000h)		;874e   ; lee el tipo del disparo (0: libre)
 	sub 00fh		;8751
 	cp 009h		;8753
 	ret			;8755
@@ -1188,13 +1216,13 @@ L_889B:
 L_88B7:
 	ld a,(iy+005h)		;88b7   ; se mueve 12 a la derecha (fuera, se acaba)
 	add a,00ch		;88ba
-	ld (iy+005h),a		;88bc
+	ld (iy+005h),a		;88bc   ; guarda la x del disparo
 	call c,L_86E2		;88bf
 	ret			;88c2
 L_88C3:
 	ld a,(iy+005h)		;88c3   ; o 12 a la izquierda
 	sub 00ch		;88c6
-	ld (iy+005h),a		;88c8
+	ld (iy+005h),a		;88c8   ; guarda la x del disparo
 	call c,L_86E2		;88cb
 	ret			;88ce
 L_88CF:
@@ -1229,20 +1257,20 @@ L_890D:
 	ld a,(iy+003h)		;890d   ; baja 6 (fuera, se acaba)...
 	add a,006h		;8910
 	cp 0b0h		;8912
-	ld (iy+003h),a		;8914
+	ld (iy+003h),a		;8914   ; guarda la y del disparo
 	jp nc,L_86E2		;8917
 	call L_8929		;891a
 	ret			;891d
 L_891E:
-	ld a,(iy+003h)		;891e   ; ...o retrocede 6...
+	ld a,(iy+003h)		;891e   ; ...o sube 6...
 	sub 006h		;8921
-	ld (iy+003h),a		;8923
+	ld (iy+003h),a		;8923   ; guarda la y del disparo
 	jp c,L_86E2		;8926
 L_8929:
 	ld a,(iy+005h)		;8929   ; ...y 6 a la derecha
 	add a,006h		;892c
 	jp c,L_86E2		;892e
-	ld (iy+005h),a		;8931
+	ld (iy+005h),a		;8931   ; guarda la x del disparo
 	ret			;8934
 L_8935:
 	call L_8DC9		;8935   ; el tipo 5: 8 x 0x10
@@ -1356,14 +1384,14 @@ L_8A29:
 	jr z,L_8A93		;8a2d
 	jp p,L_8AA4		;8a2f
 	ld c,(iy+008h)		;8a32   ; paso 0: pegado a quien lo lanza...
-	ld b,(iy+009h)		;8a35
+	ld b,(iy+009h)		;8a35   ; lee quien lanza el disparo (alto)
 	push bc			;8a38
 	pop ix		;8a39
 	ld de,00810h		;8a3b
 	call L_8DF1		;8a3e
-	ld a,(iy+005h)		;8a41
+	ld a,(iy+005h)		;8a41   ; lee la x del disparo
 	and 0f8h		;8a44
-	ld (iy+005h),a		;8a46
+	ld (iy+005h),a		;8a46   ; guarda la x del disparo
 	cp 0f8h		;8a49   ; ...(por abajo de la pantalla se acaba)...
 	jp nc,L_86E2		;8a4b
 	ld d,005h		;8a4e
@@ -1389,7 +1417,7 @@ L_8A77:
 	add a,a			;8a7b
 	add a,a			;8a7c
 	neg		;8a7d
-	sub (iy+005h)		;8a7f
+	sub (iy+005h)		;8a7f   ; le resta la x del disparo
 	ret nc			;8a82
 	neg		;8a83
 	rra			;8a85
@@ -1420,25 +1448,25 @@ L_8AA4:
 L_8AB7:
 	ld a,(iy+005h)		;8ab7   ; avanza 0x20
 	add a,020h		;8aba
-	ld (iy+005h),a		;8abc
+	ld (iy+005h),a		;8abc   ; guarda la x del disparo
 	ret			;8abf
 L_8AC0:
 	ld a,(iy+001h)		;8ac0   ; el otro laser: por su paso; en el 0 pegado a quien lo lanza
 	dec a			;8ac3
 	jr z,L_8A93		;8ac4
 	jp p,L_8AA4		;8ac6
-	ld c,(iy+008h)		;8ac9
-	ld b,(iy+009h)		;8acc
+	ld c,(iy+008h)		;8ac9   ; lee quien lanza el disparo (bajo)
+	ld b,(iy+009h)		;8acc   ; lee quien lanza el disparo (alto)
 	push bc			;8acf
 	pop ix		;8ad0
 	ld a,(ix+004h)		;8ad2
 	add a,008h		;8ad5
 	and 0f8h		;8ad7
-	ld (iy+003h),a		;8ad9
+	ld (iy+003h),a		;8ad9   ; guarda la y del disparo
 	ld a,(ix+006h)		;8adc
 	add a,010h		;8adf
 	and 0f8h		;8ae1
-	ld (iy+005h),a		;8ae3
+	ld (iy+005h),a		;8ae3   ; guarda la x del disparo
 	cp 0f8h		;8ae6
 	jp nc,L_86E2		;8ae8
 	call L_8A53		;8aeb
@@ -1448,7 +1476,7 @@ L_8AEF:
 	sub 006h		;8af2
 	jp c,L_86E2		;8af4
 L_8AF7:
-	ld (iy+003h),a		;8af7
+	ld (iy+003h),a		;8af7   ; guarda la y del disparo
 	ld d,005h		;8afa
 	call L_8E0B		;8afc
 	ret			;8aff
@@ -1465,13 +1493,13 @@ L_8B11:
 	dec (iy+001h)		;8b11
 	ret nz			;8b14
 	ld (iy+001h),004h		;8b15
-	ld a,(iy+005h)		;8b19
+	ld a,(iy+005h)		;8b19   ; lee la x del disparo
 	or a			;8b1c
 	ld b,001h		;8b1d
 	jr z,L_8B27		;8b1f
 	inc b			;8b21
 	sub 008h		;8b22
-	ld (iy+005h),a		;8b24
+	ld (iy+005h),a		;8b24   ; guarda la x del disparo
 L_8B27:
 	ld a,(iy+00ah)		;8b27
 	add a,b			;8b2a
@@ -1505,28 +1533,28 @@ L_8B68:
 	ld a,(iy+010h)		;8b68   ; con IY+10, a la derecha hasta acabar su vida (IY+11)
 	or a			;8b6b
 	jr z,L_8B80		;8b6c
-	dec (iy+011h)		;8b6e
+	dec (iy+011h)		;8b6e   ; resta 1 a la vida del disparo
 	jp z,L_86E2		;8b71
-	ld a,(iy+005h)		;8b74
+	ld a,(iy+005h)		;8b74   ; lee la x del disparo
 	add a,008h		;8b77
 	jp c,L_86E2		;8b79
-	ld (iy+005h),a		;8b7c
+	ld (iy+005h),a		;8b7c   ; guarda la x del disparo
 	ret			;8b7f
 L_8B80:
 	ld a,(iy+005h)		;8b80   ; 8 a la derecha y cada 4 cuadros crece...
 	add a,008h		;8b83
-	ld (iy+005h),a		;8b85
+	ld (iy+005h),a		;8b85   ; guarda la x del disparo
 	jp c,L_86E2		;8b88
 	dec (iy+001h)		;8b8b
 	ret nz			;8b8e
 	ld (iy+001h),004h		;8b8f
-	ld a,(iy+003h)		;8b93
+	ld a,(iy+003h)		;8b93   ; lee la y del disparo
 	or a			;8b96
 	ld b,001h		;8b97
 	jr z,L_8BA1		;8b99
 	inc b			;8b9b
 	sub 008h		;8b9c
-	ld (iy+003h),a		;8b9e
+	ld (iy+003h),a		;8b9e   ; guarda la y del disparo
 L_8BA1:
 	ld a,(iy+00ah)		;8ba1
 	add a,b			;8ba4
@@ -1568,33 +1596,33 @@ L_8BF3:
 	ld a,(iy+010h)		;8bf3   ; el del tipo 9: igual que el 0x0A, con su vida
 	or a			;8bf6
 	jr z,L_8C0B		;8bf7
-	dec (iy+011h)		;8bf9
+	dec (iy+011h)		;8bf9   ; resta 1 a la vida del disparo
 	jp z,L_86E2		;8bfc
-	ld a,(iy+005h)		;8bff
+	ld a,(iy+005h)		;8bff   ; lee la x del disparo
 	add a,008h		;8c02
 	jp c,L_86E2		;8c04
-	ld (iy+005h),a		;8c07
+	ld (iy+005h),a		;8c07   ; guarda la x del disparo
 	ret			;8c0a
 L_8C0B:
-	ld a,(iy+005h)		;8c0b
+	ld a,(iy+005h)		;8c0b   ; lee la x del disparo
 	add a,008h		;8c0e
 	jp c,L_86E2		;8c10
-	ld (iy+005h),a		;8c13
+	ld (iy+005h),a		;8c13   ; guarda la x del disparo
 	dec (iy+001h)		;8c16
 	ret nz			;8c19
 	ld (iy+001h),004h		;8c1a
-	ld a,(iy+003h)		;8c1e
+	ld a,(iy+003h)		;8c1e   ; lee la y del disparo
 	or a			;8c21
 	ld b,001h		;8c22
 	jr z,L_8C2C		;8c24
 	inc b			;8c26
 	sub 008h		;8c27
-	ld (iy+003h),a		;8c29
+	ld (iy+003h),a		;8c29   ; guarda la y del disparo
 L_8C2C:
 	ld a,(iy+00ah)		;8c2c
 	add a,b			;8c2f
 	ld (iy+00ah),a		;8c30
-	ld a,(iy+003h)		;8c33
+	ld a,(iy+003h)		;8c33   ; lee la y del disparo
 	rra			;8c36
 	rra			;8c37
 	rra			;8c38
@@ -1635,7 +1663,7 @@ L_8C5F:
 	jp 0584bh		;8c80   ; sonido_17: pide el sonido 0x17
 L_8C83:
 	ld c,(iy+008h)		;8c83   ; el rayo: si quien lo lanza ya no esta, se acaba
-	ld b,(iy+009h)		;8c86
+	ld b,(iy+009h)		;8c86   ; lee quien lanza el disparo (alto)
 	ld a,(bc)			;8c89
 	or a			;8c8a
 	jp z,L_86E2		;8c8b
@@ -1670,7 +1698,7 @@ L_8CC3:
 	dec (iy+00bh)		;8cc6
 	jp z,L_86E2		;8cc9
 	ld a,(0e630h)		;8ccc   ; ...y si es el arma en curso y se vuelve a pulsar, otra vez crece (el sonido 0x17)
-	cp (iy+000h)		;8ccf
+	cp (iy+000h)		;8ccf   ; compara con el tipo del disparo (0: libre)
 	ret nz			;8cd2
 	call L_875B		;8cd3
 	dec b			;8cd6
@@ -1683,11 +1711,11 @@ L_8CC3:
 	jp 0584bh		;8ce7   ; sonido_17: pide el sonido 0x17
 L_8CEA:
 	ld c,(iy+008h)		;8cea   ; su sitio: el de quien lo lanza (+6 o +2 en y, +0x10 en x)
-	ld b,(iy+009h)		;8ced
+	ld b,(iy+009h)		;8ced   ; lee quien lanza el disparo (alto)
 	push bc			;8cf0
 	pop ix		;8cf1
 L_8CF3:
-	ld a,(iy+000h)		;8cf3
+	ld a,(iy+000h)		;8cf3   ; lee el tipo del disparo (0: libre)
 	cp 00bh		;8cf6
 	ld b,006h		;8cf8
 	jr z,L_8CFE		;8cfa
@@ -1696,11 +1724,11 @@ L_8CFE:
 	ld a,(ix+004h)		;8cfe
 	add a,b			;8d01
 	and 0f8h		;8d02
-	ld (iy+003h),a		;8d04
+	ld (iy+003h),a		;8d04   ; guarda la y del disparo
 	ld a,(ix+006h)		;8d07
 	add a,010h		;8d0a
 	and 0f8h		;8d0c
-	ld (iy+005h),a		;8d0e
+	ld (iy+005h),a		;8d0e   ; guarda la x del disparo
 	cp 0f8h		;8d11
 	jp z,L_86E2		;8d13
 	ret			;8d16
@@ -1774,9 +1802,9 @@ L_8D87:
 L_8DA3:
 	jp L_8A77		;8da3
 L_8DA6:
-	ld a,(iy+005h)		;8da6
+	ld a,(iy+005h)		;8da6   ; lee la x del disparo
 	add a,008h		;8da9
-	ld (iy+005h),a		;8dab
+	ld (iy+005h),a		;8dab   ; guarda la x del disparo
 	jp c,L_8DB9		;8dae
 	call L_8A77		;8db1
 	ld a,(iy+00ah)		;8db4
@@ -1819,12 +1847,12 @@ L_8DED:
 L_8DF1:
 	ld a,(ix+004h)		;8df1   ; el disparo en la posicion de quien lo lanza + DE (D en y, E en x)
 	add a,d			;8df4
-	ld (iy+003h),a		;8df5
+	ld (iy+003h),a		;8df5   ; guarda la y del disparo
 	ld a,(ix+006h)		;8df8
 	add a,e			;8dfb
-	ld (iy+005h),a		;8dfc
-	ld (iy+002h),000h		;8dff
-	ld (iy+004h),000h		;8e03
+	ld (iy+005h),a		;8dfc   ; guarda la x del disparo
+	ld (iy+002h),000h		;8dff   ; la y del disparo (decimales) = 0x00
+	ld (iy+004h),000h		;8e03   ; la x del disparo (decimales) = 0x00
 	ret			;8e07
 L_8E08:
 	ld a,(ix+004h)		;8e08   ; el dibujo: D + (y / 2) & 3
@@ -1832,7 +1860,7 @@ L_8E0B:
 	rra			;8e0b
 	and 003h		;8e0c
 	add a,d			;8e0e
-	ld (iy+006h),a		;8e0f
+	ld (iy+006h),a		;8e0f   ; guarda el dibujo del disparo
 	ret			;8e12
 L_8E13:
 	ld a,(iy+000h)		;8e13   ; la caja del disparo segun su largo: los tipos 9 y 0x0A en alto, los demas en ancho
@@ -1843,14 +1871,14 @@ L_8E13:
 	add a,a			;8e1f
 	add a,a			;8e20
 	add a,a			;8e21
-	ld (iy+00ch),a		;8e22
+	ld (iy+00ch),a		;8e22   ; guarda el ancho del disparo para los choques
 	ret			;8e25
 L_8E26:
 	ld a,(iy+00ah)		;8e26
 	add a,a			;8e29
 	add a,a			;8e2a
 	add a,a			;8e2b
-	ld (iy+00dh),a		;8e2c
+	ld (iy+00dh),a		;8e2c   ; guarda el alto del disparo para los choques
 	ret			;8e2f
 L_8E30:
 	ld hl,0e6c0h		;8e30   ; un hueco en los de 0xE6C0 (las opciones)
@@ -1946,9 +1974,17 @@ L_8EDE:
 	ret			;8ede
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8edf..0x8eef  (16 bytes)
-DATA_8EDF:
-	defb 010h,00ah,011h,008h,012h,00fh,013h,00bh,014h,00ah,015h,008h,016h,00fh,017h,00bh	; 8edf  ................
+; DATOS leido_8EDF: 2 bytes que leen p00:4A60, p00:4A62 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (2 bytes)
+;   0x8edf..0x8ee1  (2 bytes)
+DATA_leido_8EDF:
+	defb 010h,00ah	; 8edf
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x8ee1..0x8eef  (14 bytes)
+DATA_8EE1:
+	defb 011h,008h,012h,00fh,013h,00bh,014h,00ah,015h,008h,016h,00fh,017h,00bh	; 8ee1  ..............
 
 ; ======================================================================
 ; CODIGO 0x8eef..0x90a0  (433 bytes)
@@ -1972,7 +2008,7 @@ L_8EFE:
 	jp nc,L_8FE2		;8f0e
 	call L_9094		;8f11   ; ...o avanza; sin salida, se acaba
 	jp nc,L_8FF0		;8f14
-	ld (iy+000h),000h		;8f17
+	ld (iy+000h),000h		;8f17   ; el tipo del disparo (0: libre) = 0x00
 	ret			;8f1b
 L_8F1C:
 	call L_90B5		;8f1c
@@ -1981,7 +2017,7 @@ L_8F1C:
 	jp nc,L_9006		;8f25
 	call L_90CC		;8f28
 	jp nc,L_8FF0		;8f2b
-	ld (iy+000h),000h		;8f2e
+	ld (iy+000h),000h		;8f2e   ; el tipo del disparo (0: libre) = 0x00
 	ret			;8f32
 L_8F33:
 	bit 0,(iy+009h)		;8f33   ; el misil que se pega al suelo: paso 0 cae, paso 1 lo recorre
@@ -1995,9 +2031,9 @@ L_8F33:
 	call L_9094		;8f4c
 	jp nc,L_8FF0		;8f4f
 	ld (iy+001h),001h		;8f52
-	ld a,(iy+005h)		;8f56
+	ld a,(iy+005h)		;8f56   ; lee la x del disparo
 	and 0fch		;8f59
-	ld (iy+005h),a		;8f5b
+	ld (iy+005h),a		;8f5b   ; guarda la x del disparo
 	call L_8E75		;8f5e
 	ld b,004h		;8f61
 	jp L_9054		;8f63
@@ -2021,9 +2057,9 @@ L_8F7D:
 	call L_90CC		;8f8e
 	jr nc,L_8FF0		;8f91
 	ld (iy+001h),001h		;8f93
-	ld a,(iy+005h)		;8f97
+	ld a,(iy+005h)		;8f97   ; lee la x del disparo
 	and 0fch		;8f9a
-	ld (iy+005h),a		;8f9c
+	ld (iy+005h),a		;8f9c   ; guarda la x del disparo
 	call L_8E8B		;8f9f
 	ld b,004h		;8fa2
 	jp L_903C		;8fa4
@@ -2085,36 +2121,36 @@ L_9014:
 	jr nc,L_901B		;9017
 	srl b		;9019
 L_901B:
-	ld a,(iy+005h)		;901b
+	ld a,(iy+005h)		;901b   ; lee la x del disparo
 	add a,b			;901e
-	ld (iy+005h),a		;901f
+	ld (iy+005h),a		;901f   ; guarda la x del disparo
 	ret nc			;9022
-	ld (iy+000h),000h		;9023
+	ld (iy+000h),000h		;9023   ; el tipo del disparo (0: libre) = 0x00
 	ret			;9027
 L_9028:
 	call L_8E9D		;9028   ; a la izquierda B
 	jr nc,L_902F		;902b
 	srl b		;902d
 L_902F:
-	ld a,(iy+005h)		;902f
+	ld a,(iy+005h)		;902f   ; lee la x del disparo
 	sub b			;9032
-	ld (iy+005h),a		;9033
+	ld (iy+005h),a		;9033   ; guarda la x del disparo
 	ret nc			;9036
-	ld (iy+000h),000h		;9037
+	ld (iy+000h),000h		;9037   ; el tipo del disparo (0: libre) = 0x00
 	ret			;903b
 L_903C:
 	call L_8E9D		;903c   ; baja B; por abajo se acaba
 	jr nc,L_9043		;903f
 	srl b		;9041
 L_9043:
-	ld a,(iy+003h)		;9043
+	ld a,(iy+003h)		;9043   ; lee la y del disparo
 	add a,b			;9046
-	ld (iy+003h),a		;9047
+	ld (iy+003h),a		;9047   ; guarda la y del disparo
 	cp 0ach		;904a
 	ccf			;904c
 	ret nc			;904d
 L_904E:
-	ld (iy+000h),000h		;904e
+	ld (iy+000h),000h		;904e   ; el tipo del disparo (0: libre) = 0x00
 	scf			;9052
 	ret			;9053
 L_9054:
@@ -2122,16 +2158,16 @@ L_9054:
 	jr nc,L_905B		;9057
 	srl b		;9059
 L_905B:
-	ld a,(iy+003h)		;905b
+	ld a,(iy+003h)		;905b   ; lee la y del disparo
 	sub b			;905e
-	ld (iy+003h),a		;905f
+	ld (iy+003h),a		;905f   ; guarda la y del disparo
 	jp c,L_904E		;9062
 	jp z,L_904E		;9065
 	or a			;9068
 	ret			;9069
 L_906A:
 	ld h,(iy+005h)		;906a   ; el caracter del bufer en su sitio: decorado (mayor que el fondo - 1)? C
-	ld l,(iy+003h)		;906d
+	ld l,(iy+003h)		;906d   ; lee la y del disparo
 L_9070:
 	call 04a46h		;9070
 	ld a,(0e405h)		;9073   ; lee el caracter del fondo de la fase
@@ -2140,23 +2176,23 @@ L_9070:
 	ret			;9078
 L_9079:
 	ld h,(iy+005h)		;9079   ; los puntos de alrededor del misil para mirar el decorado
-	ld a,(iy+003h)		;907c
+	ld a,(iy+003h)		;907c   ; lee la y del disparo
 	add a,004h		;907f
 	ld l,a			;9081
 	jp L_9070		;9082
 L_9085:
-	ld a,(iy+005h)		;9085
+	ld a,(iy+005h)		;9085   ; lee la x del disparo
 	add a,004h		;9088
 	ld h,a			;908a
-	ld a,(iy+003h)		;908b
+	ld a,(iy+003h)		;908b   ; lee la y del disparo
 	add a,004h		;908e
 	ld l,a			;9090
 	jp L_9070		;9091
 L_9094:
-	ld a,(iy+005h)		;9094
+	ld a,(iy+005h)		;9094   ; lee la x del disparo
 	add a,004h		;9097
 	ld h,a			;9099
-	ld l,(iy+003h)		;909a
+	ld l,(iy+003h)		;909a   ; lee la y del disparo
 	jp L_9070		;909d
 
 ; ----------------------------------------------------------------------
@@ -2171,22 +2207,22 @@ DATA_90A0:
 
 
 L_90B5:
-	ld h,(iy+005h)		;90b5
-	ld l,(iy+003h)		;90b8
+	ld h,(iy+005h)		;90b5   ; lee la x del disparo
+	ld l,(iy+003h)		;90b8   ; lee la y del disparo
 	dec l			;90bb
 	jp L_9070		;90bc
 L_90BF:
-	ld a,(iy+005h)		;90bf
+	ld a,(iy+005h)		;90bf   ; lee la x del disparo
 	add a,004h		;90c2
 	ld h,a			;90c4
-	ld l,(iy+003h)		;90c5
+	ld l,(iy+003h)		;90c5   ; lee la y del disparo
 	dec l			;90c8
 	jp L_9070		;90c9
 L_90CC:
-	ld a,(iy+005h)		;90cc
+	ld a,(iy+005h)		;90cc   ; lee la x del disparo
 	add a,004h		;90cf
 	ld h,a			;90d1
-	ld l,(iy+003h)		;90d2
+	ld l,(iy+003h)		;90d2   ; lee la y del disparo
 	jp L_9070		;90d5
 
 ; ----------------------------------------------------------------------
@@ -2200,20 +2236,20 @@ DATA_90D8:
 
 
 L_90E4:
-	ld a,(iy+005h)		;90e4
+	ld a,(iy+005h)		;90e4   ; lee la x del disparo
 	add a,004h		;90e7
 	ld h,a			;90e9
-	ld l,(iy+003h)		;90ea
+	ld l,(iy+003h)		;90ea   ; lee la y del disparo
 	jp L_9070		;90ed
 L_90F0:
-	ld h,(iy+005h)		;90f0
-	ld a,(iy+003h)		;90f3
+	ld h,(iy+005h)		;90f0   ; lee la x del disparo
+	ld a,(iy+003h)		;90f3   ; lee la y del disparo
 	sub 008h		;90f6
 	ld l,a			;90f8
 	jp L_9070		;90f9
 L_90FC:
-	ld h,(iy+005h)		;90fc
-	ld a,(iy+003h)		;90ff
+	ld h,(iy+005h)		;90fc   ; lee la x del disparo
+	ld a,(iy+003h)		;90ff   ; lee la y del disparo
 	add a,008h		;9102
 	ld l,a			;9104
 	jp L_9070		;9105
@@ -2281,7 +2317,7 @@ L_9169:
 	ret			;9177
 L_9178:
 	ld l,(iy+010h)		;9178   ; el misil que busca: si su pieza sigue, cada 4 cuadros vuelve a apuntar
-	ld h,(iy+011h)		;917b
+	ld h,(iy+011h)		;917b   ; lee la vida del disparo
 	ld a,(hl)			;917e
 	or a			;917f
 	jr z,L_91CC		;9180
@@ -2296,19 +2332,19 @@ L_9178:
 	and 003h		;9195
 	call z,L_91E5		;9197
 	ld a,(iy+004h)		;919a   ; x + la velocidad en x (16 bits); por la derecha se acaba
-	add a,(iy+014h)		;919d
-	ld (iy+004h),a		;91a0
-	ld a,(iy+005h)		;91a3
-	adc a,(iy+015h)		;91a6
-	ld (iy+005h),a		;91a9
+	add a,(iy+014h)		;919d   ; le suma la velocidad en x del disparo (bajo)
+	ld (iy+004h),a		;91a0   ; guarda la x del disparo (decimales)
+	ld a,(iy+005h)		;91a3   ; lee la x del disparo
+	adc a,(iy+015h)		;91a6   ; le suma la velocidad en x del disparo (alto)
+	ld (iy+005h),a		;91a9   ; guarda la x del disparo
 	cp 0f8h		;91ac
 	jp nc,L_904E		;91ae
 	ld a,(iy+002h)		;91b1   ; y + la velocidad en y; por abajo se acaba
-	add a,(iy+012h)		;91b4
-	ld (iy+002h),a		;91b7
-	ld a,(iy+003h)		;91ba
-	adc a,(iy+013h)		;91bd
-	ld (iy+003h),a		;91c0
+	add a,(iy+012h)		;91b4   ; le suma la velocidad en y del disparo (bajo)
+	ld (iy+002h),a		;91b7   ; guarda la y del disparo (decimales)
+	ld a,(iy+003h)		;91ba   ; lee la y del disparo
+	adc a,(iy+013h)		;91bd   ; le suma la velocidad en y del disparo (alto)
+	ld (iy+003h),a		;91c0   ; guarda la y del disparo
 	cp 0a4h		;91c3
 	jp nc,L_904E		;91c5
 	call L_906A		;91c8   ; al tocar el decorado...
@@ -2316,13 +2352,13 @@ L_9178:
 L_91CC:
 	ld a,(iy+000h)		;91cc   ; ...o perder la pieza: el misil normal
 	sub 003h		;91cf
-	ld (iy+000h),a		;91d1
-	ld a,(iy+003h)		;91d4
+	ld (iy+000h),a		;91d1   ; guarda el tipo del disparo (0: libre)
+	ld a,(iy+003h)		;91d4   ; lee la y del disparo
 	and 0fch		;91d7
-	ld (iy+003h),a		;91d9
-	ld a,(iy+005h)		;91dc
+	ld (iy+003h),a		;91d9   ; guarda la y del disparo
+	ld a,(iy+005h)		;91dc   ; lee la x del disparo
 	and 0fch		;91df
-	ld (iy+005h),a		;91e1
+	ld (iy+005h),a		;91e1   ; guarda la x del disparo
 	ret			;91e4
 L_91E5:
 	push ix		;91e5
@@ -2347,18 +2383,18 @@ L_91ED:
 	ld d,a			;9208
 L_9209:
 	ld (0ef80h),de		;9209
-	ld e,(iy+003h)		;920d
-	ld d,(iy+005h)		;9210
+	ld e,(iy+003h)		;920d   ; lee la y del disparo
+	ld d,(iy+005h)		;9210   ; lee la x del disparo
 	call 0640bh		;9213   ; la direccion hacia ella con el paso 0xC0
 	ld a,0c0h		;9216
 	ld (0e46eh),a		;9218
 	ld d,001h		;921b
 	call 0639fh		;921d
-	ld (iy+014h),e		;9220
-	ld (iy+015h),d		;9223
+	ld (iy+014h),e		;9220   ; guarda la velocidad en x del disparo (bajo)
+	ld (iy+015h),d		;9223   ; guarda la velocidad en x del disparo (alto)
 	ld hl,(0e472h)		;9226   ; lee la velocidad en y hacia la nave (16 bits; IX+7 de quien la usa)
-	ld (iy+012h),l		;9229
-	ld (iy+013h),h		;922c
+	ld (iy+012h),l		;9229   ; guarda la velocidad en y del disparo (bajo)
+	ld (iy+013h),h		;922c   ; guarda la velocidad en y del disparo (alto)
 	ret			;922f
 L_9230:
 	call 04150h		;9230   ; bancos_3: pone el 3 (y sus copias en 0xF0F1-3)
@@ -2418,12 +2454,12 @@ L_929C:
 	ld a,(iy+001h)		;929c   ; el segundo sprite segun el paso (tabla de 0x92B4)
 	ld hl,092b4h		;929f
 	call 04a5ah		;92a2   ; lee_palabra: HL = la palabra A de la tabla HL
-	ld a,(iy+003h)		;92a5
+	ld a,(iy+003h)		;92a5   ; lee la y del disparo
 	add a,l			;92a8
-	ld (iy+008h),a		;92a9
-	ld a,(iy+005h)		;92ac
+	ld (iy+008h),a		;92a9   ; guarda quien lanza el disparo (bajo)
+	ld a,(iy+005h)		;92ac   ; lee la x del disparo
 	add a,h			;92af
-	ld (iy+009h),a		;92b0
+	ld (iy+009h),a		;92b0   ; guarda quien lanza el disparo (alto)
 	ret			;92b3
 
 ; ----------------------------------------------------------------------
@@ -2448,7 +2484,7 @@ L_92BC:
 	jr c,L_92C7		;92c3
 	ld a,030h		;92c5
 L_92C7:
-	ld (iy+006h),a		;92c7
+	ld (iy+006h),a		;92c7   ; guarda el dibujo del disparo
 	ret c			;92ca
 	ld a,(iy+001h)		;92cb
 	inc a			;92ce
@@ -2497,42 +2533,266 @@ L_9302:
 ;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
 ;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
 ;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p04:9305 (423 bytes)
-;   0x9316..0x94bd  (423 bytes)
+;   da quien llama; lo leen p04:9305 (8 bytes)
+;   0x9316..0x931e  (8 bytes)
 DATA_tabla_9316:
-	defb 01eh,093h,02eh,093h,03eh,093h,04eh,093h,05eh,093h,06dh,093h,09eh,093h,0d1h,093h	; 9316  ....>.N.^.m.....
-	defb 004h,094h,02eh,094h,075h,094h,08dh,094h,05eh,093h,06dh,093h,09eh,093h,0d1h,093h	; 9326  ....u...^.m.....
-	defb 004h,094h,02eh,094h,075h,094h,08dh,094h,05eh,093h,06dh,093h,09eh,093h,0d1h,093h	; 9336  ....u...^.m.....
-	defb 004h,094h,02eh,094h,075h,094h,08dh,094h,05eh,093h,06dh,093h,09eh,093h,0d1h,093h	; 9346  ....u...^.m.....
-	defb 004h,094h,02eh,094h,075h,094h,08dh,094h,021h,034h,0e4h,034h,07eh,0feh,007h,038h	; 9356  ....u...!4.4~..8
-	defb 002h,036h,0ffh,032h,002h,0e6h,0c9h,0cdh,0b7h,094h,021h,035h,0e4h,034h,07eh,0b9h	; 9366  .6.2......!5.4~.
-	defb 038h,002h,036h,0ffh,047h,03ah,080h,0e3h,04fh,087h,081h,080h,021h,091h,093h,0cdh	; 9376  8.6.G:..O...!...
-	defb 06eh,04ah,032h,032h,0e6h,011h,080h,000h,0cdh,092h,056h,0c9h,010h,014h,013h,011h	; 9386  nJ22......V.....
-	defb 015h,013h,012h,016h,013h,010h,014h,013h,0cdh,0b7h,094h,021h,036h,0e4h,034h,07eh	; 9396  ...........!6.4~
-	defb 0b9h,038h,002h,036h,000h,021h,0ceh,093h,0cdh,06eh,04ah,032h,031h,0e6h,03eh,001h	; 93a6  .8.6.!...nJ21.>.
-	defb 032h,030h,0e6h,0cdh,0bdh,093h,0c9h,0afh,032h,037h,0e4h,032h,039h,0e4h,03ah,06fh	; 93b6  20......27.29.:o
-	defb 0e3h,0feh,003h,0d8h,0afh,032h,038h,0e4h,0c9h,002h,001h,0cdh,0b7h,094h,021h,037h	; 93c6  .....28.......!7
-	defb 0e4h,034h,07eh,0b9h,038h,002h,036h,0ffh,021h,001h,094h,0cdh,06eh,04ah,032h,031h	; 93d6  .4~.8.6.!...nJ21
-	defb 0e6h,03eh,001h,032h,030h,0e6h,0cdh,0f0h,093h,0c9h,0afh,032h,036h,0e4h,032h,039h	; 93e6  .>.20......26.29
-	defb 0e4h,03ah,06fh,0e3h,0feh,003h,0d8h,0afh,032h,038h,0e4h,0c9h,003h,004h,0cdh,0b7h	; 93f6  .:o.....28......
-	defb 094h,021h,038h,0e4h,034h,07eh,0b9h,038h,002h,036h,0ffh,021h,02bh,094h,0cdh,06eh	; 9406  .!8.4~.8.6.!+..n
-	defb 04ah,032h,031h,0e6h,0cdh,024h,094h,011h,080h,000h,0cdh,092h,056h,0c9h,0afh,032h	; 9416  J21..$......V..2
-	defb 036h,0e4h,032h,037h,0e4h,0c9h,00dh,00eh,0cdh,0b7h,094h,021h,039h,0e4h,034h,07eh	; 9426  6.27.......!9.4~
-	defb 0b9h,038h,002h,036h,0ffh,047h,03ah,080h,0e3h,04fh,087h,081h,080h,021h,068h,094h	; 9436  .8.6.G:..O...!h.
-	defb 0cdh,06eh,04ah,032h,030h,0e6h,03ah,031h,0e6h,0feh,005h,030h,004h,0afh,032h,031h	; 9446  .nJ20.:1...0..21
-	defb 0e6h,0cdh,061h,094h,011h,000h,001h,0cdh,092h,056h,0c9h,0afh,032h,036h,0e4h,032h	; 9456  ..a......V..26.2
-	defb 037h,0e4h,0c9h,005h,006h,007h,005h,008h,007h,00ah,00bh,00ch,00ah,00bh,009h,021h	; 9466  7..............!
-	defb 03ah,0e4h,034h,07eh,032h,008h,0e6h,0feh,002h,038h,002h,036h,0ffh,0cdh,005h,085h	; 9476  :.4~2....8.6....
-	defb 011h,080h,000h,0cdh,092h,056h,0c9h,021h,03bh,0e4h,036h,0ffh,03ah,07fh,0e3h,0c6h	; 9486  .....V.!..6.:...
-	defb 002h,032h,000h,0e6h,0feh,002h,006h,00ah,028h,002h,006h,005h,03ah,09eh,0e3h,0b7h	; 9496  .2......(...:...
-	defb 078h,028h,001h,087h,032h,001h,0e6h,011h,000h,001h,0cdh,092h,056h,0cdh,007h,050h	; 94a6  x(..2.......V..P
-	defb 0c9h,03ah,03dh,0e4h,032h,080h,0efh	; 94b6
+	defb 01eh,093h,02eh,093h,03eh,093h,04eh,093h	; 9316  ....>.N.
+
+; ----------------------------------------------------------------------
+; DATOS leido_931E: 14 bytes que leen p00:4098, p00:409A al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido, con 2 sin leer entre lecturas de la misma
+;   rutina: entradas de la misma tabla que las partidas no han pedido); lo
+;   leen p00:4098, p00:409A (14 bytes)
+;   0x931e..0x932c  (14 bytes)
+DATA_leido_931E:
+	defb 05eh,093h,06dh,093h,09eh,093h,0d1h,093h,004h,094h,02eh,094h,075h,094h	; 931e  ^.m.........u.
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x932c..0x935e  (50 bytes)
+DATA_932C:
+	defb 08dh,094h,05eh,093h,06dh,093h,09eh,093h,0d1h,093h,004h,094h,02eh,094h,075h,094h	; 932c  ..^.m.........u.
+	defb 08dh,094h,05eh,093h,06dh,093h,09eh,093h,0d1h,093h,004h,094h,02eh,094h,075h,094h	; 933c  ..^.m.........u.
+	defb 08dh,094h,05eh,093h,06dh,093h,09eh,093h,0d1h,093h,004h,094h,02eh,094h,075h,094h	; 934c  ..^.m.........u.
+	defb 08dh,094h	; 935c
 
 ; ======================================================================
-; CODIGO 0x94bd..0x94d1  (20 bytes)
+; CODIGO 0x935e..0x9392  (52 bytes)
 ; ======================================================================
 
 
+L_935E:
+	ld hl,0e434h		;935e
+	inc (hl)			;9361
+	ld a,(hl)			;9362
+	cp 007h		;9363
+	jr c,L_9369		;9365
+	ld (hl),0ffh		;9367
+L_9369:
+	ld (0e602h),a		;9369
+	ret			;936c
+L_936D:
+	call L_94B7		;936d
+L_9370:
+	ld hl,0e435h		;9370
+	inc (hl)			;9373
+	ld a,(hl)			;9374
+	cp c			;9375
+	jr c,L_937A		;9376
+	ld (hl),0ffh		;9378
+L_937A:
+	ld b,a			;937a
+	ld a,(0e380h)		;937b
+	ld c,a			;937e
+	add a,a			;937f
+	add a,c			;9380
+	add a,b			;9381
+	ld hl,L_9391		;9382
+	call 04a6eh		;9385
+L_9388:
+	ld (0e632h),a		;9388
+	ld de,00080h		;938b
+	call 05692h		;938e
+L_9391:
+	ret			;9391
+
+; ----------------------------------------------------------------------
+; DATOS leido_9392: 1 bytes que lee p00:4A73 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:4A73 (1 bytes)
+;   0x9392..0x9393  (1 bytes)
+DATA_leido_9392:
+	defb 010h	; 9392
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x9393..0x939e  (11 bytes)
+DATA_9393:
+	defb 014h,013h,011h,015h,013h,012h,016h,013h,010h,014h,013h	; 9393  ...........
+
+; ======================================================================
+; CODIGO 0x939e..0x93cf  (49 bytes)
+; ======================================================================
+
+
+L_939E:
+	call L_94B7		;939e
+L_93A1:
+	ld hl,0e436h		;93a1
+	inc (hl)			;93a4
+	ld a,(hl)			;93a5
+	cp c			;93a6
+	jr c,L_93AB		;93a7
+	ld (hl),000h		;93a9
+L_93AB:
+	ld hl,l93ceh		;93ab
+	call 04a6eh		;93ae
+L_93B1:
+	ld (0e631h),a		;93b1
+	ld a,001h		;93b4
+	ld (0e630h),a		;93b6
+	call L_93BD		;93b9
+	ret			;93bc
+L_93BD:
+	xor a			;93bd
+	ld (0e437h),a		;93be
+	ld (0e439h),a		;93c1
+	ld a,(0e36fh)		;93c4
+	cp 003h		;93c7
+	ret c			;93c9
+	xor a			;93ca
+	ld (0e438h),a		;93cb
+L_93CE:
+	ret			;93ce
+
+; ----------------------------------------------------------------------
+; DATOS leido_93CF: 2 bytes que lee p00:4A73 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:4A73 (2 bytes)
+;   0x93cf..0x93d1  (2 bytes)
+DATA_leido_93CF:
+	defb 002h,001h	; 93cf
+
+; ======================================================================
+; CODIGO 0x93d1..0x9402  (49 bytes)
+; ======================================================================
+
+
+L_93D1:
+	call L_94B7		;93d1
+L_93D4:
+	ld hl,0e437h		;93d4
+	inc (hl)			;93d7
+	ld a,(hl)			;93d8
+	cp c			;93d9
+	jr c,L_93DE		;93da
+	ld (hl),0ffh		;93dc
+L_93DE:
+	ld hl,l9401h		;93de
+	call 04a6eh		;93e1
+L_93E4:
+	ld (0e631h),a		;93e4
+	ld a,001h		;93e7
+	ld (0e630h),a		;93e9
+	call L_93F0		;93ec
+	ret			;93ef
+L_93F0:
+	xor a			;93f0
+	ld (0e436h),a		;93f1
+	ld (0e439h),a		;93f4
+	ld a,(0e36fh)		;93f7
+	cp 003h		;93fa
+	ret c			;93fc
+	xor a			;93fd
+	ld (0e438h),a		;93fe
+L_9401:
+	ret			;9401
+
+; ----------------------------------------------------------------------
+; DATOS leido_9402: 1 bytes que lee p00:4A73 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:4A73 (1 bytes)
+;   0x9402..0x9403  (1 bytes)
+DATA_leido_9402:
+	defb 003h	; 9402
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x9403..0x942e  (43 bytes)
+DATA_9403:
+	defb 004h,0cdh,0b7h,094h,021h,038h,0e4h,034h,07eh,0b9h,038h,002h,036h,0ffh,021h,02bh	; 9403  ....!8.4~.8.6.!+
+	defb 094h,0cdh,06eh,04ah,032h,031h,0e6h,0cdh,024h,094h,011h,080h,000h,0cdh,092h,056h	; 9413  ..nJ21..$......V
+	defb 0c9h,0afh,032h,036h,0e4h,032h,037h,0e4h,0c9h,00dh,00eh	; 9423  ..26.27....
+
+; ======================================================================
+; CODIGO 0x942e..0x9469  (59 bytes)
+; ======================================================================
+
+
+L_942E:
+	call L_94B7		;942e
+L_9431:
+	ld hl,0e439h		;9431
+	inc (hl)			;9434
+	ld a,(hl)			;9435
+	cp c			;9436
+	jr c,L_943B		;9437
+	ld (hl),0ffh		;9439
+L_943B:
+	ld b,a			;943b
+	ld a,(0e380h)		;943c
+	ld c,a			;943f
+	add a,a			;9440
+	add a,c			;9441
+	add a,b			;9442
+	ld hl,l9468h		;9443
+	call 04a6eh		;9446
+L_9449:
+	ld (0e630h),a		;9449
+	ld a,(0e631h)		;944c
+	cp 005h		;944f
+	jr nc,L_9457		;9451
+	xor a			;9453
+	ld (0e631h),a		;9454
+L_9457:
+	call L_9461		;9457
+	ld de,00100h		;945a
+	call 05692h		;945d
+L_9460:
+	ret			;9460
+L_9461:
+	xor a			;9461
+	ld (0e436h),a		;9462
+	ld (0e437h),a		;9465
+L_9468:
+	ret			;9468
+
+; ----------------------------------------------------------------------
+; DATOS leido_9469: 1 bytes que lee p00:4A73 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:4A73 (1 bytes)
+;   0x9469..0x946a  (1 bytes)
+DATA_leido_9469:
+	defb 005h	; 9469
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x946a..0x9475  (11 bytes)
+DATA_946A:
+	defb 006h,007h,005h,008h,007h,00ah,00bh,00ch,00ah,00bh,009h	; 946a  ...........
+
+; ======================================================================
+; CODIGO 0x9475..0x948d  (24 bytes)
+; ======================================================================
+
+
+L_9475:
+	ld hl,0e43ah		;9475
+	inc (hl)			;9478
+	ld a,(hl)			;9479
+	ld (0e608h),a		;947a
+	cp 002h		;947d
+	jr c,L_9483		;947f
+	ld (hl),0ffh		;9481
+L_9483:
+	call L_8505		;9483
+	ld de,00080h		;9486
+	call 05692h		;9489
+L_948C:
+	ret			;948c
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x948d..0x94b7  (42 bytes)
+DATA_948D:
+	defb 021h,03bh,0e4h,036h,0ffh,03ah,07fh,0e3h,0c6h,002h,032h,000h,0e6h,0feh,002h,006h	; 948d  !..6.:....2.....
+	defb 00ah,028h,002h,006h,005h,03ah,09eh,0e3h,0b7h,078h,028h,001h,087h,032h,001h,0e6h	; 949d  .(...:...x(..2..
+	defb 011h,000h,001h,0cdh,092h,056h,0cdh,007h,050h,0c9h	; 94ad  .....V..P.
+
+; ======================================================================
+; CODIGO 0x94b7..0x94d1  (26 bytes)
+; ======================================================================
+
+
+L_94B7:
+	ld a,(0e43dh)		;94b7
+	ld (0ef80h),a		;94ba
 L_94BD:
 	ld a,(0e36fh)		;94bd   ; un byte de la tabla de 0x94D0 por 0xE36F x 8 + 0xEF80
 	add a,a			;94c0
@@ -2550,12 +2810,27 @@ L_94D0:
 	ret			;94d0
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x94d1..0x9511  (64 bytes)
+; DATOS sin identificar  0x94d1..0x94d2  (1 bytes)
 DATA_94D1:
-	defb 007h,001h,002h,001h,000h,001h,002h,001h,007h,001h,002h,001h,000h,002h,002h,001h	; 94d1  ................
-	defb 007h,001h,002h,001h,000h,003h,002h,001h,007h,001h,002h,001h,001h,003h,002h,001h	; 94e1  ................
-	defb 007h,001h,002h,001h,002h,003h,002h,001h,007h,001h,002h,002h,002h,003h,002h,001h	; 94f1  ................
-	defb 007h,002h,002h,002h,002h,003h,002h,001h,007h,003h,002h,002h,002h,003h,002h,001h	; 9501  ................
+	defb 007h	; 94d1
+
+; ----------------------------------------------------------------------
+; DATOS leido_94D2: 13 bytes que lee p04:94CF al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido, con 6 sin leer entre lecturas de la misma rutina: entradas
+;   de la misma tabla que las partidas no han pedido); lo leen p04:94CF (13
+;   bytes)
+;   0x94d2..0x94df  (13 bytes)
+DATA_leido_94D2:
+	defb 001h,002h,001h,000h,001h,002h,001h,007h,001h,002h,001h,000h,002h	; 94d2  .............
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x94df..0x9511  (50 bytes)
+DATA_94DF:
+	defb 002h,001h,007h,001h,002h,001h,000h,003h,002h,001h,007h,001h,002h,001h,001h,003h	; 94df  ................
+	defb 002h,001h,007h,001h,002h,001h,002h,003h,002h,001h,007h,001h,002h,002h,002h,003h	; 94ef  ................
+	defb 002h,001h,007h,002h,002h,002h,002h,003h,002h,001h,007h,003h,002h,002h,002h,003h	; 94ff  ................
+	defb 002h,001h	; 950f
 
 ; ======================================================================
 ; CODIGO 0x9511..0x95f9  (232 bytes)
@@ -2715,7 +2990,7 @@ DATA_tabla_95F9:
 ; ----------------------------------------------------------------------
 ; DATOS leido_9639: 38 bytes que lee p04:95DC al jugar (medido ejecutando el
 ;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido, con 32 sin leer entre lecturas de la misma rutina:
+;   se lee seguido, con 25 sin leer entre lecturas de la misma rutina:
 ;   entradas de la misma tabla que las partidas no han pedido); lo leen
 ;   p04:95DC (38 bytes)
 ;   0x9639..0x965f  (38 bytes)
@@ -2796,18 +3071,18 @@ L_96D5:
 	ld a,(iy+005h)		;96d5   ; el doble: mira 8 a la izquierda y en su sitio
 	sub 008h		;96d8
 	ld h,a			;96da
-	ld l,(iy+003h)		;96db
+	ld l,(iy+003h)		;96db   ; lee la y del disparo
 	call L_96FA		;96de
-	ld a,(iy+000h)		;96e1
+	ld a,(iy+000h)		;96e1   ; lee el tipo del disparo (0: libre)
 	or a			;96e4
 	ret z			;96e5
-	ld h,(iy+005h)		;96e6
-	ld l,(iy+003h)		;96e9
+	ld h,(iy+005h)		;96e6   ; lee la x del disparo
+	ld l,(iy+003h)		;96e9   ; lee la y del disparo
 	call L_96FA		;96ec
 	ret			;96ef
 L_96F0:
 	ld h,(iy+005h)		;96f0   ; el sencillo: en su sitio
-	ld l,(iy+003h)		;96f3
+	ld l,(iy+003h)		;96f3   ; lee la y del disparo
 	call L_96FA		;96f6
 	ret			;96f9
 L_96FA:
@@ -2821,18 +3096,18 @@ L_96FA:
 	ret			;970c
 L_970D:
 	call L_9722		;970d   ; el laser: su largo contra el decorado, desde su punta
-	ld a,(iy+000h)		;9710
+	ld a,(iy+000h)		;9710   ; lee el tipo del disparo (0: libre)
 	or a			;9713
 	ret z			;9714
-	ld h,(iy+005h)		;9715
-	ld a,(iy+003h)		;9718
+	ld h,(iy+005h)		;9715   ; lee la x del disparo
+	ld a,(iy+003h)		;9718   ; lee la y del disparo
 	add a,008h		;971b
 	ld l,a			;971d
 	call L_9728		;971e
 	ret			;9721
 L_9722:
-	ld h,(iy+005h)		;9722
-	ld l,(iy+003h)		;9725
+	ld h,(iy+005h)		;9722   ; lee la x del disparo
+	ld l,(iy+003h)		;9725   ; lee la y del disparo
 L_9728:
 	call 04a46h		;9728   ; cada caracter del laser: decorado?
 	ld a,(iy+00ah)		;972b
@@ -2877,7 +3152,7 @@ L_976A:
 	ret			;976d
 L_976E:
 	ld h,(iy+005h)		;976e   ; el laser hacia atras igual
-	ld l,(iy+003h)		;9771
+	ld l,(iy+003h)		;9771   ; lee la y del disparo
 	call 04a46h		;9774
 	ld a,(iy+00ah)		;9777
 	or a			;977a
@@ -2899,8 +3174,8 @@ L_9793:
 	ld a,(iy+010h)		;9793   ; el rayo vertical: hacia abajo, cada fila de su largo
 	or a			;9796
 	ret nz			;9797
-	ld h,(iy+005h)		;9798
-	ld l,(iy+003h)		;979b
+	ld h,(iy+005h)		;9798   ; lee la x del disparo
+	ld l,(iy+003h)		;979b   ; lee la y del disparo
 	call 04a46h		;979e
 	ld (0ef80h),hl		;97a1
 	ld a,(iy+00ah)		;97a4
@@ -2958,7 +3233,7 @@ L_97FF:
 	ld a,040h		;97ff
 	call 04089h		;9801   ; suma_a_hl: HL = HL + A
 	djnz L_97EA		;9804
-	ld a,(iy+000h)		;9806
+	ld a,(iy+000h)		;9806   ; lee el tipo del disparo (0: libre)
 	cp 00ah		;9809
 	jr nz,L_9814		;980b
 	exx			;980d
@@ -2971,13 +3246,13 @@ L_9814:
 	add a,a			;9817
 	add a,a			;9818
 	add a,a			;9819
-	ld (iy+00dh),a		;981a
+	ld (iy+00dh),a		;981a   ; guarda el alto del disparo para los choques
 	ret			;981d
 L_981E:
 	call L_999D		;981e   ; con jefe, dano; y el rayo se queda 4 cuadros (IY+10/11)
 L_9821:
-	ld (iy+010h),001h		;9821
-	ld (iy+011h),004h		;9825
+	ld (iy+010h),001h		;9821   ; el largo del disparo = 0x01
+	ld (iy+011h),004h		;9825   ; la vida del disparo = 0x04
 	ret			;9829
 L_982A:
 	ret			;982a
@@ -2992,16 +3267,16 @@ L_982B:
 	jr z,L_983D		;983a
 	ret			;983c
 L_983D:
-	ld a,(iy+009h)		;983d
+	ld a,(iy+009h)		;983d   ; lee quien lanza el disparo (alto)
 	or a			;9840
 	jr nz,L_984D		;9841
-	ld h,(iy+005h)		;9843
-	ld a,(iy+003h)		;9846
+	ld h,(iy+005h)		;9843   ; lee la x del disparo
+	ld a,(iy+003h)		;9846   ; lee la y del disparo
 	add a,008h		;9849
 	jr L_9857		;984b
 L_984D:
-	ld h,(iy+005h)		;984d
-	ld a,(iy+003h)		;9850
+	ld h,(iy+005h)		;984d   ; lee la x del disparo
+	ld a,(iy+003h)		;9850   ; lee la y del disparo
 	sub 008h		;9853
 	ccf			;9855
 	ret nc			;9856
@@ -3035,16 +3310,16 @@ L_9881:
 	ld a,(iy+009h)		;9881   ; el caracter delante del disparo (segun su sentido, IY+9)
 	or a			;9884
 	jr nz,L_9896		;9885
-	ld h,(iy+005h)		;9887
-	ld a,(iy+003h)		;988a
+	ld h,(iy+005h)		;9887   ; lee la x del disparo
+	ld a,(iy+003h)		;988a   ; lee la y del disparo
 	add a,008h		;988d
 	ld l,a			;988f
 	call L_98AB		;9890
 	ret nc			;9893
 	jr L_98A5		;9894
 L_9896:
-	ld h,(iy+005h)		;9896
-	ld a,(iy+003h)		;9899
+	ld h,(iy+005h)		;9896   ; lee la x del disparo
+	ld a,(iy+003h)		;9899   ; lee la y del disparo
 	sub 008h		;989c
 	ld l,a			;989e
 	ccf			;989f
@@ -3902,19 +4177,15 @@ L_9DC6:
 	jp 050feh		;9def
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9df2..0x9df7  (5 bytes)
-DATA_9DF2:
-	defb 07bh,07bh,07bh,07bh,05ch	; 9df2
-
-; ----------------------------------------------------------------------
-; DATOS leido_9DF7: 12 bytes que lee p00:4A73 al jugar (medido ejecutando el
+; DATOS leido_9DF2: 17 bytes que lee p00:4A73 al jugar (medido ejecutando el
 ;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido, con 2 sin leer entre lecturas de la misma rutina: entradas
-;   de la misma tabla que las partidas no han pedido); lo leen p00:4A73 (12
+;   se lee seguido, con 3 sin leer entre lecturas de la misma rutina: entradas
+;   de la misma tabla que las partidas no han pedido); lo leen p00:4A73 (17
 ;   bytes)
-;   0x9df7..0x9e03  (12 bytes)
-DATA_leido_9DF7:
-	defb 070h,060h,090h,060h,07bh,07bh,064h,093h,080h,075h,060h,075h	; 9df7  p`.`{{d..u`u
+;   0x9df2..0x9e03  (17 bytes)
+DATA_leido_9DF2:
+	defb 07bh,07bh,07bh,07bh,05ch,070h,060h,090h,060h,07bh,07bh,064h,093h,080h,075h,060h	; 9df2  {{{{\p`.`{{d..u`
+	defb 075h	; 9e02
 
 ; ======================================================================
 ; CODIGO 0x9e03..0x9f00  (253 bytes)
@@ -4070,10 +4341,23 @@ DATA_9F00:
 ;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
 ;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
 ;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p04:9EC8 (4 bytes)
-;   0x9f0d..0x9f11  (4 bytes)
+;   da quien llama; lo leen p04:9EC8 (2 bytes)
+;   0x9f0d..0x9f0f  (2 bytes)
 DATA_tabla_9F0D:
-	defb 028h,030h,040h,040h	; 9f0d
+	defb 028h,030h	; 9f0d
+
+; ----------------------------------------------------------------------
+; DATOS leido_9F0F: 1 bytes que lee p04:9ECE al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p04:9ECE (1 bytes)
+;   0x9f0f..0x9f10  (1 bytes)
+DATA_leido_9F0F:
+	defb 040h	; 9f0f
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x9f10..0x9f11  (1 bytes)
+DATA_9F10:
+	defb 040h	; 9f10
 
 ; ======================================================================
 ; CODIGO 0x9f11..0x9fff  (238 bytes)

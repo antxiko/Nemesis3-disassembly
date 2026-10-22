@@ -3539,7 +3539,7 @@ DATA_leido_5794:
 ; ----------------------------------------------------------------------
 ; DATOS leido_57AA: 63 bytes que leen p00:576A, p00:576D, p00:5770 al jugar
 ;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
-;   el tamano es lo que se lee seguido, con 5 sin leer entre lecturas de la
+;   el tamano es lo que se lee seguido, con 2 sin leer entre lecturas de la
 ;   misma rutina: entradas de la misma tabla que las partidas no han pedido);
 ;   lo leen p00:576A, p00:576D, p00:5770 (63 bytes)
 ;   0x57aa..0x57e9  (63 bytes)
@@ -4295,9 +4295,7 @@ L_5CF4:
 ; ----------------------------------------------------------------------
 ; DATOS leido_5CF5: 11 bytes que lee p00:4A73 al jugar (medido ejecutando el
 ;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido, con 1 sin leer entre lecturas de la misma rutina: entradas
-;   de la misma tabla que las partidas no han pedido); lo leen p00:4A73 (11
-;   bytes)
+;   se lee seguido); lo leen p00:4A73 (11 bytes)
 ;   0x5cf5..0x5d00  (11 bytes)
 DATA_leido_5CF5:
 	defb 05bh,060h,0ffh,060h,090h,05eh,072h,060h,063h,066h,060h	; 5cf5  [`.`.^r`cf`
@@ -4628,20 +4626,52 @@ DATA_leido_5EC3:
 	defb 007h,000h	; 5ec3
 
 ; ----------------------------------------------------------------------
-; DATOS leido_5EC5: 4 bytes que lee p00:5EDA al jugar (medido ejecutando el
+; DATOS leido_5EC5: 8 bytes que lee p00:5EDA al jugar (medido ejecutando el
 ;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:5EDA (4 bytes)
-;   0x5ec5..0x5ec9  (4 bytes)
+;   se lee seguido); lo leen p00:5EDA (8 bytes)
+;   0x5ec5..0x5ecd  (8 bytes)
 DATA_leido_5EC5:
-	defb 0b0h,061h,008h,062h	; 5ec5
+	defb 0b0h,061h,008h,062h,058h,067h,095h,067h	; 5ec5  .a.bXg.g
 
 ; ----------------------------------------------------------------------
-; DATOS resto_5EC9: lo apuntan con el banco puesto p00:5C05 (0x5EC9), p27:8A40
-;   (0x5ECD); el tamano es lo que hay hasta lo siguiente, no sale de
-;   recorrerlo; lo leen p00:5C05, p27:8A40 (11 bytes)
-;   0x5ec9..0x5ed4  (11 bytes)
-DATA_resto_5EC9:
-	defb 058h,067h,095h,067h,001h,07fh,007h,080h,080h,007h,000h	; 5ec9  Xg.g.......
+; DATOS leido_5ECD: 1 bytes que lee p01:6020 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p01:6020 (1 bytes)
+;   0x5ecd..0x5ece  (1 bytes)
+DATA_leido_5ECD:
+	defb 001h	; 5ecd
+
+; ----------------------------------------------------------------------
+; DATOS leido_5ECE: 1 bytes que lee p01:60A5 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p01:60A5 (1 bytes)
+;   0x5ece..0x5ecf  (1 bytes)
+DATA_leido_5ECE:
+	defb 07fh	; 5ece
+
+; ----------------------------------------------------------------------
+; DATOS leido_5ECF: 2 bytes que leen p01:6026, p01:6020 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p01:6026, p01:6020 (2 bytes)
+;   0x5ecf..0x5ed1  (2 bytes)
+DATA_leido_5ECF:
+	defb 007h,080h	; 5ecf
+
+; ----------------------------------------------------------------------
+; DATOS leido_5ED1: 1 bytes que lee p01:60A5 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p01:60A5 (1 bytes)
+;   0x5ed1..0x5ed2  (1 bytes)
+DATA_leido_5ED1:
+	defb 080h	; 5ed1
+
+; ----------------------------------------------------------------------
+; DATOS leido_5ED2: 2 bytes que leen p01:6026, p01:6020 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p01:6026, p01:6020 (2 bytes)
+;   0x5ed2..0x5ed4  (2 bytes)
+DATA_leido_5ED2:
+	defb 007h,000h	; 5ed2
 
 ; ======================================================================
 ; CODIGO 0x5ed4..0x5ffe  (298 bytes)

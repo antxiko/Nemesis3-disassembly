@@ -536,10 +536,22 @@ def sonido():
               "las cabeceras de los sonidos: p10:6089 copia 18 bytes de cada una ([canales]"
               "[prioridad] y una palabra por canal, la partitura); se solapan porque cada una solo "
               "usa 2 + 2 x canales", "p10:608C", F=18)
+    # las ordenes de la partitura: 0xE0-0xFE las reparte p10:6B3D con la tabla
+    # de 0x6B52 (31 palabras: la 0xFF acaba el canal antes, p10:644D, y en
+    # 0x6B90 empieza la rutina de la 0xE0) y 0xD0-0xDF p10:6E27 con la de 0x6E37
+    B.declara(v, 0x6B52, 0x6B90, "ordenes_E0_FE",
+              "las rutinas de las ordenes 0xE0-0xFE de la partitura: p10:6B4D toma la "
+              "palabra (orden & 0x1F) x 2 y salta alli (la 0xFF no llega: p10:644D)",
+              "p10:6B4D", F="w8")
+    B.declara(v, 0x6E37, 0x6E57, "ordenes_D0_DF",
+              "las rutinas de las ordenes 0xD0-0xDF de la partitura: p10:6E32 toma la "
+              "palabra (orden & 0x0F) x 2 y salta alli", "p10:6E32", F="w8")
     ruta = os.path.join(B.RAIZ, "work", "cob", "sonidos.json")
     if not os.path.exists(ruta):
         return
-    por = json.load(open(ruta))["por_sonido"]
+    medido = json.load(open(ruta))
+    por = medido["por_sonido"]
+    quien = medido["lector"]
     de = {}
     for n, xs in por.items():
         for k in xs:
@@ -563,12 +575,16 @@ def sonido():
         w = ventana_seguida(b)
         for i, f in tramos:
             ns = sorted(set().union(*[de.get((b, a), set()) for a in range(i, f + 1)]))
+            lee = sorted({quien.get("%d:%04X" % (b, a)) for a in range(i, f + 1)} - {None})
+            lee = ["p%02d:%s" % (int(x.split(":")[0]), x.split(":")[1]) for x in lee
+                   if not x.startswith("-")] or ["p10:644C"]
             B.declara(w, i, f + 1, "partitura_%04X" % i,
-                      "partitura que lee el motor de sonido (p10:644C y compania) al tocar %s %s "
+                      "partitura que lee el motor de sonido (%s) al tocar %s %s "
                       "(medido ejecutando el motor, tools/lee_sonidos.py; el tamano es lo que se lee "
-                      "seguido)" % ("los sonidos" if len(ns) > 1 else "el sonido",
+                      "seguido)" % (", ".join(lee[:4]) + (" y otras" if len(lee) > 4 else ""),
+                                    "los sonidos" if len(ns) > 1 else "el sonido",
                                     ", ".join("0x%02X" % n for n in ns[:8]) + (" y otros" if len(ns) > 8 else "")),
-                      "p10:644C", F=16)
+                      lee, F=16)
 
 
 # ------------------------------------------------- sprites y juegos de listas

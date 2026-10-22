@@ -186,15 +186,15 @@ L_A128:
 	ret			;a12c
 
 ; ----------------------------------------------------------------------
-; DATOS resto_A12D: lo apuntan con el banco puesto p05:A10C (0xA12D); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p05:A10C (10 bytes)
+; DATOS leido_A12D: 10 bytes que lee p04:9DCF al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p04:9DCF (10 bytes)
 ;   0xa12d..0xa137  (10 bytes)
-DATA_resto_A12D:
+DATA_leido_A12D:
 	defb 003h,000h,008h,020h,000h,0f8h,000h,012h,009h,0ffh	; a12d  ... ......
 
 ; ======================================================================
-; CODIGO 0xa137..0xa1fc  (197 bytes)
+; CODIGO 0xa137..0xa29e  (359 bytes)
 ; ======================================================================
 
 
@@ -303,21 +303,40 @@ L_A1EA:
 	jp c,09edfh		;a1f5
 	dec a			;a1f8
 	jp 09edfh		;a1f9
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0xa1fc..0xa24a  (78 bytes)
-DATA_A1FC:
-	defb 0afh,0ddh,036h,013h,004h,0ddh,036h,014h,001h,0ddh,036h,010h,010h,0ddh,036h,032h	; a1fc  ..6...6...6...62
-	defb 018h,0c9h,03ah,045h,0e4h,0a7h,0c2h,0d1h,075h,02ah,003h,0ech,011h,030h,000h,019h	; a20c  ..:E....u*...0..
-	defb 0ddh,075h,004h,0ddh,07eh,001h,03dh,028h,01eh,0ddh,07eh,00fh,0c6h,008h,0ddh,077h	; a21c  .u..~.=(..~....w
-	defb 00fh,0ddh,034h,014h,0ddh,07eh,006h,0d6h,008h,0e6h,0f8h,0ddh,077h,006h,0c0h,0ddh	; a22c  ..4..~......w...
-	defb 036h,002h,010h,0ddh,034h,001h,0c9h,0ddh,035h,002h,0c0h,0c3h,0d1h,075h	; a23c  6...4...5....u
-
-; ======================================================================
-; CODIGO 0xa24a..0xa29e  (84 bytes)
-; ======================================================================
-
-
+L_A1FC:
+	xor a			;a1fc
+	ld (ix+013h),004h		;a1fd
+	ld (ix+014h),001h		;a201
+	ld (ix+010h),010h		;a205   ; las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll) = 0x10
+	ld (ix+032h),018h		;a209
+	ret			;a20d
+L_A20E:
+	ld a,(0e445h)		;a20e   ; lee el jefe vencido (1, o 2 en la fase 4)
+	and a			;a211
+	jp nz,075d1h		;a212
+	ld hl,(0ec03h)		;a215
+	ld de,00030h		;a218
+	add hl,de			;a21b
+	ld (ix+004h),l		;a21c   ; guarda la y del enemigo
+	ld a,(ix+001h)		;a21f   ; lee el paso del enemigo
+	dec a			;a222
+	jr z,L_A243		;a223
+	ld a,(ix+00fh)		;a225   ; lee el ancho del enemigo para los choques
+	add a,008h		;a228
+	ld (ix+00fh),a		;a22a   ; guarda el ancho del enemigo para los choques
+	inc (ix+014h)		;a22d
+	ld a,(ix+006h)		;a230   ; lee la x del enemigo
+	sub 008h		;a233
+	and 0f8h		;a235
+	ld (ix+006h),a		;a237   ; guarda la x del enemigo
+	ret nz			;a23a
+	ld (ix+002h),010h		;a23b   ; la cuenta del enemigo = 0x10
+	inc (ix+001h)		;a23f   ; suma 1 a el paso del enemigo
+	ret			;a242
+L_A243:
+	dec (ix+002h)		;a243   ; resta 1 a la cuenta del enemigo
+	ret nz			;a246
+	jp 075d1h		;a247
 L_A24A:
 	ld l,(ix+004h)		;a24a   ; pinta en el bufer IX+13 filas de IX+14 caracteres de 0xA29E
 	ld h,(ix+006h)		;a24d
@@ -370,13 +389,23 @@ L_A28F:
 ;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
 ;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
 ;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p05:A254 (60 bytes)
-;   0xa29e..0xa2da  (60 bytes)
+;   da quien llama; lo leen p05:A254 (1 bytes)
+;   0xa29e..0xa29f  (1 bytes)
 DATA_tabla_A29E:
-	defb 083h,083h,083h,083h,083h,083h,083h,083h,083h,083h,083h,07fh,080h,081h,082h,08eh	; a29e  ................
-	defb 08eh,08eh,08eh,08eh,08eh,08eh,08eh,08eh,08eh,08eh,07bh,07ch,07dh,07eh,084h,084h	; a2ae  ..........{|}~..
-	defb 084h,084h,084h,084h,084h,084h,084h,084h,084h,085h,086h,087h,088h,08dh,08dh,08dh	; a2be  ................
-	defb 08dh,08dh,08dh,08dh,08dh,08dh,08dh,08dh,089h,08ah,08bh,08ch	; a2ce  ............
+	defb 083h	; a29e
+
+; ----------------------------------------------------------------------
+; DATOS leido_A29F: 59 bytes que lee p05:A26D al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido, con 3 sin leer entre lecturas de la misma rutina: entradas
+;   de la misma tabla que las partidas no han pedido); lo leen p05:A26D (59
+;   bytes)
+;   0xa29f..0xa2da  (59 bytes)
+DATA_leido_A29F:
+	defb 083h,083h,083h,083h,083h,083h,083h,083h,083h,083h,07fh,080h,081h,082h,08eh,08eh	; a29f  ................
+	defb 08eh,08eh,08eh,08eh,08eh,08eh,08eh,08eh,08eh,07bh,07ch,07dh,07eh,084h,084h,084h	; a2af  .........{|}~...
+	defb 084h,084h,084h,084h,084h,084h,084h,084h,085h,086h,087h,088h,08dh,08dh,08dh,08dh	; a2bf  ................
+	defb 08dh,08dh,08dh,08dh,08dh,08dh,08dh,089h,08ah,08bh,08ch	; a2cf  ...........
 
 ; ======================================================================
 ; CODIGO 0xa2da..0xa2e0  (6 bytes)
@@ -416,11 +445,11 @@ L_A2F4:
 	jp 09dc1h		;a314
 
 ; ----------------------------------------------------------------------
-; DATOS resto_A317: lo apuntan con el banco puesto p05:A2FA (0xA317); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p05:A2FA (10 bytes)
+; DATOS leido_A317: 10 bytes que lee p04:9DCF al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p04:9DCF (10 bytes)
 ;   0xa317..0xa321  (10 bytes)
-DATA_resto_A317:
+DATA_leido_A317:
 	defb 003h,000h,008h,020h,000h,0f8h,000h,013h,000h,0ffh	; a317  ... ......
 
 ; ======================================================================
@@ -532,8 +561,11 @@ L_A3E0:
 	jp 058d5h		;a3e3   ; y el sonido 0x2D
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xa3e6..0xa3ee  (8 bytes)
-DATA_A3E6:
+; DATOS leido_A3E6: 8 bytes que leen p00:4A60, p00:4A62 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (8 bytes)
+;   0xa3e6..0xa3ee  (8 bytes)
+DATA_leido_A3E6:
 	defb 010h,018h,02eh,018h,050h,018h,06eh,018h	; a3e6  ....P.n.
 
 ; ======================================================================
@@ -582,15 +614,15 @@ L_A406:
 	jp 09dc1h		;a439
 
 ; ----------------------------------------------------------------------
-; DATOS resto_A43C: lo apuntan con el banco puesto p05:A40A (0xA43C); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p05:A40A (10 bytes)
+; DATOS leido_A43C: 10 bytes que lee p04:9DCF al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p04:9DCF (10 bytes)
 ;   0xa43c..0xa446  (10 bytes)
-DATA_resto_A43C:
+DATA_leido_A43C:
 	defb 004h,000h,004h,050h,000h,0f8h,000h,016h,04fh,01fh	; a43c  ...P....O.
 
 ; ======================================================================
-; CODIGO 0xa446..0xa4ad  (103 bytes)
+; CODIGO 0xa446..0xa505  (191 bytes)
 ; ======================================================================
 
 
@@ -643,21 +675,46 @@ L_A479:
 	ld a,03ch		;a4a5
 	call 0764fh		;a4a7
 	jp 058d1h		;a4aa   ; sonido_2C: pide el sonido 0x2C
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0xa4ad..0xa4f8  (75 bytes)
-DATA_A4AD:
-	defb 0cdh,0cfh,0a4h,0cdh,07dh,04ah,011h,000h,000h,0ebh,0cdh,0d7h,078h,0ddh,036h,013h	; a4ad  ....}J......x.6.
-	defb 002h,0ddh,036h,014h,004h,0ddh,036h,010h,004h,0ddh,07eh,01fh,0c6h,00bh,0ddh,077h	; a4bd  ..6...6...~....w
-	defb 032h,0c9h,03ah,089h,0e3h,06fh,026h,000h,029h,029h,029h,029h,029h,011h,000h,007h	; a4cd  2.:..o&.)))))...
-	defb 019h,011h,000h,009h,0e7h,0d8h,021h,0ffh,006h,0c9h,0cdh,0c1h,078h,0ddh,06eh,005h	; a4dd  ......!.....x.n.
-	defb 0ddh,066h,006h,019h,07ch,0feh,0f0h,0d8h,0c3h,0d1h,075h	; a4ed  .f..|.....u
-
-; ======================================================================
-; CODIGO 0xa4f8..0xa505  (13 bytes)
-; ======================================================================
-
-
+L_A4AD:
+	call L_A4CF		;a4ad
+	call 04a7dh		;a4b0
+L_A4B3:
+	ld de,00000h		;a4b3
+	ex de,hl			;a4b6
+	call 078d7h		;a4b7
+L_A4BA:
+	ld (ix+013h),002h		;a4ba
+	ld (ix+014h),004h		;a4be
+	ld (ix+010h),004h		;a4c2   ; las marcas del enemigo (bit 2 con velocidad, bit 3 va con el scroll) = 0x04
+	ld a,(ix+01fh)		;a4c6
+	add a,00bh		;a4c9
+	ld (ix+032h),a		;a4cb
+	ret			;a4ce
+L_A4CF:
+	ld a,(0e389h)		;a4cf   ; lee la dificultad de la fase (0 a 0x0F)
+	ld l,a			;a4d2
+	ld h,000h		;a4d3
+	add hl,hl			;a4d5
+	add hl,hl			;a4d6
+	add hl,hl			;a4d7
+	add hl,hl			;a4d8
+	add hl,hl			;a4d9
+	ld de,00700h		;a4da
+	add hl,de			;a4dd
+	ld de,00900h		;a4de
+	rst 20h			;a4e1
+	ret c			;a4e2
+	ld hl,006ffh		;a4e3
+	ret			;a4e6
+L_A4E7:
+	call 078c1h		;a4e7
+	ld l,(ix+005h)		;a4ea   ; lee la x del enemigo (decimales)
+	ld h,(ix+006h)		;a4ed   ; lee la x del enemigo
+	add hl,de			;a4f0
+	ld a,h			;a4f1
+	cp 0f0h		;a4f2
+	ret c			;a4f4
+	jp 075d1h		;a4f5
 L_A4F8:
 	call L_A68B		;a4f8   ; otro jefe: al vencerlo salta a los pasos comunes (p05:A68B); por su paso
 	ld ix,0ec00h		;a4fb   ; apunta a las partes del jefe (4 de 0x20)
@@ -1396,11 +1453,11 @@ L_AA40:
 	jp 09dc1h		;aa60
 
 ; ----------------------------------------------------------------------
-; DATOS resto_AA63: lo apuntan con el banco puesto p05:AA46 (0xAA63); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p05:AA46 (10 bytes)
+; DATOS leido_AA63: 10 bytes que lee p04:9DCF al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p04:9DCF (10 bytes)
 ;   0xaa63..0xaa6d  (10 bytes)
-DATA_resto_AA63:
+DATA_leido_AA63:
 	defb 00bh,000h,008h,038h,000h,0f8h,000h,062h,063h,0ffh	; aa63  ...8...bc.
 
 ; ======================================================================
@@ -1487,11 +1544,11 @@ L_AAD8:
 	ret			;aaf1
 
 ; ----------------------------------------------------------------------
-; DATOS resto_AAF2: lo apuntan con el banco puesto p05:AADB (0xAAF2); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p05:AADB (16 bytes)
+; DATOS leido_AAF2: 16 bytes que leen p00:4A6A, p00:4A6C al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p00:4A6A, p00:4A6C (16 bytes)
 ;   0xaaf2..0xab02  (16 bytes)
-DATA_resto_AAF2:
+DATA_leido_AAF2:
 	defb 0f8h,0f8h,000h,0f8h,008h,0f8h,008h,000h,008h,008h,000h,008h,0f8h,008h,0f8h,000h	; aaf2  ................
 
 ; ======================================================================
@@ -1648,22 +1705,37 @@ DATA_tabla_ABE9:
 ;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
 ;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
 ;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p05:AB32 (35 bytes)
-;   0xabee..0xac11  (35 bytes)
+;   da quien llama; lo leen p05:AB32 (1 bytes)
+;   0xabee..0xabef  (1 bytes)
 DATA_tabla_ABEE:
-	defb 000h,001h,002h,003h,004h,005h,006h,003h,004h,005h,006h,003h,004h,005h,006h,003h	; abee  ................
-	defb 004h,005h,006h,003h,004h,005h,006h,003h,004h,005h,006h,003h,004h,005h,006h,002h	; abfe  ................
-	defb 001h,000h,0ffh	; ac0e
+	defb 000h	; abee
 
 ; ----------------------------------------------------------------------
-; DATOS resto_AC11: lo apuntan con el banco puesto p05:ABC2 (0xAC11), p05:ABC7
-;   (0xAC41); el tamano es lo que hay hasta lo siguiente, no sale de
-;   recorrerlo; lo leen p05:ABC2, p05:ABC7 (96 bytes)
-;   0xac11..0xac71  (96 bytes)
-DATA_resto_AC11:
+; DATOS leido_ABEF: 34 bytes que lee p05:AB36 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p05:AB36 (34 bytes)
+;   0xabef..0xac11  (34 bytes)
+DATA_leido_ABEF:
+	defb 001h,002h,003h,004h,005h,006h,003h,004h,005h,006h,003h,004h,005h,006h,003h,004h	; abef  ................
+	defb 005h,006h,003h,004h,005h,006h,003h,004h,005h,006h,003h,004h,005h,006h,002h,001h	; abff  ................
+	defb 000h,0ffh	; ac0f
+
+; ----------------------------------------------------------------------
+; DATOS leido_AC11: 48 bytes que leen p00:4A60, p00:4A62 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (48 bytes)
+;   0xac11..0xac41  (48 bytes)
+DATA_leido_AC11:
 	defb 0f8h,008h,0e0h,028h,0e8h,0e8h,0d0h,008h,0d0h,018h,0d0h,028h,010h,0f8h,000h,0e0h	; ac11  ...(.......(....
 	defb 038h,0e8h,028h,0d0h,018h,0d0h,008h,0d0h,040h,010h,040h,000h,040h,038h,040h,028h	; ac21  8.(.....@.@.@8@(
 	defb 040h,018h,040h,008h,008h,040h,028h,040h,0e8h,040h,008h,040h,018h,040h,028h,040h	; ac31  @.@..@(@.@.@.@(@
+
+; ----------------------------------------------------------------------
+; DATOS leido_AC41: 48 bytes que leen p00:4A60, p00:4A62 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (48 bytes)
+;   0xac41..0xac71  (48 bytes)
+DATA_leido_AC41:
 	defb 0f8h,010h,0e0h,000h,0e8h,038h,0d0h,028h,0d0h,018h,0d0h,008h,008h,0f8h,028h,0e0h	; ac41  .....8.(......(.
 	defb 0e8h,0e8h,008h,0d0h,018h,0d0h,028h,0d0h,040h,008h,040h,028h,040h,0e8h,040h,008h	; ac51  ......(.@.@(@.@.
 	defb 040h,018h,040h,028h,010h,040h,000h,040h,038h,040h,028h,040h,018h,040h,008h,040h	; ac61  @.@(.@.@8@(@.@.@
@@ -2009,7 +2081,7 @@ L_AE89:
 	ld (ix+002h),001h		;ae8d   ; la cuenta del enemigo = 0x01
 	call 058d5h		;ae91   ; sonido_2D: pide el sonido 0x2D
 L_AE94:
-	inc (ix+001h)		;ae94   ; sube el paso del enemigo
+	inc (ix+001h)		;ae94   ; suma 1 a el paso del enemigo
 	ret			;ae97
 L_AE98:
 	ld a,(ix+026h)		;ae98   ; paso 1: crece IX+26 por cuadro...
@@ -2032,7 +2104,7 @@ L_AE98:
 	ld (ix+024h),a		;aebb
 	ret nz			;aebe
 	ld (ix+024h),018h		;aebf
-	inc (ix+001h)		;aec3   ; sube el paso del enemigo
+	inc (ix+001h)		;aec3   ; suma 1 a el paso del enemigo
 	ret			;aec6
 L_AEC7:
 	call L_AEF9		;aec7   ; paso 2: suelta chispas (p05:AEF9) y mengua bajando; al acabar se quita (0xEC28 = 1)
@@ -2897,7 +2969,7 @@ L_B461:
 	cp 008h		;b461
 	ret nc			;b463
 L_B464:
-	inc (ix+001h)		;b464   ; sube el paso de la pieza
+	inc (ix+001h)		;b464   ; suma 1 a el paso de la pieza
 	ret			;b467
 L_B468:
 	ld de,0fe00h		;b468   ; paso 1: a la izquierda (-0x200)
@@ -2946,7 +3018,7 @@ DATA_tabla_B49F:
 L_B4A3:
 	dec (ix+00ch)		;b4a3   ; 0: al acabar la espera abre y dispara un 0x43 desde su boca
 	ret nz			;b4a6
-	inc (ix+007h)		;b4a7   ; sube el dibujo de la pieza
+	inc (ix+007h)		;b4a7   ; suma 1 a el dibujo de la pieza
 	inc (ix+017h)		;b4aa
 	ld (ix+00ch),010h		;b4ad
 	ld a,(ix+007h)		;b4b1   ; lee el dibujo de la pieza
@@ -2969,7 +3041,7 @@ L_B4BE:
 L_B4D2:
 	dec (ix+00ch)		;b4d2   ; 1: espera 0x30, cierra y vuelve
 	ret nz			;b4d5
-	dec (ix+007h)		;b4d6   ; baja el dibujo de la pieza
+	dec (ix+007h)		;b4d6   ; resta 1 a el dibujo de la pieza
 	dec (ix+017h)		;b4d9
 	ld (ix+00ch),030h		;b4dc
 	ret			;b4e0
@@ -3243,7 +3315,7 @@ L_B6D3:
 	ld a,(0ec03h)		;b6d4
 	add a,b			;b6d7
 	ld (ix+004h),a		;b6d8   ; guarda la y del enemigo
-	dec (ix+002h)		;b6db   ; baja la cuenta del enemigo
+	dec (ix+002h)		;b6db   ; resta 1 a la cuenta del enemigo
 	ret nz			;b6de
 	ld (ix+002h),001h		;b6df   ; la cuenta del enemigo = 0x01
 	inc (ix+024h)		;b6e3
@@ -3252,7 +3324,7 @@ L_B6D3:
 	ld (ix+006h),a		;b6eb   ; guarda la x del enemigo
 	ret nz			;b6ee
 	ld (ix+006h),004h		;b6ef   ; la x del enemigo = 0x04
-	inc (ix+001h)		;b6f3   ; sube el paso del enemigo
+	inc (ix+001h)		;b6f3   ; suma 1 a el paso del enemigo
 	ret			;b6f6
 
 ; ----------------------------------------------------------------------
@@ -3690,7 +3762,7 @@ L_B9E4:
 L_B9FE:
 	dec (ix+002h)		;b9fe   ; paso 4: al acabar, el dibujo siguiente y 0xF0 cuadros
 	ret nz			;ba01
-	inc (ix+009h)		;ba02   ; sube el tercer dibujo del jefe
+	inc (ix+009h)		;ba02   ; suma 1 a el tercer dibujo del jefe
 	ld (ix+002h),0f0h		;ba05
 	call L_B7FB		;ba09
 	jp L_B5A4		;ba0c
@@ -3728,12 +3800,60 @@ L_BA3F:
 	jp L_B5A4		;ba4b
 
 ; ----------------------------------------------------------------------
-; DATOS resto_BA4E: lo apuntan con el banco puesto p05:BA3F (0xBA4E); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p05:BA3F (10 bytes)
-;   0xba4e..0xba58  (10 bytes)
-DATA_resto_BA4E:
-	defb 012h,004h,007h,059h,080h,007h,0d9h,027h,007h,000h	; ba4e  ...Y...'..
+; DATOS leido_BA4E: 1 bytes que lee p01:6020 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p01:6020 (1 bytes)
+;   0xba4e..0xba4f  (1 bytes)
+DATA_leido_BA4E:
+	defb 012h	; ba4e
+
+; ----------------------------------------------------------------------
+; DATOS leido_BA4F: 1 bytes que lee p01:60A5 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p01:60A5 (1 bytes)
+;   0xba4f..0xba50  (1 bytes)
+DATA_leido_BA4F:
+	defb 004h	; ba4f
+
+; ----------------------------------------------------------------------
+; DATOS leido_BA50: 2 bytes que leen p01:6026, p01:6020 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p01:6026, p01:6020 (2 bytes)
+;   0xba50..0xba52  (2 bytes)
+DATA_leido_BA50:
+	defb 007h,059h	; ba50
+
+; ----------------------------------------------------------------------
+; DATOS leido_BA52: 1 bytes que lee p01:60A5 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p01:60A5 (1 bytes)
+;   0xba52..0xba53  (1 bytes)
+DATA_leido_BA52:
+	defb 080h	; ba52
+
+; ----------------------------------------------------------------------
+; DATOS leido_BA53: 2 bytes que leen p01:6026, p01:6020 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p01:6026, p01:6020 (2 bytes)
+;   0xba53..0xba55  (2 bytes)
+DATA_leido_BA53:
+	defb 007h,0d9h	; ba53
+
+; ----------------------------------------------------------------------
+; DATOS leido_BA55: 1 bytes que lee p01:60A5 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p01:60A5 (1 bytes)
+;   0xba55..0xba56  (1 bytes)
+DATA_leido_BA55:
+	defb 027h	; ba55
+
+; ----------------------------------------------------------------------
+; DATOS leido_BA56: 2 bytes que leen p01:6026, p01:6020 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p01:6026, p01:6020 (2 bytes)
+;   0xba56..0xba58  (2 bytes)
+DATA_leido_BA56:
+	defb 007h,000h	; ba56
 
 ; ======================================================================
 ; CODIGO 0xba58..0xba7d  (37 bytes)
@@ -4034,12 +4154,28 @@ L_BC6C:
 	jp L_BB02		;bc72
 
 ; ----------------------------------------------------------------------
-; DATOS resto_BC75: lo apuntan con el banco puesto p05:BC6C (0xBC75); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p05:BC6C (4 bytes)
-;   0xbc75..0xbc79  (4 bytes)
-DATA_resto_BC75:
-	defb 09eh,012h,007h,000h	; bc75
+; DATOS leido_BC75: 1 bytes que lee p01:6020 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p01:6020 (1 bytes)
+;   0xbc75..0xbc76  (1 bytes)
+DATA_leido_BC75:
+	defb 09eh	; bc75
+
+; ----------------------------------------------------------------------
+; DATOS leido_BC76: 1 bytes que lee p01:60A5 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p01:60A5 (1 bytes)
+;   0xbc76..0xbc77  (1 bytes)
+DATA_leido_BC76:
+	defb 012h	; bc76
+
+; ----------------------------------------------------------------------
+; DATOS leido_BC77: 2 bytes que leen p01:6026, p01:6020 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p01:6026, p01:6020 (2 bytes)
+;   0xbc77..0xbc79  (2 bytes)
+DATA_leido_BC77:
+	defb 007h,000h	; bc77
 
 ; ======================================================================
 ; CODIGO 0xbc79..0xbcc3  (74 bytes)

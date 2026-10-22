@@ -1,10 +1,10 @@
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
-D 0x6018 0x6148 leido_6018  304 bytes que lee p00:4F3D al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 56 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4F3D (304 bytes)
+D 0x6018 0x6158 leido_6018  320 bytes que lee p00:4F3D al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 32 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4F3D (320 bytes)
 F 0x6018 16
-D 0x6178 0x6180 leido_6178  8 bytes que lee p00:4F3D al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F3D (8 bytes)
+D 0x6178 0x6188 leido_6178  16 bytes que lee p00:4F3D al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen p00:4F3D (16 bytes)
 F 0x6178 16
-D 0x6190 0x61D8 leido_6190  72 bytes que lee p00:4F3D al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 32 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4F3D (72 bytes)
+D 0x6190 0x61F8 leido_6190  104 bytes que lee p00:4F3D al jugar (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 24 sin leer entre lecturas de la misma rutina: entradas de la misma tabla que las partidas no han pedido); lo leen p00:4F3D (104 bytes)
 F 0x6190 16
 D 0x6AC8 0x6B43 rle_6AC8  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; se solapan 3 bloques: (rle_vram_6AC8 6AC8-6B21) (juegos_por_e440 6B1F-6B43); lo leen p00:5155, p00:4B3C, p00:5121 (123 bytes)
 F 0x6AC8 16
@@ -122,6 +122,4 @@ D 0x7FF0 0x8000 rle_7FF0  los dibujos de una entrada de la lista de graficos de 
 F 0x7FF0 16
 D 0x6000 0x6018 resto_6000  lo apuntan con el banco puesto p00:54E4 (0x6000), p00:5540 (0x6000); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p00:54E4, p00:5540 (24 bytes)
 F 0x6000 16
-D 0x6148 0x6178 resto_6148  lo apuntan con el banco puesto p00:54FC (0x6148); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p00:54FC (48 bytes)
-F 0x6148 16
 # --- fin de los bloques de bloques.py ---

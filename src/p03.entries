@@ -81,6 +81,7 @@
 0xAB24   # p01:7AD1 entrada 42 de la tabla de 0x7AD4 (call 0x4093 en 0x7AD1)
 0xAB2E   # p03:AB27 entrada 0 de la tabla de 0xAB2A (call 0x4093 en 0xAB27)
 0xAB40   # p03:AB27 entrada 1 de la tabla de 0xAB2A (call 0x4093 en 0xAB27)
+0xAB59   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0xAB6B   # p01:7479 entrada 27 de la tabla de 0x747C (call 0x4093 en 0x7479)
 0xABA7   # p01:7C97 entrada 33 de la tabla de 0x7C9A (call 0x4093 en 0x7C97)
 0xABC4   # p01:7AD1 entrada 33 de la tabla de 0x7AD4 (call 0x4093 en 0x7AD1)

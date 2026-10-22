@@ -1,8 +1,8 @@
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
-D 0xA0B4 0xA0F6 rle_A0B4  los dibujos de una entrada de la lista de graficos de 27:8208, en RLE (p00:4B3C); lo leen p00:4CFF (66 bytes)
+D 0xA0B4 0xA0F6 rle_A0B4  los dibujos de una entrada de la lista de graficos de 27:8208, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A0B4 A0B4-A0F6); lo leen p00:4CFF, p00:4B3C (66 bytes)
 F 0xA0B4 16
-D 0xA0F6 0xA101 rle_A0F6  los colores de una entrada de la lista de graficos de 27:8208, en RLE (p00:4B3C); lo leen p00:4D11 (11 bytes)
+D 0xA0F6 0xA101 rle_A0F6  los colores de una entrada de la lista de graficos de 27:8208, en RLE (p00:4B3C); se solapan 2 bloques: (rle_vram_A0F6 A0F6-A101); lo leen p00:4D11, p00:4B3C (11 bytes)
 F 0xA0F6 16
 D 0xA101 0xA1C3 rle_ram2_A101  datos comprimidos a la RAM (p00:55CD): 0 acaba; bits 7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia los n de detras; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55CD (194 bytes)
 F 0xA101 16
@@ -50,8 +50,14 @@ D 0xB0C2 0xB0F5 rle_B0C2  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n 
 F 0xB0C2 16
 D 0xB0F5 0xB0FD rle_B0F5  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; se solapan 2 bloques: (rle_vram_B0F5 B0F5-B0FD); lo leen p26:73DC, p00:4B3C (8 bytes)
 F 0xB0F5 16
-D 0xB0FD 0xB2E7 tabla_B0FD  tabla que se lee desde HL = 0xB0FD con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:6FB3 (490 bytes)
+D 0xB0FD 0xB105 tabla_B0FD  tabla que se lee desde HL = 0xB0FD con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p26:6FB3 (8 bytes)
 F 0xB0FD 16
+D 0xB105 0xB2BC rle_vram_B105  graficos comprimidos a la VRAM (p00:4B3C): 0 acaba, n < 0x80 repite el byte de detras, 0x80 y una direccion nueva, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:4B3C (439 bytes)
+F 0xB105 16
+D 0xB7FF 0xB9D5 rle_ram_B7FF  datos comprimidos a la RAM (p00:55AD, el mismo formato que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55AD (470 bytes)
+F 0xB7FF 16
+D 0xB9D5 0xBB67 rle_ram_B9D5  datos comprimidos a la RAM (p00:55AD, el mismo formato que p00:4B3C): 0 acaba, n < 0x80 repite, 0x80 y un destino nuevo, 0x81-0xFF copian n & 0x7F bytes; empieza donde la campana de tools/cobertura.py lee su primer byte de control y se recorre hasta su 0; lo leen p00:55AD (402 bytes)
+F 0xB9D5 16
 D 0xBCA7 0xBCC7 tabla_BCA7  tabla que se lee desde HL = 0xBCA7 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p28:BC94 (32 bytes)
 F 0xBCA7 16
 D 0xBD07 0xBD0F tabla_BD07  tabla que se lee desde HL = 0xBD07 con un indice (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo da quien llama; lo leen p28:BCFA (8 bytes)
@@ -62,8 +68,8 @@ D 0xBE4E 0xC000 relleno_ff  434 bytes a 0xFF hasta el final del banco: relleno; 
 F 0xBE4E 16
 D 0xA000 0xA0B4 resto_A000  lo apuntan con el banco puesto p27:8201 (0xA030), p26:7F4D (0xA078); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p27:8201, p26:7F4D (180 bytes)
 F 0xA000 16
-D 0xB2E7 0xBBE9 resto_B2E7  lo apuntan con el banco puesto p27:858A (0xB2E7); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p27:858A (2306 bytes)
-F 0xB2E7 16
+D 0xB2BC 0xB7FF resto_B2BC  lo apuntan con el banco puesto p27:858A (0xB2E7); el tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen p27:858A (1347 bytes)
+F 0xB2BC 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---

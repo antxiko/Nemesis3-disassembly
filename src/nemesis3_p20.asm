@@ -19,12 +19,12 @@ DATA_resto_6000:
 	defb 000h,000h,000h,0e0h,0ffh,030h,0c0h,000h	; 6010  .....0..
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6018: 304 bytes que lee p00:4F3D al jugar (medido ejecutando el
+; DATOS leido_6018: 320 bytes que lee p00:4F3D al jugar (medido ejecutando el
 ;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido, con 56 sin leer entre lecturas de la misma rutina:
+;   se lee seguido, con 32 sin leer entre lecturas de la misma rutina:
 ;   entradas de la misma tabla que las partidas no han pedido); lo leen
-;   p00:4F3D (304 bytes)
-;   0x6018..0x6148  (304 bytes)
+;   p00:4F3D (320 bytes)
+;   0x6018..0x6158  (320 bytes)
 DATA_leido_6018:
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,03ch,066h,066h,066h,066h,066h,03ch	; 6018  .........<fffff<
 	defb 000h,018h,038h,018h,018h,018h,018h,018h,000h,03ch,066h,066h,00ch,030h,060h,07eh	; 6028  ..8......<ff.0`~
@@ -45,49 +45,46 @@ DATA_leido_6018:
 	defb 000h,0efh,046h,046h,02ch,02ch,018h,018h,000h,0ceh,086h,0b6h,0b6h,056h,06ch,06ch	; 6118  ..FF,,.......Vll
 	defb 000h,0efh,046h,02ch,018h,034h,062h,0f7h,000h,0efh,046h,02ch,018h,018h,018h,03ch	; 6128  ..F,.4b...F,...<
 	defb 000h,0feh,08eh,01ch,038h,070h,0e2h,0feh,000h,000h,000h,018h,018h,000h,000h,000h	; 6138  ....8p..........
+	defb 000h,03ch,066h,066h,00ch,018h,000h,018h,000h,008h,01ch,01ch,008h,008h,000h,008h	; 6148  .<ff............
 
 ; ----------------------------------------------------------------------
-; DATOS resto_6148: lo apuntan con el banco puesto p00:54FC (0x6148); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p00:54FC (48 bytes)
-;   0x6148..0x6178  (48 bytes)
-DATA_resto_6148:
-	defb 000h,03ch,066h,066h,00ch,018h,000h,018h,000h,008h,01ch,01ch,008h,008h,000h,008h	; 6148  .<ff............
+; DATOS sin identificar  0x6158..0x6178  (32 bytes)
+DATA_6158:
 	defb 000h,000h,000h,000h,000h,000h,010h,008h,000h,000h,000h,000h,000h,018h,024h,018h	; 6158  ..............$.
 	defb 008h,010h,020h,020h,020h,020h,010h,008h,010h,008h,004h,004h,004h,004h,008h,010h	; 6168  ..    ..........
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6178: 8 bytes que lee p00:4F3D al jugar (medido ejecutando el
+; DATOS leido_6178: 16 bytes que lee p00:4F3D al jugar (medido ejecutando el
 ;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p00:4F3D (8 bytes)
-;   0x6178..0x6180  (8 bytes)
+;   se lee seguido); lo leen p00:4F3D (16 bytes)
+;   0x6178..0x6188  (16 bytes)
 DATA_leido_6178:
-	defb 0fch,084h,0bch,0a0h,0a0h,0a0h,0a0h,0e0h	; 6178  ........
+	defb 0fch,084h,0bch,0a0h,0a0h,0a0h,0a0h,0e0h,01ch,014h,014h,014h,014h,0f4h,084h,0fch	; 6178  ................
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6180..0x6190  (16 bytes)
-DATA_6180:
-	defb 01ch,014h,014h,014h,014h,0f4h,084h,0fch,000h,030h,056h,06ch,018h,036h,06ah,04ch	; 6180  .........0Vl.6jL
+; DATOS sin identificar  0x6188..0x6190  (8 bytes)
+DATA_6188:
+	defb 000h,030h,056h,06ch,018h,036h,06ah,04ch	; 6188  .0Vl.6jL
 
 ; ----------------------------------------------------------------------
-; DATOS leido_6190: 72 bytes que lee p00:4F3D al jugar (medido ejecutando el
+; DATOS leido_6190: 104 bytes que lee p00:4F3D al jugar (medido ejecutando el
 ;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido, con 32 sin leer entre lecturas de la misma rutina:
+;   se lee seguido, con 24 sin leer entre lecturas de la misma rutina:
 ;   entradas de la misma tabla que las partidas no han pedido); lo leen
-;   p00:4F3D (72 bytes)
-;   0x6190..0x61d8  (72 bytes)
+;   p00:4F3D (104 bytes)
+;   0x6190..0x61f8  (104 bytes)
 DATA_leido_6190:
 	defb 000h,000h,000h,000h,07eh,000h,000h,000h,000h,000h,000h,000h,000h,000h,060h,060h	; 6190  ....~.........``
 	defb 000h,000h,000h,000h,000h,060h,060h,080h,060h,060h,020h,040h,000h,000h,000h,000h	; 61a0  .....``.`` @....
 	defb 000h,018h,018h,000h,018h,018h,008h,010h,000h,0ffh,026h,01ch,018h,034h,062h,0ffh	; 61b0  ..........&..4b.
 	defb 000h,0ffh,043h,043h,026h,026h,01ch,01ch,000h,0ffh,056h,056h,056h,056h,056h,0ffh	; 61c0  ..CC&&....VVVVV.
-	defb 000h,007h,005h,005h,005h,01dh,0d1h,0dfh	; 61d0  ........
+	defb 000h,007h,005h,005h,005h,01dh,0d1h,0dfh,00fh,007h,007h,060h,060h,0e7h,0f7h,0f7h	; 61d0  ...........``...
+	defb 0e0h,0c0h,0c0h,00ch,00ch,0ceh,0deh,0deh,0f3h,0f3h,073h,07bh,019h,001h,001h,001h	; 61e0  ..........s{....
+	defb 09eh,09ch,09ch,0b8h,030h,000h,000h,000h	; 61f0  ....0...
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x61d8..0x6ac8  (2288 bytes)
-DATA_61D8:
-	defb 00fh,007h,007h,060h,060h,0e7h,0f7h,0f7h,0e0h,0c0h,0c0h,00ch,00ch,0ceh,0deh,0deh	; 61d8  ...``...........
-	defb 0f3h,0f3h,073h,07bh,019h,001h,001h,001h,09eh,09ch,09ch,0b8h,030h,000h,000h,000h	; 61e8  ..s{........0...
+; DATOS sin identificar  0x61f8..0x6ac8  (2256 bytes)
+DATA_61F8:
 	defb 000h,008h,0feh,018h,028h,018h,008h,030h,000h,048h,048h,0feh,048h,048h,040h,03ch	; 61f8  ....(..0.HH.HH@<
 	defb 000h,04ch,034h,008h,0feh,010h,020h,01ch,000h,040h,060h,0ceh,040h,040h,050h,08eh	; 6208  .L4... ..@`.@@P.
 	defb 000h,010h,07eh,010h,03ch,062h,002h,01ch,000h,000h,01ch,0e2h,002h,002h,004h,018h	; 6218  ..~.<b..........

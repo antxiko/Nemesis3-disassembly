@@ -23,15 +23,15 @@ l701ah:	equ 0x0701a
 
 
 L_6000:
-	jp L_6488		;6000
+	jp L_6488		;6000   ; las entradas del banco: la eleccion de nave (p00:440D)
 L_6003:
-	jp L_6CA4		;6003
+	jp L_6CA4		;6003   ; el arma secreta, estado 9 (p00:463A)
 L_6006:
-	jp 0814dh		;6006
+	jp 0814dh		;6006   ; p27:814D, estado 8 paso 1 (p00:45F0)
 L_6009:
-	jp L_7EC5		;6009
+	jp L_7EC5		;6009   ; estado 8 paso 2 (p00:460C)
 L_600C:
-	jp 083eah		;600c
+	jp 083eah		;600c   ; p27:83EA, el final, estado 10 (p00:46B6)
 
 ; ----------------------------------------------------------------------
 ; DATOS sin identificar  0x600f..0x6018  (9 bytes)
@@ -44,28 +44,28 @@ DATA_600F:
 
 
 L_6018:
-	jp L_6114		;6018
+	jp L_6114		;6018   ; empieza una secuencia de dibujos (desde p30, p00:4818)
 L_601B:
-	jp L_6135		;601b
+	jp L_6135		;601b   ; la secuencia de dibujos, cada cuadro (desde p30, p00:4821)
 L_601E:
-	call 05648h		;601e
+	call 05648h		;601e   ; los sprites fuera, el bufer de 0xCA00 a cero y los colores (p26:603E)
 	call 05959h		;6021
 	call L_603E		;6024
 	ret			;6027
 L_6028:
-	ld hl,03800h		;6028
+	ld hl,03800h		;6028   ; la tabla de nombres a cero (0x3800, 0x2C0 bytes)
 	ld bc,002c0h		;602b
 	xor a			;602e
 	call 00056h		;602f   ; BIOS FILVRM - Fills VRAM with value
 	ret			;6032
 L_6033:
-	ld hl,01800h		;6033
+	ld hl,01800h		;6033   ; los dibujos de sprite a cero (0x1800, 0x800 bytes)
 	ld bc,00800h		;6036
 	xor a			;6039
 	call 00056h		;603a   ; BIOS FILVRM - Fills VRAM with value
 	ret			;603d
 L_603E:
-	xor a			;603e
+	xor a			;603e   ; los colores a cero en los tres tercios (salvo el caracter 0) y 0x3300-0x37FF
 	ld hl,02008h		;603f
 	ld bc,007f8h		;6042
 	call 00056h		;6045   ; BIOS FILVRM - Fills VRAM with value
@@ -80,7 +80,7 @@ L_603E:
 	call 00056h		;6060   ; BIOS FILVRM - Fills VRAM with value
 	ret			;6063
 L_6064:
-	call 04a5ah		;6064   ; lee_palabra: HL = la palabra A de la tabla HL
+	call 04a5ah		;6064   ; un rectangulo de la tabla HL (palabra A) a 0xCD00 y al bufer: DE el destino, B filas, C bytes (p00:59A1)
 L_6067:
 	push hl			;6067
 	pop ix		;6068
@@ -93,7 +93,7 @@ L_6067:
 	call 059a1h		;607c
 	ret			;607f
 L_6080:
-	ld a,(ix+004h)		;6080
+	ld a,(ix+004h)		;6080   ; segun IX+4: 0 tal cual (B x C bytes), 1 RLE (p00:55AD), 2 el segundo formato (p00:55CD), desde IX+5
 	dec a			;6083
 	jr z,L_60A2		;6084
 	jp p,L_60B1		;6086
@@ -126,23 +126,23 @@ L_60B1:
 	call 055cdh		;60bc   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
 	ret			;60bf
 L_60C0:
-	ld de,0ca48h		;60c0
+	ld de,0ca48h		;60c0   ; borra en el bufer un rectangulo de 0x0B x 0x10 desde 0xCA48
 	ld bc,00b10h		;60c3
 	call 059c7h		;60c6
 	ret			;60c9
 L_60CA:
-	ld de,0cc22h		;60ca
+	ld de,0cc22h		;60ca   ; borra 5 x 0x1C desde 0xCC22
 	ld bc,0051ch		;60cd
 	call 059c7h		;60d0
 	ret			;60d3
 L_60D4:
-	ld hl,03ac0h		;60d4
+	ld hl,03ac0h		;60d4   ; la fila de 0x3AC0 a cero
 	ld bc,00040h		;60d7
 	xor a			;60da
 	call 00056h		;60db   ; BIOS FILVRM - Fills VRAM with value
 	ret			;60de
 L_60DF:
-	call L_60EB		;60df
+	call L_60EB		;60df   ; 0xE540-0xE55F a cero, 0xE540 = 8 y p26:730A
 	ld a,008h		;60e2
 	ld (0e540h),a		;60e4
 	call L_730A		;60e7
@@ -155,34 +155,19 @@ L_60EB:
 	ldir		;60f6
 	ret			;60f8
 L_60F9:
-	ld de,0e54fh		;60f9
+	ld de,0e54fh		;60f9   ; 6 bytes de HL a 0xE54F
 	ld bc,00006h		;60fc
 	ldir		;60ff
 	ret			;6101
 
 ; ----------------------------------------------------------------------
-; DATOS resto_6102: lo apuntan con el banco puesto p27:8181 (0x6102), p27:8856
-;   (0x6102), p30:8297 (0x6102); el tamano es lo que hay hasta lo siguiente,
-;   no sale de recorrerlo; lo leen p27:8181, p27:8856, p30:8297 (6 bytes)
-;   0x6102..0x6108  (6 bytes)
-DATA_resto_6102:
-	defb 006h,008h,000h,009h,001h,000h	; 6102
-
-; ----------------------------------------------------------------------
-; DATOS leido_6108: 6 bytes que lee p26:60FF al jugar (medido ejecutando el
+; DATOS leido_6102: 18 bytes que lee p26:60FF al jugar (medido ejecutando el
 ;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
-;   se lee seguido); lo leen p26:60FF (6 bytes)
-;   0x6108..0x610e  (6 bytes)
-DATA_leido_6108:
-	defb 006h,006h,004h,004h,000h,007h	; 6108
-
-; ----------------------------------------------------------------------
-; DATOS resto_610E: lo apuntan con el banco puesto p27:8386 (0x610E); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p27:8386 (6 bytes)
-;   0x610e..0x6114  (6 bytes)
-DATA_resto_610E:
-	defb 006h,007h,005h,009h,000h,007h	; 610e
+;   se lee seguido); lo leen p26:60FF (18 bytes)
+;   0x6102..0x6114  (18 bytes)
+DATA_leido_6102:
+	defb 006h,008h,000h,009h,001h,000h,006h,006h,004h,004h,000h,007h,006h,007h,005h,009h	; 6102  ................
+	defb 000h,007h	; 6112
 
 ; ======================================================================
 ; CODIGO 0x6114..0x611c  (8 bytes)
@@ -190,7 +175,7 @@ DATA_resto_610E:
 
 
 L_6114:
-	ld hl,0611ch		;6114
+	ld hl,0611ch		;6114   ; empieza la secuencia A (tabla de 0x611C): su lista en 0xE5CE, 0xE5CA = 0xFF01
 	call 04a5ah		;6117   ; lee_palabra: HL = la palabra A de la tabla HL
 	jr $+16		;611a
 
@@ -215,7 +200,7 @@ L_612A:
 	ld (0e5cah),hl		;6130
 	jr L_6146		;6133
 L_6135:
-	xor a			;6135
+	xor a			;6135   ; cada cuadro: cuando la cuenta 0xE333 llega a la espera (0xE5CC), el dibujo siguiente
 	ld (0e5e8h),a		;6136
 	ld de,(0e5cch)		;6139
 	ld hl,(0e333h)		;613d   ; lee una cuenta de cuadros (16 bits)
@@ -223,7 +208,7 @@ L_6135:
 	jr c,L_6176		;6141
 	call L_617F		;6143
 L_6146:
-	ld hl,0e5cbh		;6146
+	ld hl,0e5cbh		;6146   ; la entrada siguiente de la lista (4 bytes): 0xFF acaba
 	inc (hl)			;6149
 	ld a,(hl)			;614a
 	ld l,a			;614b
@@ -234,7 +219,7 @@ L_6146:
 	ld a,(hl)			;6154
 	inc a			;6155
 	jr z,L_617A		;6156
-	call 05636h		;6158
+	call 05636h		;6158   ; el dibujo japones o el ingles segun la BIOS (p00:5636), y la espera (16 bits)
 	ld a,(hl)			;615b
 	inc hl			;615c
 	jr z,L_6160		;615d
@@ -245,7 +230,7 @@ L_6160:
 	inc hl			;6162
 	ld d,(hl)			;6163
 	ld (0e5cch),de		;6164
-	ld hl,00000h		;6168
+	ld hl,00000h		;6168   ; la cuenta a cero y se pone el dibujo (p26:62A6); 0xE5E8 = 1
 	ld (0e333h),hl		;616b   ; guarda una cuenta de cuadros (16 bits)
 	call L_62A6		;616e
 	ld a,001h		;6171
@@ -255,11 +240,11 @@ L_6176:
 	or a			;6178
 	ret			;6179
 L_617A:
-	xor a			;617a
+	xor a			;617a   ; acabada: 0xE5CA = 0
 	ld (0e5cah),a		;617b
 	ret			;617e
 L_617F:
-	ld a,(0e5c2h)		;617f
+	ld a,(0e5c2h)		;617f   ; salvo los dibujos 0x23-0x24 y 0x63-0x64, se borra el texto anterior de 0xCD00
 	sub 023h		;6182
 	cp 002h		;6184
 	ret c			;6186
@@ -271,43 +256,62 @@ L_617F:
 	ret			;6192
 
 ; ----------------------------------------------------------------------
-; DATOS resto_6193: lo apuntan con el banco puesto p27:819F (0x6193), p27:83A9
-;   (0x61B4), p26:7DCE (0x61D8), p26:7F2F (0x61E5), p26:7F43 (0x61EA); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p27:819F, p27:83A9, p26:7DCE, p26:7F2F, p26:7F43 (96 bytes)
-;   0x6193..0x61f3  (96 bytes)
-DATA_resto_6193:
-	defb 000h,040h,02ch,001h,001h,041h,02ch,001h,002h,042h,02ch,001h,003h,043h,02ch,001h	; 6193  .@,..A,..B,..C,.
-	defb 004h,044h,02ch,001h,005h,045h,02ch,001h,006h,046h,02ch,001h,007h,047h,02ch,001h	; 61a3  .D,..E,..F,..G,.
-	defb 0ffh,008h,048h,02ch,001h,009h,049h,02ch,001h,00ah,04ah,02ch,001h,00bh,04bh,02ch	; 61b3  ..H,..I,..J,..K,
-	defb 001h,00ch,04ch,02ch,001h,0ffh,00dh,04dh,02ch,001h,0ffh,00eh,04eh,02ch,001h,0ffh	; 61c3  ..L,...M,...N,..
-	defb 00fh,04fh,02ch,001h,0ffh,010h,050h,02ch,001h,011h,051h,02ch,001h,012h,052h,02ch	; 61d3  .O,...P,..Q,..R,
-	defb 001h,0ffh,013h,053h,02ch,001h,0ffh,014h,054h,02ch,001h,015h,055h,02ch,001h,0ffh	; 61e3  ...S,...T,..U,..
+; DATOS leido_6193: 4 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163 al
+;   jugar (medido ejecutando el cartucho, tools/cobertura.py y
+;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
+;   p26:6154, p26:615F, p26:6161, p26:6163 (4 bytes)
+;   0x6193..0x6197  (4 bytes)
+DATA_leido_6193:
+	defb 000h,040h,02ch,001h	; 6193
 
 ; ----------------------------------------------------------------------
-; DATOS leido_61F3: 23 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163
+; DATOS sin identificar  0x6197..0x61b4  (29 bytes)
+DATA_6197:
+	defb 001h,041h,02ch,001h,002h,042h,02ch,001h,003h,043h,02ch,001h,004h,044h,02ch,001h	; 6197  .A,..B,..C,..D,.
+	defb 005h,045h,02ch,001h,006h,046h,02ch,001h,007h,047h,02ch,001h,0ffh	; 61a7  .E,..F,..G,..
+
+; ----------------------------------------------------------------------
+; DATOS leido_61B4: 49 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163
+;   al jugar (medido ejecutando el cartucho, tools/cobertura.py y
+;   tools/lee_sonidos.py; el tamano es lo que se lee seguido, con 17 sin leer
+;   entre lecturas de la misma rutina: entradas de la misma tabla que las
+;   partidas no han pedido); lo leen p26:6154, p26:615F, p26:6161, p26:6163
+;   (49 bytes)
+;   0x61b4..0x61e5  (49 bytes)
+DATA_leido_61B4:
+	defb 008h,048h,02ch,001h,009h,049h,02ch,001h,00ah,04ah,02ch,001h,00bh,04bh,02ch,001h	; 61b4  .H,..I,..J,..K,.
+	defb 00ch,04ch,02ch,001h,0ffh,00dh,04dh,02ch,001h,0ffh,00eh,04eh,02ch,001h,0ffh,00fh	; 61c4  .L,...M,...N,...
+	defb 04fh,02ch,001h,0ffh,010h,050h,02ch,001h,011h,051h,02ch,001h,012h,052h,02ch,001h	; 61d4  O,...P,..Q,..R,.
+	defb 0ffh	; 61e4
+
+; ----------------------------------------------------------------------
+; DATOS resto_61E5: lo apuntan con el banco puesto p26:7F2F (0x61E5), p26:7F43
+;   (0x61EA); el tamano es lo que hay hasta lo siguiente, no sale de
+;   recorrerlo; lo leen p26:7F2F, p26:7F43 (14 bytes)
+;   0x61e5..0x61f3  (14 bytes)
+DATA_resto_61E5:
+	defb 013h,053h,02ch,001h,0ffh,014h,054h,02ch,001h,015h,055h,02ch,001h,0ffh	; 61e5  .S,...T,..U,..
+
+; ----------------------------------------------------------------------
+; DATOS leido_61F3: 118 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163
 ;   al jugar (medido ejecutando el cartucho, tools/cobertura.py y
 ;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
-;   p26:6154, p26:615F, p26:6161, p26:6163 (23 bytes)
-;   0x61f3..0x620a  (23 bytes)
+;   p26:6154, p26:615F, p26:6161, p26:6163 (118 bytes)
+;   0x61f3..0x6269  (118 bytes)
 DATA_leido_61F3:
 	defb 016h,056h,02ch,001h,0ffh,017h,057h,02ch,001h,0ffh,018h,058h,02ch,001h,019h,059h	; 61f3  .V,...W,...X,..Y
-	defb 02ch,001h,01ah,05ah,02ch,001h,0ffh	; 6203
+	defb 02ch,001h,01ah,05ah,02ch,001h,0ffh,01bh,05bh,02ch,001h,01ch,05ch,02ch,001h,0ffh	; 6203  ,..Z,...[,..\,..
+	defb 01dh,05dh,02ch,001h,01eh,05eh,02ch,001h,0ffh,01fh,05fh,02ch,001h,020h,060h,02ch	; 6213  .],..^,..._,. `,
+	defb 001h,0ffh,021h,061h,02ch,001h,022h,062h,02ch,001h,0ffh,023h,063h,02ch,001h,0ffh	; 6223  ..!a,."b,..#c,..
+	defb 024h,064h,02ch,001h,0ffh,025h,065h,02ch,001h,026h,066h,02ch,001h,0ffh,027h,067h	; 6233  $d,..%e,.&f,..'g
+	defb 02ch,001h,0ffh,028h,068h,02ch,001h,029h,069h,02ch,001h,0ffh,02ah,06ah,02ch,001h	; 6243  ,..(h,.)i,..*j,.
+	defb 02bh,06bh,02ch,001h,0ffh,02ch,06ch,02ch,001h,02dh,06dh,02ch,001h,02eh,06eh,02ch	; 6253  +k,..,l,.-m,..n,
+	defb 001h,0ffh,02fh,06fh,02ch,001h	; 6263
 
 ; ----------------------------------------------------------------------
-; DATOS resto_620A: lo apuntan con el banco puesto p27:847A (0x620A), p27:84B4
-;   (0x6213), p27:8517 (0x621C), p27:85AC (0x6225), p27:86AE (0x622E),
-;   p27:86F0 (0x6233); el tamano es lo que hay hasta lo siguiente, no sale de
-;   recorrerlo; lo leen p27:847A, p27:84B4, p27:8517, p27:85AC, p27:86AE,
-;   p27:86F0 (96 bytes)
-;   0x620a..0x626a  (96 bytes)
-DATA_resto_620A:
-	defb 01bh,05bh,02ch,001h,01ch,05ch,02ch,001h,0ffh,01dh,05dh,02ch,001h,01eh,05eh,02ch	; 620a  .[,..\,...],..^,
-	defb 001h,0ffh,01fh,05fh,02ch,001h,020h,060h,02ch,001h,0ffh,021h,061h,02ch,001h,022h	; 621a  ..._,. `,..!a,."
-	defb 062h,02ch,001h,0ffh,023h,063h,02ch,001h,0ffh,024h,064h,02ch,001h,0ffh,025h,065h	; 622a  b,..#c,..$d,..%e
-	defb 02ch,001h,026h,066h,02ch,001h,0ffh,027h,067h,02ch,001h,0ffh,028h,068h,02ch,001h	; 623a  ,.&f,..'g,..(h,.
-	defb 029h,069h,02ch,001h,0ffh,02ah,06ah,02ch,001h,02bh,06bh,02ch,001h,0ffh,02ch,06ch	; 624a  )i,..*j,.+k,..,l
-	defb 02ch,001h,02dh,06dh,02ch,001h,02eh,06eh,02ch,001h,0ffh,02fh,06fh,02ch,001h,0ffh	; 625a  ,.-m,..n,../o,..
+; DATOS sin identificar  0x6269..0x626a  (1 bytes)
+DATA_6269:
+	defb 0ffh	; 6269
 
 ; ----------------------------------------------------------------------
 ; DATOS leido_626A: 34 bytes que leen p26:6154, p26:615F, p26:6161, p26:6163
@@ -332,7 +336,7 @@ DATA_628C:
 
 
 L_62A6:
-	ld (0e5c2h),a		;62a6
+	ld (0e5c2h),a		;62a6   ; el dibujo A (0xE5C2): su color (p26:62D3), sus datos (tabla p27:8F02) a 0xCE00 y su texto a la RAM
 	call L_62D3		;62a9
 	ld a,(0e5c2h)		;62ac
 	ld de,08f02h		;62af
@@ -341,7 +345,7 @@ L_62A6:
 	call L_631F		;62b6
 	ld hl,0cd00h		;62b9
 	call 04b1fh		;62bc   ; texto_a_ram: copia a la RAM el texto de HL
-	ld a,(0e5c2h)		;62bf
+	ld a,(0e5c2h)		;62bf   ; los dibujos 0x2F-0x34 y 0x6F-0x74 van ademas al bufer de 0xC400 (p26:63F7)
 	sub 02fh		;62c2
 	cp 006h		;62c4
 	jr c,L_62CF		;62c6
@@ -353,7 +357,7 @@ L_62CF:
 	call L_63F7		;62cf
 	ret			;62d2
 L_62D3:
-	ld bc,00000h		;62d3
+	ld bc,00000h		;62d3   ; el color y la marca 0xE5E7 de cada dibujo: 0 casi todos, 0x190 algunos, 0xF0 los demas
 	ld a,(0e5c2h)		;62d6
 	cp 02fh		;62d9
 	jr z,L_6307		;62db
@@ -393,13 +397,13 @@ L_631B:
 	ld b,001h		;631b
 	jr L_6312		;631d
 L_631F:
-	call L_632C		;631f
+	call L_632C		;631f   ; desempaqueta el dibujo (p26:6349), le da caracteres libres (p26:63C7) y los copia a la VRAM (p26:6456)
 	call L_6349		;6322
 	call L_63C7		;6325
 	call L_6456		;6328
 	ret			;632b
 L_632C:
-	ld a,(0e5e7h)		;632c
+	ld a,(0e5e7h)		;632c   ; el siguiente caracter libre de cada tercio: 1, o 0x80 con 0xE5E7
 	or a			;632f
 	ld a,001h		;6330
 	jr z,L_6336		;6332
@@ -413,7 +417,7 @@ L_6336:
 	ld (0e5c9h),a		;6345
 	ret			;6348
 L_6349:
-	ld de,0ce00h		;6349
+	ld de,0ce00h		;6349   ; los datos del dibujo de HL a 0xCE00: por cada trozo, sus dos bytes, cuantos caracteres (bits 0-4), el tercio (bits 5-6) y el bit 7
 L_634C:
 	ldi		;634c
 	ldi		;634e
@@ -446,7 +450,7 @@ L_6367:
 	jr nz,L_634C		;6370
 	ret			;6372
 L_6373:
-	ld a,(0e5c2h)		;6373
+	ld a,(0e5c2h)		;6373   ; los caracteres del trozo: de 8 en 8 con una mascara (los dibujos bajos) o de 6 bits de 3 en 3
 	cp 040h		;6376
 	jr nc,L_6390		;6378
 	ld b,008h		;637a
@@ -515,7 +519,7 @@ L_6392:
 	ret z			;63c4
 	jr L_6390		;63c5
 L_63C7:
-	ld hl,0ce00h		;63c7
+	ld hl,0ce00h		;63c7   ; a cada trozo, los caracteres libres de su tercio (0xE5C4 + tercio), seguidos
 	ld de,0cd00h		;63ca
 L_63CD:
 	ldi		;63cd
@@ -555,7 +559,7 @@ L_63E7:
 	jr nz,L_63CD		;63f4
 	ret			;63f6
 L_63F7:
-	ld b,080h		;63f7
+	ld b,080h		;63f7   ; los trozos como lista para el bufer de 0xC400: tercio, caracter y cuantos
 	ld a,(0e5c2h)		;63f9
 	cp 032h		;63fc
 	jr z,L_6406		;63fe
@@ -615,7 +619,7 @@ L_6426:
 	ld (de),a			;6454
 	ret			;6455
 L_6456:
-	ld ix,0ce00h		;6456
+	ld ix,0ce00h		;6456   ; cada trozo a la VRAM: sus dibujos de 8 bytes (p00:4F02)
 L_645A:
 	call L_6470		;645a
 	ld l,(ix+002h)		;645d
@@ -651,11 +655,11 @@ L_647A:
 	djnz L_647A		;6485
 	ret			;6487
 L_6488:
-	call L_648F		;6488
+	call L_648F		;6488   ; la eleccion de nave, cada cuadro: por su paso (p26:648F) y los sprites (p26:683C)
 	call L_683C		;648b
 	ret			;648e
 L_648F:
-	ld bc,(0e31bh)		;648f
+	ld bc,(0e31bh)		;648f   ; por el paso 0xE31B (C) y el subpaso 0xE31C (B)
 	ld a,c			;6493
 	call 04093h		;6494   ; despacha: salta a la palabra A de la tabla que va detras del call
 
@@ -672,7 +676,7 @@ DATA_tabla_6497:
 
 
 L_64A1:
-	ld a,b			;64a1
+	ld a,b			;64a1   ; paso 0, la entrada: por el subpaso
 	call 04093h		;64a2   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -688,7 +692,7 @@ DATA_tabla_64A5:
 
 
 L_64AF:
-	call 04aa9h		;64af   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
+	call 04aa9h		;64af   ; subpaso 0: la pantalla en blanco y la paleta 1 (p00:5709); 0xE534 = 1 cuadro...
 	ld a,001h		;64b2
 	call 05709h		;64b4
 	call L_6827		;64b7
@@ -696,7 +700,7 @@ L_64AF:
 	call L_6801		;64bd
 	ld a,001h		;64c0
 	ld (0e534h),a		;64c2
-	ld a,(0e302h)		;64c5   ; lee el modo (bit 5: dos jugadores; bit 6: se juega de verdad; bit 7: el segundo jugador)
+	ld a,(0e302h)		;64c5   ; ...o, con dos jugadores, 0x78 y el texto SELECT PLAYER 1 (un 2 con el segundo)
 	and 020h		;64c8
 	ret z			;64ca
 	ld a,078h		;64cb
@@ -726,7 +730,7 @@ DATA_texto_ram_64E3:
 
 
 L_64F7:
-	ld hl,0e534h		;64f7
+	ld hl,0e534h		;64f7   ; subpaso 1: al acabar la espera, el marco y las cuatro naves
 	dec (hl)			;64fa
 	ret nz			;64fb
 	call L_6858		;64fc
@@ -739,21 +743,21 @@ L_64F7:
 	call L_6801		;6511
 	ret			;6514
 L_6515:
-	call L_7A3D		;6515
+	call L_7A3D		;6515   ; subpaso 2: p26:7A3D hasta que 0xE564 vuelva a 0
 	ld a,(0e564h)		;6518
 	or a			;651b
 	ret nz			;651c
 	call L_6801		;651d
 	ret			;6520
 L_6521:
-	call L_6B61		;6521
+	call L_6B61		;6521   ; subpaso 3: el dibujo de la nave 0 (p26:695A)
 	call L_6B6E		;6524
 	xor a			;6527
 	call L_695A		;6528
 	call L_6801		;652b
 	ret			;652e
 L_652F:
-	call L_7AC9		;652f
+	call L_7AC9		;652f   ; subpaso 4: hasta que 0xE564 vuelva a 0; luego al paso 1 (p26:67F9)
 	call L_7A3D		;6532
 	call L_7C0A		;6535
 	ld a,(0e564h)		;6538
@@ -762,7 +766,7 @@ L_652F:
 	call L_67F9		;653d
 	ret			;6540
 L_6541:
-	ld a,b			;6541
+	ld a,b			;6541   ; paso 1, la nave: por el subpaso
 	call 04093h		;6542   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -778,7 +782,7 @@ DATA_tabla_6545:
 
 
 L_654B:
-	call L_65B6		;654b
+	call L_65B6		;654b   ; subpaso 0: los cursores cambian la nave (p26:65B6); con un boton (bits 4-5) se elige
 	jp nz,L_6801		;654e
 	ld a,(0e308h)		;6551   ; lee lo recien pulsado (mando y cursores)
 	and 030h		;6554
@@ -789,7 +793,7 @@ L_654B:
 	call L_6801		;6560
 	ret			;6563
 L_6564:
-	ld a,(0e380h)		;6564
+	ld a,(0e380h)		;6564   ; 0xE530 = 0x200 con las naves 0 y 1 (0 con la 2 y la 3); 0xE532, ocho veces
 	cp 002h		;6567
 	ld hl,00000h		;6569
 	jr nc,L_6571		;656c
@@ -802,7 +806,7 @@ L_6571:
 	ld (0e532h),hl		;6577
 	ret			;657a
 L_657B:
-	ld a,(0e380h)		;657b
+	ld a,(0e380h)		;657b   ; al reves: 0x200 con la 2 y la 3
 	cp 002h		;657e
 	ld hl,00000h		;6580
 	jr c,L_6588		;6583
@@ -815,7 +819,7 @@ L_6588:
 	ld (0e532h),hl		;658e
 	ret			;6591
 L_6592:
-	call L_7AC9		;6592
+	call L_7AC9		;6592   ; subpaso 1: hasta que 0xE569 vuelva a 0
 	call L_7ADB		;6595
 	call L_7C0A		;6598
 	call L_7A3D		;659b
@@ -825,7 +829,7 @@ L_6592:
 	call L_6806		;65a3
 	ret			;65a6
 L_65A7:
-	call L_78AC		;65a7
+	call L_78AC		;65a7   ; subpaso 2: hasta que 0xE560 vuelva a 0; p26:6A9A y al paso 2
 	ld a,(0e560h)		;65aa
 	or a			;65ad
 	ret nz			;65ae
@@ -833,7 +837,7 @@ L_65A7:
 	call L_67F9		;65b2
 	ret			;65b5
 L_65B6:
-	ld hl,0e380h		;65b6
+	ld hl,0e380h		;65b6   ; los cursores (p26:6600) cambian la nave (0xE380): el marco de la vieja se apaga (color de 0x6ABC), el de la nueva a 0xF0 y su dibujo (p26:695A); NZ si cambia
 	ld b,(hl)			;65b9
 	call L_6600		;65ba
 	ld a,(hl)			;65bd
@@ -880,7 +884,7 @@ DATA_tabla_65F0:
 
 
 L_6600:
-	ld a,(0e308h)		;6600   ; lee lo recien pulsado (mando y cursores)
+	ld a,(0e308h)		;6600   ; arriba (bit 0) y abajo (bit 1) cambian de fila (2 menos o mas), izquierda (bit 2) y derecha (bit 3) de columna (1 menos o mas)
 	rra			;6603
 	jr c,L_6610		;6604
 	rra			;6606
@@ -919,7 +923,7 @@ L_6627:
 	ld (hl),a			;662c
 	ret			;662d
 L_662E:
-	ld a,b			;662e
+	ld a,b			;662e   ; paso 2, el escudo: por el subpaso
 	call 04093h		;662f   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -935,14 +939,14 @@ DATA_tabla_6632:
 
 
 L_663C:
-	call L_6C29		;663c
+	call L_6C29		;663c   ; subpaso 0: el marco y los dos escudos
 	call L_689F		;663f
 	call L_69F0		;6642
 	call L_6BA4		;6645
 	call L_6801		;6648
 	ret			;664b
 L_664C:
-	call L_7A3D		;664c
+	call L_7A3D		;664c   ; subpaso 1: hasta que 0xE580 vuelva a 0
 	call L_7C0A		;664f
 	ld a,(0e580h)		;6652
 	or a			;6655
@@ -950,7 +954,7 @@ L_664C:
 	call L_6801		;6657
 	ret			;665a
 L_665B:
-	call L_669D		;665b
+	call L_669D		;665b   ; subpaso 2: los cursores cambian el escudo (p26:669D); con un boton se elige
 	jp nz,L_6801		;665e
 	ld a,(0e308h)		;6661   ; lee lo recien pulsado (mando y cursores)
 	and 030h		;6664
@@ -960,7 +964,7 @@ L_665B:
 	call L_6801		;666d
 	ret			;6670
 L_6671:
-	call L_78AC		;6671
+	call L_78AC		;6671   ; subpaso 3: hasta que 0xE560 vuelva a 0
 	call L_7AC9		;6674
 	ld a,(0e560h)		;6677
 	or a			;667a
@@ -968,7 +972,7 @@ L_6671:
 	call L_6806		;667c
 	ret			;667f
 L_6680:
-	call L_78AC		;6680
+	call L_78AC		;6680   ; subpaso 4: el escudo elegido (p26:6A89), la nave (p26:6AAB) y al paso 3
 	ld a,(0e560h)		;6683
 	or a			;6686
 	ret nz			;6687
@@ -981,7 +985,7 @@ L_6680:
 	call L_67F9		;6699
 	ret			;669c
 L_669D:
-	ld hl,0e37fh		;669d
+	ld hl,0e37fh		;669d   ; cualquier cursor cambia el escudo (0xE37F: 0 SHIELD, 1 FORCE FIELD): el marco viejo se apaga y el nuevo a 0xF0; NZ si cambia
 	ld c,(hl)			;66a0
 	call L_66F5		;66a1
 	ld a,(hl)			;66a4
@@ -1033,7 +1037,7 @@ DATA_tabla_66DD:
 
 
 L_66F5:
-	ld a,(0e308h)		;66f5   ; lee lo recien pulsado (mando y cursores)
+	ld a,(0e308h)		;66f5   ; cualquier cursor (bits 0-3): 0xE37F cambia entre 0 y 1
 	and 00fh		;66f8
 	ret z			;66fa
 	ld a,(hl)			;66fb
@@ -1041,7 +1045,7 @@ L_66F5:
 	ld (hl),a			;66fe
 	ret			;66ff
 L_6700:
-	ld a,b			;6700
+	ld a,b			;6700   ; paso 3, las opciones: por el subpaso
 	call 04093h		;6701   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -1057,14 +1061,14 @@ DATA_tabla_6704:
 
 
 L_670C:
-	call L_6866		;670c
+	call L_6866		;670c   ; subpaso 0: el marco, las tres opciones (p26:699D) y lo demas
 	call L_699D		;670f
 	call L_6C18		;6712
 	call L_6B93		;6715
 	call L_6801		;6718
 	ret			;671b
 L_671C:
-	call L_7A3D		;671c
+	call L_7A3D		;671c   ; subpaso 1: hasta que 0xE580 vuelva a 0
 	call L_7C0A		;671f
 	ld a,(0e580h)		;6722
 	or a			;6725
@@ -1072,7 +1076,7 @@ L_671C:
 	call L_6801		;6727
 	ret			;672a
 L_672B:
-	call L_6743		;672b
+	call L_6743		;672b   ; subpaso 2: las opciones se mueven (p26:6743) y los cursores cambian (p26:676C); con un boton, al paso 4 con 0x3C cuadros
 	call L_676C		;672e
 	jp nz,L_6801		;6731
 	ld a,(0e308h)		;6734   ; lee lo recien pulsado (mando y cursores)
@@ -1083,7 +1087,7 @@ L_672B:
 	ld (0e534h),a		;673f
 	ret			;6742
 L_6743:
-	ld a,(0e303h)		;6743   ; lee la cuenta de cuadros del juego
+	ld a,(0e303h)		;6743   ; cada 8 cuadros el dibujo siguiente de las opciones (0xE535, de 0 a 3)
 	and 007h		;6746
 	ret nz			;6748
 	ld hl,0e535h		;6749
@@ -1098,7 +1102,7 @@ L_6753:
 	call L_69AA		;6756
 	ret			;6759
 L_675A:
-	call L_6743		;675a
+	call L_6743		;675a   ; subpaso 3: lo mismo hasta que 0xE560 vuelva a 0
 	call L_78AC		;675d
 	call L_7AC9		;6760
 	ld a,(0e560h)		;6763
@@ -1107,7 +1111,7 @@ L_675A:
 	call L_6806		;6768
 	ret			;676b
 L_676C:
-	ld hl,0e37eh		;676c
+	ld hl,0e37eh		;676c   ; izquierda y derecha cambian las opciones (0xE37E: 0 SHADOW, 1 FIXED, 2 ROLLING): el marco viejo se apaga y el nuevo a 0xF0; NZ si cambia
 	ld c,(hl)			;676f
 	call L_67AC		;6770
 	ld a,(hl)			;6773
@@ -1142,7 +1146,7 @@ L_67A3:
 	or a			;67aa
 	ret			;67ab
 L_67AC:
-	ld a,(0e308h)		;67ac   ; lee lo recien pulsado (mando y cursores)
+	ld a,(0e308h)		;67ac   ; izquierda (bit 2) una menos, derecha (bit 3) una mas, de 0 a 2
 	rra			;67af
 	rra			;67b0
 	rra			;67b1
@@ -1165,7 +1169,7 @@ L_67BE:
 	ld (hl),a			;67c3
 	ret			;67c4
 L_67C5:
-	ld a,b			;67c5
+	ld a,b			;67c5   ; paso 4, la espera: por el subpaso
 	call 04093h		;67c6   ; despacha: salta a la palabra A de la tabla que va detras del call
 
 ; ----------------------------------------------------------------------
@@ -1181,21 +1185,21 @@ DATA_tabla_67C9:
 
 
 L_67CF:
-	ld hl,0e534h		;67cf
+	ld hl,0e534h		;67cf   ; subpaso 0: al acabar los cuadros de 0xE534, p26:6AC0
 	dec (hl)			;67d2
 	ret nz			;67d3
 	call L_6AC0		;67d4
 	call L_6801		;67d7
 	ret			;67da
 L_67DB:
-	call L_78AC		;67db
+	call L_78AC		;67db   ; subpaso 1: hasta que 0xE560 vuelva a 0
 	ld a,(0e560h)		;67de
 	or a			;67e1
 	ret nz			;67e2
 	call L_6801		;67e3
 	ret			;67e6
 L_67E7:
-	call 04aa9h		;67e7   ; pantalla_en_blanco: borra la tabla de nombres (0x3800)
+	call 04aa9h		;67e7   ; subpaso 2: la pantalla en blanco, 0xE399 = 1, la vuelta al azar (0xE381) y 0xE31B = 0xFF: acabada
 	call L_6827		;67ea
 	call L_6858		;67ed
 	call L_6819		;67f0
@@ -1203,35 +1207,35 @@ L_67E7:
 	ld (0e31bh),a		;67f5
 	ret			;67f8
 L_67F9:
-	ld hl,0e31bh		;67f9
+	ld hl,0e31bh		;67f9   ; el paso siguiente (0xE31B), con el subpaso a 0
 	inc (hl)			;67fc
 	inc hl			;67fd
 	ld (hl),000h		;67fe
 	ret			;6800
 L_6801:
-	ld hl,0e31ch		;6801
+	ld hl,0e31ch		;6801   ; el subpaso siguiente (0xE31C)
 	inc (hl)			;6804
 	ret			;6805
 L_6806:
-	ld hl,0e31ch		;6806
+	ld hl,0e31ch		;6806   ; el subpaso anterior
 	dec (hl)			;6809
 	ret			;680a
 L_680B:
-	xor a			;680b
+	xor a			;680b   ; empieza: la nave, el escudo, las opciones y su dibujo a 0
 	ld (0e380h),a		;680c
 	ld (0e37fh),a		;680f
 	ld (0e37eh),a		;6812
 	ld (0e535h),a		;6815
 	ret			;6818
 L_6819:
-	ld a,001h		;6819
+	ld a,001h		;6819   ; 0xE399 = 1 y 0xE381 = la cuenta de cuadros & 3
 	ld (0e399h),a		;681b
 	ld a,(0e333h)		;681e   ; lee una cuenta de cuadros (16 bits)
 	and 003h		;6821
 	ld (0e381h),a		;6823
 	ret			;6826
 L_6827:
-	ld hl,02000h		;6827
+	ld hl,02000h		;6827   ; los colores y los dibujos a cero (0x2000 y 0x0000, 0x1800 bytes cada uno)
 	call L_6834		;682a
 	ld hl,00000h		;682d
 	call L_6834		;6830
@@ -1242,7 +1246,7 @@ L_6834:
 	call 00056h		;6838   ; BIOS FILVRM - Fills VRAM with value
 	ret			;683b
 L_683C:
-	ld hl,03800h		;683c
+	ld hl,03800h		;683c   ; el bufer de 0xC400 a la tabla de nombres, la pantalla entera (0x300 bytes)
 	call 04ab6h		;683f   ; vram_para_escribir: la VRAM de HL para escribir y en C' el puerto del VDP
 	exx			;6842
 	ld hl,0c400h		;6843   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
@@ -1258,14 +1262,14 @@ L_6852:
 	jp nz,L_6852		;6854
 	ret			;6857
 L_6858:
-	ld hl,0c400h		;6858   ; apunta a el bufer de la pantalla (22 filas de 0x40 bytes)
+	ld hl,0c400h		;6858   ; el bufer de 0xC400 a cero (0x300 bytes)
 	ld de,0c401h		;685b
 	ld bc,002ffh		;685e
 	ld (hl),000h		;6861
 	ldir		;6863
 	ret			;6865
 L_6866:
-	ld hl,00008h		;6866
+	ld hl,00008h		;6866   ; los tres marcos de arriba (p26:6912): 8 de ancho y 6 de alto, desde el caracter 1, 7 y 0x0D
 	ld (0ef80h),hl		;6869
 	ld a,006h		;686c
 	ld (0ef82h),a		;686e
@@ -1289,7 +1293,7 @@ L_6866:
 	call L_6912		;689b
 	ret			;689e
 L_689F:
-	ld hl,00006h		;689f
+	ld hl,00006h		;689f   ; los dos marcos de las opciones: 6 x 3
 	ld (0ef80h),hl		;68a2
 	ld a,003h		;68a5
 	ld (0ef82h),a		;68a7
@@ -1307,7 +1311,7 @@ L_689F:
 	call L_6912		;68c5
 	ret			;68c8
 L_68C9:
-	ld hl,0000eh		;68c9
+	ld hl,0000eh		;68c9   ; los cinco marcos de la eleccion de nave: 0x0E x 6 en las esquinas y 0x1E x 6 en medio
 	ld (0ef80h),hl		;68cc
 	ld a,006h		;68cf
 	ld (0ef82h),a		;68d1
@@ -1335,7 +1339,7 @@ L_68C9:
 	call L_6912		;690e
 	ret			;6911
 L_6912:
-	ld a,(0ef83h)		;6912
+	ld a,(0ef83h)		;6912   ; un marco en el bufer de HL: ancho 0xEF80 y alto 0xEF82, con los caracteres desde 0xEF83 (esquinas, lados)
 	ld (hl),a			;6915
 	inc hl			;6916
 	add a,002h		;6917
@@ -1380,7 +1384,7 @@ L_6955:
 	djnz L_6955		;6957
 	ret			;6959
 L_695A:
-	push af			;695a
+	push af			;695a   ; el dibujo de la nave A en la fila de armas: el RLE de p28:A101 a 0xE800 y siete cuadros de 6 x 4 (p00:59A1)
 	ld hl,0a101h		;695b
 	ld de,0e800h		;695e   ; apunta a los enemigos (12 de 0x40)
 	call 055cdh		;6961   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
@@ -1421,7 +1425,7 @@ L_6978:
 	djnz L_6978		;699a
 	ret			;699c
 L_699D:
-	ld bc,00300h		;699d
+	ld bc,00300h		;699d   ; las tres opciones (p26:69AA con 0, 1 y 2)
 L_69A0:
 	push bc			;69a0
 	ld a,c			;69a1
@@ -1431,7 +1435,7 @@ L_69A0:
 	djnz L_69A0		;69a7
 	ret			;69a9
 L_69AA:
-	push af			;69aa
+	push af			;69aa   ; la opcion A: el RLE de p28:A1C3 a 0xE800 y su rectangulo de 6 x 8 en el bufer
 	ld hl,0a1c3h		;69ab
 	ld de,0e800h		;69ae   ; apunta a los enemigos (12 de 0x40)
 	call 055cdh		;69b1   ; rle2_a_ram: descomprime a la RAM de DE el segundo formato de HL
@@ -1440,7 +1444,7 @@ L_69AA:
 	call 059a1h		;69b8
 	ret			;69bb
 L_69BC:
-	add a,a			;69bc
+	add a,a			;69bc   ; origen y destino de la opcion A en la tabla de 0x69D8 (4 bytes cada una), B = 6 filas, C = 8
 	add a,a			;69bd
 	ld c,a			;69be
 	ld b,000h		;69bf
@@ -1488,7 +1492,7 @@ DATA_leido_69D9:
 
 
 L_69F0:
-	xor a			;69f0
+	xor a			;69f0   ; los dos escudos (p26:6A00 con 0 y 1)
 	call L_6A00		;69f1
 	call 059a1h		;69f4
 	ld a,001h		;69f7
@@ -2666,12 +2670,28 @@ L_6F5F:
 	ret			;6f6e
 
 ; ----------------------------------------------------------------------
-; DATOS resto_6F6F: lo apuntan con el banco puesto p26:6F65 (0x6F6F); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p26:6F65 (3 bytes)
-;   0x6f6f..0x6f72  (3 bytes)
-DATA_resto_6F6F:
-	defb 000h,02eh,0ffh	; 6f6f
+; DATOS leido_6F6F: 1 bytes que lee p26:7929 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p26:7929 (1 bytes)
+;   0x6f6f..0x6f70  (1 bytes)
+DATA_leido_6F6F:
+	defb 000h	; 6f6f
+
+; ----------------------------------------------------------------------
+; DATOS leido_6F70: 1 bytes que lee p26:795A al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p26:795A (1 bytes)
+;   0x6f70..0x6f71  (1 bytes)
+DATA_leido_6F70:
+	defb 02eh	; 6f70
+
+; ----------------------------------------------------------------------
+; DATOS leido_6F71: 1 bytes que lee p26:7929 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p26:7929 (1 bytes)
+;   0x6f71..0x6f72  (1 bytes)
+DATA_leido_6F71:
+	defb 0ffh	; 6f71
 
 ; ======================================================================
 ; CODIGO 0x6f72..0x6f90  (30 bytes)
@@ -2696,12 +2716,21 @@ L_6F89:
 	ret			;6f8f
 
 ; ----------------------------------------------------------------------
-; DATOS resto_6F90: lo apuntan con el banco puesto p26:6F89 (0x6F90); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p26:6F89 (4 bytes)
-;   0x6f90..0x6f94  (4 bytes)
-DATA_resto_6F90:
-	defb 006h,020h,055h,000h	; 6f90
+; DATOS leido_6F90: 1 bytes que lee p26:7988 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p26:7988 (1 bytes)
+;   0x6f90..0x6f91  (1 bytes)
+DATA_leido_6F90:
+	defb 006h	; 6f90
+
+; ----------------------------------------------------------------------
+; DATOS leido_6F91: 3 bytes que leen p26:79C1, p26:79B7, p26:7988 al jugar
+;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
+;   el tamano es lo que se lee seguido); lo leen p26:79C1, p26:79B7, p26:7988
+;   (3 bytes)
+;   0x6f91..0x6f94  (3 bytes)
+DATA_leido_6F91:
+	defb 020h,055h,000h	; 6f91
 
 ; ======================================================================
 ; CODIGO 0x6f94..0x6f9b  (7 bytes)
@@ -2714,11 +2743,13 @@ L_6F94:
 	ret			;6f9a
 
 ; ----------------------------------------------------------------------
-; DATOS resto_6F9B: lo apuntan con el banco puesto p26:6F94 (0x6F9B); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p26:6F94 (7 bytes)
+; DATOS leido_6F9B: 7 bytes que leen p26:7C93, p26:7C96, p26:7C99, p26:7CA0,
+;   p26:7CBB, p26:7CBE al jugar (medido ejecutando el cartucho,
+;   tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que se lee
+;   seguido); lo leen p26:7C93, p26:7C96, p26:7C99, p26:7CA0, p26:7CBB,
+;   p26:7CBE (7 bytes)
 ;   0x6f9b..0x6fa2  (7 bytes)
-DATA_resto_6F9B:
+DATA_leido_6F9B:
 	defb 000h,0cdh,000h,060h,0ffh,0b7h,0ffh	; 6f9b
 
 ; ======================================================================
@@ -2736,10 +2767,19 @@ L_6FA2:
 ;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
 ;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
 ;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p26:6FA2 (7 bytes)
-;   0x6fa9..0x6fb0  (7 bytes)
+;   da quien llama; lo leen p26:6FA2 (1 bytes)
+;   0x6fa9..0x6faa  (1 bytes)
 DATA_tabla_6FA9:
-	defb 000h,0cdh,060h,058h,0d5h,0b9h,0ffh	; 6fa9
+	defb 000h	; 6fa9
+
+; ----------------------------------------------------------------------
+; DATOS leido_6FAA: 6 bytes que leen p26:7C96, p26:7C99, p26:7CA0, p26:7CBB,
+;   p26:7CBE al jugar (medido ejecutando el cartucho, tools/cobertura.py y
+;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
+;   p26:7C96, p26:7C99, p26:7CA0, p26:7CBB, p26:7CBE (6 bytes)
+;   0x6faa..0x6fb0  (6 bytes)
+DATA_leido_6FAA:
+	defb 0cdh,060h,058h,0d5h,0b9h,0ffh	; 6faa
 
 ; ======================================================================
 ; CODIGO 0x6fb0..0x701b  (107 bytes)
@@ -2805,9 +2845,17 @@ L_701A:
 	ret			;701a
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x701b..0x7022  (7 bytes)
-DATA_701B:
-	defb 006h,006h,005h,005h,004h,002h,002h	; 701b
+; DATOS leido_701B: 1 bytes que lee p00:4A73 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:4A73 (1 bytes)
+;   0x701b..0x701c  (1 bytes)
+DATA_leido_701B:
+	defb 006h	; 701b
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x701c..0x7022  (6 bytes)
+DATA_701C:
+	defb 006h,005h,005h,004h,002h,002h	; 701c
 
 ; ======================================================================
 ; CODIGO 0x7022..0x7045  (35 bytes)
@@ -2844,12 +2892,24 @@ L_703B:
 ;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
 ;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
 ;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p26:6FC9 (36 bytes)
-;   0x7045..0x7069  (36 bytes)
+;   da quien llama; lo leen p26:6FC9 (8 bytes)
+;   0x7045..0x704d  (8 bytes)
 DATA_tabla_7045:
-	defb 04ch,070h,053h,070h,05ah,070h,061h,070h,01ch,01dh,019h,01ah,018h,00dh,014h,01eh	; 7045  LpSpZpap........
-	defb 01dh,019h,01ah,018h,00fh,014h,01fh,020h,019h,01ah,018h,011h,014h,01fh,021h,019h	; 7055  ....... ......!.
-	defb 01ah,018h,013h,014h	; 7065
+	defb 04ch,070h,053h,070h,05ah,070h,061h,070h	; 7045  LpSpZpap
+
+; ----------------------------------------------------------------------
+; DATOS leido_704D: 1 bytes que lee p00:4A73 al jugar (medido ejecutando el
+;   cartucho, tools/cobertura.py y tools/lee_sonidos.py; el tamano es lo que
+;   se lee seguido); lo leen p00:4A73 (1 bytes)
+;   0x704d..0x704e  (1 bytes)
+DATA_leido_704D:
+	defb 01ch	; 704d
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x704e..0x7069  (27 bytes)
+DATA_704E:
+	defb 01dh,019h,01ah,018h,00dh,014h,01eh,01dh,019h,01ah,018h,00fh,014h,01fh,020h,019h	; 704e  .............. .
+	defb 01ah,018h,011h,014h,01fh,021h,019h,01ah,018h,013h,014h	; 705e  .....!.....
 
 ; ======================================================================
 ; CODIGO 0x7069..0x7073  (10 bytes)
@@ -2863,30 +2923,58 @@ L_7069:
 	ret			;7072
 
 ; ----------------------------------------------------------------------
-; DATOS resto_7073: lo apuntan con el banco puesto p26:706C (0x7073); el
-;   tamano es lo que hay hasta lo siguiente, no sale de recorrerlo; lo leen
-;   p26:706C (294 bytes)
-;   0x7073..0x7199  (294 bytes)
-DATA_resto_7073:
-	defb 07bh,070h,0bbh,070h,00ch,071h,04eh,071h,067h,0cah,008h,013h,002h,0c1h,000h,042h	; 7073  {p.p.qNqg......B
-	defb 020h,011h,000h,044h,022h,00fh,000h,0c3h,026h,023h,000h,043h,027h,00dh,000h,0c2h	; 7083   ..D"...&#.C'...
-	defb 026h,023h,002h,02ah,044h,02bh,00ah,000h,050h,02fh,003h,000h,045h,03fh,0c1h,021h	; 7093  &#.*D+..P/..E?.!
-	defb 04ch,044h,0c2h,000h,02fh,044h,050h,0c1h,000h,047h,054h,043h,05ah,0c1h,05ah,042h	; 70a3  LD../DP..GTCZ.ZB
-	defb 05dh,0c1h,03fh,047h,05fh,00bh,000h,000h,067h,0cah,00ah,013h,002h,002h,000h,046h	; 70b3  ].?G_...g......F
-	defb 020h,00ch,000h,047h,026h,00bh,000h,04fh,02dh,004h,000h,042h,03ch,0c2h,000h,03eh	; 70c3   ..G&..O-..B<..>
-	defb 002h,040h,043h,041h,0c1h,000h,042h,044h,002h,045h,045h,046h,002h,000h,043h,04bh	; 70d3  .@CA..BD.EEF..CK
-	defb 0c5h,040h,000h,041h,04eh,047h,043h,04fh,046h,051h,004h,000h,043h,057h,0c1h,036h	; 70e3  .@.ANGCOFQ..CW.6
-	defb 044h,05ah,00bh,000h,0c3h,05eh,000h,05fh,010h,000h,0c3h,060h,045h,061h,010h,000h	; 70f3  DZ...^._...`Ea..
-	defb 042h,062h,010h,000h,043h,064h,00dh,000h,000h,067h,0cah,009h,013h,002h,0c1h,000h	; 7103  Bb..Cd...g......
-	defb 043h,020h,010h,000h,043h,023h,010h,000h,044h,026h,00fh,000h,0c1h,026h,042h,02ah	; 7113  C ..C#..D&...&B*
-	defb 0c1h,025h,002h,000h,042h,02ch,00ah,000h,04dh,02eh,006h,000h,042h,03bh,0c2h,026h	; 7123  .%..B,..M...B..&
-	defb 000h,045h,03dh,042h,041h,0c2h,000h,05fh,04eh,043h,0c1h,021h,047h,051h,002h,057h	; 7133  .E=BA.._NC.!GQ.W
-	defb 046h,058h,00eh,000h,0c1h,05eh,003h,041h,00fh,000h,000h,066h,0cah,00ah,014h,002h	; 7143  FX...^.A...f....
-	defb 002h,000h,042h,020h,010h,000h,046h,022h,0c1h,021h,00dh,000h,044h,028h,0c1h,026h	; 7153  ..B ..F".!..D(.&
-	defb 043h,02ch,0c2h,027h,02fh,00ch,000h,046h,030h,0c1h,000h,043h,036h,00ch,000h,04ah	; 7163  C,.'/..F0..C6..J
-	defb 039h,046h,042h,004h,000h,050h,048h,002h,000h,046h,058h,0c1h,000h,045h,05eh,002h	; 7173  9FB..PH..FX..E^.
-	defb 062h,042h,063h,002h,000h,04ah,065h,00ah,000h,044h,06fh,0c3h,069h,06dh,073h,00fh	; 7183  bBc..Je..Do.ims.
-	defb 000h,082h,074h,010h,000h,000h	; 7193
+; DATOS leido_7073: 2 bytes que leen p00:4A60, p00:4A62 al jugar (medido
+;   ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py; el
+;   tamano es lo que se lee seguido); lo leen p00:4A60, p00:4A62 (2 bytes)
+;   0x7073..0x7075  (2 bytes)
+DATA_leido_7073:
+	defb 07bh,070h	; 7073
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x7075..0x707b  (6 bytes)
+DATA_7075:
+	defb 0bbh,070h,00ch,071h,04eh,071h	; 7075
+
+; ----------------------------------------------------------------------
+; DATOS leido_707B: 5 bytes que leen p26:606D, p26:6070, p26:6073, p26:6076,
+;   p26:6080 al jugar (medido ejecutando el cartucho, tools/cobertura.py y
+;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
+;   p26:606D, p26:6070, p26:6073, p26:6076, p26:6080 (5 bytes)
+;   0x707b..0x7080  (5 bytes)
+DATA_leido_707B:
+	defb 067h,0cah,008h,013h,002h	; 707b
+
+; ----------------------------------------------------------------------
+; DATOS rle_ram2_7080: datos comprimidos a la RAM (p00:55CD): 0 acaba; bits
+;   7-6 del byte de control, con n en los bits 5-0: 00 repite n veces el byte
+;   de detras, 01 n seguidos subiendo desde el de detras, 10 bajando, 11 copia
+;   los n de detras; empieza donde la campana de tools/cobertura.py lee su
+;   primer byte de control y se recorre hasta su 0; lo leen p00:55CD (59
+;   bytes)
+;   0x7080..0x70bb  (59 bytes)
+DATA_rle_ram2_7080:
+	defb 0c1h,000h,042h,020h,011h,000h,044h,022h,00fh,000h,0c3h,026h,023h,000h,043h,027h	; 7080  ..B ..D"...&#.C'
+	defb 00dh,000h,0c2h,026h,023h,002h,02ah,044h,02bh,00ah,000h,050h,02fh,003h,000h,045h	; 7090  ...&#.*D+..P/..E
+	defb 03fh,0c1h,021h,04ch,044h,0c2h,000h,02fh,044h,050h,0c1h,000h,047h,054h,043h,05ah	; 70a0  ?.!LD../DP..GTCZ
+	defb 0c1h,05ah,042h,05dh,0c1h,03fh,047h,05fh,00bh,000h,000h	; 70b0  .ZB].?G_...
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x70bb..0x7199  (222 bytes)
+DATA_70BB:
+	defb 067h,0cah,00ah,013h,002h,002h,000h,046h,020h,00ch,000h,047h,026h,00bh,000h,04fh	; 70bb  g......F ..G&..O
+	defb 02dh,004h,000h,042h,03ch,0c2h,000h,03eh,002h,040h,043h,041h,0c1h,000h,042h,044h	; 70cb  -..B<..>.@CA..BD
+	defb 002h,045h,045h,046h,002h,000h,043h,04bh,0c5h,040h,000h,041h,04eh,047h,043h,04fh	; 70db  .EEF..CK.@.ANGCO
+	defb 046h,051h,004h,000h,043h,057h,0c1h,036h,044h,05ah,00bh,000h,0c3h,05eh,000h,05fh	; 70eb  FQ..CW.6DZ...^._
+	defb 010h,000h,0c3h,060h,045h,061h,010h,000h,042h,062h,010h,000h,043h,064h,00dh,000h	; 70fb  ...`Ea..Bb..Cd..
+	defb 000h,067h,0cah,009h,013h,002h,0c1h,000h,043h,020h,010h,000h,043h,023h,010h,000h	; 710b  .g......C ..C#..
+	defb 044h,026h,00fh,000h,0c1h,026h,042h,02ah,0c1h,025h,002h,000h,042h,02ch,00ah,000h	; 711b  D&...&B*.%..B,..
+	defb 04dh,02eh,006h,000h,042h,03bh,0c2h,026h,000h,045h,03dh,042h,041h,0c2h,000h,05fh	; 712b  M...B..&.E=BA.._
+	defb 04eh,043h,0c1h,021h,047h,051h,002h,057h,046h,058h,00eh,000h,0c1h,05eh,003h,041h	; 713b  NC.!GQ.WFX...^.A
+	defb 00fh,000h,000h,066h,0cah,00ah,014h,002h,002h,000h,042h,020h,010h,000h,046h,022h	; 714b  ...f......B ..F"
+	defb 0c1h,021h,00dh,000h,044h,028h,0c1h,026h,043h,02ch,0c2h,027h,02fh,00ch,000h,046h	; 715b  .!..D(.&C,.'/..F
+	defb 030h,0c1h,000h,043h,036h,00ch,000h,04ah,039h,046h,042h,004h,000h,050h,048h,002h	; 716b  0..C6..J9FB..PH.
+	defb 000h,046h,058h,0c1h,000h,045h,05eh,002h,062h,042h,063h,002h,000h,04ah,065h,00ah	; 717b  .FX..E^.bBc..Je.
+	defb 000h,044h,06fh,0c3h,069h,06dh,073h,00fh,000h,082h,074h,010h,000h,000h	; 718b  .Do.ims...t...
 
 ; ======================================================================
 ; CODIGO 0x7199..0x720c  (115 bytes)
@@ -2965,11 +3053,24 @@ L_7206:
 ;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
 ;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
 ;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p26:71E2 (254 bytes)
-;   0x720c..0x730a  (254 bytes)
+;   da quien llama; lo leen p26:71E2 (25 bytes)
+;   0x720c..0x7225  (25 bytes)
 DATA_tabla_720C:
 	defb 014h,072h,04dh,072h,08bh,072h,0cch,072h,024h,072h,025h,072h,02ch,072h,033h,072h	; 720c  .rMr.r.r$r%r,r3r
-	defb 037h,072h,03bh,072h,03fh,072h,046h,072h,000h,002h,055h,042h,01ch,055h,052h,020h	; 721c  7r.r?rFr..UB.UR
+	defb 037h,072h,03bh,072h,03fh,072h,046h,072h,000h	; 721c  7r.r?rFr.
+
+; ----------------------------------------------------------------------
+; DATOS leido_7225: 7 bytes que leen p26:71EE, p26:71F4, p26:71F6, p26:71F8 al
+;   jugar (medido ejecutando el cartucho, tools/cobertura.py y
+;   tools/lee_sonidos.py; el tamano es lo que se lee seguido); lo leen
+;   p26:71EE, p26:71F4, p26:71F6, p26:71F8 (7 bytes)
+;   0x7225..0x722c  (7 bytes)
+DATA_leido_7225:
+	defb 002h,055h,042h,01ch,055h,052h,020h	; 7225
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x722c..0x730a  (222 bytes)
+DATA_722C:
 	defb 002h,017h,03dh,000h,017h,04dh,004h,001h,02ah,081h,008h,001h,043h,0a0h,010h,001h	; 722c  ..=..M..*...C...
 	defb 044h,08eh,00ch,002h,044h,0b0h,014h,044h,0c0h,018h,002h,05ah,039h,024h,05ah,049h	; 723c  D...D..D...Z9$ZI
 	defb 028h,024h,072h,05dh,072h,06ah,072h,06eh,072h,072h,072h,076h,072h,07dh,072h,084h	; 724c  ($r]rjrnrrrvr}r.
@@ -4570,10 +4671,19 @@ L_7E6B:
 ;   (p00:4A5A, p00:4089, add hl,de...); va de su base hasta lo siguiente que
 ;   hay (otra tabla, otro bloque, codigo, un puntero de otra instruccion o un
 ;   byte que lee otra al jugar): el tamano no sale de recorrerla, el indice lo
-;   da quien llama; lo leen p26:7E76 (12 bytes)
-;   0x7eb9..0x7ec5  (12 bytes)
+;   da quien llama; lo leen p26:7E76 (1 bytes)
+;   0x7eb9..0x7eba  (1 bytes)
 DATA_tabla_7EB9:
-	defb 060h,040h,0c0h,080h,070h,020h,090h,050h,030h,080h,070h,020h	; 7eb9  `@..p .P0.p
+	defb 060h	; 7eb9
+
+; ----------------------------------------------------------------------
+; DATOS leido_7EBA: 11 bytes que leen p26:7E91, p26:7EA5, p26:7E7D al jugar
+;   (medido ejecutando el cartucho, tools/cobertura.py y tools/lee_sonidos.py;
+;   el tamano es lo que se lee seguido); lo leen p26:7E91, p26:7EA5, p26:7E7D
+;   (11 bytes)
+;   0x7eba..0x7ec5  (11 bytes)
+DATA_leido_7EBA:
+	defb 040h,0c0h,080h,070h,020h,090h,050h,030h,080h,070h,020h	; 7eba  @..p .P0.p
 
 ; ======================================================================
 ; CODIGO 0x7ec5..0x7edb  (22 bytes)

@@ -61,7 +61,7 @@
 0x6D76   # p00:40EC call
 0x6DE6   # p04:9E21 call
 0x6E1D   # p02:92FB jp
-0x6E40   # p05:A6F7 jp
+0x6E40   # p19:AAA6 call
 0x6EFA   # p00:5AF0 call
 0x6F3E   # p00:5A51 call
 0x711B   # p02:9075 call
@@ -99,6 +99,8 @@
 0x7626   # p03:BDD0 call
 0x764F   # p19:AF46 call
 0x77F1   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
+0x77FB   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
+0x7800   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x7805   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x780A   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x7810   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:4162 (ret)
@@ -106,6 +108,7 @@
 0x781C   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x7821   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x7826   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
+0x782B   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x7830   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x7835   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
 0x783A   # se ejecuta jugando (tools/cobertura.py): se llega desde p00:409C (jp (hl))
@@ -114,6 +117,7 @@
 0x786E   # p19:B1F3 call
 0x7888   # p05:A9B5 jp
 0x78BA   # p03:AFAC call
+0x78C1   # p05:A4E7 call
 0x78C8   # p19:ADDE call
 0x78CD   # p03:B37A jp
 0x78D7   # p19:B234 call
