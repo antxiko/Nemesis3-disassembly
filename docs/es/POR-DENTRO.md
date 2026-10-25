@@ -82,3 +82,30 @@ en 0x3800, dibujos de sprite en 0x1800 y atributos en 0x3B00.
   partituras.
 - **Los cotejos con openMSX** (`tools/omsx_vram.tcl`, `tools/omsx_psg.tcl`):
   los mapas y caracteres, la nave, los sprites de cada fase y cada música.
+
+## Código compartido con otros cartuchos de Konami
+
+Este desensamblado se ha comparado, instrucción por instrucción, con
+todos los demás de Konami de la serie. Cuenta un bloque cuando las
+mismas instrucciones, al menos seis desde una etiqueta hasta su `ret`
+o su salto sin condición, están en los dos cartuchos; las direcciones
+no se miran, porque cambian de un cartucho a otro. De los otros 57,
+**50** tienen al menos un bloque en común con este; estos son los
+que más comparten:
+
+| Cartucho | Bloques | Instrucciones | Por ejemplo (aquí = allí) |
+|---|---:|---:|---|
+| [Nemesis 2](https://antxiko.github.io/Nemesis2-disassembly/es/) | 189 | 2.373 | `rle_con_direccion` (p00:4B36) = `descomprime_otra_direccion` |
+| [Parodius](https://antxiko.github.io/Parodius-disassembly/es/) | 151 | 2.090 | `rle_con_direccion` (p00:4B36) = `rachas_con_destino` |
+| [Salamander - Operation X](https://antxiko.github.io/Salamander-disassembly/es/) | 145 | 1.932 | `rle_con_direccion` (p00:4B36) = `rachas_con_destino` |
+| [Gekitotsu Pennant Race 2](https://antxiko.github.io/PennantRace2-disassembly/es/) | 101 | 1.586 | `cartucho_en_8000` (p00:4109) = `cartucho_en_pagina_2` |
+| [King's Valley II](https://antxiko.github.io/KingsValley2-disassembly/es/) | 75 | 1.153 | `cartucho_en_8000` (p00:4109) |
+| [The Pro Yakyuu Gekitotsu Pennant Race](https://antxiko.github.io/PennantRace-disassembly/es/) | 61 | 973 | `cartucho_en_8000` (p00:4109) = `cartucho_en_pagina_2` |
+| [F-1 Spirit — The Way to Formula 1](https://antxiko.github.io/F1Spirit-disassembly/es/) | 50 | 763 | `rle_con_direccion` (p00:4B36) = `RLE_SIGUE_PUNTERO` |
+| [Contra](https://antxiko.github.io/Contra-disassembly/es/) | 46 | 805 | `lee_byte` (p00:4A6E) = `lee_tabla` |
+| [Shalom: Knightmare III](https://antxiko.github.io/Shalom-disassembly/es/) | 41 | 521 | `cartucho_en_8000` (p00:4109) |
+| [Nemesis / Gradius](https://antxiko.github.io/Nemesis-disassembly/es/) | 39 | 469 | `rle_con_direccion` (p00:4B36) = `descomprime_con_destino` |
+
+La matriz entera, los 58 cartuchos entre sí, está en
+[Las rutinas](https://antxiko.github.io/MSX-disassembly-database/es/LAS-RUTINAS.html) de la base de datos de la
+serie, con el método y el programa que la mide.

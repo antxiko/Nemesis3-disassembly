@@ -23,6 +23,18 @@ OTROS_JUEGOS = ("Parodius", "Salamander", "Valley", "Usas", "Galious", "Nemesis 
                 "TwinBee", "F1 Spirit", "Gradius", "Fighter", "Ranger", "Jaguar")
 HISTORIA = ("LOS-TEXTOS.md", "LAS-SECUENCIAS.md", "THE-TEXTS.md", "THE-SEQUENCES.md")
 
+# La seccion del codigo compartido con los otros Konami de la serie los
+# nombra a proposito: la escribe pon_en_webs.py, de MSX-disassembly-database.
+_COMPARTIDO = re.compile(
+    r"(?:^## |<h2[^>]*>)(?:Code shared with other Konami cartridges|"
+    r"C\u00f3digo compartido con otros cartuchos de Konami)"
+    r".*?(?=^## |<h2|</main>|<footer|\Z)", re.S | re.M)
+
+
+def sin_compartido(texto):
+    """El texto sin la seccion del codigo compartido."""
+    return _COMPARTIDO.sub("", texto)
+
 
 def paginas():
     out = []
@@ -49,7 +61,7 @@ class TestWeb(unittest.TestCase):
 
     def test_no_se_nombra_otro_juego_de_la_serie(self):
         for p in paginas():
-            txt = open(p, encoding="utf-8").read()
+            txt = sin_compartido(open(p, encoding="utf-8").read())
             for j in OTROS_JUEGOS:
                 if (j == "Salamander" and os.path.basename(p) in HISTORIA
                         and ("VERSUS SALAMANDER" in txt or "Bacterion, Venom" in txt)):
